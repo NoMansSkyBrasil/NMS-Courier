@@ -14,7 +14,7 @@ type RuntimeManifest = {
   dependencies?: unknown
 }
 
-type RuntimeResourceContext = {
+export type RuntimeResourceContext = {
   isPackaged: boolean
   resourcesPath: string
   moduleDirectory: string

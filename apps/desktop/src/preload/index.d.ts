@@ -28,11 +28,23 @@ declare global {
         processId: number | null
         startedAt: string | null
       }>
+      getBuildSupport: () => Promise<{
+        state:
+          | 'installation_not_selected'
+          | 'installation_invalid'
+          | 'unknown'
+          | 'supported'
+          | 'registry_unavailable'
+        buildLabel: string | null
+        adapterVersion: string | null
+      }>
       getDeliveryReadiness: () => Promise<{
         available: false
         reasonCode:
           | 'INSTALLATION_NOT_SELECTED'
           | 'INSTALLATION_INVALID'
+          | 'BUILD_NOT_SUPPORTED'
+          | 'BUILD_REGISTRY_UNAVAILABLE'
           | 'GAME_NOT_RUNNING'
           | 'GAME_STATUS_UNAVAILABLE'
           | 'RUNTIME_BUNDLE_INVALID'

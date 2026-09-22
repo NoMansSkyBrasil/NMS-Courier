@@ -25,6 +25,10 @@ type DeliveryReadiness = Awaited<ReturnType<typeof window.nms.getDeliveryReadine
 const readinessMessages: Record<DeliveryReadiness['reasonCode'], string> = {
   INSTALLATION_NOT_SELECTED: 'Select a No Man’s Sky installation before delivery can be evaluated.',
   INSTALLATION_INVALID: 'The selected game installation changed or is no longer valid.',
+  BUILD_NOT_SUPPORTED:
+    'The selected game build has no verified runtime adapter, so delivery remains blocked.',
+  BUILD_REGISTRY_UNAVAILABLE:
+    'The verified-build registry is unavailable, so delivery remains blocked.',
   GAME_NOT_RUNNING:
     'Start the selected No Man’s Sky installation before delivery can be evaluated.',
   GAME_STATUS_UNAVAILABLE: 'The application could not safely confirm the selected game process.',
@@ -44,6 +48,9 @@ export function DeliveryPage(): React.JSX.Element {
     ReturnType<typeof window.nms.getGameStatus>
   > | null>(null)
   const [readiness, setReadiness] = useState<DeliveryReadiness | null>(null)
+  const [buildSupport, setBuildSupport] = useState<Awaited<
+    ReturnType<typeof window.nms.getBuildSupport>
+  > | null>(null)
   const [selectingInstallation, setSelectingInstallation] = useState(false)
 
   useEffect(() => {
@@ -54,6 +61,7 @@ export function DeliveryPage(): React.JSX.Element {
         return window.nms.getGameStatus()
       })
       .then(setGameStatus)
+    void window.nms.getBuildSupport().then(setBuildSupport)
     void window.nms.getDeliveryReadiness().then(setReadiness)
   }, [])
 
@@ -62,6 +70,7 @@ export function DeliveryPage(): React.JSX.Element {
     try {
       setInstallation(await window.nms.selectInstallation())
       setGameStatus(await window.nms.getGameStatus())
+      setBuildSupport(await window.nms.getBuildSupport())
       setReadiness(await window.nms.getDeliveryReadiness())
     } finally {
       setSelectingInstallation(false)
@@ -89,7 +98,7 @@ export function DeliveryPage(): React.JSX.Element {
           <CardTitle>Game installation</CardTitle>
           <CardDescription>
             {installation?.state === 'available'
-              ? `${installation.displayName} is selected and fingerprinted. ${gameStatus?.state === 'running' ? 'The selected game process is running; runtime connection is still unavailable.' : 'The selected game process is not running.'}`
+              ? `${installation.displayName} is selected and fingerprinted. ${buildSupport?.state === 'supported' ? `${buildSupport.buildLabel} is registered for adapter ${buildSupport.adapterVersion}.` : 'This build is not in the verified runtime matrix.'} ${gameStatus?.state === 'running' ? 'The selected game process is running; runtime connection is still unavailable.' : 'The selected game process is not running.'}`
               : 'Choose the No Man’s Sky installation folder to verify its executable and game-data layout.'}
           </CardDescription>
         </CardHeader>

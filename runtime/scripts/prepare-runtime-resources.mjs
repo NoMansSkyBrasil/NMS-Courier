@@ -6,6 +6,7 @@ const repositoryRoot = resolve(import.meta.dirname, '..', '..')
 const stagingRoot = resolve(repositoryRoot, 'runtime', 'staging')
 const manifestPath = resolve(stagingRoot, 'runtime-manifest.json')
 const defaultsPath = resolve(repositoryRoot, 'runtime', 'config', 'runtime-defaults.toml')
+const buildRegistryPath = resolve(repositoryRoot, 'runtime', 'config', 'supported-builds.json')
 const resourcesRoot = resolve(repositoryRoot, 'apps', 'desktop', 'resources', 'runtime')
 
 async function sha256(path) {
@@ -36,7 +37,7 @@ async function validateManifest(manifest) {
 }
 
 async function main() {
-  if (!existsSync(manifestPath) || !existsSync(defaultsPath)) {
+  if (!existsSync(manifestPath) || !existsSync(defaultsPath) || !existsSync(buildRegistryPath)) {
     throw new Error('Generate the private runtime manifest before preparing Electron resources.')
   }
 
@@ -55,6 +56,7 @@ async function main() {
   await fs.copyFile(manifestPath, resolve(resourcesRoot, 'runtime-manifest.json'))
   await fs.mkdir(resolve(resourcesRoot, 'config'), { recursive: true })
   await fs.copyFile(defaultsPath, resolve(resourcesRoot, 'config', 'runtime-defaults.toml'))
+  await fs.copyFile(buildRegistryPath, resolve(resourcesRoot, 'config', 'supported-builds.json'))
 
   const markerPath = resolve(resourcesRoot, 'runtime-manifest.json')
   if (!existsSync(markerPath)) {

@@ -76,7 +76,7 @@ Implementation levels: not implemented, unknown, experimental, verified. Current
 
 Central resolution combines protocol, adapter, build, session, player readiness, target, and action constraints. UI displays the result; runtime remains the enforcement point. Developer mode never bypasses build safety.
 
-Before a runtime bridge exists, the desktop resolves the first observable blockers in order: installation selection and validity, selected-game process, private runtime bundle, then `ACTION_NOT_IMPLEMENTED`. This gate is deliberately unavailable in all cases; it prevents the item-delivery form from becoming a simulated success path.
+Before a runtime bridge exists, the desktop resolves the first observable blockers in order: installation selection and validity, verified-build registry, exact selected-game process, private runtime bundle, then `ACTION_NOT_IMPLEMENTED`. The packaged build registry begins with no entries and unknown fingerprints fail closed. This gate is deliberately unavailable in all cases; it prevents the item-delivery form from becoming a simulated success path.
 
 ## 6. Errors
 

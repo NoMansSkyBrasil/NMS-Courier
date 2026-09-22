@@ -10,21 +10,28 @@ const installation = {
 }
 const game = { state: 'running' as const, processId: 1, startedAt: '2026-09-22T00:00:00.000Z' }
 const runtime = { state: 'bundled' as const, runtimeVersion: '3.11.9' }
+const build = { state: 'supported' as const, buildLabel: 'Fixture build', adapterVersion: '0.1.0' }
 
 describe('local item delivery readiness', () => {
   it('returns the earliest blocking condition', () => {
     expect(
-      resolveLocalItemDeliveryReadiness({ ...installation, state: 'not_selected' }, game, runtime)
+      resolveLocalItemDeliveryReadiness(
+        { ...installation, state: 'not_selected' },
+        build,
+        game,
+        runtime
+      )
     ).toEqual({ available: false, reasonCode: 'INSTALLATION_NOT_SELECTED' })
     expect(
       resolveLocalItemDeliveryReadiness(
         installation,
+        build,
         { ...game, state: 'not_running', processId: null, startedAt: null },
         runtime
       )
     ).toEqual({ available: false, reasonCode: 'GAME_NOT_RUNNING' })
     expect(
-      resolveLocalItemDeliveryReadiness(installation, game, {
+      resolveLocalItemDeliveryReadiness(installation, build, game, {
         state: 'unavailable',
         runtimeVersion: null
       })
@@ -32,9 +39,20 @@ describe('local item delivery readiness', () => {
   })
 
   it('does not claim an implemented delivery after every prerequisite is present', () => {
-    expect(resolveLocalItemDeliveryReadiness(installation, game, runtime)).toEqual({
+    expect(resolveLocalItemDeliveryReadiness(installation, build, game, runtime)).toEqual({
       available: false,
       reasonCode: 'ACTION_NOT_IMPLEMENTED'
     })
+  })
+
+  it('blocks every unverified build before delivery readiness is considered', () => {
+    expect(
+      resolveLocalItemDeliveryReadiness(
+        installation,
+        { state: 'unknown', buildLabel: null, adapterVersion: null },
+        game,
+        runtime
+      )
+    ).toEqual({ available: false, reasonCode: 'BUILD_NOT_SUPPORTED' })
   })
 })

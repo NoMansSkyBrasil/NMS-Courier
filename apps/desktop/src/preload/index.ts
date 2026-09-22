@@ -9,6 +9,7 @@ const nms = {
   getCatalogStatus: () => ipcRenderer.invoke('nms:get-catalog-status'),
   getInstallationStatus: () => ipcRenderer.invoke('nms:get-installation-status'),
   getGameStatus: () => ipcRenderer.invoke('nms:get-game-status'),
+  getBuildSupport: () => ipcRenderer.invoke('nms:get-build-support'),
   getDeliveryReadiness: () => ipcRenderer.invoke('nms:get-delivery-readiness'),
   selectInstallation: () => ipcRenderer.invoke('nms:select-installation'),
   searchCatalog: (request: {

@@ -6,7 +6,8 @@ import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
 import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
-import { inspectRuntimeBundle } from './runtime-resources'
+import { resolveBuildSupport } from './build-support'
+import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-resources'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
@@ -67,6 +68,14 @@ function getFoundationStatus(): {
   }
 }
 
+function getRuntimeResourceContext(): RuntimeResourceContext {
+  return {
+    isPackaged: app.isPackaged,
+    resourcesPath: process.resourcesPath,
+    moduleDirectory: __dirname
+  }
+}
+
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1280,
@@ -110,15 +119,16 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-game-status', () =>
     gameStatusService.observe(getInstallationService().getSelectedRootPath())
   )
+  ipcMain.handle('nms:get-build-support', () =>
+    resolveBuildSupport(getInstallationService().getStatus(), getRuntimeResourceContext())
+  )
   ipcMain.handle('nms:get-delivery-readiness', async () => {
     const installation = getInstallationService().getStatus()
     const game = await gameStatusService.observe(getInstallationService().getSelectedRootPath())
-    const runtime = inspectRuntimeBundle({
-      isPackaged: app.isPackaged,
-      resourcesPath: process.resourcesPath,
-      moduleDirectory: __dirname
-    })
-    return resolveLocalItemDeliveryReadiness(installation, game, runtime)
+    const context = getRuntimeResourceContext()
+    const build = resolveBuildSupport(installation, context)
+    const runtime = inspectRuntimeBundle(context)
+    return resolveLocalItemDeliveryReadiness(installation, build, game, runtime)
   })
   ipcMain.handle('nms:select-installation', async () => {
     const result = await dialog.showOpenDialog({

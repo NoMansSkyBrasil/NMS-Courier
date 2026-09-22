@@ -39,13 +39,18 @@ async function main() {
   const manifestPath = resolve(runtimeRoot, 'runtime-manifest.json')
   const interpreter = resolve(runtimeRoot, 'python', 'python.exe')
   const defaults = resolve(runtimeRoot, 'config', 'runtime-defaults.toml')
-  if (!existsSync(manifestPath) || !existsSync(interpreter) || !existsSync(defaults)) {
+  const buildRegistry = resolve(runtimeRoot, 'config', 'supported-builds.json')
+  if (!existsSync(manifestPath) || !existsSync(interpreter) || !existsSync(defaults) || !existsSync(buildRegistry)) {
     throw new Error('The packaged private runtime resource bundle is incomplete.')
   }
 
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'))
   if (manifest.python?.version !== '3.11.9' || !Array.isArray(manifest.dependencies) || manifest.dependencies.length === 0) {
     throw new Error('The packaged runtime manifest is incompatible.')
+  }
+  const builds = JSON.parse(await fs.readFile(buildRegistry, 'utf8'))
+  if (builds.schemaVersion !== 1 || !Array.isArray(builds.builds)) {
+    throw new Error('The packaged verified-build registry is incompatible.')
   }
   await verifyManifest(manifest)
 
