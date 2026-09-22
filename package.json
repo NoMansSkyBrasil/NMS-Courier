@@ -1,0 +1,14 @@
+{
+  "name": "nms-courier",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.22.0",
+  "scripts": {
+    "dev": "pnpm --filter @nms-courier/desktop dev",
+    "lint": "pnpm --filter @nms-courier/desktop lint",
+    "typecheck": "pnpm --filter @nms-courier/desktop typecheck",
+    "test": "pnpm --filter @nms-courier/desktop test",
+    "build": "pnpm --filter @nms-courier/desktop build",
+    "build:win": "pnpm --filter @nms-courier/desktop build:win"
+  }
+}
