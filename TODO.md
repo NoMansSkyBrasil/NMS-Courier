@@ -50,7 +50,8 @@ This file is the operational source of truth for implementation order. Update it
 
 ## M3 — Local catalog
 
-- [ ] Implement local extraction and SQLite catalog ingestion.
+- [ ] Implement local extraction and SQLite catalog ingestion, including a build-scoped Game ID mapping such as `substance:FUEL1` to its localized display data and provenance.
+- [ ] Generate and validate the coverage manifest for substances, products, technologies, recipes, rewards, parts, and every supported definition domain in the selected game build.
 - [ ] Add catalog search, filtering, item detail, and provenance.
 - [ ] Package compatible extraction dependencies privately.
 

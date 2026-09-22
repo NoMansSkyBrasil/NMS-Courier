@@ -1,6 +1,6 @@
 # Local data, catalog, assets, and library
 
-Status: planned storage model; no database or extraction code exists.
+Status: planned storage model and catalog identity contract; no database or extraction code exists.
 
 ## 1. Storage ownership
 
@@ -57,20 +57,43 @@ Store images and large definitions outside SQLite where appropriate; use normali
 - Long catalog jobs use staging and bounded transactions so ordinary queries remain responsive.
 - DB commit and game mutation cannot form one transaction; operation status can be unknown after failure.
 
-## 3. Catalog generation pipeline
+## 3. Canonical game identity and coverage
+
+The game-facing identifier is called **Game ID** in this project. It is the exact identifier stored in the extracted game table, such as `FUEL1` for the Carbon substance in an observed catalog source. It is not an application-generated ID, display name, localization token, save-editing field, or proof that a runtime operation is supported.
+
+Names must be resolved from the selected installation's localization data. A Game ID must never be inferred from a translated name, and a localization key must not be assumed to equal its Game ID. The application may display `Carbon · FUEL1`, but the source identity remains the extracted table entry.
+
+The primary catalog key is a generation-scoped composite of `domain` and `game_id`. The application derives a canonical string such as `substance:FUEL1` for references and favorites. A bare Game ID is not assumed globally unique across all table domains or future game data.
+
+Each catalog generation records the following logical data sets:
+
+| Data set | Required fields | Purpose |
+| --- | --- | --- |
+| catalog_entries | domain, Game ID, source-table locator, category/group, native metadata, source reference | Exact, versioned identity for a game definition |
+| catalog_localizations | entry identity, locale, resolved name, subtitle, description, localization locator, fallback state | Names and searchable text without guessing translations |
+| catalog_relations | source entry, relation kind, target entry, ordinal, quantity/condition when present, source reference | Recipes, reward outcomes, ingredients, unlocks, compatible parts, and other explicit links |
+| catalog_sources | archive/table path, archive hash, table hash, extractor/converter versions, parser revision | Reproducible provenance for every imported value |
+| catalog_coverage | expected table/domain, discovered count, accepted count, rejected count, diagnostics | Evidence that the imported catalog is complete for the declared game build |
+
+The first coverage manifest must enumerate at least Substances, Products, Technologies, Recipes, Rewards, Buildable Parts, Ship Parts, Multitool Parts, Freighter/Frigate definitions, Creature/Pet definitions, and Corvette definitions when those tables exist in the selected build. A domain is marked unavailable when the table cannot be identified or parsed; it is never silently omitted. The importer preserves unknown fields as bounded raw metadata only when they have a recorded source locator and parser version.
+
+The catalog is read-only with respect to the game installation. Importing a catalog must not unpack into the game directory, modify PAKs, create mods, read a save, attach to the game process, or grant an item. A current catalog improves selection and validation only; runtime delivery remains separately capability-gated.
+
+## 4. Catalog generation pipeline
 
 1. Validate selected installation and file version/fingerprint.
 2. Locate relevant PAKs under GAMEDATA/PCBANKS.
 3. Use an audited compatible PAK extractor; MBINCompiler is not a PAK extractor.
 4. Extract only required tables, localization, and asset references to application staging.
 5. Convert MBIN with a compatible bundled tool. Current MBINCompiler documentation describes MXML; do not assume the older EXML workflow.
-6. Normalize Products, Substances, Technologies, Recipes, Parts, and Rewards into distinct domains.
-7. Resolve localized text with a declared fallback.
-8. Record source build, extractor/converter version, and entry provenance.
-9. Resolve image sources and generate bounded-size thumbnails.
-10. Populate a new generation and validate uniqueness, references, counts, and representative queries.
-11. Atomically switch the active generation reference after success.
-12. Retain the prior working generation if conversion, validation, cancellation, or publication fails.
+6. Discover the table/domain coverage manifest before accepting records; retain diagnostics for unrecognized tables.
+7. Normalize Products, Substances, Technologies, Recipes, Parts, Rewards, and their explicit relations into distinct domains.
+8. Resolve localized text with a declared fallback and preserve the localization locator for each value.
+9. Record source build, archive/table hashes, extractor/converter version, parser revision, and entry provenance.
+10. Resolve image sources and generate bounded-size thumbnails.
+11. Populate a new generation and validate primary-key uniqueness, relation targets, coverage counts, and representative Game ID/name queries.
+12. Atomically switch the active generation reference after success.
+13. Retain the prior working generation if conversion, validation, cancellation, or publication fails.
 
 MBIN tooling is version-sensitive. A newer converter is not guaranteed to read every older structure. [MBINCompiler](https://github.com/monkeyman192/MBINCompiler).
 
@@ -80,7 +103,7 @@ Keys include source build/content identity, language, relevant tool version, and
 
 Initial extraction scope is vanilla data. Installed mods may change tables, limits, and assets. Do not claim the catalog reflects mod precedence until that pipeline is implemented and tested.
 
-## 4. Search and images
+## 5. Search and images
 
 Search localized names and internal IDs, with exact-ID and prefix matches prioritized. Normalize case/diacritics where appropriate while retaining original display values. Add fuzzy matching only after real need and measurement.
 
@@ -90,7 +113,7 @@ Use lazy thumbnails and bounded concurrent decoding. No thousands of full-size t
 
 Assets come from the user's game installation and remain local. Do not commit or redistribute game assets based on our own code license.
 
-## 5. Library definitions
+## 6. Library definitions
 
 Library supports future ships, multitools, freighters, frigates, pets, Corvettes, and bases. A record includes kind, format/schema version, origin, metadata, compatibility, and content reference.
 
@@ -98,7 +121,7 @@ Separate compatibility facets: display, import, export, runtime delivery, and Sa
 
 Validate size, nesting, path references, required fields, and version. Never execute code contained in a definition. Use synthetic/authorized fixtures for tests; do not put personal saves in the repository.
 
-## 6. History and privacy
+## 7. History and privacy
 
 History shows item/entity, requested/applied amount, local or minimal recipient label, result, and time. Persist only identity needed for operation tracking; do not build a permanent database of nearby players.
 
