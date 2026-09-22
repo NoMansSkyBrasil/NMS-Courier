@@ -47,6 +47,14 @@ Exact column types/indexes are finalized with the first consuming feature. Do no
 
 Store images and large definitions outside SQLite where appropriate; use normalized references and integrity checks. Do not store game memory dumps or full saves in delivery history.
 
+### Local asset extraction
+
+Catalog entries may retain a normalized game-relative asset locator, such as an item icon DDS path, but never an absolute installation path. Asset bytes are read only from the user-selected installation into private staging. The asset worker resolves only locators referenced by accepted catalog entries, verifies their source archive/build identity, decodes them with a pinned bundled decoder or converter, and writes bounded PNG or WebP derivatives into the application cache.
+
+Do not extract every texture archive by default. Refreshing an icon records the source locator, source archive hash, decoded-content hash, decoder version, pixel dimensions, and cache key. Missing, unsupported, oversized, or corrupt images must leave the entry usable with a standard placeholder and a diagnostic; they never block catalog publication. The renderer receives a local, validated derivative reference through a narrow API and never receives an arbitrary game path.
+
+The production package must include the reviewed image decoder/converter and its license notices. There are no first-launch downloads of ImageMagick, 7-Zip, a DLL, or a decoder. A future asset pipeline may add selected model previews only after a separate size, licensing, rendering, and performance review; raw models and full texture dumps are not general catalog assets.
+
 ### Database rules
 
 - One data worker owns writes and migration lifecycle.

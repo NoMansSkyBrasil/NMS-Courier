@@ -32,4 +32,5 @@ runtime/vendor/
 !.env.example
 secrets/
 private/
+local-catalog-review/
 *.hg

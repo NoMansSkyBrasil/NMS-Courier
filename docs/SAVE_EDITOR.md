@@ -10,6 +10,8 @@ Use distinct verbs: Deliver for runtime actions; Open Save, Review Changes, Appl
 
 Reuse official shadcn components, locale infrastructure, catalog references, and library definitions. Do not reuse runtime memory layouts as save-file formats. Do not require injection to read/edit a supported save.
 
+External save-editor projects may inform a future evidence checklist for platform file layouts, compression, encryption, lossless round-trip fixtures, backup/recovery, and UI separation. They do not authorize importing implementation, generated game databases, test saves, cryptographic assumptions, or write behavior. Every supported format and every write path requires independent, versioned evidence before it is enabled.
+
 ## 2. Future architecture
 
 ```text
