@@ -60,10 +60,22 @@ import shutil
 import sys
 import zipfile
 
-wheel_root, notices_root, bootstrap_wheel = sys.argv[1:]
+wheel_root, notices_root, bootstrap_wheel, site_packages = sys.argv[1:]
 shutil.rmtree(notices_root, ignore_errors=True)
 os.makedirs(notices_root, exist_ok=True)
 records = []
+
+def normalize(name):
+    return re.sub(r'[-_.]+', '-', name).lower()
+
+installed = set()
+for entry in os.listdir(site_packages):
+    metadata_path = os.path.join(site_packages, entry, 'METADATA')
+    if entry.endswith('.dist-info') and os.path.isfile(metadata_path):
+        for line in open(metadata_path, encoding='utf-8'):
+            if line.startswith('Name: '):
+                installed.add(normalize(line[6:].strip()))
+                break
 
 for wheel_name in sorted(name for name in os.listdir(wheel_root) if name.lower().endswith('.whl')):
     if wheel_name == bootstrap_wheel:
@@ -80,6 +92,8 @@ for wheel_name in sorted(name for name in os.listdir(wheel_root) if name.lower()
                 key, value = line.split(': ', 1)
                 headers.setdefault(key.lower(), []).append(value)
         distribution = headers.get('name', [wheel_name])[0]
+        if normalize(distribution) not in installed:
+            continue
         version = headers.get('version', ['unknown'])[0]
         expression = headers.get('license-expression', [None])[0]
         declared = headers.get('license', [None])[0]
@@ -108,7 +122,7 @@ for wheel_name in sorted(name for name in os.listdir(wheel_root) if name.lower()
 print(json.dumps(records, sort_keys=True))
 `
   const buildTools = JSON.parse(await fs.readFile(buildToolLockPath, 'utf8'))
-  const output = execFileSync(interpreter, ['-I', '-S', '-c', script, wheelRoot, noticesRoot, buildTools.pip.wheel], {
+  const output = execFileSync(interpreter, ['-I', '-S', '-c', script, wheelRoot, noticesRoot, buildTools.pip.wheel, resolve(pythonRoot, 'Lib', 'site-packages')], {
     encoding: 'utf8',
     env: {
       SystemRoot: process.env.SystemRoot ?? 'C:\\Windows',

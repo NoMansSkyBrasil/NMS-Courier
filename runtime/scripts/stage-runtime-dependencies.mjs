@@ -11,9 +11,34 @@ const requirementsPath = resolve(runtimeRoot, 'requirements.runtime.txt')
 const buildToolLockPath = resolve(runtimeRoot, 'build-tool-lock.json')
 const sitePackages = resolve(stagingRoot, 'Lib', 'site-packages')
 const pymhfInitPath = resolve(sitePackages, 'pymhf', '__init__.py')
+const pymhfInjectedPath = resolve(sitePackages, 'pymhf', 'injected.py')
+const pymhfMainPath = resolve(sitePackages, 'pymhf', 'main.py')
 const expectedPymhfSourceHash = '6e0f58ebdc98acf91685b7176d927e9865d0b62a78b2fef3d5d49b7520118a50'
+const expectedPymhfInjectedSourceHash = '3bdcdd7e33c33433963f3d4413a059f57c74b17a52ef80d732f2899e0508aa2c'
+const expectedPymhfMainSourceHash = 'c4d593f437a692a403915e264ae4c47b1df7bc80bebc0f38de3141a8f690f61a'
 const upstreamPromptCondition = 'if not SPHINX_AUTODOC_RUNNING and os.environ.get("PYTEST_VERSION") is None:'
 const patchedPromptCondition = 'if not SPHINX_AUTODOC_RUNNING and os.environ.get("PYTEST_VERSION") is None and os.environ.get("PYMHF_INTERACTIVE_CONFIGURATION") == "1":'
+const upstreamExecutionServerBlock = [
+  '    # Each client connection will create a new protocol instance',
+  '    coro = loop.create_server(ExecutingProtocol, "127.0.0.1", 6770)',
+  '    server = loop.run_until_complete(coro)'
+].join('\n')
+const patchedExecutionServerBlock = [
+  '    execution_server_enabled = _internal.CONFIG.get("execution_server", {}).get("enabled", False)',
+  '    server = None',
+  '    if execution_server_enabled:',
+  '        # Each client connection will create a new protocol instance.',
+  '        coro = loop.create_server(ExecutingProtocol, "127.0.0.1", 6770)',
+  '        server = loop.run_until_complete(coro)'
+].join('\n')
+const upstreamServingLog = '    logging.info(f"Serving on executor {server.sockets[0].getsockname()}")'
+const patchedServingLog = '    if server is not None:\n        logging.info(f"Serving on executor {server.sockets[0].getsockname()}")'
+const upstreamServerClose = '    # Close the server.\n    server.close()\n    loop.run_until_complete(server.wait_closed())'
+const patchedServerClose = '    # Close the optional execution server.\n    if server is not None:\n        server.close()\n        loop.run_until_complete(server.wait_closed())'
+const upstreamInteractiveConsoleSetting = '    interactive_console = config.get("interactive_console", True)'
+const patchedInteractiveConsoleSetting = '    interactive_console = config.get("interactive_console", True)\n    execution_server_enabled = config.get("execution_server", {}).get("enabled", False)'
+const upstreamKillFunction = '    def kill_injected_code(loop: asyncio.AbstractEventLoop):\n        # End one last "escape sequence" message:'
+const patchedKillFunction = '    def kill_injected_code(loop: asyncio.AbstractEventLoop):\n        if not execution_server_enabled:\n            return\n        # End one last "escape sequence" message:'
 
 async function sha256(path) {
   const hash = createHash('sha256')
@@ -74,6 +99,39 @@ async function applyPymhfNoninteractiveStartupPatch() {
   await fs.writeFile(pymhfInitPath, content.replace(upstreamPromptCondition, patchedPromptCondition), 'utf8')
 }
 
+async function applyPymhfExecutionServerPatch() {
+  const injected = (await fs.readFile(pymhfInjectedPath, 'utf8')).replaceAll('\r\n', '\n')
+  const main = (await fs.readFile(pymhfMainPath, 'utf8')).replaceAll('\r\n', '\n')
+  if ((await sha256(pymhfInjectedPath)) !== expectedPymhfInjectedSourceHash) {
+    throw new Error('pyMHF execution-server patch rejected an unexpected injected.py source hash.')
+  }
+  if ((await sha256(pymhfMainPath)) !== expectedPymhfMainSourceHash) {
+    throw new Error('pyMHF execution-server patch rejected an unexpected main.py source hash.')
+  }
+  if (![upstreamExecutionServerBlock, upstreamServingLog, upstreamServerClose].every((value) => injected.includes(value))) {
+    throw new Error('pyMHF execution-server patch rejected an unexpected injected.py structure.')
+  }
+  if (![upstreamInteractiveConsoleSetting, upstreamKillFunction].every((value) => main.includes(value))) {
+    throw new Error('pyMHF execution-server patch rejected an unexpected main.py structure.')
+  }
+
+  await fs.writeFile(
+    pymhfInjectedPath,
+    injected
+      .replace(upstreamExecutionServerBlock, patchedExecutionServerBlock)
+      .replace(upstreamServingLog, patchedServingLog)
+      .replace(upstreamServerClose, patchedServerClose),
+    'utf8'
+  )
+  await fs.writeFile(
+    pymhfMainPath,
+    main
+      .replace(upstreamInteractiveConsoleSetting, patchedInteractiveConsoleSetting)
+      .replace(upstreamKillFunction, patchedKillFunction),
+    'utf8'
+  )
+}
+
 async function main() {
   const interpreter = resolve(stagingRoot, 'python.exe')
   if (!existsSync(interpreter)) {
@@ -101,6 +159,7 @@ async function main() {
     '--find-links',
     wheelRoot,
     '--only-binary=:all:',
+    '--no-deps',
     '--target',
     sitePackages,
     '--requirement',
@@ -115,6 +174,7 @@ async function main() {
       .map((entry) => fs.rm(resolve(sitePackages, entry), { recursive: true, force: true }))
   )
   await applyPymhfNoninteractiveStartupPatch()
+  await applyPymhfExecutionServerPatch()
 
   execFileSync(interpreter, [
     '-I',

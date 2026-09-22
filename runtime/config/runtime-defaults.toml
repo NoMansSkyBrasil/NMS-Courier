@@ -1,0 +1,16 @@
+# Project-owned pyMHF overrides written by the future private launcher.
+# The launcher supplies a selected process identifier only after its own build
+# and capability validation succeeds. These defaults never start a game.
+[pymhf]
+start_exe = false
+interactive_console = false
+
+[pymhf.execution_server]
+enabled = false
+
+[pymhf.gui]
+shown = false
+
+[pymhf.logging]
+shown = false
+log_level = "info"
