@@ -46,6 +46,8 @@ Responses distinguish accepted, rejected, running, and terminal outcomes. Events
 
 An acknowledgement is not success. A game popup is not sufficient evidence of inventory change. A live mutation is not evidence that the game has already saved it to disk.
 
+The TypeScript protocol package implements the legal transition graph and the dispatch-failure mapping as pure, tested code. It does not execute a queue or imply that a native call exists: a failure before dispatch is `rejected`, while a failure after dispatch is `unknown` until evidence can resolve it.
+
 ### Deduplication and journaling
 
 - Repeating the same request ID and payload within the retained session window returns existing state.
