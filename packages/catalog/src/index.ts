@@ -39,7 +39,15 @@ export type CatalogRelation = {
   readonly sourceLocator: string
 }
 
+export type CatalogSource = {
+  readonly origin: 'selected_game_installation'
+  readonly installationId: string
+  readonly gameBuild: string
+  readonly archiveHashes: Readonly<Record<string, string>>
+}
+
 export type CatalogGeneration = {
+  readonly source: CatalogSource
   readonly entries: readonly CatalogEntry[]
   readonly localizations: readonly CatalogLocalization[]
   readonly relations: readonly CatalogRelation[]
@@ -59,6 +67,7 @@ function isSafeSourceLocator(locator: string): boolean {
   return Boolean(locator.trim())
     && !normalized.startsWith('/')
     && !/^[A-Za-z]:/.test(normalized)
+    && !/^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(normalized)
     && !normalized.split('/').includes('..')
     && !gameIdControlCharacter.test(locator)
 }
@@ -71,6 +80,16 @@ export function validateCatalogGeneration(generation: CatalogGeneration): readon
   const issues: CatalogValidationIssue[] = []
   const entryKeys = new Set<string>()
   const localizationKeys = new Set<string>()
+
+  if (generation.source.origin !== 'selected_game_installation'
+    || generation.source.installationId.trim().length === 0
+    || generation.source.installationId.length > 128
+    || generation.source.gameBuild.trim().length === 0
+    || generation.source.gameBuild.length > 128
+    || Object.entries(generation.source.archiveHashes).length === 0
+    || Object.entries(generation.source.archiveHashes).some(([locator, hash]) => !isSafeSourceLocator(locator) || !sha256Pattern.test(hash))) {
+    issues.push({ path: 'source', message: 'Catalog generations must originate from a selected game installation with hashed archives.' })
+  }
 
   generation.entries.forEach((entry, index) => {
     const entryPath = `entries[${index}]`

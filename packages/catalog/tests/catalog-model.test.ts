@@ -3,12 +3,19 @@ import { describe, expect, it } from 'vitest'
 import { createCatalogEntryKey, validateCatalogGeneration } from '../src/index.js'
 
 const sourceHash = 'a'.repeat(64)
+const source = {
+  origin: 'selected_game_installation' as const,
+  installationId: 'installation-1',
+  gameBuild: '6.4.0',
+  archiveHashes: { 'NMSARC.Precache.pak': sourceHash }
+}
 
 describe('catalog identity model', () => {
   it('keeps a Game ID distinct from its localized display name', () => {
     const entryKey = createCatalogEntryKey('substance', 'FUEL1')
 
     const issues = validateCatalogGeneration({
+      source,
       entries: [{
         domain: 'substance',
         gameId: 'FUEL1',
@@ -39,6 +46,7 @@ describe('catalog identity model', () => {
   it('rejects duplicate localizations and source locators outside game data', () => {
     const entryKey = createCatalogEntryKey('substance', 'FUEL1')
     const issues = validateCatalogGeneration({
+      source,
       entries: [{
         domain: 'substance',
         gameId: 'FUEL1',
@@ -61,6 +69,7 @@ describe('catalog identity model', () => {
 
   it('rejects duplicate entries and references without proven source records', () => {
     const issues = validateCatalogGeneration({
+      source,
       entries: [
         { domain: 'substance', gameId: 'FUEL1', category: null, sourceTable: '', sourceHash: 'not-a-hash' },
         { domain: 'substance', gameId: 'FUEL1', category: null, sourceTable: 'table', sourceHash }
@@ -85,5 +94,25 @@ describe('catalog identity model', () => {
     })
 
     expect(issues).toHaveLength(6)
+  })
+
+  it('rejects remote catalog sources and URL locators', () => {
+    const issues = validateCatalogGeneration({
+      source: {
+        ...source,
+        origin: 'remote_web' as unknown as 'selected_game_installation'
+      },
+      entries: [{
+        domain: 'substance',
+        gameId: 'FUEL1',
+        category: null,
+        sourceTable: 'https://example.invalid/catalog.json',
+        sourceHash
+      }],
+      localizations: [],
+      relations: []
+    })
+
+    expect(issues.map((issue) => issue.path)).toEqual(['source', 'entries[0]'])
   })
 })

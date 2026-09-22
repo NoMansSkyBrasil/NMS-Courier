@@ -59,7 +59,7 @@ Store images and large definitions outside SQLite where appropriate; use normali
 
 ## 3. Canonical game identity and coverage
 
-The game-facing identifier is called **Game ID** in this project. It is the exact identifier stored in the extracted game table, such as `FUEL1` for the Carbon substance in an observed catalog source. It is not an application-generated ID, display name, localization token, save-editing field, or proof that a runtime operation is supported.
+The game-facing identifier is called **Game ID** in this project. It is the exact identifier stored in the extracted table from the selected game installation, such as `FUEL1` for the Carbon substance. It is not an application-generated ID, display name, localization token, save-editing field, or proof that a runtime operation is supported.
 
 Names must be resolved from the selected installation's localization data. A Game ID must never be inferred from a translated name, and a localization key must not be assumed to equal its Game ID. The application may display `Carbon · FUEL1`, but the source identity remains the extracted table entry.
 
@@ -88,7 +88,7 @@ The initial discovery manifest includes the known candidate table paths below, m
 
 The language discovery step must collect every matching table for each requested locale, retain precedence/order in provenance, and record missing languages explicitly. It must not derive `pt-BR`, `en-US`, or `es-ES` item names from application UI translations.
 
-The catalog is read-only with respect to the game installation. Importing a catalog must not unpack into the game directory, modify PAKs, create mods, read a save, attach to the game process, or grant an item. A current catalog improves selection and validation only; runtime delivery remains separately capability-gated.
+The selected game installation is the only production catalog source. Websites, community JSON files, browser APIs, and downloaded catalogs are prohibited as import inputs. They may support engineering research but never populate catalog entries, localizations, relations, or provenance. Importing a catalog must not unpack into the game directory, modify PAKs, create mods, read a save, attach to the game process, or grant an item. A current catalog improves selection and validation only; runtime delivery remains separately capability-gated.
 
 ## 4. Catalog generation pipeline
 
