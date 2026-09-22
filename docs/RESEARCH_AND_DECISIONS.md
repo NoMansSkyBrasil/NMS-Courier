@@ -28,6 +28,7 @@ Record exact revisions for game-related research. Verify pinned dependency artif
 | NMS-Newton repository metadata | License not identified in the earlier query | Do not incorporate without explicit license review |
 | pljeroen/nmstoolkit README | Save editing and Corvette/extraction features; preview limits described | Reference for definitions, not runtime delivery evidence |
 | MBINCompiler docs | Version-sensitive MBIN conversion using MXML | Separate converter from PAK extraction; bundle compatible tools |
+| HGPAKtool 1.1.3 metadata and README | MIT Python package; project documents PAK reading for post-5.50 NMS data and a self-contained Windows binary | Candidate PAK extractor for a private catalog worker; pin, audit, and test against the selected build before inclusion |
 
 NMS.py and pyMHF advertise MIT in inspected metadata. The original project intends MIT. Audit all incorporated code, transitive binaries, licenses, and redistribution requirements before release.
 
@@ -70,7 +71,7 @@ Fastify is a low-overhead HTTP framework, but there is no HTTP workload to optim
 | Does embeddable Python support this injector? | B0 + actual in-process import/load proof | M1 acceptance |
 | Are all DLL prerequisites private? | Dependency inventory and clean-machine execution | Plug-and-play claim |
 | Can unwanted upstream endpoints be disabled cleanly? | Inspect pinned code/config; patch only if necessary | Runtime release |
-| Which PAK/image tools are distributable? | Capability and license review | Complete M3 package |
+| Which PAK/image tools are distributable? | HGPAKtool is a candidate; complete source, binary/dependency, license, and selected-build review | Complete M3 package |
 | Is insertion partial or atomic? | Space/stack adversarial cases in game | Accurate delivery contract |
 | What proves remote receipt? | Native transfer observation and receiver test | Courier outcome wording |
 | Which save formats permit lossless round-trip? | Future SE0/SE1 corpus | Save Editor writing |
