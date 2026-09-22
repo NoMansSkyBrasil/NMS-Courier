@@ -58,6 +58,10 @@ The staging pass identified and copied 112 structured source tables for conversi
 
 The three core definition tables alone produced a private local snapshot containing 2,706 entries: 114 substances, 2,199 products, and 393 technologies. Entries retain the native Game ID, table provenance, and resolved `pt-BR`, `en-US`, and `es-ES` fields from local language data. For example, `substance:FUEL1` resolves to Carbon in all three localizations with their native subtitles and descriptions.
 
+The player-title definition table contains 346 entries in this build. Each staged title record retains its Game ID, title key, localized title and unlock text, and explicit unlock references such as a stat, mission, trophy, product recipe, or prerequisite title. A title record is catalog data only; it does not represent ownership or eligibility on a player account.
+
+For manual review, the application data generation contains a non-versioned local `source-index.json`, `core-catalog.json`, and `titles-catalog.json`. These are generated from the selected installation and intentionally remain outside the repository. The source index currently lists 119 extracted structured files, including reality tables, entitlements, game-state metadata, and reality metadata. The production importer must create equivalent versioned artifacts atomically and add coverage for every discovered structured table.
+
 ## What remains before publication
 
 This is an extraction observation, not complete catalog support. The application still needs a pinned, bundled extractor and build-matched converter; a parser for every discovered table; relation extraction for recipes and rewards; coverage accounting; SQLite publication; and automated tests with permitted fixture data. Tables that take unusually long to convert must be handled with explicit size and timeout limits so a refresh stays responsive and reports the affected source instead of hanging.
