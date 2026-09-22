@@ -31,6 +31,8 @@ Record exact revisions for game-related research. Verify pinned dependency artif
 | HGPAKtool 1.1.3 metadata and README | MIT Python package; project documents PAK reading for post-5.50 NMS data and a self-contained Windows binary | Candidate PAK extractor for a private catalog worker; pin, audit, and test against the selected build before inclusion |
 | nmstoolkit 7019f561aa3522ae0b77c171cc1777761be2ac67 external review | Its documented extraction targets distinguish Product, Substance, and Technology tables and use multiple language MBIN files | Add those paths as catalog discovery candidates; no code, data, or save-editing behavior is incorporated |
 | vectorcmdr/NMSE local checkout, inspected 2026-09-22 | Its extractor separates filtered PAK reading, MBIN conversion, localization generation, typed parsing, and DDS-derived icon generation; its documentation also describes title, reward, recipe, customization, creature, and Space POI data sets | Adopt only the architectural lessons: staged jobs with explicit timeout/coverage, raw localization keys beside resolved strings, and an independently reviewed local image cache. Do not import its code, generated catalog data, tools, or save behavior. Reject its runtime tool downloads because NMS Courier packages reviewed dependencies before distribution. |
+| Local Steam installation, inspected 2026-09-22 | `Binaries/NMS.exe` reports file and product version `179666`; SHA-256 is `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb` | This is an observed candidate build, not a supported runtime build. No adapter, injection, or game mutation is authorized by this observation alone. |
+| Private runtime import probe, inspected 2026-09-22 | The bundled CPython 3.11.9 imported `nmspy`, `pymhf`, and `pyrun_injected` using only packaged resources; `fastapi` and `uvicorn` were absent | Confirms a limited offline import gate. It does not prove DLL closure on a clean machine, attachment, listener behavior after injection, or game compatibility. |
 
 NMS.py and pyMHF advertise MIT in inspected metadata. The original project intends MIT. Audit all incorporated code, transitive binaries, licenses, and redistribution requirements before release.
 
@@ -67,7 +69,7 @@ Fastify is a low-overhead HTTP framework, but there is no HTTP workload to optim
 
 | Question | Resolution method | Blocks |
 | --- | --- | --- |
-| Which game build/distribution is available? | Inspect selected installation when runtime work is authorized | Compatibility proof |
+| Which adapter can safely support the observed build 179666? | Match source research and controlled runtime observations to the exact executable fingerprint | M1 and M2 |
 | Which native path accepts item/quantity? | Observe game reward/inventory call chain | M2 |
 | Which callback/thread is safe? | Instrument and validate context/lifetime | M2 |
 | Does embeddable Python support this injector? | B0 + actual in-process import/load proof | M1 acceptance |
