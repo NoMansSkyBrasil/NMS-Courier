@@ -20,6 +20,17 @@ import {
 } from '@renderer/components/ui/select'
 
 type Domain = 'substance' | 'product' | 'technology'
+type DeliveryReadiness = Awaited<ReturnType<typeof window.nms.getDeliveryReadiness>>
+
+const readinessMessages: Record<DeliveryReadiness['reasonCode'], string> = {
+  INSTALLATION_NOT_SELECTED: 'Select a No Man’s Sky installation before delivery can be evaluated.',
+  INSTALLATION_INVALID: 'The selected game installation changed or is no longer valid.',
+  GAME_NOT_RUNNING:
+    'Start the selected No Man’s Sky installation before delivery can be evaluated.',
+  GAME_STATUS_UNAVAILABLE: 'The application could not safely confirm the selected game process.',
+  RUNTIME_BUNDLE_INVALID: 'The private runtime bundle is not available.',
+  ACTION_NOT_IMPLEMENTED: 'The native item-delivery action has not been verified or implemented.'
+}
 
 export function DeliveryPage(): React.JSX.Element {
   const [domain, setDomain] = useState<Domain>('substance')
@@ -32,6 +43,7 @@ export function DeliveryPage(): React.JSX.Element {
   const [gameStatus, setGameStatus] = useState<Awaited<
     ReturnType<typeof window.nms.getGameStatus>
   > | null>(null)
+  const [readiness, setReadiness] = useState<DeliveryReadiness | null>(null)
   const [selectingInstallation, setSelectingInstallation] = useState(false)
 
   useEffect(() => {
@@ -42,6 +54,7 @@ export function DeliveryPage(): React.JSX.Element {
         return window.nms.getGameStatus()
       })
       .then(setGameStatus)
+    void window.nms.getDeliveryReadiness().then(setReadiness)
   }, [])
 
   const selectInstallation = async (): Promise<void> => {
@@ -49,6 +62,7 @@ export function DeliveryPage(): React.JSX.Element {
     try {
       setInstallation(await window.nms.selectInstallation())
       setGameStatus(await window.nms.getGameStatus())
+      setReadiness(await window.nms.getDeliveryReadiness())
     } finally {
       setSelectingInstallation(false)
     }
@@ -65,10 +79,9 @@ export function DeliveryPage(): React.JSX.Element {
       </div>
       <Alert>
         <CircleAlertIcon />
-        <AlertTitle>Delivery runtime is unavailable</AlertTitle>
+        <AlertTitle>Delivery is unavailable</AlertTitle>
         <AlertDescription>
-          The runtime bridge, supported build gate, player readiness check, and native delivery
-          function have not been verified. No request can be queued from this screen.
+          {readiness ? readinessMessages[readiness.reasonCode] : 'Checking delivery readiness…'}
         </AlertDescription>
       </Alert>
       <Card className="max-w-2xl">

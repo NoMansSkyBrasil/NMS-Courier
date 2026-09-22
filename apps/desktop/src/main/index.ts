@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
+import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
 import { inspectRuntimeBundle } from './runtime-resources'
 
 let catalogRepository: CatalogRepository | null = null
@@ -109,6 +110,16 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-game-status', () =>
     gameStatusService.observe(getInstallationService().getSelectedRootPath())
   )
+  ipcMain.handle('nms:get-delivery-readiness', async () => {
+    const installation = getInstallationService().getStatus()
+    const game = await gameStatusService.observe(getInstallationService().getSelectedRootPath())
+    const runtime = inspectRuntimeBundle({
+      isPackaged: app.isPackaged,
+      resourcesPath: process.resourcesPath,
+      moduleDirectory: __dirname
+    })
+    return resolveLocalItemDeliveryReadiness(installation, game, runtime)
+  })
   ipcMain.handle('nms:select-installation', async () => {
     const result = await dialog.showOpenDialog({
       title: 'Select No Man’s Sky installation',

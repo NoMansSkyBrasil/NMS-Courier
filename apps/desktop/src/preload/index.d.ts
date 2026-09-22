@@ -28,6 +28,16 @@ declare global {
         processId: number | null
         startedAt: string | null
       }>
+      getDeliveryReadiness: () => Promise<{
+        available: false
+        reasonCode:
+          | 'INSTALLATION_NOT_SELECTED'
+          | 'INSTALLATION_INVALID'
+          | 'GAME_NOT_RUNNING'
+          | 'GAME_STATUS_UNAVAILABLE'
+          | 'RUNTIME_BUNDLE_INVALID'
+          | 'ACTION_NOT_IMPLEMENTED'
+      }>
       selectInstallation: () => Promise<{
         state: 'not_selected' | 'available' | 'invalid'
         displayName: string | null
