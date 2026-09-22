@@ -1,6 +1,6 @@
 # Implementation sequence and validation gates
 
-Status: future execution plan. No listed application command has been run because no application exists yet.
+Status: implementation plan. M0 foundation and B0 private-runtime packaging proof have code and validation evidence; M1 runtime connection and M2 delivery execution remain unimplemented.
 
 ## 1. Working method
 

@@ -1,6 +1,6 @@
 # Protocol and runtime integration
 
-Status: version 1 control-plane schemas and TypeScript fixtures are implemented in `packages/protocol`; transport, authentication, runtime attachment, and mutation commands remain unimplemented.
+Status: version 1 control-plane schemas and TypeScript fixtures are implemented in `packages/protocol`, including a bounded local item-delivery intent. Transport, authentication, runtime attachment, queue execution, and game mutation remain unimplemented.
 
 ## 1. Transport and session
 
@@ -26,7 +26,7 @@ Each game session has a new identity. Requests and events from a previous sessio
 
 Proposed action families: status snapshot, capability query, item delivery, operation status, unstarted cancellation, and later eligible-player enumeration/native transfer. These are our application concepts, not claimed NMS.py APIs.
 
-Item delivery contains domain-qualified item ID, positive integer quantity, supported inventory selection, and notification preference. network_player uses an opaque identity bound to the current session, not display name. Seeds and identifiers that may exceed JavaScript's safe integer range use canonical strings.
+Item delivery contains domain-qualified item ID, positive integer quantity, and notification preference. The current schema admits only `local_player`; inventory selection and `network_player` require separate runtime evidence. Seeds and identifiers that may exceed JavaScript's safe integer range use canonical strings.
 
 Responses distinguish accepted, rejected, running, and terminal outcomes. Events distinguish runtime status, capability changes, operation updates, and later player snapshots. Subscriptions never expose raw pointers or unrestricted debug execution.
 
