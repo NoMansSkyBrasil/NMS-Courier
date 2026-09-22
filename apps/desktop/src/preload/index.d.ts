@@ -5,7 +5,8 @@ declare global {
     nms: {
       getFoundationStatus: () => Promise<{
         apiVersion: string
-        runtime: 'not-connected'
+        runtime: 'bundled' | 'unavailable'
+        runtimeVersion: string | null
       }>
     }
   }

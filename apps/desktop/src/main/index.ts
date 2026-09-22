@@ -2,10 +2,24 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { inspectRuntimeBundle } from './runtime-resources'
 
-const foundationStatus = {
-  apiVersion: '1',
-  runtime: 'not-connected' as const
+function getFoundationStatus(): {
+  apiVersion: string
+  runtime: 'bundled' | 'unavailable'
+  runtimeVersion: string | null
+} {
+  const bundle = inspectRuntimeBundle({
+    isPackaged: app.isPackaged,
+    resourcesPath: process.resourcesPath,
+    moduleDirectory: __dirname
+  })
+
+  return {
+    apiVersion: '1',
+    runtime: bundle.state,
+    runtimeVersion: bundle.runtimeVersion
+  }
 }
 
 function createWindow(): void {
@@ -46,7 +60,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  ipcMain.handle('nms:get-foundation-status', () => foundationStatus)
+  ipcMain.handle('nms:get-foundation-status', () => getFoundationStatus())
 
   createWindow()
 
