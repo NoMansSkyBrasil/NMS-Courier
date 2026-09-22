@@ -21,11 +21,12 @@ type StoredInstallation = {
   rootPath: string
   executableSha256: string
   executableSize: number
+  executableModifiedAtMs: number
 }
 
 export async function inspectInstallation(
   rootPath: string
-): Promise<InstallationStatus & { rootPath?: string }> {
+): Promise<InstallationStatus & { rootPath?: string; executableModifiedAtMs?: number }> {
   const normalizedRoot = resolve(rootPath)
   const executablePath = join(normalizedRoot, 'NMS.exe')
   const dataPath = join(normalizedRoot, 'GAMEDATA', 'PCBANKS')
@@ -48,6 +49,7 @@ export async function inspectInstallation(
       displayName: basename(normalizedRoot),
       executableSha256: await hashFile(executablePath),
       executableSize: executable.size,
+      executableModifiedAtMs: executable.mtimeMs,
       reason: null,
       rootPath: normalizedRoot
     }
@@ -97,6 +99,30 @@ export class InstallationService {
         reason: 'INSTALLATION_LAYOUT_INVALID'
       }
     }
+    try {
+      const executable = statSync(executablePath)
+      if (
+        !executable.isFile() ||
+        executable.size !== stored.executableSize ||
+        executable.mtimeMs !== stored.executableModifiedAtMs
+      ) {
+        return {
+          state: 'invalid',
+          displayName: basename(stored.rootPath),
+          executableSha256: null,
+          executableSize: null,
+          reason: 'BUILD_FINGERPRINT_STALE'
+        }
+      }
+    } catch {
+      return {
+        state: 'invalid',
+        displayName: basename(stored.rootPath),
+        executableSha256: null,
+        executableSize: null,
+        reason: 'INSTALLATION_INSPECTION_FAILED'
+      }
+    }
     return {
       state: 'available',
       displayName: basename(stored.rootPath),
@@ -112,7 +138,8 @@ export class InstallationService {
       inspected.state !== 'available' ||
       !inspected.rootPath ||
       !inspected.executableSha256 ||
-      !inspected.executableSize
+      !inspected.executableSize ||
+      inspected.executableModifiedAtMs === undefined
     ) {
       return inspected
     }
@@ -123,7 +150,8 @@ export class InstallationService {
         {
           rootPath: inspected.rootPath,
           executableSha256: inspected.executableSha256,
-          executableSize: inspected.executableSize
+          executableSize: inspected.executableSize,
+          executableModifiedAtMs: inspected.executableModifiedAtMs
         } satisfies StoredInstallation,
         null,
         2
@@ -150,7 +178,9 @@ export class InstallationService {
         !/^[a-f0-9]{64}$/i.test(value.executableSha256) ||
         typeof value.executableSize !== 'number' ||
         !Number.isSafeInteger(value.executableSize) ||
-        value.executableSize < 1
+        value.executableSize < 1 ||
+        typeof value.executableModifiedAtMs !== 'number' ||
+        !Number.isFinite(value.executableModifiedAtMs)
       )
         return null
       return value as StoredInstallation

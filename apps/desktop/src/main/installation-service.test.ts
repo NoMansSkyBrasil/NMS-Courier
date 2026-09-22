@@ -37,4 +37,17 @@ describe('selected game installation', () => {
     })
     expect(status).not.toHaveProperty('rootPath')
   })
+
+  it('invalidates a selection when the executable changes after fingerprinting', async () => {
+    const userDataPath = mkdtempSync(join(tmpdir(), 'nms-courier-user-data-'))
+    temporaryDirectories.push(userDataPath)
+    const root = createInstallation()
+    const service = new InstallationService(userDataPath)
+    await service.select(root)
+    writeFileSync(join(root, 'NMS.exe'), 'updated fixture executable')
+    expect(service.getStatus()).toMatchObject({
+      state: 'invalid',
+      reason: 'BUILD_FINGERPRINT_STALE'
+    })
+  })
 })
