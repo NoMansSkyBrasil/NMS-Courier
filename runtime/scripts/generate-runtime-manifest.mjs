@@ -51,6 +51,22 @@ async function listFiles(root) {
   return nested.flat().sort((left, right) => left.path.localeCompare(right.path))
 }
 
+async function removePythonBytecode(root) {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  await Promise.all(entries.map(async (entry) => {
+    const path = resolve(root, entry.name)
+    if (entry.isDirectory()) {
+      if (entry.name === '__pycache__') {
+        await fs.rm(path, { recursive: true, force: true })
+      } else {
+        await removePythonBytecode(path)
+      }
+    } else if (entry.isFile() && entry.name.endsWith('.pyc')) {
+      await fs.rm(path, { force: true })
+    }
+  }))
+}
+
 async function inspectWheels(interpreter) {
   const script = String.raw`
 import json
@@ -139,7 +155,9 @@ async function main() {
   }
 
   const template = JSON.parse(await fs.readFile(templatePath, 'utf8'))
+  await removePythonBytecode(pythonRoot)
   const dependencies = await inspectWheels(interpreter)
+  await removePythonBytecode(pythonRoot)
   const files = await listFiles(pythonRoot)
   const licenseFiles = await listFiles(noticesRoot)
   const manifest = {

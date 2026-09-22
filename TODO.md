@@ -28,6 +28,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Create the closed dependency specification, verified build-tool lock, wheel inventory, hashes, and extracted license notices for the private interpreter.
 - [x] Stage the exact resolved wheels, package metadata, and native extensions beside the private interpreter using only the private wheel cache.
 - [x] Bundle the verified private interpreter, manifest, configuration, and license notices under Electron resources; verify their presence in the Windows ZIP.
+- [~] Automate packaged-runtime manifest, file-integrity, and isolated-import verification for every Windows package build. The verifier is implemented; rerun it against a fresh package when the Windows build directory is not locked.
 - [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass with a hash-pinned pyMHF non-interactive import patch, and Electron resolves the bundled runtime without exposing paths; the real entry point is still unproven.
 - [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF prompt and execution listener have hash-pinned suppressions; validate the controlled configuration after packaging before accepting the boundary.
 - [x] Test the staged runtime from a temporary path containing spaces and a non-ASCII character; private imports passed.
@@ -61,4 +62,4 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
-Validate the complete Windows ZIP on a clean offline environment, then implement the private launcher process boundary. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.
+Run the packaged-runtime verifier against a fresh Windows artifact when the current build-directory lock is released, then validate on a clean offline environment. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.

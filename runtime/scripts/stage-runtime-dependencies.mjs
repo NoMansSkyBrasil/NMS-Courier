@@ -185,6 +185,7 @@ async function main() {
     env: {
       SystemRoot: process.env.SystemRoot ?? 'C:\\Windows',
       WINDIR: process.env.WINDIR ?? 'C:\\Windows',
+      PYTHONDONTWRITEBYTECODE: '1',
       PYMHF_INTERACTIVE_CONFIGURATION: '0'
     }
   })

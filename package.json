@@ -15,6 +15,7 @@
     "stage:runtime:dependencies": "node runtime/scripts/stage-runtime-dependencies.mjs",
     "generate:runtime-manifest": "node runtime/scripts/generate-runtime-manifest.mjs",
     "prepare:runtime-resources": "node runtime/scripts/prepare-runtime-resources.mjs",
-    "bundle:runtime": "pnpm stage:runtime && pnpm stage:runtime:dependencies && pnpm generate:runtime-manifest && pnpm prepare:runtime-resources"
+    "bundle:runtime": "pnpm stage:runtime && pnpm stage:runtime:dependencies && pnpm generate:runtime-manifest && pnpm prepare:runtime-resources",
+    "verify:package": "node runtime/scripts/verify-packaged-runtime.mjs"
   }
 }
