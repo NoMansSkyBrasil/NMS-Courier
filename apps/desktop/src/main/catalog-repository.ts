@@ -99,7 +99,12 @@ export class CatalogRepository {
     const matching = (source.catalog.entries ?? []).filter((entry) => {
       if (request.domain && entry.domain !== request.domain) return false
       const localized = entry.localizations[request.locale] ?? {}
-      const searchable = [entry.gameId, entry.entryKey, localized.name ?? '', localized.subtitle ?? '']
+      const searchable = [
+        entry.gameId,
+        entry.entryKey,
+        localized.name ?? '',
+        localized.subtitle ?? ''
+      ]
         .join(' ')
         .toLocaleLowerCase()
       return !normalizedQuery || searchable.includes(normalizedQuery)
@@ -138,7 +143,10 @@ export class CatalogRepository {
       const catalogPath = join(generationsPath, generationId, 'core-catalog.json')
       try {
         const modifiedAtMs = statSync(catalogPath).mtimeMs
-        if (this.cached?.generationId === generationId && this.cached.modifiedAtMs === modifiedAtMs) {
+        if (
+          this.cached?.generationId === generationId &&
+          this.cached.modifiedAtMs === modifiedAtMs
+        ) {
           return { generationId, catalog: this.cached.catalog }
         }
         const parsed: unknown = JSON.parse(readFileSync(catalogPath, 'utf8'))

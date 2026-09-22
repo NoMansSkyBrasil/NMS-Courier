@@ -21,15 +21,22 @@ function parseCatalogSearchRequest(value: unknown): {
   if (!value || typeof value !== 'object') throw new Error('Invalid catalog search request.')
   const request = value as Record<string, unknown>
   const limit = request.limit
-  if (typeof request.query !== 'string' || request.query.length > 160) throw new Error('Invalid catalog query.')
-  if (typeof request.locale !== 'string' || request.locale.length > 32) throw new Error('Invalid catalog locale.')
+  if (typeof request.query !== 'string' || request.query.length > 160)
+    throw new Error('Invalid catalog query.')
+  if (typeof request.locale !== 'string' || request.locale.length > 32)
+    throw new Error('Invalid catalog locale.')
   if (typeof limit !== 'number' || !Number.isInteger(limit) || limit < 1 || limit > 100) {
     throw new Error('Invalid catalog limit.')
   }
   if (request.domain !== undefined && !catalogDomains.includes(request.domain as CatalogDomain)) {
     throw new Error('Invalid catalog domain.')
   }
-  return { query: request.query, locale: request.locale, domain: request.domain as CatalogDomain | undefined, limit }
+  return {
+    query: request.query,
+    locale: request.locale,
+    domain: request.domain as CatalogDomain | undefined,
+    limit
+  }
 }
 
 function getFoundationStatus(): {
@@ -90,7 +97,9 @@ app.whenReady().then(() => {
 
   ipcMain.handle('nms:get-foundation-status', () => getFoundationStatus())
   ipcMain.handle('nms:get-catalog-status', () => getCatalogRepository().getStatus())
-  ipcMain.handle('nms:search-catalog', (_, request: unknown) => getCatalogRepository().search(parseCatalogSearchRequest(request)))
+  ipcMain.handle('nms:search-catalog', (_, request: unknown) =>
+    getCatalogRepository().search(parseCatalogSearchRequest(request))
+  )
 
   createWindow()
 

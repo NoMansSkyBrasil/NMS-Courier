@@ -12,7 +12,7 @@ function Workspace(): React.JSX.Element {
   const [catalogOpen, setCatalogOpen] = useState(window.location.hash === '#catalog')
 
   useEffect(() => {
-    const updatePage = () => setCatalogOpen(window.location.hash === '#catalog')
+    const updatePage = (): void => setCatalogOpen(window.location.hash === '#catalog')
     window.addEventListener('hashchange', updatePage)
     return () => window.removeEventListener('hashchange', updatePage)
   }, [])

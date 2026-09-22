@@ -2,8 +2,20 @@ import { useEffect, useState } from 'react'
 import { SearchIcon, DatabaseIcon } from 'lucide-react'
 import { Badge } from '@renderer/components/ui/badge'
 import { Button } from '@renderer/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@renderer/components/ui/card'
-import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@renderer/components/ui/empty'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@renderer/components/ui/card'
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle
+} from '@renderer/components/ui/empty'
 import { Input } from '@renderer/components/ui/input'
 import { Skeleton } from '@renderer/components/ui/skeleton'
 import { useLocale } from '@renderer/i18n/locale-provider'
@@ -34,7 +46,11 @@ export function CatalogPage(): React.JSX.Element {
   }, [domain, locale, query, status?.state])
 
   if (!status) {
-    return <div className="p-4 md:p-6"><Skeleton className="h-48 w-full" /></div>
+    return (
+      <div className="p-4 md:p-6">
+        <Skeleton className="h-48 w-full" />
+      </div>
+    )
   }
 
   if (status.state === 'unavailable') {
@@ -42,10 +58,14 @@ export function CatalogPage(): React.JSX.Element {
       <div className="p-4 md:p-6">
         <Empty className="min-h-72 border">
           <EmptyHeader>
-            <EmptyMedia variant="icon"><DatabaseIcon /></EmptyMedia>
+            <EmptyMedia variant="icon">
+              <DatabaseIcon />
+            </EmptyMedia>
             <EmptyTitle>Local catalog is not available</EmptyTitle>
             <EmptyDescription>
-              No verified catalog generation exists in this application profile. Catalog refresh will remain unavailable until its bundled, selected-installation workflow is implemented.
+              No verified catalog generation exists in this application profile. Catalog refresh
+              will remain unavailable until its bundled, selected-installation workflow is
+              implemented.
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -63,17 +83,29 @@ export function CatalogPage(): React.JSX.Element {
             <Badge variant="outline">{status.entryCount.toLocaleString()} entries</Badge>
           </div>
           <CardDescription>
-            Read-only definitions extracted from the selected game installation. Results do not imply a supported delivery action.
+            Read-only definitions extracted from the selected game installation. Results do not
+            imply a supported delivery action.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
           <div className="relative">
             <SearchIcon className="pointer-events-none absolute top-2.5 left-2.5 size-4 text-muted-foreground" />
-            <Input aria-label="Search local catalog" className="pl-8" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search name or Game ID" />
+            <Input
+              aria-label="Search local catalog"
+              className="pl-8"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search name or Game ID"
+            />
           </div>
           <div className="flex flex-wrap gap-2" aria-label="Catalog domain">
             {domains.map((value) => (
-              <Button key={value ?? 'all'} variant={domain === value ? 'default' : 'outline'} size="sm" onClick={() => setDomain(value)}>
+              <Button
+                key={value ?? 'all'}
+                variant={domain === value ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setDomain(value)}
+              >
                 {value ?? 'All'}
               </Button>
             ))}
@@ -81,7 +113,11 @@ export function CatalogPage(): React.JSX.Element {
         </CardContent>
       </Card>
       <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>{result ? `${result.total.toLocaleString()} matching definitions` : 'Loading definitions…'}</span>
+        <span>
+          {result
+            ? `${result.total.toLocaleString()} matching definitions`
+            : 'Loading definitions…'}
+        </span>
         <span>{status.locales.length} local game languages</span>
       </div>
       <div className="grid gap-3 lg:grid-cols-2">
@@ -94,7 +130,11 @@ export function CatalogPage(): React.JSX.Element {
               </div>
               <CardDescription>{entry.subtitle || entry.gameId}</CardDescription>
             </CardHeader>
-            {entry.description && <CardContent className="text-sm text-muted-foreground">{entry.description}</CardContent>}
+            {entry.description && (
+              <CardContent className="text-sm text-muted-foreground">
+                {entry.description}
+              </CardContent>
+            )}
           </Card>
         ))}
       </div>

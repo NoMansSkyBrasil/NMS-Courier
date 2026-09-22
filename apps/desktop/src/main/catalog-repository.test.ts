@@ -23,7 +23,8 @@ function createCatalog(entries: unknown[]): CatalogRepository {
 }
 
 afterEach(() => {
-  while (temporaryDirectories.length) rmSync(temporaryDirectories.pop()!, { recursive: true, force: true })
+  while (temporaryDirectories.length)
+    rmSync(temporaryDirectories.pop()!, { recursive: true, force: true })
 })
 
 describe('catalog repository', () => {
@@ -40,7 +41,9 @@ describe('catalog repository', () => {
         gameId: 'FUEL1',
         domain: 'substance',
         category: null,
-        localizations: { 'pt-BR': { name: 'Carbono', subtitle: 'Substância', description: 'Combustível.' } }
+        localizations: {
+          'pt-BR': { name: 'Carbono', subtitle: 'Substância', description: 'Combustível.' }
+        }
       },
       {
         entryKey: 'product:ATLAS_SEED',
@@ -51,13 +54,24 @@ describe('catalog repository', () => {
       }
     ])
 
-    expect(repository.getStatus()).toMatchObject({ state: 'available', entryCount: 2, locales: ['pt-BR'] })
-    expect(repository.search({ query: 'carbon', locale: 'pt-BR', domain: 'substance', limit: 10 })).toEqual({
+    expect(repository.getStatus()).toMatchObject({
+      state: 'available',
+      entryCount: 2,
+      locales: ['pt-BR']
+    })
+    expect(
+      repository.search({ query: 'carbon', locale: 'pt-BR', domain: 'substance', limit: 10 })
+    ).toEqual({
       total: 1,
       entries: [
         {
-          entryKey: 'substance:FUEL1', gameId: 'FUEL1', domain: 'substance', category: null,
-          name: 'Carbono', subtitle: 'Substância', description: 'Combustível.'
+          entryKey: 'substance:FUEL1',
+          gameId: 'FUEL1',
+          domain: 'substance',
+          category: null,
+          name: 'Carbono',
+          subtitle: 'Substância',
+          description: 'Combustível.'
         }
       ]
     })
