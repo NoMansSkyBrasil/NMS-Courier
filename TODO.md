@@ -31,7 +31,7 @@ This file is the operational source of truth for implementation order. Update it
 - [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass with a hash-pinned pyMHF non-interactive import patch, and Electron resolves the bundled runtime without exposing paths; the real entry point is still unproven.
 - [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF prompt and execution listener have hash-pinned suppressions; validate the controlled configuration after packaging before accepting the boundary.
 - [x] Test the staged runtime from a temporary path containing spaces and a non-ASCII character; private imports passed.
-- [ ] Validate on a clean offline Windows environment.
+- [!] Validate on a clean offline Windows environment. This requires a separate machine or a verified clean Windows image; no developer-machine result can satisfy the gate.
 
 ## M1 — Real runtime connection
 

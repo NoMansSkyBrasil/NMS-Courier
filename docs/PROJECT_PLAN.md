@@ -1,6 +1,6 @@
 # NMS Courier: project plan
 
-Status: planning only. Updated: 2026-09-21.
+Status: M0 complete; B0 private-runtime packaging proof in progress. Updated: 2026-09-22.
 
 This document and its linked specifications replace the earlier Portuguese planning document. They retain the original delivery scope and the later dedicated Save Editor requirement, while expanding implementation structure and self-contained distribution.
 
@@ -31,9 +31,11 @@ A future Save Editor will occupy its own application area. It operates on explic
 
 ## 2. Current state
 
-The M0 desktop foundation exists: the pnpm workspace, Electron main/preload/renderer boundary, Base UI shadcn shell, theme and locale controls, lint/typecheck configuration, and Windows x64 ZIP packaging command are implemented. The ZIP has been extracted and its executable launched without Vite.
+The M0 desktop foundation exists: the pnpm workspace, Electron main/preload/renderer boundary, Base UI shadcn shell, theme and three-locale controls, lint/typecheck/test configuration, and Windows x64 ZIP packaging command are implemented. The ZIP has been extracted and its executable launched without Vite.
 
-No runtime attachment, game access, private CPython bundle, delivery action, catalog extraction, or save access has been implemented. Future runtime trees and commands remain specifications until their acceptance gates pass.
+B0 has a private CPython 3.11.9 Windows x64 bundle, closed wheel specification, hash-verified staging, license inventory, and Electron resource packaging proof. The packaged ZIP contains the private interpreter, runtime manifest, and non-interactive runtime defaults. The private runtime is resolved only by the Electron main process; renderer code receives only its availability and version.
+
+The B0 clean offline Windows validation and native dependency audit remain open. No runtime attachment, game access, delivery action, catalog extraction, or save access has been implemented. Future runtime and delivery behavior remains unverified until the relevant acceptance gates pass.
 
 ## 3. Documentation ownership
 
