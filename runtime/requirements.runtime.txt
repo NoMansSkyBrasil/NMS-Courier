@@ -1,0 +1,24 @@
+# Closed dependency specification for the private Windows x64 CPython 3.11 runtime.
+# Resolve and download wheels only during build preparation. End-user packages contain
+# extracted modules and native files, never pip, a package manager, or a global install.
+cyminhook==0.1.6
+dearpygui==2.3.1
+iced-x86==1.21.0
+keyboard==0.13.5
+nmspy==147803.1
+packaging==26.3
+pefile==2024.8.26
+prompt-toolkit==3.0.53
+psutil==5.9.8
+pymem==1.14.0
+pymhf[gui]==0.2.4
+pymonctl==0.92
+pyrun-injected==0.2.0
+pywin32==312
+pywinbox==0.7
+pywinctl==0.4.1
+questionary==2.1.1
+regex==2024.9.11
+tomlkit==0.15.1
+typing-extensions==4.16.0
+wcwidth==0.8.4

@@ -25,10 +25,10 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Choose a CPython candidate that matches currently documented NMSpy support: CPython 3.11.9 Windows x64 embeddable.
 - [x] Record the source URL and SHA-256 checksum in the runtime manifest template.
 - [x] Add reproducible staging that downloads, verifies, extracts, and starts the private interpreter without using a global Python installation.
-- [~] Create the closed dependency specification and wheel inventory for the private interpreter.
-- [ ] Stage the exact wheels, package metadata, native extensions, DLLs, and notices beside the private interpreter.
-- [ ] Prove imports and the intended entry point with only the staged interpreter and controlled import paths.
-- [ ] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms.
+- [x] Create the closed dependency specification, verified build-tool lock, wheel inventory, hashes, and extracted license notices for the private interpreter.
+- [x] Stage the exact resolved wheels, package metadata, and native extensions beside the private interpreter using only the private wheel cache.
+- [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass under pyMHF's documented test-mode guard; its real entry point is still blocked by interactive prompts.
+- [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF import prompt is confirmed; release suppression is unresolved.
 - [ ] Test the staged runtime from paths containing spaces and non-ASCII characters.
 - [ ] Validate on a clean offline Windows environment.
 
@@ -60,4 +60,4 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
-Create a closed wheel specification for the CPython 3.11.9 private runtime. Do not run game attachment or expose delivery features while dependency closure and startup suppression remain unproven.
+Determine a supported production mechanism to suppress pyMHF's interactive startup behavior, then test the private bundle from a path containing spaces and non-ASCII characters. Do not run game attachment or expose delivery features while startup suppression remains unproven.

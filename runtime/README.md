@@ -6,4 +6,6 @@ The initial B0 candidate is the official Windows x64 embeddable CPython 3.11.9 a
 
 The final package will place the verified runtime in Electron resources, outside `app.asar`. End users must never need a global Python installation, `pip`, `uv`, or a PATH change.
 
+After `pnpm stage:runtime` and `pnpm stage:runtime:dependencies`, run `pnpm generate:runtime-manifest`. The generator uses the staged interpreter's standard library to read the closed wheel cache, extracts included upstream license notices to ignored staging output, hashes every shipped wheel and staged runtime file, and writes `runtime/staging/runtime-manifest.json`. `pip` is locked by `build-tool-lock.json`, used only to assemble dependencies, then removed before the manifest is generated. The generated manifest and notices are package inputs, not tracked source files.
+
 This candidate matches the currently documented NMSpy 3.9–3.11 support range, but it is not evidence that the game runtime, pyMHF, NMS.py, or native dependencies work together. Those compatibility proofs remain B0 acceptance gates.

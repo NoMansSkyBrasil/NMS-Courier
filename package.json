@@ -11,6 +11,8 @@
     "build": "pnpm --filter @nms-courier/desktop build",
     "build:win": "pnpm --filter @nms-courier/desktop build:win",
     "package:win": "pnpm --filter @nms-courier/desktop package:win",
-    "stage:runtime": "node runtime/scripts/stage-cpython.mjs"
+    "stage:runtime": "node runtime/scripts/stage-cpython.mjs",
+    "stage:runtime:dependencies": "node runtime/scripts/stage-runtime-dependencies.mjs",
+    "generate:runtime-manifest": "node runtime/scripts/generate-runtime-manifest.mjs"
   }
 }
