@@ -1,4 +1,12 @@
 export {
+  canTransitionOperation,
+  isTerminalOperationState,
+  nextStateAfterDispatchFailure,
+} from "./operation-state.js";
+
+export type { OperationState } from "./operation-state.js";
+
+export {
   capabilitySchema,
   controlCommandSchema,
   controlEnvelopeSchema,
