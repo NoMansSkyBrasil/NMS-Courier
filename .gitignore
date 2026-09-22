@@ -4,6 +4,7 @@ dist/
 release/
 .cache/
 *.log
+CRITICAL_ERROR.txt
 apps/desktop/out/
 apps/desktop/dist/
 apps/desktop/release/
