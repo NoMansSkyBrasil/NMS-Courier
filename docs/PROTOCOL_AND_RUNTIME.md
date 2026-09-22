@@ -1,6 +1,6 @@
 # Protocol and runtime integration
 
-Status: proposed version 1 semantics; not an implemented API.
+Status: version 1 control-plane schemas and TypeScript fixtures are implemented in `packages/protocol`; transport, authentication, runtime attachment, and mutation commands remain unimplemented.
 
 ## 1. Transport and session
 
@@ -8,7 +8,7 @@ Use a per-instance Windows Named Pipe. Restrict its ACL to the intended user/ses
 
 Frames are length-prefixed UTF-8 JSON. Define byte order, maximum byte length, read deadlines, and malformed-frame behavior in the executable contract before implementation. The parser must handle fragmented and concatenated frames. Initial limit proposal: 256 KiB per control frame; bulk catalog/image data never travels through the game bridge.
 
-Handshake includes protocol version, application/runtime versions, adapter identity, game process identity including start time, build fingerprint, session ID, and capabilities. Protocol mismatch blocks commands. Exact schemas will be implemented against this contract with cross-language fixtures.
+Handshake includes protocol version, application/runtime versions, adapter identity, game process identity including start time, build fingerprint, session ID, and capabilities. Protocol mismatch blocks commands. The current TypeScript schemas cover the control-plane handshake and non-mutating command envelope; Python parity fixtures must be added with the runtime bridge.
 
 Each game session has a new identity. Requests and events from a previous session cannot mutate or overwrite state in the new one. Sequence numbers identify missed events; reconnect fetches a snapshot before enabling actions.
 

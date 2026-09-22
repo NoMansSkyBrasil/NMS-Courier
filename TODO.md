@@ -36,7 +36,7 @@ This file is the operational source of truth for implementation order. Update it
 
 ## M1 — Real runtime connection
 
-- [ ] Define and implement the versioned private protocol and handshake fixtures.
+- [~] Define and implement the versioned private protocol and handshake fixtures. TypeScript control-plane schemas and fixtures are present; Python parity, Named Pipe framing, and authentication remain.
 - [ ] Implement authenticated local transport with a least-privilege Electron API.
 - [ ] Detect a supported game installation and correct process without modifying game data.
 - [ ] Implement runtime attachment behind capability and game-version checks.

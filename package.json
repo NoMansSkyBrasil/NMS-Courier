@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @nms-courier/desktop dev",
     "lint": "pnpm --filter @nms-courier/desktop lint",
-    "typecheck": "pnpm --filter @nms-courier/desktop typecheck",
-    "test": "pnpm --filter @nms-courier/desktop test",
+    "typecheck": "pnpm --filter @nms-courier/desktop exec tsc --noEmit -p ../../packages/protocol/tsconfig.json && pnpm --filter @nms-courier/desktop typecheck",
+    "test": "pnpm --dir apps/desktop exec vitest run --root ../.. packages/protocol/tests && pnpm --filter @nms-courier/desktop test",
     "build": "pnpm --filter @nms-courier/desktop build",
     "build:win": "pnpm --filter @nms-courier/desktop build:win",
     "package:win": "pnpm --filter @nms-courier/desktop package:win",
