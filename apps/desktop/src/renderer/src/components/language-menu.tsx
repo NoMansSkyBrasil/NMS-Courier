@@ -16,12 +16,12 @@ const languages: { code: Locale; label: string }[] = [
 ]
 
 export function LanguageMenu(): React.JSX.Element {
-  const { locale, setLocale } = useLocale()
+  const { locale, setLocale, copy } = useLocale()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" size="icon" aria-label="Change language" />}
+        render={<Button variant="ghost" size="icon" aria-label={copy.controls.changeLanguage} />}
       >
         <LanguagesIcon />
       </DropdownMenuTrigger>

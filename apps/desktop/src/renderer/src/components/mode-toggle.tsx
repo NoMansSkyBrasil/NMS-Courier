@@ -2,6 +2,7 @@ import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { Button } from '@renderer/components/ui/button'
+import { useLocale } from '@renderer/i18n/locale-provider'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +12,12 @@ import {
 
 export function ModeToggle(): React.JSX.Element {
   const { setTheme } = useTheme()
+  const { copy } = useLocale()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" size="icon" aria-label="Change theme" />}
+        render={<Button variant="ghost" size="icon" aria-label={copy.controls.changeTheme} />}
       >
         <SunIcon className="scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90" />
         <MoonIcon className="absolute scale-0 rotate-90 transition-transform dark:scale-100 dark:rotate-0" />
@@ -23,15 +25,15 @@ export function ModeToggle(): React.JSX.Element {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
           <SunIcon />
-          Light
+          {copy.controls.light}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
           <MoonIcon />
-          Dark
+          {copy.controls.dark}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
           <MonitorIcon />
-          System
+          {copy.controls.system}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

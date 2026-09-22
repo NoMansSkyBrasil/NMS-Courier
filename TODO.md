@@ -16,7 +16,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Restrict renderer access with context isolation, sandboxing, disabled Node integration, denied navigation, and a narrow status API.
 - [x] Add the official shadcn Base UI dashboard and sidebar shell with Lucide icons.
 - [x] Add system, light, and dark theme selection.
-- [~] Migrate all visible interface strings into `pt-BR`, `en-US`, and `es-ES` catalogs. The overview and foundation cards are translated; sidebar and menu strings remain.
+- [x] Migrate all visible interface strings into `pt-BR`, `en-US`, and `es-ES` catalogs, including navigation, language selection, and theme selection.
 - [x] Build the Windows x64 unpacked application and ZIP.
 - [x] Extract the ZIP to a temporary directory and verify its executable starts without Vite.
 

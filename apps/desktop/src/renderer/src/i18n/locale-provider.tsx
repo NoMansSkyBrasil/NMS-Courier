@@ -13,6 +13,13 @@ type Translation = {
     unavailable: string
     version: string
   }
+  controls: {
+    changeLanguage: string
+    changeTheme: string
+    light: string
+    dark: string
+    system: string
+  }
 }
 
 type LocaleContextValue = {
@@ -63,6 +70,13 @@ const copy: Record<Locale, Translation> = {
       bundled: 'Incluído',
       unavailable: 'Indisponível',
       version: 'Runtime privado {version}'
+    },
+    controls: {
+      changeLanguage: 'Alterar idioma',
+      changeTheme: 'Alterar tema',
+      light: 'Claro',
+      dark: 'Escuro',
+      system: 'Sistema'
     }
   },
   'en-US': {
@@ -104,6 +118,13 @@ const copy: Record<Locale, Translation> = {
       bundled: 'Bundled',
       unavailable: 'Unavailable',
       version: 'Private runtime {version}'
+    },
+    controls: {
+      changeLanguage: 'Change language',
+      changeTheme: 'Change theme',
+      light: 'Light',
+      dark: 'Dark',
+      system: 'System'
     }
   },
   'es-ES': {
@@ -145,6 +166,13 @@ const copy: Record<Locale, Translation> = {
       bundled: 'Incluido',
       unavailable: 'No disponible',
       version: 'Runtime privado {version}'
+    },
+    controls: {
+      changeLanguage: 'Cambiar idioma',
+      changeTheme: 'Cambiar tema',
+      light: 'Claro',
+      dark: 'Oscuro',
+      system: 'Sistema'
     }
   }
 }
