@@ -21,6 +21,7 @@ import {
   useSidebar,
 } from "@renderer/components/ui/sidebar"
 import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import { useLocale } from '@renderer/i18n/locale-provider'
 
 export function NavUser({
   user,
@@ -32,6 +33,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { copy } = useLocale()
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -76,7 +78,7 @@ export function NavUser({
               <DropdownMenuItem>
                 <SparklesIcon
                 />
-                Upgrade to Pro
+                {copy.sidebar.upgrade}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -84,24 +86,24 @@ export function NavUser({
               <DropdownMenuItem>
                 <BadgeCheckIcon
                 />
-                Account
+                {copy.sidebar.account}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCardIcon
                 />
-                Billing
+                {copy.sidebar.billing}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BellIcon
                 />
-                Notifications
+                {copy.sidebar.notifications}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOutIcon
               />
-              Log out
+              {copy.sidebar.logOut}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

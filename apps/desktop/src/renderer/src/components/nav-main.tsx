@@ -16,6 +16,7 @@ import {
   SidebarMenuSubItem,
 } from "@renderer/components/ui/sidebar"
 import { ChevronRightIcon } from "lucide-react"
+import { useLocale } from '@renderer/i18n/locale-provider'
 
 export function NavMain({
   items,
@@ -31,9 +32,10 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const { copy } = useLocale()
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{copy.sidebar.platform}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

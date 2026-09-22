@@ -14,12 +14,13 @@ import {
   SidebarRail,
 } from "@renderer/components/ui/sidebar"
 import { GalleryVerticalEndIcon, AudioLinesIcon, TerminalIcon, TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, FrameIcon, PieChartIcon, MapIcon } from "lucide-react"
+import { useLocale } from '@renderer/i18n/locale-provider'
 
-// This is sample data.
-const data = {
+function getData(copy: ReturnType<typeof useLocale>['copy']) {
+  return {
   user: {
     name: "NMS Courier",
-    email: "Local desktop foundation",
+    email: copy.sidebar.localDesktopFoundation,
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
@@ -29,15 +30,15 @@ const data = {
         <GalleryVerticalEndIcon
         />
       ),
-      plan: "Foundation",
+      plan: copy.sidebar.foundation,
     },
     {
-      name: "Delivery Runtime",
+      name: copy.sidebar.deliveryRuntime,
       logo: (
         <AudioLinesIcon
         />
       ),
-      plan: "Planned",
+      plan: copy.sidebar.planned,
     },
     {
       name: "Save Editor",
@@ -45,12 +46,12 @@ const data = {
         <TerminalIcon
         />
       ),
-      plan: "Future area",
+      plan: copy.sidebar.futureArea,
     },
   ],
   navMain: [
     {
-      title: "Overview",
+      title: copy.sidebar.overview,
       url: "#",
       icon: (
         <TerminalSquareIcon
@@ -59,21 +60,21 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "Foundation",
+          title: copy.sidebar.foundation,
           url: "#",
         },
         {
-          title: "Local status",
+          title: copy.sidebar.localStatus,
           url: "#",
         },
         {
-          title: "Implementation plan",
+          title: copy.sidebar.implementationPlan,
           url: "#",
         },
       ],
     },
     {
-      title: "Delivery Runtime",
+      title: copy.sidebar.deliveryRuntime,
       url: "#",
       icon: (
         <BotIcon
@@ -81,21 +82,21 @@ const data = {
       ),
       items: [
         {
-          title: "Connections",
+          title: copy.sidebar.connections,
           url: "#",
         },
         {
-          title: "Private protocol",
+          title: copy.sidebar.privateProtocol,
           url: "#",
         },
         {
-          title: "Activity log",
+          title: copy.sidebar.activityLog,
           url: "#",
         },
       ],
     },
     {
-      title: "Tool Catalog",
+      title: copy.sidebar.toolCatalog,
       url: "#",
       icon: (
         <BookOpenIcon
@@ -103,25 +104,25 @@ const data = {
       ),
       items: [
         {
-          title: "Delivery tools",
+          title: copy.sidebar.deliveryTools,
           url: "#",
         },
         {
-          title: "Known data",
+          title: copy.sidebar.knownData,
           url: "#",
         },
         {
-          title: "Help",
+          title: copy.sidebar.help,
           url: "#",
         },
         {
-          title: "Release notes",
+          title: copy.sidebar.releaseNotes,
           url: "#",
         },
       ],
     },
     {
-      title: "Application",
+      title: copy.sidebar.application,
       url: "#",
       icon: (
         <Settings2Icon
@@ -129,19 +130,19 @@ const data = {
       ),
       items: [
         {
-          title: "General",
+          title: copy.sidebar.general,
           url: "#",
         },
         {
-          title: "Appearance",
+          title: copy.sidebar.appearance,
           url: "#",
         },
         {
-          title: "Language",
+          title: copy.sidebar.language,
           url: "#",
         },
         {
-          title: "About",
+          title: copy.sidebar.about,
           url: "#",
         },
       ],
@@ -149,7 +150,7 @@ const data = {
   ],
   projects: [
     {
-      name: "Protocol",
+      name: copy.sidebar.protocol,
       url: "#",
       icon: (
         <FrameIcon
@@ -157,7 +158,7 @@ const data = {
       ),
     },
     {
-      name: "Distribution",
+      name: copy.sidebar.distribution,
       url: "#",
       icon: (
         <PieChartIcon
@@ -173,9 +174,12 @@ const data = {
       ),
     },
   ],
+  }
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { copy } = useLocale()
+  const data = getData(copy)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

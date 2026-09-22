@@ -7,6 +7,7 @@ type CardCopy = readonly [string, string, string, string, string]
 type Translation = {
   overview: string
   cards: readonly [CardCopy, CardCopy, CardCopy, CardCopy]
+  sidebar: Record<string, string>
 }
 
 type LocaleContextValue = {
@@ -49,7 +50,10 @@ const copy: Record<Locale, Translation> = {
         'Separado do runtime de entrega',
         'Nenhum save é acessado nesta versão'
       ]
-    ]
+    ],
+    sidebar: {
+      platform: 'Plataforma', projects: 'Projetos', more: 'Mais', viewProject: 'Ver projeto', shareProject: 'Compartilhar projeto', deleteProject: 'Excluir projeto', teams: 'Áreas', addTeam: 'Adicionar área', foundation: 'Fundação', planned: 'Planejado', futureArea: 'Área futura', deliveryRuntime: 'Runtime de entrega', overview: 'Visão geral', localStatus: 'Status local', implementationPlan: 'Plano de implementação', connections: 'Conexões', privateProtocol: 'Protocolo privado', activityLog: 'Registro de atividade', toolCatalog: 'Catálogo de ferramentas', deliveryTools: 'Ferramentas de entrega', knownData: 'Dados conhecidos', help: 'Ajuda', releaseNotes: 'Notas da versão', application: 'Aplicativo', general: 'Geral', appearance: 'Aparência', language: 'Idioma', about: 'Sobre', protocol: 'Protocolo', distribution: 'Distribuição', localDesktopFoundation: 'Base local para desktop', upgrade: 'Atualizar para Pro', account: 'Conta', billing: 'Cobrança', notifications: 'Notificações', logOut: 'Sair'
+    }
   },
   'en-US': {
     overview: 'Overview',
@@ -82,7 +86,10 @@ const copy: Record<Locale, Translation> = {
         'Kept separate from delivery runtime',
         'No save file is accessed in this build'
       ]
-    ]
+    ],
+    sidebar: {
+      platform: 'Platform', projects: 'Projects', more: 'More', viewProject: 'View Project', shareProject: 'Share Project', deleteProject: 'Delete Project', teams: 'Areas', addTeam: 'Add area', foundation: 'Foundation', planned: 'Planned', futureArea: 'Future area', deliveryRuntime: 'Delivery Runtime', overview: 'Overview', localStatus: 'Local status', implementationPlan: 'Implementation plan', connections: 'Connections', privateProtocol: 'Private protocol', activityLog: 'Activity log', toolCatalog: 'Tool Catalog', deliveryTools: 'Delivery tools', knownData: 'Known data', help: 'Help', releaseNotes: 'Release notes', application: 'Application', general: 'General', appearance: 'Appearance', language: 'Language', about: 'About', protocol: 'Protocol', distribution: 'Distribution', localDesktopFoundation: 'Local desktop foundation', upgrade: 'Upgrade to Pro', account: 'Account', billing: 'Billing', notifications: 'Notifications', logOut: 'Log out'
+    }
   },
   'es-ES': {
     overview: 'Resumen',
@@ -115,7 +122,10 @@ const copy: Record<Locale, Translation> = {
         'Separado del runtime de entrega',
         'No se accede a ningún guardado en esta compilación'
       ]
-    ]
+    ],
+    sidebar: {
+      platform: 'Plataforma', projects: 'Proyectos', more: 'Más', viewProject: 'Ver proyecto', shareProject: 'Compartir proyecto', deleteProject: 'Eliminar proyecto', teams: 'Áreas', addTeam: 'Añadir área', foundation: 'Base', planned: 'Planificado', futureArea: 'Área futura', deliveryRuntime: 'Runtime de entrega', overview: 'Resumen', localStatus: 'Estado local', implementationPlan: 'Plan de implementación', connections: 'Conexiones', privateProtocol: 'Protocolo privado', activityLog: 'Registro de actividad', toolCatalog: 'Catálogo de herramientas', deliveryTools: 'Herramientas de entrega', knownData: 'Datos conocidos', help: 'Ayuda', releaseNotes: 'Notas de la versión', application: 'Aplicación', general: 'General', appearance: 'Apariencia', language: 'Idioma', about: 'Acerca de', protocol: 'Protocolo', distribution: 'Distribución', localDesktopFoundation: 'Base local de escritorio', upgrade: 'Actualizar a Pro', account: 'Cuenta', billing: 'Facturación', notifications: 'Notificaciones', logOut: 'Cerrar sesión'
+    }
   }
 }
 

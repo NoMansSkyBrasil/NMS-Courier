@@ -17,6 +17,7 @@ import {
   useSidebar,
 } from "@renderer/components/ui/sidebar"
 import { MoreHorizontalIcon, FolderIcon, ArrowRightIcon, Trash2Icon } from "lucide-react"
+import { useLocale } from '@renderer/i18n/locale-provider'
 
 export function NavProjects({
   projects,
@@ -28,9 +29,10 @@ export function NavProjects({
   }[]
 }) {
   const { isMobile } = useSidebar()
+  const { copy } = useLocale()
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>{copy.sidebar.projects}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -49,7 +51,7 @@ export function NavProjects({
               >
                 <MoreHorizontalIcon
                 />
-                <span className="sr-only">More</span>
+                <span className="sr-only">{copy.sidebar.more}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-fit"
@@ -59,18 +61,18 @@ export function NavProjects({
                 <DropdownMenuItem>
                   <FolderIcon
                   />
-                  <span>View Project</span>
+                  <span>{copy.sidebar.viewProject}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <ArrowRightIcon
                   />
-                  <span>Share Project</span>
+                  <span>{copy.sidebar.shareProject}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
                   <Trash2Icon
                   />
-                  <span>Delete Project</span>
+                  <span>{copy.sidebar.deleteProject}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -79,7 +81,7 @@ export function NavProjects({
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <MoreHorizontalIcon className="text-sidebar-foreground/70" />
-            <span>More</span>
+            <span>{copy.sidebar.more}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

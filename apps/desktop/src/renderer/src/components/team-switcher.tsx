@@ -17,6 +17,7 @@ import {
   useSidebar,
 } from "@renderer/components/ui/sidebar"
 import { ChevronsUpDownIcon, PlusIcon } from "lucide-react"
+import { useLocale } from '@renderer/i18n/locale-provider'
 
 export function TeamSwitcher({
   teams,
@@ -28,6 +29,7 @@ export function TeamSwitcher({
   }[]
 }) {
   const { isMobile } = useSidebar()
+  const { copy } = useLocale()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
   if (!activeTeam) {
     return null
@@ -61,7 +63,7 @@ export function TeamSwitcher({
           >
             <DropdownMenuGroup>
               <DropdownMenuLabel className="text-xs text-muted-foreground">
-                Teams
+                {copy.sidebar.teams}
               </DropdownMenuLabel>
               {teams.map((team, index) => (
                 <DropdownMenuItem
@@ -84,7 +86,7 @@ export function TeamSwitcher({
                   <PlusIcon className="size-4" />
                 </div>
                 <div className="font-medium text-muted-foreground">
-                  Add team
+                  {copy.sidebar.addTeam}
                 </div>
               </DropdownMenuItem>
             </DropdownMenuGroup>

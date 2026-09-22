@@ -67,7 +67,8 @@ export default defineConfig(
       'src/renderer/src/hooks/use-mobile.ts',
       'src/renderer/src/components/app-sidebar.tsx',
       'src/renderer/src/components/section-cards.tsx',
-      'src/renderer/src/components/site-header.tsx'
+      'src/renderer/src/components/site-header.tsx',
+      'src/renderer/src/i18n/locale-provider.tsx'
     ],
     rules: {
       'prettier/prettier': 'off'
