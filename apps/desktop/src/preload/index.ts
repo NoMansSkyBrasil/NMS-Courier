@@ -10,6 +10,8 @@ const nms = {
   getInstallationStatus: () => ipcRenderer.invoke('nms:get-installation-status'),
   getGameStatus: () => ipcRenderer.invoke('nms:get-game-status'),
   getBuildSupport: () => ipcRenderer.invoke('nms:get-build-support'),
+  getRuntimeDiagnosticsStatus: () => ipcRenderer.invoke('nms:get-runtime-diagnostics-status'),
+  startRuntimeDiagnostics: () => ipcRenderer.invoke('nms:start-runtime-diagnostics'),
   getDeliveryReadiness: () => ipcRenderer.invoke('nms:get-delivery-readiness'),
   selectInstallation: () => ipcRenderer.invoke('nms:select-installation'),
   searchCatalog: (request: {

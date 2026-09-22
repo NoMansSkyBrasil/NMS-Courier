@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "builds": [
+    {
+      "executableSha256": "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb",
+      "buildLabel": "Steam build 179666",
+      "mode": "diagnostics_only"
+    }
+  ]
+}

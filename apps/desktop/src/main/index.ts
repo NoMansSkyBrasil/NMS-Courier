@@ -8,10 +8,12 @@ import { GameStatusService } from './game-status-service'
 import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
 import { resolveBuildSupport } from './build-support'
 import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-resources'
+import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 const gameStatusService = new GameStatusService()
+let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
@@ -21,6 +23,15 @@ function getCatalogRepository(): CatalogRepository {
 function getInstallationService(): InstallationService {
   installationService ??= new InstallationService(app.getPath('userData'))
   return installationService
+}
+
+function getRuntimeDiagnosticsService(): RuntimeDiagnosticsService {
+  runtimeDiagnosticsService ??= new RuntimeDiagnosticsService(
+    getRuntimeResourceContext(),
+    app.getPath('userData'),
+    gameStatusService
+  )
+  return runtimeDiagnosticsService
 }
 
 function parseCatalogSearchRequest(value: unknown): {
@@ -97,6 +108,20 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  mainWindow.on('close', (event) => {
+    if (!getRuntimeDiagnosticsService().hasActiveHost()) return
+    event.preventDefault()
+    dialog.showMessageBoxSync(mainWindow, {
+      type: 'warning',
+      title: 'Runtime diagnostics are active',
+      message: 'Close No Man’s Sky before closing NMS Courier.',
+      detail:
+        'The diagnostic module cannot be unloaded safely from the running game. It has no delivery commands. Close the game first; this window will remain open until its runtime host exits.',
+      buttons: ['OK'],
+      noLink: true
+    })
+  })
+
   mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
   mainWindow.webContents.on('will-navigate', (event) => event.preventDefault())
 
@@ -121,6 +146,15 @@ app.whenReady().then(() => {
   )
   ipcMain.handle('nms:get-build-support', () =>
     resolveBuildSupport(getInstallationService().getStatus(), getRuntimeResourceContext())
+  )
+  ipcMain.handle('nms:get-runtime-diagnostics-status', () =>
+    getRuntimeDiagnosticsService().getStatus()
+  )
+  ipcMain.handle('nms:start-runtime-diagnostics', () =>
+    getRuntimeDiagnosticsService().start(
+      getInstallationService().getSelectedRootPath(),
+      getInstallationService().getStatus()
+    )
   )
   ipcMain.handle('nms:get-delivery-readiness', async () => {
     const installation = getInstallationService().getStatus()

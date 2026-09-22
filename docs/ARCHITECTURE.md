@@ -124,7 +124,7 @@ Status subscriptions deliver snapshots/events into narrowly scoped stores. Inclu
 
 Loading a save, returning to the menu, changing session, or restarting the game invalidates old game references and pending intents. Recheck readiness at execution time. Never keep a raw pointer solely because it was valid when the UI was clicked.
 
-On application close: stop accepting work, cancel unstarted commands where possible, close subscriptions, flush application logs, and stop owned out-of-process workers. Do not terminate the game. Do not forcibly unload an injected interpreter or hook still in use. Runtime may need to remain inert until game exit. Installation replacement/removal must account for loaded DLLs.
+On application close: stop accepting work, cancel unstarted commands where possible, close subscriptions, flush application logs, and stop owned out-of-process workers. Do not terminate the game. Do not forcibly unload an injected interpreter or hook still in use. The current diagnostics path blocks window close while its host is active and requires the game to close first; this is a conservative lifecycle guard, not proof of safe hook unloading. Installation replacement/removal must account for loaded DLLs.
 
 ## 6. Performance budgets
 

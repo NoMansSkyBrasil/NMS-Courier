@@ -7,6 +7,7 @@ const stagingRoot = resolve(repositoryRoot, 'runtime', 'staging')
 const manifestPath = resolve(stagingRoot, 'runtime-manifest.json')
 const defaultsPath = resolve(repositoryRoot, 'runtime', 'config', 'runtime-defaults.toml')
 const buildRegistryPath = resolve(repositoryRoot, 'runtime', 'config', 'supported-builds.json')
+const diagnosticBuildRegistryPath = resolve(repositoryRoot, 'runtime', 'config', 'diagnostic-builds.json')
 const resourcesRoot = resolve(repositoryRoot, 'apps', 'desktop', 'resources', 'runtime')
 
 async function sha256(path) {
@@ -61,8 +62,31 @@ function hasValidBuildRegistry(registry) {
   })
 }
 
+function hasValidDiagnosticBuildRegistry(registry) {
+  if (!registry || registry.schemaVersion !== 1 || !Array.isArray(registry.builds)) return false
+  const fingerprints = new Set()
+  return registry.builds.every((build) => {
+    if (
+      !build ||
+      typeof build !== 'object' ||
+      typeof build.executableSha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/i.test(build.executableSha256) ||
+      typeof build.buildLabel !== 'string' ||
+      build.buildLabel.trim().length === 0 ||
+      build.buildLabel.length > 160 ||
+      build.mode !== 'diagnostics_only'
+    ) {
+      return false
+    }
+    const fingerprint = build.executableSha256.toLowerCase()
+    if (fingerprints.has(fingerprint)) return false
+    fingerprints.add(fingerprint)
+    return true
+  })
+}
+
 async function main() {
-  if (!existsSync(manifestPath) || !existsSync(defaultsPath) || !existsSync(buildRegistryPath)) {
+  if (!existsSync(manifestPath) || !existsSync(defaultsPath) || !existsSync(buildRegistryPath) || !existsSync(diagnosticBuildRegistryPath)) {
     throw new Error('Generate the private runtime manifest before preparing Electron resources.')
   }
 
@@ -73,6 +97,10 @@ async function main() {
   const buildRegistry = JSON.parse(await fs.readFile(buildRegistryPath, 'utf8'))
   if (!hasValidBuildRegistry(buildRegistry)) {
     throw new Error('The verified-build registry is incomplete or incompatible.')
+  }
+  const diagnosticBuildRegistry = JSON.parse(await fs.readFile(diagnosticBuildRegistryPath, 'utf8'))
+  if (!hasValidDiagnosticBuildRegistry(diagnosticBuildRegistry)) {
+    throw new Error('The diagnostics-only build registry is incompatible.')
   }
   await validateManifest(manifest)
 
@@ -86,6 +114,7 @@ async function main() {
   await fs.mkdir(resolve(resourcesRoot, 'config'), { recursive: true })
   await fs.copyFile(defaultsPath, resolve(resourcesRoot, 'config', 'runtime-defaults.toml'))
   await fs.copyFile(buildRegistryPath, resolve(resourcesRoot, 'config', 'supported-builds.json'))
+  await fs.copyFile(diagnosticBuildRegistryPath, resolve(resourcesRoot, 'config', 'diagnostic-builds.json'))
 
   const markerPath = resolve(resourcesRoot, 'runtime-manifest.json')
   if (!existsSync(markerPath)) {

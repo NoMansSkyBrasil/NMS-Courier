@@ -60,12 +60,36 @@ function hasValidBuildRegistry(registry) {
   })
 }
 
+function hasValidDiagnosticBuildRegistry(registry) {
+  if (!registry || registry.schemaVersion !== 1 || !Array.isArray(registry.builds)) return false
+  const fingerprints = new Set()
+  return registry.builds.every((build) => {
+    if (
+      !build ||
+      typeof build !== 'object' ||
+      typeof build.executableSha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/i.test(build.executableSha256) ||
+      typeof build.buildLabel !== 'string' ||
+      build.buildLabel.trim().length === 0 ||
+      build.buildLabel.length > 160 ||
+      build.mode !== 'diagnostics_only'
+    ) {
+      return false
+    }
+    const fingerprint = build.executableSha256.toLowerCase()
+    if (fingerprints.has(fingerprint)) return false
+    fingerprints.add(fingerprint)
+    return true
+  })
+}
+
 async function main() {
   const manifestPath = resolve(runtimeRoot, 'runtime-manifest.json')
   const interpreter = resolve(runtimeRoot, 'python', 'python.exe')
   const defaults = resolve(runtimeRoot, 'config', 'runtime-defaults.toml')
   const buildRegistry = resolve(runtimeRoot, 'config', 'supported-builds.json')
-  if (!existsSync(manifestPath) || !existsSync(interpreter) || !existsSync(defaults) || !existsSync(buildRegistry)) {
+  const diagnosticBuildRegistry = resolve(runtimeRoot, 'config', 'diagnostic-builds.json')
+  if (!existsSync(manifestPath) || !existsSync(interpreter) || !existsSync(defaults) || !existsSync(buildRegistry) || !existsSync(diagnosticBuildRegistry)) {
     throw new Error('The packaged private runtime resource bundle is incomplete.')
   }
 
@@ -77,13 +101,17 @@ async function main() {
   if (!hasValidBuildRegistry(builds)) {
     throw new Error('The packaged verified-build registry is incompatible.')
   }
+  const diagnosticBuilds = JSON.parse(await fs.readFile(diagnosticBuildRegistry, 'utf8'))
+  if (!hasValidDiagnosticBuildRegistry(diagnosticBuilds)) {
+    throw new Error('The packaged diagnostics-only build registry is incompatible.')
+  }
   await verifyManifest(manifest)
 
   execFileSync(interpreter, [
     '-I',
     '-B',
     '-c',
-    'import importlib.util, nmspy, pymhf; assert importlib.util.find_spec("dearpygui") is None; assert importlib.util.find_spec("fastapi") is None; assert importlib.util.find_spec("uvicorn") is None; print("Packaged private runtime verification passed")'
+    'import importlib.util, nmspy, nms_courier_runtime.authentication, nms_courier_runtime.framing, pymhf; assert importlib.util.find_spec("dearpygui") is None; assert importlib.util.find_spec("fastapi") is None; assert importlib.util.find_spec("uvicorn") is None; print("Packaged private runtime verification passed")'
   ], {
     stdio: 'inherit',
     env: {

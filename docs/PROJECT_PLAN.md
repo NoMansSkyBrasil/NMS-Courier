@@ -35,7 +35,7 @@ The M0 desktop foundation exists: the pnpm workspace, Electron main/preload/rend
 
 B0 has a private CPython 3.11.9 Windows x64 bundle, closed wheel specification, hash-verified staging, license inventory, and Electron resource packaging proof. The packaged ZIP contains the private interpreter, runtime manifest, and non-interactive runtime defaults. The private runtime is resolved only by the Electron main process; renderer code receives only its availability and version.
 
-The B0 clean offline Windows validation and native dependency audit remain open. No runtime attachment, game access, delivery action, catalog extraction, or save access has been implemented. Future runtime and delivery behavior remains unverified until the relevant acceptance gates pass.
+The B0 clean offline Windows validation and native dependency audit remain open. A diagnostics-only runtime bridge is implemented with a local Windows pipe handshake and a main-loop callback signal, but live attachment and callback in NMS remain unverified. No delivery action, catalog extraction, or save access has been implemented. Future runtime and delivery behavior remains unverified until the relevant acceptance gates pass.
 
 ## 3. Documentation ownership
 

@@ -38,6 +38,34 @@ declare global {
         buildLabel: string | null
         adapterVersion: string | null
       }>
+      getRuntimeDiagnosticsStatus: () => Promise<{
+        state:
+          | 'not_started'
+          | 'checking'
+          | 'starting'
+          | 'host_ready'
+          | 'bridge_authenticated'
+          | 'callback_ready'
+          | 'failed'
+          | 'ended'
+        reasonCode: string | null
+        processId: number | null
+        buildLabel: string | null
+      }>
+      startRuntimeDiagnostics: () => Promise<{
+        state:
+          | 'not_started'
+          | 'checking'
+          | 'starting'
+          | 'host_ready'
+          | 'bridge_authenticated'
+          | 'callback_ready'
+          | 'failed'
+          | 'ended'
+        reasonCode: string | null
+        processId: number | null
+        buildLabel: string | null
+      }>
       getDeliveryReadiness: () => Promise<{
         available: false
         reasonCode:

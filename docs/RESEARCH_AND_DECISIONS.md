@@ -1,6 +1,6 @@
 # Research evidence and architecture decisions
 
-Status: source/documentation research, not runtime verification. Observations below were collected on 2026-09-21 unless stated otherwise.
+Status: source research and local transport/packaging evidence, not live game runtime verification. Observations below were collected on 2026-09-21 unless stated otherwise.
 
 ## 1. Evidence rules
 
@@ -33,6 +33,7 @@ Record exact revisions for game-related research. Verify pinned dependency artif
 | vectorcmdr/NMSE local checkout, inspected 2026-09-22 | Its extractor separates filtered PAK reading, MBIN conversion, localization generation, typed parsing, and DDS-derived icon generation; its documentation also describes title, reward, recipe, customization, creature, and Space POI data sets | Adopt only the architectural lessons: staged jobs with explicit timeout/coverage, raw localization keys beside resolved strings, and an independently reviewed local image cache. Do not import its code, generated catalog data, tools, or save behavior. Reject its runtime tool downloads because NMS Courier packages reviewed dependencies before distribution. |
 | Local Steam installation, inspected 2026-09-22 | `Binaries/NMS.exe` reports file and product version `179666`; SHA-256 is `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb` | This is an observed candidate build, not a supported runtime build. No adapter, injection, or game mutation is authorized by this observation alone. |
 | Private runtime import probe, inspected 2026-09-22 | The bundled CPython 3.11.9 imported `nmspy`, `pymhf`, and `pyrun_injected` using only packaged resources; `fastapi` and `uvicorn` were absent | Confirms a limited offline import gate. It does not prove DLL closure on a clean machine, attachment, listener behavior after injection, or game compatibility. |
+| Local runtime bridge package, tested 2026-09-22 | Windows x64 ZIP built; manifest records 20 wheels and 1,282 runtime files; packaged import verification, five Python protocol tests, and a current-user Windows Named Pipe loopback passed with private interpreters | Validates local packaging and transport only. No live NMS attachment/main-loop callback, clean offline machine, or delivery function has been verified. |
 
 NMS.py and pyMHF advertise MIT in inspected metadata. The original project intends MIT. Audit all incorporated code, transitive binaries, licenses, and redistribution requirements before release.
 

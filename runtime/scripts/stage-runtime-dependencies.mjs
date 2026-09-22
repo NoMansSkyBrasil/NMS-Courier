@@ -8,6 +8,7 @@ const runtimeRoot = resolve(repositoryRoot, 'runtime')
 const stagingRoot = resolve(runtimeRoot, 'staging', 'cpython')
 const wheelRoot = resolve(runtimeRoot, 'vendor', 'wheels')
 const requirementsPath = resolve(runtimeRoot, 'requirements.runtime.txt')
+const runtimeSource = resolve(runtimeRoot, 'src', 'nms_courier_runtime')
 const buildToolLockPath = resolve(runtimeRoot, 'build-tool-lock.json')
 const sitePackages = resolve(stagingRoot, 'Lib', 'site-packages')
 const pymhfInitPath = resolve(sitePackages, 'pymhf', '__init__.py')
@@ -175,11 +176,12 @@ async function main() {
   )
   await applyPymhfNoninteractiveStartupPatch()
   await applyPymhfExecutionServerPatch()
+  await fs.cp(runtimeSource, resolve(sitePackages, 'nms_courier_runtime'), { recursive: true })
 
   execFileSync(interpreter, [
     '-I',
     '-c',
-    'import cyminhook, nmspy, pymem, pymhf, pyrun_injected, win32api; print("Private runtime imports passed")'
+    'import cyminhook, nmspy, nms_courier_runtime.authentication, nms_courier_runtime.framing, pymem, pymhf, pyrun_injected, win32api; print("Private runtime imports passed")'
   ], {
     stdio: 'inherit',
     env: {

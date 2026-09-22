@@ -1,6 +1,6 @@
 # Implementation sequence and validation gates
 
-Status: implementation plan. M0 foundation and B0 private-runtime packaging proof have code and validation evidence; M1 runtime connection and M2 delivery execution remain unimplemented.
+Status: implementation plan. M0 foundation and local B0 packaging proof have code and validation evidence. M1 diagnostics bridge implementation is in progress pending live attachment and callback evidence; M2 native delivery execution remains unimplemented.
 
 ## 1. Working method
 
@@ -77,17 +77,17 @@ If a candidate fails, investigate the alternatives in DISTRIBUTION.md. Do not pa
 
 ## 5. M1: real runtime connection
 
-Progress: the desktop now supports an explicit native-folder selection, validates the expected Steam executable path (`Binaries/NMS.exe`) and game-data layout, records a SHA-256 fingerprint in its private user-data profile, invalidates that selection when the executable changes, and observes an `NMS.exe` process only when its executable path matches the selection. It checks the selected fingerprint against a packaged, versioned verified-build registry. The registry intentionally has no entries until a build and adapter are evidenced, so every current build remains blocked. Runtime startup, injection, handshake, and delivery remain unimplemented.
+Progress: the desktop supports explicit installation selection, executable fingerprinting, and exact-process observation. A diagnostics-only path now rehashes the selected executable, verifies PID/path/start time again in the private host, checks a separate exact-hash diagnostics registry, starts the bundled CPython host, creates a current-user/remote-rejecting pipe, authenticates the in-process peer with an ephemeral HMAC challenge, and reports a callback-ready event from the NMS.py main-loop hook. The desktop UI exposes this read-only path separately from delivery and keeps the app open until the game exits because safe hook unloading is not established. Normal game exit is reported as an ended diagnostic session, while pipe/protocol failures remain failures. Five Python protocol tests and a real Windows Named Pipe loopback pass both with the staged interpreter and the packaged interpreter. The Windows x64 ZIP was built and the packaged runtime verifier passed. A live in-game callback and rendered Electron screenshot are still unverified. `supported-builds.json` remains empty, so delivery is still blocked for every build.
 
-1. Detect selected installation and exact game process identity.
-2. Identify supported build before injecting/loading game integration.
-3. Start the packaged private launcher through an approved path.
-4. Establish restricted Named Pipe and versioned handshake.
-5. Expose real build, runtime, player readiness, and capability state.
-6. Implement session invalidation, bounded reconnect backoff, local logs, and graceful close behavior.
-7. Test menu/loading/game exit, wrong protocol, unknown build, duplicate app launch, and existing runtime state.
+1. Detect selected installation and exact game process identity. (Implemented; tests remain part of this package.)
+2. Identify supported build before injecting/loading game integration. (Delivery registry fail-closed; diagnostics has a separate exact-hash allowlist.)
+3. Start the packaged private launcher through an approved path. (Diagnostics host implemented; package validation pending.)
+4. Establish restricted Named Pipe and versioned handshake. (Diagnostics-only handshake implemented; end-to-end test pending.)
+5. Expose real build, runtime, player readiness, and capability state. (Only host/handshake/callback states exist; player readiness remains unknown.)
+6. Implement session invalidation, bounded reconnect backoff, local logs, and graceful close behavior. (Close is blocked while injected host is active; reconnect and full session invalidation remain open.)
+7. Test menu/loading/game exit, wrong protocol, unknown build, duplicate app launch, and existing runtime state. (Pending.)
 
-Acceptance: the correct live game instance is connected using the private bundle. A simulator only validates transport tests, not this milestone.
+Acceptance: the correct live game instance is connected using the private bundle. A simulator only validates transport tests, not this milestone. The current diagnostics-only implementation is not accepted as M1 until live in-game callback and private-package checks pass.
 
 ## 6. M2: first real delivery
 
@@ -166,8 +166,8 @@ These are script names to implement with their owning work package, not commands
 | uv run --frozen pytest         | Python tests, from runtime directory                            | B0                              |
 | uv run --frozen ruff check .   | Python lint, from runtime directory                             | B0                              |
 | uv run --frozen mypy src       | Python type checking, from runtime directory                    | B0                              |
-| pnpm runtime:bundle            | Assemble approved private runtime                               | B0                              |
-| pnpm runtime:verify            | Verify bundle outside development environment                   | B0                              |
+| pnpm bundle:runtime            | Assemble approved private runtime                               | B0                              |
+| pnpm test:runtime:bridge       | Run protocol and Windows Named Pipe loopback tests              | M1 diagnostics                 |
 | pnpm package:win               | Produce full Windows artifacts                                  | M0 shell; full payload at B0/M1 |
 | pnpm verify:package            | Check artifact contents/launch/manifest                         | M0+, progressively expanded     |
 
@@ -176,6 +176,8 @@ Do not ship scripts that always pass or silently skip missing required tests. St
 ## 10. Test layers
 
 ### Pure/contract tests without the game
+
+Run `pnpm test:runtime:bridge` against the private staged interpreter. It verifies bounded framing, handshake identity checks, Windows current-user pipe creation, authenticated loopback, callback event transport, and pipe cleanup. This does not simulate or prove an NMS process attachment.
 
 - Invalid payloads, numeric bounds, discriminated targets, unsupported versions.
 - Fragmented/concatenated frames, truncation, oversize data, malformed JSON.

@@ -1,6 +1,6 @@
 # Self-contained Windows distribution
 
-Status: required design and acceptance plan. No runtime bundle has been built or tested yet.
+Status: required design and acceptance plan. A local Windows x64 package now includes the private CPython 3.11.9 runtime, 20 pinned dependency wheels, and a hash manifest covering 1,282 runtime files. The packaged runtime verifier and Windows Named Pipe loopback pass on the developer machine. Clean offline Windows validation, full native dependency closure, and live game attachment remain open.
 
 ## 1. End-user contract
 

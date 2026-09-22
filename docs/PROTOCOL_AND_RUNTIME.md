@@ -1,10 +1,10 @@
 # Protocol and runtime integration
 
-Status: version 1 control-plane schemas and TypeScript fixtures are implemented in `packages/protocol`, including a bounded local item-delivery intent. Transport, authentication, runtime attachment, queue execution, and game mutation remain unimplemented.
+Status: version 1 control-plane schemas and TypeScript fixtures are implemented in `packages/protocol`, including a bounded local item-delivery intent. A diagnostics-only Python frame codec, authenticated named-pipe handshake, and main-loop observation are implemented behind a separate exact-build allowlist. Live attachment has not yet been verified. Delivery commands, queue execution, native item calls, and game mutation remain unimplemented.
 
 ## 1. Transport and session
 
-Use a per-instance Windows Named Pipe. Restrict its ACL to the intended user/session, reject remote clients, and verify the peer/process relationship. Use an ephemeral handshake credential where needed; do not treat a discoverable pipe name as authentication.
+Use a per-instance Windows Named Pipe. Restrict its ACL to the intended user/session, reject remote clients, and verify the peer/process relationship. Use an ephemeral handshake credential where needed; do not treat a discoverable pipe name as authentication. The diagnostics host now implements the user-only ACL, remote-client rejection, peer PID check, ephemeral HMAC challenge, and read-only callback-ready event. `pnpm test:runtime:bridge` runs the bounded protocol tests and a Windows loopback against the private interpreter. Its separate build allowlist does not grant delivery support.
 
 Frames are length-prefixed UTF-8 JSON: an unsigned 32-bit little-endian byte length followed by one JSON payload. The pure TypeScript codec enforces a 256 KiB control-frame limit, rejects malformed UTF-8/JSON and oversize frames, and handles fragmented and concatenated input. Pipe read deadlines remain a transport implementation task. Bulk catalog/image data never travels through the game bridge.
 

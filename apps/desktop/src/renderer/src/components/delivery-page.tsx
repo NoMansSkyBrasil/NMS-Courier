@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CircleAlertIcon, PackagePlusIcon } from 'lucide-react'
+import { CircleAlertIcon, PackagePlusIcon, RadioIcon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import { Button } from '@renderer/components/ui/button'
 import {
@@ -21,6 +21,7 @@ import {
 
 type Domain = 'substance' | 'product' | 'technology'
 type DeliveryReadiness = Awaited<ReturnType<typeof window.nms.getDeliveryReadiness>>
+type RuntimeDiagnosticsStatus = Awaited<ReturnType<typeof window.nms.getRuntimeDiagnosticsStatus>>
 
 const readinessMessages: Record<DeliveryReadiness['reasonCode'], string> = {
   INSTALLATION_NOT_SELECTED: 'Select a No Man’s Sky installation before delivery can be evaluated.',
@@ -52,6 +53,10 @@ export function DeliveryPage(): React.JSX.Element {
     ReturnType<typeof window.nms.getBuildSupport>
   > | null>(null)
   const [selectingInstallation, setSelectingInstallation] = useState(false)
+  const [runtimeDiagnostics, setRuntimeDiagnostics] = useState<RuntimeDiagnosticsStatus | null>(
+    null
+  )
+  const [startingDiagnostics, setStartingDiagnostics] = useState(false)
 
   useEffect(() => {
     void window.nms
@@ -63,6 +68,12 @@ export function DeliveryPage(): React.JSX.Element {
       .then(setGameStatus)
     void window.nms.getBuildSupport().then(setBuildSupport)
     void window.nms.getDeliveryReadiness().then(setReadiness)
+    void window.nms.getRuntimeDiagnosticsStatus().then(setRuntimeDiagnostics)
+    const timer = window.setInterval(() => {
+      void window.nms.getRuntimeDiagnosticsStatus().then(setRuntimeDiagnostics)
+      void window.nms.getGameStatus().then(setGameStatus)
+    }, 1000)
+    return () => window.clearInterval(timer)
   }, [])
 
   const selectInstallation = async (): Promise<void> => {
@@ -76,6 +87,35 @@ export function DeliveryPage(): React.JSX.Element {
       setSelectingInstallation(false)
     }
   }
+
+  const startDiagnostics = async (): Promise<void> => {
+    setStartingDiagnostics(true)
+    try {
+      setRuntimeDiagnostics(await window.nms.startRuntimeDiagnostics())
+    } finally {
+      setStartingDiagnostics(false)
+    }
+  }
+
+  const diagnosticsMessage = runtimeDiagnostics
+    ? runtimeDiagnostics.state === 'callback_ready'
+      ? `Read-only runtime callback is active in game process ${runtimeDiagnostics.processId}.`
+      : runtimeDiagnostics.state === 'bridge_authenticated'
+        ? `The private pipe handshake completed for process ${runtimeDiagnostics.processId}; waiting for the game callback.`
+        : runtimeDiagnostics.state === 'host_ready'
+          ? 'The restricted runtime host is ready and waiting for the in-process handshake.'
+          : runtimeDiagnostics.state === 'failed'
+            ? `Runtime diagnostics failed (${runtimeDiagnostics.reasonCode ?? 'UNKNOWN'}).`
+            : runtimeDiagnostics.state === 'ended'
+              ? 'The diagnostic session ended with the game process.'
+              : 'No diagnostic runtime is connected.'
+    : 'Checking diagnostic runtime state…'
+  const diagnosticsActive =
+    runtimeDiagnostics?.state === 'checking' ||
+    runtimeDiagnostics?.state === 'starting' ||
+    runtimeDiagnostics?.state === 'host_ready' ||
+    runtimeDiagnostics?.state === 'bridge_authenticated' ||
+    runtimeDiagnostics?.state === 'callback_ready'
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
@@ -115,6 +155,36 @@ export function DeliveryPage(): React.JSX.Element {
               The selected folder is not a valid No Man’s Sky installation.
             </p>
           )}
+        </CardContent>
+      </Card>
+      <Card className="max-w-2xl">
+        <CardHeader>
+          <CardTitle>Read-only runtime diagnostics</CardTitle>
+          <CardDescription>
+            {runtimeDiagnostics?.buildLabel
+              ? `${runtimeDiagnostics.buildLabel} is allowed for diagnostics only. This session cannot deliver items. Keep this window open and close the game before exiting.`
+              : 'The runtime host starts only for a diagnostics-allowlisted executable. Keep this window open until you close the game.'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap items-center gap-3">
+          <Button
+            variant="outline"
+            onClick={() => void startDiagnostics()}
+            disabled={
+              startingDiagnostics ||
+              diagnosticsActive ||
+              installation?.state !== 'available' ||
+              gameStatus?.state !== 'running' ||
+              !buildSupport ||
+              buildSupport.state === 'installation_invalid'
+            }
+          >
+            <RadioIcon data-icon="inline-start" />
+            {startingDiagnostics ? 'Starting diagnostics…' : 'Connect read-only runtime'}
+          </Button>
+          <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+            {diagnosticsMessage}
+          </p>
         </CardContent>
       </Card>
       <Card className="max-w-2xl">
