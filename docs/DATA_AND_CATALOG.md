@@ -1,6 +1,6 @@
 # Local data, catalog, assets, and library
 
-Status: planned storage model and catalog identity contract; no database or extraction code exists.
+Status: planned storage model and catalog identity contract. The desktop has a read-only, private-generation browser for the staged core catalogue; database storage, selected-installation extraction, asset decoding, and catalog publication are not implemented.
 
 ## 1. Storage ownership
 
