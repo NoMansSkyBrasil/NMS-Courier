@@ -5,16 +5,21 @@ export {
   errorCodeSchema,
   handshakeRequestSchema,
   handshakeResponseSchema,
+  itemDeliveryPayloadSchema,
+  itemDeliveryTargetSchema,
+  itemDomainSchema,
   operationStateSchema,
   protocolVersion,
-  protocolErrorSchema
-} from './wire.js'
+  protocolErrorSchema,
+} from "./wire.js";
 
 export type {
   Capability,
   ControlCommand,
   ControlEnvelope,
   HandshakeRequest,
+  ItemDeliveryPayload,
+  ItemDeliveryTarget,
   HandshakeResponse,
-  ProtocolError
-} from './wire.js'
+  ProtocolError,
+} from "./wire.js";

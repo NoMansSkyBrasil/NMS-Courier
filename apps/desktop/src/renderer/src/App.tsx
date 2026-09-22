@@ -1,5 +1,6 @@
 import { AppSidebar } from '@renderer/components/app-sidebar'
 import { CatalogPage } from '@renderer/components/catalog-page'
+import { DeliveryPage } from '@renderer/components/delivery-page'
 import { SectionCards } from '@renderer/components/section-cards'
 import { SiteHeader } from '@renderer/components/site-header'
 import { ThemeProvider } from '@renderer/components/theme-provider'
@@ -9,15 +10,17 @@ import { TooltipProvider } from '@renderer/components/ui/tooltip'
 import { useEffect, useState } from 'react'
 
 function Workspace(): React.JSX.Element {
-  const [catalogOpen, setCatalogOpen] = useState(window.location.hash === '#catalog')
+  const [page, setPage] = useState(window.location.hash)
 
   useEffect(() => {
-    const updatePage = (): void => setCatalogOpen(window.location.hash === '#catalog')
+    const updatePage = (): void => setPage(window.location.hash)
     window.addEventListener('hashchange', updatePage)
     return () => window.removeEventListener('hashchange', updatePage)
   }, [])
 
-  return catalogOpen ? <CatalogPage /> : <SectionCards />
+  if (page === '#catalog') return <CatalogPage />
+  if (page === '#delivery') return <DeliveryPage />
+  return <SectionCards />
 }
 
 function App(): React.JSX.Element {

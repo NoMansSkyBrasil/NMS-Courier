@@ -82,6 +82,10 @@ function getData(copy: ReturnType<typeof useLocale>['copy']) {
             url: '#'
           },
           {
+            title: copy.sidebar.deliveryTools,
+            url: '#delivery'
+          },
+          {
             title: copy.sidebar.privateProtocol,
             url: '#'
           },
