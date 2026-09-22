@@ -1,7 +1,45 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-export const locales = ['pt-BR', 'en-US', 'es-ES'] as const
+export const locales = [
+  'en-US',
+  'en-GB',
+  'pt-BR',
+  'nl-NL',
+  'fr-FR',
+  'de-DE',
+  'it-IT',
+  'ja-JP',
+  'ko-KR',
+  'es-419',
+  'pl-PL',
+  'pt-PT',
+  'ru-RU',
+  'zh-CN',
+  'es-ES',
+  'zh-CN-tencent',
+  'zh-TW'
+] as const
 export type Locale = (typeof locales)[number]
+
+export const gameLanguageSources: Readonly<Record<Locale, string>> = {
+  'en-US': 'usenglish',
+  'en-GB': 'english',
+  'pt-BR': 'brazilianportuguese',
+  'nl-NL': 'dutch',
+  'fr-FR': 'french',
+  'de-DE': 'german',
+  'it-IT': 'italian',
+  'ja-JP': 'japanese',
+  'ko-KR': 'korean',
+  'es-419': 'latinamericanspanish',
+  'pl-PL': 'polish',
+  'pt-PT': 'portuguese',
+  'ru-RU': 'russian',
+  'zh-CN': 'simplifiedchinese',
+  'es-ES': 'spanish',
+  'zh-CN-tencent': 'tencentchinese',
+  'zh-TW': 'traditionalchinese'
+}
 
 type CardCopy = readonly [string, string, string, string, string]
 type Translation = {
@@ -30,7 +68,7 @@ type LocaleContextValue = {
 
 const LocaleContext = createContext<LocaleContextValue | null>(null)
 
-const copy: Record<Locale, Translation> = {
+const copy: Partial<Record<Locale, Translation>> = {
   'pt-BR': {
     overview: 'Visão geral',
     cards: [
@@ -191,7 +229,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }): Rea
   }, [locale])
 
   return (
-    <LocaleContext.Provider value={{ locale, setLocale, copy: copy[locale] }}>
+    <LocaleContext.Provider value={{ locale, setLocale, copy: copy[locale] ?? copy['en-US']! }}>
       {children}
     </LocaleContext.Provider>
   )

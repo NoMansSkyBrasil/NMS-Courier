@@ -19,6 +19,32 @@ No website, API, community dataset, or downloaded catalog supplied the catalog v
 
 The fingerprint is evidence for this local observation only. A future importer must create a new generation whenever the selected installation fingerprint changes.
 
+## Observed language parity
+
+The local language archives expose 17 distinct game language identifiers. The application language selector must offer this exact set, and catalog extraction must retain the matching source identifier instead of treating the UI locale code as game data.
+
+| Application locale | Game language identifier |
+| --- | --- |
+| `en-US` | `usenglish` |
+| `en-GB` | `english` |
+| `pt-BR` | `brazilianportuguese` |
+| `nl-NL` | `dutch` |
+| `fr-FR` | `french` |
+| `de-DE` | `german` |
+| `it-IT` | `italian` |
+| `ja-JP` | `japanese` |
+| `ko-KR` | `korean` |
+| `es-419` | `latinamericanspanish` |
+| `pl-PL` | `polish` |
+| `pt-PT` | `portuguese` |
+| `ru-RU` | `russian` |
+| `zh-CN` | `simplifiedchinese` |
+| `es-ES` | `spanish` |
+| `zh-CN-tencent` | `tencentchinese` |
+| `zh-TW` | `traditionalchinese` |
+
+The current application copy is complete for `pt-BR`, `en-US`, and `es-ES`. The selector already preserves the other game languages and falls back to English application copy until their native application translations are added. Catalog names, subtitles, and descriptions must still use the corresponding local game language data as soon as that language is extracted.
+
 ## Extracted catalog candidates
 
 The staging pass identified and copied 112 structured source tables for conversion, without copying models, textures, audio, or save data:
