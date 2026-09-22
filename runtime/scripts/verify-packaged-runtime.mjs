@@ -35,6 +35,31 @@ async function verifyManifest(manifest) {
   }
 }
 
+function hasValidBuildRegistry(registry) {
+  if (!registry || registry.schemaVersion !== 1 || !Array.isArray(registry.builds)) return false
+  const fingerprints = new Set()
+  return registry.builds.every((build) => {
+    if (
+      !build ||
+      typeof build !== 'object' ||
+      typeof build.executableSha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/i.test(build.executableSha256) ||
+      typeof build.buildLabel !== 'string' ||
+      build.buildLabel.trim().length === 0 ||
+      build.buildLabel.length > 160 ||
+      typeof build.adapterVersion !== 'string' ||
+      build.adapterVersion.trim().length === 0 ||
+      build.adapterVersion.length > 80
+    ) {
+      return false
+    }
+    const fingerprint = build.executableSha256.toLowerCase()
+    if (fingerprints.has(fingerprint)) return false
+    fingerprints.add(fingerprint)
+    return true
+  })
+}
+
 async function main() {
   const manifestPath = resolve(runtimeRoot, 'runtime-manifest.json')
   const interpreter = resolve(runtimeRoot, 'python', 'python.exe')
@@ -49,7 +74,7 @@ async function main() {
     throw new Error('The packaged runtime manifest is incompatible.')
   }
   const builds = JSON.parse(await fs.readFile(buildRegistry, 'utf8'))
-  if (builds.schemaVersion !== 1 || !Array.isArray(builds.builds)) {
+  if (!hasValidBuildRegistry(builds)) {
     throw new Error('The packaged verified-build registry is incompatible.')
   }
   await verifyManifest(manifest)

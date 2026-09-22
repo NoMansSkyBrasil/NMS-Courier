@@ -36,6 +36,31 @@ async function validateManifest(manifest) {
   }
 }
 
+function hasValidBuildRegistry(registry) {
+  if (!registry || registry.schemaVersion !== 1 || !Array.isArray(registry.builds)) return false
+  const fingerprints = new Set()
+  return registry.builds.every((build) => {
+    if (
+      !build ||
+      typeof build !== 'object' ||
+      typeof build.executableSha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/i.test(build.executableSha256) ||
+      typeof build.buildLabel !== 'string' ||
+      build.buildLabel.trim().length === 0 ||
+      build.buildLabel.length > 160 ||
+      typeof build.adapterVersion !== 'string' ||
+      build.adapterVersion.trim().length === 0 ||
+      build.adapterVersion.length > 80
+    ) {
+      return false
+    }
+    const fingerprint = build.executableSha256.toLowerCase()
+    if (fingerprints.has(fingerprint)) return false
+    fingerprints.add(fingerprint)
+    return true
+  })
+}
+
 async function main() {
   if (!existsSync(manifestPath) || !existsSync(defaultsPath) || !existsSync(buildRegistryPath)) {
     throw new Error('Generate the private runtime manifest before preparing Electron resources.')
@@ -44,6 +69,10 @@ async function main() {
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'))
   if (manifest.python?.version !== '3.11.9' || !Array.isArray(manifest.dependencies) || manifest.dependencies.length === 0) {
     throw new Error('The staged runtime manifest is incomplete or incompatible.')
+  }
+  const buildRegistry = JSON.parse(await fs.readFile(buildRegistryPath, 'utf8'))
+  if (!hasValidBuildRegistry(buildRegistry)) {
+    throw new Error('The verified-build registry is incomplete or incompatible.')
   }
   await validateManifest(manifest)
 

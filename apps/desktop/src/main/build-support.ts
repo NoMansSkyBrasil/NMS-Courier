@@ -46,10 +46,10 @@ function readRegistry(context: RuntimeResourceContext): SupportedBuild[] | null 
         typeof build.executableSha256 !== 'string' ||
         !/^[a-f0-9]{64}$/i.test(build.executableSha256) ||
         typeof build.buildLabel !== 'string' ||
-        build.buildLabel.length === 0 ||
+        build.buildLabel.trim().length === 0 ||
         build.buildLabel.length > 160 ||
         typeof build.adapterVersion !== 'string' ||
-        build.adapterVersion.length === 0 ||
+        build.adapterVersion.trim().length === 0 ||
         build.adapterVersion.length > 80
       ) {
         return null

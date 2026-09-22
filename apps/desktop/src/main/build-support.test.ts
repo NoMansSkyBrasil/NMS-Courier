@@ -77,5 +77,12 @@ describe('selected build support', () => {
       ]
     })
     expect(resolveBuildSupport(installation, duplicateContext).state).toBe('registry_unavailable')
+    const blankMetadataContext = createResourceContext({
+      schemaVersion: 1,
+      builds: [{ executableSha256, buildLabel: ' ', adapterVersion: ' ' }]
+    })
+    expect(resolveBuildSupport(installation, blankMetadataContext).state).toBe(
+      'registry_unavailable'
+    )
   })
 })
