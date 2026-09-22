@@ -77,7 +77,7 @@ If a candidate fails, investigate the alternatives in DISTRIBUTION.md. Do not pa
 
 ## 5. M1: real runtime connection
 
-Progress: the desktop now supports an explicit native-folder selection, validates the expected executable and game-data layout, and records a SHA-256 fingerprint in its private user-data profile. Process identity observation, runtime startup, injection, handshake, and delivery remain unimplemented.
+Progress: the desktop now supports an explicit native-folder selection, validates the expected executable and game-data layout, records a SHA-256 fingerprint in its private user-data profile, and observes an `NMS.exe` process only when its executable path matches the selection. Runtime startup, injection, handshake, and delivery remain unimplemented.
 
 1. Detect selected installation and exact game process identity.
 2. Identify supported build before injecting/loading game integration.
