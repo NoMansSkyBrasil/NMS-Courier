@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CircleAlertIcon, PackagePlusIcon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import { Button } from '@renderer/components/ui/button'
@@ -26,6 +26,23 @@ export function DeliveryPage(): React.JSX.Element {
   const [gameId, setGameId] = useState('FUEL1')
   const [quantity, setQuantity] = useState('500')
   const validQuantity = /^\d+$/.test(quantity) && Number(quantity) > 0
+  const [installation, setInstallation] = useState<Awaited<
+    ReturnType<typeof window.nms.getInstallationStatus>
+  > | null>(null)
+  const [selectingInstallation, setSelectingInstallation] = useState(false)
+
+  useEffect(() => {
+    void window.nms.getInstallationStatus().then(setInstallation)
+  }, [])
+
+  const selectInstallation = async (): Promise<void> => {
+    setSelectingInstallation(true)
+    try {
+      setInstallation(await window.nms.selectInstallation())
+    } finally {
+      setSelectingInstallation(false)
+    }
+  }
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
@@ -44,6 +61,30 @@ export function DeliveryPage(): React.JSX.Element {
           function have not been verified. No request can be queued from this screen.
         </AlertDescription>
       </Alert>
+      <Card className="max-w-2xl">
+        <CardHeader>
+          <CardTitle>Game installation</CardTitle>
+          <CardDescription>
+            {installation?.state === 'available'
+              ? `${installation.displayName} is selected and fingerprinted. Runtime connection is still unavailable.`
+              : 'Choose the No Man’s Sky installation folder to verify its executable and game-data layout.'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap items-center gap-3">
+          <Button
+            variant="outline"
+            onClick={() => void selectInstallation()}
+            disabled={selectingInstallation}
+          >
+            {selectingInstallation ? 'Verifying installation…' : 'Select installation'}
+          </Button>
+          {installation?.state === 'invalid' && (
+            <p className="text-sm text-destructive">
+              The selected folder is not a valid No Man’s Sky installation.
+            </p>
+          )}
+        </CardContent>
+      </Card>
       <Card className="max-w-2xl">
         <CardHeader>
           <CardTitle>Delivery intent</CardTitle>

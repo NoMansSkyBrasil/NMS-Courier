@@ -1,15 +1,22 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
+import { InstallationService } from './installation-service'
 import { inspectRuntimeBundle } from './runtime-resources'
 
 let catalogRepository: CatalogRepository | null = null
+let installationService: InstallationService | null = null
 
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
   return catalogRepository
+}
+
+function getInstallationService(): InstallationService {
+  installationService ??= new InstallationService(app.getPath('userData'))
+  return installationService
 }
 
 function parseCatalogSearchRequest(value: unknown): {
@@ -96,6 +103,16 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('nms:get-foundation-status', () => getFoundationStatus())
+  ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
+  ipcMain.handle('nms:select-installation', async () => {
+    const result = await dialog.showOpenDialog({
+      title: 'Select No Man’s Sky installation',
+      properties: ['openDirectory']
+    })
+    if (result.canceled || result.filePaths.length !== 1)
+      return getInstallationService().getStatus()
+    return await getInstallationService().select(result.filePaths[0])
+  })
   ipcMain.handle('nms:get-catalog-status', () => getCatalogRepository().getStatus())
   ipcMain.handle('nms:search-catalog', (_, request: unknown) =>
     getCatalogRepository().search(parseCatalogSearchRequest(request))

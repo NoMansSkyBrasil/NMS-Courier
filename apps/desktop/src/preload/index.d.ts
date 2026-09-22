@@ -16,6 +16,20 @@ declare global {
         domains: { substance: number; product: number; technology: number }
         locales: string[]
       }>
+      getInstallationStatus: () => Promise<{
+        state: 'not_selected' | 'available' | 'invalid'
+        displayName: string | null
+        executableSha256: string | null
+        executableSize: number | null
+        reason: string | null
+      }>
+      selectInstallation: () => Promise<{
+        state: 'not_selected' | 'available' | 'invalid'
+        displayName: string | null
+        executableSha256: string | null
+        executableSize: number | null
+        reason: string | null
+      }>
       searchCatalog: (request: {
         query: string
         locale: string
