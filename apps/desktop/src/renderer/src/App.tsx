@@ -1,10 +1,24 @@
 import { AppSidebar } from '@renderer/components/app-sidebar'
+import { CatalogPage } from '@renderer/components/catalog-page'
 import { SectionCards } from '@renderer/components/section-cards'
 import { SiteHeader } from '@renderer/components/site-header'
 import { ThemeProvider } from '@renderer/components/theme-provider'
 import { LocaleProvider } from '@renderer/i18n/locale-provider'
 import { SidebarInset, SidebarProvider } from '@renderer/components/ui/sidebar'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
+import { useEffect, useState } from 'react'
+
+function Workspace(): React.JSX.Element {
+  const [catalogOpen, setCatalogOpen] = useState(window.location.hash === '#catalog')
+
+  useEffect(() => {
+    const updatePage = () => setCatalogOpen(window.location.hash === '#catalog')
+    window.addEventListener('hashchange', updatePage)
+    return () => window.removeEventListener('hashchange', updatePage)
+  }, [])
+
+  return catalogOpen ? <CatalogPage /> : <SectionCards />
+}
 
 function App(): React.JSX.Element {
   return (
@@ -24,9 +38,7 @@ function App(): React.JSX.Element {
               <SiteHeader />
               <div className="flex flex-1 flex-col">
                 <div className="@container/main flex flex-1 flex-col gap-2">
-                  <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                    <SectionCards />
-                  </div>
+                  <Workspace />
                 </div>
               </div>
             </SidebarInset>

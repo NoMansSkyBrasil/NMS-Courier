@@ -105,7 +105,7 @@ function getData(copy: ReturnType<typeof useLocale>['copy']) {
       items: [
         {
           title: copy.sidebar.deliveryTools,
-          url: "#",
+          url: "#catalog",
         },
         {
           title: copy.sidebar.knownData,
