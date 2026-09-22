@@ -123,6 +123,30 @@ Acceptance: usable offline with the game closed, assets from local installation,
 
 Spawns, encounters, missions, base application, Bridge-to-Bridge, and auto-update remain later proposals. Save Editor has its own future plan.
 
+### Candidate capability backlog
+
+The following candidate areas were recorded from a third-party feature screen on 2026-09-22. They are product input only. A label here is neither a runtime capability claim nor permission to alter a save; each entry needs its own build, context, limits, side-effect, and outcome evidence.
+
+| Candidate area | Intended NMS Courier direction | Earliest evaluation |
+| --- | --- | --- |
+| Item delivery | Typed local-player delivery | M2 |
+| Location transfer | Explicit, confirmed native location operation | After M2; independent transition and safety research |
+| Ship delivery and fabricator parts | Claim/compare flow, then independently verified parts | M6 |
+| Multitool and staff delivery | Independent native claim/compare track | M7 |
+| Freighter and frigate delivery | Separate ownership, fleet-capacity, and recruitment/transfer tracks | M7 |
+| Pet eggs and creature definitions | Eggs first; companion/entity behavior only after separate proof | M7 |
+| Corvette parts, definitions, and sharing | Parts, library definitions, import/export, then a full action | M8 |
+| Itemized base/Corvette building parts | Catalog and definition library first; placement is a separate action | M8 and later |
+| Season, expedition, Twitch, and platform rewards | Read-only catalog first; each account/unlock action separately verified | M5 |
+| Packaged technology and currencies | Separate type, bounds, and side-effect tracks | M5 |
+| Base building | Future Save Editor scope or separately evidenced live operation; never a delivery fallback | After SE3 or independent runtime proof |
+| Point-of-interest scan and planet finder | Read-only discovery research with source, freshness, and result limits | After M3 |
+| Mission starter, spawner, ByteBeat track, and service-bot tools | Deferred research proposals with potentially broad progression or side effects | After core delivery milestones |
+| Quick actions | A curated list of already verified operations; never an arbitrary command console | After at least two verified capabilities |
+| Sharing Center | Offline validated library import/export; no account, cloud, or hidden code execution | M8 library work |
+
+“Universal Unlocker” is not an acceptable capability definition. It is decomposed into explicit reward, recipe, technology, title, mission, and account-state proposals, each with independent evidence and confirmation rules.
+
 ## 9. Proposed developer commands
 
 These are script names to implement with their owning work package, not commands available today. They run on contributor/build machines, never as end-user setup instructions.

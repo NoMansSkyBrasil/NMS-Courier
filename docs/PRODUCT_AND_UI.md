@@ -125,6 +125,12 @@ Developer mode never enables arbitrary Python, shell, or memory execution and ne
 - **Library:** ships, multitools, freighters, frigates, pets, Corvettes, bases; definition availability does not imply delivery support.
 - **Save Editor:** separate journey specified in SAVE_EDITOR.md.
 
+### Capability boundaries for future tools
+
+The Tools area may eventually group verified quick actions, point-of-interest discovery, location transfer, mission workflows, ByteBeat definitions, and other advanced operations. It lists only capabilities that are explicitly supported for the selected build and current game context. It never becomes an arbitrary command console, a generic “unlock all” control, or a way to bypass the runtime compatibility gate.
+
+The Rewards area distinguishes catalogued season, expedition, Twitch, platform, title, recipe, and technology definitions from account ownership and from any future action. The Library/Sharing Center supports explicit offline definition import/export after schema and safety validation; it does not upload player data or execute imported content.
+
 Replace/reskin/destructive operations require a concrete summary and contextual confirmation when implemented. Unknown fields remain unsupported rather than being plausible-looking inputs.
 
 ## 9. Accessibility and rendered validation
