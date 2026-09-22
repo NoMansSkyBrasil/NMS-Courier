@@ -10,6 +10,7 @@
     "test": "pnpm --filter @nms-courier/desktop test",
     "build": "pnpm --filter @nms-courier/desktop build",
     "build:win": "pnpm --filter @nms-courier/desktop build:win",
-    "package:win": "pnpm --filter @nms-courier/desktop package:win"
+    "package:win": "pnpm --filter @nms-courier/desktop package:win",
+    "stage:runtime": "node runtime/scripts/stage-cpython.mjs"
   }
 }
