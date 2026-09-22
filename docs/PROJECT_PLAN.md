@@ -31,9 +31,9 @@ A future Save Editor will occupy its own application area. It operates on explic
 
 ## 2. Current state
 
-Only planning documentation exists. Scaffolding, dependency installation, runtime attachment, save access, and application tests have not been performed.
+The M0 desktop foundation exists: the pnpm workspace, Electron main/preload/renderer boundary, Base UI shadcn shell, theme and locale controls, lint/typecheck configuration, and Windows x64 ZIP packaging command are implemented. The ZIP has been extracted and its executable launched without Vite.
 
-The current task is design before implementation. The brief's request to start M0 immediately is superseded by the user's later instruction to plan first. Future trees and commands are specifications, not existing implementation.
+No runtime attachment, game access, private CPython bundle, delivery action, catalog extraction, or save access has been implemented. Future runtime trees and commands remain specifications until their acceptance gates pass.
 
 ## 3. Documentation ownership
 
