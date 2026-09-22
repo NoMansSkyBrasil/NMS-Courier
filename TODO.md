@@ -28,7 +28,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Create the closed dependency specification, verified build-tool lock, wheel inventory, hashes, and extracted license notices for the private interpreter.
 - [x] Stage the exact resolved wheels, package metadata, and native extensions beside the private interpreter using only the private wheel cache.
 - [x] Bundle the verified private interpreter, manifest, configuration, and license notices under Electron resources; verify their presence in the Windows ZIP.
-- [~] Automate packaged-runtime manifest, file-integrity, and isolated-import verification for every Windows package build. The verifier is implemented; rerun it against a fresh package when the Windows build directory is not locked.
+- [x] Automate packaged-runtime manifest, file-integrity, and isolated-import verification for every Windows package build. The verifier passed against the fresh Windows x64 package created on 2026-09-22.
 - [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass with a hash-pinned pyMHF non-interactive import patch, and Electron resolves the bundled runtime without exposing paths; the real entry point is still unproven.
 - [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF prompt and execution listener have hash-pinned suppressions; validate the controlled configuration after packaging before accepting the boundary.
 - [x] Test the staged runtime from a temporary path containing spaces and a non-ASCII character; private imports passed.
@@ -36,11 +36,11 @@ This file is the operational source of truth for implementation order. Update it
 
 ## M1 — Real runtime connection
 
-- [~] Define and implement the versioned private protocol and handshake fixtures. TypeScript control-plane schemas and fixtures are present; Python parity, Named Pipe framing, and authentication remain.
-- [ ] Implement authenticated local transport with a least-privilege Electron API.
-- [ ] Detect a supported game installation and correct process without modifying game data.
-- [ ] Implement runtime attachment behind capability and game-version checks.
-- [ ] Add structured local diagnostics and explicit unsupported-build states.
+- [x] Define and implement the versioned private protocol and handshake fixtures. TypeScript and Python validation, bounded framing, handshake authentication, and Windows Named Pipe loopback tests pass.
+- [x] Implement authenticated local transport with a least-privilege Electron API. The diagnostics-only host enforces a current-user pipe ACL, rejects remote clients, checks peer PID, and authenticates a per-session HMAC challenge; Electron exposes only narrow start/status methods.
+- [x] Detect the selected game installation and exact process without modifying game data. The host rechecks executable path, SHA-256, PID, and process start time before runtime startup.
+- [~] Implement runtime attachment behind capability and game-version checks. A separate exact-hash diagnostics allowlist and read-only callback hook are implemented; live attachment and callback evidence are pending the user's signal to run the game test.
+- [x] Add structured local diagnostics and explicit unsupported-build states. UI status and local event logs distinguish unsupported builds and bridge startup, authentication, callback, failure, and game-exit states.
 
 ## M2 — First real delivery
 
@@ -66,4 +66,4 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
-Run the packaged-runtime verifier against a fresh Windows artifact when the current build-directory lock is released, then validate on a clean offline environment. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.
+After the user signals that the game and disposable save are ready, run the live read-only diagnostic callback test and record the observed game build, package, and outcome. Until then, keep the runtime diagnostic-only: do not expose or invoke a delivery mutation. M2 remains blocked on verified native item/quantity behavior, safe callback/thread evidence, and package/runtime endpoint review.

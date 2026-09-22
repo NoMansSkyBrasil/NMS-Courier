@@ -26,7 +26,11 @@ if (!interpreter) {
   throw new Error('Stage the private CPython runtime before running bridge tests.')
 }
 
-for (const testName of ['test_bridge_protocol.py', 'test_named_pipe_loopback.py']) {
+for (const testName of [
+  'test_bridge_protocol.py',
+  'test_target_validation.py',
+  'test_named_pipe_loopback.py'
+]) {
   execFileSync(
     interpreter,
     ['-I', '-B', resolve(repositoryRoot, 'runtime', 'tests', testName)],
