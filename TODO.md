@@ -29,7 +29,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Stage the exact resolved wheels, package metadata, and native extensions beside the private interpreter using only the private wheel cache.
 - [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass with a hash-pinned pyMHF non-interactive import patch; the real entry point is still unproven.
 - [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF import prompt has a reviewed release suppression; endpoint suppression remains unresolved.
-- [ ] Test the staged runtime from paths containing spaces and non-ASCII characters.
+- [x] Test the staged runtime from a temporary path containing spaces and a non-ASCII character; private imports passed.
 - [ ] Validate on a clean offline Windows environment.
 
 ## M1 — Real runtime connection
@@ -60,4 +60,4 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
-Validate the hash-pinned pyMHF non-interactive startup patch without test-only environment flags, then test the private bundle from a path containing spaces and non-ASCII characters. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.
+Verify pyMHF's listener and endpoint controls from the pinned source, then define the controlled launcher configuration. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.
