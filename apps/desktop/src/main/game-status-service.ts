@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { join, resolve } from 'node:path'
+import { resolve } from 'node:path'
+import { getGameExecutablePath } from './installation-service'
 
 const execFileAsync = promisify(execFile)
 
@@ -20,7 +21,7 @@ export function parseNmsProcessOutput(output: string, installationRoot: string):
   } catch {
     return { state: 'query_failed', processId: null, startedAt: null }
   }
-  const expectedPath = resolve(join(installationRoot, 'NMS.exe')).toLocaleLowerCase()
+  const expectedPath = resolve(getGameExecutablePath(installationRoot)).toLocaleLowerCase()
   const records = Array.isArray(parsed) ? parsed : [parsed]
   for (const value of records) {
     const record = value as ProcessRecord

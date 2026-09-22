@@ -77,7 +77,7 @@ If a candidate fails, investigate the alternatives in DISTRIBUTION.md. Do not pa
 
 ## 5. M1: real runtime connection
 
-Progress: the desktop now supports an explicit native-folder selection, validates the expected executable and game-data layout, records a SHA-256 fingerprint in its private user-data profile, invalidates that selection when the executable changes, and observes an `NMS.exe` process only when its executable path matches the selection. It checks the selected fingerprint against a packaged, versioned verified-build registry. The registry intentionally has no entries until a build and adapter are evidenced, so every current build remains blocked. Runtime startup, injection, handshake, and delivery remain unimplemented.
+Progress: the desktop now supports an explicit native-folder selection, validates the expected Steam executable path (`Binaries/NMS.exe`) and game-data layout, records a SHA-256 fingerprint in its private user-data profile, invalidates that selection when the executable changes, and observes an `NMS.exe` process only when its executable path matches the selection. It checks the selected fingerprint against a packaged, versioned verified-build registry. The registry intentionally has no entries until a build and adapter are evidenced, so every current build remains blocked. Runtime startup, injection, handshake, and delivery remain unimplemented.
 
 1. Detect selected installation and exact game process identity.
 2. Identify supported build before injecting/loading game integration.
@@ -115,13 +115,13 @@ Acceptance: usable offline with the game closed, assets from local installation,
 
 ## 8. M4–M8: progressive capabilities
 
-| Milestone | Implementation order | Acceptance |
-| --- | --- | --- |
-| M4 Courier | Enumerate targets → native transfer proof → composed operation → UI | Correct amount received by vanilla client; honest acknowledgement level; failure after local creation handled |
-| M5 Advanced | Currencies, packaged tech, rewards/unlocks, ship/Corvette parts independently | Each domain's type, function, limits, and side effects verified |
-| M6 Ships | One native claim/compare path before exchange/replace/reskin/spawn | User acceptance/cancellation observed; capacity and ownership checked |
-| M7 Other entities | Multitools, freighters, frigates, pets as separate tracks | Independent model/context/failure evidence for each |
-| M8 Corvettes | Parts → definition library → import/export → full runtime action → builder → optional preview | Versioned representation and actual runtime outcome; no unproven seed-accurate preview claims |
+| Milestone         | Implementation order                                                                          | Acceptance                                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| M4 Courier        | Enumerate targets → native transfer proof → composed operation → UI                           | Correct amount received by vanilla client; honest acknowledgement level; failure after local creation handled |
+| M5 Advanced       | Currencies, packaged tech, rewards/unlocks, ship/Corvette parts independently                 | Each domain's type, function, limits, and side effects verified                                               |
+| M6 Ships          | One native claim/compare path before exchange/replace/reskin/spawn                            | User acceptance/cancellation observed; capacity and ownership checked                                         |
+| M7 Other entities | Multitools, freighters, frigates, pets as separate tracks                                     | Independent model/context/failure evidence for each                                                           |
+| M8 Corvettes      | Parts → definition library → import/export → full runtime action → builder → optional preview | Versioned representation and actual runtime outcome; no unproven seed-accurate preview claims                 |
 
 Spawns, encounters, missions, base application, Bridge-to-Bridge, and auto-update remain later proposals. Save Editor has its own future plan.
 
@@ -129,23 +129,23 @@ Spawns, encounters, missions, base application, Bridge-to-Bridge, and auto-updat
 
 The following candidate areas were recorded from a third-party feature screen on 2026-09-22. They are product input only. A label here is neither a runtime capability claim nor permission to alter a save; each entry needs its own build, context, limits, side-effect, and outcome evidence.
 
-| Candidate area | Intended NMS Courier direction | Earliest evaluation |
-| --- | --- | --- |
-| Item delivery | Typed local-player delivery | M2 |
-| Location transfer | Explicit, confirmed native location operation | After M2; independent transition and safety research |
-| Ship delivery and fabricator parts | Claim/compare flow, then independently verified parts | M6 |
-| Multitool and staff delivery | Independent native claim/compare track | M7 |
-| Freighter and frigate delivery | Separate ownership, fleet-capacity, and recruitment/transfer tracks | M7 |
-| Pet eggs and creature definitions | Eggs first; companion/entity behavior only after separate proof | M7 |
-| Corvette parts, definitions, and sharing | Parts, library definitions, import/export, then a full action | M8 |
-| Itemized base/Corvette building parts | Catalog and definition library first; placement is a separate action | M8 and later |
-| Season, expedition, Twitch, and platform rewards | Read-only catalog first; each account/unlock action separately verified | M5 |
-| Packaged technology and currencies | Separate type, bounds, and side-effect tracks | M5 |
-| Base building | Future Save Editor scope or separately evidenced live operation; never a delivery fallback | After SE3 or independent runtime proof |
-| Point-of-interest scan and planet finder | Read-only discovery research with source, freshness, and result limits | After M3 |
-| Mission starter, spawner, ByteBeat track, and service-bot tools | Deferred research proposals with potentially broad progression or side effects | After core delivery milestones |
-| Quick actions | A curated list of already verified operations; never an arbitrary command console | After at least two verified capabilities |
-| Sharing Center | Offline validated library import/export; no account, cloud, or hidden code execution | M8 library work |
+| Candidate area                                                  | Intended NMS Courier direction                                                             | Earliest evaluation                                  |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------- |
+| Item delivery                                                   | Typed local-player delivery                                                                | M2                                                   |
+| Location transfer                                               | Explicit, confirmed native location operation                                              | After M2; independent transition and safety research |
+| Ship delivery and fabricator parts                              | Claim/compare flow, then independently verified parts                                      | M6                                                   |
+| Multitool and staff delivery                                    | Independent native claim/compare track                                                     | M7                                                   |
+| Freighter and frigate delivery                                  | Separate ownership, fleet-capacity, and recruitment/transfer tracks                        | M7                                                   |
+| Pet eggs and creature definitions                               | Eggs first; companion/entity behavior only after separate proof                            | M7                                                   |
+| Corvette parts, definitions, and sharing                        | Parts, library definitions, import/export, then a full action                              | M8                                                   |
+| Itemized base/Corvette building parts                           | Catalog and definition library first; placement is a separate action                       | M8 and later                                         |
+| Season, expedition, Twitch, and platform rewards                | Read-only catalog first; each account/unlock action separately verified                    | M5                                                   |
+| Packaged technology and currencies                              | Separate type, bounds, and side-effect tracks                                              | M5                                                   |
+| Base building                                                   | Future Save Editor scope or separately evidenced live operation; never a delivery fallback | After SE3 or independent runtime proof               |
+| Point-of-interest scan and planet finder                        | Read-only discovery research with source, freshness, and result limits                     | After M3                                             |
+| Mission starter, spawner, ByteBeat track, and service-bot tools | Deferred research proposals with potentially broad progression or side effects             | After core delivery milestones                       |
+| Quick actions                                                   | A curated list of already verified operations; never an arbitrary command console          | After at least two verified capabilities             |
+| Sharing Center                                                  | Offline validated library import/export; no account, cloud, or hidden code execution       | M8 library work                                      |
 
 “Universal Unlocker” is not an acceptable capability definition. It is decomposed into explicit reward, recipe, technology, title, mission, and account-state proposals, each with independent evidence and confirmation rules.
 
@@ -153,23 +153,23 @@ The following candidate areas were recorded from a third-party feature screen on
 
 These are script names to implement with their owning work package, not commands available today. They run on contributor/build machines, never as end-user setup instructions.
 
-| Command contract | Intended purpose | Introduce |
-| --- | --- | --- |
-| pnpm install --frozen-lockfile | Restore pinned JS dependencies | M0 |
-| pnpm dev | Run electron-vite desktop development | M0 |
-| pnpm lint | Lint actual JS/TS source | M0 |
-| pnpm typecheck | Check workspace TypeScript projects | M0 |
-| pnpm test | Deterministic non-game JS/contract tests | M0 |
-| pnpm build | Build actual desktop/packages | M0 |
-| pnpm test:desktop | Electron interaction tests | M0 |
-| uv sync --frozen | Restore runtime development environment, from runtime directory | B0 |
-| uv run --frozen pytest | Python tests, from runtime directory | B0 |
-| uv run --frozen ruff check . | Python lint, from runtime directory | B0 |
-| uv run --frozen mypy src | Python type checking, from runtime directory | B0 |
-| pnpm runtime:bundle | Assemble approved private runtime | B0 |
-| pnpm runtime:verify | Verify bundle outside development environment | B0 |
-| pnpm package:win | Produce full Windows artifacts | M0 shell; full payload at B0/M1 |
-| pnpm verify:package | Check artifact contents/launch/manifest | M0+, progressively expanded |
+| Command contract               | Intended purpose                                                | Introduce                       |
+| ------------------------------ | --------------------------------------------------------------- | ------------------------------- |
+| pnpm install --frozen-lockfile | Restore pinned JS dependencies                                  | M0                              |
+| pnpm dev                       | Run electron-vite desktop development                           | M0                              |
+| pnpm lint                      | Lint actual JS/TS source                                        | M0                              |
+| pnpm typecheck                 | Check workspace TypeScript projects                             | M0                              |
+| pnpm test                      | Deterministic non-game JS/contract tests                        | M0                              |
+| pnpm build                     | Build actual desktop/packages                                   | M0                              |
+| pnpm test:desktop              | Electron interaction tests                                      | M0                              |
+| uv sync --frozen               | Restore runtime development environment, from runtime directory | B0                              |
+| uv run --frozen pytest         | Python tests, from runtime directory                            | B0                              |
+| uv run --frozen ruff check .   | Python lint, from runtime directory                             | B0                              |
+| uv run --frozen mypy src       | Python type checking, from runtime directory                    | B0                              |
+| pnpm runtime:bundle            | Assemble approved private runtime                               | B0                              |
+| pnpm runtime:verify            | Verify bundle outside development environment                   | B0                              |
+| pnpm package:win               | Produce full Windows artifacts                                  | M0 shell; full payload at B0/M1 |
+| pnpm verify:package            | Check artifact contents/launch/manifest                         | M0+, progressively expanded     |
 
 Do not ship scripts that always pass or silently skip missing required tests. Stage commands according to implemented functionality and state clearly when a check requires Windows or NMS.
 

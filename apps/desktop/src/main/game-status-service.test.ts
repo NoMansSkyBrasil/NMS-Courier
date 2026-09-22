@@ -9,7 +9,7 @@ describe('game process observation', () => {
       parseNmsProcessOutput(
         JSON.stringify({
           Id: 1234,
-          Path: 'C:/Games/No Man’s Sky/NMS.exe',
+          Path: 'C:/Games/No Man’s Sky/Binaries/NMS.exe',
           StartTime: '2026-09-22T12:00:00.000Z'
         }),
         installationRoot
@@ -22,7 +22,7 @@ describe('game process observation', () => {
       parseNmsProcessOutput(
         JSON.stringify({
           Id: 1234,
-          Path: 'D:/Other/NMS.exe',
+          Path: 'D:/Other/Binaries/NMS.exe',
           StartTime: '2026-09-22T12:00:00.000Z'
         }),
         installationRoot

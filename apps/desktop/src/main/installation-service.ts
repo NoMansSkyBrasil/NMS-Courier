@@ -24,11 +24,15 @@ type StoredInstallation = {
   executableModifiedAtMs: number
 }
 
+export function getGameExecutablePath(rootPath: string): string {
+  return join(rootPath, 'Binaries', 'NMS.exe')
+}
+
 export async function inspectInstallation(
   rootPath: string
 ): Promise<InstallationStatus & { rootPath?: string; executableModifiedAtMs?: number }> {
   const normalizedRoot = resolve(rootPath)
-  const executablePath = join(normalizedRoot, 'NMS.exe')
+  const executablePath = getGameExecutablePath(normalizedRoot)
   const dataPath = join(normalizedRoot, 'GAMEDATA', 'PCBANKS')
 
   if (!existsSync(executablePath) || !existsSync(dataPath)) {
@@ -88,7 +92,7 @@ export class InstallationService {
         reason: null
       }
     }
-    const executablePath = join(stored.rootPath, 'NMS.exe')
+    const executablePath = getGameExecutablePath(stored.rootPath)
     const dataPath = join(stored.rootPath, 'GAMEDATA', 'PCBANKS')
     if (!existsSync(executablePath) || !existsSync(dataPath)) {
       return {

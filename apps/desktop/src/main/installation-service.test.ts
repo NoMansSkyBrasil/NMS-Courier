@@ -10,7 +10,8 @@ function createInstallation(): string {
   const root = mkdtempSync(join(tmpdir(), 'nms-courier-installation-'))
   temporaryDirectories.push(root)
   mkdirSync(join(root, 'GAMEDATA', 'PCBANKS'), { recursive: true })
-  writeFileSync(join(root, 'NMS.exe'), 'fixture executable')
+  mkdirSync(join(root, 'Binaries'), { recursive: true })
+  writeFileSync(join(root, 'Binaries', 'NMS.exe'), 'fixture executable')
   return root
 }
 
@@ -44,7 +45,7 @@ describe('selected game installation', () => {
     const root = createInstallation()
     const service = new InstallationService(userDataPath)
     await service.select(root)
-    writeFileSync(join(root, 'NMS.exe'), 'updated fixture executable')
+    writeFileSync(join(root, 'Binaries', 'NMS.exe'), 'updated fixture executable')
     expect(service.getStatus()).toMatchObject({
       state: 'invalid',
       reason: 'BUILD_FINGERPRINT_STALE'
