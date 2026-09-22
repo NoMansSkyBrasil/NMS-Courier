@@ -4,12 +4,12 @@
   "architecture": "x64",
   "python": {
     "implementation": "CPython",
-    "version": "3.13.15",
-    "abi": "cp313",
+    "version": "3.11.9",
+    "abi": "cp311",
     "distribution": "embeddable",
     "gil": "enabled",
-    "sourceUrl": "https://www.python.org/ftp/python/3.13.15/python-3.13.15-embed-amd64.zip",
-    "sha256": "d1f04d990aee1253d8569e8e5104e30fa9f5fa830899f14843448872d936a2cf"
+    "sourceUrl": "https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip",
+    "sha256": "009d6bf7e3b2ddca3d784fa09f90fe54336d5b60f0e0f305c37f400bf83cfd3b"
   },
   "entryPoint": null,
   "protocolCompatibility": null,

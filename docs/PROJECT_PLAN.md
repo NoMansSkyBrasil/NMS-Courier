@@ -64,7 +64,7 @@ Do not duplicate detailed contracts across documents. Update the owning specific
 | Validation | Zod in TypeScript; explicit Python validation | Selected |
 | Persistence | SQLite via better-sqlite3 in a data worker | Candidate; packaged native-module proof required |
 | Runtime | Private CPython, pyMHF, NMS.py, our adapter | Research-dependent |
-| Python candidate | Regular GIL-enabled CPython 3.13 x64 | Candidate; patch/wheel combination must pass proof |
+| Python candidate | Regular GIL-enabled CPython 3.11.9 x64 | Candidate; patch/wheel combination must pass proof |
 | Package management | pnpm and uv on development/build machines | Selected |
 | Packaging | electron-builder, Windows ZIP and offline NSIS installer | Candidate; package proof required |
 | UI/unit testing | Vitest and React Testing Library | Selected |

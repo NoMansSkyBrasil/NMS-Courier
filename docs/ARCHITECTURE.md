@@ -77,7 +77,7 @@ Use SQL migrations and small repositories first; no ORM is needed to model this 
 
 Python hosts the runtime integration. pyMHF handles supported loading/hooking mechanisms; NMS.py supplies known game bindings. Our adapter encapsulates them. Engines express product operations using our vocabulary.
 
-Use uv only for development/build dependency resolution and repeatable preparation. End users run a private packaged interpreter. Initial candidate: ordinary CPython 3.13 x64, because the inspected pyrun-injected 0.2.0 release has a matching wheel; this is not a full dependency compatibility result.
+Use uv only for development/build dependency resolution and repeatable preparation. End users run a private packaged interpreter. Initial candidate: ordinary CPython 3.11.9 x64, because the currently documented NMSpy support range is Python 3.9–3.11 and pyrun-injected 0.2.0 has a matching wheel; this is not a full dependency compatibility result.
 
 No arbitrary code execution method is exposed by our bridge. Upstream terminal/API infrastructure must be audited and disabled or removed in the distributed integration; see DISTRIBUTION.md.
 

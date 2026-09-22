@@ -19,7 +19,8 @@ Record exact revisions for game-related research. Verify pinned dependency artif
 | Same revision, pymhf.toml | Visible GUI, paused startup, executable-relative data/log defaults | Override through verified configuration for integrated desktop behavior |
 | pyMHF HEAD 2ca33d677f7cdeda904d4e714aee721fd03ff8db | Dependencies include native hooking/injection packages | Private distribution requires native dependency closure |
 | PyPI metadata for pyMHF 0.2.4 | Includes pyrun-injected==0.2.0, pywin32, cyminhook, pymem and other dependencies | Evaluate exact wheels and native loading |
-| PyPI files for pyrun-injected 0.2.0 | Windows x64 wheels listed for CPython 3.9 through 3.13 | CPython 3.13 is a candidate, not yet a verified full stack |
+| PyPI files for pyrun-injected 0.2.0 | Windows x64 wheels listed for CPython 3.9 through 3.13 | A compatible injector wheel exists for CPython 3.11, but this is not a verified full stack |
+| Current NMSpy project documentation | Declares support for Python 3.9–3.11 and says Python 3.14 is unsupported | Select CPython 3.11.9 for B0; do not treat injector support alone as compatibility |
 | pyMHF inspected main.py | Contains an already-running-process path and transfers module paths | Supports investigating attach-after-launch; private bundle still unverified |
 | pyMHF inspected injected.py | Interactive execution server on 127.0.0.1:6770; optional HTTP server on 0.0.0.0:5000 | Must remove/disable unwanted endpoints in release integration |
 | pyMHF main/injected code | Terminal shutdown interactions and socket logging exist | Disabling endpoints may require lifecycle/logging adaptation |

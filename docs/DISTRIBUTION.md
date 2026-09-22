@@ -41,7 +41,7 @@ Do not use the presence of a working NMS installation as proof that all our DLL 
 
 The official Windows embeddable package is intended to be included with another application. It contains an interpreter and standard library, and supports restricted import paths. Third-party modules should be assembled with the application rather than installed by end users. [Python Windows documentation](https://docs.python.org/3/using/windows.html#the-embeddable-package).
 
-Use a pinned ordinary GIL-enabled x64 build. CPython 3.13 is the initial candidate because pyrun-injected 0.2.0 exposes a cp313 Windows x64 wheel, but all dependencies and in-process behavior must be tested before selection. Do not choose Python 3.14 solely because current documentation describes it.
+Use a pinned ordinary GIL-enabled x64 build. CPython 3.11.9 is the initial candidate because NMSpy currently documents support through Python 3.11 and pyrun-injected 0.2.0 exposes a cp311 Windows x64 wheel. Python 3.11.9 is the last 3.11 release with official Windows binaries. All dependencies and in-process behavior must still be tested before selection.
 
 ### What must be included
 
