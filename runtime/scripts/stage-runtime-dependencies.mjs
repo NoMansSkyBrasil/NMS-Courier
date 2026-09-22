@@ -10,6 +10,10 @@ const wheelRoot = resolve(runtimeRoot, 'vendor', 'wheels')
 const requirementsPath = resolve(runtimeRoot, 'requirements.runtime.txt')
 const buildToolLockPath = resolve(runtimeRoot, 'build-tool-lock.json')
 const sitePackages = resolve(stagingRoot, 'Lib', 'site-packages')
+const pymhfInitPath = resolve(sitePackages, 'pymhf', '__init__.py')
+const expectedPymhfSourceHash = '6e0f58ebdc98acf91685b7176d927e9865d0b62a78b2fef3d5d49b7520118a50'
+const upstreamPromptCondition = 'if not SPHINX_AUTODOC_RUNNING and os.environ.get("PYTEST_VERSION") is None:'
+const patchedPromptCondition = 'if not SPHINX_AUTODOC_RUNNING and os.environ.get("PYTEST_VERSION") is None and os.environ.get("PYMHF_INTERACTIVE_CONFIGURATION") == "1":'
 
 async function sha256(path) {
   const hash = createHash('sha256')
@@ -57,6 +61,19 @@ async function configurePrivatePath() {
   await fs.writeFile(resolve(stagingRoot, pthFile), content, 'utf8')
 }
 
+async function applyPymhfNoninteractiveStartupPatch() {
+  const content = await fs.readFile(pymhfInitPath, 'utf8')
+  const digest = await sha256(pymhfInitPath)
+  if (digest !== expectedPymhfSourceHash) {
+    throw new Error(`pyMHF startup patch rejected an unexpected source hash: ${digest}.`)
+  }
+  if (!content.includes(upstreamPromptCondition)) {
+    throw new Error('pyMHF startup patch rejected an unexpected prompt condition.')
+  }
+
+  await fs.writeFile(pymhfInitPath, content.replace(upstreamPromptCondition, patchedPromptCondition), 'utf8')
+}
+
 async function main() {
   const interpreter = resolve(stagingRoot, 'python.exe')
   if (!existsSync(interpreter)) {
@@ -97,6 +114,7 @@ async function main() {
       .filter((entry) => /^pip-[\d.]+\.dist-info$/i.test(entry))
       .map((entry) => fs.rm(resolve(sitePackages, entry), { recursive: true, force: true }))
   )
+  await applyPymhfNoninteractiveStartupPatch()
 
   execFileSync(interpreter, [
     '-I',
@@ -107,7 +125,7 @@ async function main() {
     env: {
       SystemRoot: process.env.SystemRoot ?? 'C:\\Windows',
       WINDIR: process.env.WINDIR ?? 'C:\\Windows',
-      PYTEST_VERSION: '1'
+      PYMHF_INTERACTIVE_CONFIGURATION: '0'
     }
   })
 }

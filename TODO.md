@@ -27,8 +27,8 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Add reproducible staging that downloads, verifies, extracts, and starts the private interpreter without using a global Python installation.
 - [x] Create the closed dependency specification, verified build-tool lock, wheel inventory, hashes, and extracted license notices for the private interpreter.
 - [x] Stage the exact resolved wheels, package metadata, and native extensions beside the private interpreter using only the private wheel cache.
-- [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass under pyMHF's documented test-mode guard; its real entry point is still blocked by interactive prompts.
-- [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF import prompt is confirmed; release suppression is unresolved.
+- [~] Prove imports and the intended entry point with only the staged interpreter and controlled import paths. Core imports pass with a hash-pinned pyMHF non-interactive import patch; the real entry point is still unproven.
+- [~] Inspect pyMHF and NMSpy startup behavior; disable unwanted GUI, console, TCP, and HTTP endpoints only through verified mechanisms. The pyMHF import prompt has a reviewed release suppression; endpoint suppression remains unresolved.
 - [ ] Test the staged runtime from paths containing spaces and non-ASCII characters.
 - [ ] Validate on a clean offline Windows environment.
 
@@ -60,4 +60,4 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
-Determine a supported production mechanism to suppress pyMHF's interactive startup behavior, then test the private bundle from a path containing spaces and non-ASCII characters. Do not run game attachment or expose delivery features while startup suppression remains unproven.
+Validate the hash-pinned pyMHF non-interactive startup patch without test-only environment flags, then test the private bundle from a path containing spaces and non-ASCII characters. Do not run game attachment or expose delivery features while endpoint suppression remains unproven.
