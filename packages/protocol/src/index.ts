@@ -1,4 +1,11 @@
 export {
+  ControlFrameDecoder,
+  ControlFrameError,
+  encodeControlFrame,
+  maximumControlFrameBytes,
+} from "./framing.js";
+
+export {
   canTransitionOperation,
   isTerminalOperationState,
   nextStateAfterDispatchFailure,
