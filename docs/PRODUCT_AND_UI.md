@@ -133,6 +133,32 @@ The Rewards area distinguishes catalogued season, expedition, Twitch, platform, 
 
 Replace/reskin/destructive operations require a concrete summary and contextual confirmation when implemented. Unknown fields remain unsupported rather than being plausible-looking inputs.
 
+### Reference capability analysis
+
+The product references supplied on 2026-09-22 show a broad third-party service catalogue. They are useful for identifying user journeys and data that the Courier should catalogue, but their remote bot, Patreon, account, and DLL claims are not product requirements. NMS Courier keeps every proposed action behind a selected-build capability gate and a local, evidence-backed runtime adapter.
+
+| Reference journey | Future Courier requirement | Boundary before any action exists |
+| --- | --- | --- |
+| Creature and egg delivery | Separate creature definitions, transferable eggs, class, affinity, moves, size, parts, and seed fields. Advanced fields require validation. | Egg transfer and creature/entity operations are different workflows. Player limits, size limits, and multiplayer outcomes need direct evidence. |
+| Item delivery | Browse actual product, substance, and technology IDs with localized name, description, icon, category, quantity, and stack-limit semantics. | Catalogue availability is not an item-delivery claim. Quantity bounds and recipient context must be proven per build. |
+| Rewards and expedition content | Filterable season, expedition, reward-domain, recipe, title, and cosmetic catalogue with explicit scope and side effects. | No bulk “unlock all” action. Each account, save, recipe, or entitlement mutation is independently specified and confirmed. |
+| Packaged technology | Technology catalogue, seed format validation, item context, and documented inventory prerequisites. | No result is reported until the game accepts the specific package in the verified context. |
+| Customization parts | Grouped Corvette and ship-part definitions with original IDs, display names, images, and compatible groups. | Selecting a part only builds a definition. Placement, fabrication, or delivery needs an independent supported action. |
+| Currency | Currency type, exact supported bounds, affected scope, and current value where the runtime can read it. | The UI never presents a generic amount input as a claim that the value was applied. |
+| Base library and cloning | Offline base definitions with author/credit metadata, portal position, component options, terrain/electricity flags, and import/export validation. | Never use save editing as a delivery fallback. Imported content remains data until a separately proven live operation exists. |
+| Multitools and staff | Visual local catalogue, class/type, seed, and a verified claim or comparison journey. | Variant probability and procedural selection must not be invented. |
+| Freighters and frigates | Type, model seed, colour, crew/race, ownership, fleet capacity, and exchange consequences. | A user must see ownership and replacement consequences before a supported operation. |
+| Space encounters, NPCs, vehicles, and utilities | Read-only, source-versioned definitions grouped by encounter domain. | No arbitrary spawning interface; each encounter needs its own context, multiplayer, and outcome proof. |
+| Quick actions and point-of-interest scan | Curated operations with clear targets, current/nearby-system scope, and an evidence source/freshness indicator. | No command console and no fabricated scan result. |
+| Mission catalogue and starter | Local mission records with category, class, type, description, start conditions, cancellation conditions, and compatibility. | Starting a mission needs independent runtime research; a catalogue selection alone never starts one. |
+| ByteBeat tracks | Local track definitions, capacity-aware library/import/export, and explicit active-slot status when readable. | Importing a definition does not alter the game until a verified operation exists. |
+| Optional runtime extension | A future optional adapter may detect a user-installed, independently audited extension through a versioned manifest and narrow capability contract. | Never download, load, inject, or execute an arbitrary DLL/plugin. The remote “Service Bot Extender” pattern is not adopted. |
+| Planet guide and coordinates | Local guide definitions with galaxy, glyph address, filters, evidence date, and clear uncertainty. | Never label a planet “perfect” or imply a remote subscription/account service. |
+| Sharing Center | Offline, schema-versioned definition library for supported entity types with provenance and safe import/export. | No default cloud upload, multiplayer bot, hidden execution, or player-data sharing. |
+| Ship customizer | Future definition builder that preserves source IDs, parts, colours, decals, seeds, and export metadata. | A visual preview is optional and must not claim seed-accurate rendering without independent validation. |
+
+Long reference pick-lists are a catalogue requirement, not a reason to reproduce their cramped native-select presentation. When the relevant pages are implemented, they need keyboard-accessible search, localization, empty and loading states, and rendered validation at desktop and narrow-window sizes.
+
 ## 9. Accessibility and rendered validation
 
 Proposed minimum window: 1024×720, subject to rendered testing. Check common resolutions and Windows 125%/150% scaling. Support keyboard navigation, visible focus, screen-reader labels, dialog titles, invalid-field feedback, and predictable focus return.
