@@ -29,6 +29,7 @@ Record exact revisions for game-related research. Verify pinned dependency artif
 | pljeroen/nmstoolkit README | Save editing and Corvette/extraction features; preview limits described | Reference for definitions, not runtime delivery evidence |
 | MBINCompiler docs | Version-sensitive MBIN conversion using MXML | Separate converter from PAK extraction; bundle compatible tools |
 | HGPAKtool 1.1.3 metadata and README | MIT Python package; project documents PAK reading for post-5.50 NMS data and a self-contained Windows binary | Candidate PAK extractor for a private catalog worker; pin, audit, and test against the selected build before inclusion |
+| nmstoolkit 7019f561aa3522ae0b77c171cc1777761be2ac67 external review | Its documented extraction targets distinguish Product, Substance, and Technology tables and use multiple language MBIN files | Add those paths as catalog discovery candidates; no code, data, or save-editing behavior is incorporated |
 
 NMS.py and pyMHF advertise MIT in inspected metadata. The original project intends MIT. Audit all incorporated code, transitive binaries, licenses, and redistribution requirements before release.
 

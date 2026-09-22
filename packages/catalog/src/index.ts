@@ -54,6 +54,15 @@ const gameIdControlCharacter = /[\u0000-\u001F\u007F]/
 const sha256Pattern = /^[a-f0-9]{64}$/
 const localePattern = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/
 
+function isSafeSourceLocator(locator: string): boolean {
+  const normalized = locator.replaceAll('\\', '/')
+  return Boolean(locator.trim())
+    && !normalized.startsWith('/')
+    && !/^[A-Za-z]:/.test(normalized)
+    && !normalized.split('/').includes('..')
+    && !gameIdControlCharacter.test(locator)
+}
+
 export function createCatalogEntryKey(domain: CatalogDomain, gameId: string): string {
   return `${domain}:${encodeURIComponent(gameId)}`
 }
@@ -61,6 +70,7 @@ export function createCatalogEntryKey(domain: CatalogDomain, gameId: string): st
 export function validateCatalogGeneration(generation: CatalogGeneration): readonly CatalogValidationIssue[] {
   const issues: CatalogValidationIssue[] = []
   const entryKeys = new Set<string>()
+  const localizationKeys = new Set<string>()
 
   generation.entries.forEach((entry, index) => {
     const entryPath = `entries[${index}]`
@@ -70,7 +80,7 @@ export function validateCatalogGeneration(generation: CatalogGeneration): readon
       issues.push({ path: `${entryPath}.gameId`, message: 'Game ID must be present, bounded, and free of control characters.' })
     }
 
-    if (!entry.sourceTable.trim() || !sha256Pattern.test(entry.sourceHash)) {
+    if (!isSafeSourceLocator(entry.sourceTable) || !sha256Pattern.test(entry.sourceHash)) {
       issues.push({ path: entryPath, message: 'Catalog entries require a source table and SHA-256 source hash.' })
     }
 
@@ -82,12 +92,17 @@ export function validateCatalogGeneration(generation: CatalogGeneration): readon
 
   generation.localizations.forEach((localization, index) => {
     const localizationPath = `localizations[${index}]`
+    const localizationKey = `${localization.entryKey}:${localization.locale}`
     if (!entryKeys.has(localization.entryKey)) {
       issues.push({ path: `${localizationPath}.entryKey`, message: 'Localization references an unknown catalog entry.' })
     }
-    if (!localePattern.test(localization.locale) || !localization.displayName.trim() || !localization.sourceLocator.trim()) {
+    if (!localePattern.test(localization.locale) || !localization.displayName.trim() || !isSafeSourceLocator(localization.sourceLocator)) {
       issues.push({ path: localizationPath, message: 'Localization requires a language tag, display name, and source locator.' })
     }
+    if (localizationKeys.has(localizationKey)) {
+      issues.push({ path: localizationPath, message: `Duplicate localization key: ${localizationKey}.` })
+    }
+    localizationKeys.add(localizationKey)
   })
 
   generation.relations.forEach((relation, index) => {
@@ -95,7 +110,7 @@ export function validateCatalogGeneration(generation: CatalogGeneration): readon
     if (!entryKeys.has(relation.sourceEntryKey) || !entryKeys.has(relation.targetEntryKey)) {
       issues.push({ path: relationPath, message: 'Catalog relation references an unknown catalog entry.' })
     }
-    if (!Number.isInteger(relation.ordinal) || relation.ordinal < 0 || (relation.quantity !== null && relation.quantity <= 0) || !relation.sourceLocator.trim()) {
+    if (!Number.isInteger(relation.ordinal) || relation.ordinal < 0 || (relation.quantity !== null && relation.quantity <= 0) || !isSafeSourceLocator(relation.sourceLocator)) {
       issues.push({ path: relationPath, message: 'Catalog relation has invalid order, quantity, or source locator.' })
     }
   })

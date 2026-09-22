@@ -77,6 +77,17 @@ Each catalog generation records the following logical data sets:
 
 The first coverage manifest must enumerate at least Substances, Products, Technologies, Recipes, Rewards, Buildable Parts, Ship Parts, Multitool Parts, Freighter/Frigate definitions, Creature/Pet definitions, and Corvette definitions when those tables exist in the selected build. A domain is marked unavailable when the table cannot be identified or parsed; it is never silently omitted. The importer preserves unknown fields as bounded raw metadata only when they have a recorded source locator and parser version.
 
+The initial discovery manifest includes the known candidate table paths below, matched case-insensitively inside the selected installation's PAK content. They are discovery targets rather than an exhaustive or permanent schema; a selected build remains authoritative.
+
+| Domain | Candidate table path | Expected table type |
+| --- | --- | --- |
+| Products | `metadata/reality/tables/nms_reality_gcproducttable.mbin` | `cGcProductTable` |
+| Substances | `metadata/reality/tables/nms_reality_gcsubstancetable.mbin` | `cGcSubstanceTable` |
+| Technologies | `metadata/reality/tables/nms_reality_gctechnologytable.mbin` | `cGcTechnologyTable` |
+| Localizations | `language/nms_loc*_*.mbin` and update-specific language tables | Build-specific language table types |
+
+The language discovery step must collect every matching table for each requested locale, retain precedence/order in provenance, and record missing languages explicitly. It must not derive `pt-BR`, `en-US`, or `es-ES` item names from application UI translations.
+
 The catalog is read-only with respect to the game installation. Importing a catalog must not unpack into the game directory, modify PAKs, create mods, read a save, attach to the game process, or grant an item. A current catalog improves selection and validation only; runtime delivery remains separately capability-gated.
 
 ## 4. Catalog generation pipeline

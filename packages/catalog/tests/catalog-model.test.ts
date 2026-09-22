@@ -36,6 +36,29 @@ describe('catalog identity model', () => {
     expect(createCatalogEntryKey('product', '^item_01')).toBe('product:%5Eitem_01')
   })
 
+  it('rejects duplicate localizations and source locators outside game data', () => {
+    const entryKey = createCatalogEntryKey('substance', 'FUEL1')
+    const issues = validateCatalogGeneration({
+      entries: [{
+        domain: 'substance',
+        gameId: 'FUEL1',
+        category: null,
+        sourceTable: '../outside.mbin',
+        sourceHash
+      }],
+      localizations: [
+        { entryKey, locale: 'en-US', displayName: 'Carbon', subtitle: null, description: null, sourceLocator: 'language/loc.mbin:FUEL1', isFallback: false },
+        { entryKey, locale: 'en-US', displayName: 'Carbon', subtitle: null, description: null, sourceLocator: 'language/loc.mbin:FUEL1', isFallback: false }
+      ],
+      relations: []
+    })
+
+    expect(issues.map((issue) => issue.message)).toEqual([
+      'Catalog entries require a source table and SHA-256 source hash.',
+      'Duplicate localization key: substance:FUEL1:en-US.'
+    ])
+  })
+
   it('rejects duplicate entries and references without proven source records', () => {
     const issues = validateCatalogGeneration({
       entries: [
