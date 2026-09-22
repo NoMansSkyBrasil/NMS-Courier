@@ -9,6 +9,7 @@ apps/desktop/out/
 apps/desktop/dist/
 apps/desktop/release/
 apps/desktop/node_modules/
+apps/desktop/resources/runtime/
 runtime/.venv/
 runtime/__pycache__/
 runtime/.pytest_cache/

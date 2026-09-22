@@ -18,7 +18,7 @@
     "test": "vitest run",
     "build:unpack": "pnpm run build && electron-builder --dir",
     "build:win": "pnpm run build && electron-builder --win",
-    "package:win": "pnpm run build && electron-builder --win zip --x64",
+    "package:win": "pnpm --dir ../.. bundle:runtime && pnpm run build && electron-builder --win zip --x64",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux"
   },
