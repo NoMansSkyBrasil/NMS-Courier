@@ -49,5 +49,6 @@ describe('selected game installation', () => {
       state: 'invalid',
       reason: 'BUILD_FINGERPRINT_STALE'
     })
+    expect(service.getSelectedRootPath()).toBeNull()
   })
 })

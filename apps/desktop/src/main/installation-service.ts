@@ -162,7 +162,7 @@ export class InstallationService {
   }
 
   getSelectedRootPath(): string | null {
-    return this.readStored()?.rootPath ?? null
+    return this.getStatus().state === 'available' ? (this.readStored()?.rootPath ?? null) : null
   }
 
   private readStored(): StoredInstallation | null {
