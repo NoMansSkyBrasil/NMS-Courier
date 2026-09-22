@@ -6,7 +6,7 @@ Status: version 1 control-plane schemas and TypeScript fixtures are implemented 
 
 Use a per-instance Windows Named Pipe. Restrict its ACL to the intended user/session, reject remote clients, and verify the peer/process relationship. Use an ephemeral handshake credential where needed; do not treat a discoverable pipe name as authentication.
 
-Frames are length-prefixed UTF-8 JSON. Define byte order, maximum byte length, read deadlines, and malformed-frame behavior in the executable contract before implementation. The parser must handle fragmented and concatenated frames. Initial limit proposal: 256 KiB per control frame; bulk catalog/image data never travels through the game bridge.
+Frames are length-prefixed UTF-8 JSON: an unsigned 32-bit little-endian byte length followed by one JSON payload. The pure TypeScript codec enforces a 256 KiB control-frame limit, rejects malformed UTF-8/JSON and oversize frames, and handles fragmented and concatenated input. Pipe read deadlines remain a transport implementation task. Bulk catalog/image data never travels through the game bridge.
 
 Handshake includes protocol version, application/runtime versions, adapter identity, game process identity including start time, build fingerprint, session ID, and capabilities. Protocol mismatch blocks commands. The current TypeScript schemas cover the control-plane handshake and non-mutating command envelope; Python parity fixtures must be added with the runtime bridge.
 
