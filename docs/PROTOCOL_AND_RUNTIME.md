@@ -76,6 +76,8 @@ Implementation levels: not implemented, unknown, experimental, verified. Current
 
 Central resolution combines protocol, adapter, build, session, player readiness, target, and action constraints. UI displays the result; runtime remains the enforcement point. Developer mode never bypasses build safety.
 
+Before a runtime bridge exists, the desktop resolves the first observable blockers in order: installation selection and validity, selected-game process, private runtime bundle, then `ACTION_NOT_IMPLEMENTED`. This gate is deliberately unavailable in all cases; it prevents the item-delivery form from becoming a simulated success path.
+
 ## 6. Errors
 
 Retain the original codes: GAME_NOT_RUNNING, BRIDGE_NOT_CONNECTED, UNSUPPORTED_GAME_VERSION, PLAYER_NOT_READY, INVALID_ITEM, INVALID_QUANTITY, INVENTORY_FULL, TARGET_NOT_FOUND, TARGET_NOT_SUPPORTED, ACTION_NOT_IMPLEMENTED, RUNTIME_CALL_FAILED, SIGNATURE_NOT_FOUND.
