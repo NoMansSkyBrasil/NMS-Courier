@@ -133,6 +133,10 @@ export class InstallationService {
     return this.getStatus()
   }
 
+  getSelectedRootPath(): string | null {
+    return this.readStored()?.rootPath ?? null
+  }
+
   private readStored(): StoredInstallation | null {
     try {
       const parsed: unknown = JSON.parse(

@@ -8,6 +8,7 @@ const nms = {
   }> => ipcRenderer.invoke('nms:get-foundation-status'),
   getCatalogStatus: () => ipcRenderer.invoke('nms:get-catalog-status'),
   getInstallationStatus: () => ipcRenderer.invoke('nms:get-installation-status'),
+  getGameStatus: () => ipcRenderer.invoke('nms:get-game-status'),
   selectInstallation: () => ipcRenderer.invoke('nms:select-installation'),
   searchCatalog: (request: {
     query: string

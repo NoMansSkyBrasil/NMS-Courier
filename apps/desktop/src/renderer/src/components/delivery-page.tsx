@@ -29,16 +29,26 @@ export function DeliveryPage(): React.JSX.Element {
   const [installation, setInstallation] = useState<Awaited<
     ReturnType<typeof window.nms.getInstallationStatus>
   > | null>(null)
+  const [gameStatus, setGameStatus] = useState<Awaited<
+    ReturnType<typeof window.nms.getGameStatus>
+  > | null>(null)
   const [selectingInstallation, setSelectingInstallation] = useState(false)
 
   useEffect(() => {
-    void window.nms.getInstallationStatus().then(setInstallation)
+    void window.nms
+      .getInstallationStatus()
+      .then((status) => {
+        setInstallation(status)
+        return window.nms.getGameStatus()
+      })
+      .then(setGameStatus)
   }, [])
 
   const selectInstallation = async (): Promise<void> => {
     setSelectingInstallation(true)
     try {
       setInstallation(await window.nms.selectInstallation())
+      setGameStatus(await window.nms.getGameStatus())
     } finally {
       setSelectingInstallation(false)
     }
@@ -66,7 +76,7 @@ export function DeliveryPage(): React.JSX.Element {
           <CardTitle>Game installation</CardTitle>
           <CardDescription>
             {installation?.state === 'available'
-              ? `${installation.displayName} is selected and fingerprinted. Runtime connection is still unavailable.`
+              ? `${installation.displayName} is selected and fingerprinted. ${gameStatus?.state === 'running' ? 'The selected game process is running; runtime connection is still unavailable.' : 'The selected game process is not running.'}`
               : 'Choose the No Man’s Sky installation folder to verify its executable and game-data layout.'}
           </CardDescription>
         </CardHeader>

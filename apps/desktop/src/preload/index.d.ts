@@ -23,6 +23,11 @@ declare global {
         executableSize: number | null
         reason: string | null
       }>
+      getGameStatus: () => Promise<{
+        state: 'installation_not_selected' | 'not_running' | 'running' | 'query_failed'
+        processId: number | null
+        startedAt: string | null
+      }>
       selectInstallation: () => Promise<{
         state: 'not_selected' | 'available' | 'invalid'
         displayName: string | null

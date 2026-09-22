@@ -4,10 +4,12 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
 import { InstallationService } from './installation-service'
+import { GameStatusService } from './game-status-service'
 import { inspectRuntimeBundle } from './runtime-resources'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
+const gameStatusService = new GameStatusService()
 
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
@@ -104,6 +106,9 @@ app.whenReady().then(() => {
 
   ipcMain.handle('nms:get-foundation-status', () => getFoundationStatus())
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
+  ipcMain.handle('nms:get-game-status', () =>
+    gameStatusService.observe(getInstallationService().getSelectedRootPath())
+  )
   ipcMain.handle('nms:select-installation', async () => {
     const result = await dialog.showOpenDialog({
       title: 'Select No Man’s Sky installation',
