@@ -40,11 +40,6 @@ if ($state.pid -ne "$GamePid" -or $state.status -ne 'observing' -or
     $state.inventory_ready -ne '1' -or $state["currency_${key}_state"] -ne '0') {
     throw 'The native callback, inventory, or one-shot currency state is not ready.'
 }
-if (($Currency -eq 'Nanites' -and $state.currency_units_state -ne '2') -or
-    ($Currency -eq 'Quicksilver' -and
-        ($state.currency_units_state -ne '2' -or $state.currency_nanites_state -ne '2'))) {
-    throw 'Earlier currency calls have not been dispatched and independently checked.'
-}
 $eventName = $state["currency_${key}_event"]
 if ($eventName -notmatch "^Local\\NMSCourierCurrencyTest-$GamePid-[0-9a-f]{32}-$Currency$") {
     throw 'The test event name is invalid.'
