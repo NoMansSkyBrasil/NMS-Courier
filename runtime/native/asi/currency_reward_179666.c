@@ -23,6 +23,12 @@ int courier_currency_reward_target(uintptr_t executable_base) {
         executable_base > UINTPTR_MAX - COURIER_REWARD_MANAGER_RVA) return 0;
     const void *target = (const void *)(executable_base + COURIER_GIVE_REWARD_RVA);
     const void *manager = (const void *)(executable_base + COURIER_REWARD_MANAGER_RVA);
+    MEMORY_BASIC_INFORMATION memory;
+    if (VirtualQuery(manager, &memory, sizeof(memory)) != sizeof(memory) ||
+        memory.State != MEM_COMMIT ||
+        (memory.Protect & (PAGE_GUARD | PAGE_NOACCESS)) ||
+        ((memory.Protect & 0xff) != PAGE_READWRITE &&
+         (memory.Protect & 0xff) != PAGE_EXECUTE_READWRITE)) return 0;
     return courier_readable_range(target, sizeof(expected)) &&
            memcmp(target, expected, sizeof(expected)) == 0 &&
            courier_readable_range(manager, 1);

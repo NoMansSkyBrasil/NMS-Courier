@@ -13,6 +13,11 @@ const targets = [
     name: 'cGcInventoryStore.Add',
     expectedRva: 0x4ce130,
     pattern: '48 89 5C 24 ? 48 89 74 24 ? 55 57 41 56 48 8D 6C 24 ? 48 81 EC ? ? ? ? 41 0F 10 00'
+  },
+  {
+    name: 'cGcRewardManager.GiveGenericReward',
+    expectedRva: 0xf0bd70,
+    pattern: '48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 56 41 57 48 83 EC 70 48 8B 3D ? ? ? ? 48 8B F1 4D 8B F1 4D 8B F8 48 8B EA 48 8D 8F A0 07 00 00'
   }
 ]
 
