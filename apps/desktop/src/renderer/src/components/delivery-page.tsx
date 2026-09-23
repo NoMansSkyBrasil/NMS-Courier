@@ -116,6 +116,14 @@ export function DeliveryPage(): React.JSX.Element {
     runtimeDiagnostics?.state === 'host_ready' ||
     runtimeDiagnostics?.state === 'bridge_authenticated' ||
     runtimeDiagnostics?.state === 'callback_ready'
+  const selectedProcessMessage =
+    gameStatus?.state === 'running'
+      ? 'The selected game process is running; runtime connection is still unavailable.'
+      : gameStatus?.state === 'not_running'
+        ? 'The selected game process is not running.'
+        : gameStatus?.state === 'query_failed'
+          ? 'The game process query failed; runtime diagnostics remain disabled until it can be verified.'
+          : 'Checking the selected game process…'
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
@@ -138,7 +146,7 @@ export function DeliveryPage(): React.JSX.Element {
           <CardTitle>Game installation</CardTitle>
           <CardDescription>
             {installation?.state === 'available'
-              ? `${installation.displayName} is selected and fingerprinted. ${buildSupport?.state === 'supported' ? `${buildSupport.buildLabel} is registered for adapter ${buildSupport.adapterVersion}.` : 'This build is not in the verified runtime matrix.'} ${gameStatus?.state === 'running' ? 'The selected game process is running; runtime connection is still unavailable.' : 'The selected game process is not running.'}`
+              ? `${installation.displayName} is selected and fingerprinted. ${buildSupport?.state === 'supported' ? `${buildSupport.buildLabel} is registered for adapter ${buildSupport.adapterVersion}.` : 'This build is not in the verified runtime matrix.'} ${selectedProcessMessage}`
               : 'Choose the No Man’s Sky installation folder to verify its executable and game-data layout.'}
           </CardDescription>
         </CardHeader>

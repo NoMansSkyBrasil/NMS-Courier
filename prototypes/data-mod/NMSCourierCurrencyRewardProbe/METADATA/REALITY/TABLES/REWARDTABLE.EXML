@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data template="cGcRewardTable">
+  <Property name="GenericTable">
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_UNITS">
+      <Property name="Id" value="COURIER_UNITS" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardMoney">
+              <Property name="GcRewardMoney">
+                <Property name="AmountMin" value="1000000000" />
+                <Property name="AmountMax" value="1000000000" />
+                <Property name="RoundNumber" value="false" />
+                <Property name="Currency" value="GcCurrency">
+                  <Property name="Currency" value="Units" />
+                </Property>
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_NANITE">
+      <Property name="Id" value="COURIER_NANITE" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardMoney">
+              <Property name="GcRewardMoney">
+                <Property name="AmountMin" value="1000000000" />
+                <Property name="AmountMax" value="1000000000" />
+                <Property name="RoundNumber" value="false" />
+                <Property name="Currency" value="GcCurrency">
+                  <Property name="Currency" value="Nanites" />
+                </Property>
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_QS">
+      <Property name="Id" value="COURIER_QS" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardMoney">
+              <Property name="GcRewardMoney">
+                <Property name="AmountMin" value="1000000000" />
+                <Property name="AmountMax" value="1000000000" />
+                <Property name="RoundNumber" value="false" />
+                <Property name="Currency" value="GcCurrency">
+                  <Property name="Currency" value="Specials" />
+                </Property>
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+  </Property>
+</Data>

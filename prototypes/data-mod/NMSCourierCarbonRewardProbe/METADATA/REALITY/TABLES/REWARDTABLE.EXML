@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data template="cGcRewardTable">
+  <Property name="GenericTable">
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="PLANTER_CARBON">
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="Reward" value="GcRewardSpecificSubstance">
+              <Property name="GcRewardSpecificSubstance">
+                <Property name="AmountMin" value="500" />
+                <Property name="AmountMax" value="500" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+  </Property>
+</Data>

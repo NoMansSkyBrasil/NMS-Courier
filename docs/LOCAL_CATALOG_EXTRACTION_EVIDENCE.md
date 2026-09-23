@@ -60,6 +60,8 @@ The three core definition tables alone produced a private local snapshot contain
 
 The player-title definition table contains 346 entries in this build. Each staged title record retains its Game ID, title key, localized title and unlock text for all 17 local game languages, and explicit unlock references such as a stat, mission, trophy, product recipe, or prerequisite title. A title record is catalog data only; it does not represent ownership or eligibility on a player account.
 
+For M2, the extracted core catalog confirms Carbon as `substance:FUEL1`, sourced from `metadata/reality/tables/nms_reality_gcsubstancetable.mbin`. The source index also contains `metadata/reality/tables/rewardtable.mbin`, but reward definitions and their downstream inventory calls have not been converted or traced. The Game ID confirmation does not identify a native delivery function.
+
 For manual review, the application data generation contains a non-versioned local `source-index.json`, `core-catalog.json`, and `titles-catalog.json`. These are generated from the selected installation and intentionally remain outside the repository. The source index currently lists 119 extracted structured files, including reality tables, entitlements, game-state metadata, and reality metadata. The production importer must create equivalent versioned artifacts atomically and add coverage for every discovered structured table.
 
 ## What remains before publication

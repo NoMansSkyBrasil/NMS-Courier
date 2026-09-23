@@ -1,6 +1,6 @@
 # NMS Courier: project plan
 
-Status: M0 complete; B0 private-runtime packaging proof in progress. Updated: 2026-09-22.
+Status: M0 complete; B0 private-runtime packaging proof in progress; M1 exact-build native callback verified; M2 Carbon ×500 visually confirmed and persistent after a normal reload. Currency reward delivery remains an untested prototype. Updated: 2026-09-23.
 
 This document and its linked specifications replace the earlier Portuguese planning document. They retain the original delivery scope and the later dedicated Save Editor requirement, while expanding implementation structure and self-contained distribution.
 
@@ -35,7 +35,7 @@ The M0 desktop foundation exists: the pnpm workspace, Electron main/preload/rend
 
 B0 has a private CPython 3.11.9 Windows x64 bundle, closed wheel specification, hash-verified staging, license inventory, and Electron resource packaging proof. The packaged ZIP contains the private interpreter, runtime manifest, and non-interactive runtime defaults. The private runtime is resolved only by the Electron main process; renderer code receives only its availability and version.
 
-The B0 clean offline Windows validation and native dependency audit remain open. A diagnostics-only runtime bridge is implemented with a local Windows pipe handshake and a main-loop callback signal, but live attachment and callback in NMS remain unverified. No delivery action, catalog extraction, or save access has been implemented. Future runtime and delivery behavior remains unverified until the relevant acceptance gates pass.
+The B0 clean offline Windows validation and native dependency audit remain open. The earlier Python diagnostic bridge authenticated build 179666 but did not reliably reach a live mutation callback. The current native XInput proxy loaded on the exact executable fingerprint, observed 7,319 read-only update callbacks, and dispatched one `FUEL1` Carbon ×500 request through the game's inventory function. The callback observed a quantity change from 15 to 515; the user saw the new 500-unit stack in the game and confirmed the total persisted after a normal save reload. The user manually merged the two stacks. This establishes the first local item operation, not automatic stack merging, a native collection notification, or general item and currency support. The currency reward prototype uses new EXML reward IDs and a separately guarded `GiveGenericReward` call; it has compiled and passed an isolated argument fixture but has not been installed or tested in the game.
 
 ## 3. Documentation ownership
 
@@ -65,7 +65,7 @@ Do not duplicate detailed contracts across documents. Update the owning specific
 | Client state | Zustand | Required; UI/session state only |
 | Validation | Zod in TypeScript; explicit Python validation | Selected |
 | Persistence | SQLite via better-sqlite3 in a data worker | Candidate; packaged native-module proof required |
-| Runtime | Private CPython, pyMHF, NMS.py, our adapter | Research-dependent |
+| Runtime | Native x64 XInput bridge prototype; private CPython/pyMHF/NMS.py diagnostic prototype retained | Exact-build startup and 7,319 live read-only callbacks verified; one test-only Carbon insertion changed observed quantity from 15 to 515, with UI and save-reload confirmation |
 | Python candidate | Regular GIL-enabled CPython 3.11.9 x64 | Candidate; patch/wheel combination must pass proof |
 | Package management | pnpm and uv on development/build machines | Selected |
 | Packaging | electron-builder, Windows ZIP and offline NSIS installer | Candidate; package proof required |
