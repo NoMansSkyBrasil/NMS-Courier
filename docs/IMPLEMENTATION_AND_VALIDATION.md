@@ -1,6 +1,6 @@
 # Implementation sequence and validation gates
 
-Status: implementation plan. M0 foundation and local B0 packaging proof have code and validation evidence. M1 diagnostics attachment and callback are live-tested on Steam build 179666, with lifecycle and clean offline gates still open. An exact-build, one-shot M2 Carbon test path is implemented but has not yet been executed in a fresh game process.
+Status: implementation plan. M0 foundation and local B0 packaging proof have code and validation evidence. M1 exact-build native callbacks and one-shot local Carbon and currency rewards are live-tested on Steam build 179666, with product transport, lifecycle, and clean offline gates still open. Carbon ×500 and 1,000,000,000 each of Units, Nanites, and Quicksilver were confirmed in the game and persisted after normal save reloads. Currency grants showed native reward notifications.
 
 ## 1. Working method
 

@@ -1,6 +1,6 @@
 # NMS Courier: project plan
 
-Status: M0 complete; B0 private-runtime packaging proof in progress; M1 exact-build native callback verified; M2 Carbon ×500 visually confirmed and persistent after a normal reload. Currency reward delivery remains an untested prototype. Updated: 2026-09-23.
+Status: M0 complete; B0 private-runtime packaging proof in progress; M1 exact-build native callback verified; M2 Carbon ×500 visually confirmed and persistent after a normal reload. The separate currency reward prototype delivered 1,000,000,000 each of Units, Nanites, and Quicksilver locally with user-confirmed native notifications and normal-save persistence; it remains a one-shot manual test bridge. Updated: 2026-09-23.
 
 This document and its linked specifications replace the earlier Portuguese planning document. They retain the original delivery scope and the later dedicated Save Editor requirement, while expanding implementation structure and self-contained distribution.
 
