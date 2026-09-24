@@ -23,6 +23,8 @@ REALITY_MANAGER_OFFSET = 0x60
 INVENTORY_TABLE_POINTER_OFFSET = 0x1B8
 FREIGHTER_LARGE_GENERATION_OFFSET = 0x5E0 + 0x1D * 0x54
 CLASS_PROBABILITY_OFFSET = 0x1A54
+FRONTEND_MANAGER_OFFSET = 0x849020
+FRONTEND_PAGE_QUEUE_OFFSET = 0x5BD28
 INVENTORY_NAMES = {0: "Personal", 7: "Freighter", 8: "Freighter_TechOnly", 9: "Freighter_Cargo"}
 CLASS_NAMES = {0: "C", 1: "B", 2: "A", 3: "S"}
 SPECIAL_SLOT_NAMES = {
@@ -105,7 +107,8 @@ def inspect_special_slots(data: bytes, read: Callable[[int, int], bytes]) -> dic
 
 
 def inspect_process(pid: int, candidate_address: int | None = None,
-                    candidate_offset: int | None = None) -> dict[str, object]:
+                    candidate_offset: int | None = None,
+                    frontend_queue: bool = False) -> dict[str, object]:
     if os.name != "nt" or ctypes.sizeof(ctypes.c_void_p) != 8:
         raise RuntimeError("This diagnostic requires 64-bit Windows Python")
     kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
@@ -218,6 +221,25 @@ def inspect_process(pid: int, candidate_address: int | None = None,
             },
             "class_probabilities": class_probabilities,
         }
+        if frontend_queue:
+            queue_data = read(
+                application_data + FRONTEND_MANAGER_OFFSET + FRONTEND_PAGE_QUEUE_OFFSET,
+                0x34,
+            )
+            next_index = struct.unpack_from("<i", queue_data, 0x30)[0]
+            if not 0 <= next_index < 3:
+                raise RuntimeError("Frontend page queue index is outside the observed ring")
+            result["frontend_page_queue"] = {
+                "next_index": next_index,
+                "entries": [
+                    {
+                        "page": struct.unpack_from("<i", queue_data, index * 16)[0],
+                        "start_delay": struct.unpack_from("<f", queue_data, index * 16 + 4)[0],
+                        "interaction": hex(struct.unpack_from("<Q", queue_data, index * 16 + 8)[0]),
+                    }
+                    for index in range(3)
+                ],
+            }
         if candidate_address is not None:
             candidate = []
             for index in (7, 8, 9):
@@ -242,10 +264,11 @@ def main() -> int:
     parser.add_argument("--pid", type=int, required=True)
     parser.add_argument("--candidate-address", type=lambda value: int(value, 0))
     parser.add_argument("--candidate-offset", type=lambda value: int(value, 0))
+    parser.add_argument("--frontend-queue", action="store_true")
     args = parser.parse_args()
     try:
         print(json.dumps(inspect_process(args.pid, args.candidate_address,
-                                         args.candidate_offset), indent=2))
+                                         args.candidate_offset, args.frontend_queue), indent=2))
     except (OSError, RuntimeError, ValueError) as error:
         print(f"freighter_read_only_inspection_failed: {error}", file=sys.stderr)
         return 1

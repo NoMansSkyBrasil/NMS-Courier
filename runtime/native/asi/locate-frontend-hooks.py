@@ -21,6 +21,7 @@ SIGNATURES = {
         "E8 ? ? ? ? 48 2B E0 48 89 B4 24 ? ? ? ? 48 89 BC"
     ),
 }
+KNOWN_REWARD_RVA = 0xF0BD70
 
 
 def pattern_regex(signature: str) -> re.Pattern[bytes]:
@@ -72,7 +73,34 @@ def locate(data: bytes) -> dict[str, object]:
                 rva = int(section["virtual_address"]) + match.start() - start
                 matches.append({"rva": hex(rva), "file_offset": hex(match.start())})
         results[name] = matches
-    return {"source": SOURCE, "signatures": results}
+    targets = {
+        int(matches[0]["rva"], 16): name
+        for name, matches in results.items() if len(matches) == 1
+    }
+    targets[KNOWN_REWARD_RVA] = "GiveGenericReward"
+    calls = {name: [] for name in targets.values()}
+    for section in sections:
+        if section["name"] != ".text":
+            continue
+        start = int(section["raw_offset"])
+        end = start + int(section["raw_size"])
+        position = start
+        while True:
+            position = data.find(b"\xE8", position, end - 4)
+            if position < 0:
+                break
+            caller_rva = int(section["virtual_address"]) + position - start
+            displacement = struct.unpack_from("<i", data, position + 1)[0]
+            target_rva = caller_rva + 5 + displacement
+            if target_rva in targets:
+                calls[targets[target_rva]].append(hex(caller_rva))
+            position += 1
+    return {
+        "source": SOURCE,
+        "signatures": results,
+        "potential_direct_call_sites": calls,
+        "call_site_caveat": "Byte-level E8 matches are candidates until instruction boundaries are verified",
+    }
 
 
 def main() -> None:
