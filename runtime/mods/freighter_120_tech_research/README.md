@@ -1,0 +1,9 @@
+# Freighter 120 technology slot research
+
+This isolated, **uninstalled** experiment asks whether build 179666 can represent a 10 × 12 freighter technology grid. The committed reward variant raises `ShipInventory.NumSlotsFromTech` from 60 to 120. MBINCompiler 7.04.0.1 compiled and decompiled it and retained 120. This only proves serialization, not that the game renders, unlocks, or persists 120 technology slots.
+
+The extracted vanilla inventory table caps freighter technology at 30 for C class and 60 for S class; its FreighterLarge technology bounds are 10 × 6. An offline **full-copy** control changed the S cap, FreighterLarge generation count, and technology height to 120/120/12. A compile/decompile round trip retained these values. That control also contains prior broad generation changes and is kept only under the local temporary validation directory; it must not be installed. A sparse inventory-table attempt serialized its named FreighterLarge entry into the first `SciSmall` array position, so it was discarded. Any later inventory-table patch must preserve the complete ordered array or use a verified property-targeted builder.
+
+Inventory-table changes would affect globally generated FreighterLarge inventories or S-class upgrade limits while active. They are not the requested per-offer solution. The previous live explicit reward remained C class and showed 30 technology grid positions, exactly the extracted C-class ceiling. First identify a verified per-offer S-class initialization path; then test 60 technology positions and valid slots before attempting 120. Do not claim 120 slots based only on this research patch.
+
+Supercharged slots are separate from technology grid size. The extracted FreighterLarge entry limits `MaxNumSpecialTechSlots` to four. This experiment deliberately leaves that field unchanged; any 120-supercharged-slot behavior needs separate layout and runtime evidence.

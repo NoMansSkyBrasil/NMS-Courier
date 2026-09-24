@@ -1,0 +1,5 @@
+# Explicit freighter inventory reward experiment
+
+This isolated variant retains the previously tested `GcRewardSpecificShip` freighter reward and additionally sets its inventory width to 10, height to 12, `NumSlotsFromTech` to 60, and `UseOverrideSizeType` to `FreighterLarge`. The existing class S, layout slot count 120, and zero cost remain unchanged. No `ValidSlotIndices` are added because all 89 specific-ship rewards in the extracted vanilla table leave that array empty.
+
+MBINCompiler 7.04.0.1 compiled the sparse EXML and a combined currency/reward EXML without errors. A sparse compile/decompile round trip retained all changed fields. A single live test on the disposable save opened an offer with a 120-position cargo grid, C class, and a 30-position technology grid. The user closed the offer without accepting it. This supports the explicit cargo-dimension path, but does not prove all 120 positions are valid/unlocked; S class, 60 technology positions, and supercharged slots remain unimplemented. A native dispatch state is not delivery success.

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data template="cGcRewardTable">
+  <Property name="GenericTable">
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_FREIGHT">
+      <Property name="Id" value="COURIER_FREIGHT" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificShip">
+              <Property name="GcRewardSpecificShip">
+                <Property name="ShipResource" value="GcResourceElement">
+                  <Property name="Filename" value="MODELS/COMMON/SPACECRAFT/INDUSTRIAL/FREIGHTER_PROC.SCENE.MBIN" />
+                  <Property name="Seed" value="4106484337342419512" />
+                  <Property name="ProceduralTexture" value="TkProceduralTextureChosenOptionList">
+                    <Property name="Samplers" />
+                  </Property>
+                  <Property name="AltId" value="" />
+                </Property>
+                <Property name="Customisation" value="GcCharacterCustomisationData">
+                  <Property name="DescriptorGroups" />
+                  <Property name="PaletteID" value="" />
+                  <Property name="Colours" />
+                  <Property name="TextureOptions" />
+                  <Property name="BoneScales" />
+                  <Property name="Scale" value="1.000000" />
+                </Property>
+                <Property name="ShipLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="120" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="ShipInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="F_HYPERDRIVE">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="F_HYPERDRIVE" />
+                      <Property name="Amount" value="120" />
+                      <Property name="MaxAmount" value="120" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="F_TELEPORT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="F_TELEPORT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="10" />
+                  <Property name="Height" value="12" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="120" />
+                </Property>
+                <Property name="CostAmount" value="0" />
+                <Property name="CostCurrency" value="GcCurrency">
+                  <Property name="Currency" value="Units" />
+                </Property>
+                <Property name="ShipType" value="GcSpaceshipClasses">
+                  <Property name="ShipClass" value="Freighter" />
+                </Property>
+                <Property name="UseOverrideSizeType" value="true" />
+                <Property name="OverrideSizeType" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="FreighterLarge" />
+                </Property>
+                <Property name="NameOverride" value="UI_EXPED13_REWARD_FREI_NAME" />
+                <Property name="IsGift" value="false" />
+                <Property name="IsRewardShip" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+                <Property name="ModelViewOverride" value="GcModelViews">
+                  <Property name="ModelViews" value="None" />
+                </Property>
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+  </Property>
+</Data>

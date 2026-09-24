@@ -1,6 +1,6 @@
 # Architecture and technology usage
 
-Status: design specification. No application code exists yet.
+Status: M0 desktop code exists; the native game bridge remains an exact-build research prototype.
 
 ## 1. Process model
 
@@ -10,16 +10,15 @@ flowchart TD
     PRE --> MAIN[Electron main and application services]
     MAIN --> DATA[Data worker: SQLite and catalog jobs]
     DATA --> TOOL[Bundled extraction/conversion tools]
-    MAIN --> HOST[Private Python launcher]
     MAIN <-->|Authenticated local Named Pipe| BRIDGE[Runtime bridge inside game process]
-    HOST -->|Validated loading mechanism| BRIDGE
+    MAIN --> HOST[Private Python diagnostic host]
     BRIDGE --> QUEUE[Bounded command queue]
     QUEUE --> ENGINE[Engine in verified game callback]
-    ENGINE --> ADAPTER[NMS.py adapter]
+    ENGINE --> ADAPTER[Build-specific native adapter]
     ADAPTER --> GAME[Native NMS function]
 ```
 
-The launcher and injected interpreter are distinct execution contexts. Packaging Python for the launcher alone is insufficient. Both must resolve the private interpreter, standard library, modules, native extensions, and DLL dependencies correctly.
+The exact-build native XInput proxy is the current runtime-integration prototype. It has loaded at game startup and executed verified update callbacks, one local Carbon insertion, and three local currency rewards. Its event handles are test triggers, not the product's authenticated command channel. The private Python host remains a separately packaged diagnostic path; it is not a required hop for native delivery. If Python injection is used in a future adapter, both the launcher and injected interpreter must resolve private dependencies correctly.
 
 Main owns application lifecycle. It does not own game state. The runtime is authoritative about readiness, execution context, target eligibility, and outcomes. SQLite stores application data, not an authoritative replica of game inventory.
 
@@ -73,9 +72,11 @@ The driver is synchronous, so run database work in a dedicated Electron utility 
 
 Use SQL migrations and small repositories first; no ORM is needed to model this initial schema. Bind parameters; keep long extraction transactions out of latency-sensitive queries. Worker exit and recovery must preserve transaction guarantees and mark interrupted jobs accurately.
 
-### Python, pyMHF, and NMS.py
+### Native bridge and Python diagnostics
 
-Python hosts the runtime integration. pyMHF handles supported loading/hooking mechanisms; NMS.py supplies known game bindings. Our adapter encapsulates them. Engines express product operations using our vocabulary.
+The native bridge hosts the current verified runtime callback and build-specific function integrations. It must expose a small capability registry to the application and accept only typed, allowlisted operations over the authenticated local channel. Each engine expresses a product operation in our vocabulary; only its build-specific adapter knows NMS layouts and native functions. One central callback and queue can serve item, currency, inventory, unlock, and entity operations as they are independently verified. A research result does not automatically enable a product capability.
+
+The earlier pyMHF/NMS.py path remains diagnostic and a possible alternative adapter where it proves reliable. NMS.py research clues do not authorize native calls on a newer build, and Python must not become an end-user prerequisite for the native bridge.
 
 Use uv only for development/build dependency resolution and repeatable preparation. End users run a private packaged interpreter. Initial candidate: ordinary CPython 3.11.9 x64, because the currently documented NMSpy support range is Python 3.9–3.11 and pyrun-injected 0.2.0 has a matching wheel; this is not a full dependency compatibility result.
 

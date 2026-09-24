@@ -3,7 +3,7 @@ param(
     [string]$Compiler,
     [Parameter(Mandatory = $true)]
     [string]$Output,
-    [ValidateSet('Startup', 'Callback', 'DeliveryTest', 'CurrencyTest')]
+    [ValidateSet('Startup', 'Callback', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
     [string]$Mode = 'Startup'
 )
 
@@ -24,6 +24,13 @@ if ($Mode -eq 'DeliveryTest') {
 }
 if ($Mode -eq 'CurrencyTest') {
     $arguments += '-DCOURIER_TEST_CURRENCY_REWARDS'
+}
+if ($Mode -eq 'FreighterOfferTest') {
+    $arguments += '-DCOURIER_TEST_FREIGHTER_OFFER'
+}
+if ($Mode -eq 'ScopedFreighterTest') {
+    $arguments += @('-DCOURIER_TEST_CURRENCY_REWARDS',
+        '-DCOURIER_TEST_SCOPED_FREIGHTER')
 }
 
 $arguments += @('-o', $Output,
@@ -46,6 +53,15 @@ if ($Mode -eq 'DeliveryTest') {
 }
 if ($Mode -eq 'CurrencyTest') {
     $arguments += (Join-Path $directory 'currency_reward_179666.c')
+}
+if ($Mode -eq 'FreighterOfferTest') {
+    $arguments += (Join-Path $directory 'currency_reward_179666.c')
+    $arguments += (Join-Path $directory 'freighter_offer_179666.c')
+}
+if ($Mode -eq 'ScopedFreighterTest') {
+    $arguments += (Join-Path $directory 'currency_reward_179666.c')
+    $arguments += (Join-Path $directory 'scoped_freighter_table_179666.c')
+    $arguments += (Join-Path $directory 'scoped_freighter_reward_179666.c')
 }
 
 $arguments += @((Join-Path $directory 'xinput_proxy.def'), '-lbcrypt')

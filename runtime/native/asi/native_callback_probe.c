@@ -14,10 +14,16 @@
 #ifdef COURIER_TEST_CURRENCY_REWARDS
 #include "currency_reward_179666.h"
 #endif
+#ifdef COURIER_TEST_SCOPED_FREIGHTER
+#include "scoped_freighter_reward_179666.h"
+#endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+#include "freighter_offer_179666.h"
+#endif
 
 #define COURIER_UPDATE_RVA 0x2d7500u
 #define COURIER_APPLICATION_DATA_POINTER_RVA 0x06e7aae8u
-#ifdef COURIER_TEST_CURRENCY_REWARDS
+#if defined(COURIER_TEST_CURRENCY_REWARDS) || defined(COURIER_TEST_FREIGHTER_OFFER)
 #define COURIER_OBSERVATION_SECONDS 600u
 #else
 #define COURIER_OBSERVATION_SECONDS 180u
@@ -46,6 +52,10 @@ static char trigger_event_name[128] = "unavailable";
 static volatile LONG currency_pending = -1;
 static volatile LONG currency_state[COURIER_CURRENCY_COUNT] = {0, 0, 0};
 static char currency_event_names[COURIER_CURRENCY_COUNT][128];
+#endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+static volatile LONG freighter_offer_state = 0;
+static char freighter_offer_event_name[128] = "unavailable";
 #endif
 
 static void write_hook_status(const char *status, MH_STATUS hook_status) {
@@ -84,6 +94,9 @@ static void write_hook_status(const char *status, MH_STATUS hook_status) {
                         "currency_units_event=%s\ncurrency_nanites_event=%s\n"
                         "currency_quicksilver_event=%s\n"
 #endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+                        "freighter_offer_state=%ld\nfreighter_offer_event=%s\n"
+#endif
                         ,
                         status, (unsigned long)GetCurrentProcessId(),
                         (long)InterlockedCompareExchange(&callback_count, 0, 0),
@@ -107,6 +120,10 @@ static void write_hook_status(const char *status, MH_STATUS hook_status) {
                         (long)InterlockedCompareExchange(&currency_state[2], 0, 0),
                         currency_event_names[0], currency_event_names[1],
                         currency_event_names[2]
+#endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+                        , (long)InterlockedCompareExchange(&freighter_offer_state, 0, 0),
+                        freighter_offer_event_name
 #endif
                         );
     if (size > 0 && size < (int)sizeof(line)) {
@@ -161,10 +178,30 @@ static void WINAPI observe_update(void *application) {
     LONG pending = InterlockedExchange(&currency_pending, -1);
     if (pending >= 0 && pending < COURIER_CURRENCY_COUNT &&
         InterlockedCompareExchange(&currency_state[pending], 2, 1) == 1) {
-        if (!courier_dispatch_currency_reward(executable_base,
-                                              (enum courier_currency_reward)pending)) {
+        int delivered = 0;
+#ifdef COURIER_TEST_SCOPED_FREIGHTER
+        if (pending == COURIER_CURRENCY_QUICKSILVER) {
+            uintptr_t pointer_address = executable_base +
+                                        COURIER_APPLICATION_DATA_POINTER_RVA;
+            if (courier_readable_range((const void *)pointer_address,
+                                       sizeof(uintptr_t))) {
+                delivered = courier_dispatch_scoped_freighter_reward(
+                    executable_base, *(const uintptr_t *)pointer_address);
+            }
+        }
+#else
+        delivered = courier_dispatch_currency_reward(
+            executable_base, (enum courier_currency_reward)pending);
+#endif
+        if (!delivered) {
             InterlockedExchange(&currency_state[pending], 4);
         }
+    }
+#endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+    if (InterlockedCompareExchange(&freighter_offer_state, 2, 1) == 1) {
+        if (!courier_dispatch_free_freighter_offer(executable_base))
+            InterlockedExchange(&freighter_offer_state, 4);
     }
 #endif
     original_update(application);
@@ -190,6 +227,36 @@ static HANDLE create_delivery_event(void) {
     wchar_t event_name[128];
     length = swprintf(event_name, 128, L"Local\\NMSCourierCarbonTest-%lu-%hs",
                       (unsigned long)GetCurrentProcessId(), token);
+    if (length < 0 || length >= 128) return NULL;
+    HANDLE event = CreateEventW(NULL, FALSE, FALSE, event_name);
+    if (!event) return NULL;
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        CloseHandle(event);
+        return NULL;
+    }
+    return event;
+}
+#endif
+
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+static HANDLE create_freighter_offer_event(void) {
+    unsigned char nonce[16];
+    if (BCryptGenRandom(NULL, nonce, sizeof(nonce),
+                        BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0) return NULL;
+    static const char hex[] = "0123456789abcdef";
+    char token[33];
+    for (size_t index = 0; index < sizeof(nonce); ++index) {
+        token[index * 2] = hex[nonce[index] >> 4];
+        token[index * 2 + 1] = hex[nonce[index] & 15];
+    }
+    token[32] = '\0';
+    int length = snprintf(freighter_offer_event_name,
+                          sizeof(freighter_offer_event_name),
+                          "Local\\NMSCourierFreighterOfferTest-%lu-%s",
+                          (unsigned long)GetCurrentProcessId(), token);
+    if (length < 0 || length >= (int)sizeof(freighter_offer_event_name)) return NULL;
+    wchar_t event_name[128];
+    length = swprintf(event_name, 128, L"%hs", freighter_offer_event_name);
     if (length < 0 || length >= 128) return NULL;
     HANDLE event = CreateEventW(NULL, FALSE, FALSE, event_name);
     if (!event) return NULL;
@@ -276,6 +343,16 @@ void courier_probe_after_verified(void) {
         return;
     }
 #endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+    HANDLE freighter_offer_event = NULL;
+    if (!courier_currency_reward_target(executable_base) ||
+        !(freighter_offer_event = create_freighter_offer_event())) {
+        MH_DisableHook(target);
+        write_hook_status("freighter_offer_target_or_event_failed",
+                          MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+#endif
     status = MH_EnableHook(target);
     if (status != MH_OK) {
         write_hook_status("hook_enable_failed", status);
@@ -326,6 +403,14 @@ void courier_probe_after_verified(void) {
             }
         }
 #endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+        if (WaitForSingleObject(freighter_offer_event, 0) == WAIT_OBJECT_0 &&
+            InterlockedCompareExchange(&freighter_offer_state, 0, 0) == 0) {
+            InterlockedExchange(&freighter_offer_state,
+                                InterlockedCompareExchange(&inventory_ready, 0, 0) == 1
+                                    ? 1 : 4);
+        }
+#endif
         write_hook_status("observing", MH_OK);
     }
     status = MH_DisableHook(target);
@@ -336,5 +421,8 @@ void courier_probe_after_verified(void) {
 #ifdef COURIER_TEST_CURRENCY_REWARDS
     for (int index = 0; index < COURIER_CURRENCY_COUNT; ++index)
         CloseHandle(currency_events[index]);
+#endif
+#ifdef COURIER_TEST_FREIGHTER_OFFER
+    CloseHandle(freighter_offer_event);
 #endif
 }
