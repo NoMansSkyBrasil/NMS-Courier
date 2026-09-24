@@ -127,12 +127,12 @@ def main() -> None:
                 raise RuntimeError("Frontend queue index is outside the observed ring")
             pages = [struct.unpack_from("<i", queue, index * 16)[0]
                      for index in range(3)]
-            main = offer_header(application_data + OFFER_MAIN_OFFSET)
-            technology = offer_header(
-                application_data + OFFER_MAIN_OFFSET + INVENTORY_STORE_SIZE
-            )
+            offer_stores = [
+                offer_header(application_data + OFFER_MAIN_OFFSET + index * INVENTORY_STORE_SIZE)
+                for index in range(3)
+            ]
             state = {"pages": pages, "next_index": next_index,
-                     "offer_main": main, "offer_technology": technology}
+                     "offer_stores": offer_stores}
             samples += 1
             if state != previous:
                 print(json.dumps({"elapsed_ms": round((time.monotonic() - start) * 1000),

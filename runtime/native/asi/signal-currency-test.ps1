@@ -6,7 +6,8 @@ param(
     [string]$Currency,
     [Parameter(Mandatory = $true)]
     [ValidateRange(0, 3294967294)]
-    [long]$ObservedBalance
+    [long]$ObservedBalance,
+    [switch]$PreflightOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -43,6 +44,10 @@ if ($state.pid -ne "$GamePid" -or $state.status -ne 'observing' -or
 $eventName = $state["currency_${key}_event"]
 if ($eventName -notmatch "^Local\\NMSCourierCurrencyTest-$GamePid-[0-9a-f]{32}-$Currency$") {
     throw 'The test event name is invalid.'
+}
+if ($PreflightOnly) {
+    Write-Output "currency_test_preflight=ready pid=$GamePid currency=$Currency mutation=false"
+    return
 }
 
 Add-Type -TypeDefinition @'

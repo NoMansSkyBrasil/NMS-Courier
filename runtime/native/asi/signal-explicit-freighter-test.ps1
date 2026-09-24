@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
-    [int]$GamePid
+    [int]$GamePid,
+    [switch]$PreflightOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -18,6 +19,11 @@ if (-not (Test-Path -LiteralPath $rewardTable) -or
 
 # The third event in the proven bridge is mapped to a freighter reward for this test.
 & (Join-Path $PSScriptRoot 'signal-currency-test.ps1') `
-    -GamePid $GamePid -Currency Quicksilver -ObservedBalance 0 | Out-Null
+    -GamePid $GamePid -Currency Quicksilver -ObservedBalance 0 `
+    -PreflightOnly:$PreflightOnly | Out-Null
 if (-not $?) { throw 'The one-shot bridge event was not signaled.' }
+if ($PreflightOnly) {
+    Write-Output "explicit_freighter_preflight=ready pid=$GamePid mutation=false"
+    return
+}
 Write-Output "explicit_freighter_reward_signaled pid=$GamePid outcome=unknown_until_game_ui_checked"

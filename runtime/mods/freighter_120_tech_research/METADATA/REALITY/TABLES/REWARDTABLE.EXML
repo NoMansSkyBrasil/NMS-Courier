@@ -16,7 +16,7 @@
               <Property name="GcRewardSpecificShip">
                 <Property name="ShipResource" value="GcResourceElement">
                   <Property name="Filename" value="MODELS/COMMON/SPACECRAFT/INDUSTRIAL/FREIGHTER_PROC.SCENE.MBIN" />
-                  <Property name="Seed" value="4106484337342419512" />
+                  <Property name="Seed" value="471690548084820" />
                   <Property name="ProceduralTexture" value="TkProceduralTextureChosenOptionList">
                     <Property name="Samplers" />
                   </Property>
