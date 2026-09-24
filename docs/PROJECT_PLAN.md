@@ -1,6 +1,6 @@
 # NMS Courier: project plan
 
-Status: M0 complete; B0 private-runtime packaging proof in progress; M1 exact-build native callback verified; M2 Carbon ×500 visually confirmed and persistent after a normal reload. The separate currency reward prototype delivered 1,000,000,000 each of Units, Nanites, and Quicksilver locally with user-confirmed native notifications and normal-save persistence; it remains a one-shot manual test bridge. Updated: 2026-09-23.
+Status: M0 complete; B0 private-runtime packaging proof in progress; M1 exact-build native callback verified; M2 Carbon ×500 visually confirmed and persistent after a normal reload. The one-shot native reward prototype delivered 1,000,000,000 each of Units, Nanites, and Quicksilver locally with native notifications and normal-save persistence. A free freighter offer opened from gameplay; its explicit inventory variant showed C class, a 120-position cargo grid, and a 30-position technology grid. The authenticated Electron command channel and S/120/60 freighter delivery remain unimplemented. See the [experiment log](EXPERIMENT_LOG.md) before repeating tests. Updated: 2026-09-24.
 
 This document and its linked specifications replace the earlier Portuguese planning document. They retain the original delivery scope and the later dedicated Save Editor requirement, while expanding implementation structure and self-contained distribution.
 
@@ -50,6 +50,7 @@ The B0 clean offline Windows validation and native dependency audit remain open.
 | [IMPLEMENTATION_AND_VALIDATION](IMPLEMENTATION_AND_VALIDATION.md) | Ordered work packages, proposed commands, test/release gates |
 | [SAVE_EDITOR](SAVE_EDITOR.md) | Separate future editing scope, architecture, workflow, roadmap |
 | [RESEARCH_AND_DECISIONS](RESEARCH_AND_DECISIONS.md) | Sources, inspected revisions, evidence, unresolved questions |
+| [EXPERIMENT_LOG](EXPERIMENT_LOG.md) | Chronological index of tested configurations, observed outcomes, rejected hypotheses, and evidence locations |
 
 Do not duplicate detailed contracts across documents. Update the owning specification and link to it.
 

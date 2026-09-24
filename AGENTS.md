@@ -2,9 +2,11 @@
 
 ## Current stage
 
-This repository is in planning. Do not scaffold applications, install project dependencies, generate runtime code, attach to No Man's Sky, or edit saves until the user explicitly starts implementation. Documentation changes are allowed.
+Implementation is in progress. M0 desktop foundations exist; the exact-build native bridge has delivered a local item and currencies on a disposable save. Freighter delivery is experimental. Do not treat a research probe as a production capability. Never edit saves as a delivery shortcut.
 
 Read [the project plan](docs/PROJECT_PLAN.md) before implementation. Follow its linked specifications. Proposed files and commands in documentation do not mean those files or commands already exist.
+
+Before repeating runtime research, read the [experiment log](docs/EXPERIMENT_LOG.md) and its linked source/evidence. The log is an index, not a substitute for the owning specifications.
 
 ## Language
 
@@ -48,3 +50,6 @@ Read [the project plan](docs/PROJECT_PLAN.md) before implementation. Follow its 
 - Validate rendered Electron UI when UI implementation starts.
 - Record dependency versions, game build, test conditions, limitations, and evidence for runtime support.
 - Update the owning specification when architecture changes.
+- For every live or offline game-integration experiment, add an experiment-log entry with build fingerprint, exact source/configuration, trigger and save conditions, what was observed, what was not proven, and rollback state. Record failures and rejected hypotheses as carefully as successes.
+- Keep reproducible code and documentation in the repository. Refer to disposable local logs and temporary extraction paths only as transient evidence; do not depend on them for future work or commit account identifiers, tokens, personal saves, or proprietary third-party assets.
+- Before any new live mutation, compare the installed executable, bridge, and data-patch hashes with the intended tested versions; check whether the previous one-shot outcome is known. A fresh process does not authorize an automatic retry of an uncertain outcome.
