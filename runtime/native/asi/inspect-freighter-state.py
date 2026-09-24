@@ -46,13 +46,22 @@ def inspect_store(data: bytes, index: int) -> dict[str, int | str]:
             f"Implausible inventory fields for index {index}: "
             f"elements={vector_size}, class={inventory_class}"
         )
+    if height > 16:
+        raise ValueError(f"Inventory grid exceeds the 16 observable slot-mask rows for index {index}")
+    valid_slot_mask = int.from_bytes(data[:0x80], "little")
+    row_mask = (1 << width) - 1
+    valid_bits_in_grid = sum(
+        ((valid_slot_mask >> (row * 64)) & row_mask).bit_count()
+        for row in range(height)
+    )
     return {
         "index": index,
         "name": INVENTORY_NAMES[index],
         "width": width,
         "height": height,
         "capacity": capacity,
-        "valid_slot_bits": int.from_bytes(data[:0x80], "little").bit_count(),
+        "valid_slot_bits_in_grid": valid_bits_in_grid,
+        "valid_slot_bits_outside_grid": valid_slot_mask.bit_count() - valid_bits_in_grid,
         "stored_elements": vector_size,
         "layout_slots": layout_slots,
         "auto_max_enabled": bool(auto_max),
@@ -174,10 +183,11 @@ def inspect_process(pid: int, candidate_address: int | None = None,
         }
         if candidate_address is not None:
             candidate = []
-            for index in (0, 7, 8, 9):
+            for index in (7, 8, 9):
                 address = candidate_address + (index - 7) * INVENTORY_STORE_SIZE
                 try:
                     entry = inspect_store(read(address, INVENTORY_STORE_SIZE), index)
+                    entry["name"] = f"FrontendStore_{index - 7}"
                     entry["address"] = hex(address)
                     candidate.append(entry)
                 except (OSError, ValueError):
