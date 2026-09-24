@@ -96,6 +96,7 @@ function Assert-CStore([byte[]]$data, [int]$width, [int]$height,
 
 $mainChanged = $false
 $techChanged = $false
+$sClassSeconds = 0
 $offerMainClassAddress = 0L
 $offerTechClassAddress = 0L
 [byte[]]$originalMainClass = @()
@@ -141,13 +142,25 @@ try {
         if ([BitConverter]::ToInt32($currentTech, 0x8C) -lt 1) {
             throw 'The offer preview closed while the temporary class probe was active.'
         }
+        $currentMain = Read-Bytes $offerMainAddress 0x104
+        if ([BitConverter]::ToInt32($currentMain, 0x100) -eq 3 -and
+            [BitConverter]::ToInt32($currentTech, 0x100) -eq 3) {
+            $sClassSeconds++
+        }
+        $currentOwned = Read-Bytes ($playerState + 0x0910 + 7 * 0x248) 0x104
+        if ([BitConverter]::ToInt32($currentOwned, 0x100) -ne 0) {
+            throw 'The owned freighter changed while the temporary class probe was active.'
+        }
     }
 } finally {
     try {
-        if ($techChanged) { Write-Bytes $offerTechClassAddress $originalTechClass }
-        if ($mainChanged) { Write-Bytes $offerMainClassAddress $originalMainClass }
+        try {
+            if ($techChanged) { Write-Bytes $offerTechClassAddress $originalTechClass }
+        } finally {
+            if ($mainChanged) { Write-Bytes $offerMainClassAddress $originalMainClass }
+        }
     } finally {
         [void][CourierOfferClassProbe]::CloseHandle($handle)
     }
 }
-Write-Output "offer_class_probe=completed temporary_class=S original_class_restored=C pid=$GamePid offer_outcome=unchanged"
+Write-Output "offer_class_probe=completed class_s_seconds=$sClassSeconds original_class_restored=C pid=$GamePid offer_outcome=unchanged"

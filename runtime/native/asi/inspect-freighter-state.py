@@ -10,6 +10,7 @@ import os
 import struct
 import sys
 from ctypes import wintypes
+from typing import Callable
 
 
 EXPECTED_EXE_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
@@ -24,6 +25,9 @@ FREIGHTER_LARGE_GENERATION_OFFSET = 0x5E0 + 0x1D * 0x54
 CLASS_PROBABILITY_OFFSET = 0x1A54
 INVENTORY_NAMES = {0: "Personal", 7: "Freighter", 8: "Freighter_TechOnly", 9: "Freighter_Cargo"}
 CLASS_NAMES = {0: "C", 1: "B", 2: "A", 3: "S"}
+SPECIAL_SLOT_NAMES = {
+    0: "Broken", 1: "TechOnly", 2: "Cargo", 3: "BlockedByBrokenTech", 4: "TechBonus"
+}
 PROCESS_QUERY_INFORMATION = 0x0400
 PROCESS_VM_READ = 0x0010
 LIST_MODULES_ALL = 0x03
@@ -66,6 +70,37 @@ def inspect_store(data: bytes, index: int) -> dict[str, int | str]:
         "layout_slots": layout_slots,
         "auto_max_enabled": bool(auto_max),
         "class": CLASS_NAMES[inventory_class],
+    }
+
+
+def inspect_special_slots(data: bytes, read: Callable[[int, int], bytes]) -> dict[str, object]:
+    allocated, count, address = struct.unpack_from("<IIQ", data, 0xC0)
+    width, height = struct.unpack_from("<hh", data, 0x80)
+    if count > allocated or count > 4096 or (count and address == 0):
+        raise ValueError("Implausible special-slot vector")
+    counts = {name: 0 for name in SPECIAL_SLOT_NAMES.values()}
+    coordinates = {name: set() for name in SPECIAL_SLOT_NAMES.values()}
+    in_grid = {name: set() for name in SPECIAL_SLOT_NAMES.values()}
+    if count:
+        raw = read(address, count * 12)
+        for offset in range(0, len(raw), 12):
+            x, y, slot_type = struct.unpack_from("<iiI", raw, offset)
+            if slot_type not in SPECIAL_SLOT_NAMES:
+                raise ValueError(f"Unknown special-slot type: {slot_type}")
+            name = SPECIAL_SLOT_NAMES[slot_type]
+            counts[name] += 1
+            coordinates[name].add((x, y))
+            if 0 <= x < width and 0 <= y < height:
+                in_grid[name].add((x, y))
+    return {
+        "special_slots_count": count,
+        "special_slot_types": counts,
+        "special_slot_unique_coordinates": {
+            name: len(value) for name, value in coordinates.items()
+        },
+        "special_slot_unique_in_grid": {
+            name: len(value) for name, value in in_grid.items()
+        },
     }
 
 
@@ -145,7 +180,9 @@ def inspect_process(pid: int, candidate_address: int | None = None,
         inventories = []
         for index in INVENTORY_NAMES:
             address = player_state + INVENTORIES_OFFSET + index * INVENTORY_STORE_SIZE
-            entry = inspect_store(read(address, INVENTORY_STORE_SIZE), index)
+            store_data = read(address, INVENTORY_STORE_SIZE)
+            entry = inspect_store(store_data, index)
+            entry.update(inspect_special_slots(store_data, read))
             entry["address"] = hex(address)
             inventories.append(entry)
         if inventories[0]["width"] != 10 or inventories[0]["height"] != 12:
@@ -186,7 +223,9 @@ def inspect_process(pid: int, candidate_address: int | None = None,
             for index in (7, 8, 9):
                 address = candidate_address + (index - 7) * INVENTORY_STORE_SIZE
                 try:
-                    entry = inspect_store(read(address, INVENTORY_STORE_SIZE), index)
+                    store_data = read(address, INVENTORY_STORE_SIZE)
+                    entry = inspect_store(store_data, index)
+                    entry.update(inspect_special_slots(store_data, read))
                     entry["name"] = f"FrontendStore_{index - 7}"
                     entry["address"] = hex(address)
                     candidate.append(entry)
