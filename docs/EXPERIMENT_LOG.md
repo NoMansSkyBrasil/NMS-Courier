@@ -23,6 +23,33 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: research navigation map and unavailable external imports
+
+- Configuration: [navigation index](RESEARCH_INDEX.md),
+  [generator](../runtime/research/build-research-index.py) SHA-256
+  `02a2210bf4696269fcb4c36534a480454415887c94aa5ebef2e6f2320f2a1be9`,
+  and [synthetic validation](../runtime/research/validate-navigation-index.py).
+  The external metadata belongs to the previously recorded 180383 executable
+  fingerprint `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+  this navigation operation did not read or attach to the executable or a save.
+- Trigger: build repository-source, corpus-file, and Ghidra-function navigation
+  metadata with bounded FTS queries; source links are preserved with line numbers.
+  Generated SQLite/JSON/Markdown outputs used a disposable local temporary directory
+  because external inputs in D: could not be read reliably.
+- Observed: 48 repository source files and 99 source-function entries were indexed.
+  Corpus SQLite returned `disk I/O error`; its report could not be parsed as JSON;
+  native report/export reads also failed. Failed imports were rolled back and
+  reported, so no external asset or native-function counts were invented.
+- Validation: synthetic fixtures passed complete import, one-result filtered search,
+  executable-fingerprint/RVA preservation, rebuild, and rollback after a partially
+  imported malformed native TSV. An initial check exposed permissive malformed-row
+  handling; explicit required-field/RVA validation fixed it before the passing run.
+- Limits/rollback: Python entries use AST, C entries use signature matching, and
+  topic labels use keywords. None proves a game function's identity or runtime
+  safety. No game, mod, bridge, corpus asset, or save was changed. Storage repair
+  and final native-analysis results remain unresolved; the generated source map
+  and import code remain reproducible without the external files.
+
 ### 2026-10-01: resumed offline research and Pirate model reference
 
 - Build: installed executable 180383, SHA-256
