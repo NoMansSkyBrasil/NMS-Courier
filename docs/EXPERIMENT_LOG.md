@@ -68,6 +68,17 @@ This is an offline extraction fingerprint, not a new runtime compatibility claim
   weapon, installed-tech, and UI-message payloads, with IDs and bounded examples.
   These offline schema findings are documented in research decisions and are not
   advertised as tested capabilities.
+- Checkpoint after the indexing correction: Precache had 14,759 successful XML
+  index records; MetadataEtc finished with 49,946 successes and the one input-test
+  failure. All 49,947 MetadataEtc binary assets extracted successfully. The batch
+  advanced to EntitySceneMBIN, SHA-256
+  `58958536e58dfaeb81e0423b5508c7d3dbf3713bac09e857577feb275d9f2627`.
+  No remaining PAKs are declared complete at this checkpoint.
+- Native analysis checkpoint: Ghidra remained active beyond the requested analysis
+  timeout, with its main thread waiting for `ConstantPropagationAnalyzer` parallel
+  work. Its diagnostics also reported missing PDB, an invalid embedded PNG, and
+  failed disassembly paths. These are recorded analysis limitations, not game
+  crashes or verified function identities; final native exports remain pending.
 
 ### 2026-10-01: resumable bulk-data corpus
 

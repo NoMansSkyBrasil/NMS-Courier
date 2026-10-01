@@ -110,7 +110,9 @@ python runtime\research\analyze-native-offline.py `
 ```
 
 The exact-hash input is imported into a separate Ghidra project. Automatic analysis
-is limited to two CPUs and 30 minutes per imported file. The Java post-script
+uses two CPUs and requests a 30-minute analysis timeout per imported file. Import,
+analyzer shutdown, and the separate export phase can extend total wall time. Inspect
+the log and running process before treating that request as a hard deadline. The Java post-script
 exports an index of discovered functions, references to delivery-related strings,
 and up to 400 decompiled candidate functions, with 30-second per-function timeouts.
 It follows one level of indirect data references. Generated C-like pseudocode,
