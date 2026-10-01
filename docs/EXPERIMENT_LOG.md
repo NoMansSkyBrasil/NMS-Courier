@@ -43,6 +43,17 @@ This is an offline extraction fingerprint, not a new runtime compatibility claim
 - Observed at startup: worker PID 17636 running, Precache extraction active,
   stderr empty, exact executable/compiler/dependency fingerprints recorded.
   Thirteen Python tests pass, including converter termination at the reserve.
+- Follow-up observation: Precache conversion exited 0 and XML indexing began.
+  Compiler affinity mask 3 confirmed two logical CPUs. Windows recorded new
+  storahci/RaidPort0 reset warnings; the target remained online/Healthy and maps
+  to Samsung NVMe disk 1. No target disk/NVMe event was observed in that query.
+  A separate read-only storage monitor, `watch-extraction-storage.ps1`, started
+  at 22:09:54 UTC (PID 26056). It can terminate the verified worker/compiler on
+  target availability, space, disk-1, NVMe or NTFS failures; unrelated SATA events
+  are logged. Its JSONL and stderr must be checked alongside the corpus report.
+- First completed archive: Precache has 14,759 extracted entries, all 14,759
+  MBINs converted and indexed successfully. MetadataEtc extraction then started;
+  this remains partial progress toward the complete 97-archive run.
 - Not proven: completion, aggregate conversion coverage, physical disk reliability,
   executable decompilation, or runtime support. Read the external report for live
   status; the initial startup entry must not be treated as completed extraction.

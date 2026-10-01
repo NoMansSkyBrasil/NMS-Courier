@@ -84,13 +84,31 @@ Do not start a second writer while `run.lock` exists. A started worker is not
 completion evidence; inspect the report and failure counts. This extracts all
 PAK assets and converts supported MBIN types, not native executable pseudocode.
 
+`watch-extraction-storage.ps1` is a separate 30-second monitor attached to the
+worker PID and its creation time. It checks E: availability, the 20 GiB reserve,
+disk-1 events, and conservatively stops on NVMe/NTFS warnings. SATA `storahci`
+events are recorded separately because the verified target disk uses NVMe.
+On a stop it terminates only the verified worker and its compiler child, preserves
+the lock and partial outputs, and writes `storage-watch.jsonl` on C:. Consult this
+log as well as `report.json`: forced termination can leave the report at `running`.
+The monitor itself does not repair, reset, or modify disk/encryption configuration.
+
+```powershell
+pwsh -NoProfile -File runtime\research\watch-extraction-storage.ps1 `
+  -WorkerId WORKER_PID `
+  -Diagnostics "$env:LOCALAPPDATA\NMSCourier\diagnostics\extraction-e-20261001"
+```
+
 - HGPAKtool 1.1.3, zstandard 0.25.0, lz4 4.4.5; pinned in `requirements.txt`.
 - MBINCompiler 7.04.1-pre3, Windows .NET 8 executable, SHA-256
   `4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4`.
 - Official compiler artifact:
   <https://github.com/monkeyman192/MBINCompiler/releases/download/v7.04.1-pre3/MBINCompiler.exe>.
-- Working research root: `D:\NMS-Courier-Research`.
-- Current data corpus: `D:\NMS-Courier-Research\corpus`.
+- New research root: `E:\NMS-Courier-Research`.
+- Corpus being rebuilt: `E:\NMS-Courier-Research\corpus`.
+- Former unavailable corpus: `D:\NMS-Courier-Research\corpus`; commands below
+  retain the original D: configuration for historical reproducibility. Use the
+  E: rebuild command above for the current extraction.
 
 The compiler's current mapping successfully converted four installed tables in an
 offline pilot. This is not a guarantee that every MBIN type is supported. Failures
