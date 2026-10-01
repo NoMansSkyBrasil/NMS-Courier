@@ -224,3 +224,64 @@ The first live launch with the test DLL (`ca65f3c90732d27b9e15136cb247e4c37dcee4
 - [MBINCompiler](https://github.com/monkeyman192/MBINCompiler)
 
 The installed shadcn skill and MCP were consulted in the initial planning pass. No component or dependency was installed during planning.
+
+## Offline corpus and native analysis, build 180383
+
+The 2026-10-01 installed executable has file/product version 180383 and SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+The prior bridge's build 179666 addresses and layouts remain unsupported on this
+new executable. All work in this section is offline and requires no loaded save.
+
+The [research pipeline](../runtime/research/README.md) keeps extracted assets and
+analysis outputs in `D:\NMS-Courier-Research`, outside version control. It records
+each source archive and asset independently, converts MBIN candidates with pinned
+MBINCompiler 7.04.1-pre3, validates generated XML, and stores a searchable SQLite
+symbol index. Failed conversions are retained as failures. Recovery checks partial
+XML from interrupted batches before compiler keep mode can reuse it. Native code
+is a separate Ghidra 12.1.4 project using a privately extracted JDK 25.0.4.1+1.
+Neither conversion nor pseudocode establishes runtime support.
+
+A reproducible [schema summarizer](../runtime/research/summarize-delivery-data.py)
+read the new build's reward, inventory, and AI ship-model tables. It found one
+freighter-specific ship payload, seasonal reward `RS_S13_S4M6`, retaining the
+ordinary procedural freighter scene and B-class inventory. The freighter-large
+generation entry still has 35–48 main and 18–30 technology slots, technology bounds
+up to 10 × 6, and four special technology slots. These are actual generation inputs
+to trace, as indicated by the supplied OnlyS scripts; their runtime consumption
+and caching lifetime are still unknown.
+
+The AI model table supplies a concrete Pirate model reference:
+`FREIGHTER_CAPITAL_PIRATE` →
+`MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN`, with ship class
+`Freighter` and AI role `CapitalFreighter`. Its MXML hash is
+`0bfb109aff5b1bd06dfc6c0b4859385e3784528fe0368a3b2a25eaf803557795`, sourced from
+`NMSARC.Precache.pak` hash
+`a6371a8b2f065eca33fd306a16cbe2baca9d4ce75806c71e42f74e1ab9295032`.
+The referenced scene exists in `NMSARC.EntitySceneMBIN.pak` (821,912 uncompressed
+bytes). This confirms a shipped reference and asset, not a working acquisition
+reward or safe native call.
+
+The isolated [Pirate reward variant](../runtime/mods/freighter_pirate_model_research/README.md)
+uses that scene path and the requested seed. A compile/decompile round trip
+retained the scene, seed, requested S inventory, 10 × 12 cargo dimensions, 60
+technology request, and zero reward cost. The variant was not installed or
+dispatched. The older tested reward's class/technology discrepancy is unresolved;
+do not present the new model reference as solving it.
+
+The bounded generic-reward evidence also identifies these concrete schema leads:
+
+| Entry | Actual payload | Research implication, not a verified operation |
+| --- | --- | --- |
+| `R_INVBOX`, `RS_INV_SLOT` | `GcRewardInventorySlots.Amount=1` | Trace slot reward handling and whether it opens a selection UI |
+| `R_FREIGHTSLOT` | `GcRewardFreighterSlot.Cost=C_INV_FREIGHTR` | A cost-table reference exists; never assume this upgrade is free |
+| `R_SWIT_GUN01` | `GcRewardSpecificWeapon`, S inventory, `IsGift=true`, `IsRewardWeapon=true` | A shipped gift/weapon schema can guide a separate multitool experiment |
+| `R_RANDOM_TRAIL` | `GcRewardInstallTech`, `InventoryToInstallIn=ShipTech`, `Silent=true` | Installation and notification flags are explicit; this is distinct from learning a recipe |
+| `R_EXPED_OSD1` | `GcRewardOSDMessage`, localized message, icon, audio, timeout | Explicit UI messages are separate from a native acquisition notification; never use one as evidence that an item was granted |
+
+Generic-table counts are 87 specific-ship payloads (one Freighter), 48 specific
+weapons, nine inventory-slot rewards, six ship-slot rewards, one freighter-slot
+reward, and three install-tech payloads. The whole reward table has 89 specific
+ships across its categories; the different counts reflect the sampling scope.
+The snapshot retains repeated array elements and source archive hashes, without
+assuming duplicate-asset load precedence. None of these additional reward IDs
+was dispatched, and no new product capability is advertised.

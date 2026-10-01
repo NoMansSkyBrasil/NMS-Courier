@@ -118,6 +118,12 @@ MBIN tooling is version-sensitive. A newer converter is not guaranteed to read e
 
 ### Packaged toolchain acceptance
 
+The separate [bulk research utility](../runtime/research/README.md) can extract all
+installed Windows PAKs into an external corpus, convert MBIN candidates, and retain
+archive provenance plus a searchable symbol index. Its broad extraction scope and
+developer-installed tools are for offline investigation; they do not replace this
+catalog pipeline's limited extraction or packaged-toolchain acceptance.
+
 The current extraction candidate is HGPAKtool for supported post-5.50 PAKs. Its project documents a self-contained Windows binary and a Python library; the released Python package declares MIT and supports the private CPython candidate. This is a candidate only. Before it is adopted, pin its source artifact, hash, license notice, dependency closure, supported PAK revision, command behavior, and output isolation. Never invoke a tool mode that downloads a DLL or any other component at import time.
 
 MBIN conversion remains a separate build-matched dependency. MBINCompiler releases and mappings are version-sensitive, so the importer must select a pinned, reviewed converter only after the selected installation's build is known. It must reject a missing or mismatched mapping rather than use a newer converter opportunistically. The final catalog worker may execute only verified extraction and conversion commands against a private staging directory; it cannot repack PAKs, write the game directory, invoke a shell, or accept arbitrary command arguments from the renderer.

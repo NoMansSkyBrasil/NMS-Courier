@@ -18,6 +18,91 @@ The installed reward patch above is a development test configuration, not a rele
 
 ## What was tested
 
+The 2026-10-01 bulk-data investigation uses a newer installed executable: Windows
+file/product version `180383`, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+This is an offline extraction fingerprint, not a new runtime compatibility claim.
+
+### 2026-10-01: resumed offline research and Pirate model reference
+
+- Build: installed executable 180383, SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  No save or running-game test was needed. The user was unavailable for live tests.
+- Source/configuration: [research scripts](../runtime/research/README.md), pinned
+  HGPAKtool/MBINCompiler above, Ghidra 12.1.4 ZIP SHA-256
+  `ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db`, portable
+  Temurin JDK 25.0.4.1+1 ZIP SHA-256
+  `00c847d804f4a78e9f04f2683faf14fed898535b177b7fc704486cb0284e9283`.
+  The Adoptium API returned HTTP 403; the official GitHub release and its checksum
+  provided the pinned JDK instead. No global Java configuration was changed.
+- Trigger/observations: resumed the 97-PAK batch with delivery tables prioritized;
+  all 14,759 Precache MBIN candidates converted/indexed successfully. Nine unit
+  checks passed, including malformed interrupted XML and numeric index filtering.
+  The Ghidra Java exporter compiled against the downloaded release with exit zero;
+  full headless executable analysis was started separately and remains pending.
+- Concrete data discovery: the three-table summarizer found reward `RS_S13_S4M6`,
+  seven freighter AI model entries, and unchanged FreighterLarge generation bounds.
+  Model `FREIGHTER_CAPITAL_PIRATE` references the actual Pirate scene; its existence
+  was independently confirmed in the EntitySceneMBIN archive (821,912 bytes).
+  Table and PAK hashes are recorded in [research decisions](RESEARCH_AND_DECISIONS.md#offline-corpus-and-native-analysis-build-180383).
+- Offline reward experiment: [the Pirate variant](../runtime/mods/freighter_pirate_model_research/README.md),
+  source SHA-256 `6dd9e3c84f7b2357811ce51290c3858d481a4cbac5bf0974e1f5bd395f2ff62b`,
+  compiled/decompiled with exit zero. Assertions retained Pirate scene, requested
+  seed, S inventory class, 10 × 12 cargo, 60 technology request, and zero cost.
+- Limits/rollback: no game executable, bridge, installed mod, or save was changed.
+  No offer was sent. Source variants are uninstalled; schema retention and model
+  existence do not prove a Pirate/S-class offer, slot unlocking, or supercharging.
+  The remaining archive conversions and native candidate exports are still pending;
+  consult external reports for eventual results rather than treating launch as completion.
+- Indexing correction: a full-scan FTS cleanup per asset slowed the first metadata
+  indexing attempt. The exact corpus worker was stopped, then restarted with an
+  ordinary archive/path-to-rowid key table; existing indexed rows were migrated.
+  Migration, replacement, cross-archive isolation, and repeated-slot preservation
+  passed the nine-test suite. Converted assets were retained.
+- Conversion failure: `metadata/inputtest.mbin` (560,144 bytes) was rejected as
+  invalid MBIN. Its header starts `cccccccc00000000` and names `TkInputFrameArray`.
+  The failure is recorded; no guessed header repair or fabricated conversion was
+  used. MetadataEtc's converter reported 49,946 conversions and one failure;
+  index validation remains the authority for individual success records.
+- Extended reward evidence: the generic table supplied concrete slots, gift
+  weapon, installed-tech, and UI-message payloads, with IDs and bounded examples.
+  These offline schema findings are documented in research decisions and are not
+  advertised as tested capabilities.
+
+### 2026-10-01: resumable bulk-data corpus
+
+- Source/configuration: [bulk-game-data.py](../runtime/research/bulk-game-data.py),
+  HGPAKtool 1.1.3, zstandard 0.25.0, lz4 4.4.5, development Python 3.14.7, and
+  MBINCompiler 7.04.1-pre3 SHA-256
+  `4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4`.
+- Trigger/conditions: read-only scan of installed `GAMEDATA/PCBANKS`; no save read,
+  runtime attachment, reward trigger, mod installation, or executable write.
+  Compiler conversion uses explicit MBIN input/MXML output and an empty exclude
+  filter, so its default geometry/language exclusions do not silently omit data.
+- Observed: four reward/inventory-related tables converted successfully and a
+  separate `.GEOMETRY.MBIN.PC` candidate produced validly named `.GEOMETRY.MXML`.
+  Unit checks passed for traversal/drive/alternate-stream rejection, XML symbol
+  extraction, malformed XML rejection, and observed geometry output naming.
+  An isolated end-to-end D: validation corpus extracted and converted all six
+  files in `NMSARC.MeshPlanetSKY.pak` (archive SHA-256
+  `f7ae7fd21fe7c93bed2f269b474bcb25014f105cdd4129c393731430f3eefebb`). A second run
+  reused all six records without invoking conversion, and an FTS query for
+  `IndexCount` returned the corresponding generated MXML paths.
+- Failed/revised approach: resolving every individual destination against the
+  filesystem was too slow on a 49,947-entry archive. The pilot was stopped and
+  replaced by lexical traversal rejection plus cached parent-directory containment
+  checks during writes. The revised extraction recorded over 25,000 successful
+  files without an extraction error before the user requested moving work to D:.
+- Storage/rollback state: research tools were moved to
+  `D:\NMS-Courier-Research\tools`. The partial C: corpus and small pilot outputs
+  were relocated to `D:\NMS-Courier-Research\previous-pilot` because recursive
+  deletion was rejected by automatic command review. A fresh full run was started
+  against all 97 PAKs in `D:\NMS-Courier-Research\corpus`; the previous generated
+  directory on C: no longer exists. Its `report.json` and
+  `index.sqlite` are transient local evidence. Extraction/decompilation completion
+  and compatibility across all MBIN types are not yet proven. Installed game files
+  and saves were not changed; no old-build mutation was attempted on build 180383.
+
 | Date | Experiment and trigger | Observed result | Boundary or rejected hypothesis |
 | --- | --- | --- | --- |
 | 2026-09-22/23 | Native XInput startup proxy, exact-build `cGcApplication.Update` hook | Game loaded and one read-only run observed 7,319 callbacks | A callback is not a delivery command channel. Python/pyMHF's earlier authentication did not reliably produce callbacks in later test processes. |

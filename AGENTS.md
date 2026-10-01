@@ -8,6 +8,8 @@ Read [the project plan](docs/PROJECT_PLAN.md) before implementation. Follow its 
 
 Before repeating runtime research, read the [experiment log](docs/EXPERIMENT_LOG.md) and its linked source/evidence. The log is an index, not a substitute for the owning specifications.
 
+For offline data or executable research, use the [batch pipeline](runtime/research/README.md) and its bounded SQLite/TSV queries before repeating individual extractions. Keep proprietary corpora and portable analysis tools in the external research directory; inspect their reports for progress and failures. A newer offline executable fingerprint does not extend the bridge's runtime compatibility.
+
 ## Language
 
 - Write all repository documentation in English: Markdown, architecture decisions, API documentation, diagrams, development guides, changelogs, and release notes.
