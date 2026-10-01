@@ -82,6 +82,13 @@ documented successful corpus checkpoint had 64,705 converted/indexed assets and
 one conversion failure. Storage recovery and the eventual native result remain
 separate from creating this navigation map.
 
+Follow-up diagnosis mapped D: to physical disk 0, which had repeated Windows
+System event 51 I/O errors. The entire corpus report was zero-filled. Read-only
+CHKDSK and reliability-counter queries were denied by OS privileges. Originals
+remain preserved in place; see [the storage diagnosis](EXPERIMENT_LOG.md#2026-10-01-external-research-storage-diagnosis-repair-blocked-by-os-privileges)
+before writing or rebuilding the external corpus. General Healthy status did not
+rule out these observed read failures.
+
 ## Rebuild and search
 
 The [navigation generator](../runtime/research/build-research-index.py) combines

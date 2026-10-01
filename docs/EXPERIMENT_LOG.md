@@ -23,6 +23,38 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: external research storage diagnosis; repair blocked by OS privileges
+
+- Scope/configuration: read-only inspection of D:, its research metadata, Windows
+  System events, volume/partition information, and process inventory. No corpus or
+  native-analysis workers remained active. The affected artifacts belong to the
+  previously recorded build 180383 executable fingerprint
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+  no game or save was accessed.
+- Observed: D: maps to physical disk 0. Windows reported repeated System event 51
+  paging-operation errors on `Harddisk0`. Volume and disk health summaries still
+  reported Healthy/Online, so those summaries did not exclude actual I/O failures.
+  Corpus SQLite/header reads failed; the full 6,434-byte `corpus/report.json`
+  consisted of zero bytes, SHA-256
+  `068789ae01065e68dd3a1aaaebac7ec6b8c4665f312cdfca93a14280ab60d13f`.
+  Native report/log reads also failed. The specific hardware or filesystem cause
+  is not established by these observations.
+- Preservation: copied the readable zero-filled report verbatim to local C:
+  diagnostics with a JSON diagnosis record. Inaccessible database/native files
+  remain untouched; a complete backup could not be claimed. No further research
+  writes were initiated on D:.
+- Reproduction: `Get-Partition -DriveLetter D`, `Get-Disk`, `Get-Volume -DriveLetter D`,
+  and `Get-WinEvent -FilterHashtable @{LogName='System'; Id=51}` expose the mapping
+  and events. Python binary reads identify the zero-filled report without dumping
+  assets. Read-only `chkdsk D:` and `fsutil dirty query D:` returned access denied;
+  storage reliability counters also denied CIM access.
+- Limits/rollback: OS privileges prevented filesystem verification/repair in this
+  session. No format, forced dismount, filesystem modification, deletion, guessed
+  SQLite repair, or research re-extraction was performed. An elevated storage
+  diagnosis and preservation of other important D: data precede any repair or
+  regeneration. The zero-filled report has no original JSON content to recover;
+  rebuilding it would require verified retained metadata or a new extraction.
+
 ### 2026-10-01: research navigation map and unavailable external imports
 
 - Configuration: [navigation index](RESEARCH_INDEX.md),
