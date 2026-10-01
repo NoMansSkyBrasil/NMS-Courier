@@ -18,6 +18,39 @@ All extracted assets, indexes, tool binaries, and logs stay outside the reposito
 
 ## Selected tools and current corpus
 
+### Bounded rebuild pilot (2026-10-01)
+
+The former D: corpus is unavailable after storage errors. Do not use the old
+bulk commands below as the rebuild starting point. The new first step is
+`extract-mbin-pilot.py`: exactly three Precache tables, one converter at a time,
+staging on C: and publication in a new E: directory. It does not repair storage,
+change BitLocker, install mods, or edit game/save files.
+
+The verified pilot is `E:\NMS-Courier-Research-Pilot-20261001`: REWARDTABLE,
+INVENTORYTABLE, and AISPACESHIPMANAGER, each with MBIN and validated MXML.
+Its `report.json` records fingerprints, sizes, and readback hashes. Private
+tools and the staging report remain under `%LOCALAPPDATA%\NMSCourier` on C:.
+Use the direct Python runtime executable: the WindowsApps alias in this session
+could not see the downloaded compiler, although native Python could.
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime\research\extract-mbin-pilot.py `
+  --game "E:\SteamLibrary\steamapps\common\No Man's Sky" `
+  --stage "$env:LOCALAPPDATA\NMSCourier\research-staging\pilot-NEW-ID" `
+  --output E:\NMS-Courier-Research-Pilot-NEW-ID `
+  --compiler "$env:LOCALAPPDATA\NMSCourier\research-tools\MBINCompiler-7.04.1-pre3.exe" `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python"
+```
+
+Existing stage/output directories are rejected. There are no automatic retries
+or deletions. Each MBIN is limited to 32 MiB; conversion is monitored every 250 ms
+against a 128 MiB staging budget and a 120-second timeout. The monitoring budget
+can be exceeded briefly between checks; publication has a strict 128 MiB payload
+limit plus a small report. Two GiB remain reserved on both volumes. A failure
+preserves evidence on C: and aborts the batch. Hash verification detects mismatched
+files; it does not prove physical disk health or guarantee future reliability.
+Full corpus extraction and native decompilation have not been restarted.
+
 - HGPAKtool 1.1.3, zstandard 0.25.0, lz4 4.4.5; pinned in `requirements.txt`.
 - MBINCompiler 7.04.1-pre3, Windows .NET 8 executable, SHA-256
   `4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4`.

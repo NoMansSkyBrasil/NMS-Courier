@@ -9,7 +9,7 @@ running any integration test. A location or matching name is not a verified API.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 48 source files and 99 function entries across `runtime/research` and
+contains 50 source files and 107 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 
@@ -28,6 +28,7 @@ the searchable index; their functions are not parsed by this scanner.
 | Offer transition observations | [watcher](../runtime/native/asi/watch-freighter-offer.py) | Existing exact-build read-only diagnostic; do not execute on an unknown build |
 | Executable function inspection | [inspection tool](../runtime/native/asi/inspect-executable-function.py) | Existing build-specific static inspection |
 | Batch extraction and XML search | [corpus tool](../runtime/research/bulk-game-data.py) | `safe_destination`, `xml_symbols`, `replace_symbols`, `search` |
+| Bounded extraction rebuild on E: | [three-table pilot](../runtime/research/extract-mbin-pilot.py) | C: staging; new E: output; serial conversion and readback hashes |
 | Reward schemas and model references | [schema summarizer](../runtime/research/summarize-delivery-data.py) | `reward_evidence`, `flatten`; bounded samples with reward IDs |
 | Offline native candidate export | [Ghidra exporter](../runtime/research/ExportDeliveryCandidates.java) | String references and pseudocode; function identities remain unverified |
 

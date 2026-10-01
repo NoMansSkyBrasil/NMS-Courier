@@ -23,6 +23,42 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: bounded three-table rebuild published on E:
+
+- Source/configuration: `runtime/research/extract-mbin-pilot.py`, source SHA-256
+  `c94c5cc511ea0beba19540df0439f9b9e4966506d6b303a6505c2c05c5e0d2b3`;
+  executable build 180383, SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  Precache SHA-256
+  `a6371a8b2f065eca33fd306a16cbe2baca9d4ce75806c71e42f74e1ab9295032`.
+  MBINCompiler 7.04.1-pre3 SHA-256
+  `4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4`;
+  HGPAKtool 1.1.3, zstandard 0.25.0, lz4 4.4.5.
+- Trigger/conditions: offline CLI, no save or runtime attachment. Three explicit
+  logical paths only: REWARDTABLE, INVENTORYTABLE, AISPACESHIPMANAGER. Extracted
+  and converted serially on C:, then published one file at a time in
+  `E:\NMS-Courier-Research-Pilot-20261001`; independent staging report remains in
+  `%LOCALAPPDATA%\NMSCourier\research-staging\pilot-20261001` on C:.
+- Observed: all three MXML files parse, and all six published MBIN/MXML files pass
+  readback SHA-256 checks. Payload 11,165,040 bytes plus report. MXML hashes match
+  the earlier recorded tables. E: maps to Samsung disk 1; Windows reports Healthy,
+  with 255,667,372,032 bytes free after publication. The bounded post-run System
+  query returned no warning/error events from disk, storahci, stornvme, or Ntfs
+  during the preceding five minutes. Earlier disk-0 removal remains a separate
+  recorded event; these observations do not establish its cause.
+- Failed preflight: both BitLocker status commands were denied access. Their
+  output cannot determine E: encryption status. No encryption settings were
+  changed. The WindowsApps Python alias could not see the compiler downloaded by
+  PowerShell; switching to the direct Python 3.14 runtime resolved the file lookup.
+  That first failed attempt stopped before extraction/publication.
+- Not proven: whole-corpus reliability, physical disk health, all MBIN mappings,
+  native function identities, or runtime delivery support for build 180383. No
+  full batch or native decompilation was restarted. Twelve Python tests pass,
+  including containment, existing-directory preservation, and converter-budget
+  termination fixtures.
+- Rollback: no game files, mods, saves, D: files, partitions, or BitLocker settings
+  changed. New research files remain available; no automatic cleanup or retry.
+
 ### 2026-10-01: external research storage diagnosis; repair blocked by OS privileges
 
 - Scope/configuration: read-only inspection of D:, its research metadata, Windows
