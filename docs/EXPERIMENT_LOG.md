@@ -23,6 +23,34 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: full E: corpus rebuild started with conservative limits
+
+- Source/configuration: `runtime/research/bulk-game-data.py`, SHA-256
+  `63fa5ba037bdd67c10a7727e1749fef6c1b1cd56a48c04bdab9012425ccffd55`.
+  Offline executable build 180383 SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+  compiler/dependencies match the three-table pilot above. Start 22:06:13 UTC.
+- Trigger/conditions: explicit user authorization to extract all NMS archives.
+  Inventory-only inspection found 97 PAKs, 194,641 entries, 106,483 MBIN candidates,
+  71,022,968,519 uncompressed bytes. No game attachment or save conditions apply.
+  Output `E:\NMS-Courier-Research\corpus`; report mirror/stdout/stderr on C: at
+  `%LOCALAPPDATA%\NMSCourier\diagnostics\extraction-e-20261001`.
+- Limits: one archive at a time; extraction throttled to 16 MiB/s; three seconds
+  between archives; two logical CPUs for the converter; 20 GiB free-space reserve
+  monitored during extraction/conversion/indexing. Storage and SQLite errors stop
+  the worker rather than continuing to other archives. Unsupported conversions
+  are indexed as failures. CPU limiting does not make converter I/O serial.
+- Observed at startup: worker PID 17636 running, Precache extraction active,
+  stderr empty, exact executable/compiler/dependency fingerprints recorded.
+  Thirteen Python tests pass, including converter termination at the reserve.
+- Not proven: completion, aggregate conversion coverage, physical disk reliability,
+  executable decompilation, or runtime support. Read the external report for live
+  status; the initial startup entry must not be treated as completed extraction.
+- Rollback: only new external corpus and C: diagnostics created. D:, game assets,
+  mods, saves, encryption and storage configuration unchanged. Do not remove a
+  live run.lock or start another writer; investigate the logged failure before
+  explicitly resuming an interrupted run.
+
 ### 2026-10-01: bounded three-table rebuild published on E:
 
 - Source/configuration: `runtime/research/extract-mbin-pilot.py`, source SHA-256

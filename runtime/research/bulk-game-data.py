@@ -16,6 +16,32 @@ import time
 import xml.etree.ElementTree as ET
 
 
+def monitored_conversion(command: list[str], root: Path, console, reserve: int,
+                         cpu_limit: int) -> int:
+    """Bound converter CPU use and stop on low space or excessive duration."""
+    child = subprocess.Popen(command, cwd=root, stdout=console, stderr=subprocess.STDOUT)
+    started = time.monotonic()
+    try:
+        if os.name == "nt" and cpu_limit:
+            import ctypes
+            kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+            kernel.SetProcessAffinityMask.argtypes = (ctypes.c_void_p, ctypes.c_size_t)
+            kernel.SetProcessAffinityMask.restype = ctypes.c_int
+            if not kernel.SetProcessAffinityMask(int(child._handle), (1 << cpu_limit) - 1):
+                raise OSError(ctypes.get_last_error(), "Cannot constrain converter CPU affinity")
+        while child.poll() is None:
+            if shutil.disk_usage(root).free < reserve:
+                raise OSError("Converter stopped at free-space reserve")
+            if time.monotonic() - started > 3600:
+                raise TimeoutError("Converter exceeded one-hour archive limit")
+            time.sleep(1)
+        return child.returncode
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.wait()
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -130,7 +156,17 @@ def main() -> None:
     parser.add_argument("--query", help="Search the local FTS5 symbol index")
     parser.add_argument("--limit", type=int, default=20)
     parser.add_argument("--retry-failed", action="store_true")
+    parser.add_argument("--reserve-gib", type=int, default=20)
+    parser.add_argument("--write-mib-per-second", type=int, default=16)
+    parser.add_argument("--archive-pause-seconds", type=int, default=3)
+    parser.add_argument("--converter-cpus", type=int, default=2)
+    parser.add_argument("--report-mirror", type=Path, help="Optional diagnostic report on another volume")
     args = parser.parse_args()
+    if args.reserve_gib < 2 or args.write_mib_per_second < 1 or args.archive_pause_seconds < 0:
+        parser.error("Invalid storage limits")
+    if not 1 <= args.converter_cpus <= min(os.cpu_count() or 1, 64):
+        parser.error("Invalid converter CPU limit")
+    reserve = args.reserve_gib * 1024**3
     args.output = args.output.resolve()
     if args.query:
         if not (args.output / "index.sqlite").is_file():
@@ -146,6 +182,11 @@ def main() -> None:
         parser.error("Output and game installation must be separate directories")
     if args.output.is_relative_to(repository):
         parser.error("Keep proprietary extracted assets outside the repository")
+    if args.report_mirror:
+        args.report_mirror = args.report_mirror.resolve()
+        if args.report_mirror.is_relative_to(args.game) or args.report_mirror.is_relative_to(repository):
+            parser.error("Report mirror must be outside the game and repository")
+        args.report_mirror.parent.mkdir(parents=True, exist_ok=True)
     executable = args.game / "Binaries" / "NMS.exe"
     priority = {"nmsarc.precache.pak": 0, "nmsarc.metadataetc.pak": 1,
                 "nmsarc.entityscenembin.pak": 2}
@@ -183,12 +224,21 @@ def main() -> None:
         "dependencies": {name: importlib.metadata.version(name)
                          for name in ("hgpaktool", "zstandard", "lz4")},
         "archives": [], "status": "running", "mutation": False,
+        "limits": {"reserve_gib": args.reserve_gib,
+                   "extraction_write_mib_per_second": args.write_mib_per_second,
+                   "converter_cpus": args.converter_cpus,
+                   "archive_pause_seconds": args.archive_pause_seconds},
     }
     report = args.output / "report.json"
 
     def save_report() -> None:
+        payload = json.dumps(run, indent=2)
+        if args.report_mirror:
+            mirror_tmp = args.report_mirror.with_suffix(".tmp")
+            mirror_tmp.write_text(payload, encoding="utf-8")
+            mirror_tmp.replace(args.report_mirror)
         temporary = report.with_suffix(".tmp")
-        temporary.write_text(json.dumps(run, indent=2), encoding="utf-8")
+        temporary.write_text(payload, encoding="utf-8")
         temporary.replace(report)
 
     try:
@@ -222,8 +272,8 @@ def main() -> None:
                             continue
                         pending.append(name)
                         required += size
-                    if shutil.disk_usage(root).free < required + 2 * 1024**3:
-                        raise RuntimeError(f"Insufficient space: extraction needs {required} bytes plus reserve")
+                    if shutil.disk_usage(root).free < required + reserve:
+                        raise OSError(f"Insufficient space: extraction needs {required} bytes plus reserve")
                     checked_parents = set()
                     for count, name in enumerate(pending, 1):
                         target = destinations[name]
@@ -237,18 +287,31 @@ def main() -> None:
                         temporary = target.with_name(target.name + ".partial")
                         digest = hashlib.sha256()
                         size = pak.files[name].size
+                        if shutil.disk_usage(root).free < size + reserve:
+                            raise OSError("Extraction stopped at free-space reserve")
                         try:
                             # Audited pinned API iterator streams chunks without buffering large assets.
                             with temporary.open("wb") as output:
+                                write_started = time.monotonic()
+                                written_bytes = 0
                                 for chunk in pak._extractor_function(name):
                                     output.write(chunk)
                                     digest.update(chunk)
+                                    written_bytes += len(chunk)
+                                    if written_bytes > size:
+                                        raise ValueError("Extraction exceeds declared size")
+                                    delay = written_bytes / (args.write_mib_per_second * 1024**2) - (time.monotonic() - write_started)
+                                    if delay > 0:
+                                        time.sleep(delay)
                             if temporary.stat().st_size != size:
                                 raise RuntimeError("Extracted byte count differs from archive index")
                             temporary.replace(target)
                             db.execute("""INSERT OR REPLACE INTO files VALUES
                                 (?,?,?,?,?,?,NULL,NULL,NULL,NULL)""",
                                 (archive_hash, archive.name, name, size, "ok", digest.hexdigest()))
+                        except OSError:
+                            db.commit()
+                            raise
                         except Exception as error:
                             temporary.unlink(missing_ok=True)
                             db.execute("""INSERT OR REPLACE INTO files VALUES
@@ -287,12 +350,13 @@ def main() -> None:
                         command = [str(args.compiler), "convert", "--force",
                                    "--overwrite" if changed_compiler else "--keep",
                                    "--input-format=MBIN", "--output-format=MXML", "--exclude=", str(root)]
-                        completed = subprocess.run(command, cwd=root, stdout=console,
-                                                   stderr=subprocess.STDOUT, timeout=3600)
-                    entry["compiler_exit_code"] = completed.returncode
+                        exit_code = monitored_conversion(command, root, console, reserve, args.converter_cpus)
+                    entry["compiler_exit_code"] = exit_code
                 entry["phase"] = "index"
                 save_report()
                 for position, name in enumerate(mbins, 1):
+                    if position % 100 == 0 and shutil.disk_usage(root).free < reserve:
+                        raise OSError("Indexing stopped at free-space reserve")
                     target = converted_path(destinations[name])
                     row = db.execute("SELECT conversion,compiler_hash FROM files WHERE archive_hash=? AND path=?",
                                      (archive_hash, name)).fetchone()
@@ -305,6 +369,13 @@ def main() -> None:
                         replace_symbols(db, archive_hash, name, str(target), terms)
                         db.execute("UPDATE files SET conversion='ok',compiler_hash=?,xml_path=?,error=NULL WHERE archive_hash=? AND path=?",
                                    (compiler_hash, str(target), archive_hash, name))
+                    except OSError as error:
+                        if isinstance(error, FileNotFoundError):
+                            discard_symbols(db, archive_hash, name)
+                            db.execute("UPDATE files SET conversion='failed',compiler_hash=?,error=? WHERE archive_hash=? AND path=?",
+                                       (compiler_hash, str(error), archive_hash, name))
+                        else:
+                            raise
                     except Exception as error:
                         discard_symbols(db, archive_hash, name)
                         db.execute("UPDATE files SET conversion='failed',compiler_hash=?,error=? WHERE archive_hash=? AND path=?",
@@ -319,9 +390,15 @@ def main() -> None:
                 entry["extraction_counts"] = dict(db.execute(
                     "SELECT extracted,count(*) FROM files WHERE archive_hash=? GROUP BY extracted",
                     (archive_hash,)))
+            except (OSError, sqlite3.Error) as error:
+                entry.update(status="failed", error=str(error))
+                run.update(status="stopped_storage_error", error=str(error))
+                save_report()
+                raise
             except Exception as error:
                 entry.update(status="failed", error=str(error))
             save_report()
+            time.sleep(args.archive_pause_seconds)
         run["status"] = "completed_with_failures" if any(
             item["status"] == "failed" or item.get("conversion_counts", {}).get("failed", 0)
             or item.get("extraction_counts", {}).get("failed", 0)

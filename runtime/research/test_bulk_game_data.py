@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+from unittest.mock import Mock, patch
 
 spec = importlib.util.spec_from_file_location("bulk_game_data", Path(__file__).with_name("bulk-game-data.py"))
 bulk = importlib.util.module_from_spec(spec)
@@ -12,6 +13,16 @@ spec.loader.exec_module(bulk)
 
 
 class CorpusTests(unittest.TestCase):
+    def test_low_space_stops_converter_and_waits_for_termination(self):
+        child = Mock()
+        child.poll.return_value = None
+        with patch.object(bulk.subprocess, "Popen", return_value=child), \
+             patch.object(bulk.shutil, "disk_usage", return_value=Mock(free=10)):
+            with self.assertRaisesRegex(OSError, "reserve"):
+                bulk.monitored_conversion(["fixture"], Path("."), None, 20, 0)
+        child.kill.assert_called_once()
+        child.wait.assert_called_once()
+
     def test_symbol_replacement_and_migration_keep_other_archives_searchable(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "index.sqlite"

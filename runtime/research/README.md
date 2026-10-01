@@ -49,7 +49,40 @@ can be exceeded briefly between checks; publication has a strict 128 MiB payload
 limit plus a small report. Two GiB remain reserved on both volumes. A failure
 preserves evidence on C: and aborts the batch. Hash verification detects mismatched
 files; it does not prove physical disk health or guarantee future reliability.
-Full corpus extraction and native decompilation have not been restarted.
+At the end of the pilot, full corpus extraction and native decompilation had not been restarted.
+
+### Full rebuild started after the pilot
+
+The user authorized all 97 installed PAK archives after the pilot. The new corpus
+is `E:\NMS-Courier-Research\corpus`. Its `report.json`, `index.sqlite`, and
+per-archive converter logs distinguish extracted, converted, unsupported, and
+failed assets. Logs and a report mirror are kept on C: under
+`%LOCALAPPDATA%\NMSCourier\diagnostics\extraction-e-20261001`.
+The initial inventory contains 194,641 archive entries, 106,483 MBIN candidates,
+and 71,022,968,519 uncompressed bytes; duplicate logical paths are retained.
+
+Conservative defaults reserve 20 GiB, throttle binary extraction to 16 MiB/s,
+pause three seconds between archives, and constrain the Windows converter to two
+logical CPUs. Archives run sequentially; the compiler may use parallel work inside
+an archive. The extraction rate does not limit conversion, SQLite, or read traffic.
+Space is checked before each extracted file and every second during conversion;
+storage/SQLite errors abort the run and preserve progress. Converter processes
+are terminated on low space or a one-hour timeout. Unsupported asset formats
+remain recorded failures. These controls do not guarantee physical disk health.
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime\research\bulk-game-data.py `
+  --game "E:\SteamLibrary\steamapps\common\No Man's Sky" `
+  --output E:\NMS-Courier-Research\corpus `
+  --compiler "$env:LOCALAPPDATA\NMSCourier\research-tools\MBINCompiler-7.04.1-pre3.exe" `
+  --compiler-sha256 4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4 `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --report-mirror "$env:LOCALAPPDATA\NMSCourier\diagnostics\extraction-e-20261001\report.json"
+```
+
+Do not start a second writer while `run.lock` exists. A started worker is not
+completion evidence; inspect the report and failure counts. This extracts all
+PAK assets and converts supported MBIN types, not native executable pseudocode.
 
 - HGPAKtool 1.1.3, zstandard 0.25.0, lz4 4.4.5; pinned in `requirements.txt`.
 - MBINCompiler 7.04.1-pre3, Windows .NET 8 executable, SHA-256
@@ -95,7 +128,7 @@ HGPAKtool API to avoid buffering an entire large asset.
 
 `run.lock` prevents concurrent writers. After an interrupted process, verify that
 its recorded PID has exited before removing a stale lock. Conversion has a
-one-hour timeout per archive. Free-space checks reserve two GiB beyond each
+one-hour timeout per archive. Free-space checks reserve 20 GiB by default beyond each
 archive's remaining binary extraction; MXML/index expansion may require more.
 
 ## Token-efficient research
