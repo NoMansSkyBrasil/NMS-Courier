@@ -24,9 +24,11 @@ int main(void) {
     if (!proxy) return 2;
     typedef DWORD(WINAPI *get_state_fn)(DWORD, XINPUT_STATE *);
     typedef void (*snapshot_fn)(LONG counts[5]);
+    typedef LONG (*context_fn)(void);
     get_state_fn get_state = (get_state_fn)GetProcAddress(proxy, "XInputGetState");
     snapshot_fn snapshot = (snapshot_fn)GetProcAddress(proxy, "CourierClassObserverSnapshot");
-    if (!get_state || !snapshot) return 3;
+    context_fn context = (context_fn)GetProcAddress(proxy, "CourierClassContextSnapshot");
+    if (!get_state || !snapshot || !context) return 3;
     XINPUT_STATE state = {0};
     get_state(0, &state);
     Sleep(1000);
@@ -39,6 +41,7 @@ int main(void) {
     }
     LONG before[5];
     snapshot(before);
+    if (context() != 0) return 14;
     for (unsigned index = 0; index < 5; ++index)
         if (before[index] != 0) return 8;
     char root[MAX_PATH], path[MAX_PATH], line[512], event_name[128] = {0};
@@ -73,5 +76,24 @@ int main(void) {
 #endif
     for (unsigned index = 0; index < 5; ++index)
         if (counts[index] != 80) return 6;
+    if (context() != 400) return 15;
+    // Capacity exhaustion must leave argument forwarding and counts intact.
+    for (unsigned index = 0; index < 2000; ++index) {
+        uint64_t selection = selections[index % 5];
+        if (CourierTestClassGenerator(1, 2, 3, selection, 5, 6, 7, 8) != 32 + selection) return 16;
+    }
+    if (context() != 2048) return 17;
+    snapshot(counts);
+    for (unsigned index = 0; index < 5; ++index)
+        if (counts[index] != 480) return 18;
+#ifdef COURIER_CLASS_ARM_FIXTURE
+    if (original_calls != 2800) return 19;
+#else
+    if (original_calls != 2400) return 19;
+#endif
+    printf("pid=%lu context_records=%ld capacity_limit_preserved_forwarding=1\n",
+        (unsigned long)GetCurrentProcessId(), (long)context());
+    // Allow the diagnostic worker to publish the bounded trace before exit.
+    Sleep(2500);
     return 0;
 }

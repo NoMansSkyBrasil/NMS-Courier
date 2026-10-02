@@ -48,8 +48,10 @@ The DLL and reward patch were then removed with verified external backups for a
 vanilla comparison of reported C-class generation. No runtime integration was
 installed during that comparison. The user subsequently clarified that the
 ordinary C-class generation was consistent with the system. A separate
-counter-only class-selection observer is now installed; no data patch or delivery
-adapter is active. See the 2026-10-02 experiment entries for hashes and limits.
+class-selection observer with bounded caller tracing is now installed; no data
+patch or delivery adapter is active. Aggregate B-screen observation completed;
+the caller-tracing revision passed fixtures but awaits live sampling. See the
+2026-10-02 experiment entries for hashes and limits.
 
 | Document | Owns |
 | --- | --- |

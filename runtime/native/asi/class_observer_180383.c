@@ -1,10 +1,11 @@
-// Exact-build argument observation; no game data is read or modified.
+// Exact-build scalar/caller observation; no game object is dereferenced or modified.
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
+#include <stddef.h>
 #include "MinHook.h"
 
 #if !defined(COURIER_OBSERVE_180383) || !defined(COURIER_CLASS_OBSERVER_180383)
@@ -12,11 +13,50 @@
 #endif
 
 volatile LONG courier_class_counts_180383[5];
+#define CLASS_TRACE_CAPACITY 2048
+typedef struct {
+    uintptr_t caller;
+    LONG selection;
+    LONG reserved;
+    volatile LONG ready;
+    LONG padding[3];
+} class_trace_record;
+_Static_assert(sizeof(class_trace_record) == 32, "Assembly trace stride mismatch");
+_Static_assert(offsetof(class_trace_record, selection) == 8, "Assembly selection offset mismatch");
+_Static_assert(offsetof(class_trace_record, ready) == 16, "Assembly publication offset mismatch");
+class_trace_record courier_class_trace_180383[CLASS_TRACE_CAPACITY];
+volatile LONG courier_class_trace_next_180383;
 void *courier_original_class_generator_180383;
 void courier_observe_class_argument(void);
 static void *class_target;
 static MH_STATUS class_status;
 static const char *class_state = "uninitialized";
+
+static void write_class_contexts(const wchar_t *root) {
+    wchar_t path[MAX_PATH];
+    int size = swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-class-contexts-180383-%lu.tsv", root, (unsigned long)GetCurrentProcessId());
+    if (size < 0 || size >= MAX_PATH) return;
+    FILE *file = _wfopen(path, L"w");
+    if (!file) return;
+    uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    const IMAGE_DOS_HEADER *dos = (const IMAGE_DOS_HEADER *)base;
+    const IMAGE_NT_HEADERS *nt = (const IMAGE_NT_HEADERS *)(base + dos->e_lfanew);
+    uintptr_t end = base + nt->OptionalHeader.SizeOfImage;
+    LONG attempted = InterlockedCompareExchange(&courier_class_trace_next_180383, 0, 0);
+    fprintf(file, "# capacity=%d attempted=%ld dropped=%ld\n", CLASS_TRACE_CAPACITY,
+        (long)attempted, (long)(attempted > CLASS_TRACE_CAPACITY ? attempted - CLASS_TRACE_CAPACITY : 0));
+    fprintf(file, "sample\tcaller_rva\targument_3\n");
+    for (unsigned index = 0; index < CLASS_TRACE_CAPACITY; ++index) {
+        const class_trace_record *record = &courier_class_trace_180383[index];
+        if (!InterlockedCompareExchange((volatile LONG *)&record->ready, 0, 0)) continue;
+        if (record->caller >= base && record->caller < end)
+            fprintf(file, "%u\t0x%llx\t%ld\n", index,
+                (unsigned long long)(record->caller - base), (long)record->selection);
+        else
+            fprintf(file, "%u\texternal\t%ld\n", index, (long)record->selection);
+    }
+    fclose(file);
+}
 
 void courier_class_observer_status(void) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -38,6 +78,7 @@ void courier_class_observer_status(void) {
         WriteFile(file, text, (DWORD)size, &written, NULL);
     }
     CloseHandle(file);
+    write_class_contexts(root);
 }
 
 int courier_class_observer_start(void) {
@@ -81,5 +122,16 @@ void courier_class_observer_stop(void) {
 __declspec(dllexport) void CourierClassObserverSnapshot(LONG counts[5]) {
     for (unsigned index = 0; index < 5; ++index)
         counts[index] = InterlockedCompareExchange(&courier_class_counts_180383[index], 0, 0);
+}
+__declspec(dllexport) LONG CourierClassContextSnapshot(void) {
+    LONG count = 0;
+    for (unsigned index = 0; index < CLASS_TRACE_CAPACITY; ++index) {
+        const class_trace_record *record = &courier_class_trace_180383[index];
+        if (!InterlockedCompareExchange((volatile LONG *)&record->ready, 0, 0)) continue;
+        if (!record->caller || (record->selection != 0 && record->selection != 1 &&
+            record->selection != 2 && record->selection != 3 && record->selection != 99)) return -1;
+        ++count;
+    }
+    return count;
 }
 #endif

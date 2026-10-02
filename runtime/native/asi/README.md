@@ -10,6 +10,25 @@ While the game was closed, the previous exact-hash-matched experimental proxy wa
 
 The prior [Ultimate ASI Loader v9.7.4](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/tag/v9.7.4) WinHTTP experiment remains in source as an inactive alternative. Its reviewed archive SHA-256 was `e5860e7d9a1805267535b65749575b5e406cc6ea3325c7392189c578815045d1`; the x64 DLL SHA-256 was `031a3e5576d91dce1e438d36b9a3d462c7334ab4791990a8ff1e3ddc0e132daf`. A fake executable crashed with `0xc0000005` under the loader's default lazy initialization. `dontloadfromdllmain=0` passed five fixture runs but was not accepted as a live-game safety proof. The loader, its config, and its `.asi` plugin were removed from the game before launch. The EXML Carbon planter patch was also removed from `GAMEDATA\MODS`; that folder is empty.
 
+## Bounded class caller tracing (installed, live sampling pending)
+
+The latest `ClassObserver180383` source records up to 2,048 original return
+addresses and R9D values after explicit arming. This separates native call sites
+from aggregate class counters; it does not identify the ship or grant S class.
+The detour saves scratch registers and flags and forwards all arguments unchanged.
+It allocates nothing and performs no file I/O or game-object dereferences.
+The diagnostic worker writes `native-class-contexts-180383-<PID>.tsv` under the
+existing diagnostics directory, using executable-relative addresses. Outside
+callers are labelled `external`; overflow is reported as dropped samples.
+
+The armed fixture verified pre-signal exclusion, argument/return preservation,
+two separate caller addresses and capacity exhaustion. Production-mode fake-host
+rejection also passed. Installed DLL SHA-256 is
+`f9379312f6676d03634cf29a239c1744df59164761d8dfcd13d84ba87a01f0fa`;
+installation occurred with NMS closed and the prior DLL backed up. Live sampling
+of this revision remains pending. Do not
+interpret successful fixtures or a caller address as verified entity scoping.
+
 ## Next read-only callback probe
 
 `native_callback_probe.c` uses the unmodified [MinHook v1.3.4](https://github.com/TsudaKageyu/minhook/releases/tag/v1.3.4) source pinned at commit `c3fcafdc10146beb5919319d0683e44e3c30d537` under `runtime/native/vendor/minhook`, with its original license notice. The callback build adds `-DCOURIER_NATIVE_CALLBACK_PROBE` and links `buffer.c`, `hook.c`, `trampoline.c`, and `hde64.c` from that directory. It is gated behind the executable SHA-256 check and an exact 16-byte in-memory prologue at `cGcApplication.Update` RVA `0x2D7500`. The hook only increments an atomic counter, records the callback thread ID, and calls the original function. A separate worker writes `%LOCALAPPDATA%\NMSCourier\diagnostics\native-hook-<PID>.log` every two seconds, then disables the hook after 180 seconds. There is no item insertion, command transport, or save access in this build.

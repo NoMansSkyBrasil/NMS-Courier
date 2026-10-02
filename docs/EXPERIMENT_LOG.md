@@ -80,9 +80,63 @@ This is the short entry point for resuming exact-build research. Detailed reason
   read confirmed both hooks observing, class hook status zero and all class
   counters initially zero; Update then reached 7,162 calls. Immediate class-log
   reading raced its creation, but the subsequent diagnostic confirmed activation;
-  no second signal was sent. NPC screen correlation remains pending.
+  no second signal was sent. The NPC comparison sequence is recorded below.
+- NPC observation: the user opened a B-class comparison with sampling active.
+  The first read showed 0/1/2/3/other counts 9/3/6/0/0 and 14,110 Update calls.
+  Before a requested single close/reopen of the same B comparison, the sample
+  was 12/3/9/0/0 with 17,121 Update calls. Other buckets changing while discussing
+  a B screen show why aggregate counters cannot identify a particular entity.
+  No class mutation or purchase occurred in this experiment. A B badge is not
+  evidence that every captured argument in that interval belongs to that ship.
+  After the user confirmed a single close/reopen of the same B screen, counters
+  were 18/12/15/0/0 with 28,327 Update calls. Final timed removal reported
+  `observation_complete`, hook status zero, 21/12/18/0/0 and 31,846 Update calls.
+  This completes the observation window, not an S-class delivery test. Caller
+  attribution is required before a generation change can be scoped safely.
 - Rollback: retain the previous observation DLL and exact-hash backups; replace
   only with NMS closed. No data patch or save change is part of this experiment.
+
+### 2026-10-02: bounded class caller tracing fixture-tested and installed
+
+- Target fingerprint: build 180383, executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  The completed aggregate B-screen observation above motivated caller capture.
+- Source/configuration: `class_observer_180383.c`, `.S`, and
+  `tests/class_observer_fixture.c`; `ClassObserver180383` mode retains explicit
+  arming, the existing verified prologue and the ten-minute sampling limit.
+  Prepared production DLL SHA-256:
+  `f9379312f6676d03634cf29a239c1744df59164761d8dfcd13d84ba87a01f0fa`.
+  The detour records the existing return address and unchanged R9D value into
+  DLL-owned storage, preserving scratch registers, flags and stack arguments.
+  No game object dereference, reward dispatch, class change or save access occurs.
+- Bound: 2,048 records, no allocation or file I/O in the detour. Atomic reservation
+  and publication prevent a partial record from being consumed by the worker.
+  Excess calls are counted as dropped samples and still forwarded. The worker
+  publishes relative executable caller addresses in a separate TSV; callers
+  outside the executable are labelled `external` without writing raw addresses.
+- Tests: strict LLVM 23.1.2 compilation passed. The armed fake-host fixture first
+  made 400 calls with no records before signaling, then collected 400 calls with
+  80 per argument bucket. A further 2,000 calls preserved arguments and returns;
+  all 2,800 original calls completed. Published TSV had 2,048 rows, 2,400 attempted
+  samples, 352 dropped and two distinct fixture caller RVAs (400 and 1,648 rows).
+  The production-mode DLL rejected fake NMS PID 3512 as `unsupported_build` while
+  its 400 original Update calls completed normally.
+- Failed setup: the first fixture was named `class-fixture.exe`, so the executable
+  identity gate rejected it and the host returned 11 when its expected log was
+  absent. Renaming the isolated host to `NMS.exe` resolved this fixture setup error;
+  the identity check was retained. Fixture-only build bypasses remain forbidden
+  for game deployment.
+- Not proven: no current-game caller trace has been captured, no caller identifies
+  a particular entity by itself, and no S/Pirate/max-slot freighter was delivered.
+- Installation: after the user confirmed NMS closed, absence of its process was
+  checked twice. Executable, previous aggregate observer and prepared DLL hashes
+  matched; the MODS directory contained no files. The previous DLL was backed up
+  with hash readback, then the new DLL was copied and its installed hash verified.
+  Loaded-save execution of this revision is still pending.
+- Rollback: the completed aggregate-only observer, SHA-256
+  `f22a1d533ff54465bb775da2c910c2fe18b8ecf200e9fb20562a1ec6b89ce9d7`,
+  is preserved in external C: research staging. No data patch, game-memory
+  mutation, save edit or disk-maintenance command was part of this work.
 
 ### 2026-10-02: class-selection argument observer installed
 
