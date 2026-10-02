@@ -8,9 +8,9 @@ Return to [the research index](RESEARCH_INDEX.md).
 
 | Topic | Function | Source | Extraction |
 | --- | --- | --- | --- |
-| bridge | `observe_update` | [runtime/native/asi/callback_observer_180383.c:26](../runtime/native/asi/callback_observer_180383.c#L26) | signature_candidate |
-| bridge | `write_status` | [runtime/native/asi/callback_observer_180383.c:32](../runtime/native/asi/callback_observer_180383.c#L32) | signature_candidate |
-| bridge | `courier_probe_after_verified` | [runtime/native/asi/callback_observer_180383.c:50](../runtime/native/asi/callback_observer_180383.c#L50) | signature_candidate |
+| bridge | `observe_update` | [runtime/native/asi/callback_observer_180383.c:28](../runtime/native/asi/callback_observer_180383.c#L28) | signature_candidate |
+| bridge | `write_status` | [runtime/native/asi/callback_observer_180383.c:34](../runtime/native/asi/callback_observer_180383.c#L34) | signature_candidate |
+| bridge | `courier_probe_after_verified` | [runtime/native/asi/callback_observer_180383.c:56](../runtime/native/asi/callback_observer_180383.c#L56) | signature_candidate |
 | inventory | `courier_deliver_carbon_500_with` | [runtime/native/asi/carbon_delivery_179666.c:16](../runtime/native/asi/carbon_delivery_179666.c#L16) | signature_candidate |
 | inventory | `courier_deliver_carbon_500` | [runtime/native/asi/carbon_delivery_179666.c:38](../runtime/native/asi/carbon_delivery_179666.c#L38) | signature_candidate |
 | research | `courier_class_observer_status` | [runtime/native/asi/class_observer_180383.c:21](../runtime/native/asi/class_observer_180383.c#L21) | signature_candidate |

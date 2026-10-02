@@ -42,6 +42,48 @@ This is the short entry point for resuming exact-build research. Detailed reason
 
 ## Reference points
 
+### 2026-10-02: explicit class-observation arming installed
+
+- Build: the same verified 180383 executable. Process 19008's completed observer
+  could not sample the NPC trade screen opened afterward. The user reported B;
+  the supplied screenshot shows the ship named Voz de Kamots with a B badge.
+  This is UI evidence only, not correlation with earlier argument counters.
+- Source/configuration: `callback_observer_180383.c` now waits for a random,
+  process-specific local event before enabling the class candidate detour.
+  `signal-class-observer.ps1` requires the exact executable fingerprint, intended
+  installed DLL hash, matching log PID, awaiting status and validated event name.
+  The event starts observation only; no reward, class or inventory command exists.
+  Awaiting time is bounded to 30 minutes; sampling remains ten minutes from the
+  signal. Fixture-only startup bypass remains excluded from production.
+- Validation: strict native compilation and PowerShell parsing passed. The armed
+  fixture forwarded 400 original calls before signaling with zero sampled class
+  arguments, then 400 more original calls after signaling, with 80 in each bucket.
+  All eight arguments and original returns were preserved; both original
+  functions had 800 calls. Production fake PID 24304 logged unsupported build,
+  forwarded all 400 original Update calls and created no observer log. The signal
+  script rejected process 19008 without signaling because the user had closed
+  it before the check. This verifies absent-process rejection, not the intended
+  expired-status branch; that separate branch remains untested.
+- Prepared production DLL SHA-256:
+  `f22a1d533ff54465bb775da2c910c2fe18b8ecf200e9fb20562a1ec6b89ce9d7`.
+  External staging: `class-observer-armed-180383-20261002`. After the user closed
+  NMS, executable, old DLL, prepared DLL and backup hashes were verified. The old
+  automatic observer was preserved as `previous-automatic-class-observer.dll`,
+  the new DLL installed, and destination readback matched. MODS remains empty.
+  The user was invited to reopen and prepare an NPC comparison before signaling.
+- Not proven: NPC comparison correlation, S-class
+  freighter delivery, price, ownership or persistence. Merely reopening a cached
+  offer may not invoke the stat-generation candidate.
+- Live arming: new process 23212 reported the exact executable fingerprint,
+  awaiting status and 6,115 Update callbacks after the user confirmed loaded-save
+  station readiness. The hash-guarded script signaled observation once. The next
+  read confirmed both hooks observing, class hook status zero and all class
+  counters initially zero; Update then reached 7,162 calls. Immediate class-log
+  reading raced its creation, but the subsequent diagnostic confirmed activation;
+  no second signal was sent. NPC screen correlation remains pending.
+- Rollback: retain the previous observation DLL and exact-hash backups; replace
+  only with NMS closed. No data patch or save change is part of this experiment.
+
 ### 2026-10-02: class-selection argument observer installed
 
 - Build: 180383 executable SHA-256

@@ -31,6 +31,31 @@ int main(void) {
     get_state(0, &state);
     Sleep(1000);
     static const uint64_t selections[5] = {0, 1, 2, 3, 99};
+#ifdef COURIER_CLASS_ARM_FIXTURE
+    for (unsigned index = 0; index < 400; ++index) {
+        uint64_t selection = selections[index % 5];
+        if (CourierTestClassGenerator(1, 2, 3, selection, 5, 6, 7, 8) != 32 + selection) return 7;
+        CourierTestUpdate(NULL);
+    }
+    LONG before[5];
+    snapshot(before);
+    for (unsigned index = 0; index < 5; ++index)
+        if (before[index] != 0) return 8;
+    char root[MAX_PATH], path[MAX_PATH], line[512], event_name[128] = {0};
+    if (!GetEnvironmentVariableA("LOCALAPPDATA", root, MAX_PATH)) return 9;
+    if (snprintf(path, sizeof(path), "%s\\NMSCourier\\diagnostics\\native-observer-180383-%lu.log", root, (unsigned long)GetCurrentProcessId()) >= (int)sizeof(path)) return 10;
+    FILE *log = fopen(path, "r");
+    if (!log) return 11;
+    while (fgets(line, sizeof(line), log)) {
+        if (sscanf(line, "class_start_event=%127s", event_name) == 1) break;
+    }
+    fclose(log);
+    HANDLE start_event = OpenEventA(EVENT_MODIFY_STATE, FALSE, event_name);
+    if (!start_event) return 12;
+    if (!SetEvent(start_event)) { CloseHandle(start_event); return 13; }
+    CloseHandle(start_event);
+    Sleep(500);
+#endif
     for (unsigned index = 0; index < 400; ++index) {
         uint64_t selection = selections[index % 5];
         uint64_t result = CourierTestClassGenerator(1, 2, 3, selection, 5, 6, 7, 8);
@@ -41,7 +66,11 @@ int main(void) {
     snapshot(counts);
     printf("original_calls=%ld counts=%ld,%ld,%ld,%ld,%ld\n", (long)original_calls,
         (long)counts[0], (long)counts[1], (long)counts[2], (long)counts[3], (long)counts[4]);
+#ifdef COURIER_CLASS_ARM_FIXTURE
+    if (original_calls != 800 || update_calls != 800) return 5;
+#else
     if (original_calls != 400 || update_calls != 400) return 5;
+#endif
     for (unsigned index = 0; index < 5; ++index)
         if (counts[index] != 80) return 6;
     return 0;

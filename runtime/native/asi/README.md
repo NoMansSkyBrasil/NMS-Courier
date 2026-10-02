@@ -72,8 +72,21 @@ assembly detour at the exact-hash, exact-prologue stat-generation candidate
 class arguments or dispatching rewards. Both hooks expire after ten minutes.
 Counts describe function arguments, not delivered entities or final badges.
 
-The installed DLL SHA-256 is
+The subsequent explicit-arming revision waits up to 30 minutes before sampling.
+Use `signal-class-observer.ps1 -GameProcessId <pid> -ExpectedDllSha256 <tested-hash>`
+only after loading the disposable save and preparing the desired observation.
+It starts a ten-minute argument-observation window, not delivery. Inspect the
+experiment log for the currently prepared/installed DLL hash; never substitute
+an arbitrary DLL hash or treat an expired counter as a new offer sample.
+
+The initial automatic-window DLL SHA-256 was
 `3f2ce882e975313d3a4381ba75aec23e62fcca8f922c1322bebcd000ad5d208a`.
 The argument/return fixture and production-mode unknown-build rejection passed.
 The original reward patch remains isolated; the MODS directory contains no files.
 See the experiment log before installing, replacing or removing this profile.
+
+The explicitly armed revision installed afterward has SHA-256
+`f22a1d533ff54465bb775da2c910c2fe18b8ecf200e9fb20562a1ec6b89ce9d7`.
+Its fixture verifies zero class sampling before the signal and preserved native
+arguments/returns afterward. The earlier automatic observer is retained as a
+rollback copy outside the game.

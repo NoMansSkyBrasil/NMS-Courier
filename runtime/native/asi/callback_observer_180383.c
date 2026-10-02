@@ -1,6 +1,7 @@
 // Observation only: no inventory layouts, commands, rewards, or save access.
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <bcrypt.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -18,6 +19,7 @@ static update_fn original_update;
 static volatile LONG count;
 static volatile LONG callback_thread;
 #ifdef COURIER_CLASS_OBSERVER_180383
+static wchar_t class_start_event_name[128];
 int courier_class_observer_start(void);
 void courier_class_observer_status(void);
 void courier_class_observer_stop(void);
@@ -38,8 +40,12 @@ static void write_status(const char *status, MH_STATUS result) {
     // The startup verifier already created this diagnostics directory.
     HANDLE file = CreateFileW(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (file == INVALID_HANDLE_VALUE) return;
-    char text[256];
+    char text[512];
+#ifdef COURIER_CLASS_OBSERVER_180383
+    size = snprintf(text, sizeof(text), "status=%s\npid=%lu\nhook_status=%d\ncallback_count=%ld\ncallback_thread=%ld\nmode=observation_only\nclass_start_event=%ls\n", status, (unsigned long)GetCurrentProcessId(), result, (long)InterlockedCompareExchange(&count, 0, 0), (long)InterlockedCompareExchange(&callback_thread, 0, 0), class_start_event_name);
+#else
     size = snprintf(text, sizeof(text), "status=%s\npid=%lu\nhook_status=%d\ncallback_count=%ld\ncallback_thread=%ld\nmode=observation_only\n", status, (unsigned long)GetCurrentProcessId(), result, (long)InterlockedCompareExchange(&count, 0, 0), (long)InterlockedCompareExchange(&callback_thread, 0, 0));
+#endif
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
         WriteFile(file, text, (DWORD)size, &written, NULL);
@@ -71,6 +77,43 @@ void courier_probe_after_verified(void) {
     if (result != MH_OK) { write_status("hook_enable_failed", result); return; }
     write_status("observing", MH_OK);
 #ifdef COURIER_CLASS_OBSERVER_180383
+#if !defined(COURIER_NATIVE_CALLBACK_FIXTURE) || defined(COURIER_CLASS_ARM_FIXTURE)
+    unsigned long random[4];
+    if (BCryptGenRandom(NULL, (PUCHAR)random, sizeof(random), BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0) {
+        MH_DisableHook(target);
+        write_status("class_event_random_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+    int name_size = swprintf(class_start_event_name, 128,
+        L"Local\\NMSCourier-ClassObserver-%lu-%08lx%08lx%08lx%08lx",
+        (unsigned long)GetCurrentProcessId(), random[0], random[1], random[2], random[3]);
+    if (name_size < 0 || name_size >= 128) {
+        MH_DisableHook(target);
+        write_status("class_event_name_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+    HANDLE start_event = CreateEventW(NULL, TRUE, FALSE, class_start_event_name);
+    DWORD event_error = GetLastError();
+    if (!start_event || event_error == ERROR_ALREADY_EXISTS) {
+        if (start_event) CloseHandle(start_event);
+        MH_DisableHook(target);
+        write_status("class_event_create_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+    DWORD wait_result = WAIT_TIMEOUT;
+    write_status("awaiting_class_start", MH_OK);
+    for (unsigned seconds = 0; seconds < 1800; seconds += 2) {
+        wait_result = WaitForSingleObject(start_event, 2000);
+        if (wait_result != WAIT_TIMEOUT) break;
+        write_status("awaiting_class_start", MH_OK);
+    }
+    CloseHandle(start_event);
+    if (wait_result != WAIT_OBJECT_0) {
+        MH_DisableHook(target);
+        write_status(wait_result == WAIT_TIMEOUT ? "class_arm_expired" : "class_arm_wait_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+#endif
     if (!courier_class_observer_start()) {
         MH_DisableHook(target);
         write_status("class_observer_start_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
