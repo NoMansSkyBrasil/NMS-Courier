@@ -107,3 +107,91 @@ to final palette output without tracing the texture selection path.
    Do not promise exhaustive 2^64 enumeration or every arbitrary configuration.
 6. Integrate verified evaluation/search in Electron independently of delivery;
    rendering a requested preview does not prove the seed produces it in game.
+
+## 2026-10-02: Generation path and integer primitives
+
+The mechanism traced here is deterministic procedural generation, not encryption.
+Knowing its forward arithmetic does not by itself invert arbitrary part/color
+constraints or reveal a natural portal location.
+
+The pinned [public signature database](https://github.com/monkeyman192/NMS.py/blob/52e2e55493ddade1d89d3e638491afff995f5631/tools/data.json)
+has SHA-256 `1acdf18b60e9d23fb7f75cc4e7eb27d11be8ed0daaf4ab06de6539ba4d074089`.
+The bounded scanner's new `--function-term` option located a unique candidate
+for `cGcResourceCustomisation::CreateGenerationTask` at RVA `1149fe0`.
+AddResource and ParseData signatures had no match. Public names remain candidate
+labels, not current-build ABI or runtime verification.
+
+| Offline RVA | Observed role in the traced path |
+| --- | --- |
+| `1149fe0` | Prepares customisation data and submits a generation task |
+| `1149020` | Branches between seed-driven and explicit descriptor preparation |
+| `637db0`, `6377e0` | Allocates, copies and queues task inputs; no PRNG established here |
+| `2d63670`, `2d641c0` | Seed-driven preparation leading to automatic selection |
+| `2d636b0`, `2d63810` | Explicit descriptor matching with nested/reference traversal |
+| `2d649f0` | Descriptor resource lookup/cache path |
+| `2d652d0` | Resource-linked matching/exclusion data lookup; not the PRNG |
+| `2d63bf0` | Automatic selection, seed-state initialization and recursive seed derivation |
+| `2d67800` | Filters options, computes weights and draws a group choice |
+| `2d64800`, `2d623c0`, `2d69ad0` | Name classification, recursion and inclusion predicates |
+
+All six stages completed: 1/2/3/3/3/3 exports in 31/19/19/19/19/19 seconds,
+respectively, with no export failures. Their committed seed TSVs reproduce these
+exports through the existing launcher. Proprietary pseudocode remains external.
+
+### Assembly-checked arithmetic
+
+`procedural-seed-primitives.py` is an **experimental research module**, independent
+of runtime delivery. It implements only these observed integer operations:
+
+- Enabled seed: initialize low word to `low32(seed)`, replacing zero with one;
+  carry is `ror32(low32(seed),16) XOR high32(seed) XOR low32(seed)`.
+  A disabled seed uses `(1,0)`.
+- Draw: `product = low * 0x5a76f899 + carry`; store low/high 32-bit words of the
+  product and use the low word as the draw.
+- Unfiltered weighted choice: map the draw by `(draw * totalWeight) >> 32`.
+  Native Name markers are case-sensitive: `xRARE` weight 1, `xNEVER` weight 0,
+  ordinary and `xWEIRD` weight 20. Marker precedence is significant. XML Chance
+  alone does not determine this branch's weights.
+- Reference child seed: advance twice, concatenate second/first low-word draws,
+  then apply three XOR-right-shift-33 operations with two intervening uint64
+  multiplications by `0x64dd81482cbd31d7` and `0xe36aa5c613612997`.
+
+Assembly windows: initialization `2d63c22..2d63c46`, group draw
+`2d67c4f..2d67c79`, reference child derivation `2d63f70..2d63ff1`.
+The first automatic-selector unwind fragment ends at `2d63c6e`; separate
+fragments were needed to inspect the child arithmetic. Do not assume a single
+unwind range contains the entire function. Literal windows resolved `xRARE`,
+`xNEVER`, `xWEIRD`, `_PLAYER_` and `LOD`; `_PLAYER_` takes a distinct recursion
+path. The task constructor has no demonstrated worker vtable.
+
+`inspect-native-fragments.py` exports bounded instruction/literal windows from
+the fingerprinted executable. `test_procedural_seed_primitives.py` passed three
+boundary/choice tests and replayed the three actual assembly windows for 1,005
+seeds with no mismatches. Its small fail-closed instruction interpreter does
+not execute native code. This validates the arithmetic against offline assembly,
+**not** complete native execution, selected ship parts, colors or delivery.
+
+Unresolved: original seed propagation into every ship customisation input;
+model-list boundaries and traversal order; `_PLAYER_` special handling; `_X`/X
+inclusion and resource exclusions; override selection and duplicate suppression;
+recursive reference loading and palettes. The isolated weighted-choice helper
+does not implement those filters or overrides. Current Sentinel metadata has
+27 options with reference paths; Fighter has 31. A flat list of groups is not
+enough for a faithful ship evaluator. Do not expose this as a working generator.
+
+### Supplied nms.center HTML
+
+Static inspection of the supplied 652,667-byte HTML, SHA-256
+`3a8e1db7e3d818987100a10a1a6cb341960f4ea38c8938062de4742bb28dfe05`,
+shows `RemoteProceduralGeneration` submitting type/seed to a remote service and
+receiving parts/colors/stats. `GenerateParts` traverses preview choices;
+`GetCurrentPartsHash` uses CRC32 of selected configuration identifiers. That CRC32
+is not evidence of the game's seed PRNG or its inverse. Search command creation
+encodes categorical part/color selections for server processing. The private
+server algorithm is absent from this client. No service requests were made,
+scripts executed, authentication used or private backend obtained.
+
+External evidence: `seed-analysis-180383/generation-signatures`,
+`selector-assembly.json`, `selector-child-assembly.json` and the six
+`acquisition-180383/procedural*-export` directories. No installed game, bridge,
+mod, save, disk settings or runtime process changed.

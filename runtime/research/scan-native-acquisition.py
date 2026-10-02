@@ -26,11 +26,15 @@ def main():
                         help='Exact descriptor/seed metadata type names; maximum 16')
     parser.add_argument('--metadata-only', action='store_true',
                         help='Skip unrelated public acquisition signature scans')
+    parser.add_argument('--function-term', action='append', default=[],
+                        help='Select public signature labels by bounded substring; maximum 16')
     args = parser.parse_args()
     if len(args.metadata_name) > 16 or any(not re.fullmatch(r'GcReward[A-Za-z0-9]+', name) for name in args.metadata_name):
         parser.error('Metadata names must be exact GcReward identifiers; maximum 16')
     if len(args.type_name) > 16 or any(not re.fullmatch(r'(?:Tk|Gc)[A-Za-z0-9]+', name) for name in args.type_name):
         parser.error('Type names must be exact Tk/Gc identifiers; maximum 16')
+    if len(args.function_term) > 16 or any(not 1 <= len(t) <= 128 for t in args.function_term):
+        parser.error('Function terms must have 1..128 characters; maximum 16')
     exe = args.executable.resolve()
     output = args.output.resolve()
     if output.is_relative_to(exe.parent.parent) or output.is_relative_to(Path(__file__).resolve().parents[2]):
@@ -53,7 +57,8 @@ def main():
         return ranges[index] if index >= 0 and rva < ranges[index][1] else None
 
     database = json.loads(args.database.read_text(encoding='utf-8'))
-    selected = [f for f in database['functions'] if any(term in f['name'] for term in ('PurchaseableItem', 'FreighterOwnership', 'GiveGenericReward', 'InteractionComponent::GiveReward', 'InventoryStore::Add'))]
+    terms = args.function_term or ('PurchaseableItem', 'FreighterOwnership', 'GiveGenericReward', 'InteractionComponent::GiveReward', 'InventoryStore::Add')
+    selected = [f for f in database['functions'] if any(term in f['name'] for term in terms)]
     if args.metadata_only:
         selected = []
     decoder = Cs(CS_ARCH_X86, CS_MODE_64)

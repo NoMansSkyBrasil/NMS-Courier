@@ -36,7 +36,7 @@ class NativeIndexTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'SHA-256'):
                 list(index.native_items(root))
 
-    def test_reward_and_weapon_stages_remain_searchable_unverified_candidates(self):
+    def test_integration_stages_remain_searchable_unverified_candidates(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / 'run.json').write_text(json.dumps({'exe_sha256': 'b' * 64}))
@@ -44,7 +44,9 @@ class NativeIndexTests(unittest.TestCase):
             (root / 'export/manifest.tsv').write_text('rva\tpublic_candidate\tstatus\n')
             stages = ('rewardflags', 'rewardfields', 'weaponmetadata',
                       'weaponhandler', 'weaponserializer', 'weaponfields',
-                      'capabilitymetadata', 'capabilityhandlers')
+                      'capabilitymetadata', 'capabilityhandlers', 'descriptors',
+                      'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
+                      'proceduralselection', 'proceduralselector', 'proceduralchoice')
             for number, stage in enumerate(stages, 1):
                 target = root / (stage + '-export')
                 target.mkdir()

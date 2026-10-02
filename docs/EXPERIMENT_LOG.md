@@ -921,3 +921,46 @@ no missing/ambiguous IDs or ancestor conflicts. Negative checks rejected
 WINGS_V+WINGS_H, SKIRT_B+TEETH_A and a nonexistent ID. These checks validate
 conditional metadata only; no seed was derived or evaluated. External result:
 `seed-analysis-180383/sentinel-user-constraints.json`.
+
+## 2026-10-02: Procedural generation chain and assembly arithmetic replay
+
+Build 180383 / executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Offline only; no loaded save, live trigger or runtime mutation required.
+Sources/configuration: bounded public signature terms CreateGenerationTask,
+AddResource and ParseData; pinned NMS.py database and supplied nms.center HTML
+hashes in [procedural seed research](PROCEDURAL_SEED_RESEARCH.md).
+Committed `procedural-*-180383.tsv` lists reproduce six Ghidra stages on the
+existing Acquisition180383 project using Ghidra 12.1.4/JDK 25.0.4.1, max CPU 2.
+
+CreateGenerationTask produced a unique candidate at 1149fe0; AddResource and
+ParseData did not match. Six stages exported 15 candidates, all successful,
+in 31/19/19/19/19/19 seconds. Traced descriptor preparation through 2d63bf0
+and weighted group selection 2d67800. Literal windows resolved xRARE/xNEVER/
+xWEIRD, _PLAYER_ and LOD. Name markers affect selection weights in this branch;
+raw XML Chance is not sufficient. Explicit choice preparation is separate from
+automatic selection. Task submission/construction copies inputs and does not
+establish a worker vtable or appearance PRNG by itself.
+
+Implemented experimental seed initialization, multiply/carry advance,
+unfiltered weighted choice and reference-child seed mixing. Capstone 5.0.5
+disassembly confirmed three arithmetic windows, including a split unwind fragment
+that the first-fragment scan missed. A fail-closed instruction interpreter replayed
+all three windows for 1,005 fixed/generated seeds (3,015 comparisons) without
+mismatch. Three boundary/choice tests passed. No native instructions were executed.
+
+Static HTML inspection found remote seed evaluation and configuration CRC32 keys,
+not a client-side inverse algorithm. No remote API, authentication or private
+service was used. External evidence: generation-signatures, selector-assembly.json,
+selector-child-assembly.json under seed-analysis-180383; six procedural export
+directories under acquisition-180383.
+
+Not proven: original ship seed propagation, complete filtered/override selection,
+reference traversal order, textures/colors, appearance equivalence with live NMS,
+inverse search, natural locations or delivery. Keep proprietary exports external.
+Rollback: none needed; game executable, installed bridge, patches and saves were
+not changed. No disk repair, storage setting or BitLocker operation occurred.
+
+Navigation rebuilt: 76 source files, 173 source functions, 194,641 data paths,
+88 native candidates and no import warnings. Native index regression checks
+include the new stages and retain their unverified status.

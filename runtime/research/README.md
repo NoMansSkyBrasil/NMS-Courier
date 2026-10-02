@@ -302,3 +302,25 @@ accepts a pinned executable/hash, up to 16 `--target <hex-rva>` arguments,
 It checks direct E8/E9 instruction boundaries and exports caller seed candidates;
 indirect calls and split unwind fragments remain incomplete. No process/save API
 is used. Do not interpret metadata hashing as the appearance PRNG.
+
+The six `procedural-*-180383.tsv` seed lists trace task preparation through
+automatic descriptor selection; owning evidence is in the seed research document.
+Use stages `proceduraltask`, `proceduraltaskcallees`, `proceduraltaskconstructor`,
+`proceduralselection`, `proceduralselector`, and `proceduralchoice` respectively.
+`scan-native-acquisition.py --function-term <bounded-substring>` selects public
+signature labels, without asserting current native identity.
+
+`inspect-native-fragments.py --executable <pinned-exe> --sha256 <hash>
+--python-tools <external-capstone> --rva <hex> --literal <hex> --output
+<new-external-json>` exports up to 16 bounded unwind fragments/literal windows.
+`procedural-seed-primitives.py --seed 0x1ad0003900054 --draws 8` prints an
+experimental integer trace, not parts or colors. Validate with:
+
+```powershell
+python runtime/research/test_procedural_seed_primitives.py --assembly `
+  E:\NMS-Courier-Research\seed-analysis-180383\selector-assembly.json --assembly `
+  E:\NMS-Courier-Research\seed-analysis-180383\selector-child-assembly.json
+```
+
+Without external assembly reports the command runs boundary tests only; that is
+not a fresh assembly comparison. The interpreter never invokes native code.

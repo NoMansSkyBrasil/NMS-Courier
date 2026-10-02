@@ -171,3 +171,9 @@ The snapshot is not updated automatically. Regenerate it when new exports or sou
 functions arrive. `navigation.json` records generation time and generator SHA-256.
 Run `python runtime/research/validate-navigation-index.py` to repeat the synthetic
 import, search, provenance, rebuild, and partial-import rollback checks.
+
+For procedural seeds, start with [the owning research notes](PROCEDURAL_SEED_RESEARCH.md).
+The index now imports six `procedural*-export` stages, from task creation to
+automatic descriptor selection. Search `Descriptor` or `Generation task` before
+scanning exports. `procedural-seed-primitives.py` and its assembly replay tests
+cover integer arithmetic only; they do not expose an appearance/delivery capability.

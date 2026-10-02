@@ -87,7 +87,9 @@ def native_items(native):
         stages = ('layout', 'inventory', 'setup', 'initializer', 'handler', 'metadata',
                   'focused', 'rewardflags', 'rewardfields', 'weaponmetadata',
                   'weaponhandler', 'weaponserializer', 'weaponfields',
-                  'capabilitymetadata', 'capabilityhandlers', 'descriptors')
+                  'capabilitymetadata', 'capabilityhandlers', 'descriptors',
+                  'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
+                  'proceduralselection', 'proceduralselector', 'proceduralchoice')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 continue
