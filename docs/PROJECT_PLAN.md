@@ -44,6 +44,10 @@ installed for the newer 180383 executable. Process 20928 recorded 7,042 callback
 and successful timed hook removal while the user reached loaded-save gameplay.
 No inventory/delivery adapter was migrated. See the experiment log.
 
+The DLL and reward patch were then removed with verified external backups for a
+vanilla comparison of reported C-class generation. No runtime integration is
+currently installed; the generation-control outcome remains pending.
+
 | Document | Owns |
 | --- | --- |
 | [ARCHITECTURE](ARCHITECTURE.md) | Stack, process boundaries, services, dependency rules |

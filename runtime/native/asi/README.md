@@ -55,3 +55,9 @@ gameplay. The process remained alive after hook removal. This validates only
 the callback, not inventory access or delivery. The older
 delivery DLL is backed up on C:; all historical delivery results above apply
 only to build 179666. See the experiment log for installation and rollback.
+
+The observer and reward patch were subsequently removed from the game's loading
+paths for a vanilla generation control after the user reported unexpectedly
+frequent C-class entities. Exact-hash backups remain outside the game. The live
+callback result above remains valid; neither the observer nor delivery is
+currently installed. See the experiment log before reinstalling anything.

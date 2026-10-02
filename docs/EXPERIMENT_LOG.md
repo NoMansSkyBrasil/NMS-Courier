@@ -90,7 +90,7 @@ This is the short entry point for resuming exact-build research. Detailed reason
   source/destination hashes. That older DLL rejects the current game build.
   Reward patch and game/save files were not changed.
 
-### 2026-10-02: reported C-class generation; isolation pending
+### 2026-10-02: reported C-class generation; vanilla control prepared
 
 - Build/configuration: the same exact 180383 executable and counter-only DLL
   as above. The installed reward EXML remains SHA-256
@@ -106,9 +106,25 @@ This is the short entry point for resuming exact-build research. Detailed reason
   or normal generation probabilities. The reward patch's narrow intended scope
   does not exclude a loader/merge effect. User observations lack a controlled
   vanilla comparison and a measured sample.
-- Next/rollback: with the game closed, preserve exact-hash copies and temporarily
-  remove Courier's proxy and reward patch for a fresh-process comparison. Do not
-  edit saves, force class or change shared generation tables during diagnosis.
+- Further user observations: multitools also appeared C; an expedition reward
+  ship expected to be A/S appeared C and was reportedly C in a save editor.
+  After changing systems, the user encountered a B-class ship. This contradicts
+  an absolute all-C lock but does not establish expected class probabilities or
+  whether the expedition reward's original expected class was correct.
+- Control preparation: after confirming NMS was closed, verify the exact game
+  fingerprint and all three Courier file hashes; copy the proxy, reward EXML,
+  and its `.before-explicit-backup` to the external C: staging directory
+  `generation-isolation-180383-20261002`, verify every copied hash, and remove
+  only those three exact source files. The backup EXML's hash is
+  `0745a424670c848ee17e7df5621236bd11b355dd8bd8f0640f3a20abbc1f45a3`.
+  A manifest retains relative source paths and expected hashes. MODS contains
+  no files afterward; the proxy is absent. Game settings and saves were not
+  changed. Vanilla fresh-process class observations are pending.
+- Rollback: preserve the external backups; restore only while NMS is closed,
+  with expected executable/backup hashes and absent destination files. Existing
+  owned entities can retain saved class independently of the removed patches;
+  compare naturally generated entities before blaming or changing persistent
+  state. Do not edit saves or force class during diagnosis.
 
 | Subject | Location or identity | Use |
 | --- | --- | --- |
