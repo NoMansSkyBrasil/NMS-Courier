@@ -3,7 +3,7 @@ param(
     [string]$Compiler,
     [Parameter(Mandatory = $true)]
     [string]$Output,
-    [ValidateSet('Startup', 'Callback', 'Observer180383', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
+    [ValidateSet('Startup', 'Callback', 'Observer180383', 'ClassObserver180383', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
     [string]$Mode = 'Startup'
 )
 
@@ -18,8 +18,13 @@ if ($Mode -ne 'Startup') {
     $arguments += '-DCOURIER_NATIVE_CALLBACK_PROBE'
     $arguments += @('-I', (Join-Path $vendor 'include'))
 }
-if ($Mode -eq 'Observer180383') {
+if ($Mode -in @('Observer180383', 'ClassObserver180383')) {
     $arguments += '-DCOURIER_OBSERVE_180383'
+}
+if ($Mode -eq 'ClassObserver180383') {
+    $arguments += '-DCOURIER_CLASS_OBSERVER_180383'
+    $arguments += @((Join-Path $directory 'class_observer_180383.c'),
+        (Join-Path $directory 'class_observer_180383.S'))
 }
 
 if ($Mode -eq 'DeliveryTest') {
@@ -41,7 +46,7 @@ $arguments += @('-o', $Output,
     (Join-Path $directory 'xinput_proxy.c'))
 
 if ($Mode -ne 'Startup') {
-    if ($Mode -eq 'Observer180383') {
+    if ($Mode -in @('Observer180383', 'ClassObserver180383')) {
         $arguments += (Join-Path $directory 'callback_observer_180383.c')
     } else {
         $arguments += (Join-Path $directory 'native_callback_probe.c')

@@ -42,6 +42,57 @@ This is the short entry point for resuming exact-build research. Detailed reason
 
 ## Reference points
 
+### 2026-10-02: class-selection argument observer installed
+
+- Build: 180383 executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  The user clarified that the naturally encountered C ships were consistent with
+  the system's economy, resolving that reported global-generation suspicion.
+  The separate reported Starborn Runner acquired-class discrepancy is not
+  independently resolved by that clarification.
+- Source/configuration: `build-probe.ps1 -Mode ClassObserver180383`,
+  `callback_observer_180383.c`, `class_observer_180383.c` and `.S`, MinHook 1.3.4,
+  llvm-mingw 20260922 / LLVM 23.1.2. Class candidate RVA `0x4cea20`, exact first
+  32 bytes `48895c241048896c2420565741564881eca0000000488bf14963e9488d8c24d0`.
+  Offline disassembly copies R9D into RBP, and existing exported pseudocode uses
+  that fourth argument to index class-dependent stat segments. This is an
+  observation target, not an approved callable delivery API or class setter.
+- Trigger/conditions: assembly detour counts R9D values 0, 1, 2, 3 and other,
+  preserves flags and all argument registers/stack arguments, then tail-jumps
+  into MinHook's original trampoline. It makes no helper call and does not
+  dereference game objects or change arguments. The callback logs every two
+  seconds and removes both hooks after ten minutes. No reward events/data patch
+  or inventory/save access are present. Class input counters are not proof of
+  an entity's visible or resulting owned class.
+- Fixture failure: an empty Update stub was too short for MinHook and rejected
+  with hook status 8; class counters remained zero. The fixture stub was replaced
+  by a counted original function. This did not involve the real game. An initial
+  PowerShell compiler invocation also failed parsing an unquoted comma-containing
+  linker option, before execution; quoting that option resolved it.
+- Fixture result: 400 original generator calls and 400 original Update calls,
+  80 inputs in each bucket, eight arguments and original return values preserved.
+  Strict compilation passed. The production DLL rejected fake executable PID
+  21360, forwarded 400 Update calls and produced no class hook log.
+- Installed DLL SHA-256:
+  `3f2ce882e975313d3a4381ba75aec23e62fcca8f922c1322bebcd000ad5d208a`.
+  Installation required closed game, matching executable/source hashes, absent
+  destination proxy and no MODS files. Readback matched. Process 19008 then
+  logged exact-build startup, Update hook status zero and class hook status zero;
+  its first sample had 653 callbacks and no class candidate invocations yet.
+- Not proven: live class argument samples in loaded-save generation, which
+  object/flow reaches this candidate, S-class delivery, visible badge, stats,
+  slots, ownership or persistence. Await gameplay observations before mutation.
+- Loaded-save observation: the user confirmed loading the disposable save.
+  The next class sample had argument 0 twice, argument 1 twice and argument 3
+  once, with no other arguments and hook status zero. Update reached 18,164
+  callbacks and the process remained responsive. This confirms candidate
+  execution with multiple inputs, not that they belong to particular NPCs or
+  the requested freighter. A controlled NPC comparison remains pending; opening
+  an existing owned inventory may not invoke this generator.
+- Rollback: remove only this exact-hash proxy while NMS is closed. Prior observer
+  and reward files remain in the external generation-isolation backup. No data
+  patch was restored, and no save or global class table was changed.
+
 ### 2026-10-02: current-build observation bridge verified in gameplay
 
 - Build: installed NMS 180383 SHA-256

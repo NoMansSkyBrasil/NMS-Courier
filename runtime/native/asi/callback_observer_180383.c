@@ -17,6 +17,11 @@ typedef void (WINAPI *update_fn)(void *application);
 static update_fn original_update;
 static volatile LONG count;
 static volatile LONG callback_thread;
+#ifdef COURIER_CLASS_OBSERVER_180383
+int courier_class_observer_start(void);
+void courier_class_observer_status(void);
+void courier_class_observer_stop(void);
+#endif
 
 static void WINAPI observe_update(void *application) {
     InterlockedIncrement(&count);
@@ -65,10 +70,26 @@ void courier_probe_after_verified(void) {
     result = MH_EnableHook(target);
     if (result != MH_OK) { write_status("hook_enable_failed", result); return; }
     write_status("observing", MH_OK);
-    for (unsigned seconds = 0; seconds < 180; seconds += 2) {
+#ifdef COURIER_CLASS_OBSERVER_180383
+    if (!courier_class_observer_start()) {
+        MH_DisableHook(target);
+        write_status("class_observer_start_failed", MH_ERROR_UNSUPPORTED_FUNCTION);
+        return;
+    }
+    const unsigned duration = 600;
+#else
+    const unsigned duration = 180;
+#endif
+    for (unsigned seconds = 0; seconds < duration; seconds += 2) {
         Sleep(2000);
         write_status("observing", MH_OK);
+#ifdef COURIER_CLASS_OBSERVER_180383
+        courier_class_observer_status();
+#endif
     }
+#ifdef COURIER_CLASS_OBSERVER_180383
+    courier_class_observer_stop();
+#endif
     result = MH_DisableHook(target);
     write_status(result == MH_OK ? "observation_complete" : "hook_disable_failed", result);
 }

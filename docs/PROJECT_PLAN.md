@@ -45,8 +45,11 @@ and successful timed hook removal while the user reached loaded-save gameplay.
 No inventory/delivery adapter was migrated. See the experiment log.
 
 The DLL and reward patch were then removed with verified external backups for a
-vanilla comparison of reported C-class generation. No runtime integration is
-currently installed; the generation-control outcome remains pending.
+vanilla comparison of reported C-class generation. No runtime integration was
+installed during that comparison. The user subsequently clarified that the
+ordinary C-class generation was consistent with the system. A separate
+counter-only class-selection observer is now installed; no data patch or delivery
+adapter is active. See the 2026-10-02 experiment entries for hashes and limits.
 
 | Document | Owns |
 | --- | --- |

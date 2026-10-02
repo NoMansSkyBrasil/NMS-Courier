@@ -59,5 +59,21 @@ only to build 179666. See the experiment log for installation and rollback.
 The observer and reward patch were subsequently removed from the game's loading
 paths for a vanilla generation control after the user reported unexpectedly
 frequent C-class entities. Exact-hash backups remain outside the game. The live
-callback result above remains valid; neither the observer nor delivery is
-currently installed. See the experiment log before reinstalling anything.
+callback result above remains valid; neither the observer nor delivery was
+installed during that control. See the experiment log for the later class
+observer installation before reinstalling anything.
+
+## Class-selection observation (180383)
+
+`build-probe.ps1 -Mode ClassObserver180383` adds a separate register-preserving
+assembly detour at the exact-hash, exact-prologue stat-generation candidate
+`0x4cea20`. It records R9D buckets in
+`native-class-observer-180383-<PID>.log` without dereferencing game data, changing
+class arguments or dispatching rewards. Both hooks expire after ten minutes.
+Counts describe function arguments, not delivered entities or final badges.
+
+The installed DLL SHA-256 is
+`3f2ce882e975313d3a4381ba75aec23e62fcca8f922c1322bebcd000ad5d208a`.
+The argument/return fixture and production-mode unknown-build rejection passed.
+The original reward patch remains isolated; the MODS directory contains no files.
+See the experiment log before installing, replacing or removing this profile.
