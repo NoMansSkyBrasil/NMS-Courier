@@ -2,6 +2,44 @@
 
 This is the short entry point for resuming exact-build research. Detailed reasoning belongs in [runtime research](RESEARCH_AND_DECISIONS.md), implementation contracts in [protocol and runtime](PROTOCOL_AND_RUNTIME.md), and current tasks in [TODO](../TODO.md). Entries describe observations, not general compatibility claims. All live tests used the user's disposable local save; none used save-file editing.
 
+## 2026-10-01: targeted offline native acquisition research
+
+- Build: installed 180383 executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+  different from the live-tested 179666 bridge target.
+- Source/configuration: [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md),
+  its pinned NMS.py/ReNMS revisions, `scan-native-acquisition.py`,
+  `ExportAcquisitionSeeds.java`, Capstone 5.0.5, Ghidra 12.1.4, and pinned
+  Temurin JDK 25.0.4.1+1. External `run.json` records source hashes.
+- Trigger/save conditions: static PE reading and selected Ghidra disassembly;
+  `-noanalysis`, two CPU configuration, initial 26 seeds/30-second decompilation
+  limits, then two focused seeds/120-second limits. No process attachment,
+  reward event, save access, mod installation, or mutation occurred.
+- Observed: six unique public-signature matches at unwind starts; 25 of 26
+  initial pseudocode exports succeeded. The purchase candidate timed out.
+  The focused run successfully exported it and a reward-entry dispatcher,
+  yielding 27 unique pseudocode candidates. Subsequent bounded metadata,
+  handler, initializer, setup, inventory and layout passes added eight successful
+  exports, for 35 unique candidates. The payload tag `0x8a37c4a2` links the
+  specific-ship serializer/getter to handler `0xf27cd0`, purchase setup
+  `0x8e4d30`/`0x8e3a10`, and inventory initialization `0x4cd270`/`0x4cea20`.
+  The layout initializer zeros the field corresponding to public `mClass`;
+  the type-3 setup branch creates types 8/9 with zero class-stat selection,
+  unlike other branches with explicit class copies. Reward dispatch passes through
+  separate entry handlers; purchase handling includes readiness, item-kind
+  branches, callback and cleanup. The first unwind fragment is not the complete
+  purchase function, so its static direct-call sample is incomplete.
+- Not proven: payload-to-freighter handler identity, complete ABI, gift without
+  UI, S class/Pirate/120 technology/all-supercharged delivery, current-build
+  runtime compatibility, or persistence. The static C-class clue is not proof
+  of the older build's badge source. Public 4.13 ownership layouts are reference
+  clues only. The initial/focused runs were supervised headless commands; the
+  subsequent stages used the new bounded launcher with 300-second deadlines.
+- Rollback: none required; game/DLL/data/save remained unchanged. Tools on C:,
+  pseudocode/project on E:, all prior and failed manifests retained. Navigation
+  now imports the initial/focused candidates rather than reporting unavailable
+  native exports. No D: access or disk maintenance occurred.
+
 ## Reference points
 
 | Subject | Location or identity | Use |

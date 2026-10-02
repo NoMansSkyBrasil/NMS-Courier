@@ -78,10 +78,31 @@ def corpus_items(corpus):
 
 def native_items(native):
     report = json.loads((native / "run.json").read_text(encoding="utf-8-sig"))
-    fingerprint = report["executable_sha256"]
+    fingerprint = report.get("executable_sha256", report.get("exe_sha256", ""))
     if not re.fullmatch(r"[0-9a-fA-F]{64}", fingerprint):
         raise ValueError("Native report has no valid executable SHA-256")
     export = native / "export"
+    if (export / "manifest.tsv").is_file():
+        seen = set()
+        stages = ('layout', 'inventory', 'setup', 'initializer', 'handler', 'metadata', 'focused')
+        for directory in (*(native / (stage + '-export') for stage in stages), export):
+            if not (directory / "manifest.tsv").is_file():
+                continue
+            with (directory / "manifest.tsv").open(encoding="utf-8-sig", newline="") as stream:
+                for line, row in enumerate(csv.DictReader(stream, delimiter="\t"), 2):
+                    if not re.fullmatch(r"[0-9a-fA-F]+", row.get("rva", "")) or not row.get("public_candidate") or not row.get("status"):
+                        raise ValueError("Incomplete acquisition candidate TSV row")
+                    if row['rva'] in seen:
+                        continue
+                    seen.add(row['rva'])
+                    pseudocode = directory / (row["rva"] + ".c")
+                    has_output = row["status"] == "decompiled" and pseudocode.is_file()
+                    yield ("native_function", topic(row["public_candidate"]), row["public_candidate"],
+                           str(pseudocode if has_output else directory / "manifest.tsv"),
+                           1 if has_output else line, "0x" + row["rva"],
+                           "pseudocode_unverified" if has_output else "decompilation_failed",
+                           fingerprint, "Offline static candidate; identity and ABI unverified")
+        return
     candidates = {}
     with (export / "candidates.tsv").open(encoding="utf-8-sig", newline="") as stream:
         for row in csv.DictReader(stream, delimiter="\t"):

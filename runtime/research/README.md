@@ -158,6 +158,13 @@ archive's remaining binary extraction; MXML/index expansion may require more.
 
 ## Token-efficient research
 
+For exact-build acquisition candidates and their external pseudocode locations,
+read [native acquisition research](../../docs/NATIVE_ACQUISITION_RESEARCH.md).
+The targeted scanner and Ghidra exporter avoid whole-program auto-analysis.
+Use `analyze-acquisition-offline.py` for a bounded future invocation; it requires
+an explicit executable hash and seed list and never attaches to the game.
+The current navigation index imports both the initial and focused native exports.
+
 For the comparison of gift, upgrade and direct-acquisition routes, read
 [delivery alternatives](../../docs/DELIVERY_ALTERNATIVES.md). Reproduce its
 bounded local schema/ZIP evidence without attaching to the game:

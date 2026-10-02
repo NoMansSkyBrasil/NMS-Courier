@@ -1,0 +1,159 @@
+# Native acquisition investigation
+
+Status: offline executable evidence, not a runtime adapter. The existing DLL
+remains the delivery bridge. No game, mod, inventory, or save was changed.
+
+## Sources and exact scope
+
+The installed research executable is build 180383, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+This differs from live-verified build 179666. Nothing in this document authorizes
+the old bridge on the new executable.
+
+Public references are pinned, independently inspected clues:
+
+- [NMS.py signature database](https://github.com/monkeyman192/NMS.py/blob/52e2e55493ddade1d89d3e638491afff995f5631/tools/data.json).
+- [NMS.py partial purchase structure](https://github.com/monkeyman192/NMS.py/blob/52e2e55493ddade1d89d3e638491afff995f5631/nmspy/data/types.py).
+- [ReNMS freighter ownership](https://github.com/sonny-tel/renms/blob/9696413ec82bd0bd6cea81565ef20122a1c168bb/skyscraper/gamestate/GcPlayerFreighterOwnership.h).
+- [ReNMS inventory store](https://github.com/sonny-tel/renms/blob/9696413ec82bd0bd6cea81565ef20122a1c168bb/skyscraper/gamestate/GcInventoryStore.h).
+- [ReNMS player state](https://github.com/sonny-tel/renms/blob/9696413ec82bd0bd6cea81565ef20122a1c168bb/skyscraper/gamestate/GcPlayerState.h).
+
+ReNMS documents support for Fractal 4.13. Its layouts are not current-build
+offsets. Third-party source copies and executable pseudocode remain external;
+none is imported into application dependencies or committed here.
+
+## Reproducible offline pipeline
+
+[The scanner](../runtime/research/scan-native-acquisition.py) reads the executable,
+checks the caller-selected SHA-256, scans six relevant public signatures in
+`.text`, associates matches with `.pdata` unwind ranges, and decodes direct calls
+with Capstone 5.0.5. All six matches were unique and at an unwind start.
+This establishes locations of **candidates**, not verified semantic identities.
+
+The first unwind range can be only a fragment of a split function. For example,
+the purchase candidate's first fragment is 434 bytes, but Ghidra follows branches
+into a much larger body. The scanner's call list is therefore incomplete and
+does not include indirect calls. Do not use it as a complete call graph.
+
+[The Ghidra exporter](../runtime/research/ExportAcquisitionSeeds.java) disassembles
+selected starts and exports pseudocode without whole-program auto-analysis.
+Ghidra 12.1.4 and Temurin JDK 25.0.4.1+1 were obtained through the existing pinned,
+hash-verified tool bootstrap on C:. The initial 26-function run exported 25
+successes and one timeout at 30 seconds. A focused run at 120 seconds exported
+that purchase candidate and a new reward-entry dispatcher successfully.
+Further bounded metadata, handler, setup and inventory passes succeeded. There
+are **35 unique successful pseudocode candidates** in the navigation index.
+
+External output: `E:\NMS-Courier-Research\acquisition-180383`.
+Inspect `candidates.json`, `seeds.tsv`, `run.json`, `export/manifest.tsv`,
+`focused-export/manifest.tsv`, and the two headless logs. The original failed
+first-pass row is retained; the index prefers the later successful export.
+
+[The bounded launcher](../runtime/research/analyze-acquisition-offline.py) provides
+a process-tree timeout, a 20 GiB free-space reserve, two-CPU configuration,
+preserved artifacts on failure, named stages, and a maximum of 48 seeds. It requests a 4 GiB
+Java heap; this is not a total system-memory or project-size limit. The observed
+initial experiment used supervised direct headless commands; subsequent
+metadata/handler/initializer/setup/inventory/layout passes used this launcher
+with a 300-second process deadline and completed successfully.
+No disk repair, encryption change, or storage reset is part of this pipeline.
+
+## Concrete findings
+
+All addresses below are offline RVAs for this fingerprint only. Names remain
+public-signature labels or analytical descriptions; decompiler argument types
+and calling conventions are incomplete.
+
+| Candidate RVA | Evidence | Research implication |
+| --- | --- | --- |
+| `0xf12240` | Public `GiveGenericReward` match; pseudocode looks up a reward and invokes `0xf17fe0` | The entry point delegates; it is not itself a freighter constructor |
+| `0xff8d60` | Public interaction `GiveReward` match calls `0xf12240` | Interaction and direct reward routes converge on the same candidate |
+| `0xf17fe0` | Iterates/selects reward entries and calls `0xf19c30` | Trace the individual payload dispatcher, rather than changing global generation probabilities again |
+| `0xf19c30` | Checks multiple payload conversions and routes them to different handler candidates | Locate the specific-ship conversion and its handler before choosing gift versus acquisition behavior |
+| `0x8e8830` | Purchase candidate has states, resource readiness, callback invocation, item-kind branches, and cleanup | Acquisition is a stateful operation; a one-time assignment of inventory headers is insufficient |
+| `0x8f5590` | Called during purchase cleanup and initializes/resets multiple fields and inventory-related objects | Object lifetime matters; do not call reset or copy apparent structure bytes as delivery |
+| `0x2cf7f0` | Public ownership-constructor match initializes many handles, sentinels, and subobjects | Ownership is a compound object, not only a seed/class field |
+| `0x548110` | Public freighter-base reset match, exported only | Destructive maintenance candidate, not a delivery API |
+| `0x24e7fb0`, `0x24df3d0` | Metadata serialization names `GcRewardSpecificShip` and checks tag `0x8a37c4a2`; the payload getter checks that same tag | Connect the data type to its dispatch branch without guessing a handler name |
+| `0xf27cd0` | The tagged dispatcher invokes this handler, which calls `0x8e4d30` and queues a frontend event | Specific-ship reward currently initializes the purchase flow; a gift flag alone is not proof of silent acquisition |
+| `0x8e4d30`, `0x8e3a10` | Wrapper and core setup populate resource/seed/layout, item kind, separate free/gift/reward flags, and temporary inventories | Instrument this setup for a request-scoped configuration hook before acquisition |
+| `0x4cd270`, `0x4cea20` | Inventory layout creation and base-stat generation are distinct operations | Class, valid slots and class-dependent stats need consistent initialization |
+
+### Stronger clue for the repeated C class
+
+The specific-ship metadata tag connects `0xf19c30` to `0xf27cd0`, which initializes
+the purchase object through `0x8e4d30` and `0x8e3a10`. The core setup calls
+`0x4cd270` for its temporary inventory layouts. That layout initializer explicitly
+zeros the field at inventory `+0x100`, matching the public inventory store's
+`mClass` location. This is consistent with the older live reader's C=0/S=3 mapping.
+
+Core setup's item-kind-3 branch creates inventory types 8/9 and invokes base-stat
+generation with class-selection argument zero. Unlike other branches, it does
+not contain the observed explicit class-copy assignments to its primary and
+cargo store fields. This is a concrete static explanation to investigate for a
+C freighter despite requested S configuration. It is **not** proof that the older
+live-tested build has identical code, nor proof that these temporary headers
+alone determine the visible badge: that hypothesis already failed live.
+
+The stat generator `0x4cea20` uses its fourth argument to select a table segment
+and generate base-stat entries. Raising a visible class field without rebuilding
+the corresponding native stats would be incomplete. A safe request-scoped hook
+must trace the actual offered/owned inventory source and native transfer, rather
+than repeat the earlier two-field frontend mutation.
+
+The purchase pseudocode accesses byte `+0x22` in the resource-waiting path and
+byte `+0x1061` in cleanup, consistent with the public partial structure's reward
+and resource-cleanup clues. It invokes a stored callback after readiness in one
+path. Numeric state 1 can advance to 2; another branch starts from 4, sets 6,
+performs item-kind-specific work, and later cleanup resets the object. These
+numbers are observations, not an approved state enum or instructions to write
+them. Forcing a state can bypass initialization, entitlement, ownership, or
+resource checks. Public `IsGift`/`IsFree` fields are not proof of UI-free
+freighter acquisition or an independently verified current-build setter.
+
+The older ownership header separately describes resource, home-system seed,
+freighter seed, spawn/preview state and mesh-refresh flags. This gives a concrete
+reason to investigate native resource/ownership initialization for the requested
+Pirate scene, rather than assuming a seed update alone changes the model.
+
+The older inventory header separates valid slots, special slots, base stats,
+layout descriptor, and class. These distinctions agree with the observed
+C/120/30 offer: increasing the grid alone does not prove S class, unlocked
+technology, supercharged slots, or resulting stats.
+
+## Recommended path through our DLL
+
+1. Continue from the now-linked specific-ship getter `0x24df3d0` and handler
+   `0xf27cd0` into core setup `0x8e3a10`. Determine whether class/resource/seed are
+   honored, substituted, or initialized elsewhere. Confirm constructor and
+   allocator requirements before any hook.
+2. Trace the purchase state's item-kind branch for freighters and its ownership
+   transition. Preserve native readiness and cleanup. Determine whether the
+   gift/reward path can finalize without opening a comparison screen. This is
+   not yet established.
+3. Configure only the request's generated entity through verified native
+   initialization: Pirate scene, requested seed, S class, valid cargo slots,
+   valid technology slots, special slots, and class-dependent stats. Keep
+   shared generation tables unchanged for unrelated entities.
+4. Add read-only instrumentation to an independently verified current-build DLL
+   before live delivery. Check price/balance, resulting ownership, model/class,
+   slot validity, technology effects, and ordinary-save persistence. A native
+   notification or dispatch return alone is not success.
+
+120 cargo / 60 technology remains the normal target. 120 technology and all
+supercharged positions require separate, explicitly experimental validation.
+An offer screen is optional in the desired product; direct acquisition remains
+unproven. No save editor, raw object copy, global OnlyS patch, or simulated input
+is selected as a delivery fallback.
+
+## Bounded lookup
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime/research/build-research-index.py `
+  --output E:\NMS-Courier-Research\navigation --kind native_function `
+  --query 'cGcPurchaseableItem*' --limit 3
+```
+
+Search names with their `cGc` prefix: FTS token lookup is not an arbitrary
+substring search. The index identifies the actual external pseudocode path and
+fingerprint without rescanning assets or the executable.

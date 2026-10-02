@@ -1,5 +1,9 @@
 # Delivery routes without an offer screen
 
+The follow-up [native acquisition investigation](NATIVE_ACQUISITION_RESEARCH.md)
+adds exact-fingerprint executable candidates, real pseudocode and indexed paths
+to this route comparison. It keeps the DLL and does not establish a live API.
+
 Research assessment, October 1, 2026 (America/Fortaleza). This is a comparison of
 mechanisms, not an implementation or compatibility claim. The user no longer
 requires an offer screen. Local native delivery without save-file edits remains
