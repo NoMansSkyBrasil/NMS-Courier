@@ -254,3 +254,32 @@ the snapshot does not infer which archive the game loads last.
 
 Source tools: [Ghidra](https://github.com/NationalSecurityAgency/ghidra) and
 [Temurin JDK](https://github.com/adoptium/temurin25-binaries).
+
+## Static service-client and independent C# inspection
+
+See [the service assessment](../../docs/METAIDEA_SERVICE_RESEARCH.md) before using
+public service UI/catalogs as runtime evidence. Inspect supplied HTML without
+executing it or making delivery requests:
+
+```powershell
+python runtime/research/inspect-service-client.py --source <saved-client.html> `
+  --output E:\NMS-Courier-Research\evidence\service-client.json
+```
+
+The report contains hashes and selected identifiers, not account values or copies
+of embedded assets. Its lexical function scanner is deliberately limited and
+must not be treated as a JavaScript parser or server/backend analysis.
+
+An independent developer-only .NET 10 file-based app uses built-in PEReader and
+SHA-256, with no NuGet dependencies or process/memory access:
+
+```powershell
+dotnet run --file runtime/research/InspectNativeCandidates.cs -- `
+  "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  0xf12240 0xf27cd0 0xf31490 0x8e3a10 0x4cea20
+```
+
+It rejects unknown hashes and non-executable/file-unbacked targets, inspects at
+most 32 candidates, and reports 24 entry bytes plus unwind bounds. Matching these
+to Python output is independent static validation, not permission to invoke a
+native function. The desktop product does not depend on an end-user SDK.

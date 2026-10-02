@@ -84,4 +84,28 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Current next action
 
+As of 2026-10-02, delivery migration targets build 180383. The installed bridge is
+observation-only; the older CurrencyTest DLL described below is historical and
+must not be treated as the current installation. No new delivery adapter is
+enabled. Offline metadata/handlers and independent C# PE checks are documented
+in [native acquisition research](docs/NATIVE_ACQUISITION_RESEARCH.md) and
+[MetaIdea service research](docs/METAIDEA_SERVICE_RESEARCH.md).
+
+- [x] Inspect the supplied service HTML and five pinned MetaIdea repositories;
+  separate UI requests, static builders and documented DLL extension mechanisms.
+- [x] Add bounded static client inspection and independent read-only .NET PE
+  validation. Do not mistake either for a runtime delivery implementation.
+- [ ] Validate the current-build reward manager/context and full dispatcher ABI
+  through a read-only native observation before migrating delivery.
+- [ ] Prepare one independently configured free S starship reward, followed by an
+  S multitool reward; validate class, stats, capacity, claim/swap and zero debit.
+- [ ] Investigate request-scoped freighter acquisition/configuration separately;
+  preserve existing fleet/base and track partial outcomes. Do not repeat the
+  negative gift-only, global-S or frontend-badge mutation hypotheses.
+- [ ] Choose hybrid DLL/data-mod or bridge-only execution per supported operation.
+  Static mods cannot receive frontend commands; no private bot/backend or
+  MetaIdea Service Bot Extender dependency is planned.
+- [ ] Map local mission start, companion egg parameters and expedition
+  unlock/claim as separate operations after the core reward path is validated.
+
 The exact-build native XInput bridge has a live callback, one confirmed Carbon ×500 insertion, and three confirmed local currency rewards on Steam build 179666. Carbon remained after a normal save reload. The user also confirmed +1,000,000,000 each of Units, Nanites, and Quicksilver, native reward notifications, and all three balances after saving and reloading. The installed `CurrencyTest` DLL SHA-256 is `f20d9b41344fc7460471979f56598108ed8f750327a202b879a0716d651a441d`; it is a narrow development probe, not the authenticated product bridge. A specific-freighter reward opens a free offer from gameplay. The explicit inventory variant reached a 120-position cargo grid, but class and technology remain C/30; locate the particular offer's native initialization before claiming S/120/60 delivery. Keep multiplayer targeting separate from local delivery; the EXML planter patch remains inactive.

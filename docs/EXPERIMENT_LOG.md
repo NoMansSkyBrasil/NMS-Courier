@@ -3,6 +3,40 @@
 This is the short entry point for resuming exact-build research. Detailed reasoning belongs in [runtime research](RESEARCH_AND_DECISIONS.md), implementation contracts in [protocol and runtime](PROTOCOL_AND_RUNTIME.md), and current tasks in [TODO](../TODO.md). Entries describe observations, not general compatibility claims. All live tests used the user's disposable local save; none used save-file editing.
 
 
+## 2026-10-02: service-client, public tooling and independent .NET assessment
+
+- Build/context: installed research target 180383, executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  This pass did not inspect or mutate a running game. The user will test later.
+- Source/configuration: supplied HTML SHA-256
+  `cc289ebd09f65a3cd88b856e8c9a32949f0e6e516c6e80f1d62869cf9f0b4340`,
+  five pinned public repositories, selected raw files and read-only public pages;
+  exact revisions/hashes and bounded tooling are documented in
+  [the service assessment](METAIDEA_SERVICE_RESEARCH.md). SDK 10.0.400,
+  `InspectNativeCandidates.cs`, built-in PEReader/SHA-256; no NuGet packages.
+- Trigger/save conditions: static HTML/code parsing, bounded HTTPS GETs and five
+  offline PE candidates. No service POST, login, downloaded-script execution,
+  plugin installation, save access, callback arming or game mutation.
+- Observed: ship commands include class options; freighter commands do not.
+  Sharing Center multitools explicitly require the extender. Public Transcender
+  documentation describes native exchange popups and claim/buy handling. Public
+  builders patch data files rather than expose the private bot. The independent
+  C# reader validated candidate bytes/unwind starts at f12240, f27cd0, f31490,
+  8e3a10 and 4cea20. Python independently matched all five entry byte sequences
+  and unwind bounds. Three static-client tests and three native-index tests passed;
+  refreshed navigation has 66 source files, 143 functions and no import warnings.
+- Not proven/rejected: private backend, multiplayer replication, free claim,
+  freighter S/configuration, exact DLL implementation and runtime ABI remain
+  unknown. A site label or missing option is not an engine-wide impossibility.
+  Large pages exceeded web-reader limits; bounded direct GETs succeeded. Initial
+  exploratory output hit console encoding limits, so UTF-8 output was used.
+  Negative C# cases initially threw uncaught InvalidDataException; explicit
+  handling corrected them and both now reject with exit 1 and no stack dump.
+- Rollback: none required. All third-party snapshots/reports remain external.
+  Only Courier research tooling, documentation and TODO priorities changed;
+  no installed game files, disk settings or delivery outcomes changed. No private
+  bot backend or MetaIdea extender implementation is planned.
+
 ## 2026-10-02: bounded capability metadata and handler mapping
 
 - Build: 180383, executable SHA-256

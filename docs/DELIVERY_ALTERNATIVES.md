@@ -102,6 +102,28 @@ only operations supported by the active exact-build adapter.
 
 ## Bridge and tool choices
 
+The [MetaIdea client/tooling assessment](METAIDEA_SERVICE_RESEARCH.md) supports an
+operation-specific hybrid: our startup DLL handles authenticated local commands
+and game-thread execution; optional Courier data mods register independently
+configured native reward definitions. A PAK/MBIN data mod is not an external
+command listener and cannot replace the bridge. No MetaIdea backend or Service
+Bot Extender dependency will be introduced. The user accepts either hybrid or
+bridge-only implementations according to observed results.
+
+Prefer hybrid reward registration for finite catalogs/native notifications when
+the exact-build handler honors the supplied fields. Prefer bridge-only native
+calls for dynamic configuration where static data cannot express the request.
+Neither approach authorizes shared global generation edits. Validate model,
+class/stats, unlocked indices, cost, ownership and save persistence individually.
+Data mods need reversible deployment, collision checks and exact loaded hashes;
+rebuilding a data file does not prove it was reloaded by a running game.
+
+C#/.NET can also be used for independently verified research and controller work.
+`InspectNativeCandidates.cs` uses the SDK PEReader and SHA-256 APIs without NuGet
+packages, process attachment or writes. SDK 10.0.400 validated five current-build
+candidate entries offline. This supplies an independent check of Python's PE
+mapping; changing language alone does not establish an ABI or fix acquisition.
+
 Prefer an independently maintained native DLL loaded at startup, with commands
 consumed on a verified game callback. The existing older-build callback evidence
 supports this architecture, not production readiness. Electron should send narrow

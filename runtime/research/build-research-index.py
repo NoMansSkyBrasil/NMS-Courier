@@ -34,7 +34,7 @@ def repository_items(repo):
         r"^[\w *]+?\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{", re.MULTILINE)
     for root in roots:
         for path in sorted(root.rglob("*")):
-            if not path.is_file() or path.suffix not in (".py", ".c", ".h", ".ps1", ".java", ".md", ".json"):
+            if not path.is_file() or path.suffix not in (".py", ".c", ".cs", ".h", ".ps1", ".java", ".md", ".json"):
                 continue
             if "__pycache__" in path.parts:
                 continue
