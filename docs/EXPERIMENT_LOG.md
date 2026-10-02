@@ -2,6 +2,33 @@
 
 This is the short entry point for resuming exact-build research. Detailed reasoning belongs in [runtime research](RESEARCH_AND_DECISIONS.md), implementation contracts in [protocol and runtime](PROTOCOL_AND_RUNTIME.md), and current tasks in [TODO](../TODO.md). Entries describe observations, not general compatibility claims. All live tests used the user's disposable local save; none used save-file editing.
 
+
+## 2026-10-02: bounded capability metadata and handler mapping
+
+- Build: 180383, executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+- Source/configuration: exact-name scanner, ten GcReward names, pinned NMS.py
+  database, Capstone 5.0.5, Ghidra 12.1.4/JDK 25.0.4.1+1;
+  metadata seeds SHA-256 `3ccbb33c619978c6f9d59fa1d7880f2f7b232e448446639c296e0b9f957edeb5`,
+  handler seeds SHA-256 `10600b0934648b58557fc7bd3f972a372b753729a29fd59d8038bd3c20899397`.
+- Trigger/save conditions: two offline -noanalysis exports, two CPUs, existing
+  external project; 17 seconds each. No save, process attachment or runtime command.
+- Observed: all ten names present; ten metadata and nine handler exports completed,
+  bringing the index to 65 unique candidates. Nine exact getter/tag comparisons
+  connect dispatcher branches to slot, upgrade, technology and unlock handlers.
+  FreighterSlot opens an upgrade purchase window with a cost reference;
+  UpgradeShipClass updates class and regenerates three owned ship inventory stores.
+  See [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md).
+- Not proven/rejected: InventorySlots metadata reference is a split-function
+  fragment, so no tag/handler was inferred. An exploratory label regex initially
+  stopped at the earlier word candidate; exact GcReward labels corrected the report.
+  Slot tokens/windows do not prove unlocked slots; recipe, install, unlock and
+  acquisition remain distinct. No ABI, free claim or persistence proof.
+- Rollback: none required; bounded external exports and repository research only.
+  No disk commands, D: access, installed-file changes or live mutation. A local
+  documentation edit initially failed decoding UTF-8 under the default codepage;
+  the explicit UTF-8 edit succeeded without touching game data.
+
 ## 2026-10-01: targeted offline native acquisition research
 
 - Build: installed 180383 executable SHA-256
@@ -174,6 +201,90 @@ This is the short entry point for resuming exact-build research. Detailed reason
   request path, S-class display, model, slots, price or persistence. Detailed
   findings and reproducible commands are in native acquisition research.
 - Rollback: no install, class mutation or save change was made by this inspection.
+
+### 2026-10-02: Utopia expedition S reward compared with freighter configuration
+
+- Fingerprint: current build 180383, executable `671de226...` (full hash above).
+  Source/configuration: hash-checked extracted reward MXML `8ed7ae90...`, Courier
+  explicit freighter source `a797679f...`, updated read-only generation audit,
+  and existing exact-build `setup-export/8e3a10.c`. Full source hashes and the
+  field comparison are in native acquisition research.
+- Trigger/conditions: user supplied an S-badge Utopia Speeder offer screenshot
+  and requested comparison of the native expedition path. XML and existing
+  pseudocode were read offline; no claim, purchase, grant or save edit was sent.
+- Observed: `RS_S9_SHIP` and `RS_S9_COMPLETE` declare Fighter/S, gift and reward
+  flags true, 36 layout slots and FgtLarge. Courier source also declares S but
+  Freighter and gift false. Original `RS_S13_S4M6` declares Freighter/B. The
+  ordinary supplied-inventory setup branch copies class and generates matching
+  stats; the freighter branch lacks that observed class copy and supplies zero.
+  The expanded audit produced bounded Utopia/freighter samples and found no
+  Courier reward-ID collision with the original table.
+- Sampling checkpoint: PID 20456 completed normally with both hook statuses zero,
+  51 records, no dropped samples, 24/12/6/9/0 class arguments and 29,918 Update
+  callbacks. The final TSV includes three argument-3 records at each of
+  `0x8e47bb`, `0x8e47e5` and `0x8e4813`, matching the supplied-inventory ship
+  reward branch, plus ordinary wrapper callers `0x4cd226` and `0x4cd351`.
+  Earlier interval samples contained only the first wrapper; they must not replace
+  the final trace. The specific Utopia offer remains uncorrelated without timing
+  or entity evidence, but S-input reward-setup calls were observed live.
+- Not proven: complete flag-to-ABI mapping, `IsGift` as a freighter class fix,
+  request-scoped S/Pirate/max-slot generation, or persistence. No reward data or
+  installed DLL was changed; the next native scope target is reward initialization.
+
+### 2026-10-02: offline flag mapping and expanded capability inventory
+
+- Build/source: pinned 180383 executable above; repository seed lists
+  `reward-flags-180383.tsv` and `reward-fields-180383.tsv`, existing bounded Ghidra
+  launcher, Ghidra 12.1.4 and JDK 25.0.4.1+1. The three-function rewardflags pass
+  completed in 28 seconds; the two-function rewardfields pass in 17 seconds, all
+  five manifest rows successful. No whole-program analysis or fresh extraction.
+- Conditions: user requested offline research and no further live tests today.
+  Existing C: tools and E: project/corpus were used. No game, DLL, patch or save
+  mutation; no disk repair, encryption changes or D: access.
+- Observed: serializer `0x24f00d0` names payload +0x24d IsGift, +0x24e IsRewardShip,
+  +0x24c FormatAsSeasonal and +0x24f UseOverrideSizeType. Bounded ASCII reference
+  resolution and exact wrapper disassembly show core `param_10` is IsRewardShip,
+  not IsGift. Gift status reaches core argument 9/object +0x21 separately.
+  The earlier gift-controls-class hypothesis is rejected after stack-forwarding
+  verification; the freighter branch still lacks the analogous S-class copy.
+- Expanded evidence: the existing route collector now inventories concrete recipe,
+  expedition-unlock, item and repair payloads in two corpus tables. External report
+  `delivery-capabilities-20261002.json` records source/script hashes and scoped
+  counts. The owning route assessment distinguishes module/recipe/installation,
+  unlock/claim/acquisition, expansion tokens/actual valid slots and class/stats.
+- Not proven: production ABI, free freighter class/ownership fix, multitool delivery,
+  targeted/maximal slot expansion, complete expedition unlocking, or current-build
+  delivery compatibility. Static field offsets are not approved runtime setters.
+- Rollback: no installation to roll back. External manifests, failed hypotheses
+  and reports retained; reproducible scripts/seeds and documentation are committed.
+
+### 2026-10-02: offline multitool reward chain and serializer mapping
+
+- Fingerprint/tools: same pinned 180383 executable, Ghidra/JDK and bounded launcher
+  above. Exact source lists are `weapon-metadata-180383.tsv`,
+  `weapon-handler-180383.tsv`, `weapon-serializer-180383.tsv` and
+  `weapon-fields-180383.tsv`. Passes completed in 17/16/16/17 seconds respectively;
+  six new functions exported successfully without a whole-program scan.
+- Trigger/conditions: user requested study of future multitool delivery; offline
+  metadata, existing dispatcher pseudocode, bounded exact PE disassembly and
+  name resolution only. No resource request, native call, purchase or save write.
+- Observed: SpecificWeapon named metadata uses tag 0x5f82ff34. Getter 0x24cc6b0
+  checks it, dispatcher 0xf19c30 selects handler 0xf31490, which calls core setup
+  0x8e3a10 with item-kind 1 and queues 0x26. Field serializer 0x24da180 names
+  +0x1c1 IsGift, +0x1c2 IsRewardWeapon and +0x1c0 FormatAsSeasonal. The reward flag
+  reaches core argument 10; its branch copies the supplied class and computes
+  corresponding stats. Native acquisition research owns the detailed chain.
+- Rejected scan interpretation: a preliminary 64-byte getter slice included the
+  target tag in neighboring leaf functions. Exact entry disassembly confirmed
+  only 0x24cc6b0; no neighboring address was exported or treated as a getter match.
+- Not proven: safe callable ABI, free/no-UI ownership, full inventory or S-class
+  multitool delivery on this build. Resource readiness and selection remain gates.
+- Indexing/validation: new named stages are imported as pseudocode_unverified.
+  Three native-index tests passed, including all six new stage names, focused
+  success/failure preservation and invalid-fingerprint rejection. Name resolution
+  passed positive IsGift/IsRewardShip assertions and rejected a fake executable.
+- Rollback: no installation or live mutation; external outputs retained. No new
+  tools, disk repair, D: access or additional game extraction was required.
 
 ### 2026-10-02: class-selection argument observer installed
 

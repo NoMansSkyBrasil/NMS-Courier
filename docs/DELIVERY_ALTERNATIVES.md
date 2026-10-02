@@ -63,6 +63,43 @@ the goal; remote-player delivery is a separate investigation.
 These routes can be combined. A loader, programming language, or IPC transport is
 not itself an acquisition mechanism.
 
+## Expanded local delivery research checkpoint (2026-10-02)
+
+The user requested offline work without further live tests that day. The DLL
+remains the chosen runtime bridge; Python here performs research only. A fresh
+bounded schema report, `delivery-capabilities-20261002.json`, extends the existing
+route script with recipe, expedition-unlock, item and repair payloads. It reads
+the completed E: index and two tables; it performs no extraction or installation.
+
+| Requested operation | Shipped payload clues | Required native validation |
+| --- | --- | --- |
+| Deliver a ship | SpecificShip S inventory; IsRewardShip and IsGift; 87 generic payloads | Resource readiness, free claim, class/stats consistency, capacity and ownership transfer |
+| Deliver a multitool | 48 generic SpecificWeapon payloads, mostly gift variants | Weapon target/limit, class, slots, active selection and native acquisition callback |
+| Unlock exosuit inventory | InventorySlots Amount; nine generic payloads | Cargo versus technology targeting; existing slot validity, maximum and explicit completion |
+| Unlock ship inventory | ShipSlot NumTokens and window flags; six generic payloads | Selected ship, cargo/tech destination, cost handling and whether tokens merely open a UI |
+| Unlock multitool inventory | WeaponSlot NumTokens; four generic payloads | Selected weapon, free expansion and actual slot validity rather than token acceptance |
+| Unlock freighter inventory | FreighterSlot Cost; one generic payload | Owned freighter, cargo/tech distinction, zero cost and real expansion count |
+| Upgrade class | Ship/Weapon class upgrade payloads | Current target, actual class/stat recomputation; ship handler does not prove freighter support |
+| Teach recipes/technology | 275 SpecificProductRecipe, 65 MultiSpecificProductRecipes, 182 SpecificTech, 30 MultiSpecificTechRecipes | Distinguish known recipe, awarded module and installed technology; duplicate handling |
+| Expedition rewards | 306 UnlockSeasonReward payloads plus specific acquisitions | Separate unlock, claimed-in-shop marker, entitlement and actual item/entity receipt |
+
+Counts are scoped to `GcGenericRewardTableEntry`, not every inline payload in the
+corpus. They establish schema presence only; none is a supported current-build
+runtime command. The report includes concrete IDs and compact fields. For example,
+`RS_S1_COMPLETE` unlocks `EXPD_SHIP01` and marks it claimed in the shop; that does
+not itself prove delivery of a ship. `R_SHIPSLOT_PROD` requests one token with
+both window flags false; token acceptance is not proof that all slots unlock.
+FreighterSlot exposes a cost reference rather than an explicit Amount, so its
+free behavior must be traced rather than inferred from the reward name.
+
+Priority is to finish request-scoped freighter initialization from the newly
+observed ship S reward branch and the mapped flags. Then migrate the generic
+reward dispatch entry safely to build 180383 and add one operation at a time
+with native receipts and postconditions. Slot maxima and supercharged coordinates
+are independent operations; do not alter global generation or change save files
+to make these capabilities appear complete. The Electron frontend must advertise
+only operations supported by the active exact-build adapter.
+
 ## Bridge and tool choices
 
 Prefer an independently maintained native DLL loaded at startup, with commands

@@ -113,9 +113,9 @@ pwsh -NoProfile -File runtime\research\watch-extraction-storage.ps1 `
   <https://github.com/monkeyman192/MBINCompiler/releases/download/v7.04.1-pre3/MBINCompiler.exe>.
 - New research root: `E:\NMS-Courier-Research`.
 - Corpus being rebuilt: `E:\NMS-Courier-Research\corpus`.
-- Former unavailable corpus: `D:\NMS-Courier-Research\corpus`; commands below
-  retain the original D: configuration for historical reproducibility. Use the
-  E: rebuild command above for the current extraction.
+- Former unavailable corpus: `D:\NMS-Courier-Research\corpus`. Commands below
+  use E: for current research. Preserve historical reports without accessing
+  or repairing the former volume.
 
 The compiler's current mapping successfully converted four installed tables in an
 offline pilot. This is not a guarantee that every MBIN type is supported. Failures
@@ -128,7 +128,7 @@ establish clean-machine end-user packaging. Install the pinned dependencies into
 the private research tools directory, not the application's runtime:
 
 ```powershell
-python -m pip install --target D:\NMS-Courier-Research\tools\python -r runtime\research\requirements.txt
+python -m pip install --target E:\NMS-Courier-Research\tools\python -r runtime\research\requirements.txt
 ```
 
 After placing the hash-verified compiler in the tools directory:
@@ -136,10 +136,10 @@ After placing the hash-verified compiler in the tools directory:
 ```powershell
 python runtime\research\bulk-game-data.py `
   --game "E:\SteamLibrary\steamapps\common\No Man's Sky" `
-  --output D:\NMS-Courier-Research\corpus `
-  --compiler D:\NMS-Courier-Research\tools\MBINCompiler-7.04.1-pre3.exe `
+  --output E:\NMS-Courier-Research\corpus `
+  --compiler E:\NMS-Courier-Research\tools\MBINCompiler-7.04.1-pre3.exe `
   --compiler-sha256 4179dddb665f7cddbe9dddddf6e529172abdd98b0097f65fdd224467d5bb3ea4 `
-  --python-tools D:\NMS-Courier-Research\tools\python
+  --python-tools E:\NMS-Courier-Research\tools\python
 ```
 
 Use `--archive NMSARC.MetadataEtc.pak` for a bounded pilot. Rerun the same command to
@@ -185,8 +185,8 @@ compiler logs to an assistant. The symbol index deduplicates XML property values
 per asset and returns a bounded list of source paths:
 
 ```powershell
-python runtime\research\bulk-game-data.py --output D:\NMS-Courier-Research\corpus --query 'GcRewardSpecificShip' --limit 10
-python runtime\research\bulk-game-data.py --output D:\NMS-Courier-Research\corpus --query 'ClassProbabilities' --limit 10
+python runtime\research\bulk-game-data.py --output E:\NMS-Courier-Research\corpus --query 'GcRewardSpecificShip' --limit 10
+python runtime\research\bulk-game-data.py --output E:\NMS-Courier-Research\corpus --query 'ClassProbabilities' --limit 10
 ```
 
 Then use `rg -n` on only the returned MXML files and share bounded relevant
@@ -219,12 +219,12 @@ SHA-256, and extracts them outside the repository without changing system Java
 settings. This setup is for developer research, not shipped app code.
 
 ```powershell
-python runtime\research\prepare-offline-tools.py --output D:\NMS-Courier-Research\tools\native
+python runtime\research\prepare-offline-tools.py --output E:\NMS-Courier-Research\tools\native
 python runtime\research\analyze-native-offline.py `
   --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
   --sha256 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 `
-  --tools D:\NMS-Courier-Research\tools\native `
-  --output D:\NMS-Courier-Research\native-180383 --limit 400
+  --tools E:\NMS-Courier-Research\tools\native `
+  --output E:\NMS-Courier-Research\native-180383 --limit 400
 ```
 
 The exact-hash input is imported into a separate Ghidra project. Automatic analysis
@@ -242,7 +242,7 @@ targeted follow-up without loading full disassembly into the conversation.
 reward types, freighter reward payloads, model references, and generation bounds:
 
 ```powershell
-python runtime\research\summarize-delivery-data.py --corpus D:\NMS-Courier-Research\corpus --output D:\NMS-Courier-Research\evidence\delivery-data-180383.json
+python runtime\research\summarize-delivery-data.py --corpus E:\NMS-Courier-Research\corpus --output E:\NMS-Courier-Research\evidence\delivery-data-180383.json
 ```
 
 The snapshot also retains up to three examples per selected reward type, exact

@@ -84,7 +84,10 @@ def native_items(native):
     export = native / "export"
     if (export / "manifest.tsv").is_file():
         seen = set()
-        stages = ('layout', 'inventory', 'setup', 'initializer', 'handler', 'metadata', 'focused')
+        stages = ('layout', 'inventory', 'setup', 'initializer', 'handler', 'metadata',
+                  'focused', 'rewardflags', 'rewardfields', 'weaponmetadata',
+                  'weaponhandler', 'weaponserializer', 'weaponfields',
+                  'capabilitymetadata', 'capabilityhandlers')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 continue

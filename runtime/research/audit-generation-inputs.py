@@ -55,10 +55,19 @@ def audit(inventory_path, reward_path, patch_path, model=None):
         resource = property_child(node, "ShipResource")
         inventory = property_child(node, "ShipInventory")
         inventory_class = property_child(inventory, "Class") if inventory is not None else None
+        layout = property_child(node, "ShipLayout")
         ships.append({"reward_id": reward_id,
                       "model": value(resource, "Filename"),
                       "class": value(inventory_class, "InventoryClass"),
-                      "ship_type": value(property_child(node, "ShipType"), "ShipClass")})
+                      "ship_type": value(property_child(node, "ShipType"), "ShipClass"),
+                      "is_gift": value(node, "IsGift"),
+                      "is_reward_ship": value(node, "IsRewardShip"),
+                      "cost_amount": value(node, "CostAmount"),
+                      "layout_slots": value(layout, "Slots"),
+                      "inventory_width": value(inventory, "Width"),
+                      "inventory_height": value(inventory, "Height"),
+                      "slots_from_tech": value(inventory, "NumSlotsFromTech"),
+                      "override_size": value(property_child(node, "OverrideSizeType"), "SizeType")})
     return {
         "input_sha256": {name: hashlib.sha256(path.read_bytes()).hexdigest()
                          for name, path in paths.items()},

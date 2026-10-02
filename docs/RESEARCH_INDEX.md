@@ -8,7 +8,7 @@ running any integration test. A location or matching name is not a verified API.
 
 For current-build executable findings, start with
 [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md). The external
-navigation index now includes 35 successful, unverified native pseudocode
+navigation index now includes 65 successful, unverified native pseudocode
 candidates, including a reward-entry dispatcher and purchase-state handler.
 
 For delivery mechanisms that do not require an offer screen, read the
@@ -19,7 +19,7 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 62 source files and 130 function entries across `runtime/research` and
+contains 63 source files and 133 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 

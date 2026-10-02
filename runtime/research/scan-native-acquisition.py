@@ -20,7 +20,11 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--include-callees', action='store_true')
     parser.add_argument('--payload-metadata', action='store_true')
+    parser.add_argument('--metadata-name', action='append', default=[],
+                        help='Select exact GcReward metadata names instead of defaults (repeatable; maximum 16)')
     args = parser.parse_args()
+    if len(args.metadata_name) > 16 or any(not re.fullmatch(r'GcReward[A-Za-z0-9]+', name) for name in args.metadata_name):
+        parser.error('Metadata names must be exact GcReward identifiers; maximum 16')
     exe = args.executable.resolve()
     output = args.output.resolve()
     if output.is_relative_to(exe.parent.parent) or output.is_relative_to(Path(__file__).resolve().parents[2]):
@@ -71,9 +75,10 @@ def main():
         results.append(record)
     output.mkdir(parents=True, exist_ok=True)
     report = {'mode': 'offline_only', 'exe_sha256': digest, 'database_sha256': hashlib.sha256(args.database.read_bytes()).hexdigest(), 'candidates': results, 'caveat': 'Public signatures are candidate labels only; no ABI or runtime compatibility is established.'}
-    if args.payload_metadata:
+    if args.payload_metadata or args.metadata_name:
         targets = {}
-        for name in ('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate'):
+        names = tuple(dict.fromkeys(('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate') if not args.metadata_name else args.metadata_name))
+        for name in names:
             for section in sections:
                 start = section['raw_offset']
                 for match in re.finditer(re.escape(name.encode()) + b'\x00', data[start:start + section['raw_size']]):
@@ -92,6 +97,9 @@ def main():
                 references.append({'name': targets[target], 'string_rva': hex(target), 'potential_reference': hex(rva), 'unwind_start': hex(begin)})
                 metadata_seeds.setdefault(begin, 'Metadata-name reference candidate: ' + targets[target])
         report['payload_name_references'] = references
+        report['metadata_names_requested'] = names
+        report['metadata_names_without_string'] = [name for name in names if name not in targets.values()]
+        report['metadata_reference_limit'] = 64
         (output / 'payload-seeds.tsv').write_text(''.join(f'{r:x}\t{label}\n' for r, label in metadata_seeds.items()), encoding='utf-8')
     (output / 'candidates.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     if args.include_callees:

@@ -19,6 +19,9 @@ KINDS = {
     "GcRewardShipSlot", "GcRewardWeaponSlot", "GcRewardFreighterSlot",
     "GcRewardInventorySlots", "GcRewardInstallTech", "GcRewardSpecificTech",
     "GcRewardMultiSpecificTechRecipes", "GcRewardStartShipBuildMode",
+    "GcRewardUnlockSeasonReward", "GcRewardSpecificProductRecipe",
+    "GcRewardMultiSpecificProductRecipes", "GcRewardRepairWholeInventory",
+    "GcRewardSpecificProduct", "GcRewardSpecificSubstance",
 }
 
 

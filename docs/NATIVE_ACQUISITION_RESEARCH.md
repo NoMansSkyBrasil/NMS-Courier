@@ -42,7 +42,8 @@ hash-verified tool bootstrap on C:. The initial 26-function run exported 25
 successes and one timeout at 30 seconds. A focused run at 120 seconds exported
 that purchase candidate and a new reward-entry dispatcher successfully.
 Further bounded metadata, handler, setup and inventory passes succeeded. There
-are **35 unique successful pseudocode candidates** in the navigation index.
+are **65 unique successful pseudocode candidates** in the navigation index,
+including the later flag serializers and weapon acquisition chain.
 
 External output: `E:\NMS-Courier-Research\acquisition-180383`.
 Inspect `candidates.json`, `seeds.tsv`, `run.json`, `export/manifest.tsv`,
@@ -176,6 +177,173 @@ The inspector retains build 179666 as its default and rejects fingerprint
 mismatches before disassembly. Selecting 180383 extends offline inspection only,
 not runtime delivery compatibility. The next scoping gate remains the particular
 Courier acquisition request and the initialization supplying its class.
+
+## Expedition S-class comparison: Utopia Speeder (2026-10-02)
+
+The user's screenshot shows the Utopia Speeder offer with an S badge. The exact
+current extracted `REWARDTABLE.MXML` has SHA-256
+`8ed7ae909e3cdffba01f02899aee4733d7d63c6c0fc4105ebea7cfce1b9b12d7`.
+Its `RS_S9_SHIP` and `RS_S9_COMPLETE` specific-ship payloads both explicitly set
+`ShipInventory.Class.InventoryClass=S`; they use `VRSPEEDER.SCENE.MBIN`, Fighter,
+`IsGift=true`, `IsRewardShip=true`, 36 layout slots and FgtLarge size override.
+Their cost amounts differ: 1,400 and zero respectively. Do not copy expedition
+costs into Courier's free delivery contract.
+
+| Field | Utopia reward | Courier freighter source |
+| --- | --- | --- |
+| Payload | `GcRewardSpecificShip` | `GcRewardSpecificShip` |
+| Explicit inventory class | S | S |
+| Ship type | Fighter | Freighter |
+| `IsGift` | true | false |
+| `IsRewardShip` | true | true |
+| Layout slots | 36 | 120 |
+| Width / height | 0 / 0 | 10 / 12 |
+| Slots from technology | 0 | 60 |
+| Size override | FgtLarge | FreighterLarge |
+
+The Courier source hash is
+`a797679f1c333b4a04f42501bfd728fbbe589672c3a916caec2df74ad9dbec74`.
+It is repository configuration, **not an installed/live-tested patch revision**.
+The original freighter reward `RS_S13_S4M6` declares B, `IsGift=false` and zero
+cost. This also argues against treating every expedition entity as S by default.
+
+The decisive native clue remains the branch difference in `setup-export/8e3a10.c`:
+the item-kind-0 supplied-inventory branch copies source `+0x40` to its class
+headers and passes that source value to stat generation. The item-kind-3 branch
+initializes freighter inventory layouts and passes zero in its three stat calls,
+without the analogous class-copy assignments observed in the ship branch.
+This is a strong **offline explanation candidate**, not proof of the complete
+Utopia claim path or the older failed freighter's badge source. The subsequent
+serializer and wrapper inspection maps `param_10` to `IsRewardShip`, as described
+below. `IsGift=true` alone is not a demonstrated freighter class fix.
+
+The final caller sample in PID 20456 contains 51 records: `0x4cd226` contributed
+15/12/6/0/0 arguments, `0x4cd351` contributed nine zero arguments, and
+`0x8e47bb`, `0x8e47e5`, `0x8e4813` each contributed three argument-3 records.
+Those last three sites match the supplied-inventory ship reward branch in the
+existing core setup export. Unlike the earlier interval snapshots, the final
+trace therefore **does capture S inputs from reward setup**. Without per-call
+timestamps or entity IDs, it cannot uniquely attribute them to this specific
+Utopia offer, nor prove the freighter branch takes the same inputs.
+
+Reproduce bounded schema samples with `audit-generation-inputs.py --model
+VRSPEEDER` using the exact extracted inventory/reward tables and the Courier
+source patch. The audit now includes gift/reward flags, cost, slot counts, grid
+dimensions and size override; it does not attach to the game or edit saves.
+
+### Exact-build metadata flags and argument forwarding
+
+Two bounded Ghidra passes added five exports through the existing project, without
+whole-program analysis. Repository seed lists `reward-flags-180383.tsv` and
+`reward-fields-180383.tsv` preserve the exact targets. The named stages are
+`rewardflags` and `rewardfields`; manifests and pseudocode remain external.
+
+`0x24ed8d0` is a construction/serialization wrapper, not the field decoder itself.
+Following its call to `0x24f00d0` exposed field-address/name pairs. The new
+`inspect-metadata-names.py` resolves at most 256 references and 128 bytes per
+reference from the hash-pinned executable. It does not execute pseudocode.
+
+| Payload field | Serializer offset | Executable name-string RVA |
+| --- | --- | --- |
+| IsGift | +0x24d | 0x3491940 |
+| IsRewardShip | +0x24e | 0x3492640 |
+| FormatAsSeasonal | +0x24c | 0x3491958 |
+| UseOverrideSizeType | +0x24f | 0x3492610 |
+
+These are static metadata payload offsets for this fingerprint, not general
+inventory layouts. The handler forwards gift/reward bytes to `0x8e4d30`. Exact
+wrapper disassembly then maps incoming argument 10 (`IsGift`) to core argument 9,
+and incoming argument 11 (`IsRewardShip`) to core argument 10. Core setup stores
+them at its object bytes +0x21/+0x22 respectively. The ship branch's `param_10`
+condition therefore controls reward-inventory initialization, **not gift status**.
+The initial gift-based hypothesis was corrected after checking the actual stack
+forwarding; do not rely on the wrapper's incomplete decompiled signature.
+
+Both the Utopia reward and Courier source already set `IsRewardShip=true`.
+Thus, changing only `IsGift` cannot supply the missing class-copy/stat initialization
+in the freighter branch shown by this export. Gift/free behavior, offered class,
+native stats, slots and ownership must remain separate validation gates.
+
+### Multitool acquisition chain
+
+The pinned PE scan previously found metadata name references for SpecificWeapon.
+Bounded follow-up exports connect them to tag `0x5f82ff34`. Exact inspection of
+getter entry `0x24cc6b0` confirms the tag comparison and returned payload pointer;
+dispatcher `0xf19c30` selects handler `0xf31490` from that getter.
+Checking only a surrounding 64-byte slice initially also listed neighboring
+getters, because the tag lies in the next function. Those are not matches: the
+comparison at the exact getter entry is required. Leaf getter has no unwind row.
+
+Handler `0xf31490` calls core setup `0x8e3a10` directly with item-kind 1, supplied
+inventory payload, and separate bytes +0x1c1/+0x1c2. Following serialization
+wrapper `0x24d8c70` to field serializer `0x24da180` names these bytes IsGift and
+IsRewardWeapon, respectively; +0x1c0 is FormatAsSeasonal. Core argument 10 receives
+IsRewardWeapon, selects the reward branch and copies source class to its inventory
+header before generating matching stats. Gift status is again separate.
+
+The handler also queues page value `0x26` and adjusts the offered weapon type for
+reward variants. This is evidence of native offer creation, not UI-free ownership
+or a safe production ABI. Resource loading, existing weapon limits, free claim,
+selection, ownership transfer, slot validity and normal-save persistence remain
+unverified. No handler was invoked by Courier on build 180383.
+
+The route report includes concrete S reward `R_SWIT_GUN01`, with
+WeaponInventory.Class=S and gift/reward flags true, and B staff reward
+`R_STAFF_GUN`. These templates are references for independent configuration;
+do not bundle third-party/proprietary tables into the repository or assume an
+unlock/entitlement bypass is needed to deliver an independently configured weapon.
+
+### Slots, upgrades, installation and expedition unlocks
+
+Repeatable `scan-native-acquisition.py --metadata-name GcReward...` selects up
+to 16 exact names, retains the executable/database hashes and reports missing
+strings. The capability metadata pass selected ten names, all present, then
+exported ten metadata candidates and nine dispatcher-selected handlers. Seeds
+are in `capability-metadata-180383.tsv` and `capability-handlers-180383.tsv`.
+External stages are `capabilitymetadata` and `capabilityhandlers`.
+
+Each row below connects a metadata tag, the exact getter-entry comparison and
+the adjacent non-null dispatcher branch. These are offline candidates only.
+
+| Payload | Tag | Getter RVA | Handler RVA |
+| --- | --- | --- | --- |
+| ShipSlot | 278294bc | 24df300 | f3bf70 |
+| UpgradeShipClass | c0171d3b | 24b6a70 | f3c8b0 |
+| WeaponSlot | 2547fa1e | 24b6ac0 | f3c490 |
+| UpgradeWeaponClass | 591b28b5 | 24b6a80 | f3d070 |
+| FreighterSlot | 13a49b00 | 2518bd0 | f3c7c0 |
+| InstallTech | c686b2db | 2518c40 | f37740 |
+| UnlockSeasonReward | 3946e451 | 24b6a40 | f42160 |
+| SpecificProductRecipe | 1c5b54fa | 24df3a0 | f362a0 |
+| SpecificTech | 469befb1 | 24cc690 | f375f0 |
+
+InventorySlots remains incomplete: its metadata-name reference falls inside a
+split function, and the exported fragment `25206ec` does not expose the tag.
+Do not derive its getter or handler from nearby addresses.
+
+FreighterSlot handler sets up purchase item-kind 6 through `8e5710`, transfers
+the cost reference and queues frontend page `0x26`. It does not directly unlock
+all freighter slots. ShipSlot/WeaponSlot similarly contain window and product/token
+branches; a successful boolean return does not establish expansion. Investigate
+the purchase/upgrade finalizer and unlocked-index postcondition separately.
+
+UpgradeShipClass reads the selected ship's current class, computes the next or
+explicit class and initializes three inventory stores through `4cea20`, with
+class-header updates and player-state notifications through `54cfe0`. It rejects
+an already-S ship unless the payload permits a silent no-op. This is a concrete
+native upgrade path for owned starships, not proof of a freighter upgrade API.
+The exported ABI still contains unresolved register/stack values.
+
+InstallTech resolves the technology definition and target inventory, checks
+capacity/compatibility, then follows installation/state-update calls. Learning a
+recipe and installing its module are distinct operations. UnlockSeasonReward
+checks unlock state, follows product/reward references and conditionally changes
+shop-claim state; it cannot be treated as unconditional acquisition of the final
+entity. Inspect those branches before exposing separate unlock and claim commands.
+
+No handler was called, no callback was rearmed and no DLL or data patch was
+installed during this pass. Free delivery, slot maxima, target selection,
+supercharged slots, ownership and persistence remain live validation gates.
 
 ## Bounded lookup
 
