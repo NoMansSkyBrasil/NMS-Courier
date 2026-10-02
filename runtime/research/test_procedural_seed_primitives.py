@@ -10,6 +10,31 @@ core = runpy.run_path(str(Path(__file__).with_name('procedural-seed-primitives.p
 
 
 class PrimitiveTests(unittest.TestCase):
+    def test_palette_lookup_preserves_valid_cells_and_bounds_retry_indices(self):
+        lookup = core['palette_lookup_index']
+        expected = {'_1': {0}, '_4': {0, 4, 32, 36}, '_8': set(range(8)),
+                    '_16': set(range(0, 8, 2)) | set(range(16, 24, 2)) |
+                           set(range(32, 40, 2)) | set(range(48, 56, 2)),
+                    'All': set(range(64))}
+        for mode, cells in expected.items():
+            self.assertEqual({lookup(i, mode) for i in range(64)}, cells)
+            self.assertTrue(all(lookup(cell, mode) == cell for cell in cells))
+        for invalid in (-1, 64):
+            with self.assertRaises(ValueError):
+                lookup(invalid, 'All')
+
+    def test_palette_modes_select_the_expected_grid_cells(self):
+        draw = core['palette_index_from_draws']
+        for mode, maximum in (('_1', 0), ('_4', 36), ('_8', 7), ('_16', 54), ('All', 63)):
+            self.assertEqual(draw(0, 0, mode), 0)
+            self.assertEqual(draw(0xffffffff, 0xffffffff, mode), maximum)
+        self.assertEqual(draw(0xe0000000, 0x20000000, 'All'), 57)
+        self.assertEqual(draw(0xe0000000, 0x20000000, '_8'), 1)
+        with self.assertRaises(ValueError):
+            draw(0, 0, 'Inactive')
+        with self.assertRaises(ValueError):
+            draw(-1, 0, 'All')
+
     def test_seed_boundaries_and_high_word(self):
         self.assertEqual(core['seed_state'](0), (1, 0))
         self.assertEqual(core['seed_state'](1), (1, 0x10001))

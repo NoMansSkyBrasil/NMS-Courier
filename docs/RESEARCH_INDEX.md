@@ -8,6 +8,12 @@ For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector
 preserves conditional choices; it does not invent a seed algorithm.
 
+The seed research now includes reward model/seed presets, bounded appearance
+dependency graphs and native palette arithmetic. Start with
+`inspect-seed-presets.py`, `build-appearance-graph.py` and
+`procedural-seed-primitives.py`; none is a complete seed-to-appearance evaluator.
+Arithmetic/palette/caller export stages retain per-candidate failure status.
+
 ## Function lookup
 
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,
@@ -18,7 +24,7 @@ it does not attach to or modify the game.
 
 For current-build executable findings, start with
 [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md). The external
-navigation index now includes 73 successful, unverified native pseudocode
+navigation index now includes 116 successful, unverified native pseudocode
 candidates, including a reward-entry dispatcher and purchase-state handler.
 
 For delivery mechanisms that do not require an offer screen, read the
@@ -29,9 +35,10 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 73 source files and 155 function entries across `runtime/research` and
+contains 82 source files and 193 function entries across `runtime/research` and
 `runtime/native/asi`. C#, PowerShell, headers, Java, and manifests appear as files in
-the searchable index; their functions are not parsed by this scanner.
+the searchable index; their functions are not parsed by this scanner. There are
+117 native entries overall; the failed 61f4e0 export remains explicitly indexed.
 
 | Research question | Start with | Relevant symbols or evidence |
 | --- | --- | --- |

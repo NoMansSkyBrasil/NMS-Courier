@@ -90,7 +90,8 @@ def native_items(native):
                   'capabilitymetadata', 'capabilityhandlers', 'descriptors',
                   'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
                   'proceduralselection', 'proceduralselector', 'proceduralchoice',
-                  'proceduraltexture')
+                  'proceduraltexture', 'proceduralarithmetic', 'proceduralpalette',
+                  'proceduralpalettelookup', 'proceduralpalettecallers')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 continue

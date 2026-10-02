@@ -334,3 +334,24 @@ exclusive. `inspect-appearance-fields.py --corpus <existing-corpus> --asset
 field samples from up to sixteen assets. Neither tool evaluates a full seed.
 Feed `procedural-texture-180383.tsv` to stage `proceduraltexture` for the two
 current texture-loading candidates; pixel loading is not verified color selection.
+
+`inspect-seed-presets.py --corpus <existing-corpus> --output <new-external-json>`
+catalogs shipped specific-ship reward model/seed/class fields. It does not access
+saves or infer class from gift flags. `build-appearance-graph.py --corpus
+<existing-corpus> --root <exact-scene-path> --output <new-external-json>` follows
+bounded asset dependencies; optional lookup misses and exhausted budgets remain
+explicit. Use narrower roots when a combined graph reaches the node ceiling.
+
+`scan-procedural-arithmetic.py --executable <pinned-exe> --sha256 <hash>
+--python-tools <external-capstone> --start-rva 600000 --end-rva 660000 --output
+<new-external-json>` checks multiply/carry instruction candidates in a bounded
+region. It does not identify every candidate as a generator. Feed the arithmetic,
+palette, palette-lookup and palette-callers TSV lists to stages
+`proceduralarithmetic`, `proceduralpalette`, `proceduralpalettelookup` and
+`proceduralpalettecallers`, respectively. Inspect manifests as well as process
+exit codes: successful launcher completion can retain individual export failures.
+
+`procedural-seed-primitives.py --seed 0x6 --draws 5 --palette-mode All` traces
+isolated palette-index draws, without full category propagation, RGBA or retries.
+Run `test_seed_asset_inspectors.py` for synthetic asset safety/precision checks.
+The owning seed research document records recovered formulas and missing steps.

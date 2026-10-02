@@ -998,3 +998,57 @@ external category-descriptors-reproduced.json, appearance-fields.json,
 texture-signatures and proceduraltexture-export. Complete forward appearance,
 color algorithm, inversion, location and per-category runtime support remain
 unverified. Rollback: none; installed game/bridge/mods and saves unchanged.
+
+## 2026-10-02: Special reward seed identity and native palette branch
+
+Build 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Offline only; no save conditions or game trigger. Configuration: new bounded
+reward preset/catalog and appearance graph scripts, Capstone 5.0.5 arithmetic
+region 600000..660000, four committed native TSV seed lists, Ghidra 12.1.4 /
+JDK 25.0.4.1, existing pinned PE and external corpus. No native instructions ran.
+
+Reward catalog: 89 specific-ship records, one source, XML SHA-256
+`8ed7ae909e3cdffba01f02899aee4733d7d63c6c0fc4105ebea7cfce1b9b12d7`.
+Phoenix reward R_TGA_SHIP01 specifies WRACERSE.SCENE.MBIN, decimal seed 6,
+source class S, Royal category and gift/reward flags. Other gift=true rewards
+specify A: gift alone does not explain S. Small seeds belong with their model
+resource, not a universal seed-to-entity catalog. No reward was dispatched.
+
+Mixed dependency graph stopped at its 256-node ceiling (671 edges); preserved
+the partial report. Separate Phoenix and Pirate roots completed with 39/50 and
+255/567 nodes/edges. Optional descriptor/texture misses remain not_indexed,
+not corpus extraction errors. No archive precedence or runtime load order inferred.
+
+Arithmetic scan produced 81 raw occurrences and 19 instruction-checked candidates.
+Stage proceduralarithmetic exported three of four candidates; 61f4e0 failed,
+with no more specific reason in its headless log. No retry. Palette stages exported
+62cbb0/62c960 and 2277f0 successfully. Candidate 62c480 fills 66 palette rows,
+using the recovered RNG; row generation selects indices with two draws, remaps
+color-count modes, resolves fallback palettes and tests prior RGB colors.
+The Freighter family reuses the saved pre-Paint RNG state. Threshold bytes resolve
+to float32 2^-32. Complete RGBA/collection/caller propagation is not implemented.
+
+Direct caller scan found 20 checked edges to 62c480; all 20 fragments exported in
+40 seconds. Their category roles and ABIs remain unverified, especially split
+fragments with unknown registers. Public schema checks use MBINCompiler commit
+0e81c91aa51c78d7aa3e298e9ba7532bd0c7c49c, linked in the owning specification.
+Initial master raw-source paths returned 404; corrected pinned development paths
+worked. A broad FTS output caused a terminal encoding error; bounded path-only
+queries replaced it. An unavailable helper filename and a wrong log filename
+were corrected through the existing source map/artifact directory. No disk error.
+
+Validation: six primitive boundary/mode tests, three asset-inspector tests and
+three native-index tests passed. Existing assembly replay passed 3,015 comparisons
+for 1,005 seeds; it covers the earlier integer windows, not palette branch/RGBA
+equivalence. New scripts preserve precision, explicit ambiguity/budgets and missing
+status. Evidence and formulas: [procedural seed research](PROCEDURAL_SEED_RESEARCH.md).
+
+Not proven: full forward appearance, inverse seed search, live color equivalence,
+natural spawn location or new runtime delivery capability. Rollback: none needed;
+game executable, installed bridge/mods and player saves unchanged. No disk repair,
+BitLocker changes or D: access occurred. Proprietary data/pseudocode stays external.
+
+Final research suite: all 28 tests passed. Navigation regenerated with 82 source
+files, 193 source functions, 194,641 data paths and 117 native entries, including
+one retained export failure; no import warnings. Diff whitespace check passed.

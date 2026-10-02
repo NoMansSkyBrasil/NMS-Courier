@@ -47,7 +47,8 @@ class NativeIndexTests(unittest.TestCase):
                       'capabilitymetadata', 'capabilityhandlers', 'descriptors',
                       'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
                       'proceduralselection', 'proceduralselector', 'proceduralchoice',
-                      'proceduraltexture')
+                      'proceduraltexture', 'proceduralarithmetic', 'proceduralpalette',
+                      'proceduralpalettelookup', 'proceduralpalettecallers')
             for number, stage in enumerate(stages, 1):
                 target = root / (stage + '-export')
                 target.mkdir()

@@ -276,3 +276,135 @@ these gaps and per-build comparisons are resolved.
 External evidence: `seed-analysis-180383/category-descriptors-reproduced.json`,
 `appearance-fields.json`, `texture-signatures/` and
 `acquisition-180383/proceduraltexture-export/`. No runtime delivery was attempted.
+
+## Reward presets, resource graphs and palette arithmetic
+
+All findings below concern build 180383 with the executable fingerprint stated
+above. They are offline observations, not new bridge compatibility or delivery
+capabilities. Proprietary XML, executable fragments and pseudocode remain external.
+
+### A seed is an input, not a universal entity identifier
+
+`inspect-seed-presets.py` catalogs the shipped reward table through read-only
+SQLite, with a 32 MiB per-file limit and a 512-record ceiling. The inspected table
+has XML SHA-256 `8ed7ae909e3cdffba01f02899aee4733d7d63c6c0fc4105ebea7cfce1b9b12d7`:
+89 specific-ship records from one source. Duplicate reward IDs remain separate;
+decimal uint64 seeds never pass through floating point. It does not access saves.
+
+The Starborn Phoenix name resolves to reward `R_TGA_SHIP01`, whose model is
+`MODELS/COMMON/SPACECRAFT/FIGHTERS/WRACERSE.SCENE.MBIN`, seed **6 (`0x6`)**, source
+inventory class S and ship category Royal. Both `IsGift` and `IsRewardShip` are
+true. Its customisation lists and procedural texture sampler list are empty.
+This describes this build's reward definition, not every possible Phoenix save
+representation. A remembered `0x1` must not override the inspected source.
+
+Other special rewards use seeds 0 or 1 with different model resources. Twitch
+specific-ship records also include class A with `IsGift=true`: that flag alone
+does not imply class S. Keep resource, seed, preset inventory class, cost and
+reward flags as independent fields. The source definition does not prove the
+acquisition path will preserve each field at runtime.
+
+### Dependency graph coverage
+
+`build-appearance-graph.py` follows explicit scene/descriptor/material/texture
+references, with 256 nodes and 64 MiB XML defaults. It records missing assets,
+duplicate archive ambiguity and exhausted budgets. DDS assets are indexed without
+decoding pixels. The native descriptor lookup's `.SCENE.` / `.DESCRIPTOR.` literals
+support a scene-to-descriptor lookup candidate; diffuse texture sibling filenames
+remain candidates, not established loader semantics.
+
+The mixed special/Pirate/multitool graph stopped at its node ceiling: 256 nodes,
+671 edges and 11,363,168 XML bytes. Narrower root investigations completed:
+
+| Root | Nodes | Edges | XML bytes |
+| --- | ---: | ---: | ---: |
+| Phoenix `WRACERSE.SCENE.MBIN` | 39 | 50 | 1,052,468 |
+| Pirate freighter | 255 | 567 | 7,142,052 |
+
+The Phoenix graph has 13 inspected XML assets, 17 indexed binaries and nine
+unindexed lookup candidates. Its root descriptor candidate is absent. This
+supports investigating a fixed resource/preset path; it does **not** prove the
+whole model ignores seeds, uniforms or dynamic recoloring. Missing optional
+siblings are not extraction failures. Graph edges do not establish load precedence
+or descriptor traversal order.
+
+### Palette branch recovered from native candidates
+
+The bounded arithmetic scanner checks instruction boundaries in at most 1 MiB
+of executable text. Region `600000..660000` contained 81 raw multiplier matches
+and 19 checked unwind-fragment candidates. Sharing an RNG constant does not prove
+shared semantic identity. Exporting four selected candidates succeeded for
+`628e80`, `629040`, `62c480` and failed for `61f4e0`; the exporter log supplies no
+more specific cause. Do not classify that failure as a disk failure or silently
+retry it. The first two successful candidates are not established color generators.
+
+Candidate `62c480` initializes the recovered multiply/carry state and fills
+66 palette families, five RGBA values each, through `62cbb0`. Each output row
+occupies `0x70` bytes; the total `0x1ce0` matches the generation-task color-buffer
+copy already traced. The shipped `basecolourpalettes.mbin` also has 66 families.
+Candidate `2277f0` resolves a palette entry with a `0x410` row stride, corresponding
+to 64 RGBA values followed by its color-count mode. Both new candidates exported.
+
+For `62cbb0`, let A and B be the low words from two consecutive RNG advances,
+`row = A >> 29` and `column = B >> 29`. The isolated initial index is:
+
+| Color-count mode | Index |
+| --- | --- |
+| `_1` | `0` |
+| `_4` | `((row >> 2) * 8 + (B >> 31)) * 4` |
+| `_8` | `column` |
+| `_16` | `((B >> 30) + (row >> 1) * 8) * 2` |
+| `All` | `column + row * 8` |
+
+The lookup remaps retry indices into that mode's allowed cells. It falls back to
+collection set `0x10`, variant zero when the requested variant is absent or the
+mode is Inactive. This collection set is not the palette-family enum value 16.
+The row generator compares RGB squared distance against prior colors, excluding
+alpha, and increments the index modulo 64 for at most 64 retries. The inspected
+threshold bytes at `4b240cc` are `0000802f`, float32 `2^-32`. Exact float32 operation
+order and source RGB precision still matter; do not substitute an arbitrary
+perceptual distance or rounded display color.
+
+Generation is not independent for every family. `62c480` stores the state just
+before Paint (index 10), then reuses it for Freighter (index 56). Other families
+are regenerated with mixed child seeds, including race and biological palettes.
+Consequently, applying the original entity seed directly to each palette would
+produce an incomplete evaluator even if the index arithmetic were correct.
+
+`procedural-seed-primitives.py --palette-mode All` implements only the initial
+index draws; `palette_lookup_index` implements the bounded lookup remap. Neither
+implements RGBA, retries, collection fallback, caller seed propagation or complete
+color-buffer generation. Six primitive tests pass; the existing independent
+assembly replay still covers the three earlier integer windows for 1,005 seeds,
+not the new palette branches. Three asset-inspector tests cover uint64 precision,
+duplicate rewards, graph cycles, explicit budgets and archive ambiguity.
+
+A direct-caller scan found 20 instruction-checked edges to `62c480`. All 20 caller
+fragments exported successfully in 40 seconds, including candidate `6388f9` near
+generation-task processing. Some exports begin mid-function and contain unknown
+register inputs; their recovered parameter lists are not safe ABIs. Per-category
+call-site input correlation remains outstanding.
+
+Public schema cross-checks, pinned to MBINCompiler commit
+`0e81c91aa51c78d7aa3e298e9ba7532bd0c7c49c`:
+[GcPaletteData](https://github.com/monkeyman192/MBINCompiler/blob/0e81c91aa51c78d7aa3e298e9ba7532bd0c7c49c/libMBIN/Source/NMS/GameComponents/GcPaletteData.cs)
+defines the six mode values and 64-color layout;
+[TkPaletteTexture](https://github.com/monkeyman192/MBINCompiler/blob/0e81c91aa51c78d7aa3e298e9ba7532bd0c7c49c/libMBIN/Source/NMS/Toolkit/TkPaletteTexture.cs)
+defines palette-family and Primary/Alternative color-slot enums. Schema agreement
+does not itself verify native behavior or a complete seed-to-appearance algorithm.
+
+Reproducible export seeds are the `procedural-generation-arithmetic`,
+`procedural-palette`, `procedural-palette-lookup` and `procedural-palette-callers`
+`-180383.tsv` files. External evidence under `seed-analysis-180383` includes
+`reward-seed-presets-v2.json`, `appearance-graph-phoenix.json`,
+`appearance-graph-pirate.json`, `generation-arithmetic.json`,
+`palette-row-assembly.json` and `palette-generation-callers/`. The four new native
+export stages are searchable in the research index, with failures retained.
+
+Still required for complete recovery: preserve descriptor model-list boundaries
+and traversal/filter semantics; resolve collection loading and float32 RGBA;
+correlate each creation route's seed channels, overrides and customisation;
+compare forward outputs against the game; then implement bounded inverse search.
+Natural spawn addresses and acquisition class/slots remain separate problems.
+No complete inverse generator, arbitrary seed preview or live equivalence is
+claimed by this checkpoint.
