@@ -53,6 +53,13 @@ At the end of the pilot, full corpus extraction and native decompilation had not
 
 ### Full rebuild started after the pilot
 
+Completion: all 97 archives finished at 2026-10-02 00:02:38 UTC. All 194,641 entries
+were extracted; 106,482 MBINs were converted/indexed and one (`inputtest.mbin`)
+failed conversion. `E:\NMS-Courier-Research\SUMMARY.md` contains format and archive
+counts. `navigation/` indexes source functions and all asset filenames; native
+exports remain an explicit unavailable input. `delivery-evidence.json` contains
+bounded evidence from three delivery tables. No automatic failure retry occurred.
+
 The user authorized all 97 installed PAK archives after the pilot. The new corpus
 is `E:\NMS-Courier-Research\corpus`. Its `report.json`, `index.sqlite`, and
 per-archive converter logs distinguish extracted, converted, unsupported, and

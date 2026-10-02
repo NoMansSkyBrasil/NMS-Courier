@@ -23,6 +23,35 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: completed corpus summaries and E: storage observation
+
+- Source/configuration: existing batch, navigation and delivery-data tools;
+  `runtime/research/summarize-corpus.py` SHA-256 `e91e2662f3e535586db444bb567e668c13b5efb949b962f6167b210245637f54`.
+  Offline build 180383 executable SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+  compiler/dependencies match the earlier E: extraction entries. No save or
+  runtime attachment; trigger was the completed corpus and user summary request.
+- Observed: extraction finished at 2026-10-02 00:02:38 UTC (October 1, 21:02:38
+  America/Fortaleza). All 97 PAKs processed, 194,641 entries extracted without
+  extraction failures, 106,482 MBINs converted/indexed. One conversion failure:
+  `metadata/inputtest.mbin` produced no MXML. No retries were attempted.
+- Outputs: `E:\NMS-Courier-Research\SUMMARY.md` groups formats and archive outcomes;
+  `navigation/` imports 194,641 data filenames, 52 source files and 110 source
+  functions. Native exports are unavailable and explicitly warned. Delivery
+  evidence covers three tables, one freighter reward and seven model definitions.
+- Storage observation: E: Samsung 970 EVO Plus NVMe disk 1 remains Healthy/Online;
+  volume Healthy/OK, 163,077,390,336 bytes free before summary generation. System
+  queries since extraction start found six storahci event-129 warnings and no
+  disk/NVMe/NTFS warnings. The watcher recorded normal worker exit. Physical
+  reliability counters were denied CIM access; wear, temperature and uncorrected
+  error totals could not be verified. Healthy summaries do not prove hardware
+  reliability or establish the cause of the former D: failure.
+- Not proven: native executable decompilation, game call identities, physical
+  SSD health certification, or runtime integration support for this build.
+- Rollback: only external summary/navigation artifacts created; no disk repair,
+  encryption changes, game/save/mod changes, or extraction retries. Completion
+  notification was delivered and the heartbeat was paused.
+
 ### 2026-10-01: full E: corpus rebuild started with conservative limits
 
 - Source/configuration: `runtime/research/bulk-game-data.py`, SHA-256

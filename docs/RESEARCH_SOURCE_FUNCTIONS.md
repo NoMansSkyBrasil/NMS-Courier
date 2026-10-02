@@ -100,6 +100,7 @@ Return to [the research index](RESEARCH_INDEX.md).
 | research | `main.save_report` | [runtime/research/extract-mbin-pilot.py:110](../runtime/research/extract-mbin-pilot.py#L110) | ast_definition |
 | research | `prepare` | [runtime/research/prepare-offline-tools.py:12](../runtime/research/prepare-offline-tools.py#L12) | ast_definition |
 | research | `main` | [runtime/research/prepare-offline-tools.py:41](../runtime/research/prepare-offline-tools.py#L41) | ast_definition |
+| research | `main` | [runtime/research/summarize-corpus.py:10](../runtime/research/summarize-corpus.py#L10) | ast_definition |
 | research | `flatten` | [runtime/research/summarize-delivery-data.py:20](../runtime/research/summarize-delivery-data.py#L20) | ast_definition |
 | reward | `reward_evidence` | [runtime/research/summarize-delivery-data.py:37](../runtime/research/summarize-delivery-data.py#L37) | ast_definition |
 | research | `main` | [runtime/research/summarize-delivery-data.py:60](../runtime/research/summarize-delivery-data.py#L60) | ast_definition |

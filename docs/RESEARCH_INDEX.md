@@ -9,7 +9,7 @@ running any integration test. A location or matching name is not a verified API.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 51 source files and 109 function entries across `runtime/research` and
+contains 52 source files and 110 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 
@@ -92,6 +92,24 @@ before writing or rebuilding the external corpus. General Healthy status did not
 rule out these observed read failures.
 
 ## Rebuild and search
+
+The completed E: rebuild contains 194,641 extracted entries and 106,482 converted
+and indexed MBINs across all 97 PAKs. One conversion failure remains:
+`metadata/inputtest.mbin`. Start with `E:\NMS-Courier-Research\SUMMARY.md` for
+format and per-archive counts; `navigation/SUMMARY.md` adds topic counts.
+`delivery-evidence.json` summarizes three delivery-related tables. Reproduce the
+general summary using `runtime/research/summarize-corpus.py --corpus
+E:\NMS-Courier-Research\corpus --output E:\NMS-Courier-Research\SUMMARY.md`.
+The combined navigation index is `E:\NMS-Courier-Research\navigation`; it includes
+all data filenames and Courier source functions. Native executable exports are
+unavailable on E: and are recorded as an explicit import warning, not invented.
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime/research/build-research-index.py `
+  --output E:\NMS-Courier-Research\navigation --query 'freighter' --limit 10
+```
+
+The D: examples below describe the former research configuration.
 
 The [navigation generator](../runtime/research/build-research-index.py) combines
 repository source metadata, readable corpus file records, and available Ghidra
