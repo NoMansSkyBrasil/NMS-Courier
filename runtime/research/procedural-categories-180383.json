@@ -1,0 +1,16 @@
+[
+  "models/common/spacecraft/industrial/piratefreighter.descriptor.mbin",
+  "models/common/spacecraft/industrial/capitalfreighter_proc.descriptor.mbin",
+  "models/common/spacecraft/industrial/freighter_proc.descriptor.mbin",
+  "models/common/spacecraft/shuttle/shuttle_proc.descriptor.mbin",
+  "models/common/spacecraft/scientific/scientific_proc.descriptor.mbin",
+  "models/common/spacecraft/s-class/s-class_proc.descriptor.mbin",
+  "models/common/spacecraft/s-class/bioparts/bioship_proc.descriptor.mbin",
+  "models/common/spacecraft/frigates/livingfrigate.descriptor.mbin",
+  "models/common/weapons/multitool/multitool.descriptor.mbin",
+  "models/common/weapons/multitool/royalmultitool.descriptor.mbin",
+  "models/common/weapons/multitool/atlasmultitool.descriptor.mbin",
+  "models/common/weapons/multitool/staffmultitool.descriptor.mbin",
+  "models/common/weapons/multitool/sentinelmultitoolb.descriptor.mbin",
+  "models/common/weapons/multitool/rodmultitool.descriptor.mbin"
+]

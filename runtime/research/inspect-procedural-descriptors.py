@@ -110,11 +110,20 @@ def match_constraints(groups, required):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)
-    parser.add_argument('--model', action='append', required=True,
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--model', action='append',
                         help='Exact logical descriptor MBIN path; maximum 16')
+    inputs.add_argument('--models-file', type=Path,
+                        help='JSON array of exact logical descriptor paths; maximum 16')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--constraints', type=Path, help='Optional JSON with required_descriptor_ids')
     args = parser.parse_args()
+    if args.models_file:
+        if args.models_file.stat().st_size > 32768:
+            parser.error('Model manifest size budget exceeded')
+        args.model = json.loads(args.models_file.read_text(encoding='utf-8'))
+        if not isinstance(args.model, list) or any(not isinstance(p, str) or not 1 <= len(p) <= 512 for p in args.model):
+            parser.error('Model manifest must contain bounded path strings')
     if not 1 <= len(args.model) <= 16:
         parser.error('Select 1..16 descriptor assets')
     corpus = args.corpus.resolve()

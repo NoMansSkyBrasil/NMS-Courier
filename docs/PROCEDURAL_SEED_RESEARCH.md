@@ -195,3 +195,84 @@ External evidence: `seed-analysis-180383/generation-signatures`,
 `selector-assembly.json`, `selector-child-assembly.json` and the six
 `acquisition-180383/procedural*-export` directories. No installed game, bridge,
 mod, save, disk settings or runtime process changed.
+
+## Category coverage and color investigation
+
+The research scope includes all supported categories, not only Sentinel ships.
+This is a coverage goal, not a claim that every category uses identical inputs
+or that a complete algorithm has been recovered. Shared TkModelDescriptorList
+metadata gives evidence for a reusable descriptor framework. Its use by each
+runtime creation path still requires correlation. Class, inventory, statistics,
+appearance and natural spawn location must remain separate contracts.
+
+`procedural-categories-180383.json` reproducibly selects fourteen additional root
+assets through `inspect-procedural-descriptors.py --models-file`. All fourteen
+are indexed cTkModelDescriptorList assets: 340 groups and 986 option nodes.
+This manifest complements the earlier five assets; it is not an exhaustive
+inventory of every root, subpart, expedition preset or animated variant.
+
+| Root asset / category candidate | Groups | Options | Options with scene references |
+| --- | ---: | ---: | ---: |
+| Pirate freighter | 1 | 1 | 1 |
+| Capital freighter | 34 | 48 | 40 |
+| Standard freighter | 48 | 98 | 88 |
+| Shuttle | 67 | 261 | 253 |
+| Scientific / Explorer | 46 | 176 | 140 |
+| S-class appearance model | 6 | 13 | 13 |
+| Bioship | 14 | 52 | 2 |
+| Living frigate root | 2 | 2 | 0 |
+| Standard multitool | 103 | 291 | 0 |
+| Royal multitool | 4 | 4 | 0 |
+| Atlas multitool | 1 | 3 | 3 |
+| Staff | 9 | 31 | 0 |
+| Sentinel multitool B | 3 | 3 | 0 |
+| Rod multitool | 2 | 3 | 0 |
+
+These are root-file counts, not total appearance counts or reachable combinations.
+The Pirate root's only option references INVENTORY_MEDIUM.SCENE.MBIN; do not
+infer that every detail/color of a Pirate freighter is therefore fixed. Reference
+paths can point to scenes rather than descriptor files, so resolution must follow
+the actual resource loader instead of blindly opening every reference as XML of
+the same template. Other roots, notably frigates, may delegate variation to LOD
+resources, textures or other paths.
+
+### Colors are a separate branch
+
+`inspect-appearance-fields.py` inspects exact existing assets with bounded reads,
+read-only SQLite and explicit missing/unsupported statuses. It does not generate
+colors or infer selection semantics. Current field evidence:
+
+- `textures/common/spacecraft/industrial/shared/freighter_proc.texture.mbin`
+  (SHA-256 `04423fbfae79ca96bedca39d50bcdb1e42c1dfab320467e219fd3e0a969726c3`)
+  has Freighter/Rock palette selectors, Primary/Alternative2/None color slots
+  and painted/unpainted texture alternatives.
+- `textures/common/weapons/multitool/multitoolbase.texture.mbin`
+  (SHA-256 `c109d5135715ce87df29194b09b990a3e51bc89577fbc8481b51285d5a86c945`)
+  uses Paint/Rock and Primary/Alternative1/None slots.
+- The old freighter texture uses a different palette/slot configuration. The
+  customisation palette table is a separate GcCustomisationColourPalettes asset;
+  its existence does not establish the default procedural RGB selection formula.
+
+Public signatures located texture Load and LoadFromDds candidates at `1893960`
+and `1894020`; both exported successfully in 30 seconds. The inspected Load path
+handles DDS/header/pixel loading, not a demonstrated seed-to-palette evaluator.
+Record this rejected route rather than porting DDS decode as the color algorithm.
+`procedural-texture-180383.tsv` reproduces stage `proceduraltexture`.
+
+Different seeds are not guaranteed distinct appearances. The recovered descriptor
+initializer maps both `0` and `0x1000100000001` to `(1,0)`, producing the same
+draw stream in this branch; a regression check covers 100 draws. This does not
+prove their final colors or whole entities match, since other inputs can differ.
+Conversely, the same numeric seed across different model categories is not a
+universal ship/multitool/freighter identifier: the resource tree is also an input.
+
+Next priorities: preserve model-list/child boundaries in a reference graph;
+resolve referenced scene/material/texture assets; trace palette selection before
+pixel loading; establish input seed channels at each category's creation path;
+compare fixed-seed outputs in game. Only then build forward evaluators and bounded
+configuration-to-seed searches. A complete recovery cannot be promised before
+these gaps and per-build comparisons are resolved.
+
+External evidence: `seed-analysis-180383/category-descriptors-reproduced.json`,
+`appearance-fields.json`, `texture-signatures/` and
+`acquisition-180383/proceduraltexture-export/`. No runtime delivery was attempted.

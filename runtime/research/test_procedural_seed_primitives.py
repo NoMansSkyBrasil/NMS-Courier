@@ -27,6 +27,17 @@ class PrimitiveTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             core['advance']((1 << 32, 0))
 
+    def test_distinct_seeds_can_initialize_the_same_descriptor_state(self):
+        left = core['seed_state'](0)
+        right = core['seed_state'](0x1000100000001)
+        self.assertEqual(left, right)
+        for _ in range(100):
+            left, draw_left = core['advance'](left)
+            right, draw_right = core['advance'](right)
+            self.assertEqual(draw_left, draw_right)
+        # This is a collision in this descriptor initializer, not a claim that
+        # other appearance inputs/palette paths necessarily collide as well.
+
     def test_zero_weight_and_single_choice_draw_consumption(self):
         state = (1, 0)
         self.assertEqual(core['choose_unfiltered'](state, ['xNEVER']), (state, None))

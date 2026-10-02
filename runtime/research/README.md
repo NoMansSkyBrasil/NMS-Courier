@@ -324,3 +324,13 @@ python runtime/research/test_procedural_seed_primitives.py --assembly `
 
 Without external assembly reports the command runs boundary tests only; that is
 not a fresh assembly comparison. The interpreter never invokes native code.
+
+Use `inspect-procedural-descriptors.py --models-file
+runtime/research/procedural-categories-180383.json --corpus <existing-corpus>
+--output <new-external-json>` for the fourteen additional ship, freighter,
+frigate and multitool roots. Manifest and repeated `--model` inputs are mutually
+exclusive. `inspect-appearance-fields.py --corpus <existing-corpus> --asset
+<exact-logical-path> --output <new-external-json>` reports bounded palette/seed
+field samples from up to sixteen assets. Neither tool evaluates a full seed.
+Feed `procedural-texture-180383.tsv` to stage `proceduraltexture` for the two
+current texture-loading candidates; pixel loading is not verified color selection.

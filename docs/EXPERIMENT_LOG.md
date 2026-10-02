@@ -964,3 +964,37 @@ not changed. No disk repair, storage setting or BitLocker operation occurred.
 Navigation rebuilt: 76 source files, 173 source functions, 194,641 data paths,
 88 native candidates and no import warnings. Native index regression checks
 include the new stages and retain their unverified status.
+
+## 2026-10-02: Appearance category coverage and color-path investigation
+
+Build 180383 / executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Offline trigger only, no save prerequisites. Configuration: committed fourteen-root
+`procedural-categories-180383.json`, existing descriptor inspector's new bounded
+manifest input, `inspect-appearance-fields.py`, texture signature terms and
+`procedural-texture-180383.tsv`. Ghidra 12.1.4/JDK 25.0.4.1; no native execution.
+
+Fourteen additional cTkModelDescriptorList assets yielded 340 groups/986 option
+nodes. Reproduction through the CLI retained the same asset contents. Pirate root
+has one option referencing a scene; standard/capital freighters have nested groups
+and many references. These counts are metadata coverage, not total appearances
+or proof of runtime category equivalence. Four texture/customisation palette assets
+were inspected successfully with recorded XML hashes. Freighter and multitool
+texture selectors expose different palette families/color slots. The initially
+guessed industrial texture path lacked the shared/ directory and had no exact
+index match; a bounded filename query found the correct path. A Windows rg glob
+argument failed with error 123; a corrected directory search completed without
+storage changes.
+
+Texture Load/LoadFromDds signatures were unique at 1893960/1894020. Both candidates
+exported in 30 seconds with no failures; inspected Load is DDS/pixel loading, not
+verified procedural color selection. Do not treat this route as a color decoder.
+Descriptor initialization collision 0 versus 0x1000100000001 was confirmed in
+the recovered arithmetic and regression-tested for 100 draws. This does not prove
+whole-entity/color equality. Other category/resource/input channels remain unknown.
+
+Evidence and category counts: [procedural seed research](PROCEDURAL_SEED_RESEARCH.md),
+external category-descriptors-reproduced.json, appearance-fields.json,
+texture-signatures and proceduraltexture-export. Complete forward appearance,
+color algorithm, inversion, location and per-category runtime support remain
+unverified. Rollback: none; installed game/bridge/mods and saves unchanged.

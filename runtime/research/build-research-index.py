@@ -89,7 +89,8 @@ def native_items(native):
                   'weaponhandler', 'weaponserializer', 'weaponfields',
                   'capabilitymetadata', 'capabilityhandlers', 'descriptors',
                   'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
-                  'proceduralselection', 'proceduralselector', 'proceduralchoice')
+                  'proceduralselection', 'proceduralselector', 'proceduralchoice',
+                  'proceduraltexture')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 continue
