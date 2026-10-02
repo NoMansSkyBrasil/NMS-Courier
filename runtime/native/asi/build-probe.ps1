@@ -3,7 +3,7 @@ param(
     [string]$Compiler,
     [Parameter(Mandatory = $true)]
     [string]$Output,
-    [ValidateSet('Startup', 'Callback', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
+    [ValidateSet('Startup', 'Callback', 'Observer180383', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
     [string]$Mode = 'Startup'
 )
 
@@ -17,6 +17,9 @@ $arguments = @('-std=c11', '-O2', '-Wall', '-Wextra', '-Werror',
 if ($Mode -ne 'Startup') {
     $arguments += '-DCOURIER_NATIVE_CALLBACK_PROBE'
     $arguments += @('-I', (Join-Path $vendor 'include'))
+}
+if ($Mode -eq 'Observer180383') {
+    $arguments += '-DCOURIER_OBSERVE_180383'
 }
 
 if ($Mode -eq 'DeliveryTest') {
@@ -38,8 +41,12 @@ $arguments += @('-o', $Output,
     (Join-Path $directory 'xinput_proxy.c'))
 
 if ($Mode -ne 'Startup') {
-    $arguments += (Join-Path $directory 'native_callback_probe.c')
-    $arguments += (Join-Path $directory 'inventory_snapshot_179666.c')
+    if ($Mode -eq 'Observer180383') {
+        $arguments += (Join-Path $directory 'callback_observer_180383.c')
+    } else {
+        $arguments += (Join-Path $directory 'native_callback_probe.c')
+        $arguments += (Join-Path $directory 'inventory_snapshot_179666.c')
+    }
     $arguments += @(
         (Join-Path $vendor 'src\buffer.c'),
         (Join-Path $vendor 'src\hook.c'),

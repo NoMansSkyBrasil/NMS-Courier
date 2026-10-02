@@ -19,7 +19,7 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 57 source files and 117 function entries across `runtime/research` and
+contains 58 source files and 120 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 

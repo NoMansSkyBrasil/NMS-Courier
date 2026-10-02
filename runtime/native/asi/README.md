@@ -37,3 +37,21 @@ On 2026-09-23, Steam build 179666 (`NMS.exe` SHA-256 `b7913f268dfc62386b6b68f524
 `FreighterOfferTest` uses the exact-build reward target to dispatch the game's vanilla `FREIGHT_REWARD` from a one-shot update callback. The test DLL SHA-256 is `ca65f3c90732d27b9e15136cb247e4c37dcee462137922294552a90cad247e9b`. The isolated argument fixture passed; a fake `NMS.exe` made 400 forwarded XInput calls, exited normally, and logged `unsupported_build`. This is only a test of whether a free-offer UI can be opened from ordinary gameplay. The reward payload has no class, seed, or slot parameters. This build does not accept the offer, enforce a zero price, set S class, or unlock slots. Live behavior is unverified. See [the runtime evidence gates](../../../docs/RESEARCH_AND_DECISIONS.md#direct-free-freighter-offer-build-179666).
 
 The first game launch with this DLL hung before either startup or hook diagnostic was created. No offer was dispatched. The prior currency DLL was restored while the game was closed and its hash matched. This freighter-offer build is rejected for further live use until the startup hang is diagnosed; passing the isolated fixture is insufficient.
+## Current-build observation validation (2026-10-02)
+
+`build-probe.ps1 -Mode Observer180383` selects a separate, counter-only observer
+for executable hash `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+It matches the exact Update prefix at RVA `0x2d7530`, forwards original calls,
+writes `native-observer-180383-<PID>.log`, and disables its hook after 180 seconds.
+It does not link inventory layouts or expose delivery events. Unknown executables
+are rejected before hooking. Do not enable delivery by changing the legacy hash.
+
+The installed observer hash is
+`755f8d374f13e1db4eb962f6bc8573bddaab58a22a7c8f903cd38b6c101d627d`.
+Strict compilation, isolated callback forwarding, and production-mode unknown
+build rejection passed. Live process 20928 recorded 7,042 callbacks, hook status
+zero and `observation_complete` after 180 seconds; the user confirmed loaded-save
+gameplay. The process remained alive after hook removal. This validates only
+the callback, not inventory access or delivery. The older
+delivery DLL is backed up on C:; all historical delivery results above apply
+only to build 179666. See the experiment log for installation and rollback.

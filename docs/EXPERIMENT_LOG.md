@@ -42,10 +42,79 @@ This is the short entry point for resuming exact-build research. Detailed reason
 
 ## Reference points
 
+### 2026-10-02: current-build observation bridge verified in gameplay
+
+- Build: installed NMS 180383 SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+- Source/configuration: `callback_observer_180383.c`, startup verifier profile
+  `COURIER_OBSERVE_180383`, `build-probe.ps1 -Mode Observer180383`, pinned
+  MinHook 1.3.4 and llvm-mingw 20260922. Public NMS.py revision
+  `52e2e55493ddade1d89d3e638491afff995f5631` has a unique Update signature match
+  at RVA `0x2d7530`, with exact 16-byte prefix
+  `40534883ec20e8a54792024889056ebd`. Its mangled name describes a void method
+  with no explicit arguments. The observer forwards the original this pointer.
+- Conditions: game closed; no reward event, inventory read/write, or save access.
+  The observer source does not link legacy inventory or delivery adapters. It
+  logs counters and disables its hook after 180 seconds. Old callback source
+  explicitly rejects the new profile at compile time.
+- Failure: the former compiler directory contained only two executable files;
+  the build exited `-1073741515` (missing dependency). The official private
+  toolchain ZIP was downloaded to C: and verified against its previously pinned
+  SHA-256 `e3ad77d117a4bea19a7a3b333341824d79a5a371004a10e25b8504e7b3047666`.
+  No system installation or disk operation was used to resolve the tool failure.
+- Observed: strict `-Wall -Wextra -Werror` build succeeded. The isolated
+  fixture forwarded all 400 original calls; the sampled diagnostic recorded
+  385 callbacks and hook status zero. The production-mode fake executable
+  logged `unsupported_build`, forwarded all 400 calls, and produced no observer
+  log. Fixture hash bypass is never used in the installed DLL.
+  The historical Callback profile also compiled under strict warnings. Two
+  negative compilation checks rejected mixed observer/delivery macros and
+  linking the legacy callback adapter into the current-build observer.
+- Installed observer SHA-256:
+  `755f8d374f13e1db4eb962f6bc8573bddaab58a22a7c8f903cd38b6c101d627d`.
+  Executable, previous DLL, new DLL, and unchanged reward patch were checked.
+  The known older DLL hash was `f20d9b41344fc7460471979f56598108ed8f750327a202b879a0716d651a441d`;
+  it was backed up before replacement, and installed readback matched.
+- Live result: process 20928 resolved to the intended Steam executable and
+  logged `exact_build_startup_observed` with the exact fingerprint. The observer
+  completed its 180-second window with `hook_status=0`, `callback_count=7042`,
+  and callback thread 22420. The user confirmed the disposable save was loaded
+  and the character stationary in gameplay. The process remained alive after
+  the hook disabled itself. Transient evidence: `asi-startup-20928.log` and
+  `native-observer-180383-20928.log` under the local diagnostics directory.
+- Not proven: callback behavior across all gameplay transitions or long sessions,
+  current-build inventory layouts, delivery, or freighter acquisition. No reward
+  was dispatched and no inventory or save was accessed by this observer.
+- Rollback: previous DLL retained under the external C: staging directory
+  `observer-180383-20261002`; replacement requires the game closed and exact
+  source/destination hashes. That older DLL rejects the current game build.
+  Reward patch and game/save files were not changed.
+
+### 2026-10-02: reported C-class generation; isolation pending
+
+- Build/configuration: the same exact 180383 executable and counter-only DLL
+  as above. The installed reward EXML remains SHA-256
+  `62840d2810e5ca2b30dccde5f75b9ab5d5ce07ade92ea1e2bb30ba555a9e9732`.
+- Conditions/observation: the user reported C class both for ordinary NPC ships
+  and a naturally encountered freighter, not just Courier's historical offers.
+  No reward was dispatched in this process. The settings list only
+  `NMSCOURIERCURRENCYREWARDPROBE` enabled, and the inspected MODS directory has
+  its reward EXML and a `.before-explicit-backup` file. No global inventory,
+  buildable-ship or fleet table patch was found there. The observer's original
+  update forwarding and counter writes do not set inventory class.
+- Not proven: a global generation regression, a causal relationship to Courier,
+  or normal generation probabilities. The reward patch's narrow intended scope
+  does not exclude a loader/merge effect. User observations lack a controlled
+  vanilla comparison and a measured sample.
+- Next/rollback: with the game closed, preserve exact-hash copies and temporarily
+  remove Courier's proxy and reward patch for a fresh-process comparison. Do not
+  edit saves, force class or change shared generation tables during diagnosis.
+
 | Subject | Location or identity | Use |
 | --- | --- | --- |
 | Tested game executable | Steam Windows build 179666, SHA-256 `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb` | Gate every runtime test; reject other builds |
-| Current known-good test DLL | `runtime/native/asi/`; installed `Binaries/xinput9_1_0.dll` SHA-256 `f20d9b41344fc7460471979f56598108ed8f750327a202b879a0716d651a441d` | Native XInput forwarding, update callback, one-shot local reward triggers |
+| Historical known-good delivery DLL | `runtime/native/asi/`; SHA-256 `f20d9b41344fc7460471979f56598108ed8f750327a202b879a0716d651a441d`, backed up before the 180383 observer installation | Older-build native XInput forwarding, update callback, one-shot local reward triggers |
+| Installed 180383 observer | `callback_observer_180383.c`; DLL SHA-256 `755f8d374f13e1db4eb962f6bc8573bddaab58a22a7c8f903cd38b6c101d627d` | Observation only; 7,042 callbacks and successful timed hook removal in process 20928 |
 | Current installed reward patch | `GAMEDATA/MODS/NMSCourierCurrencyRewardProbe/METADATA/REALITY/TABLES/REWARDTABLE.EXML`, SHA-256 `62840d2810e5ca2b30dccde5f75b9ab5d5ce07ade92ea1e2bb30ba555a9e9732` | Maps the third currency test event to the explicit freighter offer for the next fresh-process test; Quicksilver is not available through that event while installed |
 | Original currency reward backup | Local development scratch copy SHA-256 `d67a57493af349e6a50d624537e5fdce59fdfdd2d29a6e2a63366e6c817f08e7` | Restore only while the game is closed, with exact-hash checks |
 | Live process diagnostics | `%LOCALAPPDATA%/NMSCourier/diagnostics/native-hook-<PID>.log` | Read callback and one-shot dispatch state; state `2` alone is not user-visible success |

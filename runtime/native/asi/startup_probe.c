@@ -6,7 +6,11 @@
 #include <string.h>
 #include <wchar.h>
 
+#ifdef COURIER_OBSERVE_180383
+#define COURIER_EXE_SHA256 "671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4"
+#else
 #define COURIER_EXE_SHA256 "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
+#endif
 
 #ifdef COURIER_NATIVE_CALLBACK_PROBE
 void courier_probe_after_verified(void);

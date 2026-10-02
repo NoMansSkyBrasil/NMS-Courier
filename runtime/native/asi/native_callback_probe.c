@@ -8,6 +8,9 @@
 
 #include "MinHook.h"
 #include "inventory_snapshot_179666.h"
+#ifdef COURIER_OBSERVE_180383
+#error Legacy inventory and delivery adapters must not be linked to the 180383 observer
+#endif
 #ifdef COURIER_TEST_DELIVER_CARBON
 #include "carbon_delivery_179666.h"
 #endif

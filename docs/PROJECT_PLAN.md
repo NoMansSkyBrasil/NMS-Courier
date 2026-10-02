@@ -39,6 +39,11 @@ The B0 clean offline Windows validation and native dependency audit remain open.
 
 ## 3. Documentation ownership
 
+On 2026-10-02, a separate observation-only DLL was compiled, fixture-tested and
+installed for the newer 180383 executable. Process 20928 recorded 7,042 callbacks
+and successful timed hook removal while the user reached loaded-save gameplay.
+No inventory/delivery adapter was migrated. See the experiment log.
+
 | Document | Owns |
 | --- | --- |
 | [ARCHITECTURE](ARCHITECTURE.md) | Stack, process boundaries, services, dependency rules |
