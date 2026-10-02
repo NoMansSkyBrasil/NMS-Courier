@@ -158,6 +158,21 @@ archive's remaining binary extraction; MXML/index expansion may require more.
 
 ## Token-efficient research
 
+For the comparison of gift, upgrade and direct-acquisition routes, read
+[delivery alternatives](../../docs/DELIVERY_ALTERNATIVES.md). Reproduce its
+bounded local schema/ZIP evidence without attaching to the game:
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime/research/research-delivery-routes.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --output E:\NMS-Courier-Research\delivery-routes.json `
+  --mods C:\Users\louan\Downloads\Compressed
+```
+
+The optional ZIP inspection reads selected Lua sources and stores fingerprints
+and text-marker counts, not executable third-party code. Comments can contain
+markers. Generic reward counts exclude inline payloads outside their container.
+
 Read `report.json` and query `index.sqlite` first. Do not send the full corpus or
 compiler logs to an assistant. The symbol index deduplicates XML property values
 per asset and returns a bounded list of source paths:

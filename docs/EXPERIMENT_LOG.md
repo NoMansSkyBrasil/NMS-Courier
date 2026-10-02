@@ -23,6 +23,39 @@ file/product version `180383`, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This is an offline extraction fingerprint, not a new runtime compatibility claim.
 
+### 2026-10-01: offline comparison of delivery routes without offer UI
+
+- Scope/configuration: `runtime/research/research-delivery-routes.py`, SHA-256
+  `b8498bb76d2dfb9dbc6e8d59ac961e53dfd5090b42517e3ca7b5d1e48e7a9c88`; corpus executable build 180383,
+  SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+  Read-only SQLite/selected XML inspection and bounded Lua inspection of the four
+  supplied ZIPs. No game/save conditions apply and no runtime trigger was sent.
+- Sources/provenance: archive/XML fingerprints and all four ZIP hashes retained
+  in `E:\NMS-Courier-Research\delivery-routes.json`. Recipe, class, gift and
+  slot payloads are schema clues. Re-inspected REWARDTABLE and buildable globals;
+  separately inspected fleet globals and expedition reward field names.
+- Observed: generic ship rewards have 86 non-freighter gift=true payloads and one
+  freighter gift=false payload. Three ship-class and seven weapon-class upgrade
+  payloads exist. Ship/weapon slot rewards expose window/token/cost fields.
+  There is no demonstrated freighter-targeted class-upgrade call in this evidence.
+  Buildable-global inline payloads are outside the collector's generic-entry
+  scope; its empty generic count must not be interpreted as missing schemas.
+- External reference: NoMansSky.Api inspected at
+  `1974810b828802377129a03bb96fa2d6f10ded8a`; GitHub API reports last push in 2023.
+  Its C# inventory extension delegates element access, not a demonstrated native
+  freighter grant. Frameworks are research references; none installed or run.
+- Decision: compare reward gift branches and native acquisition/finalization,
+  with independent owned-entity upgrades and per-request generation as candidate
+  routes. An offer is no longer mandatory. See [delivery alternatives](DELIVERY_ALTERNATIVES.md)
+  for the matrix, order and proof requirements. This is an investigation plan,
+  not new production capability or an adopted external dependency.
+- Not proven: gift flags bypassing UI, freighter support in ship upgrade rewards,
+  any build-180383 native function address/ABI, S/120/60 acquisition, 120 technology
+  slots, all-supercharged slots, persistence or remote-player delivery.
+- Rollback: no runtime mutations, data-patch installation, save editing, disk
+  commands or proprietary-source copying. Only authored research and external
+  evidence metadata were generated.
+
 ### 2026-10-01: completed corpus summaries and E: storage observation
 
 - Source/configuration: existing batch, navigation and delivery-data tools;

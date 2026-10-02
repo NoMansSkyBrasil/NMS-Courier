@@ -6,10 +6,15 @@ running any integration test. A location or matching name is not a verified API.
 
 ## Function lookup
 
+For delivery mechanisms that do not require an offer screen, read the
+[alternative-route assessment](DELIVERY_ALTERNATIVES.md). It compares native
+rewards, direct acquisition, owned-entity upgrades, scoped generation and bridge
+choices; schema names remain clues rather than verified freighter APIs.
+
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 52 source files and 110 function entries across `runtime/research` and
+contains 53 source files and 112 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 
@@ -31,6 +36,7 @@ the searchable index; their functions are not parsed by this scanner.
 | Bounded extraction rebuild on E: | [three-table pilot](../runtime/research/extract-mbin-pilot.py) | C: staging; new E: output; serial conversion and readback hashes |
 | Storage monitoring during the full rebuild | [storage watcher](../runtime/research/watch-extraction-storage.ps1) | E:/disk-1 checks; verified worker PID; preserved interruption evidence |
 | Reward schemas and model references | [schema summarizer](../runtime/research/summarize-delivery-data.py) | `reward_evidence`, `flatten`; bounded samples with reward IDs |
+| Gift, upgrade and acquisition alternatives | [route collector](../runtime/research/research-delivery-routes.py) | Bounded generic-reward variants, source ZIP hashes; no runtime mutation |
 | Offline native candidate export | [Ghidra exporter](../runtime/research/ExportDeliveryCandidates.java) | String references and pseudocode; function identities remain unverified |
 
 The `_179666` adapters belong to the older tested executable. The newer offline
