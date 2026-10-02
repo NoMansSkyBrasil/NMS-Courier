@@ -1,0 +1,14 @@
+{
+  "source": "User-provided Sentinel customizer screenshot, 2026-10-02",
+  "resource": "MODELS/COMMON/SPACECRAFT/SENTINELSHIP/SENTINELSHIP_PROC.SCENE.MBIN",
+  "required_descriptor_ids": [
+    "_PIT_A", "_TOPFLAP_A", "_WINGS_V", "_WINGSO_OTOP", "_AXWINGSS_12",
+    "_JETTOP_A", "_TYPE_BLACK1", "_EXWINGS_5S436", "_TIPLIGHTS4_A",
+    "_WINGSU_OBOT", "_JETBOTS_A", "_TYPE_BLACK2", "_SKIRT_A",
+    "_SIDEENGINES_A2", "_UNDERWING_A", "_ASIDES_A4", "_AFRONT_SNOUT2",
+    "_GRILL_SNOUT22", "_TEETH_A", "_AALTSKIRT_A", "_VAR_A7",
+    "_AENDWINGS_ANT", "_ENGINEFLAME_1", "_ASKIRTING_A1S3"
+  ],
+  "seed": null,
+  "seed_reachability_verified": false
+}

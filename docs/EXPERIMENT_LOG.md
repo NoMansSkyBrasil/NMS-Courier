@@ -887,3 +887,37 @@ The [offer-class probe](../runtime/native/asi/probe-freighter-offer-class.ps1) a
   65 native candidates, no warnings. A documentation append initially failed
   because Windows default cp1252 could not decode existing UTF-8; explicit UTF-8
   corrected the append, with no game or storage operation involved.
+
+
+## 2026-10-02: Procedural descriptor and native seed-algorithm research
+
+Build 180383 / executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Sources: `inspect-procedural-descriptors.py`, extended metadata scanner,
+`descriptor-metadata-180383.tsv`, `scan-native-callers.py`; existing corpus and
+Ghidra 12.1.4 / JDK 25.0.4.1. Offline trigger only; no save/process prerequisite.
+
+Five descriptor assets yielded 109 conditional groups and 398 option nodes.
+Sentinel accounts for 62 groups/190 options. Nested ancestor conditions and
+empty descriptor behavior passed synthetic checks. Eight metadata candidates
+were exported successfully in 46.1 seconds, no failures; selected exports expose
+serialization and field hashing, not a confirmed appearance PRNG. Direct caller
+scan of two metadata hash candidates found two instruction-checked edges in
+already inspected fragments, not a model generation function. GcSeed had no
+metadata string match. MetaIdea's pinned Ship Creator preview traversal does not
+provide a demonstrated seed evaluator. Record these negative findings rather
+than porting an unrelated hash or bundled random helper.
+
+Evidence: external `seed-analysis-180383/descriptor-choices.json`,
+`seed-analysis-180383/metadata-callers/`, `acquisition-180383/descriptors-export/`.
+Scope and sources: [procedural seed research](PROCEDURAL_SEED_RESEARCH.md).
+No installed executable, bridge, patch or save changed; prior observation DLL
+remains installed. Exact seed evaluation, inversion, colors, class and natural
+location mapping remain unimplemented/unverified. No delivery occurred.
+
+The user's follow-up Sentinel screenshot was mapped to 24 exact descriptor IDs
+in `sentinel-parts-example.json`. Current corpus validation matched all 24 with
+no missing/ambiguous IDs or ancestor conflicts. Negative checks rejected
+WINGS_V+WINGS_H, SKIRT_B+TEETH_A and a nonexistent ID. These checks validate
+conditional metadata only; no seed was derived or evaluated. External result:
+`seed-analysis-180383/sentinel-user-constraints.json`.

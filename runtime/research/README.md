@@ -283,3 +283,22 @@ It rejects unknown hashes and non-executable/file-unbacked targets, inspects at
 most 32 candidates, and reports 24 entry bytes plus unwind bounds. Matching these
 to Python output is independent static validation, not permission to invoke a
 native function. The desktop product does not depend on an end-user SDK.
+
+
+## Procedural appearance and seed investigation
+
+See `docs/PROCEDURAL_SEED_RESEARCH.md` for exact evidence and unresolved algorithm
+work. `inspect-procedural-descriptors.py --corpus <external-corpus> --model
+models/common/spacecraft/sentinelship/sentinelship_proc.descriptor.mbin --output
+<new-external-json>` indexes conditional descriptor choices from existing XML.
+It does not generate a seed or assign probabilities.
+
+The native metadata scan accepts `--metadata-only --type-name
+TkModelDescriptorList --type-name TkResourceDescriptorList --type-name
+TkResourceDescriptorData`. Feed `descriptor-metadata-180383.tsv` to the existing
+bounded Ghidra launcher with `--stage descriptors`. `scan-native-callers.py`
+accepts a pinned executable/hash, up to 16 `--target <hex-rva>` arguments,
+`--python-tools <external-capstone>` and a new external `--output` directory.
+It checks direct E8/E9 instruction boundaries and exports caller seed candidates;
+indirect calls and split unwind fragments remain incomplete. No process/save API
+is used. Do not interpret metadata hashing as the appearance PRNG.

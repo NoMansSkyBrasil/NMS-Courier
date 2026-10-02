@@ -22,9 +22,15 @@ def main():
     parser.add_argument('--payload-metadata', action='store_true')
     parser.add_argument('--metadata-name', action='append', default=[],
                         help='Select exact GcReward metadata names instead of defaults (repeatable; maximum 16)')
+    parser.add_argument('--type-name', action='append', default=[],
+                        help='Exact descriptor/seed metadata type names; maximum 16')
+    parser.add_argument('--metadata-only', action='store_true',
+                        help='Skip unrelated public acquisition signature scans')
     args = parser.parse_args()
     if len(args.metadata_name) > 16 or any(not re.fullmatch(r'GcReward[A-Za-z0-9]+', name) for name in args.metadata_name):
         parser.error('Metadata names must be exact GcReward identifiers; maximum 16')
+    if len(args.type_name) > 16 or any(not re.fullmatch(r'(?:Tk|Gc)[A-Za-z0-9]+', name) for name in args.type_name):
+        parser.error('Type names must be exact Tk/Gc identifiers; maximum 16')
     exe = args.executable.resolve()
     output = args.output.resolve()
     if output.is_relative_to(exe.parent.parent) or output.is_relative_to(Path(__file__).resolve().parents[2]):
@@ -48,6 +54,8 @@ def main():
 
     database = json.loads(args.database.read_text(encoding='utf-8'))
     selected = [f for f in database['functions'] if any(term in f['name'] for term in ('PurchaseableItem', 'FreighterOwnership', 'GiveGenericReward', 'InteractionComponent::GiveReward', 'InventoryStore::Add'))]
+    if args.metadata_only:
+        selected = []
     decoder = Cs(CS_ARCH_X86, CS_MODE_64)
     results = []
     seeds = {}
@@ -75,9 +83,9 @@ def main():
         results.append(record)
     output.mkdir(parents=True, exist_ok=True)
     report = {'mode': 'offline_only', 'exe_sha256': digest, 'database_sha256': hashlib.sha256(args.database.read_bytes()).hexdigest(), 'candidates': results, 'caveat': 'Public signatures are candidate labels only; no ABI or runtime compatibility is established.'}
-    if args.payload_metadata or args.metadata_name:
+    if args.payload_metadata or args.metadata_name or args.type_name:
         targets = {}
-        names = tuple(dict.fromkeys(('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate') if not args.metadata_name else args.metadata_name))
+        names = tuple(dict.fromkeys(args.type_name or args.metadata_name or ('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate')))
         for name in names:
             for section in sections:
                 start = section['raw_offset']
