@@ -126,8 +126,8 @@ This is the short entry point for resuming exact-build research. Detailed reason
   absent. Renaming the isolated host to `NMS.exe` resolved this fixture setup error;
   the identity check was retained. Fixture-only build bypasses remain forbidden
   for game deployment.
-- Not proven: no current-game caller trace has been captured, no caller identifies
-  a particular entity by itself, and no S/Pirate/max-slot freighter was delivered.
+- Not proven: the captured caller does not identify a particular entity by
+  itself, and no S/Pirate/max-slot freighter was delivered.
 - Installation: after the user confirmed NMS closed, absence of its process was
   checked twice. Executable, previous aggregate observer and prepared DLL hashes
   matched; the MODS directory contained no files. The previous DLL was backed up
@@ -139,10 +139,41 @@ This is the short entry point for resuming exact-build research. Detailed reason
   counters zero, and the caller TSV reported zero attempted/dropped samples.
   The process was responding. An NPC comparison was requested after this baseline;
   no class/offer correlation or mutation has been established in this process.
+  With the user reporting a C comparison open, six records shared return RVA
+  `0x4cd226`: three argument-0 and three argument-2 calls. A later sample during
+  the requested alternative B comparison had 24 records (12/9/3/0/0), all from
+  the same caller and no dropped samples. Continued sampling reached 33 records
+  (15/12/6/0/0). These are interval snapshots, not per-ship event counts; multiple
+  buckets changed and a unique B record has not been identified. No buying,
+  exchanging or Courier delivery command was requested.
+  A later status snapshot reached 39 calls (18/12/6/3/0), with hook status zero
+  and the process responding. Argument 3 appearing in an ongoing sample is not
+  evidence that the user's open B ship changed to S; no mutation occurred.
 - Rollback: the completed aggregate-only observer, SHA-256
   `f22a1d533ff54465bb775da2c910c2fe18b8ecf200e9fb20562a1ec6b89ce9d7`,
   is preserved in external C: research staging. No data patch, game-memory
   mutation, save edit or disk-maintenance command was part of this work.
+
+### 2026-10-02: observed class caller inspected offline
+
+- Fingerprint: the same pinned build 180383 executable above. Source/configuration:
+  `inspect-executable-function.py --build 180383`, existing PE section parser and
+  Capstone 5.0.5; bounded unwind-aware inspection at `0x4cd226`, `0x4cd112` and
+  `0x4cd14c`. The inspector now accepts only the two explicitly pinned build
+  choices; its previous 179666 default is preserved.
+- Trigger/conditions: follow-up to the read-only NPC caller samples in PID 20456;
+  offline executable reads only, no native invocation or process/save write.
+- Observed: `0x4cd221` calls wrapper `0x4ccfa0`, giving return RVA `0x4cd226`.
+  The wrapper loads R9D from `[rdi+0x100]`, restores its frame and tail-jumps to
+  stat generation `0x4cea20`. This explains why the live caller is outside the
+  wrapper and locates an existing class input for ordinary inventory generation.
+  Current-build slice inspection passed; using the old default against the new
+  executable rejected the fingerprint with exit 2 before disassembly.
+- Not proven: the observed source field is not a runtime-validated object layout
+  or setter. Ordinary NPC observations do not establish the Courier freighter
+  request path, S-class display, model, slots, price or persistence. Detailed
+  findings and reproducible commands are in native acquisition research.
+- Rollback: no install, class mutation or save change was made by this inspection.
 
 ### 2026-10-02: class-selection argument observer installed
 

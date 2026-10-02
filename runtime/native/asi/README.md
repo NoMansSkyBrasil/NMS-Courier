@@ -10,7 +10,7 @@ While the game was closed, the previous exact-hash-matched experimental proxy wa
 
 The prior [Ultimate ASI Loader v9.7.4](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/tag/v9.7.4) WinHTTP experiment remains in source as an inactive alternative. Its reviewed archive SHA-256 was `e5860e7d9a1805267535b65749575b5e406cc6ea3325c7392189c578815045d1`; the x64 DLL SHA-256 was `031a3e5576d91dce1e438d36b9a3d462c7334ab4791990a8ff1e3ddc0e132daf`. A fake executable crashed with `0xc0000005` under the loader's default lazy initialization. `dontloadfromdllmain=0` passed five fixture runs but was not accepted as a live-game safety proof. The loader, its config, and its `.asi` plugin were removed from the game before launch. The EXML Carbon planter patch was also removed from `GAMEDATA\MODS`; that folder is empty.
 
-## Bounded class caller tracing (installed, live sampling pending)
+## Bounded class caller tracing (installed, NPC samples captured)
 
 The latest `ClassObserver180383` source records up to 2,048 original return
 addresses and R9D values after explicit arming. This separates native call sites
@@ -25,8 +25,11 @@ The armed fixture verified pre-signal exclusion, argument/return preservation,
 two separate caller addresses and capacity exhaustion. Production-mode fake-host
 rejection also passed. Installed DLL SHA-256 is
 `f9379312f6676d03634cf29a239c1744df59164761d8dfcd13d84ba87a01f0fa`;
-installation occurred with NMS closed and the prior DLL backed up. Live sampling
-of this revision remains pending. Do not
+installation occurred with NMS closed and the prior DLL backed up. Live samples
+in process 20456 captured one shared caller during user-reported C and B NPC
+comparisons, with several class values. See the experiment log and
+[native acquisition research](../../../docs/NATIVE_ACQUISITION_RESEARCH.md).
+Entity-specific correlation remains unproven. Do not
 interpret successful fixtures or a caller address as verified entity scoping.
 
 ## Next read-only callback probe

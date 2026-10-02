@@ -10,6 +10,10 @@ from pathlib import Path
 
 
 EXPECTED_SHA256 = "b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb"
+BUILD_FINGERPRINTS = {
+    "179666": EXPECTED_SHA256,
+    "180383": "671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4",
+}
 
 
 def main() -> None:
@@ -17,12 +21,14 @@ def main() -> None:
     parser.add_argument("executable", type=Path)
     parser.add_argument("rva", type=lambda value: int(value, 0))
     parser.add_argument("--radius", type=int, default=24)
+    parser.add_argument("--build", choices=tuple(BUILD_FINGERPRINTS), default="179666")
     args = parser.parse_args()
     if args.radius < 1 or args.radius > 300:
         parser.error("radius must be between 1 and 300")
 
     data = args.executable.read_bytes()
-    if hashlib.sha256(data).hexdigest() != EXPECTED_SHA256:
+    expected_hash = BUILD_FINGERPRINTS[args.build]
+    if hashlib.sha256(data).hexdigest() != expected_hash:
         parser.error("executable hash does not match the pinned build")
 
     try:
@@ -64,7 +70,7 @@ def main() -> None:
     if instructions[target_index].address != args.rva:
         parser.error("RVA is not an instruction boundary in this linear decode")
     label = "function" if has_unwind_entry else "unwind_uncovered_slice"
-    print(f"{label}={start:#x}..{end:#x} target={args.rva:#x} sha256={EXPECTED_SHA256}")
+    print(f"{label}={start:#x}..{end:#x} target={args.rva:#x} build={args.build} sha256={expected_hash}")
     for instruction in instructions[
         max(0, target_index - args.radius):target_index + args.radius + 1
     ]:

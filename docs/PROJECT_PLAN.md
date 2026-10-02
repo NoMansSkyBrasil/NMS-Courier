@@ -50,7 +50,8 @@ installed during that comparison. The user subsequently clarified that the
 ordinary C-class generation was consistent with the system. A separate
 class-selection observer with bounded caller tracing is now installed; no data
 patch or delivery adapter is active. Aggregate B-screen observation completed;
-the caller-tracing revision passed fixtures but awaits live sampling. See the
+the caller-tracing revision passed fixtures and captured an ordinary NPC inventory
+caller during C/B comparisons. Entity-specific class mutation remains unverified. See the
 2026-10-02 experiment entries for hashes and limits.
 
 | Document | Owns |

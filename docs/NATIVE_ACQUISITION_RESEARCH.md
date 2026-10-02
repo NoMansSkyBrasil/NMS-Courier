@@ -146,6 +146,37 @@ An offer screen is optional in the desired product; direct acquisition remains
 unproven. No save editor, raw object copy, global OnlyS patch, or simulated input
 is selected as a delivery fallback.
 
+## Live caller tracing and the ordinary inventory wrapper (2026-10-02)
+
+On exact build 180383, the explicitly armed, bounded read-only observer captured
+return RVA `0x4cd226` while the user compared ordinary NPC ships showing C and B.
+All recorded calls in the inspected samples shared this return site, including
+different R9D class arguments. The samples do not associate individual records
+with a specific ship or isolate offer opening from background generation.
+
+Hash-checked Capstone inspection of unwind function `0x4cd160..0x4cd26f` confirms
+`call 0x4ccfa0` at `0x4cd221`, returning to `0x4cd226`. The wrapper at
+`0x4ccfa0..0x4cd151` loads R9D from `[rdi+0x100]` at `0x4cd112`, restores its frame,
+then **tail-jumps** to `0x4cea20` at `0x4cd14c`. Consequently, the observer sees
+the wrapper's caller return address, not a return inside the wrapper. This is
+instruction-level evidence that this ordinary inventory path supplies an
+existing class value to stat generation; it is not a verified class-setting API.
+No write to this field was attempted and its object identity remains unverified.
+
+Reproduce the relevant instruction slices without attaching to a process:
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime/native/asi/inspect-executable-function.py `
+  "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" 0x4cd112 --build 180383 --radius 4
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime/native/asi/inspect-executable-function.py `
+  "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" 0x4cd14c --build 180383 --radius 12
+```
+
+The inspector retains build 179666 as its default and rejects fingerprint
+mismatches before disassembly. Selecting 180383 extends offline inspection only,
+not runtime delivery compatibility. The next scoping gate remains the particular
+Courier acquisition request and the initialization supplying its class.
+
 ## Bounded lookup
 
 ```powershell
