@@ -159,6 +159,21 @@ This is the short entry point for resuming exact-build research. Detailed reason
   deterministic original-data lookup. Leave the proxy and patch isolated until
   the cause is understood; the removed files' verified backups remain intact.
 
+#### Targeted Starborn Runner lookup
+
+The user identified the affected ship as Starborn Runner. Hello Games identifies
+that ship as the Omega/expedition-twelve reward in its
+[Omega update announcement](https://www.nomanssky.com/omega-update/).
+Running the same audit with `--model WRACER.SCENE.MBIN` found two original
+payloads: `RS_S12_SHIP` and `RS_S12_COMPLETE`. Both specify
+`MODELS/COMMON/SPACECRAFT/FIGHTERS/WRACER.SCENE.MBIN`, ship type Royal and inventory
+class S. This verifies the user's expected class from the current original data;
+the report of an acquired C instance is not explained by those source payloads.
+It does not prove when or where its class changed. Do not dismiss that report as
+ordinary random generation, and do not infer the patch caused it without a
+live acquisition/merged-data comparison. Existing owned-ship class may remain
+saved after removing runtime integration. No save was read or modified here.
+
 | Subject | Location or identity | Use |
 | --- | --- | --- |
 | Tested game executable | Steam Windows build 179666, SHA-256 `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb` | Gate every runtime test; reject other builds |

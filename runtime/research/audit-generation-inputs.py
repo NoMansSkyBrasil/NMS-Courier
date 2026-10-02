@@ -24,7 +24,7 @@ def reward_entries(root):
     return list(table)
 
 
-def audit(inventory_path, reward_path, patch_path):
+def audit(inventory_path, reward_path, patch_path, model=None):
     paths = {"inventory": inventory_path, "rewards": reward_path, "patch": patch_path}
     roots = {name: ET.parse(path).getroot() for name, path in paths.items()}
     probabilities = []
@@ -34,7 +34,6 @@ def audit(inventory_path, reward_path, patch_path):
             probabilities.append({"group": node.get("name"),
                                   "values": {child.get("name"): child.get("value")
                                              for child in group}})
-    vanilla = reward_entries(roots["rewards"])
     vanilla_ids = {node.get("value") for node in roots["rewards"].iter("Property")
                    if node.get("name") == "Id"}
     patch_entries = reward_entries(roots["patch"])
@@ -70,7 +69,9 @@ def audit(inventory_path, reward_path, patch_path):
         "patch_vanilla_id_collisions": sorted(set(patch_ids) & vanilla_ids),
         "patch_top_level_properties": [node.get("name") for node in roots["patch"]],
         "specific_ship_reward_classes": dict(Counter(ship["class"] for ship in ships)),
-        "specific_ship_reward_samples": ships[:12],
+        "specific_ship_reward_samples": [ship for ship in ships
+                                         if model is None or model.casefold() in
+                                         (ship["model"] or "").casefold()][:12],
         "limits": ["Static source audit only; does not reproduce the game's EXML merger",
                    "Extracted probabilities do not identify the player's current economy",
                    "No process attachment, save access, or runtime mutation"],
@@ -82,8 +83,9 @@ def main():
     parser.add_argument("--inventory", type=Path, required=True)
     parser.add_argument("--rewards", type=Path, required=True)
     parser.add_argument("--patch", type=Path, required=True)
+    parser.add_argument("--model", help="Optional model substring for bounded reward samples")
     args = parser.parse_args()
-    print(json.dumps(audit(args.inventory, args.rewards, args.patch), indent=2))
+    print(json.dumps(audit(args.inventory, args.rewards, args.patch, args.model), indent=2))
 
 
 if __name__ == "__main__":
