@@ -132,7 +132,13 @@ This is the short entry point for resuming exact-build research. Detailed reason
   checked twice. Executable, previous aggregate observer and prepared DLL hashes
   matched; the MODS directory contained no files. The previous DLL was backed up
   with hash readback, then the new DLL was copied and its installed hash verified.
-  Loaded-save execution of this revision is still pending.
+  Loaded-save execution was subsequently observed in PID 20456: startup reported
+  the exact executable fingerprint, Update hook status zero and 10,798 callbacks
+  while awaiting the signal. After the user confirmed save readiness, the guarded
+  script signaled once. The class hook reported `observing`, status zero, all five
+  counters zero, and the caller TSV reported zero attempted/dropped samples.
+  The process was responding. An NPC comparison was requested after this baseline;
+  no class/offer correlation or mutation has been established in this process.
 - Rollback: the completed aggregate-only observer, SHA-256
   `f22a1d533ff54465bb775da2c910c2fe18b8ecf200e9fb20562a1ec6b89ce9d7`,
   is preserved in external C: research staging. No data patch, game-memory
