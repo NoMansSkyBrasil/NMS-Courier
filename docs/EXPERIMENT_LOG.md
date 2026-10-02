@@ -850,3 +850,40 @@ The specific freighter offer can be opened free of charge from ordinary gameplay
 The [class-generation window script](../runtime/native/asi/signal-freighter-class-window-test.ps1) now has a recorded negative live result: an S=100 window surrounding reward dispatch still yielded a C-class offer, and the original probability bytes were restored. `-PreflightOnly` checks the exact-build conditions without writing or dispatching. Do not repeat the same class-probability hypothesis. Investigate where the particular freighter's class is initialized or copied into the offered inventory; test any proposed hook on this verified build and keep global generation unchanged outside a bounded diagnostic. No automatic retry of the consumed one-shot event is permitted.
 
 The [offer-class probe](../runtime/native/asi/probe-freighter-offer-class.ps1) also has a negative live result: both temporary frontend inventory class fields read S for eight seconds, but the user's badge remained C. The probe restored the original values and did not change the owned freighter. Do not repeat this same two-field mutation as a class solution. The active-offer marker (technology-store element count) dropped to zero after prior decline and rejected stale headers during the PID 17828 preflight; it is a diagnostic guard, not a full UI-state API. The next research target is the actual game state or function that sets the visible offered class before the offer screen opens, with read-only instrumentation first.
+
+
+## 2026-10-02: Armed current-build reward argument collector
+
+- Build 180383 executable SHA-256:
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+- Exact sources: `reward_observer_180383.c/.S`, `callback_observer_180383.c`,
+  startup verifier, XInput proxy and existing MinHook; mode RewardObserver180383.
+  LLVM 23.1.2 / llvm-mingw 20260922; warnings as errors.
+- Target: offline candidate f12240 and pinned 24-byte prologue. Explicit random
+  event arming; 30-minute arm wait, ten-minute observation; 512 immutable records
+  containing caller address and ten raw register/stack slots. No game pointer
+  dereference, native dispatch, save access or data patch.
+- Simulation passed ten distinct arguments, weighted return, pre-signal exclusion,
+  buffer bound, overflow forwarding and timed hook removal. 610 original calls
+  reached the capacity assertion; another passed after removal. Existing class
+  regression PID 18104 passed 2,048-record bound and 2,800 forwarded calls.
+- Production rejection PID 9528: 400 forwarded Update calls, exit 0,
+  unsupported_build startup diagnostic, no observer log. This is fixture evidence.
+- Installation: game closed; executable and prior bridge SHA-256
+  `f9379312f6676d03634cf29a239c1744df59164761d8dfcd13d84ba87a01f0fa`
+  matched; GAMEDATA/MODS empty. Installed production DLL SHA-256:
+  `1cb8ed07471d9ec2f36d566bf3a8a95616b91191123114fa9e8a72a4ea7a8040`.
+  Backup/manifest preserved at
+  `%LOCALAPPDATA%/NMSCourier/diagnostics/reward-observer-install-20261002181204`.
+  Rollback requires NMS closed and installed hash still matching; restore only
+  that verified prior DLL. No other game file was replaced.
+- Not proven: live collector startup, reward ID contents, manager, full ABI,
+  calling thread, readiness or acquisition. Upper bits of narrow arguments may
+  be unspecified. No current-build ship, multitool or freighter delivery occurred.
+- Next gate: disposable save, arm collector, observe one ordinary native reward
+  or expedition offer without buying; correlate caller/arguments before preparing
+  a separately gated delivery. No repeated mutation is authorized by a trace.
+- Navigation: 70 source files, 147 source functions, 194,641 corpus paths,
+  65 native candidates, no warnings. A documentation append initially failed
+  because Windows default cp1252 could not decode existing UTF-8; explicit UTF-8
+  corrected the append, with no game or storage operation involved.

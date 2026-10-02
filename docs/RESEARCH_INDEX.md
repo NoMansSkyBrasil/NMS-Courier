@@ -25,7 +25,7 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 66 source files and 143 function entries across `runtime/research` and
+contains 70 source files and 147 function entries across `runtime/research` and
 `runtime/native/asi`. C#, PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 
@@ -37,6 +37,7 @@ the searchable index; their functions are not parsed by this scanner.
 | Carbon insertion | [Carbon adapter](../runtime/native/asi/carbon_delivery_179666.c) | `courier_deliver_carbon_500`, injectable fixture variant |
 | Inventory validation and Carbon quantity | [inventory snapshot](../runtime/native/asi/inventory_snapshot_179666.c) | `courier_readable_range`, `courier_snapshot_carbon`, `courier_prepare_carbon_500` |
 | Native currency reward dispatch | [currency adapter](../runtime/native/asi/currency_reward_179666.c) | `courier_currency_reward_target`, `courier_dispatch_currency_reward` |
+| Current-build reward call observation | [reward observer](../runtime/native/asi/reward_observer_180383.c) | Armed `f12240` entry trace; ten raw slots, no native call or pointer dereference; live sampling pending |
 | Free freighter offer dispatch | [offer adapter](../runtime/native/asi/freighter_offer_179666.c) | `courier_dispatch_free_freighter_offer`; configuration remains experimental |
 | Temporary generation-table changes | [scoped generation](../runtime/native/asi/scoped_freighter_table_179666.c) | `courier_with_scoped_freighter_generation`; rollback and fixture checks |
 | Scoped reward dispatch | [scoped reward](../runtime/native/asi/scoped_freighter_reward_179666.c) | `courier_dispatch_scoped_freighter_reward` |

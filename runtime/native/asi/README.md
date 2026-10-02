@@ -32,7 +32,44 @@ comparisons, with several class values. See the experiment log and
 Entity-specific correlation remains unproven. Do not
 interpret successful fixtures or a caller address as verified entity scoping.
 
-## Next read-only callback probe
+## Armed reward argument observer (180383; installed, live sampling pending)
+
+`build-probe.ps1 -Mode RewardObserver180383` builds an observation-only profile
+for executable SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+It checks the Update prologue and, after an explicit signal, the 24-byte entry
+of the offline reward-dispatch candidate at RVA `0xf12240`. It never calls that
+candidate itself. The assembly detour forwards the original invocation and
+captures RCX/RDX/R8/R9 plus six stack argument slots and the return address in
+512 immutable DLL-owned records. No game-object pointer is dereferenced.
+
+The worker publishes `native-reward-contexts-180383-<PID>.tsv` every two seconds.
+Its header includes the image base for caller-RVA calculation and dropped count.
+Raw pointer values are transient local diagnostics, not product data or files to
+commit. High bits of narrow arguments may be unspecified; raw slots must not be
+interpreted as ten proven 64-bit parameter types. Reward ID contents, manager
+layout, calling-thread identity, player readiness and full ABI remain unverified.
+
+The profile waits up to 30 minutes for the process-specific random event, then
+observes for ten minutes and disables both hooks. To arm it, use
+`signal-reward-observer.ps1 -GameProcessId <PID> -ExpectedDllSha256 <tested-hash>`.
+This verifies the executable/DLL, log freshness, awaiting state and process
+creation time before signaling. It requests observation only. Acquire no test
+entity until the collector is armed; later reject the offer without buying.
+
+The isolated fixture runner is `tests/run-reward-observer-fixture.ps1` with
+`-Compiler` and a **new external** `-OutputDirectory`. It verifies ten distinct
+64-bit argument values, weighted original return, pre-signal exclusion, capacity
+overflow and timed hook removal. Fixture DLLs bypass build verification and must
+never be installed in the game. The class observer regression also passed.
+
+Installed production DLL SHA-256:
+`1cb8ed07471d9ec2f36d566bf3a8a95616b91191123114fa9e8a72a4ea7a8040`.
+The prior `f9379312...` class DLL is preserved externally with a manifest.
+Unknown-build rejection passed in a fake host without installing hooks. No data
+patch is installed and no delivery has been attempted with this profile. See the
+[experiment log](../../../docs/EXPERIMENT_LOG.md) for conditions and rollback.
+
+## Historical read-only callback probe (179666)
 
 `native_callback_probe.c` uses the unmodified [MinHook v1.3.4](https://github.com/TsudaKageyu/minhook/releases/tag/v1.3.4) source pinned at commit `c3fcafdc10146beb5919319d0683e44e3c30d537` under `runtime/native/vendor/minhook`, with its original license notice. The callback build adds `-DCOURIER_NATIVE_CALLBACK_PROBE` and links `buffer.c`, `hook.c`, `trampoline.c`, and `hde64.c` from that directory. It is gated behind the executable SHA-256 check and an exact 16-byte in-memory prologue at `cGcApplication.Update` RVA `0x2D7500`. The hook only increments an atomic counter, records the callback thread ID, and calls the original function. A separate worker writes `%LOCALAPPDATA%\NMSCourier\diagnostics\native-hook-<PID>.log` every two seconds, then disables the hook after 180 seconds. There is no item insertion, command transport, or save access in this build.
 

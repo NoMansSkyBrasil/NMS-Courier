@@ -80,6 +80,13 @@ Cancel only before starting. On context change, invalidate old references and re
 
 ## 5. Capabilities
 
+The 180383 reward observer is a separate research profile. It records original
+reward-dispatch call slots after explicit arming and forwards them unchanged.
+Its simulated argument-preservation tests do not populate the supported-build
+registry or authorize a delivery adapter. Validate the manager, narrow argument
+types, execution thread and player context before introducing any current-build
+dispatch. See `runtime/native/asi/README.md` and the experiment log.
+
 Each capability describes ID, implementation level, supported builds, allowed targets/inventories, verified limits, current availability, reason, and evidence reference.
 
 Implementation levels: not implemented, unknown, experimental, verified. Current availability is separate: a verified capability can be unavailable while the player is loading.
