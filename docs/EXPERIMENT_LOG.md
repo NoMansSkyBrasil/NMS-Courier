@@ -126,6 +126,39 @@ This is the short entry point for resuming exact-build research. Detailed reason
   compare naturally generated entities before blaming or changing persistent
   state. Do not edit saves or force class during diagnosis.
 
+### 2026-10-02: static class-generation and reward collision audit
+
+- Build/source: 180383 executable fingerprint above. The installed
+  `NMSARC.Precache.pak` SHA-256 is
+  `a6371a8b2f065eca33fd306a16cbe2baca9d4ce75806c71e42f74e1ab9295032`,
+  matching the corpus archive used for this audit. Inventory MXML SHA-256
+  `2b6cb078323e33bfed649c0ed8a6026602a1e580780fbf9d33d30348f73dee25`;
+  reward MXML SHA-256
+  `8ed7ae909e3cdffba01f02899aee4733d7d63c6c0fc4105ebea7cfce1b9b12d7`.
+- Configuration/trigger: new reproducible
+  `runtime/research/audit-generation-inputs.py` parses those extracted tables and
+  the exact backed-up reward patch. No game attachment, new extraction,
+  disk maintenance or save access. Transient report: `static-audit.json` in the
+  external generation-isolation staging directory.
+- Observed: Poor inputs are C/B/A/S=60/30/10/0, Average=49/35/15/1,
+  Wealthy=30/40/28/2, and Pirate stores 5/5/5/5. Do not normalize or interpret
+  the Pirate values as final probabilities without tracing its selection path.
+  The patch's only top-level property is GenericTable. Its three entry selectors
+  match the three Courier reward IDs, and none collide with any original reward
+  table Id property. The original specific-ship payloads contain 19 S, 66 A,
+  two B and two C class definitions across all tables; some payloads lack an
+  enclosing reward ID. Thus original reward data has not universally changed to
+  C. The installed observer source only counts callbacks, forwards original
+  Update and disables that hook; no class assignment is present or linked.
+- Not proven: live merged reward data, the player's economy or entity-selection
+  path, a particular expedition reward's expected class, or whether another
+  historical integration changed an already-owned entity. Static parsing is not
+  an implementation of the game's EXML merger. A linked documentation page was
+  unavailable through browsing; no merger behavior was inferred from that error.
+- Next/rollback: request the affected reward ship's exact name/model for a
+  deterministic original-data lookup. Leave the proxy and patch isolated until
+  the cause is understood; the removed files' verified backups remain intact.
+
 | Subject | Location or identity | Use |
 | --- | --- | --- |
 | Tested game executable | Steam Windows build 179666, SHA-256 `b7913f268dfc62386b6b68f524bfc8ade4a44a9f4fbad39085b7bf51be3680cb` | Gate every runtime test; reject other builds |

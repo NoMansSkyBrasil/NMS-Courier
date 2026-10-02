@@ -19,7 +19,7 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 58 source files and 120 function entries across `runtime/research` and
+contains 59 source files and 125 function entries across `runtime/research` and
 `runtime/native/asi`. PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner.
 
@@ -56,6 +56,7 @@ hash-qualified extraction directory; duplicate paths do not establish load order
 
 | Logical asset or search term | What to inspect |
 | --- | --- |
+| Unexpected generated or reward class | `runtime/research/audit-generation-inputs.py` audits extracted class inputs and reward ID collisions without process/save access; see the 2026-10-02 experiment entries |
 | `METADATA/REALITY/TABLES/REWARDTABLE.MBIN` | Reward IDs, payload type, gift flags, requested inventories, cost; `GcRewardSpecificShip`, `GcRewardSpecificWeapon`, `GcRewardMoney` |
 | `METADATA/REALITY/TABLES/INVENTORYTABLE.MBIN` | Class probabilities, generation bounds, freighter size entries, special-slot inputs; `ClassProbabilities`, `FreighterLarge` |
 | `METADATA/SIMULATION/SPACE/AISPACESHIPMANAGER.MBIN` | AI model resource paths, ship classes and roles; `FREIGHTER_CAPITAL_PIRATE` |
