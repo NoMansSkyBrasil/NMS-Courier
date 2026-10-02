@@ -89,6 +89,14 @@ This is the short entry point for resuming exact-build research. Detailed reason
   execution with multiple inputs, not that they belong to particular NPCs or
   the requested freighter. A controlled NPC comparison remains pending; opening
   an existing owned inventory may not invoke this generator.
+  Final ten-minute sample: `observation_complete` in both logs, class hook
+  status zero, 0/1/2/3/other counts 8/2/0/1/0, Update count 29,296 and callback
+  thread 23208. The timer expired while the user was locating an NPC ship;
+  no controlled comparison-screen correlation was established in this window.
+  Do not attribute later visible classes to these completed counters. Future
+  observation should allow explicit arming after gameplay readiness rather than
+  consuming the entire sampling window during startup/travel. No mutation was
+  attempted and there is no unknown delivery outcome to retry.
 - Rollback: remove only this exact-hash proxy while NMS is closed. Prior observer
   and reward files remain in the external generation-isolation backup. No data
   patch was restored, and no save or global class table was changed.
