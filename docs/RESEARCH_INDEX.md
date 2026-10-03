@@ -24,6 +24,9 @@ For 3D preview feasibility, NMSMV source and public image/seed comparisons, read
 [the preview assessment](MODEL_PREVIEW_RESEARCH.md). The curated TSV and
 `compare-seed-observations.py` retain ambiguous cases and never score unfinished
 palette/descriptor traces as verified appearances.
+The same assessment covers HGPAKTool selective archive access and the supplied
+Journal video: colors change while its displayed seed stays fixed. This is
+preview evidence, not proof of a recovered seed algorithm or new delivery.
 
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,
 read [the service assessment](METAIDEA_SERVICE_RESEARCH.md). Its selected-function

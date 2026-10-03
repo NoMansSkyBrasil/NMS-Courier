@@ -1331,3 +1331,52 @@ Rollback: none needed. No installed DLL/mod/save changes, corpus re-extraction,
 disk commands/repairs or runtime mutation. Source/notes retained in Courier;
 upstream checkout and generated proprietary-data reports remain external.
 Details: [model-preview assessment](MODEL_PREVIEW_RESEARCH.md).
+
+## 2026-10-03: HGPAKTool source and supplied Journal video review
+
+Trigger: user supplied a localhost catalogue recording and screenshots, asking
+only to understand HGPAKTool and the displayed seed/color workflow. No save,
+gameplay trigger, process attachment or runtime compatibility check involved.
+Corpus baseline remains the recorded 180383 extraction, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`;
+the installed executable and bridge were not rehashed for this offline review.
+Source: external HGPAKTool checkout at
+`8f04bfa4b1d9785dbf545d39041932e687048332`; Courier's existing dependency remains
+1.1.3. Exact video identity, timestamps and upstream function locations are in
+[the owning assessment](MODEL_PREVIEW_RESEARCH.md#hgpaktool-and-the-supplied-journal-demonstration).
+
+Observed: selective archive APIs can avoid unpacking all assets. The existing
+bulk worker already uses HGPAKTool. Its presence in research does not establish
+packaged-application support. Visual inspection covered 12 overview samples and
+six exact-time frames (0, 22, 30, 40, 46, 50 seconds). At 30 seconds the bird is
+white/beige; at 40 seconds it is pink/blue, with the same displayed seed. Later
+frames show different 3D viewing angles. Export contents and app source were
+not available; no claim of reconstructed original appearance or inverse seeds.
+The conversation's proposed HGPAK integration is not observed implementation.
+
+Existing-corpus query found two scene paths with the BIRD basename. The creature
+candidate's bounded graph completed with 24 nodes/23 edges, eight inspected XML
+nodes, 12 indexed DDS files and four absent guessed texture siblings. This is
+completion of the walker's limited traversal, not a complete mesh/material load.
+Geometry/animation references are outside its present extension filter.
+Report retained externally under `video-analysis/journal-20261003/`.
+
+Tooling: no video decoder was initially present; imageio-ffmpeg 0.6.0 was
+installed with --no-deps into an isolated external tools directory. Bundled
+FFmpeg 7.1 executable SHA-256:
+`2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3`.
+Frame sampling used `fps=1/4,scale=1280:-1` with a 13-frame limit; targeted
+frames used seek plus a one-frame limit. Source media stayed read-only.
+Initial guessed Python-tools directory was absent; the configured local
+research-tools directory was located without retrying extraction. The metadata
+FFmpeg call reports no output specified because it intentionally only inspected
+the input; subsequent frame decoding succeeded. Blank preview samples and absent
+guessed texture siblings were not mislabeled as failures.
+
+Validation: bounded query/traversal and visual frame inspection; documentation
+diff whitespace check. No application code changed, so no application build.
+Not proven: webapp backend/library, export schema, animation, exact seed/colors,
+full preview dependency closure, bundled tool acceptance or new live delivery.
+Rollback: no installed DLL/mod/save changes, no corpus re-extraction, no disk
+commands/repairs. External reference/decoder/frame artifacts preserved; findings
+retained in repository documentation.

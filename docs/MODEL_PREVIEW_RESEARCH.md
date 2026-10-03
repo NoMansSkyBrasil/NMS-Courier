@@ -54,6 +54,103 @@ pending resources. This is a partial dependency graph, not a rendered model.
 Report: external `seed-analysis-180383/viewer-fighter-dependencies-20261003.json`.
 Do not re-extract the corpus to address this cap; inspect bounded indexed routes.
 
+## HGPAKTool and the supplied Journal demonstration
+
+Research date: 2026-10-03. The user requested understanding, not implementation.
+The [upstream archive tool](https://github.com/monkeyman192/HGPAKtool)
+was inspected at `8f04bfa4b1d9785dbf545d39041932e687048332` in an external
+reference checkout. Its MIT notice remains upstream. The released research
+dependency is still **HGPAKtool 1.1.3**; inspecting newer source does not upgrade
+Courier's pinned dependency or establish new archive compatibility.
+
+This is already part of our offline tooling: `bulk-game-data.py` checks 1.1.3
+and streams selected members through `_extractor_function`; the pilot and
+research requirements use the same package. Packaged application adoption
+remains subject to [catalog distribution requirements](DATA_AND_CATALOG.md).
+No new game extraction or HGPAK executable was run for this assessment.
+
+The upstream README scopes support to post-5.50 archives. This is an archive
+reader, not an MBIN converter, mesh renderer or seed algorithm. Useful source
+locations at the inspected revision:
+
+| Source | Finding |
+| --- | --- |
+| `hgpaktool/api.py:123`, `:254` | Validates HGPAK header revision 2, then constructs member/chunk indexes |
+| `hgpaktool/api.py:311` | Decompressed-chunk cache has 256 entries |
+| `hgpaktool/api.py:403` | `extract_specific` looks up concrete member-path hashes; does not require whole-archive extraction |
+| `hgpaktool/api.py:460` | Specific extraction accumulates requested output in memory; selective access still needs member/total-byte limits |
+| `hgpaktool/compressors.py:30` | Windows uses Zstandard with 64 KiB decompressed chunks; other platform routes differ |
+
+Use fresh, bounded reader jobs and validate missing/empty results. The current
+pipeline's private streaming API needs an explicit pinned-version contract.
+For a preview, read indexed scene/material/geometry/texture dependencies from
+the user's installation into a private, size-limited cache. Do not ship a copy
+of our extracted game assets or initiate a full PCBANKS unpack on first launch.
+Keep MBIN conversion and texture/geometry decoding separate from archive access.
+This is a proposed loading strategy, not an implemented preview worker.
+
+### What the recording actually demonstrates
+
+The local recording is 51.65 seconds, H.264, 2560 x 1376. Its SHA-256 is
+`ccc059f38513a1b2407c6f258cb4a7a1cc8b5bab536a3eb804071d56cad4b90d`.
+Visual review used a bounded 13-frame overview and six exact-time frames;
+12 overview frames and all six targeted frames were viewed. Audio was not
+transcribed. Personal browser chrome and media remain outside the repository.
+
+| Time | Observed behavior |
+| --- | --- |
+| 00:00 | Localhost Journal catalogue lists fauna with scene names, seeds, descriptor chips and Fur/Underbelly/Undercoat swatches; several creature categories have thumbnails |
+| 00:22 | A BIRD modal is open with Picture, 3D, Shuffle colors and Export JSON controls; the sampled preview area is blank |
+| 00:30 | Picture mode displays a white/beige bird; title retains seed `0x19DD1130223A5FD3` and has the label `ash` |
+| 00:40 | Picture mode displays pink/blue coloration; the same displayed seed remains, and the label is now `mix` |
+| 00:46, 00:50 | 3D mode displays the pink/blue bird from different orientations, with a ground shadow and an orbit hint |
+
+The changing colors with a stable displayed seed are direct visual evidence of
+preview variation; they do not prove a new seed was calculated. The implementation
+could apply an appearance override or a separate palette input. Its actual data
+source, random schedule, export schema and rendering library remain unknown.
+An Export JSON button is visible, but no exported contents were inspected.
+Different orientations establish interactive viewing, not skeletal animation.
+Blank sampled frames must not be classified as confirmed decode failures.
+
+The supplied conversation proposes integrating HGPAKTool to load local assets
+and reports a large texture footprint. It does not establish that this webapp
+already uses HGPAKTool. No public source for this particular localhost Journal
+app was identified in this review. Do not attempt to connect to the author's
+localhost address or infer the backend from the browser tab title.
+
+### Existing-corpus cross-check
+
+The basename `BIRD.SCENE.MBIN` is ambiguous: the read-only index contains both
+a small-bird creature scene and a buildable fossil scene. The creature candidate
+is `models/planets/creatures/smallbird/bird.scene.mbin`; category and full resource
+path must accompany any preview request.
+
+Using the existing `build-appearance-graph.py` with this root and a 64-node cap
+completed its supported traversal: **24 nodes, 23 edges, 212,851 XML bytes**.
+Eight XML nodes were inspected, 12 DDS nodes are indexed but not decoded, and
+four guessed `.texture.mbin` siblings are not indexed. These four are missing
+lookup candidates, not demonstrated storage or conversion errors.
+The graph is not a complete renderer dependency list: its current walker omits
+geometry/animation extensions. The scene separately names
+`MODELS/PLANETS/CREATURES/SMALLBIRD/BIRD.GEOMETRY.MBIN`.
+No seed evaluation, texture conversion or rendered game-match check was run.
+
+Reproduce the bounded corpus check, using a new external output filename:
+
+```powershell
+python runtime/research/build-appearance-graph.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --root models/planets/creatures/smallbird/bird.scene.mbin `
+  --max-nodes 64 --output <new-external-report.json>
+```
+
+The concrete next research target is a static, descriptor-selected scene with
+palette bindings and local asset loading. Evaluate recorded appearance inputs
+and seed-derived inputs separately; only the latter can validate the forward
+seed algorithm. A color shuffle must never silently relabel a seed as matching
+the new appearance.
+
 ## Reddit visual reference review
 
 The public [Seed Exchange](https://www.reddit.com/r/NoMansSkySeedExchange/new/)
