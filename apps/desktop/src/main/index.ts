@@ -10,11 +10,13 @@ import { resolveBuildSupport } from './build-support'
 import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-resources'
 import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 import { importPreviewModel } from './model-preview-import'
+import { BasePalettePreviewAdapter } from './nms-adapters/base-palette-preview'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 const gameStatusService = new GameStatusService()
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
+const palettePreview = new BasePalettePreviewAdapter()
 
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
@@ -151,6 +153,23 @@ app.whenReady().then(() => {
     })
     if (result.canceled || result.filePaths.length !== 1) return { state: 'canceled' }
     return importPreviewModel(result.filePaths[0])
+  })
+  ipcMain.handle('nms:select-preview-palettes', async (event) => {
+    const owner = BrowserWindow.fromWebContents(event.sender)
+    if (!owner || event.senderFrame !== event.sender.mainFrame) return { state: 'canceled' }
+    const result = await dialog.showOpenDialog(owner, {
+      title: 'Select the supported base palette MBIN',
+      filters: [{ name: 'Base palette MBIN', extensions: ['mbin'] }],
+      properties: ['openFile']
+    })
+    if (result.canceled || result.filePaths.length !== 1) return { state: 'canceled' }
+    return palettePreview.importFile(result.filePaths[0])
+  })
+  ipcMain.handle('nms:preview-palette-seed', (event, seed: unknown) => {
+    const owner = BrowserWindow.fromWebContents(event.sender)
+    if (!owner || event.senderFrame !== event.sender.mainFrame)
+      return { state: 'failed', reason: 'PALETTE_UNAVAILABLE' }
+    return palettePreview.evaluate(seed)
   })
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
   ipcMain.handle('nms:get-game-status', () =>

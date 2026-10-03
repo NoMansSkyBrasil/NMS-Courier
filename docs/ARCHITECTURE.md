@@ -10,6 +10,17 @@ invoke a delivery command and does not represent seed-derived appearance.
 Native NMS asset conversion remains unimplemented. See
 [the preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).
 
+The workshop now also exposes `selectPreviewPalettes()` and
+`previewPaletteSeed(seed)`. Main owns the selection dialog and the in-memory
+`nms-adapters/base-palette-preview.ts` adapter. It reads exactly 68,672 bytes,
+requires the supported base-palette SHA-256, and retains the bank only in memory.
+The calculation accepts a hexadecimal uint64 string; no renderer path, script,
+binary code or game pointer is accepted. The adapter contains the recovered
+integer/float32 schedule. Renderer receives only generic palette samples and
+assigns them to independent mesh materials. No Python/tool download or game
+process is required. This is an experimental offline base branch, not runtime
+compatibility, a native texture mixer or a whole appearance oracle.
+
 ## 1. Process model
 
 ```mermaid

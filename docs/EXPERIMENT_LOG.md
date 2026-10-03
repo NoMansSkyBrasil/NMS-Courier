@@ -1434,3 +1434,68 @@ seed-to-model equivalence, inverse seeds, delivery or packaged-toolchain support
 Rollback: ordinary source revert only; no DLL/mod/save/game changes, no corpus
 re-extraction or disk repair. Models remain external and are never bundled.
 Details: [preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).
+
+## 2026-10-03 — Experimental base palette controls and declarative texture bindings
+
+Scope: offline research plus rendered Electron preview; no running game, save,
+DLL, mod, delivery command or storage repair. Corpus executable baseline:
+SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`,
+build 180383; conversion tool MBINCompiler v7.04.1-pre3. This baseline does not
+extend native runtime compatibility. Royal GLB SHA-256 remains
+`9e188cf03419ecbd6e2c868c67461d381539112115ac7e5902f38a0f4314e357`.
+Base palette SHA-256:
+`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`.
+
+Source/configuration: `main/nms-adapters/base-palette-preview.ts` ports the
+existing experimental Python base schedule with BigInt uint64 and float32
+operations. Main accepts one dialog-selected file of exactly 68,672 bytes with
+the pinned hash. `ModelPaletteControls` uses narrow preload calls; renderer
+assigns RGB samples to independent mesh materials, with an explicitly unverified
+linear-sRGB display interpretation. Proprietary palette bytes are not committed.
+No Python package installation or subprocess is needed to calculate in the app.
+
+Trigger/conditions: isolated developer Electron profile, built application,
+file-dialog stub selecting external Royal and extracted base palette. Seed
+`0x7`, 66 families, 330 samples. Comparison used a separate report from
+`evaluate-base-palettes.py` reading the same hash-pinned source. The harness
+then applied a sample to `_Wings_A`, another sample to all visible meshes,
+restored originals, calculated maximum uint64, rejected an invalid seed, canceled
+import, rejected a wrong fingerprint and recalculated using the preserved bank.
+
+Observed: all 330 seed-7 samples exactly matched the independent Python report;
+per-part/all-visible canvas changes and exact original-canvas restoration;
+maximum-seed calculation, error preservation, no page errors or minimum-window
+horizontal overflow. Portuguese controls were visually inspected. First visual
+inspection exposed raw `*` instead of the target label; SelectValue now renders
+the localized label explicitly, and the final harness asserts it. A later
+screenshot showed that the window-size request alone had not established the
+minimum viewport; the harness now unmaximizes, awaits the actual viewport and
+records its dimensions. The final run measured 1008×681, without overflow. Initial lint
+rejected two destructured let variables; const pairs fixed this. An initial file
+read assumed the wrong renderer directory and was corrected via rg file inventory.
+
+Further offline evidence: `inspect-texture-palettes.py` inspected four explicit
+texture sources, 36,502 bytes total, with binary/XML fingerprints. Royal declares
+gold/silver and named paint texture alternatives; Fighter cockpit declares
+Paint/Primary, Paint/Alternative1, Paint/Alternative3, Metal/Primary and
+Rock/Primary; one industrial freighter source declares Freighter/Primary and
+Freighter/Alternative2; the selected gun source declares Rock/None. All choices
+remain retained; none was asserted to be selected by a seed. See
+[the seed follow-up](PROCEDURAL_SEED_RESEARCH.md#texture-palette-binding-follow-up-2026-10-03).
+
+Validation: 46 application/catalog/protocol tests, five synthetic asset-inspector
+tests, lint, TypeScript checks and build passed. Authored gradient schedule
+vectors cover seeds 0, 7 and maximum uint64; no proprietary data in test fixtures.
+Rendered harness: `runtime/scripts/validate-palette-preview.cjs`, with external
+reports/screenshots in `preview-models/palette-acceptance-20261003-1/` and final
+`palette-acceptance-20261003-3/` (intermediate run 2 is also preserved). The independent Python palette report and
+`texture-palette-bindings-20261003.json` remain external. Three.js 0.180.0,
+Electron 39.8.10 and Playwright 1.62.1. Source navigation refreshed to 93 files /
+273 functions, retaining 194,641 data records and 125 native records; no warnings.
+
+Not proven: native entity seed propagation, alternate palette collection,
+shader/color space, texture choice or masks, geometry conversion, whole ship
+appearance, inverse seeds, spawn location, class/slot delivery, manual dialog
+interaction or clean offline packaged operation. The two implementations agreeing
+verifies the port, not game appearance. Rollback: ordinary source revert; no
+installed game or corpus assets changed, no live retry or save editing.

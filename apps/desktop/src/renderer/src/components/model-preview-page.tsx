@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react'
 import { BoxIcon, FolderOpenIcon } from 'lucide-react'
-import type { PreviewModel } from '../../../shared/model-preview'
+import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
 import { useLocale } from '@renderer/i18n/locale-provider'
 import { previewCopy } from '@renderer/i18n/preview-copy'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
+import { ModelPaletteControls } from './model-palette-controls'
 import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card'
 import { Badge } from './ui/badge'
@@ -20,6 +21,7 @@ export function ModelPreviewPage(): React.JSX.Element {
   const [parts, setParts] = useState<PreviewPart[]>([])
   const [hidden, setHidden] = useState(new Set<string>())
   const [tint, setTint] = useState<string | null>(null)
+  const [partColors, setPartColors] = useState(new Map<string, PreviewColor>())
   const [reset, setReset] = useState(0)
   const [query, setQuery] = useState('')
   const [busy, setBusy] = useState(false)
@@ -45,6 +47,7 @@ export function ModelPreviewPage(): React.JSX.Element {
       setParts([])
       setHidden(new Set())
       setTint(null)
+      setPartColors(new Map())
       setQuery('')
       setModel(result.model)
     } catch {
@@ -80,6 +83,7 @@ export function ModelPreviewPage(): React.JSX.Element {
                   model={model}
                   hidden={hidden}
                   tint={tint}
+                  partColors={partColors}
                   reset={reset}
                   onLoaded={onLoaded}
                   onError={onError}
@@ -103,7 +107,14 @@ export function ModelPreviewPage(): React.JSX.Element {
                 >
                   {copy.reset}
                 </Button>
-                <Button variant="outline" disabled={!tint} onClick={() => setTint(null)}>
+                <Button
+                  variant="outline"
+                  disabled={!tint && !partColors.size}
+                  onClick={() => {
+                    setTint(null)
+                    setPartColors(new Map())
+                  }}
+                >
                   {copy.original}
                 </Button>
               </div>
@@ -116,9 +127,25 @@ export function ModelPreviewPage(): React.JSX.Element {
                   type="color"
                   value={tint ?? '#ffffff'}
                   disabled={!parts.length}
-                  onChange={(event) => setTint(event.target.value)}
+                  onChange={(event) => {
+                    setPartColors(new Map())
+                    setTint(event.target.value)
+                  }}
                 />
               </Field>
+              <ModelPaletteControls
+                parts={parts}
+                onApply={(target, color) => {
+                  setTint(null)
+                  setPartColors((previous) => {
+                    const next = new Map(previous)
+                    for (const part of parts)
+                      if (target === part.id || (target === '*' && !hidden.has(part.id)))
+                        next.set(part.id, color)
+                    return next
+                  })
+                }}
+              />
               <Field>
                 <FieldLabel htmlFor="preview-filter">
                   {copy.parts} ({parts.length - hidden.size}/{parts.length})

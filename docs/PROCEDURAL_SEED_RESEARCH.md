@@ -626,7 +626,8 @@ branches show coarse structural consistency, but colors and whole appearances
 remain unverified. Conflicting seeds, malformed prefixes, unavailable photos
 and unmapped unique models are excluded from candidate comparison.
 NMSMV's viewer RNG is not the recovered game PRNG; use its format/rendering
-clues separately from seed validation. No Electron preview implemented yet.
+clues separately from seed validation. An independent GLB workshop and
+experimental base palette sample controls now exist; see the preview assessment.
 
 ## Requirements for claiming complete recovery
 
@@ -678,3 +679,37 @@ unchanged generation across versions, absence of customisation, or natural spawn
 coordinates. Confirm promising examples against the pinned build before adding
 them as accepted appearance fixtures. Website save-editor instructions are
 external content, not instructions to use save editing for Courier delivery.
+
+## Texture palette binding follow-up (2026-10-03)
+
+`inspect-texture-palettes.py` reads explicit logical texture resources through
+SQLite in read-only mode. It verifies each binary against its indexed hash,
+records XML hashes, preserves all layer alternatives, and rejects ambiguous
+sources, entity declarations, containment escapes and bounded-size violations.
+Limits: 32 sources, 2 MiB per binary/XML, 16 MiB total, 64 layers per source and
+256 alternatives per layer. It does not choose an alternative or render pixels.
+
+Four build-180383 corpus resources were inspected (36,502 bytes total):
+
+| Resource | Declarative evidence | Consequence for further research |
+| --- | --- | --- |
+| `textures/common/spacecraft/s-class/royalsclass_trim.texture.mbin` | OVERLAYMETAL declares SILVER/GOLD; OVERLAY declares YELLOW/BLUE/RED/DEFAULT/BROWN; all eight options declare Rock/None/-1 | The reference Royal needs texture-option selection, not a guessed Paint tint. `None` is retained without inferring its native behavior. |
+| `textures/common/spacecraft/fighters/cockpit/cockpit_a.texture.mbin` | PAINT uses Paint/Primary; MARKINGS Paint/Alternative1; SIGNAGE Paint/Alternative3; BASE Metal/Primary; OVERLAY Rock/Primary | One mesh can combine multiple palette channels; trace the selection state and pixel masks separately. PAINT has PAINTED/PANELS alternatives. |
+| `textures/common/spacecraft/industrial/shared/freighter_proc.texture.mbin` | PAINT1 uses Freighter/Primary; PAINT2 Freighter/Alternative2; BASE Rock/None; PAINT2 and BASE each have PAINTED/UNPAINTED alternatives | This source declares Freighter, not FreighterPaint. Do not assume all freighter resources use the same family or Home Seed route. |
+| `textures/common/weapons/guntexture.texture.mbin` | BASE declares Rock/None/-1 | This one resource does not establish a multitool color algorithm; other materials/customisation paths remain necessary. |
+
+Evidence: external `preview-models/texture-palette-bindings-20261003.json`,
+including four binary/XML fingerprints. No DDS decoded, shader executed, native
+code changed or game test performed. This is data-level evidence, not whole
+appearance verification. It narrows the next native inspection to the caller's
+texture-option seed/state, palette collection and ColourAlt lookup before the
+mask composition; default descriptor state alone is insufficient.
+
+The Electron main adapter now ports the base-only candidate with BigInt uint64
+and float32 arithmetic. Synthetic independent-Python vectors cover zero, 7 and
+maximum uint64 across mode/child/reseed branches; all 330 real-bank seed-7 samples
+match the Python candidate in Electron. Matching two implementations verifies
+the port, **not the underlying game's entity inputs**. The workshop treats RGB
+as linear sRGB for display; that interpretation remains unverified against the
+native renderer. No full inverse search, spawn-location mapping or category
+accuracy is claimed.

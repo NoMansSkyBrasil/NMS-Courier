@@ -282,3 +282,55 @@ Species Seed for companions; it does not disclose their complete caller algorith
 Next useful evidence is exact scene/mesh/material correspondence and controlled
 current-build output, not more unconstrained image scraping. The committed
 reference table provides repeatable test candidates when that oracle exists.
+
+## Experimental palette workshop checkpoint
+
+On 2026-10-03, the workshop connected color samples to independent mesh
+materials. Import the extracted `BASECOLOURPALETTES.MBIN` through the native
+file dialog, enter `0x` plus 1–16 hexadecimal digits, calculate samples, select
+one of 66 families and five samples, and apply it to a selected mesh or all
+currently visible meshes. Recalculation changes the samples, not previously
+assigned colors. Restore clears per-part assignments and the global tint;
+changing the model clears assignments. Invalid/canceled imports preserve the
+last valid palette bank. Nothing is delivered or saved to a game save.
+
+The main-process NMS adapter reads exactly 68,672 bytes and requires SHA-256
+`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`.
+No game palette data is committed or bundled. Its BigInt uint64 arithmetic and
+float32 distance/retry schedule port the independent
+`evaluate-base-palettes.py` candidate. The renderer receives 330 generic RGBA
+samples, not the original binary or a filesystem API. Mesh materials are cloned
+before recoloring so shared GLB materials cannot recolor other parts.
+
+Preview interpretation: RGB values are treated as linear sRGB, and swatches
+use the corresponding display conversion; sample alpha is not applied to mesh
+transparency. This is an explicit visualization convention, **not a verified
+native shader/color-space interpretation**. Per-part recoloring does not apply
+multiple colors within a mesh through texture masks. The five displayed samples
+are numbered; a complete native alternative-channel mapping is not claimed.
+
+Rendered acceptance used the external Royal GLB and the supported palette bank.
+All 330 samples for seed `0x7` exactly matched the independent Python report.
+Per-part and all-visible recoloring changed the canvas; restore returned the
+original rendered canvas. Maximum uint64 input, invalid seed rejection, canceled
+and wrong-fingerprint import preservation, Portuguese labels and minimum-window
+horizontal fit were checked. Ordinary Windows dialog interaction is not covered
+because the developer harness stubs the dialog in an isolated profile.
+
+```powershell
+node runtime/scripts/validate-palette-preview.cjs `
+  <external-Royal.glb> <extracted-basecolourpalettes.MBIN> `
+  <external-Python-palette-report.json> <new-external-output-directory> `
+  <installed-playwright-module-directory>
+```
+
+Source map: `main/nms-adapters/base-palette-preview.ts` owns the hash-pinned
+reader and experimental schedule; `renderer/src/components/model-palette-controls.tsx`
+owns localized controls; `model-preview-canvas.tsx` owns independent materials.
+No end-user Python dependency is introduced. Manual local palette selection is
+implemented; automatic archive discovery/extraction and packaged clean offline
+acceptance are still open.
+
+Pending: current NMS geometry conversion, selected texture options, DDS pixels,
+blend masks and entity-specific seed propagation. The palette UI is a useful
+comparison instrument, not seed inversion or an accurate ship generator.

@@ -29,6 +29,10 @@ Journal video: colors change while its displayed seed stays fixed. This is
 preview evidence, not proof of a recovered seed algorithm or new delivery.
 Its GLB workshop checkpoint maps the implemented importer, renderer and external
 Royal acceptance harness; native Fighter conversion remains open.
+Its color checkpoint maps the hash-pinned base-palette adapter, per-part preview
+controls and `validate-palette-preview.cjs`. Use `inspect-texture-palettes.py`
+for explicit texture alternatives and `Palette`/`ColourAlt`/`Index` bindings;
+do not map an entire material to a single palette sample by guessing.
 
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,
 read [the service assessment](METAIDEA_SERVICE_RESEARCH.md). Its selected-function
@@ -49,7 +53,7 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 87 source files and 233 function entries across `runtime/research` and
+contains 93 source files and 273 function entries across `runtime/research` and
 `runtime/native/asi`. C#, PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner. There are
 125 native function entries overall; the failed 61f4e0 export remains explicitly

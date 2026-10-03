@@ -5,13 +5,50 @@ import sqlite3
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
+import hashlib
 
 presets = runpy.run_path(str(Path(__file__).with_name('inspect-seed-presets.py')))
 graph = runpy.run_path(str(Path(__file__).with_name('build-appearance-graph.py')))
 descriptors = runpy.run_path(str(Path(__file__).with_name('inspect-procedural-descriptors.py')))
+texture_palettes = runpy.run_path(str(Path(__file__).with_name('inspect-texture-palettes.py')))
 
 
 class AssetInspectorTests(unittest.TestCase):
+    def test_texture_alternatives_preserve_binding_and_hash_without_inferred_selection(self):
+        with tempfile.TemporaryDirectory() as directory:
+            corpus = Path(directory)
+            binary = corpus / 'sample.MBIN'
+            binary.write_bytes(b'authored synthetic source')
+            asset = corpus / 'sample.MXML'
+            asset.write_text('''<Data template="cTkProceduralTextureList"><Property name="Layers">
+              <Property><Property name="Name" value="PAINT"/><Property name="Textures">
+                <Property><Property name="Name" value="ONE"/>
+                  <Property name="Palette" value="TkPaletteTexture"><Property name="Palette" value="Paint"/>
+                    <Property name="ColourAlt" value="Primary"/><Property name="Index" value="-1"/>
+                  </Property></Property>
+                <Property><Property name="Name" value="TWO"/>
+                  <Property name="Palette" value="TkPaletteTexture"><Property name="Palette" value="Rock"/>
+                    <Property name="ColourAlt" value="None"/><Property name="Index" value="3"/>
+                  </Property></Property>
+              </Property></Property></Property></Data>''')
+            db = sqlite3.connect(corpus / 'index.sqlite')
+            db.execute('CREATE TABLE files(path TEXT,xml_path TEXT,content_hash TEXT)')
+            db.execute('INSERT INTO files VALUES(?,?,?)', ('sample.texture.mbin', str(asset), hashlib.sha256(binary.read_bytes()).hexdigest()))
+            db.commit()
+            db.close()
+            report = texture_palettes['inspect'](corpus, ['sample.texture.mbin', 'missing.texture.mbin'])
+            options = report['sources'][0]['layers'][0]['options']
+            self.assertEqual([option['fields']['Name'] for option in options], ['ONE', 'TWO'])
+            self.assertEqual(options[0]['palette'], {'Palette': 'Paint', 'ColourAlt': 'Primary', 'Index': '-1'})
+            self.assertEqual(options[1]['palette']['ColourAlt'], 'None')
+            self.assertFalse(report['appearance_evaluator_complete'])
+            self.assertEqual(report['sources'][1]['status'], 'missing_or_ambiguous_source')
+            binary.write_bytes(b'changed bytes')
+            with self.assertRaisesRegex(ValueError, 'fingerprint'):
+                texture_palettes['inspect'](corpus, ['sample.texture.mbin'])
+            with self.assertRaisesRegex(ValueError, 'logical texture'):
+                texture_palettes['inspect'](corpus, ['../sample.texture.mbin'])
+
     def test_distinct_child_model_lists_keep_order_instead_of_flattening(self):
         root = ET.fromstring('''<Data template="cTkModelDescriptorList"><Property name="List">
           <Property value="TkResourceDescriptorList"><Property name="TypeId" value="ROOT"/>

@@ -2,13 +2,14 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import type { PreviewModel } from '../../../shared/model-preview'
+import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
 
 export type PreviewPart = { id: string; name: string }
 type Props = {
   model: PreviewModel
   hidden: Set<string>
   tint: string | null
+  partColors: ReadonlyMap<string, PreviewColor>
   reset: number
   onLoaded: (parts: PreviewPart[]) => void
   onError: () => void
@@ -23,6 +24,7 @@ export function ModelPreviewCanvas({
   model,
   hidden,
   tint,
+  partColors,
   reset,
   onLoaded,
   onError
@@ -88,15 +90,24 @@ export function ModelPreviewCanvas({
           root = gltf.scene
           const meshes: THREE.Mesh[] = []
           const colors = new Map<THREE.Material, THREE.Color>()
+          const sourceMaterials = new Set<THREE.Material>()
           root.traverse((node) => {
             if (!(node instanceof THREE.Mesh)) return
             meshes.push(node)
+            for (const material of Array.isArray(node.material) ? node.material : [node.material])
+              sourceMaterials.add(material)
+            // Isolate materials shared by mesh instances before per-part recoloring.
+            node.material = Array.isArray(node.material)
+              ? node.material.map((material) => material.clone())
+              : node.material.clone()
             if (!node.geometry.getAttribute('normal')) node.geometry.computeVertexNormals()
             for (const material of Array.isArray(node.material) ? node.material : [node.material]) {
               if ('color' in material && material.color instanceof THREE.Color)
                 colors.set(material, material.color.clone())
             }
           })
+          // GLTFLoader source materials are no longer used after the independent clones.
+          sourceMaterials.forEach((material) => material.dispose())
           const bounds = new THREE.Box3().setFromObject(root)
           const size = bounds.getSize(new THREE.Vector3()).length()
           if (!meshes.length || bounds.isEmpty() || !Number.isFinite(size) || size <= 0)
@@ -167,7 +178,15 @@ export function ModelPreviewCanvas({
       if ('color' in material && material.color instanceof THREE.Color)
         material.color.copy(tint ? new THREE.Color(tint) : original)
     })
-  }, [hidden, tint])
+    current.meshes.forEach((mesh) => {
+      const color = partColors.get(mesh.uuid)
+      if (!color) return
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material])
+        if ('color' in material && material.color instanceof THREE.Color)
+          // Explicit preview interpretation; native palette/shader color space remains unverified.
+          material.color.setRGB(color[0], color[1], color[2], THREE.LinearSRGBColorSpace)
+    })
+  }, [hidden, tint, partColors])
   useEffect(() => {
     controller.current?.fit()
   }, [reset])

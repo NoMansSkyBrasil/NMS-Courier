@@ -4,6 +4,10 @@ declare global {
   interface Window {
     nms: {
       selectPreviewModel: () => Promise<import('../shared/model-preview').PreviewImportResult>
+      selectPreviewPalettes: () => Promise<import('../shared/model-preview').PaletteImportResult>
+      previewPaletteSeed: (
+        seed: string
+      ) => Promise<import('../shared/model-preview').PaletteEvaluationResult>
       getFoundationStatus: () => Promise<{
         apiVersion: string
         runtime: 'bundled' | 'unavailable'

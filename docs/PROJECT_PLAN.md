@@ -46,6 +46,12 @@ established rendering; native Fighter conversion, seed prediction and delivery
 remain separate open stages. See
 [the preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).
 
+The same workshop now imports the supported base palette MBIN, computes 330
+experimental samples for an explicit uint64 seed, and applies RGB colors per
+mesh or to all visible parts. The TypeScript schedule matches the independent
+Python candidate; this does not validate entity seed propagation or native
+appearance. See [the color checkpoint](MODEL_PREVIEW_RESEARCH.md#experimental-palette-workshop-checkpoint).
+
 On 2026-10-02, a separate observation-only DLL was compiled, fixture-tested and
 installed for the newer 180383 executable. Process 20928 recorded 7,042 callbacks
 and successful timed hook removal while the user reached loaded-save gameplay.
