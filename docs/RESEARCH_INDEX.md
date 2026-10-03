@@ -20,6 +20,11 @@ Its version-specific upstream hooks are research clues, not current-build APIs.
 
 ## Function lookup
 
+For 3D preview feasibility, NMSMV source and public image/seed comparisons, read
+[the preview assessment](MODEL_PREVIEW_RESEARCH.md). The curated TSV and
+`compare-seed-observations.py` retain ambiguous cases and never score unfinished
+palette/descriptor traces as verified appearances.
+
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,
 read [the service assessment](METAIDEA_SERVICE_RESEARCH.md). Its selected-function
 inspector avoids repeatedly dumping embedded assets. The independent C#

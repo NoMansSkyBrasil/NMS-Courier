@@ -444,3 +444,24 @@ The external source is a disposable copy; recover it from the pinned upstream
 link and verify its hash if unavailable. `compatibility.json` records ambiguous,
 disagreeing and corroborated static candidates with all runtime calls disabled.
 `anchor-seeds.tsv` is suitable for later bounded offline analysis, not hook installation.
+
+## Public seed-reference candidate batch
+
+See [preview research](../../docs/MODEL_PREVIEW_RESEARCH.md) for image review,
+category mapping, conflicting input exclusions and NMSMV source findings.
+The committed `reddit-seed-observations.tsv` contains public metadata and written
+observations only, no image assets. Do not infer an algorithm accuracy score
+from completed traces or any convenient color in an unbound palette family.
+
+```powershell
+python runtime/research/compare-seed-observations.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\reddit-comparison-20261003.json
+```
+
+The output must be new; the executable must match the pinned 180383 fingerprint.
+Input is capped at 128 posts/128 KiB, descriptors retain existing row/XML budgets,
+and the corpus is read-only. This tool does not fetch webpages or execute game
+functions. Rendering, native color-channel correlation and whole appearance
+validation remain separate work.

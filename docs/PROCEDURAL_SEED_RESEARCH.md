@@ -617,6 +617,17 @@ arrays; the descriptor test checks the numeric suffix, unsupported annotations
 and path byte limit. A completed trace means the offline evaluator resolved its
 inputs, not that its output matches a generated game entity.
 
+## Model preview and public visual references
+
+The [model-preview assessment](MODEL_PREVIEW_RESEARCH.md) inspects NMSMV source,
+the Kezyma vault and 64 public Reddit posts, with 34 images visually reviewed.
+A bounded offline batch produces 26 candidate traces. Hauler container/neck
+branches show coarse structural consistency, but colors and whole appearances
+remain unverified. Conflicting seeds, malformed prefixes, unavailable photos
+and unmapped unique models are excluded from candidate comparison.
+NMSMV's viewer RNG is not the recovered game PRNG; use its format/rendering
+clues separately from seed validation. No Electron preview implemented yet.
+
 ## Requirements for claiming complete recovery
 
 | Domain | Current evidence | Remaining acceptance requirement |

@@ -1275,3 +1275,59 @@ with corrected anchors. PowerShell glob arguments to rg were corrected to -g.
 No disk commands, repairs, dependency installation, injection, save editing or
 changes to installed DLL/mods. Rollback: none needed; artifacts preserved outside
 the repository, reusable tooling and findings retained in source control.
+
+## 2026-10-03: public seed photographs and NMSMV preview assessment
+
+Offline baseline: installed 180383 executable rehashed by the candidate batch,
+SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Base palette input matched
+`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`.
+Sources/configuration: committed `reddit-seed-observations.tsv`,
+`compare-seed-observations.py`, existing descriptor/palette evaluators; NMSMV
+external reference at `ee2ed17e79ff82ec4cfd069f33fcd2234e443e03`.
+Public collection on 2026-10-03; source dates range 2022-08-02 to 2026-09-26.
+Trigger: user requested about 50 community seed comparisons and added Kezyma
+and NMSMV references. No save, gameplay trigger or process attachment involved.
+
+Observed: 64 distinct posts cataloged, 34 images visually inspected, seven
+unavailable and 23 metadata-only. 26 gated cases produced 26 experimental
+descriptor/base-palette traces, zero evaluation failures. Six spherical-container
+haulers select `_CONTAINER_B`, whose source references BALLCONTAINER; extended
+neck cases select the descriptor adding COCKPITNECK_2. The fan-wing case chooses
+a separate branch. These are coarse structural correspondences, not full visual
+agreement. Malformed `1x...` and conflicting duplicate Solar seeds are retained
+and excluded. Several flair labels disagree with visible category. Exact colors
+are not scored: lighting, preserved customisation and unknown seed channels
+prevent a valid final-material comparison.
+
+NMSMV source uses .NET viewer RNG for procedural choices, not the audited game
+PRNG. README explicitly marks procedural generation broken. Geometry/material
+field paths are useful reference; current-format rendering and redistribution
+permission were not established. No viewer build or executable was run. Kezyma
+browser catalog corroborates Radiant Pillar and Golden Vector seed values and
+lists separate companion seed channels; no exports downloaded or applied.
+
+Bounded existing Fighter graph: 128-node cap reached, 126 converted XML nodes,
+two unindexed nodes, 679 edges, 551 pending resources. This incomplete graph is
+preserved as `seed-analysis-180383/viewer-fighter-dependencies-20261003.json`.
+Batch report: `seed-analysis-180383/reddit-comparison-20261003.json`, retaining
+observation/source hashes and no appearance-success score.
+
+Research failures/limits: text web cache missed recent browser-visible posts;
+CDN image opens yielded wrappers, so browser screenshots were used. An in-app
+browser attachment timed out; existing Brave support worked. One screenshot
+timed out and one overlong multi-page browser call reset the session; uncertain
+images were not counted, a fresh research tab continued. Four images displayed
+only placeholders and remain unavailable. Guessed manifest file locations did
+not exist; corrected with existing report roots and bounded SQLite queries.
+A graph diagnostic treated a dictionary as a list and failed; corrected the
+read-only summary without changing its preserved report. NMSMV license/format
+limitations and unproven runtime contracts remain explicit.
+
+Validation: four new observation-gate tests; all 59 research tests passed.
+Not proven: whole seed algorithm, inverse search, final material colors, mesh
+equivalence, Electron 3D preview, current NMSMV compatibility or new deliveries.
+Rollback: none needed. No installed DLL/mod/save changes, corpus re-extraction,
+disk commands/repairs or runtime mutation. Source/notes retained in Courier;
+upstream checkout and generated proprietary-data reports remain external.
+Details: [model-preview assessment](MODEL_PREVIEW_RESEARCH.md).
