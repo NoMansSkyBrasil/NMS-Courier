@@ -1380,3 +1380,57 @@ full preview dependency closure, bundled tool acceptance or new live delivery.
 Rollback: no installed DLL/mod/save changes, no corpus re-extraction, no disk
 commands/repairs. External reference/decoder/frame artifacts preserved; findings
 retained in repository documentation.
+
+## 2026-10-03: static GLB workshop implementation and rendered acceptance
+
+Trigger: user requested building the preview and supplied MetaIdea's raw ship
+creator HTML. No live game/save conditions or runtime trigger were involved.
+No installed executable/bridge fingerprint was used to authorize anything;
+no runtime compatibility is established by this rendering experiment.
+Upstream source revision `15e962c767f8dad66a336b8dcbb3ded7a287239e` matches the
+earlier reference. It embeds Royal and PoliceShip GLBs, uses mesh-name selection
+and global recolor, and supplies no demonstrated complete inverse seed solver.
+No upstream code, HTML or model was copied into the repository/distribution.
+
+Implemented: Electron-owned, zero-argument GLB selection with bounded read and
+structural validation; restricted preload result; static Three.js viewer,
+visibility/filter, preview tint/reset and orbit/zoom/pan. Shadcn CLI confirmed
+Base UI/base-nova and its MCP supplied component/audit guidance. The renderer
+does not expose a filesystem reader or execute source HTML/Lua. Full native
+materials, Fighter conversion, conditional assembly and seeds remain unproven.
+Dependency versions: three/@types/three 0.180.0; local test Electron 39.8.10,
+Playwright 1.62.1. No first-launch/download dependency introduced for users.
+
+Royal reference GLB SHA-256:
+`9e188cf03419ecbd6e2c868c67461d381539112115ac7e5902f38a0f4314e357`.
+Observed: all 13 meshes loaded, five selected, three wing alternatives filtered.
+Rendered color and camera changes were checked with screenshots. Cancel kept
+the existing model; PoliceShip with images was rejected by the supported subset.
+No page errors; 1280×800 and 1024×720 windows had no horizontal overflow.
+Portuguese minimum-window copy was visually inspected. The acceptance harness
+uses a disposable external profile and stubs only its native selection dialog;
+manual Windows-dialog interaction and clean offline packaged acceptance were
+not performed. Fixtures/proprietary models/screenshots remain external.
+
+Failures and corrections: raw web-reader fetch exceeded its size cap, so an
+external pinned Git checkout was inspected. An overly broad line slice printed
+embedded source text; subsequent searches were column-bounded. Initial source
+search assumed a nonexistent root src directory and a nonexistent Vitest config;
+corrected via file inventory. Initial TypeScript failed on sidebar locale scope;
+passed after passing locale explicitly. Lint rejected a throw in finally; the
+cleanup containment check was moved before try. First rendered tint check failed
+because normalization left the translated model outside the camera; position
+and scale now share the factor. Fit was then restricted to visible meshes.
+A PowerShell quoting attempt to generate the acceptance script failed before
+execution; apply_patch created the reproducible script instead. Documentation
+patches rejected nonexistent anchors atomically and were reapplied correctly.
+
+Validation: eight new importer tests; all 42 application/catalog/protocol tests
+passed, plus lint/typecheck/build. Reproducible harness:
+`runtime/scripts/validate-model-preview.cjs`; report/screenshots retained under
+external `preview-models/acceptance-20261003-2/`. Root workshop code is lazy-loaded.
+Not proven: original game appearance, native palette shader, all ship categories,
+seed-to-model equivalence, inverse seeds, delivery or packaged-toolchain support.
+Rollback: ordinary source revert only; no DLL/mod/save/game changes, no corpus
+re-extraction or disk repair. Models remain external and are never bundled.
+Details: [preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).

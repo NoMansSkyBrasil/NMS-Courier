@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 const nms = {
+  selectPreviewModel: () => ipcRenderer.invoke('nms:select-preview-model'),
   getFoundationStatus: (): Promise<{
     apiVersion: string
     runtime: 'bundled' | 'unavailable'

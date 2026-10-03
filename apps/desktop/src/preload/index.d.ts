@@ -3,6 +3,7 @@ export {}
 declare global {
   interface Window {
     nms: {
+      selectPreviewModel: () => Promise<import('../shared/model-preview').PreviewImportResult>
       getFoundationStatus: () => Promise<{
         apiVersion: string
         runtime: 'bundled' | 'unavailable'

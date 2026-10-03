@@ -155,7 +155,7 @@ The product references supplied on 2026-09-22 show a broad third-party service c
 | Optional runtime extension | A future optional adapter may detect a user-installed, independently audited extension through a versioned manifest and narrow capability contract. | Never download, load, inject, or execute an arbitrary DLL/plugin. The remote “Service Bot Extender” pattern is not adopted. |
 | Planet guide and coordinates | Local guide definitions with galaxy, glyph address, filters, evidence date, and clear uncertainty. | Never label a planet “perfect” or imply a remote subscription/account service. |
 | Sharing Center | Offline, schema-versioned definition library for supported entity types with provenance and safe import/export. | No default cloud upload, multiplayer bot, hidden execution, or player-data sharing. |
-| Ship customizer | Future definition builder that preserves source IDs, parts, colours, decals, seeds, and export metadata. | A visual preview is optional and must not claim seed-accurate rendering without independent validation. |
+| Ship customizer | Static GLB workshop at `#models`: local import, mesh visibility/filter, orbit/zoom and preview tint. Full source-aware definitions remain future work. | Preview-only: no seed prediction, native NMS conversion or delivery is implied. |
 
 Long reference pick-lists are a catalogue requirement, not a reason to reproduce their cramped native-select presentation. When the relevant pages are implemented, they need keyboard-accessible search, localization, empty and loading states, and rendered validation at desktop and narrow-window sizes.
 

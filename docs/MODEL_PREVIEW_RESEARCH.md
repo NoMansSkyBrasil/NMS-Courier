@@ -151,6 +151,72 @@ and seed-derived inputs separately; only the latter can validate the forward
 seed algorithm. A color shuffle must never silently relabel a seed as matching
 the new appearance.
 
+## Implemented GLB workshop checkpoint
+
+On 2026-10-03, Courier added route `#models` (Tool Catalog → Model workshop)
+with an independently written Three.js 0.180.0 viewer. This is a static GLB
+preview, not a native NMS converter or seed generator. The inspected
+[ship creator](https://github.com/MetaIdea/nms-ship-creator/tree/15e962c767f8dad66a336b8dcbb3ded7a287239e)
+still matches the previously recorded revision. Its HTML embeds a Royal GLB
+(8,028,908 bytes, 13 meshes, no images/material declarations) and a PoliceShip
+GLB (2,412,680 bytes, two meshes, four images). The default loader uses Royal.
+No Fighter GLB was found in this snapshot.
+
+`RefreshModelDisplay` selects mesh names matching descriptor strings. The color
+buttons recolor all mesh materials, rather than native palette channels.
+`buttonCreate` emits a Royal custom-index command; the other branch is fixed.
+No complete inverse solver was established. Embedded Lua and JavaScript were
+read, not executed or copied into Courier. No license file was present in this
+upstream checkout; redistribution permission remains unresolved. Its HTML and
+embedded models are neither committed nor bundled.
+
+Implemented boundary and behavior:
+
+- An Electron-owned file dialog chooses one GLB. The zero-argument preload
+  method returns validated bytes, basename and SHA-256; no paths or raw reader.
+- Restricted static triangle GLB: 16 MiB file, 1 MiB JSON, 512 nodes/meshes,
+  1,024 primitives, bounded accessor and instance vertex totals. External/data
+  URIs, extensions, textures, animation, skins and sparse accessors are rejected.
+  Cyclic/multiply parented nodes and nonfinite positions are rejected before
+  loading. This is a restricted importer, not a complete glTF validator.
+- Bundled, lazy-loaded Three.js; loader also denies URL resolution. Orbit, zoom,
+  pan, fit to visible meshes, named mesh visibility/filter, tint and original
+  color restoration. Frames and GPU resources are released on exit.
+- English, Brazilian Portuguese and Spanish locale resources, with English
+  fallback. Changes are session-only. No descriptor dependencies or valid
+  ship combinations are inferred, and there is no bridge/save/game mutation.
+
+Royal was decoded from the external HTML for a local rendering test, SHA-256
+`9e188cf03419ecbd6e2c868c67461d381539112115ac7e5902f38a0f4314e357`.
+Electron acceptance loaded 13 meshes, selected five, filtered three wing
+alternatives, changed rendered tint, orbited/zoomed and reset the camera.
+Cancel preserved the loaded model; PoliceShip returned an unsupported-texture
+error. Screenshots checked 1280×800 and 1024×720 windows without horizontal
+overflow, including Portuguese at minimum size. No page errors were recorded.
+Eight importer tests use an authored triangle, not game assets.
+
+After `pnpm build`, reproduce with developer-installed Playwright:
+
+```powershell
+node runtime/scripts/validate-model-preview.cjs `
+  <external-Royal.glb> <external-PoliceShip.glb> `
+  <new-external-output-directory> <installed-playwright-module-directory>
+```
+
+The harness uses a private profile and stubs only the test process's file dialog;
+production requires user selection. It asserts Royal-specific names, not general
+asset correctness. Source files and screenshots remain external.
+
+Pending: current NMS geometry/texture conversion, native material/palette
+binding, descriptor-conditioned assembly, forward/inverse seed validation,
+definition export and delivery integration. The native Fighter acceptance
+target remains open; Royal establishes the actual renderer checkpoint.
+
+Source map: `apps/desktop/src/main/model-preview-import.ts` owns the read/format
+boundary; `src/shared/model-preview.ts` owns the import result; the renderer's
+`components/model-preview-page.tsx` owns controls and `model-preview-canvas.tsx`
+owns GPU resources. Locale copy is in `i18n/preview-copy.ts`. None imports NMS.py.
+
 ## Reddit visual reference review
 
 The public [Seed Exchange](https://www.reddit.com/r/NoMansSkySeedExchange/new/)

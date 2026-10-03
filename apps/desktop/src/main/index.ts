@@ -9,6 +9,7 @@ import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
 import { resolveBuildSupport } from './build-support'
 import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-resources'
 import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
+import { importPreviewModel } from './model-preview-import'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
@@ -140,6 +141,17 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('nms:get-foundation-status', () => getFoundationStatus())
+  ipcMain.handle('nms:select-preview-model', async (event) => {
+    const owner = BrowserWindow.fromWebContents(event.sender)
+    if (!owner || event.senderFrame !== event.sender.mainFrame) return { state: 'canceled' }
+    const result = await dialog.showOpenDialog(owner, {
+      title: 'Select a local static GLB model',
+      filters: [{ name: 'Binary glTF model', extensions: ['glb'] }],
+      properties: ['openFile']
+    })
+    if (result.canceled || result.filePaths.length !== 1) return { state: 'canceled' }
+    return importPreviewModel(result.filePaths[0])
+  })
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
   ipcMain.handle('nms:get-game-status', () =>
     gameStatusService.observe(getInstallationService().getSelectedRootPath())

@@ -26,8 +26,9 @@ import {
   MapIcon
 } from 'lucide-react'
 import { useLocale } from '@renderer/i18n/locale-provider'
+import { previewCopy } from '@renderer/i18n/preview-copy'
 
-function getData(copy: ReturnType<typeof useLocale>['copy']) {
+function getData(copy: ReturnType<typeof useLocale>['copy'], locale: ReturnType<typeof useLocale>['locale']) {
   return {
     user: {
       name: 'NMS Courier',
@@ -105,8 +106,8 @@ function getData(copy: ReturnType<typeof useLocale>['copy']) {
             url: '#catalog'
           },
           {
-            title: copy.sidebar.knownData,
-            url: '#'
+            title: (previewCopy[locale as keyof typeof previewCopy] ?? previewCopy['en-US']).title,
+            url: '#models'
           },
           {
             title: copy.sidebar.help,
@@ -163,8 +164,8 @@ function getData(copy: ReturnType<typeof useLocale>['copy']) {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { copy } = useLocale()
-  const data = getData(copy)
+  const { copy, locale } = useLocale()
+  const data = getData(copy, locale)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

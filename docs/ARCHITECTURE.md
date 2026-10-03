@@ -2,6 +2,14 @@
 
 Status: M0 desktop code exists; the native game bridge remains an exact-build research prototype.
 
+The independent static GLB workshop is now implemented. Main owns its file
+dialog and validates a bounded, texture-free model subset before returning bytes,
+basename and SHA-256 through `selectPreviewModel()`. Renderer uses bundled
+Three.js 0.180.0 without external resource resolution. Preview state cannot
+invoke a delivery command and does not represent seed-derived appearance.
+Native NMS asset conversion remains unimplemented. See
+[the preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).
+
 ## 1. Process model
 
 ```mermaid

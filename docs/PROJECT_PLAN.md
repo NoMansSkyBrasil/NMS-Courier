@@ -39,6 +39,13 @@ The B0 clean offline Windows validation and native dependency audit remain open.
 
 ## 3. Documentation ownership
 
+On 2026-10-03, an independent static GLB model workshop was implemented and
+validated in rendered Electron. It imports bounded texture-free local models,
+filters/toggles mesh visibility and provides orbit/zoom/tint controls. Royal
+established rendering; native Fighter conversion, seed prediction and delivery
+remain separate open stages. See
+[the preview checkpoint](MODEL_PREVIEW_RESEARCH.md#implemented-glb-workshop-checkpoint).
+
 On 2026-10-02, a separate observation-only DLL was compiled, fixture-tested and
 installed for the newer 180383 executable. Process 20928 recorded 7,042 callbacks
 and successful timed hook removal while the user reached loaded-save gameplay.

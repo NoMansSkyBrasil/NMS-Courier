@@ -7,7 +7,14 @@ import { ThemeProvider } from '@renderer/components/theme-provider'
 import { LocaleProvider } from '@renderer/i18n/locale-provider'
 import { SidebarInset, SidebarProvider } from '@renderer/components/ui/sidebar'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
+import { Skeleton } from '@renderer/components/ui/skeleton'
+
+const ModelPreviewPage = lazy(() =>
+  import('@renderer/components/model-preview-page').then((module) => ({
+    default: module.ModelPreviewPage
+  }))
+)
 
 function Workspace(): React.JSX.Element {
   const [page, setPage] = useState(window.location.hash)
@@ -20,6 +27,12 @@ function Workspace(): React.JSX.Element {
 
   if (page === '#catalog') return <CatalogPage />
   if (page === '#delivery') return <DeliveryPage />
+  if (page === '#models')
+    return (
+      <Suspense fallback={<Skeleton className="m-6 h-96" />}>
+        <ModelPreviewPage />
+      </Suspense>
+    )
   return <SectionCards />
 }
 

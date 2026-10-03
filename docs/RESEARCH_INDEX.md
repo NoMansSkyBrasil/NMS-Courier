@@ -27,6 +27,8 @@ palette/descriptor traces as verified appearances.
 The same assessment covers HGPAKTool selective archive access and the supplied
 Journal video: colors change while its displayed seed stays fixed. This is
 preview evidence, not proof of a recovered seed algorithm or new delivery.
+Its GLB workshop checkpoint maps the implemented importer, renderer and external
+Royal acceptance harness; native Fighter conversion remains open.
 
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,
 read [the service assessment](METAIDEA_SERVICE_RESEARCH.md). Its selected-function
