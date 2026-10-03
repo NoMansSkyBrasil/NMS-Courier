@@ -2,8 +2,9 @@
 
 Goal: an independent local evaluator that reproduces the game's seed-to-parts
 and seed-to-colors functions, followed by bounded seed search for desired options.
-Status: descriptor extraction and native candidate tracing implemented; exact
-seed evaluation and inverse search **not implemented**. No runtime capability.
+Status: descriptor extraction, native tracing, experimental default descriptor
+evaluation and a base-palette forward schedule implemented. Complete appearance
+evaluation, game equivalence and inverse search **not implemented**. No runtime capability.
 
 ## Separate inputs and outcomes
 
@@ -408,3 +409,224 @@ compare forward outputs against the game; then implement bounded inverse search.
 Natural spawn addresses and acquisition class/slots remain separate problems.
 No complete inverse generator, arbitrary seed preview or live equivalence is
 claimed by this checkpoint.
+
+### Base palette forward evaluator and second color branch
+
+The follow-up implements `evaluate-base-palettes.py` for an explicitly selected
+base collection, including the entire 66-family scheduling branch of candidate
+62c480. It reads RGBA directly from the existing MBIN, not rounded XML decimals.
+Source binary SHA-256 is
+`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`;
+its length is 32 header bytes plus 66 rows of 0x410 bytes. Each color-count mode
+is cross-checked against the XML. The base table has 25 All, 25 _16, six _4,
+five _8, four Inactive and one _1 family. For this explicitly fixed fallback
+collection, an Inactive fallback follows the native default index branch; this
+does not resolve arbitrary palette collections.
+
+The evaluator now handles float32 RGBA values, mode remapping, RGB similarity,
+bounded index retries, initial 52-family generation, race palette reseeding,
+Grass/GrassAlt reseeding, biological/remaining family scheduling and Freighter's
+saved Paint state. Retries change the lookup index without consuming more RNG
+draws in this branch. The one-color case can consume all 64 retries for later
+tones; tests verify termination and unchanged ten-draw consumption for a row.
+
+Independent inspection of the split body at 62cbde established the SSE distance
+reduction as `B*B + (G*G + R*R)`, rounding each subtraction, multiplication and
+addition to float32. The first unwind fragment only contains the prologue and
+must not be presented as complete assembly coverage. The existing fail-closed
+instruction interpreter now replays this body's two-draw window for 1,000 states
+and the five index modes for all 64 row/column pairs (320 comparisons), with no
+mismatch. RGBA comparison/row scheduling is not independently assembly-replayed
+and has not been compared with game output.
+
+Two external runs, for input seed 0x6 and Pirate model seed 0x1ad0003900054, each
+produce 66 families and 330 colors. These are **base-palette traces**, not a claim
+that the Phoenix or Pirate freighter uses that same input as its actual color
+seed. Neither is a rendered ship preview or validated final appearance.
+
+The generation task also selects a second color route: task flag at offset 1c9
+chooses 62e4e0 rather than 62c480 when there is no precomputed color buffer.
+62e4e0 calls row candidate 62e780. Unlike the base branch, that row candidate
+draws a fresh random index on each rejected similarity attempt, tests square-root
+RGB distance against a runtime global at 525d910, and special-cases _8 mode.
+Other mode remapping/fallback behavior differs. This is a concrete reason why a
+single base-palette implementation cannot represent every creation route.
+These four additional candidates exported successfully in two stages (18 and
+19 seconds); runtime ABI, flag meaning and collection selection remain unverified.
+
+The constructor's aggregate copy at 227a40 copies a seed-shaped 16-byte field
+from input offset 0x10 to task offset 0x138. Task processing forwards that field
+to either color route. In the default descriptor preparation, 2d63670 copies
+the original 16-byte seed-shaped input into this aggregate. The explicit-ID
+preparation 2d636b0 instead clears its enabled byte and sets its numeric field
+to -1; it is not equivalent to default procedural selection. Precomputed
+customisation colors bypass initial generation entirely. These are observed
+copy/branch relationships, not named public layouts or permission to mutate them.
+
+Evidence: `base-palette-seed6.json`, `base-palette-pirate-seed.json` (the latter
+predates the SSE reduction correction and is preserved as superseded),
+`palette-row-body-assembly.json`, `proceduralcolorbranches-export` and
+`proceduralalternatepalette-export`. Reproduce the corrected Pirate trace under
+a new output filename. No originals are overwritten. The complete appearance
+algorithm remains unfinished: resource traversal, material/texture mapping,
+per-route seed channels and the alternate collection still need recovery and
+comparison. The module reports this explicitly rather than returning a fake
+complete ship configuration.
+
+Two further exports, 630d50 and 6381b0, completed in 26 seconds. The first prepares
+an asynchronous texture resource request/cache, rather than a demonstrated final
+palette-to-material binding. The second removes/frees generation tasks rather
+than applying colors. Record these rejected semantic hypotheses; their proximity
+to a worker stage does not make them color generators. Remaining material binding
+must be located through the generated texture payload and its callback, not by
+inventing an interpretation of these functions.
+
+The descriptor collector now emits `ordered_model_tree` alongside its original
+guarded groups. It preserves the order and boundaries of multiple child model
+lists under the same choice, with explicit depth/node/schema bounds. Fourteen
+root assets reproduced the same 340 groups/986 options with those boundaries
+retained. This fixes structural evidence loss; it does not yet execute recursive
+native selection. A synthetic test verifies two child lists remain distinct and
+ordered rather than becoming one group stream.
+
+Further selector inspection establishes two scheduling details to preserve when
+porting: referenced scenes with missing descriptor resources can still consume
+a mixed child seed, while nonempty child lists consisting entirely of xNEVER
+options are skipped without that consumption. `_PLAYER_` child traversal restarts
+from the original seed-shaped input rather than the usual derived child seed.
+Selection also normalizes an ID ending with the literal `LOD` and one decimal
+digit: it removes that suffix and uppercases the remaining ASCII prefix, bounded
+by its fixed ID length. These conclusions follow candidate 2d63bf0/2d623c0 and
+the new `descriptor-selection-literals.json`; live equivalence remains untested.
+Do not infer a correct whole traversal by concatenating root groups or by treating
+an absent optional descriptor as consuming no random numbers.
+
+### Experimental forward descriptor evaluator
+
+`evaluate-descriptor-seed.py` now executes the **unfiltered default** candidate
+path: ordered group choices, Name weights, global candidate-ID suppression,
+LOD normalization, ordered child model lists, original-seed _PLAYER_ recursion,
+mixed child seeds and scene-to-descriptor references. It deliberately supplies
+no inclusion/exclusion channel or prefix override. This is an explicit input
+scope, not a claim that game creation always uses empty filters. Native
+customisation can alter selection and draw consumption.
+
+The first Sentinel trace for seed 0x7 yielded 22 selected IDs across eight calls.
+The requested Pirate seed yielded one selected descriptor ID in its root path.
+A 19-root run (the fourteen-category manifest plus the five initial roots)
+produced 18 experimental traces and one explicit unsupported-reference result;
+successful cases recorded 183 choices. The Capital freighter requires further
+reference resolution: a nested hull descriptor contains
+`MODELS/EFFECTS/LIGHTS/LIGHT_BLUE.SCENE.MBIN{7}`. The evaluator rejects the
+then-unresolved `{7}` annotation instead of stripping it and changing draw consumption
+without evidence. The initial reproducible fourteen-root CLI run yielded 13 traces
+and the same unsupported case; it does not silently substitute a guessed resource.
+Reports preserve every source XML hash and explicitly reject archive ambiguity,
+unsupported IDs/paths and exhausted byte/resource/recursion budgets.
+
+Descriptor metadata is fetched once into a bounded in-memory map (at most 8,192
+rows), rather than rescanning the entire files table for every reference. The
+corpus remains read-only; no SQLite index is added to its database. Each root's
+XML/resource/call budgets remain independent. This optimization changes lookup
+cost, not seed semantics. These traces are not renderable previews or verified
+configurations to deliver to the game.
+
+Five new tests cover absent-reference seed consumption, skipped all-xNEVER
+versus empty child lists, _PLAYER_ restart, LOD/duplicate differences and bounded
+recursive cycles. Existing arithmetic assembly replay validates primitive
+operations, not this whole traversal. A live/offline game-oracle comparison is
+still needed before using this evaluator as a seed-search oracle.
+
+The texture callback/loader follow-up exported 6308a0 and 63ae70 successfully in
+97.8 seconds. They manage resource payload copies, cache readiness and async
+loading/locking; neither establishes seed-to-RGBA or final shader binding.
+Keep this additional rejected route in the index rather than interpreting cache
+record copies as an appearance algorithm. Stage `proceduraltexturecallback`
+uses `procedural-texture-callback-180383.tsv`.
+
+### Public viewer comparison
+
+The C# [NMSMV descriptor implementation](https://github.com/gregkwaste/NMSMV/blob/ee2ed17e79ff82ec4cfd069f33fcd2234e443e03/MVCore/ModelProcGen.cs)
+and [palette implementation](https://github.com/gregkwaste/NMSMV/blob/ee2ed17e79ff82ec4cfd069f33fcd2234e443e03/MVCore/Palettes.cs)
+were inspected at commit `ee2ed17e79ff82ec4cfd069f33fcd2234e443e03`.
+Source SHA-256 values are
+`683149349218dbd4a15408358c7267e522a0a586bec0aa80025d47ece2fdb2d0`
+(ModelProcGen.cs) and
+`6cbf5b5ac39e7aadf70060ad5c18f30adced51506ed4df1f4a64f96ff1d6dbca`
+(Palettes.cs).
+They are structural references, not build-180383 game oracles. Descriptor choices
+use `System.Random.Next` uniformly; palette generation also uses that random
+source, including consecutive alternative indices in several modes. Those
+operations do not reproduce the recovered multiply/carry state, Name weights,
+child-seed schedule or native color rejection paths. Porting this viewer to our
+app would not establish a correct seed algorithm.
+
+Its reference-path transformation splits on dots and constructs a descriptor
+filename, incidentally discarding the final annotated extension. That is a clue
+to investigate resource lookup, not proof that `{7}` can be removed in native
+selection. The checked native selector replaces `.SCENE.` with `.DESCRIPTOR.`
+before calling candidate 2d65af0; the later native loader follow-up below resolves
+the final-extension reconstruction separately. Public source copies remain external; none are vendored into
+Courier, and no viewer binaries or dependencies were installed.
+
+### Annotated resource lookup follow-up
+
+The bounded Ghidra resource stage timed out after 306.3 seconds with no export
+manifest; its log recorded only Java startup option lines. The owning launcher
+stopped only its analysis process tree at the configured limit. No cause beyond
+that timeout is established; no automatic retry or storage repair occurred.
+Navigation preserves this separately as an unavailable analysis run, not a
+decompiled function or a silent successful import.
+
+`inspect-native-fragments.py` then decoded seven containing unwind fragments
+across candidates 2d65af0, 2d0bbb0 and 2d5caa0 (504 instructions total), checking
+the executable hash, exact target instruction boundaries, full fragment decoding
+and source-byte hashes. The lookup first calls a path normalizer, then uses a
+hash/cache and resource loader. The inspected normalizer converts separators
+and calls an imported character conversion for non-separators; it does not
+strip braces. A further checked PE import resolves thunk 33e0fc8 to
+`VCRUNTIME140.dll!strrchr`. Loader 2d5caa0 uses it to find the last dot, clears
+that extension and constructs the resource with a fixed MBIN extension. This
+explains removal of `.MBIN{7}` at that loader, independently of the viewer.
+The evaluator now supports a trailing numeric brace annotation by reconstructing
+the final extension, while preserving the original requested resource in its
+report. Unknown annotation syntax still fails explicitly. This establishes
+descriptor-resource lookup for this scope, not the meaning of annotations when
+loading scene nodes or a verified whole appearance. The imported character
+conversion and broader archive override behavior remain unverified.
+
+Evidence: `descriptor-resource-lookup-assembly.json`,
+`descriptor-resource-path-assembly.json`, `descriptor-resource-path-body-assembly.json`,
+`descriptor-resource-path-tail-assembly.json` and `descriptor-resource-path-literals.json`
+plus `descriptor-loader-imports.json` under the external seed analysis directory.
+Instructions and proprietary literals
+stay external. The reproducible fragment exporter accepts up to eight fragments
+of at most 16 KiB, plus sixteen optional literals of at most 256 bytes and sixteen
+checked PE64 FF25 import thunks; it never
+executes the inspected game code.
+
+After the loader correction, `category-default-seed7-loader-reconstructed.json`
+contains **14 experimental traces for all 14 manifest roots**, including the
+Capital freighter. Earlier failed reports remain preserved; they are not
+rewritten as successes. No game comparison was performed. Two synthetic PE
+tests check exact import resolution and rejection of wrong opcodes/terminated
+arrays; the descriptor test checks the numeric suffix, unsupported annotations
+and path byte limit. A completed trace means the offline evaluator resolved its
+inputs, not that its output matches a generated game entity.
+
+## Requirements for claiming complete recovery
+
+| Domain | Current evidence | Remaining acceptance requirement |
+| --- | --- | --- |
+| Integer RNG and child mixing | Checked arithmetic windows; reproducible primitives | Confirm all category callers use these inputs and schedules |
+| Default descriptor selection | Ordered recursive evaluator; 14 manifest roots trace | Compare selected IDs against the exact-build game; extend filters/prefix/customisation routes |
+| Base palette schedule | Exact float32 data, 66 families and checked draw/index windows | Verify actual entity color seed channels and complete RGBA schedule against game output |
+| Alternate colors and textures | Separate retry branch and async payload path located | Recover collection selection, texture options and final material binding |
+| Fixed reward models | Shipped model/seed/class presets cataloged | Verify procedural and customisation overrides per reward/model |
+| Class, slots and upgrades | Separate inputs and experimental delivery history | These require their own generation/delivery contracts; appearance seed alone is insufficient |
+| Desired configuration to seed | Forward components only | Validate a whole appearance oracle, then implement bounded search and reject impossible combinations |
+| Natural spawn location | No reverse universe mapping recovered | Recover system/entity seed derivation separately; a model seed is not a portal coordinate |
+
+Complete means matching outputs and input semantics for the declared category
+and creation routes, not just extracting files or producing plausible traces.
+The current evaluator intentionally does not claim this acceptance.

@@ -1052,3 +1052,137 @@ BitLocker changes or D: access occurred. Proprietary data/pseudocode stays exter
 Final research suite: all 28 tests passed. Navigation regenerated with 82 source
 files, 193 source functions, 194,641 data paths and 117 native entries, including
 one retained export failure; no import warnings. Diff whitespace check passed.
+
+## 2026-10-02: Base palette evaluator, assembly replay and alternate route
+
+Same build 180383 / executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Offline only, no save or game trigger. Source/configuration: evaluate-base-palettes.py,
+new palette assembly replay, original basecolourpalettes MBIN fingerprint
+`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`,
+three new branch/material seed lists, same Ghidra/Capstone/JDK tools.
+
+Implemented candidate 66-family base schedule using exact float32 MBIN colors,
+mode lookup remapping, index retries, saved Paint/Freighter state and reseeded
+special families. Input seeds 0x6 and 0x1ad0003900054 each yielded 330 colors.
+These are explicit base-collection traces, not verified entity color inputs.
+Inactive base families remain the native default branch when fallback is the
+same base collection; arbitrary collection fallback is not implemented.
+
+First row disassembly only covered a prologue. Inspection of split body 62cbde
+recovered draw/mode instructions and SSE reduction B²+(G²+R²). Corrected the
+initial Python reduction order; preserved its old Pirate report as superseded,
+and generated base-palette-pirate-seed-v2.json. Independent interpreter checks:
+1,000 two-draw windows and 320 mode-selection windows passed. RGBA and full
+scheduling have synthetic tests but no assembly replay or live comparison.
+
+Worker seed path was traced through an aggregate copied by 227a40, including a
+16-byte seed-shaped field at input +0x10/task +0x138. Default descriptor preparation
+preserves the source seed; explicit-ID preparation disables its seed flag. Task
+flag 1c9 chooses an alternate color branch 62e4e0/62e780. Unlike the first route,
+the alternate retries consume fresh random draws and compare square-root RGB
+distance with a runtime global. No name or ABI inferred from these offsets.
+
+Three branch exports succeeded in 18 seconds, alternate row export in 19 seconds,
+and two material-stage candidates in 26 seconds. All six succeeded. Candidate
+630d50 is an asynchronous texture request/cache, not established color binding;
+6381b0 is task removal/freeing, not color application. These rejected routes are
+retained in the owning specification and index.
+
+Routine failures: an initial read treated SQLite's extracted status 'ok' as a
+filename; corrected by using the known XML sibling path with hash/size checks.
+Searching a prologue-only assembly report for scalar multiplies found none;
+the actual body uses packed SSE operations. Two documentation patch contexts
+did not match and were corrected without changing game/storage artifacts.
+An old report.json filename guess was corrected to candidates.json. No disk I/O
+failure, disk command, repair, D: access or runtime mutation occurred.
+
+Validation: all 31 research tests passed. New tests verify retry termination/RNG
+consumption, RGB-only comparison, strict threshold boundary and schedule reuse.
+Full appearance, caller seed channels, alternate collection, material binding,
+inversion and game equivalence remain unresolved. Evidence is external under
+seed-analysis-180383 and the three new native stage directories. Rollback: none;
+installed executable/DLL/data mods/player saves unchanged.
+
+Follow-up structural evidence: descriptor_tree now preserves ordered child model
+lists, validated across fourteen roots with unchanged 340 groups/986 options.
+Native selector predicates show that absent referenced descriptors may still
+consume mixed seeds, all-xNEVER child lists can be skipped, and _PLAYER_ children
+restart from the original seed input. Literal checks confirm LOD/_PLAYER_/empty
+prefix bytes. These are traversal rules to port, not a finished recursive evaluator.
+The synthetic ordered-child-list test passes. No additional game changes occurred.
+
+## 2026-10-02: Default descriptor evaluator and rejected public-viewer oracle
+
+Build 180383 / executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Offline inputs only; no save loaded or runtime trigger. Configuration: new
+evaluate-descriptor-seed.py, fourteen-category manifest plus five initial roots,
+seed 0x7 and requested Pirate seed 0x1ad0003900054. Sources are hash-recorded
+converted corpus descriptors; XML is bounded and SQLite remains read-only.
+
+Implemented the unfiltered default candidate traversal, including ordered child
+lists, Name weights, raw candidate-ID suppression, LOD normalization, missing
+reference seed consumption and _PLAYER_ restart. Sentinel seed 0x7 yielded
+22 IDs across eight calls. Nineteen roots yielded 18 traces and one unsupported
+case, with 183 successful decisions; the fourteen-root CLI independently
+reproduced 13 traces and the same unsupported Capital freighter reference:
+`MODELS/EFFECTS/LIGHTS/LIGHT_BLUE.SCENE.MBIN{7}`. No annotation was guessed away.
+These are experimental predictions, not observed ships or renderable previews.
+
+Initial exact-path SQLite lookups rescanned metadata for each reference and were
+slow. Replaced them with one bounded in-memory descriptor metadata map per CLI
+batch, preserving per-root resource/byte/call budgets. Earlier runs completed;
+an exact-process check for an obsolete command found no process to stop. No
+disk/storage error or repair occurred. One documentation patch context failed
+and was corrected. A guessed older export filename was absent; actual artifacts
+were located through stage manifests instead.
+
+Texture callback stage exported 6308a0 and 63ae70 in 97.8 seconds, both successful.
+Their observed cache payload/readiness and async loader behavior rejected the
+hypothesis that these functions directly establish final shader color binding.
+
+Public C# NMSMV was inspected at commit
+ee2ed17e79ff82ec4cfd069f33fcd2234e443e03, limited to two source files (10,472 and
+10,508 bytes). Its uniform System.Random descriptor choices and palette draw
+schedule differ from recovered native arithmetic. Rejected it as a seed oracle;
+its descriptor/reference organization remains a structural clue only. Source
+copies are external, no third-party code or assets vendored. Links and exact
+limitations are in the owning procedural seed specification.
+
+Not proven: whole traversal equivalence, filtered/prefix/customisation routes,
+final color/material application, inverse search, universe spawn mapping or new
+delivery support. Rollback: none needed; game executable, installed DLL/data
+patches and all player saves remain unchanged. No D: access, disk command,
+repair or BitLocker change.
+
+Resource lookup follow-up: Ghidra stage proceduralresourcelookup timed out at
+306.3 seconds with no manifest, log limited to Java option startup lines. Its
+owned process tree was stopped by the launcher's existing limit; no retry or
+disk command. The unavailable stage is now a separate native_analysis_run
+navigation record, with checked fingerprint, rather than disappearing silently.
+
+New bounded fragment inspection recovered seven unwind fragments (504
+instructions), their byte hashes and fixed path-format literals. The PE import
+table independently identifies thunk 33e0fc8 as VCRUNTIME140.dll!strrchr. Loader
+2d5caa0 clears the final extension and rebuilds an MBIN path, explaining removal
+of the numeric annotation on the Capital reference. Added this audited limited
+reconstruction to the descriptor loader while retaining requested source paths.
+The follow-up fourteen-root run yielded 14 experimental traces, including
+Capital; original unsupported reports remain preserved. Still no live oracle.
+
+Added synthetic PE import tests, numeric-annotation/path-scope tests and a
+transactional source-only navigation refresh test. Source refresh preserves
+data/native records and import warnings, avoiding another 194,641-row corpus
+import for code-only changes. Repository and corpus/storage boundaries remain
+unchanged; proprietary instructions/literals and third-party sources stay external.
+
+Final validation: all 42 research tests passed. Navigation contains 87 source
+files, 233 source functions, 194,641 data paths, 125 native function candidates
+(including one retained export failure) and one unavailable analysis-run record.
+No import warnings. This is metadata and offline evidence, not runtime support.
+Arithmetic replay again passed 3,015 integer-window comparisons and 1,320
+palette draw/index comparisons. RGBA, recursive selection and whole appearances
+are not covered by those assembly replays. Review preserved the existing raw
+32-byte `--literal` interface while adding bounded string/import inspection;
+the raw threshold window was re-read without native execution.

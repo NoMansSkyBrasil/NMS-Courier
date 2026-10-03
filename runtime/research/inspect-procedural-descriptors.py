@@ -49,6 +49,44 @@ def descriptor_groups(root):
     return groups
 
 
+def descriptor_tree(root):
+    """Preserve ordered model-list boundaries needed by recursive RNG scheduling."""
+    budget = [0]
+
+    def model(node, depth):
+        budget[0] += 1
+        if depth > 64 or budget[0] > 16384:
+            raise ValueError('Descriptor tree depth/node budget exceeded')
+        listing = named(node, 'List')
+        if listing is None:
+            wrapper = named(node, 'TkModelDescriptorList')
+            listing = named(wrapper, 'List') if wrapper is not None else None
+        if listing is None:
+            raise ValueError('Model descriptor list wrapper is missing')
+        groups = []
+        for group in listing:
+            if group.get('value') != 'TkResourceDescriptorList':
+                raise ValueError('Unsupported descriptor group schema')
+            alternatives = named(group, 'Descriptors')
+            options = []
+            for option in alternatives if alternatives is not None else []:
+                budget[0] += 1
+                if budget[0] > 16384 or option.get('value') != 'TkResourceDescriptorData':
+                    raise ValueError('Descriptor option budget/schema mismatch')
+                paths = named(option, 'ReferencePaths')
+                children = named(option, 'Children')
+                options.append({'id': value(option, 'Id'), 'name': value(option, 'Name'),
+                                'chance_raw': value(option, 'Chance'),
+                                'reference_paths': [item.get('value', '') for item in paths] if paths is not None else [],
+                                'child_model_lists': [model(item, depth + 1) for item in children] if children is not None else []})
+            groups.append({'type_id': value(group, 'TypeId'), 'options': options})
+        return {'groups': groups}
+
+    if root.get('template') != 'cTkModelDescriptorList':
+        raise ValueError('Unsupported root descriptor template')
+    return model(root, 0)
+
+
 def inspect(corpus, models):
     db = sqlite3.connect((corpus / 'index.sqlite').resolve().as_uri() + '?mode=ro', uri=True)
     assets = []
@@ -73,7 +111,8 @@ def inspect(corpus, models):
                         raise ValueError('External XML declarations are unsupported')
                     root = ET.fromstring(raw)
                     record.update(status='indexed_choices', xml_sha256=hashlib.sha256(raw).hexdigest(),
-                                  template=root.get('template'), groups=descriptor_groups(root))
+                                  template=root.get('template'), groups=descriptor_groups(root),
+                                  ordered_model_tree=descriptor_tree(root))
                 assets.append(record)
     finally:
         db.close()

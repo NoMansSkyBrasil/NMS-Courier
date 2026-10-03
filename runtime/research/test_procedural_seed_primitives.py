@@ -121,7 +121,11 @@ class InstructionReplay:
         elif op == 'lea':
             # In the selected arithmetic window, RSI receives a resource literal
             # but is not consumed by any arithmetic/output under test.
-            if args[0] != 'rsi':
+            if args[1] == '[rbx + r8*8]':
+                self.write(args[0], self.read('rbx') + self.read('r8') * 8)
+            elif args[1] == '[rax + rax]':
+                self.write(args[0], self.read('rax') * 2)
+            elif args[0] != 'rsi':
                 raise ValueError('Unexpected LEA in arithmetic window')
         elif op == 'test':
             self.zero = self.read(args[0]) & self.read(args[1]) == 0
@@ -185,12 +189,57 @@ def replay(files):
     print(json.dumps({'assembly_replay_cases': len(seeds), 'windows_per_case': 3, 'runtime_verified': False}))
 
 
+def replay_palette(path):
+    if path.stat().st_size > 8 * 1024 * 1024:
+        raise ValueError('Palette assembly report exceeds size budget')
+    report = json.loads(path.read_text(encoding='utf-8'))
+    if report['exe_sha256'] != '671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4':
+        raise ValueError('Palette assembly fingerprint mismatch')
+    instructions = {int(i['rva'], 16): i for fragment in report['fragments'] for i in fragment['instructions']}
+
+    def window(begin, end):
+        selected = [instructions[address] for address in sorted(instructions) if begin <= address <= end]
+        if not selected or int(selected[0]['rva'], 16) != begin or int(selected[-1]['rva'], 16) != end:
+            raise ValueError('Incomplete palette assembly window')
+        for left, right in zip(selected, selected[1:]):
+            if int(left['rva'], 16) + len(bytes.fromhex(left['bytes'])) != int(right['rva'], 16):
+                raise ValueError('Discontinuous palette assembly window')
+        return selected
+
+    draw = window(0x62cc84, 0x62ccbb)
+    modes = {'_1': window(0x62ccdb, 0x62ccdb), '_4': window(0x62cce4, 0x62ccef),
+             '_8': [], '_16': window(0x62ccfe, 0x62cd07), 'All': window(0x62cd0c, 0x62cd0c)}
+    rng = random.Random(180383)
+    for _ in range(1000):
+        state = rng.getrandbits(32), rng.getrandbits(32)
+        machine = InstructionReplay(memory={'dword ptr [rdx]': state[0], 'dword ptr [rdx + 4]': state[1],
+                                           'qword ptr [rsp + 0x118]': 0})
+        for instruction in draw:
+            machine.execute(instruction)
+        next_state, _ = core['advance'](state)
+        next_state, second = core['advance'](next_state)
+        assert (machine.memory['dword ptr [rcx]'], machine.memory['dword ptr [rcx + 4]']) == next_state
+        assert machine.registers['rbx'] & 0xffffffff == second
+    for row in range(8):
+        for column in range(8):
+            for mode, selected in modes.items():
+                machine = InstructionReplay(registers={'r8': row, 'rbx': column})
+                for instruction in selected:
+                    machine.execute(instruction)
+                assert machine.registers['rbx'] == core['palette_index_from_draws'](row << 29, column << 29, mode)
+    print(json.dumps({'palette_draw_replays': 1000, 'palette_index_replays': 320,
+                      'rgba_replayed': False, 'runtime_verified': False}))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--assembly', type=Path, action='append', default=[])
+    parser.add_argument('--palette-assembly', type=Path)
     args = parser.parse_args()
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(PrimitiveTests)
     if not unittest.TextTestRunner().run(suite).wasSuccessful():
         raise SystemExit(1)
     if args.assembly:
         replay(args.assembly)
+    if args.palette_assembly:
+        replay_palette(args.palette_assembly)

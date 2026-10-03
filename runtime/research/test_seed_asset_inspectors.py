@@ -8,9 +8,31 @@ import xml.etree.ElementTree as ET
 
 presets = runpy.run_path(str(Path(__file__).with_name('inspect-seed-presets.py')))
 graph = runpy.run_path(str(Path(__file__).with_name('build-appearance-graph.py')))
+descriptors = runpy.run_path(str(Path(__file__).with_name('inspect-procedural-descriptors.py')))
 
 
 class AssetInspectorTests(unittest.TestCase):
+    def test_distinct_child_model_lists_keep_order_instead_of_flattening(self):
+        root = ET.fromstring('''<Data template="cTkModelDescriptorList"><Property name="List">
+          <Property value="TkResourceDescriptorList"><Property name="TypeId" value="ROOT"/>
+            <Property name="Descriptors"><Property value="TkResourceDescriptorData">
+              <Property name="Id" value="CHOICE"/><Property name="Children">
+                <Property><Property name="TkModelDescriptorList"><Property name="List">
+                  <Property value="TkResourceDescriptorList"><Property name="TypeId" value="FIRST"/></Property>
+                </Property></Property></Property>
+                <Property><Property name="TkModelDescriptorList"><Property name="List">
+                  <Property value="TkResourceDescriptorList"><Property name="TypeId" value="SECOND"/></Property>
+                </Property></Property></Property>
+              </Property>
+            </Property></Property>
+          </Property></Property></Data>''')
+        tree = descriptors['descriptor_tree'](root)
+        children = tree['groups'][0]['options'][0]['child_model_lists']
+        self.assertEqual(len(children), 2)
+        self.assertEqual([child['groups'][0]['type_id'] for child in children], ['FIRST', 'SECOND'])
+        with self.assertRaises(ValueError):
+            descriptors['descriptor_tree'](ET.fromstring('<Data template="Unknown"/>'))
+
     def test_duplicate_rewards_keep_uint64_precision_without_inferred_class(self):
         root = ET.fromstring('''<Data><Property name="Id" value="SAME_REWARD"/>
           <Property name="GcRewardSpecificShip">

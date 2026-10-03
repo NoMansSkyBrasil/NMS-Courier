@@ -355,3 +355,42 @@ exit codes: successful launcher completion can retain individual export failures
 isolated palette-index draws, without full category propagation, RGBA or retries.
 Run `test_seed_asset_inspectors.py` for synthetic asset safety/precision checks.
 The owning seed research document records recovered formulas and missing steps.
+
+`evaluate-base-palettes.py --corpus <existing-corpus> --seed 0x6 --output
+<new-external-json>` traces the complete candidate base-collection schedule from
+the hash-pinned MBIN's original float32 colors. It does not resolve the actual
+ship color seed, alternate collections or final materials. Add `--palette-assembly
+<external-palette-row-body-assembly.json>` to the primitive test command to replay
+1,000 draw windows and 320 index windows. That replay does not cover RGBA or
+whole appearances. Additional branch seed lists map to stages
+`proceduralcolorbranches` and `proceduralalternatepalette`.
+
+`evaluate-descriptor-seed.py --corpus <existing-corpus> --model <exact-model-path>
+--seed 0x7 --output <new-external-json>` predicts the unfiltered default descriptor
+trace. Alternatively use `--models-file procedural-categories-180383.json` for
+bounded category runs. Reports retain unsupported cases; exit/trace counts are
+not runtime success. Inclusion/exclusion/prefix/customisation inputs, colors and
+class are outside this evaluator. The collector's ordered_model_tree preserves
+child-list boundaries needed by its recursive schedule. Metadata is cached in
+memory; the corpus database is never modified.
+
+`inspect-native-fragments.py --executable <pinned-exe> --sha256 <hash> --rva
+2d65af0 --python-tools <external-capstone> --output <new-external-json>` exports
+instruction bytes from up to eight containing unwind fragments (16 KiB each).
+It validates target instruction boundaries and complete decoding, never invokes
+native code and explicitly does not merge split fragments into a guessed ABI.
+Optional `--literal-rva` and `--thunk-rva` inspect at most sixteen bounded literals
+and sixteen PE64 FF25 import thunks. Import symbols come from the pinned PE table,
+not a guessed library function based on nearby instructions.
+The existing `--literal` option still reads raw 32-byte windows, including
+non-string float constants; literal-only calls remain supported.
+Stage `proceduralresourcelookup` uses the corresponding resource-lookup seed TSV;
+its first attempt timed out before exporting a manifest. Navigation retains
+such unavailable stages separately as `native_analysis_run` evidence.
+
+For code-only metadata changes, use `build-research-index.py --refresh-source
+--output <existing-navigation-directory> --source-summary
+docs/RESEARCH_SOURCE_FUNCTIONS.md`. It transactionally replaces repository
+definitions and their search records while preserving imported data/native rows,
+warnings and the original import timestamp. Do a full build when imported
+corpus/native artifacts actually change; source refresh does not import them.

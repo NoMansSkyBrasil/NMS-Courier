@@ -91,9 +91,20 @@ def native_items(native):
                   'proceduraltask', 'proceduraltaskcallees', 'proceduraltaskconstructor',
                   'proceduralselection', 'proceduralselector', 'proceduralchoice',
                   'proceduraltexture', 'proceduralarithmetic', 'proceduralpalette',
-                  'proceduralpalettelookup', 'proceduralpalettecallers')
+                  'proceduralpalettelookup', 'proceduralpalettecallers',
+                  'proceduralcolorbranches', 'proceduralalternatepalette',
+                  'proceduralmaterialcolors', 'proceduraltexturecallback',
+                  'proceduralresourcelookup')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
+                run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')
+                if run_path.is_file():
+                    run = json.loads(run_path.read_text(encoding='utf-8-sig'))
+                    if run.get('exe_sha256') != fingerprint:
+                        raise ValueError('Native stage report fingerprint mismatch')
+                    yield ('native_analysis_run', topic(directory.name), directory.name,
+                           str(run_path), 1, '', 'export_unavailable_' + str(run.get('status', 'unknown')),
+                           fingerprint, 'No export manifest; preserve stage failure without inferring function results')
                 continue
             with (directory / "manifest.tsv").open(encoding="utf-8-sig", newline="") as stream:
                 for line, row in enumerate(csv.DictReader(stream, delimiter="\t"), 2):
@@ -200,6 +211,47 @@ def build(args):
     print(json.dumps(report, indent=2))
 
 
+def refresh_repository(args):
+    """Refresh source metadata without reading or rewriting the proprietary corpus."""
+    output, repo = args.output.resolve(), args.repo.resolve()
+    if output.is_relative_to(repo):
+        raise ValueError('Keep the generated index outside the repository')
+    report_path = output / 'navigation.json'
+    report = json.loads(report_path.read_text(encoding='utf-8'))
+    if Path(report['repository']).resolve() != repo:
+        raise ValueError('Existing navigation repository mismatch')
+    for field in ('corpus', 'native'):
+        if report.get(field) not in (None, 'None'):
+            source = Path(report[field]).resolve()
+            if output.is_relative_to(source) or source.is_relative_to(output):
+                raise ValueError('Index must remain separate from imported research')
+    db = sqlite3.connect((output / 'navigation.sqlite').as_uri() + '?mode=rw', uri=True)
+    try:
+        with db:
+            db.execute('DELETE FROM search WHERE rowid IN (SELECT id FROM items WHERE kind IN (?,?))',
+                       ('source_file', 'source_function'))
+            db.execute('DELETE FROM items WHERE kind IN (?,?)', ('source_file', 'source_function'))
+            for item in repository_items(repo):
+                cursor = db.execute('INSERT INTO items VALUES (NULL,?,?,?,?,?,?,?,?,?)', item)
+                db.execute('INSERT INTO search(rowid,name,topic,evidence) VALUES (?,?,?,?)',
+                           (cursor.lastrowid, item[2], item[1], item[8]))
+        report['counts'] = dict(db.execute('SELECT kind,count(*) FROM items GROUP BY kind').fetchall())
+        rows = db.execute('SELECT topic,kind,count(*) FROM items GROUP BY topic,kind ORDER BY topic,kind').fetchall()
+    finally:
+        db.close()
+    report.setdefault('imported_data_native_utc', report.get('generated_utc'))
+    report['source_refreshed_utc'] = datetime.now(timezone.utc).isoformat()
+    report['generator_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    report_path.write_text(json.dumps(report, indent=2), encoding='utf-8')
+    lines = ['# Research navigation snapshot', '', 'Metadata only; no runtime compatibility claim.', '',
+             '| Topic | Kind | Count |', '| --- | --- | --- |']
+    lines += [f'| {category} | {kind} | {count} |' for category, kind, count in rows]
+    lines += ['', '## Import warnings', '']
+    lines += [f"- {warning['source']}: {warning['error']}" for warning in report.get('warnings', [])] or ['None.']
+    (output / 'SUMMARY.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    print(json.dumps(report, indent=2))
+
+
 def query(args):
     db = sqlite3.connect((args.output.resolve() / "navigation.sqlite").as_uri() + "?mode=ro", uri=True)
     db.row_factory = sqlite3.Row
@@ -221,12 +273,21 @@ def main():
     parser.add_argument("--source-summary", type=Path,
                         help="Optional Markdown map containing repository source metadata only")
     parser.add_argument("--query")
-    parser.add_argument("--kind", choices=("source_file", "source_function", "data_file", "native_function"))
+    parser.add_argument('--refresh-source', action='store_true',
+                        help='Refresh repository definitions in an existing index; preserve data/native imports')
+    parser.add_argument("--kind", choices=("source_file", "source_function", "data_file", "native_function", "native_analysis_run"))
     parser.add_argument("--limit", type=int, default=10)
     args = parser.parse_args()
     if not 1 <= args.limit <= 100:
         parser.error("limit must be 1..100")
-    query(args) if args.query else build(args)
+    if args.refresh_source and (args.query or args.corpus or args.native):
+        parser.error('Source refresh cannot query or reimport corpus/native artifacts')
+    if args.refresh_source:
+        refresh_repository(args)
+    elif args.query:
+        query(args)
+    else:
+        build(args)
     if args.source_summary and not args.query:
         summary = args.source_summary.resolve()
         if not summary.is_relative_to(args.repo.resolve() / "docs"):
