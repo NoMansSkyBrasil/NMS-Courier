@@ -6,6 +6,9 @@ Status: descriptor extraction, native tracing, experimental default descriptor
 evaluation and a base-palette forward schedule implemented. Complete appearance
 evaluation, game equivalence and inverse search **not implemented**. No runtime capability.
 
+For procedural upgrade/product seeds, read [the Pi source assessment](PI_PROCEDURAL_ITEM_RESEARCH.md).
+That namespace and its native stat-generation calls are separate from model appearance seeds.
+
 ## Separate inputs and outcomes
 
 A model resource selects the descriptor family. A seed is an input to procedural

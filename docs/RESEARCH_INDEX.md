@@ -14,6 +14,10 @@ dependency graphs and native palette arithmetic. Start with
 `procedural-seed-primitives.py`; none is a complete seed-to-appearance evaluator.
 Arithmetic/palette/caller export stages retain per-candidate failure status.
 
+For upgrade/product seed enumeration, package identifiers and native forward
+oracle design, read [the Pi assessment](PI_PROCEDURAL_ITEM_RESEARCH.md).
+Its version-specific upstream hooks are research clues, not current-build APIs.
+
 ## Function lookup
 
 For the supplied NoMansApp HTML, MetaIdea tooling and hybrid delivery choices,

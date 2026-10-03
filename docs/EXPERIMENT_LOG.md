@@ -1208,3 +1208,70 @@ paths, seed caller semantics or location reconstruction. No automatic bulk
 collection, image download, native execution, save edit, disk operation or game
 installation change. Rollback: none needed. Documentation-only change; no
 application build required.
+
+## 2026-10-02: Pi native procedural item oracle assessment
+
+Source: user-supplied zencq/Pi, revision
+80e397b0067016c7d4f9ae37b18afc38ad43185c. Six bounded source files (61,028 bytes)
+inspected externally; exact SHA-256 values and pinned links are recorded in
+[the owning assessment](PI_PROCEDURAL_ITEM_RESEARCH.md). GitHub tree was complete.
+Research baseline remains recorded Courier build 180383 / executable SHA-256
+671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4;
+no new executable analysis, live trigger or save access.
+
+Observed Pi enumerates 100,000 decimal procedural item seeds per base identifier
+and calls native GenerateProceduralProduct/GenerateProceduralTechnology through
+version-selected reality-manager bindings. Package.py separately calls
+GetHashedIDForTech. Stats/names are native results; perfection is upstream scoring.
+Rejected the interpretation that its Freighter/Weapon catalogs reproduce hull,
+multitool appearance or the complete 64-bit model seed algorithm. Its old GOG
+hash/layout support and version-dependent argument change do not authorize
+calls in our current Steam executable. Pending-technology cleanup is another
+ownership/gameplay question to resolve before any adapter.
+
+Useful next step: exact-build identification of those generator calls and
+controlled expected-output collection, using Courier's bridge if verified.
+Not proven: current compatibility, delivery, appearance inversion or independent
+stat-generation implementation. Initial web click to an upstream settings link
+timed out; direct pinned source inspection worked. A PowerShell mixed-object
+table hid path columns; a bounded JSON inventory replaced it. No runtime/tool
+installation, source execution, bulk dataset download, disk operation or repair.
+Rollback: none needed; installed DLL/mods, executable and saves unchanged.
+
+## 2026-10-02: Pi collection port and current executable cross-check
+
+User requested updating old Pi. Sources/configuration: pinned upstream types
+SHA-256 `59ed0a093901e65d79786cbd88b8fa5248a033c756b4311ecb7e2b2b48edac14`,
+Courier `scan-pi-compatibility.py`, `pi-seed-catalog.py` and their tests.
+Fresh executable fingerprint: build 180383 /
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Python 3.14 / private Capstone 5.0.5; offline only, no trigger or loaded save.
+
+Implemented original durable collection workflow without importing Pi source:
+bounded decimal inputs, immutable build/evidence configuration, raw snapshots,
+atomic idempotent imports, conflict rejection and streamed JSONL export.
+CLI smoke test used explicitly simulated data: 10 planned, three imported,
+resume inputs 3..5, three exported. Thirteen new tests and all 55 research tests
+passed. Not a native generator, live Pi update, appearance algorithm or delivery.
+
+Five historical signatures were scanned. Unique matches for product and reality
+construction disagreed with checked string anchors; the product match was inside
+another prologue. Language signature had two matches and disagreed with its
+anchor. Technology signature and anchor both link to primary RVA `0xec1e60`;
+package-ID signature has one match but no independent semantic confirmation.
+All four anchors existed and their references passed instruction-boundary checks.
+Version-1 chained unwind metadata yielded current primary candidates `0xeaf720`,
+`0xebec00`, `0xec1e60`, `0x2bd84f0`. No chain warning or skipped anchor site.
+Ownership, types, calling context and ABI remain unverified; runtime disabled.
+Details and reproducible commands: [Pi assessment](PI_PROCEDURAL_ITEM_RESEARCH.md).
+
+Failures: four-anchor full-fragment inspection rejected incomplete decoding;
+no partial successful output claimed. Checked individual LEA references and
+unwind chains provide narrower evidence, not a repair or full decompilation.
+Initial reads used a nonexistent tests subdirectory and a report-directory
+assumption; corrected via repository file inventory and inspector CLI source.
+Two documentation patches rejected mismatched context atomically, then applied
+with corrected anchors. PowerShell glob arguments to rg were corrected to -g.
+No disk commands, repairs, dependency installation, injection, save editing or
+changes to installed DLL/mods. Rollback: none needed; artifacts preserved outside
+the repository, reusable tooling and findings retained in source control.

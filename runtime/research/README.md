@@ -394,3 +394,53 @@ docs/RESEARCH_SOURCE_FUNCTIONS.md`. It transactionally replaces repository
 definitions and their search records while preserving imported data/native rows,
 warnings and the original import timestamp. Do a full build when imported
 corpus/native artifacts actually change; source refresh does not import them.
+
+## Pi collection port
+
+See [the owning assessment](../../docs/PI_PROCEDURAL_ITEM_RESEARCH.md) for upstream
+revision, source fingerprints, current candidates and limits. These tools are
+offline developer research, not a shipped runtime adapter or a working Pi plugin.
+Use the approved private Python executable; `python` below denotes that runtime.
+Keep SQLite catalogs and snapshots in the external research directory.
+
+```powershell
+python runtime/research/pi-seed-catalog.py `
+  --catalog E:\NMS-Courier-Research\seed-analysis-180383\pi-example.sqlite `
+  plan --exe-sha256 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 `
+  --kind technology --item UP_FRHYP --evidence simulated --stop 10
+python runtime/research/pi-seed-catalog.py `
+  --catalog E:\NMS-Courier-Research\seed-analysis-180383\pi-example.sqlite `
+  pending --limit 3 --output E:\NMS-Courier-Research\seed-analysis-180383\pi-example-pending.jsonl
+```
+
+Pending rows are inputs only, with `runtime_call_authorized=false`. To ingest
+owned snapshots use `import --input <new-jsonl-path>`; export uses
+`export --output <new-jsonl-path>`; `status` reports counts. Output files must be
+new. Results require `exe_sha256`, `kind`, `item`, `evidence`, `seed`,
+`procedural_id`, nonempty `raw` and `provenance`. Example synthetic row:
+
+```json
+{"exe_sha256":"671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4","kind":"technology","item":"UP_FRHYP","evidence":"simulated","seed":0,"procedural_id":"UP_FRHYP#00000","raw":{"stats":[{"stat":"SyntheticStat","bonus":1.125,"level":3}]},"provenance":{"source":"Synthetic example; not game output"}}
+```
+
+Observed snapshots additionally require `adapter_sha256` and `capture_sha256`
+inside provenance. They must use a separate observed catalog and an independently
+verified producer. Changing an evidence label is not validation. No native producer
+is enabled by this tool. Maximum import is 1,000 records, 64 KiB per record.
+
+Compatibility inspection does not import the historical source or reuse offsets:
+
+```powershell
+python runtime/research/scan-pi-compatibility.py `
+  --types-source E:\NMS-Courier-Research\seed-analysis-180383\pi-reference-80e397b\NMSpy_mods__data__7024b107f0533de802e8ecfbed65d2c778d03c1f__types.py `
+  --source-sha256 59ed0a093901e65d79786cbd88b8fa5248a033c756b4311ecb7e2b2b48edac14 `
+  --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  --sha256 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\pi-compatibility
+```
+
+The external source is a disposable copy; recover it from the pinned upstream
+link and verify its hash if unavailable. `compatibility.json` records ambiguous,
+disagreeing and corroborated static candidates with all runtime calls disabled.
+`anchor-seeds.tsv` is suitable for later bounded offline analysis, not hook installation.
