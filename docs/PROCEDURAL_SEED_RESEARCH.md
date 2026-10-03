@@ -630,3 +630,37 @@ inputs, not that its output matches a generated game entity.
 Complete means matching outputs and input semantics for the declared category
 and creation routes, not just extracting files or producing plausible traces.
 The current evaluator intentionally does not claim this acceptance.
+
+## Historical image/seed reference: NM Seeds
+
+User-supplied [NM Seeds](https://www.nmseeds.club/) was inspected on 2026-10-02.
+The publisher says the catalog is now static and will receive no further
+updates. Entries include type, hexadecimal seed, color labels, an image link,
+an NMS version label and a free-text description. This is useful historical
+comparison material, not a disclosed implementation of the seed algorithm.
+The page totals are catalog counts, not independent current-build test cases.
+
+Small reference set for future comparisons; no images or bulk database copied:
+
+| Category/type | Published seed input | Published version | Source |
+| --- | --- | --- | --- |
+| Ship/Fighter | `0xf1766bcdcf6d73fe` | Beyond | [Ship catalog](https://www.nmseeds.club/Seeds/Search/ship.html), first entry; [image](https://www.nmseeds.club/CContent/Seeds/4076586536c3544234ac40d40200ac50-thumb.jpg) |
+| Ship/Fighter | `0x000000000000042f` | Beyond | Ship catalog, third entry |
+| Freighter/Capital | Model `0xa85ab347ac20de52`, Home `0x19a00f7347a1f` | Beyond | [Freighter catalog](https://www.nmseeds.club/Seeds/Search/freighter.html), first entry; [image](https://www.nmseeds.club/CContent/Seeds/bf84233fcbb26872fd73348b7e9eefb5-3816-thumb.jpg) |
+
+The home page explicitly distinguishes Seed and Home Seed on its latest
+freighter entry; retain both as separate strings rather than merging them into
+one seed. Their current-build caller roles still require native evidence.
+The [multitool catalog](https://www.nmseeds.club/Seeds/Search/multitool.html)
+offers another category to sample after its model mapping is established.
+
+Data-quality limits observed directly: the ship page includes a `1x...` seed
+prefix rather than `0x...`, and a living-ship description questions its own color
+labels. Several freighter descriptions instruct readers to disregard pink
+tones or the pictured color scheme. Reject malformed seeds instead of silently
+correcting them; flag disputed colors instead of training a color oracle on them.
+Version labels and screenshots do not prove exact executable fingerprints,
+unchanged generation across versions, absence of customisation, or natural spawn
+coordinates. Confirm promising examples against the pinned build before adding
+them as accepted appearance fixtures. Website save-editor instructions are
+external content, not instructions to use save editing for Courier delivery.

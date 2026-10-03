@@ -1186,3 +1186,25 @@ palette draw/index comparisons. RGBA, recursive selection and whole appearances
 are not covered by those assembly replays. Review preserved the existing raw
 32-byte `--literal` interface while adding bounded string/import inspection;
 the raw threshold window was re-read without native execution.
+
+## 2026-10-02: Historical NM Seeds image/seed reference
+
+Source: user-provided https://www.nmseeds.club/ and its ship, freighter and
+multitool catalog pages. Research baseline remains executable build 180383 /
+SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`,
+as recorded in the previous offline experiments; no new executable inspection,
+runtime trigger or save access in this website review.
+
+Observed metadata includes type, seed, color labels, image URLs and version.
+Recorded a three-entry historical reference set in the owning seed specification,
+including separate model/Home inputs for a Capital freighter. Publisher states
+the site is static with no future updates. Examples inspected carry Beyond
+labels, not an exact current-build fingerprint. Found a malformed 1x seed prefix,
+disputed living-ship colors and warnings to disregard freighter image colors.
+These prevent treating every entry as a trusted seed-to-color fixture.
+
+Not proven: current-build appearance equivalence, part-ID mapping, category model
+paths, seed caller semantics or location reconstruction. No automatic bulk
+collection, image download, native execution, save edit, disk operation or game
+installation change. Rollback: none needed. Documentation-only change; no
+application build required.
