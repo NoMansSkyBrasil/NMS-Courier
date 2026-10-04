@@ -713,3 +713,23 @@ the port, **not the underlying game's entity inputs**. The workshop treats RGB
 as linear sRGB for display; that interpretation remains unverified against the
 native renderer. No full inverse search, spawn-location mapping or category
 accuracy is claimed.
+
+
+## Fauna and flora caller investigation, paused 2026-10-03
+
+The [method and handoff](SEED_RESEARCH_HANDOFF.md) records the latest offline
+findings and exact evidence paths. Four unique public signature candidates were
+decompiled for build 180383: GenerateCreatureRoles, GenerateCreatureInfo,
+GenerateCreatureSpawnData and FillCreatureSpawnDataFromDescription. The Roles
+candidate contains the known MWC/child-mixing arithmetic; the spawn candidate
+uses role seed data for bounded interpolation and a subsequent probability
+comparison. A checked double literal is 1/4294967295, not 1/4294967296.
+
+Bird ecosystem/resource/descriptor/texture dependencies and Lush tree
+object-list/reference/descriptor dependencies were inspected. These extend
+category-specific evidence without proving end-to-end seed propagation.
+Three additional type-name-reference exports exist; one begins with structural
+hashing and two remain uninspected. The user requested a pause and a transferable
+method record. No further analysis, implementation or game test should start
+until research is resumed. Generated native navigation metadata is not refreshed
+for these seven new exports yet; consult the handoff directly.

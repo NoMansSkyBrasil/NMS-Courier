@@ -1499,3 +1499,53 @@ appearance, inverse seeds, spawn location, class/slot delivery, manual dialog
 interaction or clean offline packaged operation. The two implementations agreeing
 verifies the port, not game appearance. Rollback: ordinary source revert; no
 installed game or corpus assets changed, no live retry or save editing.
+
+
+## 2026-10-03 — Offline fauna callers and flora dependencies; research paused
+
+Scope/trigger: user requested actual seed-algorithm investigation across
+categories, then explicitly paused research and requested a method handoff for
+another model. Offline only: no gameplay/save conditions, process attachment,
+seed evaluation tests, feature implementation or installed-file changes.
+
+Build: 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Tools: existing Ghidra 12.1.4 PUBLIC project, bounded signature scanner,
+ExportAcquisitionSeeds.java, instruction/literal inspector, read-only SQLite
+and selected ElementTree corpus reads. Existing MXML converter version:
+MBINCompiler 7.04.1-pre3. Pinned public NMS.py reference: 52e2e55493ddade1d89d3e638491afff995f5631.
+
+Configuration/evidence: [handoff](SEED_RESEARCH_HANDOFF.md) records source hashes,
+exact commands, limits, all RVAs and external artifact paths. Four unique
+GenerateCreature/FillCreatureSpawn signature matches; faunageneration stage
+completed four exports, exit 0, 53.1 seconds. Three selected type-name references
+completed in faunametadata, exit 0, 25.0 seconds. Both launched workers finished
+before the pause. Two metadata bodies are exported but not yet inspected.
+
+Observed: known MWC/child mixing in fauna Roles; role-seed initialization and
+bounded scale-like interpolation in spawn preparation; file-backed 0.25 float
+and 1/4294967295 double constants. Bird role -> resource -> nested descriptor
+and material palette bindings, and Lush object list -> 75 referenced tree
+choices -> nested tree descriptor data are documented. Empty fir descriptor
+is a counterexample to treating all flora variation as part selection.
+
+Failures/limitations: requesting literal RVA 527a93c was rejected as outside
+file-backed sections; this is a PE bounds limitation, not a storage error. The
+attempt produced no output report; a narrower request retained two valid
+constants and 363 instructions. Large text outputs were truncated and replaced
+with selected windows. An early manifest lookup preceded export creation;
+both runs later completed. A type-name reference initially selected as a
+possible layout lead begins with structural hashing; do not relabel its hash
+as appearance generation. No current layout was inferred from an obsolete web
+search result. A documentation patch initially failed context verification and
+was reapplied with valid anchors; no research was restarted after the pause.
+
+Not proven: complete fauna/flora entry seed derivation, field-name mapping,
+all branch/draw schedules, palette caller channels, shader composition, inverse
+search, natural spawn locations or current runtime compatibility. Seven new
+exports are not yet imported into generated navigation metadata.
+
+Rollback/state: game, saves, mods and existing corpus unchanged. External Ghidra
+project gained offline analysis results; all reports/exports retained. Repository
+changes are documentation only. No application build or tests were run; paused
+at user request with the continuation point in the handoff.

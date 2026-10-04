@@ -8,6 +8,8 @@ Read [the project plan](docs/PROJECT_PLAN.md) before implementation. Follow its 
 
 Before repeating runtime research, read the [experiment log](docs/EXPERIMENT_LOG.md) and its linked source/evidence. The log is an index, not a substitute for the owning specifications.
 
+Before continuing procedural seed investigation, read the [research handoff](docs/SEED_RESEARCH_HANDOFF.md). It records the paused checkpoint, identification method, existing exports, unresolved deductions and bounded reproduction commands. Resume analysis only when requested; do not repeat extraction or treat candidate labels as verified APIs.
+
 For offline data or executable research, use the [batch pipeline](runtime/research/README.md) and its bounded SQLite/TSV queries before repeating individual extractions. Keep proprietary corpora and portable analysis tools in the external research directory; inspect their reports for progress and failures. A newer offline executable fingerprint does not extend the bridge's runtime compatibility.
 
 Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository function map](docs/RESEARCH_SOURCE_FUNCTIONS.md) to locate existing adapters, diagnostics, data tables, and native export artifacts before scanning large files. Rebuild generated metadata with `runtime/research/build-research-index.py`; unavailable imports must remain explicit warnings.

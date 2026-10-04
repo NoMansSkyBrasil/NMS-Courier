@@ -177,6 +177,9 @@ generated statistics and visual resource seeds must remain distinct.
 
 ## Evidence and code pointers
 
+- [Paused investigation and method handoff](SEED_RESEARCH_HANDOFF.md): fauna
+  native callers, role-to-spawn arithmetic, bird/tree data chains, exact
+  evidence locations and unresolved seed propagation.
 - [Detailed research and assembly evidence](PROCEDURAL_SEED_RESEARCH.md):
   generation primitives, category coverage, reward presets, base palette
   arithmetic and the texture palette binding follow-up.
