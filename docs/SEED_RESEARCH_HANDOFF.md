@@ -12,7 +12,11 @@ The original checkpoint below is retained as historical evidence.
 The latest [texture/channel continuation](APPEARANCE_TEXTURE_SEED_FLOW.md)
 maps selected multitool, ordinary/living frigate and NPC material bindings,
 resolves the complete texture worker root and records rendered Electron checks.
-Continue at the option-list writer, not the rejected async loader/cache route.
+The latest [decal continuation](DECAL_TEXTURE_SELECTION_RESEARCH.md) identifies
+631310 as the fresh texture selector and provides a bounded first-pass tool.
+Continue with collection/compatibility and caller correlation, not the rejected
+async loader/cache route. [AI continuation](AI_CONTINUATION.md) routes other AIs
+to owning documents, exact methods, evidence limits and reproduction commands.
 Current scope: offline discovery and documentation across categories, not
 features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
 checks validate research tooling only. The objective is to

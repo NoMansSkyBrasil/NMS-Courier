@@ -499,3 +499,25 @@ python runtime/research/inspect-texture-palettes.py `
   --corpus E:\NMS-Courier-Research\corpus @assetArguments `
   --output E:\NMS-Courier-Research\seed-analysis-180383\texture-bindings-new.json
 ```
+
+For AI onboarding and the latest exact continuation point, read
+[AI continuation](../../docs/AI_CONTINUATION.md). The current
+[decal selection note](../../docs/DECAL_TEXTURE_SELECTION_RESEARCH.md) separates
+the recovered first-pass selector from cache keys and later compatibility.
+Inspect `appearance-decal-assets-180383.txt` using the same asset-list pattern.
+Evaluate a single resource with explicit caller inputs:
+
+```powershell
+python runtime/research/evaluate-texture-options.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --asset textures/common/spacecraft/shared/decals/logo.texture.mbin `
+  --texture-seed 0x7 --palette-seed 0x7 `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\logo-first-pass-new.json
+python -m unittest discover -s runtime/research -p test_texture_option_evaluator.py
+```
+
+This is a first-pass candidate, not a full entity evaluator. It rejects grouping,
+links, base matching, gameplay-name filtering, explicit palette indices and
+unsupported budgets. Later matching/draws, alternate palette collection and
+native DDS-mask rendering are outside it. Outputs are new/external, sources are
+hash-checked and read through the read-only corpus. No game executes.

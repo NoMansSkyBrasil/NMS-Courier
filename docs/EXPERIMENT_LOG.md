@@ -1840,3 +1840,62 @@ parsed, 86 selected documentation links resolved, all five selection fingerprint
 matched completed reports. Navigation: 98 source files, 291 source functions,
 194,641 corpus rows, 243 unique native candidates; zero import warnings.
 Report: external `seed-analysis-180383/appearance-texture-verification-20261004.json`.
+
+## 2026-10-04 - Texture selector, decals and portable AI continuation
+
+Offline only. Build 180383 executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Source/configuration: four committed appearance-texture context/writer/callee/
+collection TSVs and `appearance-decal-assets-180383.txt`; owning method/results:
+[decal selection](DECAL_TEXTURE_SELECTION_RESEARCH.md). Root AGENTS.md now routes
+other AIs to [AI continuation](AI_CONTINUATION.md), with branch-specific sources,
+statuses, bounded commands, failed leads and exact next target. No global skill
+installation or duplicated proprietary code is required.
+
+Trigger/save conditions: no game, no save; existing Acquisition180383 Ghidra
+project, sequential stages, existing 2-CPU/4-GiB/timeout/free-space bounds.
+Private Python 3.14, Capstone 5.0.5, Ghidra 12.1.4/JDK 25.0.4.1+1; existing
+read-only corpus. Four stages completed six rows, zero export failures.
+Eight decal resources inspected, zero missing, 64,924 bytes; binary/XML hashes
+are recorded in external `decal-bindings-20261004.json`.
+
+Observed: 63f290 writes a decimal hash/cache key, correcting the previous
+32-byte-option-context hypothesis. State-5 preparation 62ebd0 reaches collection
+62f940/62fba0 and genuine random selector 631310. Recovered first-pass float32
+presence/weighted-choice draws and selector-to-palette mapping. Bounded
+disassembly confirmed the four-option unrolled sum preserves ordered scalar
+addition; the initial conservative rejection was lifted. Added original
+`evaluate-texture-options.py`, explicit texture/palette seeds and first-pass
+limitations. Seed-7 batch evaluated eight resources/ten layers, including logos
+and paint; seven tooling tests passed. Continued static reading identifies later
+compatibility fallback and base-matching state consumption; these remain outside
+the evaluator. No new 3D capture or native decal composition was claimed.
+
+Failures/rejected hypotheses: a requested multi-fragment read included undecoded
+boundaries and was rejected; bounded known boundaries were read instead. An ASCII
+literal reader could not interpret a floating constant; a bounded raw-constant
+read identified its bytes. A guessed export `manifest.json` path did not exist;
+the actual artifact is `manifest.tsv`. Two guessed prior evidence locations were
+corrected by indexed filenames. These were tooling/path errors, not storage
+failures. Do not revisit the known async-loader/cache path as a new selector.
+
+Not proven: whole model-seed to final decal schedule, collector merge/fallback
+equivalence, full NPC/frigate/tool geometry, native DDS rendering, inverse
+appearance generation, or delivery support for this offline fingerprint.
+Next: inspect later compatibility and collector rules, then correlate caller
+seed channels by category and bind selected masks in the viewer.
+
+Rollback: no game/bridge/mod/save/corpus changes, no archive extraction, no D:
+access, disk repair or BitLocker command. Only bounded external research reports,
+native project exports and original repository sources/documentation changed.
+
+Verification: seven texture-option tests and five native-index tests passed;
+100 selected relative documentation links resolved, Python AST checks passed,
+all four selection hashes matched completed run reports. Navigation contains
+100 source files, 306 source functions, 194,641 corpus rows and 249 unique native
+candidates, zero import warnings. External `decal-verification-20261004.json`
+records bounded checks; `logo-first-pass-final-20261004.json` exercises the final
+CLI/report schema, with an explicitly intermediate `first_pass_state`.
+One mistyped unittest pattern initially discovered no tests; the corrected exact
+filename ran five tests. A guessed report filename was replaced by the actual
+`run-<stage>.json` filename after directory inspection.

@@ -24,6 +24,9 @@ the distinction between arithmetic inversion and a whole appearance inverse.
 For category texture bindings and the complete worker processing order, read
 [appearance texture seed flow](APPEARANCE_TEXTURE_SEED_FLOW.md). It distinguishes
 palette families, texture alternatives and existing mesh-tint visualization.
+For the recovered texture first pass and selected decal resources, read
+[decal selection](DECAL_TEXTURE_SELECTION_RESEARCH.md). For portable onboarding
+and the current continuation target, read [AI continuation](AI_CONTINUATION.md).
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector

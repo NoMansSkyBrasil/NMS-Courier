@@ -110,7 +110,9 @@ def native_items(native):
                   'freightersourceroot20261004', 'freighterupstream20261004',
                   'freighterresourcecopy20261004', 'appearanceworker20261004',
                   'appearancetexture20261004', 'appearancebinding20261004',
-                  'appearanceprepare20261004', 'appearanceloader20261004')
+                  'appearanceprepare20261004', 'appearanceloader20261004',
+                  'appearancecontext20261004', 'appearanceselectwriter20261004',
+                  'appearanceselectcallees20261004', 'appearancelayercollection20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

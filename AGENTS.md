@@ -2,6 +2,13 @@
 
 ## Current stage
 
+For a new AI/session, start with [the AI continuation guide](docs/AI_CONTINUATION.md).
+It routes the current objective, capability/evidence status, completed work,
+bounded reproduction steps and unresolved targets to their owning documents.
+Read only the branch relevant to the user's request; do not load all research
+exports or the entire experiment history. Keep that guide's checkpoint and
+next-step references current whenever research changes the interpretation.
+
 Implementation is in progress. M0 desktop foundations exist; the exact-build native bridge has delivered a local item and currencies on a disposable save. Freighter delivery is experimental. Do not treat a research probe as a production capability. Never edit saves as a delivery shortcut.
 
 Read [the project plan](docs/PROJECT_PLAN.md) before implementation. Follow its linked specifications. Proposed files and commands in documentation do not mean those files or commands already exist.
