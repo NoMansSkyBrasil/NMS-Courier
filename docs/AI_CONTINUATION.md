@@ -8,6 +8,14 @@ owning documents for the selected task.
 
 ## Current objective and boundaries
 
+Latest active scope: finish gates 1–3 only; gates 4–5 (rendering and whole-entity
+inverse solving) are deferred. Begin at [recursion and owned inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
+and the latest block in [the handoff](SEED_RESEARCH_HANDOFF.md). These supersede
+the older next-target paragraphs below: complete descriptor recursion has 273
+matching cases, the loaded-node collectors are identified, and the named owned
+freighter palette field is connected. Natural whole-scene resource resolution and
+all acquisition/preset contexts remain open. Do not claim universal completion.
+
 Recover the procedural appearance algorithm, prioritizing ships, multitools and
 freighters; frigates and NPCs are deferred: resource/category, descriptor pieces, palette
 inputs, texture alternatives, decal selection and material masks. Ultimately

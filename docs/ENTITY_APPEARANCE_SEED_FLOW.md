@@ -521,6 +521,11 @@ occurred. Runtime support and complete seed inversion remain unverified.
 
 ## Exact continuation point
 
+The [owned-input continuation](SEED_RECURSION_AND_OWNED_INPUTS.md) now connects
+`CurrentFreighterHomeSystemSeed` directly through owned loader `542910` to the
+palette cache; the update-message association alone is no longer the best route.
+Use its ledger for remaining acquisition/preset inputs and material context gaps.
+
 Read [the texture continuation](APPEARANCE_TEXTURE_SEED_FLOW.md) before following
 the third item below. It resolves the worker root and rejects readiness/cache
 helpers as random selectors; the option-list writer remains the next target.

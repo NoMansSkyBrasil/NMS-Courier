@@ -1,0 +1,4 @@
+1b20130	TkSceneNodeData field reader candidate; child array order and named fields unverified
+1b10a20	TkSceneNodeData child array serializer candidate; ordered iteration unverified
+54e4a0	Instruction-checked freighter-region pair writes 200/208 candidate; source identity unverified
+561fa0	Instruction-checked pair writes 200/208 candidate; object layout unverified

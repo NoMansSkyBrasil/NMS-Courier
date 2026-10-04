@@ -1,5 +1,13 @@
 # Bulk game-data research
 
+Latest gates 1–3 continuation: [recursive selection and owned inputs](../../docs/SEED_RECURSION_AND_OWNED_INPUTS.md).
+`emulate-descriptor-recursion.py` compares the complete original recursive routine
+against the descriptor port using bounded private resource stubs and the committed
+nineteen-root manifest. `inspect-node-collector-slots.py` checks five previously
+source-identified node tables. These tools do not execute the game, extract assets
+or establish a natural whole-model oracle. Read the owning note's bounds and
+reproduction commands before running them; use a new external report path.
+
 Start with [the research navigation index](../../docs/RESEARCH_INDEX.md) and
 [repository function map](../../docs/RESEARCH_SOURCE_FUNCTIONS.md) when locating
 an existing mechanism. `build-research-index.py` creates a bounded-search metadata

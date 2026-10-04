@@ -35,6 +35,124 @@ def material_order(tree, initial=()):
     return result
 
 
+def create_fixture(unicorn, regs, code, constants, windows=WINDOWS, stubs=STUBS, observer=None):
+    machine = unicorn.Uc(unicorn.UC_ARCH_X86, unicorn.UC_MODE_64)
+    mapped = set()
+    def page(address, execute=False):
+        address &= ~4095
+        if address not in mapped:
+            machine.mem_map(address, 4096, unicorn.UC_PROT_ALL if execute else 3)
+            mapped.add(address)
+        elif execute:
+            machine.mem_protect(address, 4096, unicorn.UC_PROT_ALL)
+    for begin, data in code.items():
+        for at in range((BASE + begin) & ~4095, BASE + begin + len(data), 4096):
+            page(at, True)
+        machine.mem_write(BASE + begin, data)
+    for rva, data in constants.items():
+        page(BASE + rva); page(BASE + rva + len(data) - 1)
+        machine.mem_write(BASE + rva, data)
+    for rva in stubs:
+        page(BASE + rva, True); machine.mem_write(BASE + rva, b'\xc3')
+    page(STRNCPY_STUB, True); machine.mem_write(STRNCPY_STUB, b'\xc3')
+    stop = 0x10000000
+    page(stop, True)
+    machine.mem_map(0x20000000, 1048576)
+    machine.mem_map(0x30000000, 65536)
+    cursor = 0x20000000
+    def allocate(size):
+        nonlocal cursor
+        address = cursor
+        cursor += (size + 15) & ~15
+        if cursor > 0x20100000:
+            raise ValueError('Private heap budget exceeded')
+        return address
+    def write(address, fmt, *values):
+        machine.mem_write(address, struct.pack(fmt, *values))
+    def unpack(address, fmt):
+        return struct.unpack(fmt, machine.mem_read(address, struct.calcsize(fmt)))
+    def get(name): return machine.reg_read(getattr(regs, 'UC_X86_REG_' + name))
+    def put(name, value): machine.reg_write(getattr(regs, 'UC_X86_REG_' + name), value)
+    def cstring(address):
+        data = bytes(machine.mem_read(address, 256))
+        if b'\0' not in data:
+            raise ValueError('String byte budget exceeded')
+        return data.split(b'\0', 1)[0]
+    def identity(value):
+        if not value.isascii() or len(value) > 31 or '\0' in value:
+            raise ValueError('Invalid fixture identity')
+        return value.encode().ljust(32, b'\0')
+    def vector(values):
+        head, rows = allocate(16), allocate(max(1, len(values)) * 32)
+        for i, value in enumerate(values):
+            machine.mem_write(rows + i * 32, identity(value))
+        write(head, '<IIQ', len(values), len(values), rows)
+        return head
+    calls = [0]
+    def hook(uc, address, size, user):
+        rva = address - BASE
+        if observer and observer(machine, address, allocate, write, unpack, get, put, cstring):
+            return
+        if rva not in stubs and address != STRNCPY_STUB:
+            if not any(BASE + b <= address < BASE + e for b, e in windows):
+                raise ValueError('Unapproved execution target ' + hex(address))
+            return
+        calls[0] += 1
+        if calls[0] > 1024:
+            raise ValueError('Stub call budget exceeded')
+        sp = get('RSP')
+        if address == STRNCPY_STUB:
+            count = get('R8')
+            if not 0 <= count <= 31:
+                raise ValueError('Unexpected bounded strncpy count')
+            data = cstring(get('RDX'))[:count].ljust(count, b'\0')
+            machine.mem_write(get('RCX'), data); put('RAX', get('RCX'))
+        elif rva in (0x33e0fce, 0x33e0fc8, 0x33e1052):
+            left = cstring(get('RCX'))
+            if rva == 0x33e0fc8:
+                needle = bytes([get('RDX') & 255])
+            else:
+                needle = cstring(get('RDX'))
+            if rva == 0x33e1052:
+                value = (left > needle) - (left < needle)
+            else:
+                position = left.find(needle)
+                value = get('RCX') + position if position >= 0 else 0
+            put('RAX', value & ((1 << 64) - 1))
+        elif rva == 0x167aca0:
+            head = get('RCX')
+            capacity, count, rows = unpack(head, '<IIQ')
+            if capacity != 64 or count >= capacity:
+                raise ValueError('Material append fixture bound exceeded')
+            machine.mem_write(rows + count * 4, bytes(machine.mem_read(get('RDX'), 4)))
+            write(head + 4, '<I', count + 1)
+        elif rva == 0x2bf5930:
+            head, old = get('RCX'), get('R9')
+            count = unpack(head + 4, '<I')[0]
+            index, source, stride = (unpack(sp + offset, '<Q')[0] for offset in (0x28, 0x30, 0x50))
+            if count >= 256 or stride not in (8, 32) or index != count:
+                raise ValueError('Unexpected prefix vector append ABI')
+            new = allocate((count + 1) * stride)
+            if count:
+                machine.mem_write(new, bytes(machine.mem_read(old, count * stride)))
+            machine.mem_write(new + count * stride, bytes(machine.mem_read(source, stride)))
+            write(head, '<II', count + 1, count + 1); put('RAX', new)
+        # Free is a no-op in the bounded private heap.
+        put('RIP', unpack(sp, '<Q')[0]); put('RSP', sp + 8)
+    machine.hook_add(unicorn.UC_HOOK_CODE, hook)
+    def execute(rva, arguments):
+        sp = 0x3000f008
+        write(sp, '<Q', stop)
+        for name, value in zip(('RCX', 'RDX', 'R8', 'R9'), arguments): put(name, value)
+        for i, value in enumerate(arguments[4:]): write(sp + 0x28 + i * 8, '<Q', value)
+        put('RSP', sp)
+        machine.emu_start(BASE + rva, stop, timeout=1000000, count=50000)
+        if get('RIP') != stop:
+            raise ValueError('Private execution instruction/time budget exceeded')
+        return get('RAX')
+    return machine, allocate, write, unpack, vector, identity, execute
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--executable', type=Path, required=True)
@@ -86,119 +204,7 @@ def main():
     constants[0x34118c0] = struct.pack('<Q', STRNCPY_STUB)
 
     def fixture():
-        machine = unicorn.Uc(unicorn.UC_ARCH_X86, unicorn.UC_MODE_64)
-        mapped = set()
-        def page(address, execute=False):
-            address &= ~4095
-            if address not in mapped:
-                machine.mem_map(address, 4096, unicorn.UC_PROT_ALL if execute else 3)
-                mapped.add(address)
-            elif execute:
-                machine.mem_protect(address, 4096, unicorn.UC_PROT_ALL)
-        for begin, data in code.items():
-            for at in range((BASE + begin) & ~4095, BASE + begin + len(data), 4096):
-                page(at, True)
-            machine.mem_write(BASE + begin, data)
-        for rva, data in constants.items():
-            page(BASE + rva); page(BASE + rva + len(data) - 1)
-            machine.mem_write(BASE + rva, data)
-        for rva in STUBS:
-            page(BASE + rva, True); machine.mem_write(BASE + rva, b'\xc3')
-        page(STRNCPY_STUB, True); machine.mem_write(STRNCPY_STUB, b'\xc3')
-        stop = 0x10000000
-        page(stop, True)
-        machine.mem_map(0x20000000, 1048576)
-        machine.mem_map(0x30000000, 65536)
-        cursor = 0x20000000
-        def allocate(size):
-            nonlocal cursor
-            address = cursor
-            cursor += (size + 15) & ~15
-            if cursor > 0x20100000:
-                raise ValueError('Private heap budget exceeded')
-            return address
-        def write(address, fmt, *values):
-            machine.mem_write(address, struct.pack(fmt, *values))
-        def unpack(address, fmt):
-            return struct.unpack(fmt, machine.mem_read(address, struct.calcsize(fmt)))
-        def get(name): return machine.reg_read(getattr(regs, 'UC_X86_REG_' + name))
-        def put(name, value): machine.reg_write(getattr(regs, 'UC_X86_REG_' + name), value)
-        def cstring(address):
-            data = bytes(machine.mem_read(address, 256))
-            if b'\0' not in data:
-                raise ValueError('String byte budget exceeded')
-            return data.split(b'\0', 1)[0]
-        def identity(value):
-            if not value.isascii() or len(value) > 31 or '\0' in value:
-                raise ValueError('Invalid fixture identity')
-            return value.encode().ljust(32, b'\0')
-        def vector(values):
-            head, rows = allocate(16), allocate(max(1, len(values)) * 32)
-            for i, value in enumerate(values):
-                machine.mem_write(rows + i * 32, identity(value))
-            write(head, '<IIQ', len(values), len(values), rows)
-            return head
-        calls = [0]
-        def hook(uc, address, size, user):
-            rva = address - BASE
-            if rva not in STUBS and address != STRNCPY_STUB:
-                if not any(BASE + b <= address < BASE + e for b, e in WINDOWS):
-                    raise ValueError('Unapproved execution target ' + hex(address))
-                return
-            calls[0] += 1
-            if calls[0] > 1024:
-                raise ValueError('Stub call budget exceeded')
-            sp = get('RSP')
-            if address == STRNCPY_STUB:
-                count = get('R8')
-                if count != 16:
-                    raise ValueError('Unexpected membership strncpy count')
-                data = cstring(get('RDX'))[:count].ljust(count, b'\0')
-                machine.mem_write(get('RCX'), data); put('RAX', get('RCX'))
-            elif rva in (0x33e0fce, 0x33e0fc8, 0x33e1052):
-                left = cstring(get('RCX'))
-                if rva == 0x33e0fc8:
-                    needle = bytes([get('RDX') & 255])
-                else:
-                    needle = cstring(get('RDX'))
-                if rva == 0x33e1052:
-                    value = (left > needle) - (left < needle)
-                else:
-                    position = left.find(needle)
-                    value = get('RCX') + position if position >= 0 else 0
-                put('RAX', value & ((1 << 64) - 1))
-            elif rva == 0x167aca0:
-                head = get('RCX')
-                capacity, count, rows = unpack(head, '<IIQ')
-                if capacity != 64 or count >= capacity:
-                    raise ValueError('Material append fixture bound exceeded')
-                machine.mem_write(rows + count * 4, bytes(machine.mem_read(get('RDX'), 4)))
-                write(head + 4, '<I', count + 1)
-            elif rva == 0x2bf5930:
-                head, old = get('RCX'), get('R9')
-                count = unpack(head + 4, '<I')[0]
-                index, source, stride = (unpack(sp + offset, '<Q')[0] for offset in (0x28, 0x30, 0x50))
-                if count >= 16 or stride != 8 or index != count:
-                    raise ValueError('Unexpected prefix vector append ABI')
-                new = allocate((count + 1) * stride)
-                if count:
-                    machine.mem_write(new, bytes(machine.mem_read(old, count * stride)))
-                machine.mem_write(new + count * stride, bytes(machine.mem_read(source, stride)))
-                write(head, '<II', count + 1, count + 1); put('RAX', new)
-            # Free is a no-op in the bounded private heap.
-            put('RIP', unpack(sp, '<Q')[0]); put('RSP', sp + 8)
-        machine.hook_add(unicorn.UC_HOOK_CODE, hook)
-        def execute(rva, arguments):
-            sp = 0x3000f008
-            write(sp, '<Q', stop)
-            for name, value in zip(('RCX', 'RDX', 'R8', 'R9'), arguments): put(name, value)
-            for i, value in enumerate(arguments[4:]): write(sp + 0x28 + i * 8, '<Q', value)
-            put('RSP', sp)
-            machine.emu_start(BASE + rva, stop, timeout=1000000, count=50000)
-            if get('RIP') != stop:
-                raise ValueError('Private execution instruction/time budget exceeded')
-            return get('RAX')
-        return machine, allocate, write, unpack, vector, identity, execute
+        return create_fixture(unicorn, regs, code, constants)
 
     records = []
     for name in ('WING', '_PART', '_wing_left', '_wing_left_extra',

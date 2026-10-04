@@ -12,6 +12,11 @@ closes unlinked IgnoreName merging in 65 isolated cases.
 wrapper/collector/selector in 390 isolated cases with explicit resource order.
 Natural ordering, filters and full inverse remain open.
 
+[Complete recursion and owned inputs](SEED_RECURSION_AND_OWNED_INPUTS.md) adds
+273 matching recursive cases across nineteen corpus roots and closes the named
+owned-freighter palette association. Natural whole-scene material resolution and
+all offer/preset contexts remain open; gates 4–5 are deferred by the user.
+
 The [appearance-context pass](APPEARANCE_CONTEXT_RESEARCH.md) now verifies stored
 node material order and explicit descriptor filters/prefixes in 375 isolated
 cases. Natural loader ordering, inferred filters and category variants remain
@@ -21,7 +26,7 @@ open; it also adds the freighter update-message source-pair copy link.
 | --- | --- | --- | --- | --- |
 | Ships | Default descriptor forward candidate; owned writer 55cb20 connects Resource.Seed and working seed; explicit parts separate | Default task chain now connected; edited palette bypass identified | Eight selected decal resources, native-emulated restricted selector | Complete material resource order, conditional descriptors, category variants/masks |
 | Multitools | Owned record writer 553600 and custom task identified; accessory/offer paths distinct | Default owned chain connected; planet/offer input separate | Four selected weapon textures compared through restricted selector | Full category/offer sources, explicit staff/accessory paths, native geometry |
-| Freighters | Model seed and Pirate/custom slots identified statically; delivery remains historical C offer | Separate seed/indices/custom overlays; no universal model-only color claim | Procedural freighter base matching and selected decals compared | Source HomeSystemSeed association, merged resources, S delivery independent |
+| Freighters | Model seed and Pirate/custom slots identified statically; delivery remains historical C offer | Owned CurrentFreighterHomeSystemSeed directly reaches palette cache through 542910; separate model input and custom overlays | Procedural freighter base matching and selected decals compared | Other offer/preset inputs, natural merged resources, S delivery independent |
 | Frigates | Reward model-seed derivation and ordinary/living resource links | Declared family bindings; full natural caller chain incomplete | Three ordinary/living frigate textures compared | Natural seed inputs, complete materials/geometry and masks |
 | NPCs | Generic loader/registry rejected as natural spawn proof | Custom_Head/etc bindings identified; actual natural seed/bank still open | Explorer/Warrior texture groups compared with supplied fixtures | Natural category/seed writer, other races/subcategories, edited/default palettes |
 | Fauna | Planet child streams, resource seed overrides and scale/fur leads | Selected planet palette/scale consumers mapped | No equivalent complete multi-resource texture port claimed | Full species/part constraints, natural caller correlation, masks/rendering |

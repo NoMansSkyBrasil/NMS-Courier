@@ -74,6 +74,35 @@ class DescriptorSeedTests(unittest.TestCase):
         self.assertEqual(report['root_final_state'], list(state))
         self.assertEqual(report['selected_ids'], ['ROOT', 'NEXT'])
 
+    def test_reference_lookup_is_repeated_and_second_result_controls_recursion(self):
+        tree = {'groups': [group('ROOT', references=['models/transient.scene.mbin'])]}
+        child = {'groups': [group('CHILD')]}
+        for responses, expected in (([None, child], ['ROOT', 'CHILD']),
+                                    ([child, None], ['ROOT'])):
+            lookups = []
+            def resolve(path):
+                lookups.append(path)
+                return responses[len(lookups) - 1]
+            result = module['evaluate'](7, tree, resolve)
+            self.assertEqual(result['selected_ids'], expected)
+            self.assertEqual(lookups, ['models/transient.scene.mbin'] * 2)
+
+    def test_null_nested_model_does_not_advance_parent_seed(self):
+        tree = {'groups': [group('ROOT', children=[None])]}
+        result = module['evaluate'](7, tree, lambda _: None)
+        state, _ = module['core']['advance'](module['core']['seed_state'](7))
+        self.assertEqual(result['root_final_state'], list(state))
+        self.assertEqual(result['visits'], [{'seed': '0x7', 'enabled': True}])
+
+    def test_option_classification_persists_but_nested_classification_is_ignored(self):
+        rare = {'groups': [group('RARE', name='xRARE')]}
+        root = {'groups': [group('ROOT', children=[rare]), group('NORMAL')]}
+        self.assertEqual(module['evaluate'](7, root, lambda _: None)['classification'], 1)
+        root = {'groups': [group('RARE', name='xRARE'), group('NORMAL')]}
+        self.assertEqual(module['evaluate'](7, root, lambda _: None)['classification'], 2)
+        root['groups'].append(group('WEIRD', name='xWEIRD'))
+        self.assertEqual(module['evaluate'](7, root, lambda _: None)['classification'], 3)
+
     def test_never_child_is_skipped_but_empty_child_consumes_a_seed(self):
         never = {'groups': [group('NEVER', name='xNEVER')]}
         empty = {'groups': []}

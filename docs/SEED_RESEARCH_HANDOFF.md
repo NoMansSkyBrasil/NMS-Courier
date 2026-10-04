@@ -1,5 +1,41 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Latest checkpoint: gates 1–3, 2026-10-04
+
+Read [complete recursion and owned appearance inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
+first. The user's active scope is to finish gates 1–3; rendering/shaders and the
+whole-entity inverse solver (gates 4–5) are explicitly deferred. Do not treat this
+scope instruction as evidence that all three gates have already passed.
+
+Implemented and verified offline: complete native recursive selection replay,
+double reference lookup timing, null-nested behavior and descriptor classification;
+273 matching cases, including nineteen actual corpus roots. Existing 420 private
+context/material fixtures and fifteen evaluator tests pass. Packed child order,
+five node collector tables and owned-freighter named model/palette inputs are
+associated with concrete consumers. Resource cache lookup/insertion/context
+fallback is now exported; deduplicate resolved handles, not filenames.
+
+Resume from concrete remaining boundaries, without repeating extraction:
+
+1. Join `18ddc70` packed-scene expansion/factory dispatch to mesh material
+   acquisition and `2d627a0` request validators (`50/58`), then resolve reference
+   expansion and context variants before collecting the natural material vector.
+   Current fixture collections take already constructed nodes; they do not prove
+   a whole packed-scene oracle. `194f0e0` clones constructed nodes, not scene XML.
+2. Retain the verified recursive routine as the comparison oracle. Actual engine
+   resource/filter resolution and all natural/custom caller contexts remain
+   separate from the bounded explicit-context resource stub. Do not rewrite the
+   chooser or PRNG based on screenshots or C/B/A/S rank.
+3. Use the closed default owned ship/tool routes and owned freighter `542910`:
+   player field `83c20/83c28` maps directly to palette cache `2b0/2b8`; the
+   resource at `83898` supplies the model seed separately. Acquisition/preset/NPC
+   paths and complete task overrides still need source-specific association.
+
+Portable code, bounds, TSV stages, failure history and exact external report names
+are in the owning note. Latest external native stages are imported by the research
+navigation generator. No new live compatibility, delivery, rendering, inverse
+search, disk operations or save changes are implied.
+
 Research checkpoint: 2026-10-03; handoff finalized: 2026-10-04.
 The 2026-10-03 pause was lifted by the user on 2026-10-04. Offline algorithm
 research resumed; see [the planet/fauna seed-flow continuation](PLANET_FAUNA_SEED_FLOW.md)

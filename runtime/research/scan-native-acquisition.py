@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--executable', type=Path, required=True)
     parser.add_argument('--sha256', required=True)
-    parser.add_argument('--database', type=Path, required=True)
+    parser.add_argument('--database', type=Path)
     parser.add_argument('--python-tools', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--include-callees', action='store_true')
@@ -31,6 +31,8 @@ def main():
     parser.add_argument('--function-term', action='append', default=[],
                         help='Select public signature labels by bounded substring; maximum 16')
     args = parser.parse_args()
+    if not args.metadata_only and args.database is None:
+        parser.error('Public signature scans require --database')
     if len(args.metadata_name) > 16 or any(not re.fullmatch(r'GcReward[A-Za-z0-9]+', name) for name in args.metadata_name):
         parser.error('Metadata names must be exact GcReward identifiers; maximum 16')
     if len(args.type_name) > 16 or any(not re.fullmatch(r'(?:Tk|Gc)[A-Za-z0-9]+', name) for name in args.type_name):
@@ -63,7 +65,7 @@ def main():
         index = bisect.bisect_right(starts, rva) - 1
         return ranges[index] if index >= 0 and rva < ranges[index][1] else None
 
-    database = json.loads(args.database.read_text(encoding='utf-8'))
+    database = json.loads(args.database.read_text(encoding='utf-8')) if args.database else {'functions': []}
     terms = args.function_term or ('PurchaseableItem', 'FreighterOwnership', 'GiveGenericReward', 'InteractionComponent::GiveReward', 'InventoryStore::Add')
     selected = [f for f in database['functions'] if any(term in f['name'] for term in terms)]
     if args.metadata_only:
@@ -94,7 +96,7 @@ def main():
             seeds[begin] = function['name']
         results.append(record)
     output.mkdir(parents=True, exist_ok=True)
-    report = {'mode': 'offline_only', 'exe_sha256': digest, 'database_sha256': hashlib.sha256(args.database.read_bytes()).hexdigest(), 'candidates': results, 'caveat': 'Public signatures are candidate labels only; no ABI or runtime compatibility is established.'}
+    report = {'mode': 'offline_only', 'exe_sha256': digest, 'database_sha256': hashlib.sha256(args.database.read_bytes()).hexdigest() if args.database else None, 'candidates': results, 'caveat': 'Public signatures are candidate labels only; no ABI or runtime compatibility is established.'}
     if args.payload_metadata or args.metadata_name or args.type_name or args.literal_name:
         targets = {}
         names = tuple(dict.fromkeys(args.literal_name or args.type_name or args.metadata_name or ('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate')))

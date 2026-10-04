@@ -1,5 +1,58 @@
 # Runtime experiment log
 
+## 2026-10-04: complete recursive selection and owned freighter inputs
+
+Offline build 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning specification: [recursion and owned appearance inputs](SEED_RECURSION_AND_OWNED_INPUTS.md).
+Sources/configuration: `emulate-descriptor-recursion.py`, the nineteen-root
+`appearance-recursion-models-180383.json`, updated descriptor evaluator/shared
+private fixture, `inspect-node-collector-slots.py`, bounded field/native metadata
+scanners, and the nine portable TSV selections/stages listed in that note.
+
+Conditions: user unavailable for live tests; only existing exact-build executable,
+read-only corpus database and selected existing Ghidra project exports inspected.
+Python 3.14, Unicorn 2.1.4, Capstone 5.0.5, Ghidra 12.1.4/JDK 25.0.4.1+1;
+no autoanalysis, two CPUs, 4 GiB Java heap, 20 GiB reserve, 300-second stage timeout.
+No game process/save opened, no delivery trigger and no runtime installation changed.
+
+Observed: 273 complete original-recursion comparisons (216 controlled plus 57
+over nineteen corpus roots) match selected IDs, recursive seed/flag visits,
+double reference lookup schedule and classification; zero mismatches/failures.
+Classification is not C/B/A/S rank. Shared fixture regression: 420 matches;
+fifteen evaluator tests pass. Five constructor-associated node tables resolve
+to the audited aggregate/mesh collectors. `TkSceneNodeData.Children` is the
+ordered packed array at `10/18`, stride `80`. Owned loader `542910` copies the
+named `CurrentFreighterHomeSystemSeed` pair `83c20/83c28` directly to cache
+`2b0/2b8`; `CurrentFreighter.Resource` at `83898` supplies the separate model seed.
+Resource acquisition/cache exports show filename normalization, type/hash buckets,
+virtual request validators, selector variants and selector-zero fallback. The
+three-function follow-up associates the filename hash and request-context
+comparison of two enabled/value pairs plus ordered 32-byte selected records.
+
+Not proven: natural full scene/factory/reference resource identity, every
+offer/NPC/preset/custom context, final rendered appearance or any new runtime
+compatibility. All three gates are not claimed universally complete. Gates 4–5
+were not implemented. Proprietary pseudocode/reports remain external.
+
+Failures/rejected leads: first corpus replay hit lookup bound; increasing only
+fixture call count to 1,024 succeeded. Multi-root shared cache hit 128-resource
+bound; resetting per root preserved that bound and succeeded. Broad freighter
+literal scan exceeded 256-output bound; narrowed named-field search succeeded.
+RBP field matches included stack vectors, not freighter seeds. Combined fragment
+requests hit non-instruction/16-KiB bounds; no broad limits were raised.
+Sync-component metadata and constructed-node clone root were rejected as palette
+and packed-scene generators. Missing guessed output paths were resolved through
+manifests. A combined hash/context unwind request failed on leaf `2d626c0`;
+hash-only inspection succeeded with a 41-instruction first fragment, explicitly
+not the whole hash function. These are research input/coverage failures, not
+storage failures. Navigation rebuilt with 312 deduplicated native candidates,
+zero import warnings and five passing index regression tests.
+
+Rollback: no game/bridge/mod/save mutations, extraction, disk repair, D: access
+or BitLocker operations; original executable and corpus preserved. Only portable
+research code/docs and new external analysis artifacts changed.
+
 ## 2026-10-04: material order, descriptor contexts and priority input channels
 
 Offline build 180383, SHA-256

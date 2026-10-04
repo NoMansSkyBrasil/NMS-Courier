@@ -262,6 +262,12 @@ and the one-mismatch `appearance-context-loader-final-20261004.json` (retained).
 These are transient evidence, not Git assets.
 The owning [experiment log](EXPERIMENT_LOG.md) records failures and rejected leads.
 
+Continuation: [recursive selection and owned inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
+adds 273 matching complete-recursion cases across nineteen model roots, the named
+owned-freighter palette field and material cache/context identity. It supersedes
+the pending owned-field association below; it does not close the unrestricted
+natural resource loader or all caller contexts.
+
 Next work should connect the recovered loaded-tree order to actual scene child
 construction/material associations, replay the complete recursive descriptor
 path with controlled resource resolution, and identify the owned freighter

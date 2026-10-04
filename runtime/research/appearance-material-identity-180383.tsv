@@ -1,0 +1,2 @@
+2d60100	Generic resource acquisition called by scene references; cache identity and material aliasing unverified
+2d65280	Material wrapper handle-resolution thunk used by 184d8d0; identity mapping unverified

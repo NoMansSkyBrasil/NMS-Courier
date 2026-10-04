@@ -149,20 +149,26 @@ def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix
 
 
 def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), prefix=''):
-    selected, trace = [], []
+    selected, trace, visits = [], [], []
     calls = [0]
 
     def visit(model, local_seed, local_enabled, depth, local_prefix, local_exclusion):
         calls[0] += 1
         if depth > 64 or calls[0] > 4096:
             raise ValueError('Descriptor traversal depth/call budget exceeded')
+        visits.append({'seed': hex(local_seed), 'enabled': local_enabled})
         state = core['seed_state'](local_seed, local_enabled)
+        classification = 1
         for group in model['groups']:
             options = group['options']
             state, index = choose_group(state, options, selected, inclusion, local_exclusion, local_prefix)
             if index is None:
                 continue
             option = options[index]
+            if 'xRARE' in option['name']:
+                classification = 2
+            elif 'xNEVER' not in option['name'] and 'xWEIRD' in option['name']:
+                classification = 3
             identity = normalized_id(option['id'])
             if identity not in selected:
                 selected.append(identity)
@@ -172,7 +178,7 @@ def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), pref
                           'type_id': group['type_id'], 'selected_id': identity, 'source_id': option['id'],
                           'post_choice_state': list(state)})
             for child in option['child_model_lists']:
-                if all_never(child):
+                if child is None or all_never(child):
                     continue
                 if group['type_id'] == '_PLAYER_':
                     visit(child, local_seed, local_enabled, depth + 1, local_prefix, local_exclusion)
@@ -184,14 +190,18 @@ def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), pref
                 if referenced is not None and all_never(referenced):
                     continue
                 state, child_seed = core['child_seed'](state)
+                # The native branch resolves the path twice. A loader failure
+                # may change between lookups; never reuse the predicate result.
+                referenced = resolve(reference)
                 if referenced is not None:
                     # The audited reference branch resets prefix/exclusion;
                     # an empty prefix does not select a resource filter record.
                     visit(referenced, child_seed, True, depth + 1, '', ())
-        return state
+        return state, classification
 
-    state = visit(tree, seed, enabled, 0, prefix, exclusion)
-    return {'selected_ids': selected, 'trace': trace, 'root_final_state': list(state), 'calls': calls[0]}
+    state, classification = visit(tree, seed, enabled, 0, prefix, exclusion)
+    return {'selected_ids': selected, 'trace': trace, 'root_final_state': list(state),
+            'calls': calls[0], 'visits': visits, 'classification': classification}
 
 
 def main():

@@ -1,5 +1,11 @@
 # Research navigation index
 
+Current checkpoint: [complete recursion and owned appearance inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
+records 273 matching recursive comparisons, nineteen corpus roots, the named
+owned-freighter model/palette split, packed child order, five node collector tables,
+and resource-cache context variants. Its acceptance ledger states exactly which
+parts of gates 1–3 remain open. Rendering and inverse search are deferred.
+
 Latest continuation: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md) records
 375 zero-divergence original-instruction comparisons, concrete material-vector
 methods, explicit descriptor context and a freighter upstream source writer.
