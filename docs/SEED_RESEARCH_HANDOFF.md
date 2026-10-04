@@ -342,3 +342,44 @@ records, identify the natural NPC/preset generation entry, and resolve working
 palette fallback initialization plus texture options. Do not relabel the partial
 evaluators as complete or implement inversion from screenshots alone. No live
 comparison, seed-to-location mapping or whole-category preview was produced.
+
+## Continuation: offline emulation and isolated inverse, 2026-10-04
+
+Read [seed inversion and emulation](SEED_INVERSION_AND_EMULATION.md) before
+repeating arithmetic work. User is remote and unavailable for game tests; this
+pass used no live process or delivery. Exact build/fingerprint remains unchanged.
+
+New method: Unicorn 2.1.4 in a private tools directory emulates three fixed x64
+windows with synthetic caller state. 520 inputs yielded 3,120 forward comparisons
+and 1,489 inverse-candidate emulations, all matching. Window byte hashes, bounds,
+versions and reproduction commands are in the owning note. This is instruction
+arithmetic evidence, not whole-model or runtime verification.
+
+New inverse: undo the child mix's two odd uint64 multipliers and three self-inverse
+33-bit XOR shifts, recover both draw words and the first updated carry, then
+enumerate all legal initial low/carry pairs. Zero-low normalization creates
+additional seed alternatives. Preserve initial carries above the steady-state
+MWC bound. The result has zero to four original-seed candidates, specifically
+for one child branch immediately after initialization; preceding draw schedules
+must not be guessed. Five edge/reachability tests passed.
+
+Public source: pinned hadsh/nms_namegen commit
+`52ad48affaa4089c8f487a470a888dc9b7a650aa`; the reviewed PRNG and `_bodySeed`
+matched 1,027 comparisons. Its constructor consumes packed RNG state, not a
+resource seed. Its separate universal-address hash is a future lead, not an
+appearance algorithm validated by this pass. Reproducible probes are repository
+files; public source copies and byte reports stay external.
+
+Freighter continuation: `549af0` copies source palette pair `200`/`208` to cached
+`2b0`/`2b8`, and source resource block `170` to `2d8`. Inspected copy helper
+`211870` carries the resource seed `1a0`/`1a8` to `308`/`310`. Change detection
+then triggers root `542440` -> `549380`. See the entity note for selections,
+chained roots, equality checks and unknowns. Four bounded export stages produced
+seven successful rows and zero failures. The writer of source `200`/`208` remains
+unresolved; no HomeSystemSeed-to-runtime source chain is claimed.
+
+Next: trace that source writer, obtain actual descriptor choice constraints and
+draw order, and bind material/texture color inputs. The inverse cannot yet
+generate any chosen whole entity, and public planet/system routines do not
+replace natural NPC or acquisition seed research. No archive re-extraction,
+storage repair, D: access, BitLocker operations or runtime installation changes.

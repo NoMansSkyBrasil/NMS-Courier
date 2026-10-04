@@ -215,6 +215,58 @@ Resource at `450` and HomeSystemSeed at `4c8`/`4d0`. These are serialized-data
 offsets, **not the runtime object's offsets above**. No complete copy chain from
 HomeSystemSeed to runtime `2b0` has been proven.
 
+### Upstream refresh and resource copy continuation
+
+The 2026-10-04 follow-up located the direct call to `549380` at `5425e1`.
+Its unwind fragment begins `542480`, but the chained root is **`542440`**.
+The fragment-only export initially left register origins unresolved; exporting
+the root recovers the object parameter. This refresh rejects an empty filename
+and prepares its auxiliary string before calling the appearance root.
+
+Three direct callers of `542440` were located: `546290`, fragment `549ef9`
+(chained root `549af0`), and `13b7340`. The latter contains a staged initialization
+switch, not a complete identified natural seed generator. `546290` manages
+activation/transforms and does not close the palette seed's source chain.
+
+The state update at `549af0` compares source and cached appearance inputs. When
+they differ, it sets a refresh flag and performs these copies in the same object:
+
+| Source | Cached field used downstream | Evidence |
+| --- | --- | --- |
+| `200` / enabled flag `208` | `2b0` / `2b8` | Direct pair copy before appearance refresh. |
+| Resource-like block at `170` | Resource-like block at `2d8` | Copy helper `211870`; source seed pair at `1a0`/`1a8` maps to `308`/`310`. |
+| Second resource-like block at `1b8` | Block at `320` | Same helper; its role is not identified as the freighter model. |
+| Index block `240..268` | Index block `480..4a8` | Six 8-byte copies, matching the existing explicit-color index path. |
+
+The inspected helper `211870` copies string-like members at relative `0` and
+`10`, processes the member at `20` through another helper, and copies **all four
+32-bit words at `30..3c`**, including the resource seed value and enabled flag.
+The equality helper `1c79230` compares strings, the member at `20`, the uint64
+seed at `30`, enabled byte `38`, and member `40`. These give field propagation
+evidence, not verified native type names or callable ABIs.
+
+`549af0` checks source/cached palette seed and resource equality, then index
+differences, before setting the refresh flag. It eventually calls `542440`
+when its refresh flag is set. This is concrete cache/change-detection evidence;
+it must not be generalized into a cause of the earlier class-C offers. Class
+generation and save field ownership remain separate investigations.
+
+The previously missing link is now narrowed to **the writer of source fields
+`200`/`208`**. No current evidence names those fields HomeSystemSeed or proves
+their copy from serialized `GcFreighterSaveData`. Do not substitute a similarly
+named field from an old build.
+
+Selections:
+[caller fragment](../runtime/research/priority-freighter-source-180383.tsv),
+[caller root](../runtime/research/priority-freighter-source-root-180383.tsv),
+[upstream callers](../runtime/research/priority-freighter-upstream-180383.tsv),
+[copy/equality helpers](../runtime/research/priority-freighter-resource-copy-180383.tsv).
+External stage names are `freightersource20261004`, `freightersourceroot20261004`,
+`freighterupstream20261004`, and `freighterresourcecopy20261004`, all under
+`acquisition-180383`. Seven selections exported successfully, with no export
+failures. Raw instructions and pseudocode remain external. Direct-call scanning
+does not enumerate indirect callers or every split-function edge.
+
 ## Frigates
 
 ### Named channels and reward propagation

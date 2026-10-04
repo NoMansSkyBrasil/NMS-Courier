@@ -17,6 +17,10 @@ For the current priority categories, read
 [entity appearance seed flow](ENTITY_APPEARANCE_SEED_FLOW.md): owned ship/tool
 seed writers, separate freighter model/palette channels, frigate fallback
 arithmetic, explicit customisation and rejected NPC registry/table-loader leads.
+For the isolated child inverse and independent instruction-level checks, read
+[seed inversion and emulation](SEED_INVERSION_AND_EMULATION.md). It records
+bounded Unicorn windows, public source fingerprints, inverse ambiguity and
+the distinction between arithmetic inversion and a whole appearance inverse.
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector
@@ -56,7 +60,7 @@ it does not attach to or modify the game.
 
 For current-build executable findings, start with
 [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md). The external
-navigation index now includes 227 successful, unverified native pseudocode
+navigation index now includes 234 successful, unverified native pseudocode
 candidates, including a reward-entry dispatcher and purchase-state handler.
 
 For delivery mechanisms that do not require an offer screen, read the
@@ -67,10 +71,10 @@ choices; schema names remain clues rather than verified freighter APIs.
 [The repository function map](RESEARCH_SOURCE_FUNCTIONS.md) lists Courier's Python
 definitions and C signature candidates with file and line links. It includes tests
 and fixtures; it does not label them as native game functions. The current scan
-contains 94 source files and 280 function entries across `runtime/research` and
+contains 98 source files and 291 function entries across `runtime/research` and
 `runtime/native/asi`. C#, PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner. There are
-229 native function entries overall; the failed 61f4e0 and 120a790 exports remain explicitly
+236 native function entries overall; the failed 61f4e0 and 120a790 exports remain explicitly
 indexed. One additional native analysis-run record preserves the resource-lookup
 export timeout without calling it a decompiled function. Source-only refreshes
 preserve imported data/native metadata instead of repeating full corpus imports.

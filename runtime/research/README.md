@@ -459,6 +459,14 @@ disagreeing and corroborated static candidates with all runtime calls disabled.
 
 ## Public seed-reference candidate batch
 
+For fixed x64 arithmetic emulation, exact isolated child inversion and a
+hash-pinned public implementation comparison, use
+[seed inversion and emulation](../../docs/SEED_INVERSION_AND_EMULATION.md).
+Its commands require no live game and map emulator-private memory only.
+Unicorn is a private developer research dependency, not an end-user prerequisite.
+The inverse has zero-to-four possible inputs for one immediate child branch;
+it is not an inverse of chosen whole-model parts/colors.
+
 See [preview research](../../docs/MODEL_PREVIEW_RESEARCH.md) for image review,
 category mapping, conflicting input exclusions and NMSMV source findings.
 The committed `reddit-seed-observations.tsv` contains public metadata and written

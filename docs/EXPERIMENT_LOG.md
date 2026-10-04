@@ -1704,3 +1704,72 @@ Final checks: all thirteen staged Git blob hashes match their export selections;
 404 relative Markdown links resolve; changed Python files parse; three invalid
 literal-query cases reject before opening the executable. Read-only navigation
 status totals match above, and the staged diff has no whitespace errors.
+
+## 2026-10-04 — Independent seed emulation, child inversion and freighter refresh
+
+Conditions: user remote, no gameplay tests available. Offline build 180383,
+SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+No process attachment, native game execution, live trigger or save access.
+Owning evidence: [seed inversion/emulation](SEED_INVERSION_AND_EMULATION.md)
+and [freighter propagation](ENTITY_APPEARANCE_SEED_FLOW.md#upstream-refresh-and-resource-copy-continuation).
+
+Sources/configuration: new repository probes `emulate-seed-windows.py`,
+`invert-child-seed.py`, `compare-public-child-mixer.py`; existing private
+Python 3.14, Capstone 5.0.5, private Unicorn 2.1.4 binary wheel installed with
+`--only-binary=:all: --no-deps --target`. No global dependency changes. Three
+fixed x64 windows use one code page, two data pages, a 64-instruction cap and
+10,000-microsecond per-window timeout. All input/register state is synthetic.
+Pinned public hadsh/nms_namegen commit
+`52ad48affaa4089c8f487a470a888dc9b7a650aa`; three selected source files were
+downloaded externally and fingerprinted. Only the reviewed PRNG class and
+`_bodySeed` AST definitions execute; no downloaded module entrypoint runs.
+
+Observed: 520 inputs, 3,120 native-window/formula comparisons, zero mismatches.
+All 1,489 inverse candidates reproduced their target child through emulator
+instructions. Exact inverse recovered zero-to-four initialized-seed preimages
+for the isolated immediate child branch, retaining initial carry and zero-low
+ambiguity. Five inverse edge tests passed. Public mixer/state comparison passed
+1,027 cases. These are arithmetic checks, not complete visual or runtime tests.
+External reports: `seed-analysis-180383/seed-window-emulation-20261004.json`
+and `namegen-reference-52ad48a/reproducible-comparison.json`.
+
+Freighter exports: four sequential stages `freightersource20261004`,
+`freightersourceroot20261004`, `freighterupstream20261004`,
+`freighterresourcecopy20261004`, using matching repository priority TSVs and the
+existing Acquisition180383 Ghidra 12.1.4/JDK 25.0.4.1+1 project. No reanalysis,
+two CPUs, 4-GiB heap, 20-GiB space reserve, 30-second candidate limits. Seven
+manifest rows succeeded, no export failures. Caller fragment `542480` chains to
+root `542440`; root `549af0` forwards palette source `200`/`208` to cached
+`2b0`/`2b8` and resource seed `1a0`/`1a8` to `308`/`310`, via inspected helper
+`211870`. Equality and refresh conditions are recorded in the entity note.
+
+Failures/rejected assumptions: one guessed arithmetic filename did not exist;
+file inventory identified `procedural-seed-primitives.py`. One Windows literal
+wildcard search returned OS error 123; directory searches with `-g` resolved it.
+A raw-string apostrophe escape incorrectly inserted a backslash into the game
+path, producing FileNotFoundError; a double-quoted literal resolved it before
+reading bytes. Initial caller-fragment export had unresolved incoming registers;
+chained-unwind root export resolved the object parameter. None is a disk error.
+Public map/namegen documentation is not a whole entity seed oracle. The public
+PRNG constructor is not interchangeable with resource-seed initialization.
+Inverse does not assume unique seeds, steady-state initial carry, or reachability
+of every arbitrary target child. Changing cache fields is not established as
+the cause of previous class-C offers.
+
+Not proven: desired parts/colors-to-seed inverse, preceding descriptor draw
+schedules, texture/material composition, natural NPC appearance, current-build
+world/address hash, natural entity location, HomeSystemSeed source writer,
+complete previews, new runtime compatibility or delivery capability.
+
+Rollback/state: no executable, bridge, mod, save or extracted corpus modifications.
+No D: access, disk commands/repairs, BitLocker operations or archive extraction.
+Only private research tools, bounded external reports/project exports and
+original repository probes/English documentation/navigation metadata changed.
+Final checks: all four selection hashes match their completed stage reports;
+seven manifest rows succeeded. Twelve existing native-tooling tests and five
+inverse tests passed; changed Python files parse and 415 relative Markdown links
+resolve. Refreshed navigation contains 98 source files, 291 source functions,
+194,641 corpus records and 236 native candidates (234 successful/unverified,
+two prior failures), one prior failed analysis-run record and no import warnings.
+Verification report: external
+`seed-analysis-180383/seed-alternative-methods-verification-20261004.json`.
