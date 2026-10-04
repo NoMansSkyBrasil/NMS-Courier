@@ -1,5 +1,98 @@
 # Runtime experiment log
 
+## 2026-10-04: descriptor filter cache and reference ALTID comparison
+
+Offline build 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning note: [packed scene context](PACKED_SCENE_SEED_CONTEXT.md).
+Exact sources: `emulate-descriptor-filter.py`, `emulate-reference-altid.py`,
+updated `trace-packed-scene-materials.py` and `test_packed_material_context.py`.
+Private Python 3.14, Capstone 5.0.5, Unicorn 2.1.4. Native windows
+`2d652d0..2d6584f` and `56aff0..56b2a1`; executable limit 128 MiB,
+private heap 1 MiB/stack 64 KiB, 50,000 instructions/one second per call.
+
+Trigger/save conditions: offline only, no process or save. Filter existence,
+load results, string helpers and allocations are private fixture seams. ALTID
+output capacity is 64. No host imports execute. Filter fixtures cover warm,
+warm-null, cold-missing and cold-loaded states; successful cold cases repeat the
+call and verify no second load. Scene trace uses seed 7/context index 0/flags 0.
+
+Observed: 192 original filter comparisons and 102 original ALTID comparisons,
+zero mismatches. First case-sensitive substring wins; empty prefix selects none.
+Cold filters are cached under their original scene filename. Literal uppercase
+`.SCENE.MBIN` replacement differs from lowercase. ALTID preserves duplicates,
+uses only spaces as separators and copies the input seed pair for all nonempty
+strings, including whitespace-only strings. The scene evaluator reuses the
+compared parser; 19/19 roots pass, plus nine focused regression tests.
+Repeated path separators now fail closed until native normalization is ported.
+
+Failures: initial cold-cache fixture omitted entry byte `120`, which overlapped
+the following allocation; corrected allocation `130` before passing. Initial
+ALTID long-token copy hit the shared 31-byte strncpy limit; a local 255-byte
+bounded copy was implemented. Raw IAT slots were rejected by the FF25-thunk
+inspector; import-name records were then verified directly. A documentation patch
+context mismatch caused no partial change. These were private fixture/tool errors,
+not game crashes or disk failures.
+
+Evidence under external `seed-analysis-180383`: `descriptor-filter-cache-cold-20261004.json`,
+`reference-altid-parser-20261004.json`, `packed-scene-material-trace-altid-20261004.json`,
+`filter-resolver-window-20261004.json`, and ALTID parser/body instruction reports.
+The earlier 96-case warm-only filter report is historical, not an extra matrix.
+
+Not proven: actual archive IO, asynchronous resource readiness, material bank
+population, all acquisition/preset/custom task callers, complete appearance or
+inverse solver. Gates 1–3 remain explicitly incomplete at those boundaries.
+Rollback: no installed executable, bridge, mod, save, archive or corpus content
+was modified. Only repository source/docs and new external reports were written.
+
+## 2026-10-04: packed scene factory, material identity and explicit pieces
+
+Offline build 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning specification: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
+Exact sources/configuration: `emulate-packed-material-context.py`,
+`emulate-descriptor-recursion.py --explicit-list`, `evaluate_explicit`,
+`trace-packed-scene-materials.py`, the existing nineteen-root manifest,
+`inspect-native-fragments.py --unwind-only`, and the twelve portable native-stage
+TSV selections listed in that note. Private Python 3.14/Capstone 5.0.5/Unicorn 2.1.4;
+Ghidra 12.1.4/JDK 25.0.4.1+1, no autoanalysis, two CPUs/4 GiB heap/20 GiB reserve,
+300-second stage limit, 30-second per-function decompilation timeout.
+
+Trigger/conditions: no game trigger or save; existing executable and converted
+corpus only. Original instructions execute in bounded private emulation. Scene
+trace uses seed 7, explicit context index zero/flags zero, enabled model pair and
+disabled second pair. Successful non-variant XML resource resolution is a fixture
+assumption. No extraction, installation, disk repair or D: access.
+
+Observed: 353 native creator/validator/reference/writer/accessor/variant-wrapper
+cases, zero mismatches; 74 explicit-recursion comparisons, zero mismatches/failures;
+19/19 joined scene traces. Packed MESH is registered creator `189f400`. MATERIAL
+acquisition forwards the input context. Concrete slots `48/50/58` resolve exact
+name/type, strict/non-strict seed/ID comparison and exact flags. References collect
+local children before referenced-resource materials. EMITTER's own acquired
+material is excluded from this aggregate vector. The default writer preserves
+the second pair; the decompiler's seed-as-first-argument expression is rejected
+by original RCX instructions. Purchase accessor copies stored resource context.
+Variant wrapper exact/zero fallback and invalid-handle behavior are compared with
+controlled bank-index lookup helpers. Eight new regression tests and fifteen
+existing descriptor tests pass.
+
+Failures/rejected assumptions: first scene trace stopped at COLLISION/EMITTER,
+5/19 complete, before their concrete factories were identified. Missing private
+BSS pointers, an omitted REX jump byte, guessed/premature export paths and invalid
+PowerShell path globs were corrected; leaf wrapper/resource routines have no
+unwind record. Geometry candidate `18612a0` decompilation timed out and remains a
+failed manifest row despite stage completion. Exact transient reports, corrected
+windows and reproduction bounds are in the owning note. Patch-context failures
+made no partial edits and were corrected against the actual document headings.
+
+Not proven: asynchronous resource readiness, actual bank population, geometry
+success, all caller/preset/NPC/task override variants, complete natural appearance,
+rendering, whole-entity inverse search or runtime compatibility. Do not label the
+unrestricted three gates complete. Rollback: executable, bridge, installed data
+patches, saves and corpus content remain unchanged; only source/docs and new
+external research reports were written.
+
 ## 2026-10-04: complete recursive selection and owned freighter inputs
 
 Offline build 180383, executable SHA-256

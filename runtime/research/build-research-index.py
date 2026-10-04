@@ -125,7 +125,13 @@ def native_items(native):
                   'appearanceownedfreighterpalette20261004', 'appearancemeshownedcallers20261004',
                   'appearancemeshfactory20261004', 'appearancemeshfactoryroot20261004',
                   'appearancematerialidentity20261004', 'appearancematerialcachekey20261004',
-                  'appearanceresourcecachechecks20261004')
+                  'appearanceresourcecachechecks20261004',
+                  'appearancenaturalmeshloader20261004', 'appearancepackednodecreators20261004',
+                  'appearancematerialandofferinputs20261004', 'appearancematerialvariantvalidator20261004',
+                  'appearancereferencecontext20261004', 'appearancesceneresourcecollector20261004',
+                  'appearancereferenceresourcetraversal20261004', 'appearancematerialnamevalidator20261004',
+                  'appearancescenenonmeshfactories20261004', 'appearanceemitterfactory20261004',
+                  'appearanceemittermaterial20261004', 'appearanceemittercollector20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

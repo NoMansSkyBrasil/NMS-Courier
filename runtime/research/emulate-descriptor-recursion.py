@@ -38,6 +38,8 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--corpus', type=Path)
     parser.add_argument('--models-file', type=Path)
+    parser.add_argument('--explicit-list', action='store_true',
+                        help='Compare original 2d63810 explicit selection instead of seeded recursion')
     args = parser.parse_args()
     if bool(args.corpus) != bool(args.models_file):
         parser.error('Corpus and model manifest must be supplied together')
@@ -66,7 +68,8 @@ def main():
     decoder = Cs(CS_ARCH_X86, CS_MODE_64)
     decoder.detail = True
     code, constants = {}, {}
-    for begin, end in WINDOWS:
+    windows = WINDOWS + ((0x2d63810, 0x2d63bf0),) if args.explicit_list else WINDOWS
+    for begin, end in windows:
         data = read(begin, end - begin)
         instructions = list(decoder.disasm(data, BASE + begin))
         if sum(i.size for i in instructions) != len(data):
@@ -105,6 +108,11 @@ def main():
         pointers, lookup_calls, observed_visits = {}, [], []
         def observer(machine, address, allocate, write, unpack, get, put, cstring):
             rva = address - BASE
+            if args.explicit_list and rva == 0x2d63810:
+                observed_visits.append({})
+                if len(observed_visits) > 128:
+                    raise ValueError('Native explicit call bound exceeded')
+                return False
             if rva == 0x2d63bf0:
                 value = unpack(get('R9'), '<Q')[0]
                 flag = bool(unpack(get('R9') + 8, '<B')[0])
@@ -133,7 +141,7 @@ def main():
             put('RAX', result); put('RIP', unpack(sp, '<Q')[0]); put('RSP', sp + 8)
             return True
         machine, allocate, write, unpack, vector, identity, execute = COMMON['create_fixture'](
-            unicorn, regs, code, constants, WINDOWS, STUBS, observer)
+            unicorn, regs, code, constants, windows, STUBS, observer)
         def build(tree, depth=0):
             if id(tree) in pointers:
                 return pointers[id(tree)]
@@ -177,7 +185,12 @@ def main():
         write(excluded, '<QQ', unpack(excluded_vector + 8, '<Q')[0], len(exclusion))
         prefix_ptr, pair = allocate(32), allocate(16)
         machine.mem_write(prefix_ptr, identity(prefix)); write(pair, '<QB', seed, enabled)
-        result = execute(0x2d63bf0, [selected, root, included, pair, prefix_ptr, excluded]) & 255
+        if args.explicit_list:
+            choices = vector(exclusion)
+            execute(0x2d63810, [selected, root, choices, included, 0])
+            result = None  # The explicit routine is void, not a classification API.
+        else:
+            result = execute(0x2d63bf0, [selected, root, included, pair, prefix_ptr, excluded]) & 255
         count, rows = unpack(selected + 4, '<IQ')
         if count > 256:
             raise ValueError('Selected result bound exceeded')
@@ -186,7 +199,11 @@ def main():
         def port_resolve(path):
             expected_lookups.append(path)
             return resolve(path)
-        expected = PORT['evaluate'](seed, tree, port_resolve, enabled, inclusion, exclusion, prefix)
+        if args.explicit_list:
+            expected = PORT['evaluate_explicit'](tree, port_resolve, exclusion, inclusion)
+            expected.update(visits=[{}] * expected['calls'], classification=result)
+        else:
+            expected = PORT['evaluate'](seed, tree, port_resolve, enabled, inclusion, exclusion, prefix)
         matched = (actual == expected['selected_ids'] and observed_visits == expected['visits']
                    and lookup_calls == expected_lookups and result == expected['classification'])
         records.append({'root': label, 'seed': hex(seed), 'enabled': enabled,
@@ -198,7 +215,9 @@ def main():
                         'matched': matched})
     try:
         for i, tree in enumerate(trees):
-            for seed, enabled, context in itertools.product((0, 7, 0xffffffffffffffff), (False, True), contexts):
+            seeds = (0,) if args.explicit_list else (0, 7, 0xffffffffffffffff)
+            flags = (False,) if args.explicit_list else (False, True)
+            for seed, enabled, context in itertools.product(seeds, flags, contexts):
                 compare('synthetic-' + str(i), tree, seed, enabled, *context,
                         lambda path: {'leaf': leaf, 'never': never}.get(path))
         if args.corpus:
@@ -214,8 +233,13 @@ def main():
                 tree = loader.load(path)
                 if tree is None:
                     raise ValueError('Corpus root is missing: ' + path)
-                for seed in (0, 7, 0xffffffffffffffff):
-                    compare(path, tree, seed, True, (), (), '', loader.load)
+                if args.explicit_list:
+                    choices = tuple(o['id'] for g in tree['groups'] for o in g['options'][1:2])
+                    for selection in ((), choices):
+                        compare(path, tree, 0, False, (), selection, '', loader.load)
+                else:
+                    for seed in (0, 7, 0xffffffffffffffff):
+                        compare(path, tree, seed, True, (), (), '', loader.load)
                 source_records.extend({'root': path, **{k: v for k, v in r.items() if k != 'tree'}}
                                       for r in loader.cache.values())
                 loader.close()
@@ -227,6 +251,7 @@ def main():
         if loader:
             loader.close()
     report = {'exe_sha256': HASH, 'runtime_verified': False, 'natural_resource_io_proven': False,
+              'selection_mode': 'explicit_list' if args.explicit_list else 'seeded_recursion',
               'cases': len(records), 'mismatches': sum(not r['matched'] for r in records),
               'failures': failures,
               'window_hashes': {hex(k): hashlib.sha256(v).hexdigest() for k, v in code.items()},

@@ -1,5 +1,11 @@
 # AI continuation guide
 
+Latest owning checkpoint: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
+Use its exact factory/collector associations and reproduction commands. Native
+comparisons: 353 material/context/reference cases and 74 explicit recursion cases;
+nineteen joined scene traces use explicitly supplied context inputs. Read its
+acceptance ledger before saying gates 1–3 or natural resource loading are complete.
+
 Checkpoint: 2026-10-04. This repository-local entry works with any AI that can
 read Markdown; it does not depend on a globally installed Codex skill. Root
 [AGENTS.md](../AGENTS.md) routes here. User conversation is Portuguese; repository

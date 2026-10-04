@@ -1,5 +1,11 @@
 # Research navigation index
 
+Newest checkpoint: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
+The actual MESH creator, concrete material validators and reference wrapper order
+are compared against original instructions. Explicit-list recursion is separate
+from seeded selection. Nineteen joined scene traces pass with explicit inputs;
+native asynchronous loading and unrestricted caller variants remain unproven.
+
 Current checkpoint: [complete recursion and owned appearance inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
 records 273 matching recursive comparisons, nineteen corpus roots, the named
 owned-freighter model/palette split, packed child order, five node collector tables,

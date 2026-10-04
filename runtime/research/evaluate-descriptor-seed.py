@@ -204,6 +204,44 @@ def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), pref
             'calls': calls[0], 'visits': visits, 'classification': classification}
 
 
+def evaluate_explicit(tree, resolve, choices=(), inclusion=()):
+    """Port 2d63810: explicit matching, first-option fallback, no PRNG draws.
+
+    Choice matching uses the source 32-byte ID before LOD normalization. Output
+    IDs are normalized and deduplicated; fallback includes xNEVER entries.
+    """
+    if len(choices) > 4096 or len(inclusion) > 4096 or any(
+            not identity.isascii() or len(identity) > 31 or '\0' in identity
+            for identity in (*choices, *inclusion)):
+        raise ValueError('Explicit descriptor context requires bounded ASCII IDs')
+    selected, lookups = [], []
+    calls = [0]
+    def visit(current, depth):
+        calls[0] += 1
+        if depth > 64 or calls[0] > 4096:
+            raise ValueError('Explicit descriptor traversal budget exceeded')
+        for group in current['groups']:
+            options = group['options']
+            if not options:
+                continue
+            option = next((item for item in options if item['id'] in choices), options[0])
+            if not included(option['id'], inclusion):
+                continue
+            identity = normalized_id(option['id'])
+            if identity not in selected:
+                selected.append(identity)
+            for child in option['child_model_lists']:
+                if child is not None:
+                    visit(child, depth + 1)
+            for path in option['reference_paths']:
+                lookups.append(path)
+                child = resolve(path)
+                if child is not None:
+                    visit(child, depth + 1)
+    visit(tree, 0)
+    return {'selected_ids': selected, 'calls': calls[0], 'lookups': lookups}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)

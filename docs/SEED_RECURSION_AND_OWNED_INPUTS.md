@@ -1,5 +1,10 @@
 # Complete descriptor recursion and owned appearance inputs
 
+Superseding continuation: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md)
+connects the actual packed MESH factory, concrete cache validators, reference
+wrapper order, explicit-list recursion and purchase seed accessor. The ledger
+below is the earlier checkpoint; read the continuation before repeating research.
+
 Checkpoint: 2026-10-04, offline build 180383. Executable SHA-256:
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 This continues [appearance context](APPEARANCE_CONTEXT_RESEARCH.md). The user's

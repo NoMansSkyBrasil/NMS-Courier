@@ -2,6 +2,15 @@
 
 ## Latest checkpoint: gates 1–3, 2026-10-04
 
+Newest owning note: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
+It records 353 original-instruction comparisons, 74 explicit-recursion comparisons,
+192 original filter-resolver comparisons, 102 original ALTID comparisons,
+and nineteen joined packed-scene traces. It also records the Ghidra argument error,
+reference child-before-resource order and EMITTER's excluded own material.
+Resume at asynchronous/variant resource resolution and remaining category callers;
+do not repeat the closed packed MESH/validator/explicit-list/filter/ALTID comparisons. The
+unrestricted gates remain open; the bounded scene trace is not native resource IO.
+
 Read [complete recursion and owned appearance inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
 first. The user's active scope is to finish gates 1–3; rendering/shaders and the
 whole-entity inverse solver (gates 4–5) are explicitly deferred. Do not treat this

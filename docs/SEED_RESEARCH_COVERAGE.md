@@ -1,5 +1,10 @@
 # Procedural appearance research coverage
 
+[Packed scene continuation](PACKED_SCENE_SEED_CONTEXT.md) adds 353 original
+material/context/reference comparisons, 74 explicit-list recursion comparisons,
+and nineteen joined scene traces. These close concrete algorithm branches, not
+all natural resource readiness/context-bank states or acquisition caller variants.
+
 Updated 2026-10-04. This maps **rules and input channels**, not all uint64 seeds.
 Different seeds can share choices. Appearance also depends on model resource,
 category, explicit customisation, palette input, filters and referenced assets.

@@ -102,6 +102,8 @@ def main():
     parser.add_argument('--executable', type=Path, required=True)
     parser.add_argument('--sha256', required=True)
     parser.add_argument('--rva', action='append', default=[])
+    parser.add_argument('--unwind-only', action='store_true',
+                        help='Read bounded unwind chains only; do not decode or verify instruction boundaries')
     parser.add_argument('--literal', action='append', default=[],
                         help='Preserve the existing raw 32-byte literal window interface')
     parser.add_argument('--literal-rva', action='append', default=[])
@@ -144,6 +146,12 @@ def main():
         if position < 0 or not ranges[position][0] <= target < ranges[position][1]:
             raise ValueError('Target has no containing unwind range: ' + hex(target))
         begin, end = ranges[position]
+        if args.unwind_only:
+            records.append({'target': hex(target), 'begin': hex(begin), 'end': hex(end),
+                            'instruction_boundary_verified': False,
+                            'instructions': [],
+                            'unwind_chain': unwind_chain(raw, sections, entries[position])})
+            continue
         if end - begin > 16384 or begin < text['virtual_address'] or end > text['virtual_address'] + text['raw_size']:
             raise ValueError('Fragment byte/section budget exceeded')
         offset = text['raw_offset'] + begin - text['virtual_address']
@@ -181,7 +189,8 @@ def main():
         content = content[:terminator]
         literal_records.append({'rva': hex(target), 'bytes': content.hex(),
                                 'ascii': content.decode('ascii', errors='backslashreplace')})
-    report = {'exe_sha256': digest, 'runtime_verified': False, 'fragments': records,
+    report = {'exe_sha256': digest, 'runtime_verified': False, 'unwind_only': args.unwind_only,
+              'fragments': records,
               'literals': literal_records,
               'import_thunks': import_thunks(raw, sections, thunks) if thunks else [],
               'limitations': ['Unwind fragments may be split; function identity and ABI remain unverified.']}

@@ -1,0 +1,3 @@
+183a900	Chained unwind root containing MESH literal reference; packed mesh creator candidate, semantics unverified
+18612a0	Chained unwind root containing multiple MESH references; geometry consumer candidate, semantics unverified
+2d652d0	Reference filter record resolver called by descriptor recursion; resource context unverified

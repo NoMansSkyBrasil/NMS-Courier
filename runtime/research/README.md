@@ -1,5 +1,18 @@
 # Bulk game-data research
 
+Newest continuation: [packed scene context](../../docs/PACKED_SCENE_SEED_CONTEXT.md).
+`emulate-packed-material-context.py` runs original packed MESH, concrete material
+validator, reference collector, default writer and purchase accessor instructions
+with bounded private IO. `emulate-descriptor-recursion.py --explicit-list` checks
+the nonrandom customisation path. `trace-packed-scene-materials.py` joins the corpus
+under explicit engine-context/flags inputs and fails closed on unexamined factories.
+It is not native resource IO, rendering or a runtime delivery adapter.
+`emulate-descriptor-filter.py` compares original filter lookup/insertion with
+controlled cold IO results. `emulate-reference-altid.py` compares the full ALTID
+parser and provides the shared bounded ASCII parser used by the scene trace.
+Both require fingerprint-pinned executable/tool arguments and a new external
+output; neither attaches to the game or establishes universal caller context.
+
 Latest gates 1–3 continuation: [recursive selection and owned inputs](../../docs/SEED_RECURSION_AND_OWNED_INPUTS.md).
 `emulate-descriptor-recursion.py` compares the complete original recursive routine
 against the descriptor port using bounded private resource stubs and the committed
