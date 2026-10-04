@@ -512,6 +512,10 @@ occurred. Runtime support and complete seed inversion remain unverified.
 
 ## Exact continuation point
 
+Read [the texture continuation](APPEARANCE_TEXTURE_SEED_FLOW.md) before following
+the third item below. It resolves the worker root and rejects readiness/cache
+helpers as random selectors; the option-list writer remains the next target.
+
 1. Start from the source writers above, not another bulk extraction. Recover
    upstream constructors/copy paths into freighter runtime palette seed `2b0`
    and the tool-record seed pairs, retaining branch-specific layouts.

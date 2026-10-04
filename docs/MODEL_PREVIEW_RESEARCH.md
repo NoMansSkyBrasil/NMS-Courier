@@ -334,3 +334,12 @@ acceptance are still open.
 Pending: current NMS geometry conversion, selected texture options, DDS pixels,
 blend masks and entity-specific seed propagation. The palette UI is a useful
 comparison instrument, not seed inversion or an accurate ship generator.
+
+On 2026-10-04, the same external Royal/palette/seed-7 acceptance was repeated
+using `validate-palette-preview.cjs`; all checks passed. The part-only and
+all-visible screenshots were visually inspected. They show independent mesh
+tinting, with gray remaining surfaces after wing-only application; they do not
+show native masked texture recoloring. See
+[texture/channel continuation](APPEARANCE_TEXTURE_SEED_FLOW.md) for the ten
+selected multitool/frigate/NPC bindings and rejected loader routes. Evidence:
+external `preview-models/appearance-validation-20261004/report.json`.

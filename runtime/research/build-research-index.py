@@ -108,7 +108,9 @@ def native_items(native):
                   'prioritynpccolourloader20261004', 'prioritynpccomponentfactory20261004',
                   'prioritycustomisationsources20261004', 'freightersource20261004',
                   'freightersourceroot20261004', 'freighterupstream20261004',
-                  'freighterresourcecopy20261004')
+                  'freighterresourcecopy20261004', 'appearanceworker20261004',
+                  'appearancetexture20261004', 'appearancebinding20261004',
+                  'appearanceprepare20261004', 'appearanceloader20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

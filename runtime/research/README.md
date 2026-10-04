@@ -485,3 +485,17 @@ Input is capped at 128 posts/128 KiB, descriptors retain existing row/XML budget
 and the corpus is read-only. This tool does not fetch webpages or execute game
 functions. Rendering, native color-channel correlation and whole appearance
 validation remain separate work.
+
+For the selected category texture bindings and complete task worker root, see
+[appearance texture seed flow](../../docs/APPEARANCE_TEXTURE_SEED_FLOW.md).
+Reproduce its bounded texture inspection without another archive extraction:
+
+```powershell
+$assetArguments = @()
+Get-Content runtime/research/appearance-texture-assets-180383.txt | ForEach-Object {
+  $assetArguments += @('--asset', $_)
+}
+python runtime/research/inspect-texture-palettes.py `
+  --corpus E:\NMS-Courier-Research\corpus @assetArguments `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\texture-bindings-new.json
+```

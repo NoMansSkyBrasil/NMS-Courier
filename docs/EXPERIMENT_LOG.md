@@ -1773,3 +1773,70 @@ resolve. Refreshed navigation contains 98 source files, 291 source functions,
 two prior failures), one prior failed analysis-run record and no import warnings.
 Verification report: external
 `seed-analysis-180383/seed-alternative-methods-verification-20261004.json`.
+
+## 2026-10-04 - Category texture bindings and worker-root continuation
+
+Mode: offline native/data research, followed by isolated Electron preview
+inspection at the user's suggestion. No live game trigger/save conditions;
+no game attachment or delivery. Build 180383 executable SHA-256:
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning findings: [appearance texture seed flow](APPEARANCE_TEXTURE_SEED_FLOW.md).
+
+Configuration: Ghidra 12.1.4/JDK 25.0.4.1+1 existing Acquisition180383 project,
+no reanalysis/import, two CPUs/4 GiB, 30 seconds per candidate, 180 seconds per
+serial stage and 20 GiB free-space reserve. Exact committed selections:
+`appearance-worker-root-180383.tsv`, `appearance-texture-selection-180383.tsv`,
+`appearance-binding-callees-180383.tsv`,
+`appearance-texture-preparation-180383.tsv`, `appearance-texture-loader-180383.tsv`.
+Five stages recorded in the owning note completed; nine rows decompiled, zero
+failures. The final loader repeated an existing candidate and added no new seed
+consumer. Navigation deduplicates those candidate RVAs.
+
+The existing read-only texture inspector examined ten resources (80,451 bytes)
+from `appearance-texture-assets-180383.txt`; no missing/ambiguous sources.
+Repeating the documented command produced an identical JSON report, including
+binary/XML hashes. Selected material channels differ among Paint, Metal,
+Undercoat, BioShip_Body, Custom_Head, Rock and Freighter; alternatives and group
+conditions are preserved rather than treated as independent random choices.
+
+The full worker root 6388a0 confirms palette/descriptor preparation before
+texture application. The 32-byte option input remains distinct from its seed
+pair. 634930 checks preloaded handles; 634e10 matches already supplied options,
+not a demonstrated new RNG choice. State 9 performs grouped four-float averaging;
+its transient 0x70 records must not be confused with palette-family rows.
+Attribute names remain unresolved. The async 630d50/6308a0/63ae70 route and
+generic loader b04170 do not establish a natural NPC seed consumer.
+
+Visual configuration: existing packaged-development Electron output and
+`validate-palette-preview.cjs`, isolated profile/stubbed import dialog, external
+Royal GLB hash `9e188cf03419ecbd6e2c868c67461d381539112115ac7e5902f38a0f4314e357`,
+base palette hash `3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`,
+independent Python seed-7 report. All 330 samples matched. Per-part/all-visible
+tinting, exact restoration, maximum seed input, invalid input/import preservation,
+Portuguese UI and minimum-window fit passed with zero renderer errors. Actual
+captures were inspected: wing-only yellow/olive beside gray surfaces, then pale
+olive whole-model tint. This is a mesh-tint check, not native material fidelity.
+
+Failures/rejected hypotheses: a read initially selected the wrong export directory
+for 637db0; the existing manifests located it. An expected capture filename did
+not exist; the harness's actual `all-colors.png` was inspected. An initial
+documentation patch used an absent README context and was rejected before
+application; the corrected patch succeeded. Two bounded console displays were
+truncated; selected reads were used. None was a device/storage failure. No new
+internet claim or native API/ABI was inferred from candidate names.
+
+Not proven: full color/texture selection schedule, natural NPC option writer,
+None/Index precedence, native masks/shaders, current multitool/frigate/NPC mesh
+previews, complete inverse or exact requested appearance delivery.
+Next target: the writer of the list consumed by 634e10; avoid re-exporting
+known cache/loading paths. See the owning note for the explicit-customisation
+route and category-specific continuation.
+
+Rollback/state: no game executable, bridge, mod, save or corpus changed. No
+extraction, D: access, disk repair or BitLocker operation. Only bounded external
+reports/project exports and original repository documentation/selections/index
+changed. Verification: five native-index tests passed, changed index source
+parsed, 86 selected documentation links resolved, all five selection fingerprints
+matched completed reports. Navigation: 98 source files, 291 source functions,
+194,641 corpus rows, 243 unique native candidates; zero import warnings.
+Report: external `seed-analysis-180383/appearance-texture-verification-20261004.json`.

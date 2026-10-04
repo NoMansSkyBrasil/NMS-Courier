@@ -1,0 +1,3 @@
+634e10	Procedural texture selection and palette binding candidate called by 636750
+634930	Texture selection readiness predicate called by 636750
+6339f0	Texture payload completion candidate called by 636750

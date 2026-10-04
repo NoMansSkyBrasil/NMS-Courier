@@ -21,6 +21,9 @@ For the isolated child inverse and independent instruction-level checks, read
 [seed inversion and emulation](SEED_INVERSION_AND_EMULATION.md). It records
 bounded Unicorn windows, public source fingerprints, inverse ambiguity and
 the distinction between arithmetic inversion and a whole appearance inverse.
+For category texture bindings and the complete worker processing order, read
+[appearance texture seed flow](APPEARANCE_TEXTURE_SEED_FLOW.md). It distinguishes
+palette families, texture alternatives and existing mesh-tint visualization.
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector

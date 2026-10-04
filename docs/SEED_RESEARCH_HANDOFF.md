@@ -9,6 +9,10 @@ The subsequent priority-category pass is documented in
 writers, freighter palette inputs, frigate reward derivation and rejected NPC
 leads. Start from its exact continuation point for those categories.
 The original checkpoint below is retained as historical evidence.
+The latest [texture/channel continuation](APPEARANCE_TEXTURE_SEED_FLOW.md)
+maps selected multitool, ordinary/living frigate and NPC material bindings,
+resolves the complete texture worker root and records rendered Electron checks.
+Continue at the option-list writer, not the rejected async loader/cache route.
 Current scope: offline discovery and documentation across categories, not
 features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
 checks validate research tooling only. The objective is to
