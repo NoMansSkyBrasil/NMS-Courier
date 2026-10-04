@@ -99,7 +99,14 @@ def native_items(native):
                   'faunaseedfields20261004', 'faunaresourcelinks20261004',
                   'faunaresourcefields20261004', 'faunacomponentfields20261004',
                   'faunarolefields20261004', 'planetseedentry20261004',
-                  'planetseedconsumers20261004', 'planetresourceseeds20261004')
+                  'planetseedconsumers20261004', 'planetresourceseeds20261004',
+                  'priorityentityentries20261004', 'priorityentitymetadata20261004',
+                  'priorityentityfields20261004', 'priorityentityfieldbodies20261004',
+                  'priorityentitylinks20261004', 'priorityentitymodels20261004',
+                  'priorityentityinputfields20261004', 'priorityentityinputbodies20261004',
+                  'priorityentitysplitroots20261004', 'priorityentitynamedbodies20261004',
+                  'prioritynpccolourloader20261004', 'prioritynpccomponentfactory20261004',
+                  'prioritycustomisationsources20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

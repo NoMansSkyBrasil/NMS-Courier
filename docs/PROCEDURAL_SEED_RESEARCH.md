@@ -631,6 +631,12 @@ experimental base palette sample controls now exist; see the preview assessment.
 
 ## Requirements for claiming complete recovery
 
+The [priority entity input-flow continuation](ENTITY_APPEARANCE_SEED_FLOW.md)
+now identifies owned ship/tool source writers, separate freighter palette input,
+frigate reward derivation and explicit customisation quantization. It also records
+rejected NPC metadata/registry leads. These connections extend the forward
+components below; they do not finish material rendering or inverse seed search.
+
 | Domain | Current evidence | Remaining acceptance requirement |
 | --- | --- | --- |
 | Integer RNG and child mixing | Checked arithmetic windows; reproducible primitives | Confirm all category callers use these inputs and schedules |

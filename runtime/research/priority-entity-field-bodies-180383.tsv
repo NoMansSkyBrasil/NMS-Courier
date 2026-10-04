@@ -1,0 +1,8 @@
+2a39350	GcFleetFrigateSaveData named field processor body
+2a39b60	GcFreighterSaveData named field processor body
+1f2d1d0	GcNPCColourTable named field processor body
+1f2d0c0	GcNPCColourGroup named field processor body
+2411280	GcNPCComponentData field processor wrapper
+114aca0	Resource customisation color preparation candidate; existing export needs context
+140fbc0	Alternate multitool customisation path; identity unverified
+55a0e0	Owned ship generation task caller; identity unverified

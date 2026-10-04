@@ -24,6 +24,8 @@ def main():
                         help='Select exact GcReward metadata names instead of defaults (repeatable; maximum 16)')
     parser.add_argument('--type-name', action='append', default=[],
                         help='Exact descriptor/seed metadata type names; maximum 16')
+    parser.add_argument('--literal-name', action='append', default=[],
+                        help='Exact bounded ASCII literal references, such as asset paths; maximum 16')
     parser.add_argument('--metadata-only', action='store_true',
                         help='Skip unrelated public acquisition signature scans')
     parser.add_argument('--function-term', action='append', default=[],
@@ -33,6 +35,11 @@ def main():
         parser.error('Metadata names must be exact GcReward identifiers; maximum 16')
     if len(args.type_name) > 16 or any(not re.fullmatch(r'(?:Tk|Gc)[A-Za-z0-9]+', name) for name in args.type_name):
         parser.error('Type names must be exact Tk/Gc identifiers; maximum 16')
+    if len(args.literal_name) > 16 or any(not re.fullmatch(r'[\x20-\x7e]{1,192}', name)
+                                        for name in args.literal_name):
+        parser.error('Literal names must contain 1..192 printable ASCII characters; maximum 16')
+    if args.literal_name and (args.type_name or args.metadata_name or args.payload_metadata):
+        parser.error('Select literal names separately from metadata names')
     if len(args.function_term) > 16 or any(not 1 <= len(t) <= 128 for t in args.function_term):
         parser.error('Function terms must have 1..128 characters; maximum 16')
     exe = args.executable.resolve()
@@ -88,9 +95,9 @@ def main():
         results.append(record)
     output.mkdir(parents=True, exist_ok=True)
     report = {'mode': 'offline_only', 'exe_sha256': digest, 'database_sha256': hashlib.sha256(args.database.read_bytes()).hexdigest(), 'candidates': results, 'caveat': 'Public signatures are candidate labels only; no ABI or runtime compatibility is established.'}
-    if args.payload_metadata or args.metadata_name or args.type_name:
+    if args.payload_metadata or args.metadata_name or args.type_name or args.literal_name:
         targets = {}
-        names = tuple(dict.fromkeys(args.type_name or args.metadata_name or ('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate')))
+        names = tuple(dict.fromkeys(args.literal_name or args.type_name or args.metadata_name or ('GcRewardSpecificShip', 'GcRewardSpecificWeapon', 'GcRewardSpecificFrigate')))
         for name in names:
             for section in sections:
                 start = section['raw_offset']
@@ -98,7 +105,7 @@ def main():
                     offset = start + match.start()
                     rva = section['virtual_address'] + match.start()
                     targets[rva] = name
-                    if offset and data[offset - 1:offset] == b'c':
+                    if not args.literal_name and offset and data[offset - 1:offset] == b'c':
                         targets[rva - 1] = 'c' + name
         references, metadata_seeds = [], {}
         raw = data[text['raw_offset']:text['raw_offset'] + text['raw_size']]
@@ -108,11 +115,13 @@ def main():
             if target in targets and owner(rva) and len(references) < 64:
                 begin, _ = owner(rva)
                 references.append({'name': targets[target], 'string_rva': hex(target), 'potential_reference': hex(rva), 'unwind_start': hex(begin)})
-                metadata_seeds.setdefault(begin, 'Metadata-name reference candidate: ' + targets[target])
+                prefix = 'Literal-reference candidate: ' if args.literal_name else 'Metadata-name reference candidate: '
+                metadata_seeds.setdefault(begin, prefix + targets[target])
         report['payload_name_references'] = references
         report['metadata_names_requested'] = names
         report['metadata_names_without_string'] = [name for name in names if name not in targets.values()]
         report['metadata_reference_limit'] = 64
+        report['reference_kind'] = 'literal' if args.literal_name else 'metadata'
         (output / 'payload-seeds.tsv').write_text(''.join(f'{r:x}\t{label}\n' for r, label in metadata_seeds.items()), encoding='utf-8')
     (output / 'candidates.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     if args.include_callees:

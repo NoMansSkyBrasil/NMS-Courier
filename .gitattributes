@@ -1,0 +1,2 @@
+# Preserve byte hashes of the priority research selections across Windows checkouts.
+runtime/research/priority-*.tsv text eol=lf

@@ -17,6 +17,11 @@ scale/fur decisions and the role seed copied to Resource.Seed, and records an
 environmental resource seed override. These are recovered components and static
 call paths, not a complete fauna/flora appearance generator.
 
+The [entity appearance continuation](ENTITY_APPEARANCE_SEED_FLOW.md) adds native
+source writers for owned ships and tools, distinct freighter model/palette inputs,
+frigate reward fallback arithmetic and explicit color quantization. It preserves
+category and branch distinctions; complete appearance recovery remains open.
+
 Scope is the game's seed systems in general, not only ships. The category map
 below separates evidence from unresearched areas. It is a coverage inventory,
 not a claim to enumerate every internal game type or to have recovered every
@@ -36,12 +41,13 @@ draw schedules across categories.
 | Starships | Living / Bioship | Descriptor roots and BioShip_Body, BioShip_Underbelly and BioShip_Cockpit palettes exist. Their caller inputs and final appearance mapping remain incomplete. |
 | Starships | Expedition, preorder and other special rewards | Resource/preset, seed, inventory class and customisation fields must remain separate. Some use small seeds and dedicated resources; they are not universal numeric ship IDs. |
 | Starships | Corvette and other explicitly assembled/customised models | No complete seed algorithm established here. Explicit assembly/customisation must not be assumed to have one natural seed equivalent. |
-| Freighters | Standard / system; Capital | Distinct descriptor roots and referenced resources are indexed. Model Seed and Home Seed must be retained separately; their full current-build roles are unresolved. |
+| Freighters | Standard / system; Capital | Native root 549380 uses separate model and optional palette seeds, context colors and explicit overrides. HomeSystemSeed is named in serialized data; its complete copy chain into the runtime palette input remains unresolved. |
 | Freighters | Pirate | Inspected root contains one option with a scene reference. This does not make all details/colors constant. Complete resource, color and secondary-seed semantics remain unverified. |
-| Frigates | Conventional | No complete generation algorithm recovered. Model appearance, generated statistics, traits and fleet ownership are different outputs. |
+| Frigates | Conventional | Reward preparation separates model/palette channels and recovers a missing-model-seed mixer; type/race selects resource records. The full model/material mapping is incomplete, and traits/statistics use separate paths. |
 | Frigates | Living | Root descriptors are indexed, but variation can be delegated to other resources or paths. The seed-to-model/color/stat relationship is unresolved. |
-| Multitools | Standard procedural models | Indexed root contains extensive descriptor groups. An inspected multitool texture uses Paint/Rock with Primary/Alternative1/None. Complete tool-specific seed flow is unresolved. |
+| Multitools | Standard procedural models | Owned-tool source writers now connect record seed/customisation to the visual task. Descriptor resources and texture palette bindings exist; offer/variant seed selection and final materials remain incomplete. |
 | Multitools | Royal; Atlas; Sentinel variants; staff; rod | Separate roots have been inventoried. A small or single-option root does not prove a fixed whole appearance. Staff assembly/customisation cannot be equated with seed-only generation. |
+| NPCs | Race-specific, unique and preset characters | Named component fields, nine spawn-table race entries, 17 color groups and 13 customisation presets provide context. Seed selection and color-group/Rarity sampling remain unrecovered; registry updates and table loaders are rejected as generators. |
 | Fauna / companions | Bird and other ground/flying/aquatic resource families | Bird dependencies, named role/resource seed fields and native scale/fur decisions are recovered components. Planet child-stream resets reach roles/spawn generation. Final parts/colors and a category-wide evaluator remain incomplete. |
 | Fauna / companions | Creature, secondary creature, genus and species channels | Public export tooling exposes these as separate seed labels. Their complete native meaning, derivation and interaction have not been recovered; they must not be collapsed into one seed. |
 | Flora | Plants, trees and other vegetation resources | Base families include Plant, Leaf, Wood and Grass. Their presence is evidence of color data, not recovery of plant shape, placement or per-planet seed derivation. |

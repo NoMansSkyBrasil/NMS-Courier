@@ -1622,3 +1622,85 @@ Final verification passed: all ten configuration hashes match their launcher
 reports; manifests total 31 successful/one failed rows and 30 distinct successful
 RVAs; 387 relative links in changed Markdown files resolve; Python syntax and
 `git diff --check` pass; the read-only native-index status counts match above.
+
+## 2026-10-04: priority entity seed inputs, source writers and chained roots
+
+Build/fingerprint: offline executable 180383, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Source/configuration: the thirteen repository TSV selections linked in
+[entity appearance seed flow](ENTITY_APPEARANCE_SEED_FLOW.md#reproduction-and-evidence),
+current named field processors, existing hash-pinned corpus declarations and
+pinned NMS.py reference `52e2e554` (`data.json` SHA-256
+`1acdf18b60e9d23fb7f75cc4e7eb27d11be8ed0daaf4ab06de6539ba4d074089`).
+Ghidra 12.1.4 PUBLIC, portable JDK 25.0.4.1+1, Python 3.14; existing external
+Acquisition180383 project with no analysis, two CPUs, 4-GiB heap, 20-GiB reserve,
+30-second candidate limits and 180/360-second launcher limits. Portable tools
+were reused; no new runtime or dependency was installed.
+
+Trigger/save conditions: bounded static signatures, direct call edges, named
+metadata fields, PE unwind/literal windows and selected read-only XML. No process
+attachment, callback trigger, mod/bridge installation, game invocation or save
+access. No live user test was requested for this pass.
+
+Observed: ship writer 55cb20 supplies one input seed pair to both Resource.Seed
+and its customisation object; the refresh uses the recovered custom-slot rule.
+Tool writer 553600 forwards a selected record's seed/customisation to its visual
+working object; other construction/offer layouts remain distinct. Freighter
+root 549380 receives separate descriptor and optional palette seed pairs,
+context fallback and explicit overrides. Frigate reward 8e5180 derives a missing
+model seed with a two-multiply uint64 mixer, but the palette uses SystemSeed or
+the original FrigateSeed. Assembly/literal evidence is retained in the owning
+note. Explicit color input uses nearest allowed RGBA matching with 1/256 tolerance;
+alpha=1 overrides must not be mistaken for natural seed generation.
+The frigate fallback multiplier has modular inverse `0xDC56E6F5090B32D9`;
+the owning note derives its mathematical inverse using the self-inverse 47-bit
+XOR shift. Eight arithmetic round trips passed. No native inverse function or
+inverse from chosen geometry/colors was observed.
+
+Current named customisation fields are BoneScales, Colours, DescriptorGroups,
+PaletteID, TextureOptions and Scale. The initial BoneScales vector was corrected
+from an earlier texture interpretation. NPC schema/table references expose race,
+models, presets and color data, but their loaders, component updates and registry
+getters do not recover a natural appearance generator.
+
+Results: thirteen launchers completed; every selection hash matches its report.
+Manifests contain 69 successful rows, 69 distinct selected RVAs and no export
+failures. Three repeat prior exports, adding 66 navigation candidates. Metadata
+refresh now retains 229 native entries (227 successful/unverified, two prior
+failures), one prior analysis-run failure, 94 source files, 280 source functions
+and 194,641 corpus file records, with no import warnings. Verification report:
+`E:\NMS-Courier-Research\seed-analysis-180383\priority-entity-verification-20261004.json`.
+This describes export coverage, not 69 complete or verified appearance functions.
+
+Failures/rejected hypotheses: old type names did not match current metadata;
+the combined lookup reached the fixed reference cap, so omissions were not
+treated as absence. A broad field-name report exceeded its 256-reference budget.
+Leaf 10474e0 has no unwind entry; the dependent report read therefore found no
+file. Bounded raw windows confirmed 16-bit getters instead. A six-fragment request
+exceeded the 16-KiB bound at 572cea; five narrowed callers resolved successfully.
+Two file reads used the wrong export stage and one guessed tool filename did not
+exist; manifests/the source map resolved them. A literal wildcard argument
+returned Windows OS error 123; direct reading of the existing selected JSON
+resolved the lookup. These are lookup/context/budget failures, not device damage.
+521d50 is attribute/trait preparation, not model selection; 11499c0 processes
+texture options, not the initially guessed color state. Metadata hashes and
+NPC color-table loaders are not RNG consumers. Rejected labels remain in original
+selection files for hash provenance and are superseded by the owning note.
+
+Not proven: every category/subcategory's complete input schedule, natural NPC
+seed source, freighter HomeSystemSeed-to-runtime copy chain, texture/material
+composition, exact whole-model previews, inverse seeds or natural locations.
+No new runtime compatibility or delivery capability is established.
+
+Rollback/state: executable, bridge, mods, saves and extracted corpus unchanged.
+Only the external offline project/reports and navigation metadata gained output.
+Repository changes are English research notes, source selections, bounded
+inspection helpers, parser checks and navigation registration. The new priority
+TSVs use a scoped LF checkout rule to retain recorded selection hashes. No disk repairs,
+D: access, BitLocker operations or archive re-extraction. Twelve offline tooling
+tests passed, including five unwind-chain bounds tests; these do not validate
+game appearances. Application build/gameplay tests are outside this scope.
+Final checks: all thirteen staged Git blob hashes match their export selections;
+404 relative Markdown links resolve; changed Python files parse; three invalid
+literal-query cases reject before opening the executable. Read-only navigation
+status totals match above, and the staged diff has no whitespace errors.

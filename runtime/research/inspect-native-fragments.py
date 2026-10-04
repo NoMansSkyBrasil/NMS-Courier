@@ -13,6 +13,34 @@ import struct
 import sys
 
 
+def unwind_chain(raw, sections, entry):
+    """Resolve at most 16 PE64 chained unwind records without inferring an ABI."""
+    records, seen = [], set()
+    for _ in range(16):
+        begin, end, unwind = entry
+        if entry in seen or not begin < end or unwind % 4:
+            raise ValueError('Invalid or cyclic unwind chain')
+        seen.add(entry)
+        section = next((item for item in sections if
+                        item['virtual_address'] <= unwind and
+                        unwind + 4 <= item['virtual_address'] + item['raw_size']), None)
+        if section is None:
+            raise ValueError('Unwind header outside file-backed sections')
+        offset = section['raw_offset'] + unwind - section['virtual_address']
+        version, flags = raw[offset] & 7, raw[offset] >> 3
+        if version not in (1, 2) or flags & ~7 or flags & 4 and flags & 3:
+            raise ValueError('Unsupported unwind version or flags')
+        records.append({'begin': hex(begin), 'end': hex(end),
+                        'unwind': hex(unwind), 'version': version, 'flags': flags})
+        if not flags & 4:
+            return records
+        size = 4 + ((raw[offset + 2] + 1) & ~1) * 2
+        if unwind + size + 12 > section['virtual_address'] + section['raw_size']:
+            raise ValueError('Chained unwind record outside file-backed section')
+        entry = struct.unpack_from('<III', raw, offset + size)
+    raise ValueError('Unwind chain exceeds the 16-record bound')
+
+
 def import_thunks(raw, sections, targets):
     """Resolve only selected FF25 thunks through the PE64 import table."""
     def offset(rva, size):
@@ -103,7 +131,9 @@ def main():
     text = next(section for section in sections if section['name'] == '.text')
     pdata = next(section for section in sections if section['name'] == '.pdata')
     table = raw[pdata['raw_offset']:pdata['raw_offset'] + pdata['raw_size'] - pdata['raw_size'] % 12]
-    ranges = sorted((begin, end) for begin, end, _ in struct.iter_unpack('<III', table) if begin and end > begin)
+    entries = sorted((begin, end, unwind) for begin, end, unwind in struct.iter_unpack('<III', table)
+                     if begin and end > begin)
+    ranges = [(begin, end) for begin, end, _ in entries]
     starts = [begin for begin, _ in ranges]
     sys.path.insert(0, str(args.python_tools))
     from capstone import Cs, CS_ARCH_X86, CS_MODE_64
@@ -126,7 +156,8 @@ def main():
         if not any(int(item['rva'], 16) == target for item in instructions):
             raise ValueError('Target is not a decoded instruction boundary')
         records.append({'target': hex(target), 'begin': hex(begin), 'end': hex(end),
-                        'sha256': hashlib.sha256(code).hexdigest(), 'instructions': instructions})
+                        'sha256': hashlib.sha256(code).hexdigest(), 'instructions': instructions,
+                        'unwind_chain': unwind_chain(raw, sections, entries[position])})
     literal_records = []
     for target in sorted(raw_literals):
         section = next((item for item in sections if item['virtual_address'] <= target and

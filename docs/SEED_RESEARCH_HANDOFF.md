@@ -4,9 +4,14 @@ Research checkpoint: 2026-10-03; handoff finalized: 2026-10-04.
 The 2026-10-03 pause was lifted by the user on 2026-10-04. Offline algorithm
 research resumed; see [the planet/fauna seed-flow continuation](PLANET_FAUNA_SEED_FLOW.md)
 for named fields, planet child-stream order, resource seed overrides and evidence.
+The subsequent priority-category pass is documented in
+[entity appearance seed flow](ENTITY_APPEARANCE_SEED_FLOW.md): ship/tool seed
+writers, freighter palette inputs, frigate reward derivation and rejected NPC
+leads. Start from its exact continuation point for those categories.
 The original checkpoint below is retained as historical evidence.
 Current scope: offline discovery and documentation across categories, not
-features, tests, live hooks, delivery or save editing. The objective is to
+features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
+checks validate research tooling only. The objective is to
 understand which inputs/random streams choose resources, parts, colors,
 textures, scale and other properties. Inverse search is a separate later problem.
 
@@ -290,3 +295,50 @@ change BitLocker. No tests, feature implementation or runtime work are requested
 in this offline algorithm investigation. The current next reads are the missing
 seed input names, resource source collections and palette/descriptor consumers
 in [the continuation](PLANET_FAUNA_SEED_FLOW.md#rejected-leads-and-remaining-links).
+
+## Priority-category continuation (2026-10-04)
+
+The user's current focus is Ships, Multitools, Freighters, Frigates and NPCs.
+[The owning note](ENTITY_APPEARANCE_SEED_FLOW.md) records the fields, branches,
+formulas, exact source selections and remaining gaps. Existing RNG/descriptor/
+base-palette arithmetic remains in the detailed research; this pass extends
+input propagation instead of restarting those discoveries.
+
+Thirteen bounded stages produced 69 successful export rows, 69 distinct RVAs
+and no export failures. Three RVAs repeat prior stages (`1149020`, `114aca0`,
+`8e3a10`), leaving 66 additional navigation candidates. A success means exported
+pseudocode, not a verified appearance algorithm. Hash/count verification is
+preserved externally in `seed-analysis-180383/priority-entity-verification-20261004.json`.
+The owning note links every repository TSV; each external `run-<stage>.json`
+records its selection SHA-256 and exact invocation. All use the build/fingerprint
+at the top of this handoff. Ghidra 12.1.4 PUBLIC and portable JDK 25.0.4.1+1 reuse
+Acquisition180383 with no analysis, two CPUs, 4-GiB heap, 20-GiB free-space reserve
+and 30-second per-candidate timeouts. No two exports run on that project together.
+
+Useful recovered links:
+
+- `55cb20` copies one input seed to both an owned ship resource and its
+  customisation object. It does not prove every ship's lifecycle uses that path.
+- `553600` forwards a selected tool record's seed/customisation to the working
+  object used by its visual task; other construction/offer layouts stay separate.
+- Freighter root `549380` distinguishes descriptor seed `308` from optional
+  palette seed `2b0`, context palette fallback and explicit color overrides.
+- Frigate reward `8e5180` derives a missing model seed from an optional source,
+  while the palette uses SystemSeed or the original FrigateSeed. Do not replace
+  that last fallback with the derived value.
+  The owning note derives the exact modular inverse of this mixer separately;
+  it does not claim an inverse of desired parts/colors or a native inverse API.
+- `GcCharacterCustomisationData` named processor `2a899c0` identifies six input
+  fields. `11480a0` quantizes explicit colors; this is not natural seed inversion.
+
+Rejected leads and failures are retained in the owning note. Chained PE unwind
+records recover roots without inventing register origins. NPC component timers,
+registry property getters and color-table loaders are not appearance generators.
+The leaf/no-unwind and oversized-fragment errors are bounds/context failures;
+they do not indicate storage damage or a need to repair a disk.
+
+Next, follow upstream source writers into freighter palette seed and tool seed
+records, identify the natural NPC/preset generation entry, and resolve working
+palette fallback initialization plus texture options. Do not relabel the partial
+evaluators as complete or implement inversion from screenshots alone. No live
+comparison, seed-to-location mapping or whole-category preview was produced.

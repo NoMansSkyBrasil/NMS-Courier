@@ -9,6 +9,13 @@ For the resumed procedural investigation, read [the seed handoff](../../docs/SEE
 and [the recovered planet/fauna flow](../../docs/PLANET_FAUNA_SEED_FLOW.md).
 They record bounded native export configurations, field associations, random-stream
 order and unresolved links. Reuse the existing corpus and offline project.
+For the priority ship/tool/fleet/NPC pass, use
+[entity appearance seed flow](../../docs/ENTITY_APPEARANCE_SEED_FLOW.md).
+Its thirteen export selections retain rejected initial labels for provenance.
+`inspect-native-fragments.py` follows bounded chained unwind records to roots;
+`scan-native-acquisition.py --literal-name` locates exact ASCII asset-path
+references separately from metadata types. Leaf functions may lack unwind
+entries. Neither tool establishes a runtime API or complete appearance oracle.
 
 `bulk-game-data.py` inventories and extracts every installed Windows PAK, converts
 all `.MBIN` and `.MBIN.PC` candidates to MXML, validates generated XML, and indexes
