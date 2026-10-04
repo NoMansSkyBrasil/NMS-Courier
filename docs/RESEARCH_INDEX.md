@@ -1,5 +1,9 @@
 # Research navigation index
 
+Latest input integration: [category input pipeline](ENTITY_INPUT_PIPELINE.md).
+Use `evaluate-entity-inputs.py` with the committed synthetic fixtures to join
+source-associated input pairs and explicit pieces to the offline scene trace.
+
 Newest checkpoint: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
 The actual MESH creator, concrete material validators and reference wrapper order
 are compared against original instructions. Explicit-list recursion is separate

@@ -2,6 +2,12 @@
 
 ## Latest checkpoint: gates 1–3, 2026-10-04
 
+Supplied category inputs are now joined by [the category pipeline](ENTITY_INPUT_PIPELINE.md):
+owned ship/tool/freighter and ship purchase precedence, independent material
+second pair, seeded/explicit pieces and optional base-only palette candidates.
+Six integrated traces and ten input tests pass. No live reader/frontend command
+or complete category override oracle is implied.
+
 Newest owning note: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
 It records 353 original-instruction comparisons, 74 explicit-recursion comparisons,
 192 original filter-resolver comparisons, 102 original ALTID comparisons,

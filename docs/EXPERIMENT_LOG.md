@@ -1,5 +1,42 @@
 # Runtime experiment log
 
+## 2026-10-04: category input linkage to descriptor/material/base palette trace
+
+Offline build 180383, algorithm executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning specification: [category input pipeline](ENTITY_INPUT_PIPELINE.md).
+Exact source/configuration: `evaluate-entity-inputs.py`,
+`entity-input-fixtures-180383.json`, `test_entity_inputs.py`; existing descriptor,
+scene, ALTID, context and base palette evaluators. Private Python 3.14.
+Trigger/save conditions: supplied synthetic input records, existing corpus
+read-only; no game process, save, installed DLL or mod. Explicit context index 0;
+both compared material flags, independent model/palette/second-context pairs.
+
+Observed: six category traces succeeded with zero unsupported results, including
+owned ship/tool/freighter, loaded ship purchase seed, purchase fallback and
+explicit tool pieces. Optional base palettes emit 330 candidate samples per
+record. Ten boundary tests pass; enabled zero loaded seed has priority, disabled
+loaded seed falls back, and freighter HomeSystemSeed does not replace its model
+or material second pair. Nine scene and fifteen descriptor regression tests pass.
+The new input connection has no new native oracle comparisons; its underlying
+native evidence remains separately recorded in the previous log entries.
+
+Not proven: actual live input reads, all caller overrides, natural resource IO,
+complete entity colors, texture masks, render matching, inverse generation or
+delivery. Explicit mode exercises the compared helper, not every owned
+customisation caller. Unsupported route/category/fields are rejected. The user's
+input-linkage request was implemented internally in the offline algorithm; no
+renderer integration or live mutation was inferred while scope clarification
+remained unanswered. This does not close unrestricted gates 1–3.
+
+Review corrections: uint64 decimal strings require up to twenty characters,
+not eighteen; the parser now bounds decimal/hex syntax and rejects overflow.
+Category/resource types are checked before set lookup. Both corrections preceded
+publication; neither was a game or disk error. Rollback: source/docs and new
+external report only; original corpus, archives, executable, bridge, patch and
+saves untouched. Evidence: external `entity-inputs-linked-20261004.json`, superseded
+by `entity-inputs-linked-final-20261004.json` after source-provenance review.
+
 ## 2026-10-04: descriptor filter cache and reference ALTID comparison
 
 Offline build 180383, executable SHA-256

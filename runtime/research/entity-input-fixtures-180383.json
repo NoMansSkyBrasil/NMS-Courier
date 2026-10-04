@@ -1,0 +1,47 @@
+[
+  {
+    "category": "ship", "route": "owned_default",
+    "descriptor": "models/common/spacecraft/fighters/fighter_proc.descriptor.mbin",
+    "model_seed": {"value": "0x7", "enabled": true},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "seeded"}
+  },
+  {
+    "category": "multitool", "route": "owned_default",
+    "descriptor": "models/common/weapons/multitool/multitool.descriptor.mbin",
+    "model_seed": {"value": "0x7", "enabled": true},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "seeded"}
+  },
+  {
+    "category": "freighter", "route": "owned_default",
+    "descriptor": "models/common/spacecraft/industrial/piratefreighter.descriptor.mbin",
+    "model_seed": {"value": "0x1AD0003900054", "enabled": true},
+    "home_system_seed": {"value": "0x7", "enabled": true},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "seeded"}
+  },
+  {
+    "category": "ship", "route": "ship_purchase",
+    "descriptor": "models/common/spacecraft/fighters/fighter_proc.descriptor.mbin",
+    "model_seed": {"value": "0x7", "enabled": true},
+    "loaded_resource_seed": {"value": "0xffffffffffffffff", "enabled": true},
+    "material_second_seed": {"value": "0x123", "enabled": true},
+    "engine_context_index": 0, "resource_flags": 67108864, "selection": {"mode": "seeded"}
+  },
+  {
+    "category": "ship", "route": "ship_purchase",
+    "descriptor": "models/common/spacecraft/fighters/fighter_proc.descriptor.mbin",
+    "model_seed": {"value": "0x9", "enabled": true},
+    "loaded_resource_seed": {"value": "0x7", "enabled": false},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "seeded"}
+  },
+  {
+    "category": "multitool", "route": "owned_default",
+    "descriptor": "models/common/weapons/multitool/multitool.descriptor.mbin",
+    "model_seed": {"value": "0x7", "enabled": true},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "explicit", "ids": []}
+  }
+]

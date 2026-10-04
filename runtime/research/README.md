@@ -1,5 +1,11 @@
 # Bulk game-data research
 
+[Category input pipeline](../../docs/ENTITY_INPUT_PIPELINE.md):
+`evaluate-entity-inputs.py --inputs` connects supplied model/palette/context pairs
+and seeded/explicit descriptors to bounded scene/material traces. Optional
+`--base-palettes` emits experimental base-only colors. Use the committed six-case
+fixture manifest for reproduction; no game process/save inputs or live mutations.
+
 Newest continuation: [packed scene context](../../docs/PACKED_SCENE_SEED_CONTEXT.md).
 `emulate-packed-material-context.py` runs original packed MESH, concrete material
 validator, reference collector, default writer and purchase accessor instructions

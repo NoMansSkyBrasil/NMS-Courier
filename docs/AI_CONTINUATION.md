@@ -1,8 +1,14 @@
 # AI continuation guide
 
 Latest owning checkpoint: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
+Latest implemented input connection: [category input pipeline](ENTITY_INPUT_PIPELINE.md).
+Use `evaluate-entity-inputs.py` for supplied owned ship/tool/freighter and ship
+purchase inputs; it preserves separate model/palette/material pairs and supports
+seeded or explicit pieces. Six joined traces pass; this is offline, not renderer
+IPC or live memory reading. Unknown category routes remain unsupported.
 Use its exact factory/collector associations and reproduction commands. Native
-comparisons: 353 material/context/reference cases and 74 explicit recursion cases;
+comparisons: 353 material/context/reference cases, 74 explicit recursion cases,
+192 filter-cache cases and 102 ALTID cases;
 nineteen joined scene traces use explicitly supplied context inputs. Read its
 acceptance ledger before saying gates 1–3 or natural resource loading are complete.
 
