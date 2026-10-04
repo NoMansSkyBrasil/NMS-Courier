@@ -4,6 +4,9 @@ Start here when locating a delivery mechanism, data field, source function, or
 offline analysis artifact. Read [experiment evidence](EXPERIMENT_LOG.md) before
 running any integration test. A location or matching name is not a verified API.
 
+For a category/subcategory map of seed systems, including parts, colors,
+world generation and procedural items, read [the seed systems overview](SEED_ALGORITHM_EXPLAINED.md).
+
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector
 preserves conditional choices; it does not invent a seed algorithm.
