@@ -94,7 +94,12 @@ def native_items(native):
                   'proceduralpalettelookup', 'proceduralpalettecallers',
                   'proceduralcolorbranches', 'proceduralalternatepalette',
                   'proceduralmaterialcolors', 'proceduraltexturecallback',
-                  'proceduralresourcelookup')
+                  'proceduralresourcelookup', 'faunageneration', 'faunametadata',
+                  'faunalayout20261004', 'faunaseedlinks20261004',
+                  'faunaseedfields20261004', 'faunaresourcelinks20261004',
+                  'faunaresourcefields20261004', 'faunacomponentfields20261004',
+                  'faunarolefields20261004', 'planetseedentry20261004',
+                  'planetseedconsumers20261004', 'planetresourceseeds20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

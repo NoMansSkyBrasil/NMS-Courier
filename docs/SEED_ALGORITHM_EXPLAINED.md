@@ -1,6 +1,6 @@
 # NMS seed systems: categories, parts, colors and generated properties
 
-Updated: 2026-10-03. This is a short synthesis of existing source inspection,
+Updated: 2026-10-04. This is a short synthesis of existing source inspection,
 not a new experiment or implementation plan. No tests, extraction or game
 execution were performed for this note. Evidence concerns the previously
 inspected build 180383, executable SHA-256
@@ -10,6 +10,12 @@ The complete seed-to-appearance algorithm has **not** been recovered. The
 integer generator is supported by inspected assembly; descriptor traversal and
 the base palette schedule are partial evaluators. Category-specific input
 propagation and final texture composition remain unresolved.
+
+The [planet/fauna continuation](PLANET_FAUNA_SEED_FLOW.md) now connects the
+planet's 26-child derivation loop to selected consumers, identifies the creature
+scale/fur decisions and the role seed copied to Resource.Seed, and records an
+environmental resource seed override. These are recovered components and static
+call paths, not a complete fauna/flora appearance generator.
 
 Scope is the game's seed systems in general, not only ships. The category map
 below separates evidence from unresearched areas. It is a coverage inventory,
@@ -36,7 +42,7 @@ draw schedules across categories.
 | Frigates | Living | Root descriptors are indexed, but variation can be delegated to other resources or paths. The seed-to-model/color/stat relationship is unresolved. |
 | Multitools | Standard procedural models | Indexed root contains extensive descriptor groups. An inspected multitool texture uses Paint/Rock with Primary/Alternative1/None. Complete tool-specific seed flow is unresolved. |
 | Multitools | Royal; Atlas; Sentinel variants; staff; rod | Separate roots have been inventoried. A small or single-option root does not prove a fixed whole appearance. Staff assembly/customisation cannot be equated with seed-only generation. |
-| Fauna / companions | Bird and other ground/flying/aquatic resource families | One bird dependency graph and material/palette inputs were inspected. A complete category-wide evaluator is absent. A resource name and seed together are necessary context. |
+| Fauna / companions | Bird and other ground/flying/aquatic resource families | Bird dependencies, named role/resource seed fields and native scale/fur decisions are recovered components. Planet child-stream resets reach roles/spawn generation. Final parts/colors and a category-wide evaluator remain incomplete. |
 | Fauna / companions | Creature, secondary creature, genus and species channels | Public export tooling exposes these as separate seed labels. Their complete native meaning, derivation and interaction have not been recovered; they must not be collapsed into one seed. |
 | Flora | Plants, trees and other vegetation resources | Base families include Plant, Leaf, Wood and Grass. Their presence is evidence of color data, not recovery of plant shape, placement or per-planet seed derivation. |
 | Minerals / environmental objects | Rocks, crystals and related procedural resources | Rock/Stone/Crystal and related palette families exist. Shape selection, distribution and seed derivation remain unresearched in this recovery. |
@@ -177,7 +183,7 @@ generated statistics and visual resource seeds must remain distinct.
 
 ## Evidence and code pointers
 
-- [Paused investigation and method handoff](SEED_RESEARCH_HANDOFF.md): fauna
+- [Investigation and method handoff](SEED_RESEARCH_HANDOFF.md): fauna
   native callers, role-to-spawn arithmetic, bird/tree data chains, exact
   evidence locations and unresolved seed propagation.
 - [Detailed research and assembly evidence](PROCEDURAL_SEED_RESEARCH.md):

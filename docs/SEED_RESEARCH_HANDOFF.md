@@ -1,7 +1,10 @@
-# Procedural seed investigation: method and paused checkpoint
+# Procedural seed investigation: method and continuation checkpoint
 
 Research checkpoint: 2026-10-03; handoff finalized: 2026-10-04.
-**Paused at the user's request.** Resume investigation only when asked.
+The 2026-10-03 pause was lifted by the user on 2026-10-04. Offline algorithm
+research resumed; see [the planet/fauna seed-flow continuation](PLANET_FAUNA_SEED_FLOW.md)
+for named fields, planet child-stream order, resource seed overrides and evidence.
+The original checkpoint below is retained as historical evidence.
 Current scope: offline discovery and documentation across categories, not
 features, tests, live hooks, delivery or save editing. The objective is to
 understand which inputs/random streams choose resources, parts, colors,
@@ -273,7 +276,7 @@ tool invocations and source hashes.
 - A web search found an obsolete template checklist; it was not used to infer
   current offsets. Local pinned sources and exact-build evidence take priority.
 
-**Next read, not a new run:** inspect `229c280.c` and `22f7d70.c`, determine
+**Original continuation point, completed on 2026-10-04:** inspect `229c280.c` and `22f7d70.c`, determine
 whether these help name fields or are only structural hashes. Map role/spawn
 seed fields to current metadata, then follow their consumers to resource
 generation, descriptors and palette inputs. For flora, follow the native caller
@@ -284,4 +287,6 @@ No complete fauna/flora generator, inverse search, natural-location mapping or
 live appearance validation was produced. No game/save/mod files were modified.
 Do not restart full extraction, access the failed D: corpus, run disk repair or
 change BitLocker. No tests, feature implementation or runtime work are requested
-while this investigation is paused.
+in this offline algorithm investigation. The current next reads are the missing
+seed input names, resource source collections and palette/descriptor consumers
+in [the continuation](PLANET_FAUNA_SEED_FLOW.md#rejected-leads-and-remaining-links).

@@ -7,10 +7,12 @@ running any integration test. A location or matching name is not a verified API.
 For a category/subcategory map of seed systems, including parts, colors,
 world generation and procedural items, read [the seed systems overview](SEED_ALGORITHM_EXPLAINED.md).
 
-For the paused 2026-10-03 investigation, read the
+For the 2026-10-03 checkpoint and resumed investigation, read the
 [seed research handoff](SEED_RESEARCH_HANDOFF.md): offline method, completed
 fauna exports, flora dependencies, failures and exact continuation point.
-Its seven new exports are not yet in the generated navigation counts below.
+Then read [planet/fauna seed flow](PLANET_FAUNA_SEED_FLOW.md) for the 2026-10-04
+native child-stream order, named fields, scale/fur and resource seed overrides.
+All completed fauna/planet stages are included in the navigation metadata.
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector
@@ -50,7 +52,7 @@ it does not attach to or modify the game.
 
 For current-build executable findings, start with
 [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md). The external
-navigation index now includes 116 successful, unverified native pseudocode
+navigation index now includes 161 successful, unverified native pseudocode
 candidates, including a reward-entry dispatcher and purchase-state handler.
 
 For delivery mechanisms that do not require an offer screen, read the
@@ -64,7 +66,7 @@ and fixtures; it does not label them as native game functions. The current scan
 contains 93 source files and 273 function entries across `runtime/research` and
 `runtime/native/asi`. C#, PowerShell, headers, Java, and manifests appear as files in
 the searchable index; their functions are not parsed by this scanner. There are
-125 native function entries overall; the failed 61f4e0 export remains explicitly
+163 native function entries overall; the failed 61f4e0 and 120a790 exports remain explicitly
 indexed. One additional native analysis-run record preserves the resource-lookup
 export timeout without calling it a decompiled function. Source-only refreshes
 preserve imported data/native metadata instead of repeating full corpus imports.
@@ -169,7 +171,7 @@ warnings; the older unavailable-native snapshot remains historical evidence.
   --output E:\NMS-Courier-Research\navigation --query 'freighter' --limit 10
 ```
 
-The D: examples below describe the former research configuration.
+The commands below use the current E: research configuration.
 
 The [navigation generator](../runtime/research/build-research-index.py) combines
 repository source metadata, readable corpus file records, and available Ghidra
@@ -183,16 +185,16 @@ When the external research directory is readable:
 
 ```powershell
 python runtime/research/build-research-index.py `
-  --output D:\NMS-Courier-Navigation `
-  --corpus D:\NMS-Courier-Research\corpus `
-  --native D:\NMS-Courier-Research\native-180383 `
+  --output E:\NMS-Courier-Research\navigation `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --native E:\NMS-Courier-Research\acquisition-180383 `
   --source-summary docs/RESEARCH_SOURCE_FUNCTIONS.md
 
 python runtime/research/build-research-index.py `
-  --output D:\NMS-Courier-Navigation --query 'freighter' --limit 10
+  --output E:\NMS-Courier-Research\navigation --query 'freighter' --limit 10
 
 python runtime/research/build-research-index.py `
-  --output D:\NMS-Courier-Navigation --query 'courier_dispatch*' `
+  --output E:\NMS-Courier-Research\navigation --query 'courier_dispatch*' `
   --kind source_function --limit 10
 ```
 

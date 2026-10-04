@@ -5,6 +5,11 @@ Start with [the research navigation index](../../docs/RESEARCH_INDEX.md) and
 an existing mechanism. `build-research-index.py` creates a bounded-search metadata
 index of source functions, corpus files, and available Ghidra exports.
 
+For the resumed procedural investigation, read [the seed handoff](../../docs/SEED_RESEARCH_HANDOFF.md)
+and [the recovered planet/fauna flow](../../docs/PLANET_FAUNA_SEED_FLOW.md).
+They record bounded native export configurations, field associations, random-stream
+order and unresolved links. Reuse the existing corpus and offline project.
+
 `bulk-game-data.py` inventories and extracts every installed Windows PAK, converts
 all `.MBIN` and `.MBIN.PC` candidates to MXML, validates generated XML, and indexes
 property names, values, and templates in SQLite FTS5. Each archive gets its own

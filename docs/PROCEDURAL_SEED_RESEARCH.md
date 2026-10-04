@@ -728,8 +728,18 @@ comparison. A checked double literal is 1/4294967295, not 1/4294967296.
 Bird ecosystem/resource/descriptor/texture dependencies and Lush tree
 object-list/reference/descriptor dependencies were inspected. These extend
 category-specific evidence without proving end-to-end seed propagation.
-Three additional type-name-reference exports exist; one begins with structural
-hashing and two remain uninspected. The user requested a pause and a transferable
-method record. No further analysis, implementation or game test should start
-until research is resumed. Generated native navigation metadata is not refreshed
-for these seven new exports yet; consult the handoff directly.
+At that checkpoint, three additional type-name-reference exports existed; one
+began with structural hashing and two remained uninspected. The user requested
+a pause and a transferable method record.
+
+## Resumed seed propagation investigation, 2026-10-04
+
+The user resumed offline algorithm research. All three original metadata leads
+were inspected as structural-hashing candidates, then XML wrappers were followed
+to field processors instead. [Planet/fauna seed flow](PLANET_FAUNA_SEED_FLOW.md)
+records the resulting field names, the 26-child planet derivation loop, selected
+consumer/reset order, the creature scale/fur formula and resource seed overrides.
+It also records fragment limitations, rejected pet/debug-browser leads and one
+individual decompilation timeout. No game tests or feature implementation occurred.
+Generated navigation metadata now includes the original fauna exports and the
+new stages, preserving failed rows explicitly.

@@ -1549,3 +1549,76 @@ Rollback/state: game, saves, mods and existing corpus unchanged. External Ghidra
 project gained offline analysis results; all reports/exports retained. Repository
 changes are documentation only. No application build or tests were run; paused
 at user request with the continuation point in the handoff.
+
+## 2026-10-04 — Offline planet child streams, fauna fields and resource seed overrides
+
+Scope/trigger: user resumed seed research and explicitly requested deciphering
+the procedural algorithm. Offline executable analysis only; no gameplay/save
+conditions, runtime attachment, appearance tests, delivery, extraction or app
+implementation. The earlier pause is historical, not the current instruction.
+
+Build: 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Tools: existing Ghidra 12.1.4 PUBLIC project, portable JDK 25.0.4.1+1,
+Python 3.14, the repository's bounded native export/literal/caller inspectors,
+and SQLite metadata queries. Public signature reference remained pinned to
+NMS.py `52e2e55493ddade1d89d3e638491afff995f5631`; its labels are candidates,
+not verified current-build callable interfaces.
+
+Exact configurations and evidence: [planet/fauna seed flow](PLANET_FAUNA_SEED_FLOW.md)
+links all ten stage TSVs, RVAs, fragment hashes and external report names.
+`faunalayout20261004` used the external selected-layout TSV, now preserved
+byte-for-byte as `runtime/research/fauna-layout-180383.tsv`.
+External root: `E:\NMS-Courier-Research\acquisition-180383`; each
+`run-<stage>.json` records the executable/configuration hashes, command and
+elapsed time. All runs reused Acquisition180383 with `-noanalysis`, two CPUs,
+4 GiB Java heap, 20 GiB reserve, 180/210/240-second outer budgets and the
+default 30-second per-function decompilation limit.
+
+Observed by static analysis: planet Generate derives 26 enabled child seeds
+in 13 iterations (52 parent MWC draws), then resets selected consumers from
+different children. Slots 10/11 precede the roles/spawn paths; the scale/fur
+routine initializes its own role-seed stream, so the reset alone does not prove
+that slot 11 affects visible appearance. Native XML field processors name
+CreatureId, Seed, filters, resource variants, scale and fur fields. Spawn
+preparation copies the role seed into Resource.Seed; two draws select scale
+and AllowFur after CreatureId/size data lookup. Planet resource generation
+consumes ordinary child draws even when an optional source seed overrides
+the result, using a separately recovered 64-bit combination. Another resource
+path derives an auxiliary seed and reaches the known descriptor/task pipeline.
+Formula, branch and field evidence is documented in the owning note.
+
+Results: ten stages produced 31 successful export rows and one failure;
+one repeated RVA leaves 30 distinct successful RVAs. These include metadata
+wrappers and fragments, not 30 complete visual algorithms. All launchers
+completed with exit 0; manifests disclose the per-function failure. Prior
+fauna stages were imported into navigation too: 163 native entries total,
+161 successful/unverified and two failed (61f4e0 and 120a790). Navigation retains
+93 source files, 273 source functions and 194,641 data-file records, with no
+import warnings. Only metadata was refreshed, not the extracted corpus.
+
+Failures/rejected hypotheses: 120a790 timed out at 30 seconds; its continuation
+120a7ac lacks entry context and cannot stand in for a verified ABI. A combined
+caller request exceeded the fixed budget without producing a report; a narrowed
+1149fe0 scan yielded 34 edges/31 fragments. Structural hash processors,
+PETACCESSORIES generation and debug resource-browser controls were rejected
+as whole-creature appearance entry points. A final literal `*.c` Windows path
+search failed with OS error 123; using `-g '*.c'` against the existing directory
+succeeded. This was argument handling, not a storage/read failure.
+
+Not proven: complete input/child schedules across all categories, every planet
+collection name, the optional source field name, runtime scale cap, female/extra
+resource derivation, color-swap writers, complete palette/texture composition,
+rendered fauna/flora/minerals, inverse seeds, natural locations or runtime support.
+There are no new game-appearance fixtures or live validation claims.
+
+Rollback/state: game executable, bridge, mods, saves and corpus unchanged.
+No disk repairs, D: access or BitLocker operations. Existing external Ghidra
+project gained offline exports; reports remain external. Repository changes
+are documentation, selected TSV configurations and navigation stage registration.
+Application builds/tests are unnecessary for this scope; validate documentation
+links, configuration hashes, manifest counts and the generated metadata instead.
+Final verification passed: all ten configuration hashes match their launcher
+reports; manifests total 31 successful/one failed rows and 30 distinct successful
+RVAs; 387 relative links in changed Markdown files resolve; Python syntax and
+`git diff --check` pass; the read-only native-index status counts match above.
