@@ -1,5 +1,90 @@
 # Runtime experiment log
 
+## 2026-10-04: material order, descriptor contexts and priority input channels
+
+Offline build 180383, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning note: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md), with exact
+selections, stages, reproduction, bounds and unresolved boundaries.
+Sources: `appearance-material-*-180383.tsv`, freighter source-writer/input-caller
+selections, context-loader/child-writer/child-method selections,
+`scan-resource-material-tables.py`, `emulate-appearance-context.py`, updated
+`evaluate-descriptor-seed.py`, bounded Ghidra runner and reference exporter.
+
+Conditions: no game process, save or native Windows executable launched. Python
+3.14/private Unicorn 2.1.4/Capstone 5.0.5, existing Ghidra 12.1.4 project/JDK
+25.0.4.1+1, no autoanalysis, two CPU budget, bounded stages/20 GiB reserve.
+No extraction, D: access, disk commands/repair, BitLocker changes or installed
+runtime modifications. Proprietary outputs remain external.
+
+Observed: 15 candidate resource tables/eight instruction-checked LEA references;
+`18dd650` creates internal node at `1c8`; resource thunk `18dae90` forwards to
+node virtual `+20`. Aggregate `1833ec0` and leaf `1839e10` traverse stored child
+order, appending own material handle first and skipping previously present
+handles. No name sorting/RNG. Descriptor inclusion/exclusion/prefix rules,
+raw-ID suppression and Name weights are now implemented with explicit context.
+Freighter setter `5417f0` copies incoming resource `d0` and palette pair `160/168`
+into source `170` and `200/208`; two calls in `aea590` message branch `0x19`.
+Ten function stages: 26 decompiled rows, zero export failures. Separate reference
+stage produced zero database references; it is not a function export.
+
+Verification: 375 private original-instruction fixtures (15 material/360 choice),
+zero output or final-RNG divergences, plus eleven Python boundary/traversal tests.
+Strings and vector allocation/free are bounded stubs. Unknown targets abort.
+No rendered/live appearance or runtime support is proven.
+
+Failures/rejected leads: large pointer-run heuristic missed mixed resource tables;
+shared-slot anchors and instruction-checked references replaced it. Empty Ghidra
+references were database coverage limitations. Thunk has no unwind entry; a
+fabricated range was rejected. Offset-only searches found stack math (`544c00`)
+and unrelated layouts (`1833130`, `1838a70`), not seed/child producers.
+`1833780` updates name/hash, `1834500` destroys nodes and `1833dc0` propagates
+context; none proves child construction. Two temporary guessed selections were
+replaced with decoded caller addresses before execution. Wrong stage/script
+paths, Windows rg wildcard paths, a directory-as-file read and a documentation
+patch context failed; corrected exact paths/heading used. No corpus, storage or
+game failure occurred.
+
+Not proven: natural child construction/material association, all node overrides,
+complete original recursive loading replay, automatic filter records, owned
+freighter HomeSystemSeed association, all category variants, rendering, whole
+appearance inverse or delivery. The three broad goals remain partially resolved.
+Rollback: no live state changed; existing source assets/project preserved.
+Transient evidence: `appearance-context-native-final-20261004.json`, material
+table/fragment reports, field-writer/caller reports under
+`E:\NMS-Courier-Research\seed-analysis-180383`; proprietary Ghidra outputs in
+`acquisition-180383`. No live retry/class/slot mutation.
+
+Resumed after the usage-limit interruption: three additional bounded stages
+(`appearancescenepopulation20261004`, `appearancescenechildpopulation20261004`,
+`appearancescenefilter20261004`) added ten successful function rows, zero export
+failures. Resource loader `18ddc70` applies a context mask and selected-descriptor
+filter to MESH/REFERENCE/LOCATOR/INSTANCEMODEL, appends created nodes to parent
+`+78` and recurses over packed children in stored order. `21f4a0` append does not
+sort/deduplicate. `2d698c0` uses uppercase 31-byte names and a 15-character
+fallback. The first expanded 413-case native run disagreed once with a guessed
+16-character fallback; the explicit terminator at buffer byte 15 explained it.
+Corrected port, dedicated regression and 420-case matrix pass with zero
+divergences; twelve traversal tests pass. IAT `34118c0` was checked to name strncpy
+before replacing its pointer in private emulation; no host import executed.
+
+Reproduction includes `scan-scene-child-fields.py`: 2,592 bounded fragments,
+64 candidates and 14 explicit decode/size coverage skips, not file-read or SSD
+errors. Offset matches remain candidates. `18361c0` is a destructor; `18e12c0`
+instantiates existing nodes; `19444b0` is a derived constructor. Their parser
+labels were rejected. Current evidence: `appearance-context-loader-corrected-20261004.json`,
+retained failed `appearance-context-loader-final-20261004.json`, scene type literals,
+filter instruction/body reports and `scene-child-field-scan-final-20261004.json`.
+XML-to-packed conversion, reference/factory variants and owned freighter palette
+schema remain open. No live state or storage change occurred.
+
+Final checks: twelve descriptor/traversal tests, five native-index tests, seven
+Python source parses, 148 relative documentation links and three repository-output
+rejection checks passed; no probe file created. Navigation refreshed to 108
+source files/383 source functions/286 native candidates, zero import warnings.
+The 420-case native report retains executable/window/source hashes; no broad
+appearance, UI rendering, runtime mutation or full inverse acceptance is claimed.
+
 ## 2026-10-04: REA source assessment and targeted Ghidra resource helpers
 
 Offline build 180383, SHA-256

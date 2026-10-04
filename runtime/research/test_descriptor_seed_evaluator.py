@@ -12,6 +12,47 @@ def group(identity, children=None, references=None, type_id='GROUP', name='norma
 
 
 class DescriptorSeedTests(unittest.TestCase):
+    def test_loaded_membership_fallback_is_fifteen_bytes_not_sixteen(self):
+        predicate = module['loaded_node_included']
+        name = '_ABCDEFGHIJKLMNOP_tail'
+        self.assertTrue(predicate(name, (name[:15].upper(),)))
+        self.assertFalse(predicate(name, (name[:16].upper(),)))
+        self.assertTrue(predicate(name, (name.upper(),)))
+        self.assertTrue(predicate('_PART', ()))
+        self.assertFalse(predicate('_wing_left', ('_wing_left',)))
+
+    def test_prefix_single_match_does_not_draw_even_for_never_option(self):
+        options = [{'id': 'NORMAL', 'name': 'normal'}, {'id': 'PREFERRED', 'name': 'xNEVER'}]
+        state = module['core']['seed_state'](7)
+        self.assertEqual(module['choose_group'](state, options, prefix='PREFERRED'), (state, 1))
+
+    def test_ineligible_selected_candidate_suppresses_entire_group(self):
+        options = [{'id': '_XA', 'name': 'normal'}, {'id': '_XB', 'name': 'normal'}]
+        state = module['core']['seed_state'](7)
+        self.assertEqual(module['choose_group'](state, options, selected=('_XB',), inclusion=('_XA',)),
+                         (state, None))
+
+    def test_inclusion_distinguishes_first_underscore_suffix_and_plain_x(self):
+        predicate = module['included']
+        self.assertTrue(predicate('PARTXA', ('_XA',)))
+        self.assertTrue(predicate('_PART_XA', ('_XA',)))
+        self.assertFalse(predicate('_XA', ('XA',)))
+        self.assertTrue(predicate('_XA', ('_XA',)))
+        self.assertTrue(predicate('WING', ('UNMATCHED',)))
+
+    def test_reference_resets_prefix_and_exclusion_but_retains_inclusion(self):
+        reference = {'groups': [group('WING'), group('_XB')]}
+        root = {'groups': [group('ROOT', references=['models/reference.scene.mbin'])]}
+        result = module['evaluate'](7, root, lambda _: reference,
+                                    inclusion=('_XA',), exclusion=('WING',), prefix='ROOT')
+        self.assertEqual(result['selected_ids'], ['ROOT', 'WING'])
+
+    def test_context_rejects_unbounded_or_embedded_null_identities(self):
+        state = module['core']['seed_state'](7)
+        for prefix in ('a' * 32, 'a\0b', '\u00e9'):
+            with self.assertRaisesRegex(ValueError, 'bounded ASCII'):
+                module['choose_group'](state, [{'id': 'NORMAL', 'name': 'normal'}], prefix=prefix)
+
     def test_annotated_extension_uses_audited_loader_reconstruction(self):
         normalize = module['logical_descriptor_path']
         self.assertEqual(normalize('MODELS/EFFECTS/LIGHTS/LIGHT_BLUE.SCENE.MBIN{7}'),

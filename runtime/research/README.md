@@ -621,3 +621,22 @@ For Python-only evaluation, pass repeated `--asset` arguments in that same order
 to `evaluate-texture-options.py --phase fresh-merged`, with explicit texture and
 palette seeds, corpus and new external output. No entity-to-palette input
 inference, rendering or inverse solver is implied.
+
+For the subsequent concrete material-vector producer and explicit descriptor
+context comparison, read [appearance context](../../docs/APPEARANCE_CONTEXT_RESEARCH.md).
+`emulate-appearance-context.py` validates 15 stored-node traversal fixtures and
+360 descriptor contexts against fingerprint-pinned instructions. String and
+vector operations are bounded stubs; host imports and game access are rejected.
+`scan-resource-material-tables.py` recovers candidate resource table families and
+instruction-checked LEA references. Shared slots are not a verified type identity.
+`analyze-acquisition-offline.py --script ExportNativeDataReferences.java` queries
+the existing Ghidra reference database without autoanalysis; missing references
+are explicit database limitations. Data-reference exports are not function exports.
+The descriptor evaluator now accepts `--include-id`, `--exclude-id`, `--prefix`;
+caller contexts and resource filter records are never inferred automatically.
+
+The resumed emulator matrix has 420 cases, adding selected-node membership and
+child-vector append against original instructions. `scan-scene-child-fields.py`
+reproduces bounded offset leads in the scene-loader region; its coverage skips
+and false layout matches are explicit. See the owning note for the 15-character
+membership fallback correction and the packed-input-order boundary.

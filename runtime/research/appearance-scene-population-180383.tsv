@@ -1,0 +1,4 @@
+18e12c0	Instruction-checked mesh constructor caller; scene parsing and stored child order candidate
+19444b0	Instruction-checked mesh constructor caller; alternate scene parsing candidate
+18361c0	Internal table code pointer; initializer or node clone candidate, table extent unverified
+18341e0	Internal scene virtual30; stored child construction candidate

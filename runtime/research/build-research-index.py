@@ -113,7 +113,14 @@ def native_items(native):
                   'appearanceprepare20261004', 'appearanceloader20261004',
                   'appearancecontext20261004', 'appearanceselectwriter20261004',
                   'appearanceselectcallees20261004', 'appearancelayercollection20261004',
-                  'appearanceresourceproducer20261004')
+                  'appearanceresourceproducer20261004',
+                  'appearancematerialvector20261004', 'appearancematerialconstructors20261004',
+                  'appearancematerialvectorowner20261004', 'appearancematerialinterfacecallers20261004',
+                  'appearancematerialleaf20261004', 'appearancefreighterwriters20261004',
+                  'freighterinputcallers20261004', 'appearancecontextloaders20261004',
+                  'appearancechildwriters20261004', 'appearancechildmethods20261004',
+                  'appearancescenepopulation20261004', 'appearancescenechildpopulation20261004',
+                  'appearancescenefilter20261004')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

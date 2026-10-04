@@ -20,6 +20,8 @@ def main():
     parser.add_argument('--timeout', type=int, default=900)
     parser.add_argument('--project-name')
     parser.add_argument('--stage', default='base')
+    parser.add_argument('--script', choices=('ExportAcquisitionSeeds.java', 'ExportNativeDataReferences.java'),
+                        default='ExportAcquisitionSeeds.java')
     args = parser.parse_args()
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', args.stage) or (args.project_name and not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', args.project_name)):
         parser.error('Invalid project or stage name')
@@ -47,7 +49,7 @@ def main():
     mode = ['-process', exe.name] if (project / (name + '.gpr')).exists() else ['-import', str(exe)]
     command = ['cmd.exe', '/d', '/c', str(headless), str(project), name, *mode,
                '-noanalysis', '-max-cpu', '2', '-scriptPath', str(Path(__file__).parent.resolve()),
-               '-postScript', 'ExportAcquisitionSeeds.java', str(args.seeds.resolve()), str(root / export_name)]
+               '-postScript', args.script, str(args.seeds.resolve()), str(root / export_name)]
     env = dict(os.environ, JAVA_HOME=str(java), GHIDRA_JAVA_HOME=str(java), JAVA_TOOL_OPTIONS='-XX:ActiveProcessorCount=2 -Xmx4g')
     report = {'mode': 'offline_only', 'exe_sha256': fingerprint, 'seeds_sha256': hashlib.sha256(args.seeds.read_bytes()).hexdigest(), 'command': command, 'status': 'running'}
     started = time.monotonic()

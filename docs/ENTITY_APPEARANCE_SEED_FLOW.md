@@ -11,6 +11,12 @@ specific branches and field associations. **It does not complete the five
 categories' appearance algorithms or establish a callable runtime interface.**
 No game process, installed patch, bridge, save or archive was changed.
 
+Later continuation: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md) identifies
+freighter setter `5417f0`: incoming resource `d0` -> source `170` and incoming
+palette pair `160/168` -> source `200/208`. Caller `aea590` uses this in numeric
+update-message branch `0x19`. This extends the static copy chain, but does not
+establish the serialized owned HomeSystemSeed association discussed below.
+
 Notation: bare RVAs and byte offsets/strides are hexadecimal. Counts, byte sizes
 and array lengths in prose are decimal; enum/slot values below use `0x` explicitly.
 

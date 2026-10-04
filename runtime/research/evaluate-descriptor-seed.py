@@ -1,6 +1,6 @@
-"""Offline candidate for unfiltered default descriptor traversal in build 180383.
+"""Offline candidate for explicit-context descriptor traversal in build 180383.
 
-No prefix overrides, inclusion/exclusion channels, customisation or native calls.
+Explicit inclusion, exclusion and prefix inputs; no inferred caller context.
 The generated ID trace is not a verified full appearance or inverse seed search.
 """
 import argparse
@@ -93,23 +93,75 @@ class CorpusDescriptors:
         return tree
 
 
-def evaluate(seed, tree, resolve, enabled=True):
+def included(identity, identities):
+    """Reproduce the case-sensitive suffix predicate at RVA 2d69ad0."""
+    if not identities:
+        return True
+    underscore = identity.find('_')
+    if underscore >= 0 and identity[underscore:].startswith('_X'):
+        return identity[underscore:] in identities
+    x = identity.find('X')
+    if x < 0:
+        return True
+    suffix = identity[x:]
+    return any(suffix == entry or entry.startswith('_') and suffix == entry[1:]
+               for entry in identities)
+
+
+def loaded_node_included(name, selected):
+    """Selected-descriptor membership at 2d698c0, after caller LOD processing."""
+    if not name.isascii() or len(name) > 255 or '\0' in name:
+        raise ValueError('Loaded node name exceeds audited ASCII scope')
+    if len(selected) > 4096 or any(not value.isascii() or len(value) > 31 or '\0' in value for value in selected):
+        raise ValueError('Selected node identity budget exceeded')
+    if not name.startswith('_') or '_' not in name[1:]:
+        return True
+    # The 16-byte strncpy buffer is explicitly terminated at byte 15.
+    return name[:31].upper() in selected or name[:15].upper() in selected
+
+
+def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix=''):
+    """Explicit-context group selection at RVA 2d67800; return original index."""
+    if len(options) > 4096 or any(len(values) > 4096 for values in (selected, inclusion, exclusion)):
+        raise ValueError('Descriptor context count budget exceeded')
+    for identity in [prefix, *selected, *inclusion, *exclusion, *(o['id'] for o in options)]:
+        if not identity.isascii() or len(identity) > 31 or '\0' in identity:
+            raise ValueError('Descriptor context requires bounded ASCII identities')
+    eligible = [i for i, option in enumerate(options)
+                if not any(token and token in option['id'] for token in exclusion)
+                and included(option['id'], inclusion)]
+    total = sum(core['option_weight'](options[i]['name']) for i in eligible)
+    if not total or any(option['id'] in selected for option in options):
+        return state, None
+    matches = [i for i in eligible if prefix and prefix in options[i]['id']]
+    if len(matches) == 1:
+        return state, matches[0]
+    state, draw = core['advance'](state)
+    if matches:
+        return state, matches[(draw * len(matches)) >> 32]
+    position = (draw * total) >> 32
+    for index in eligible:
+        weight = core['option_weight'](options[index]['name'])
+        if position < weight:
+            return state, index
+        position -= weight
+    raise AssertionError('Weighted descriptor selection escaped its range')
+
+
+def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), prefix=''):
     selected, trace = [], []
     calls = [0]
 
-    def visit(model, local_seed, local_enabled, depth):
+    def visit(model, local_seed, local_enabled, depth, local_prefix, local_exclusion):
         calls[0] += 1
         if depth > 64 or calls[0] > 4096:
             raise ValueError('Descriptor traversal depth/call budget exceeded')
         state = core['seed_state'](local_seed, local_enabled)
         for group in model['groups']:
             options = group['options']
-            if not options or not any(core['option_weight'](option['name']) for option in options):
+            state, index = choose_group(state, options, selected, inclusion, local_exclusion, local_prefix)
+            if index is None:
                 continue
-            # Native suppression compares candidate IDs before LOD normalization.
-            if any(option['id'] in selected for option in options):
-                continue
-            state, index = core['choose_unfiltered'](state, [option['name'] for option in options])
             option = options[index]
             identity = normalized_id(option['id'])
             if identity not in selected:
@@ -123,20 +175,22 @@ def evaluate(seed, tree, resolve, enabled=True):
                 if all_never(child):
                     continue
                 if group['type_id'] == '_PLAYER_':
-                    visit(child, local_seed, local_enabled, depth + 1)
+                    visit(child, local_seed, local_enabled, depth + 1, local_prefix, local_exclusion)
                 else:
                     state, child_seed = core['child_seed'](state)
-                    visit(child, child_seed, True, depth + 1)
+                    visit(child, child_seed, True, depth + 1, local_prefix, local_exclusion)
             for reference in option['reference_paths']:
                 referenced = resolve(reference)
                 if referenced is not None and all_never(referenced):
                     continue
                 state, child_seed = core['child_seed'](state)
                 if referenced is not None:
-                    visit(referenced, child_seed, True, depth + 1)
+                    # The audited reference branch resets prefix/exclusion;
+                    # an empty prefix does not select a resource filter record.
+                    visit(referenced, child_seed, True, depth + 1, '', ())
         return state
 
-    state = visit(tree, seed, enabled, 0)
+    state = visit(tree, seed, enabled, 0, prefix, exclusion)
     return {'selected_ids': selected, 'trace': trace, 'root_final_state': list(state), 'calls': calls[0]}
 
 
@@ -147,6 +201,9 @@ def main():
     models.add_argument('--model')
     models.add_argument('--models-file', type=Path, help='JSON array of 1..32 exact model/descriptor paths')
     parser.add_argument('--seed', required=True, type=lambda value: int(value, 0))
+    parser.add_argument('--include-id', action='append', default=[])
+    parser.add_argument('--exclude-id', action='append', default=[])
+    parser.add_argument('--prefix', default='')
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
     corpus, output = args.corpus.resolve(), args.output.resolve()
@@ -161,6 +218,8 @@ def main():
     else:
         paths = [args.model]
     core['seed_state'](args.seed)
+    choose_group(core['seed_state'](args.seed), [], inclusion=args.include_id,
+                 exclusion=args.exclude_id, prefix=args.prefix)
     records = []
     sources = None
     for path in paths:
@@ -171,17 +230,19 @@ def main():
             tree = loader.load(path)
             if tree is None:
                 raise ValueError('Root descriptor is absent; no procedural trace can be inferred')
-            record.update(evaluate(args.seed, tree, loader.load), status='experimental_trace')
+            record.update(evaluate(args.seed, tree, loader.load, inclusion=args.include_id,
+                                   exclusion=args.exclude_id, prefix=args.prefix), status='experimental_trace')
         except ValueError as error:
             record.update(status='unsupported_or_budget', error=str(error))
         finally:
             record['sources'] = [{k: v for k, v in item.items() if k != 'tree'} for item in loader.cache.values()]
             loader.close()
         records.append(record)
-    report = {'mode': 'experimental_unfiltered_descriptor_trace', 'runtime_verified': False,
+    report = {'mode': 'experimental_explicit_context_descriptor_trace', 'runtime_verified': False,
               'appearance_evaluator_complete': False, 'seed': hex(args.seed), 'records': records,
-              'limitations': ['No inclusion/exclusion channel or prefix override is supplied.',
-                              'Native filters/customisation may change both selections and draw consumption.',
+              'context': {'inclusion': args.include_id, 'exclusion': args.exclude_id, 'prefix': args.prefix},
+              'limitations': ['Caller context and resource filter records must be supplied explicitly.',
+                              'Customisation and alternate loader paths are not inferred.',
                               'Class, colors, inventory and natural location are not evaluated.']}
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2), encoding='utf-8')

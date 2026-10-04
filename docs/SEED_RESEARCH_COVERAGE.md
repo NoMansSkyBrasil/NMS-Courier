@@ -12,6 +12,11 @@ closes unlinked IgnoreName merging in 65 isolated cases.
 wrapper/collector/selector in 390 isolated cases with explicit resource order.
 Natural ordering, filters and full inverse remain open.
 
+The [appearance-context pass](APPEARANCE_CONTEXT_RESEARCH.md) now verifies stored
+node material order and explicit descriptor filters/prefixes in 375 isolated
+cases. Natural loader ordering, inferred filters and category variants remain
+open; it also adds the freighter update-message source-pair copy link.
+
 | Category | Resource/parts | Palette input | Texture/decal rules | Remaining source boundary |
 | --- | --- | --- | --- | --- |
 | Ships | Default descriptor forward candidate; owned writer 55cb20 connects Resource.Seed and working seed; explicit parts separate | Default task chain now connected; edited palette bypass identified | Eight selected decal resources, native-emulated restricted selector | Complete material resource order, conditional descriptors, category variants/masks |

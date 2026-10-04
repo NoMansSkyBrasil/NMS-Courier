@@ -1,0 +1,3 @@
+18dd650	Instruction-checked constructor reference to resource table 4b01b58
+1919510	Instruction-checked resource table 4b01b58 reference; concrete type unverified
+199a710	Instruction-checked resource table 4b01b58 reference; internal object setup candidate

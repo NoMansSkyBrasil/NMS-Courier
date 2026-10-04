@@ -1,5 +1,14 @@
 # Research navigation index
 
+Latest continuation: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md) records
+375 zero-divergence original-instruction comparisons, concrete material-vector
+methods, explicit descriptor context and a freighter upstream source writer.
+Use its continuation boundaries before repeating any resource/selector export.
+
+The resumed scene-loader continuation reaches 420 comparisons and adds packed
+child insertion plus selected-node filtering. Native navigation includes all
+thirteen function stages; the separate data-reference stage is not a function.
+
 Latest seed checkpoint: [merged texture selection](MERGED_TEXTURE_SELECTION_RESEARCH.md)
 records 390 isolated wrapper/collector/selector comparisons and the unresolved
 natural resource-vector producer. Use its continuation target before repeating

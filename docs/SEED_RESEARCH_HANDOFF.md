@@ -36,6 +36,20 @@ checks validate research tooling only. The objective is to
 understand which inputs/random streams choose resources, parts, colors,
 textures, scale and other properties. Inverse search is a separate later problem.
 
+Latest continuation: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md) recovers
+the concrete resource-vector producer, validates loaded-node material order and
+explicit descriptor filters/prefixes against 375 original-instruction fixtures,
+and traces a freighter update-message seed writer. Natural scene construction,
+all caller contexts and the owned save-to-palette link remain open. Resume at
+those exact boundaries rather than repeating the completed choice/merge matrices.
+
+The resumed loader pass extends this to 420 passing comparisons and twelve
+traversal tests. It identifies `18ddc70` stored-order child construction,
+`21f4a0` parent append and `2d698c0` selected-node filtering. A failed first
+comparison corrected its fallback from 16 to 15 characters. XML-to-packed
+conversion/reference variants and the owned freighter palette source remain
+unclosed; do not describe the packed loader path as every natural asset loader.
+
 ## Read first
 
 1. [Seed overview](SEED_ALGORITHM_EXPLAINED.md): category coverage and limits.

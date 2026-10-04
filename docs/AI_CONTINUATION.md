@@ -34,6 +34,21 @@ export, rejected cache/reference-count leads, pinned external tooling and exact
 tool-path correction. Follow concrete object construction rather than treating
 generic resource lookup as a seed/material selector.
 
+Superseding continuation: [material/descriptor/category context](APPEARANCE_CONTEXT_RESEARCH.md)
+identifies `18dae90 -> node(+1c8).virtual(+20)`, aggregate `1833ec0` and material
+leaf `1839e10`. Fifteen loaded-tree fixtures and 360 explicit descriptor contexts
+match original instructions. Source setter `5417f0` connects message resource
+and palette pairs to the freighter cache. Do not call the three broad boundaries
+complete: loader child order, full recursion/filter acquisition, all variants and
+the owned HomeSystemSeed writer remain unclosed. The original research selections
+and bounded emulator are committed; proprietary evidence remains external.
+
+Resumed detail: `18ddc70` appends selected/factory-created children in packed
+input order; `21f4a0` preserves insertion; `2d698c0` checks 31-byte uppercase IDs
+then a 15-character fallback. The first 413-case comparison found that off-by-one;
+corrected 420-case comparison passes. Use `scan-scene-child-fields.py` for bounded
+offset leads, treating its 14 skipped fragments and every candidate explicitly.
+
 ## What exists, what has actually been established
 
 | Area | Evidence status | Owning reference |
