@@ -59,6 +59,14 @@ class PriorityAppearanceTests(unittest.TestCase):
         result=M['collect']([a,layer()],{'Paint':4})
         self.assertEqual([o['occurrences'] for o in result[0]['options']],[2,1])
 
+    def test_unnamed_single_option_mode_creates_separate_rows(self):
+        a=layer(name='');a['always_enable_unnamed']=True
+        result=M['collect']([a,copy.deepcopy(a)],{'Paint':4})
+        self.assertEqual(len(result),2)
+        self.assertEqual([g['occurrences'] for g in result],[1,1])
+        a['always_enable_unnamed']=False
+        self.assertEqual(len(M['collect']([a,copy.deepcopy(a)],{'Paint':4})),1)
+
     def test_unsupported_context_fails_instead_of_guessing(self):
         a=layer();a['fields']['LinkedLayer']='BASE'
         with self.assertRaisesRegex(ValueError,'Unsupported'): M['collect']([a],{'Paint':4})

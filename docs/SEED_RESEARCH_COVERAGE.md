@@ -7,7 +7,10 @@ Read [AI continuation](AI_CONTINUATION.md) for onboarding and exact next targets
 Current user priority is ships, multitools and freighters, with an inverse from
 chosen parts/colors/decals to a matching seed. [Priority catalog](PRIORITY_APPEARANCE_CATALOG.md)
 organizes declaration dependencies; [collector comparison](TEXTURE_COLLECTION_RESEARCH.md)
-closes unlinked IgnoreName merging in 65 isolated cases. Full inverse remains open.
+closes unlinked IgnoreName merging in 65 isolated cases.
+[Merged selection](MERGED_TEXTURE_SELECTION_RESEARCH.md) now joins the native
+wrapper/collector/selector in 390 isolated cases with explicit resource order.
+Natural ordering, filters and full inverse remain open.
 
 | Category | Resource/parts | Palette input | Texture/decal rules | Remaining source boundary |
 | --- | --- | --- | --- | --- |
@@ -30,7 +33,7 @@ Owning evidence:
 Current closed subset: fresh/default single-resource texture selection with
 unique layers, IgnoreName options, default palette indices and supplied colors;
 468 isolated native comparisons across 18 resources/35 layers. This is not
-complete scene appearance. Multi-resource final selection, linked layers, gameplay-name filters,
+complete scene appearance. Natural multi-resource ordering, linked layers, gameplay-name filters,
 alternate-bank callers and native DDS masks remain independent requirements.
 Class/stats/inventory slots and delivery authorization are separate systems.
 

@@ -587,3 +587,37 @@ python -m unittest discover -s runtime/research -p test_priority_appearance_cata
 
 At most 16 sources, five copied fixture profiles each. This checks collection
 records, not merged final selection, native material loading order or rendering.
+
+For the subsequent integrated wrapper/collector/selector comparison, read
+[ordered merged selection](../../docs/MERGED_TEXTURE_SELECTION_RESEARCH.md).
+Each invocation treats all supplied assets as one ordered synthetic bundle:
+
+```powershell
+$assetArguments = @()
+foreach ($asset in Get-Content runtime/research/appearance-decal-assets-180383.txt) {
+  $assetArguments += @('--asset', $asset)
+}
+python runtime/research/emulate-texture-selection.py `
+  --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  --corpus E:\NMS-Courier-Research\corpus @assetArguments `
+  --merged --samples 8 --include-zero-probability-fixtures --include-merged-profiles `
+  --payload-index 0 `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --emulator-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\unicorn-2.1.4" `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\merged-textures-new.json
+```
+
+Reversing this array tests order sensitivity. Other audited bundles: the first
+four priority weapon texture entries followed by freighter procedural paint;
+paint twice followed by logo; and logo/patterns/decalpaint. Repeat the paint
+bundle with `--payload-index 1` to select the second declaration/output channel.
+Use new external report paths every time. Inputs are unchanged; extra profiles
+modify copied declarations only. Maximum eight sources, sixteen collected groups,
+256 alternatives/group, 32 output rows, 512 stub calls/case. Original wrapper
+and selector calls each have an instruction/time budget. Natural material order
+and linked/name-filtered contexts are outside these fixtures.
+
+For Python-only evaluation, pass repeated `--asset` arguments in that same order
+to `evaluate-texture-options.py --phase fresh-merged`, with explicit texture and
+palette seeds, corpus and new external output. No entity-to-palette input
+inference, rendering or inverse solver is implied.

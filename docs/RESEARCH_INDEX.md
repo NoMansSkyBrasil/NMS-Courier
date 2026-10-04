@@ -1,5 +1,12 @@
 # Research navigation index
 
+Latest seed checkpoint: [merged texture selection](MERGED_TEXTURE_SELECTION_RESEARCH.md)
+records 390 isolated wrapper/collector/selector comparisons and the unresolved
+natural resource-vector producer. Use its continuation target before repeating
+individual decal/resource experiments.
+The [REA assessment](REA_GHIDRA_ASSESSMENT.md) records source-level compatibility
+and the targeted resource-proxy Ghidra continuation; no REA runtime was installed.
+
 Start here when locating a delivery mechanism, data field, source function, or
 offline analysis artifact. Read [experiment evidence](EXPERIMENT_LOG.md) before
 running any integration test. A location or matching name is not a verified API.

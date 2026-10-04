@@ -25,6 +25,11 @@ The [collector continuation](TEXTURE_COLLECTION_RESEARCH.md) now closes unlinked
 IgnoreName merging in 65 isolated cases. Next is merged full selection/resource
 order. [Priority catalog](PRIORITY_APPEARANCE_CATALOG.md) organizes ship/tool/freighter
 choices and the requested complete appearance-to-seed inverse acceptance rules.
+The latest [merged selection continuation](MERGED_TEXTURE_SELECTION_RESEARCH.md)
+links the native resource-order wrapper, collector and full selector in 390
+isolated cases. Resume at the concrete virtual resource-vector producer used
+by `62f420`; do not repeat the completed merged fixture matrix. Natural order,
+category callers, rendering and the complete inverse remain unresolved.
 Current scope: offline discovery and documentation across categories, not
 features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
 checks validate research tooling only. The objective is to

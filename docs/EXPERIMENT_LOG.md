@@ -1,5 +1,81 @@
 # Runtime experiment log
 
+## 2026-10-04: REA source assessment and targeted Ghidra resource helpers
+
+Offline build 180383, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+[Owning assessment](REA_GHIDRA_ASSESSMENT.md) records exact external REA commit
+`405732a7f55e3033c29533b18f7d8313dbd28570`, source files and primary links.
+REA source cloned externally for read-only reference; no installer, dependencies,
+skill or MCP setup run. Its JDK 21 requirement and fresh auto-analysis launch
+do not match reuse of our existing portable JDK 25/Ghidra project.
+
+Exact experiment: `appearance-resource-producer-180383.tsv`, existing
+`analyze-acquisition-offline.py`/`ExportAcquisitionSeeds.java`, stage
+`appearanceresourceproducer20261004`, project `Acquisition180383`, `-noanalysis`,
+two CPUs, 4 GiB heap request, 300-second outer timeout, 30 seconds per function.
+No game process/save trigger. Both `2d646f0` and `2d65980` decompiled in sixteen
+seconds. Observed generic two-level proxy lookup with zero-variant fallback and
+reference-count acquisition respectively. Neither identifies the indirect
+material-vector producer; the 64-bit cache key is not proven to be a visual seed.
+
+Failure: historical E: native-tool path caused `StopIteration` before Ghidra
+launch. Existing stage report supplied the actual C: private tool path; corrected
+invocation completed. A broad upstream text query encountered a huge generated
+catalog line; follow-up inspected exact source files and bounded line lengths.
+No source/executable/storage failure or automatic mutation retry occurred.
+Rollback: installed executable/bridge/mods/saves and corpus untouched; external
+analysis database retains new function records and exports. No D: access, disk
+repair or BitLocker changes. Complete appearance inverse remains unproven.
+Final navigation rebuild imported 104 source files, 355 repository functions and
+251 native candidates with zero warnings. A bounded query returned the new proxy
+export. Changed Python sources parsed, relative documentation links resolved and
+`git diff --check` passed. No application build was needed for research-only work.
+
+## 2026-10-04: ordered resource wrapper, merged texture selection and payload slots
+
+Build: offline 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owning evidence: [merged selection](MERGED_TEXTURE_SELECTION_RESEARCH.md).
+Exact source/configuration: updated `evaluate-texture-options.py`,
+`emulate-texture-selection.py`, `emulate-texture-collection.py` and
+`inspect-texture-palettes.py`; original windows `62f940..62fb9a`,
+`62fba0..630273`, `63bb20..63bb9c`, `631310..631f78`, `1ac7450..1ac748d`,
+`1ae4cf0..1ae4d05`. Reused worker/preparation/writer Ghidra exports, plus bounded
+wrapper disassembly; sources, hashes, fixture definitions and commands are in
+the owning note and pipeline README. No executable extraction repeated.
+
+Trigger/save conditions: isolated Python 3.14 / Unicorn 2.1.4 / Capstone 5.0.5,
+read-only corpus, explicit ordered resources and palette inputs. Five copied
+profiles and thirteen deterministic/boundary seeds per configuration. No game
+process, save or installed mod/bridge accessed. Original instructions execute
+only in private memory with bounded container and empty-path substring stubs.
+
+Observed: 390 integrated comparisons across six configurations, thirteen unique
+resource inputs, zero collection/first-pass/final-row/RNG-state divergences.
+Forward/reversed decal bundles differ in choice/color multisets in 64/65 cases.
+The unnamed one-option layer mode bypasses merging; all 131 real catalog roots
+have that mode false, so the true mode remains a synthetic comparison. Payload
+0 and 1 comparisons pass with identical supplied inputs, without assigning
+natural semantic labels. Single-resource regression: 26 cases, zero divergences.
+Tooling tests: sixteen texture evaluator and seven catalog/collector tests pass.
+
+Static boundary: `62f420` forwards a vector obtained through virtual slot
+`+0xd8`; `62f940` preserves its order and fixed eight-layer order. Concrete
+producer unresolved. A bounded base-resource RTTI/vtable lead yielded non-code
+data at the presumed slot and was rejected. No natural scene material order,
+all-category palette schedule, linked/name filtering, DDS/shader appearance or
+complete appearance-to-seed inverse is proven. These comparisons do not extend
+live bridge compatibility or prove delivery class/slots.
+
+Failure: private import-pointer fixture typo `3401140` caused
+`UC_ERR_WRITE_UNMAPPED` before execution. Decoded actual address `3411140` fixed
+the fixture; no game memory/source modification or failed output report.
+Rollback: executable, corpus, saves, installed mods and bridge unchanged. No D:
+access, disk commands/repair or BitLocker changes. Only repository research
+code/documentation and new external bounded reports changed.
+External report basenames and exact continuation target are in the owning note.
+
 This is the short entry point for resuming exact-build research. Detailed reasoning belongs in [runtime research](RESEARCH_AND_DECISIONS.md), implementation contracts in [protocol and runtime](PROTOCOL_AND_RUNTIME.md), and current tasks in [TODO](../TODO.md). Entries describe observations, not general compatibility claims. All live tests used the user's disposable local save; none used save-file editing.
 
 

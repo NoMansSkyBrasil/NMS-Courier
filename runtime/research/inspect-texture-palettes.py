@@ -70,7 +70,10 @@ def inspect(corpus, assets):
                 layers.append({'fields': {key: child.get('value') for key, child in values.items() if key != 'Textures'},
                                'options': options})
             sources.append({'resource': logical, 'status': 'inspected', 'binary_sha256': rows[0][1],
-                            'xml_sha256': hashlib.sha256(xml_data).hexdigest(), 'layers': layers})
+                            'xml_sha256': hashlib.sha256(xml_data).hexdigest(),
+                            'declaration_fields': {key: node.get('value') for key, node in fields.items()
+                                                   if key != 'Layers' and node.get('value') is not None},
+                            'layers': layers})
     finally:
         database.close()
     return {'mode': 'declarative_texture_palette_bindings', 'runtime_verified': False,

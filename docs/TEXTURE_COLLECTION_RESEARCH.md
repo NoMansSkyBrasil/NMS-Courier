@@ -61,7 +61,15 @@ and copy helper yielded 445 instructions. Entry-only inspection returned just
 18 prologue instructions; following the actual split body/return was necessary.
 This did not require extraction, Ghidra reimport or game execution.
 
-## Remaining boundaries
+## Subsequent integrated comparison
+
+[Ordered multi-resource selection](MERGED_TEXTURE_SELECTION_RESEARCH.md) now
+connects original wrapper/collector/selector execution in 390 isolated cases,
+including an unnamed-layer mode exception. The remaining list below records
+the original collector checkpoint; merged selection is closed only within that
+new note's explicit fixture boundaries. Natural resource ordering remains open.
+
+## Remaining boundaries at the collector checkpoint
 
 - Actual scene/material resource order at `62f420` and caller declaration order.
 - Linking native collection output directly into the full selector with multiple

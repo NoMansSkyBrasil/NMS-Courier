@@ -23,6 +23,17 @@ shortcut. Unknown builds receive no mutations. No D: access, storage repair,
 BitLocker changes or repeated full extraction is part of this work. Read existing
 bounded reports/indexes instead. Preserve uncertain one-shot outcomes.
 
+Latest checkpoint: [ordered multi-resource selection](MERGED_TEXTURE_SELECTION_RESEARCH.md)
+joins original wrapper/collector/selector instructions in 390 isolated cases,
+including both payload slots and the unnamed-layer exception. Next identify the
+concrete virtual `+0xd8` resource-vector producer called by `62f420` and correlate
+natural order with selected descriptor references. Do not repeat the completed
+matrix or assume alphabetical resource order. Full appearance inversion is open.
+The [REA/Ghidra assessment](REA_GHIDRA_ASSESSMENT.md) records the new two-helper
+export, rejected cache/reference-count leads, pinned external tooling and exact
+tool-path correction. Follow concrete object construction rather than treating
+generic resource lookup as a seed/material selector.
+
 ## What exists, what has actually been established
 
 | Area | Evidence status | Owning reference |

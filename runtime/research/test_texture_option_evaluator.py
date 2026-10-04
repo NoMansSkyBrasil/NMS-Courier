@@ -86,6 +86,65 @@ class TextureOptionTests(unittest.TestCase):
         self.assertEqual([r['name'] for r in result['final_rows']], ['CHOICE', 'CHOICE'])
         self.assertEqual(result['final_rows'][0]['rgba'], [0.0]*4)
 
+    def test_merged_single_agrees_with_restricted_single_rows_and_states(self):
+        data = source()
+        palette = [{'family': 'Rock'}]
+        single = E['evaluate_fresh_single'](data, 7, palette)
+        merged = E['evaluate_fresh_resources']([data], 7, palette)
+        self.assertEqual(merged['final_rows'], single['final_rows'])
+        self.assertEqual(merged['first_pass']['first_pass_state'], single['first_pass']['first_pass_state'])
+        self.assertEqual(merged['selector_exit_state'], single['selector_exit_state'])
+
+    def test_repeated_resource_averages_occurrences_without_extra_rng_groups(self):
+        import copy
+        first, second = source(), source('0.25')
+        second['layers'][0]['options'][0]['fields']['Probability'] = '0.125'
+        result = E['evaluate_fresh_resources']([first, second], 7, [{'family': 'Rock'}])
+        self.assertEqual(len(result['first_pass']['layers']), 1)
+        self.assertEqual(result['collected'][0]['occurrences'], 2)
+        self.assertEqual(result['collected'][0]['probability_sum'], 1.25)
+        self.assertEqual(result['collected'][0]['options'][0]['probability_sum'], 1.125)
+        self.assertEqual(len(result['later_draws']), 1)
+        repeated = E['evaluate_fresh_resources']([first, copy.deepcopy(first)], 7, [{'family': 'Rock'}])
+        single = E['evaluate_fresh_single'](first, 7, [{'family': 'Rock'}])
+        self.assertEqual(repeated['final_rows'], single['final_rows'])
+        self.assertEqual(repeated['selector_exit_state'], single['selector_exit_state'])
+
+    def test_declared_order_changes_first_choice_with_the_same_seed(self):
+        a, b = source(), source()
+        a['layers'][0]['options'][0]['fields']['Name'] = 'A'
+        b['layers'][0]['options'][0]['fields']['Name'] = 'B'
+        forward = E['evaluate_fresh_resources']([a,b], 7, [{'family': 'Rock'}])
+        reverse = E['evaluate_fresh_resources']([b,a], 7, [{'family': 'Rock'}])
+        self.assertEqual(forward['first_pass']['layers'][0]['option_index'], reverse['first_pass']['layers'][0]['option_index'])
+        self.assertNotEqual(forward['first_pass']['layers'][0]['row']['name'], reverse['first_pass']['layers'][0]['row']['name'])
+        self.assertEqual(forward['selector_exit_state'], reverse['selector_exit_state'])
+
+    def test_each_resource_has_its_own_first_eligible_fallback(self):
+        a, b = source('0'), source('0')
+        b['layers'][0]['fields']['Name'] = 'OVERLAY'
+        result = E['evaluate_fresh_resources']([a,b], 7, [{'family': 'Rock'}])
+        self.assertEqual([x['layer'] for x in result['fallback_layers']], ['BASE', 'OVERLAY'])
+        self.assertEqual([x['name'] for x in result['final_rows']], ['', '', 'CHOICE', 'CHOICE'])
+
+    def test_merged_base_matching_ors_flags_and_retains_collected_group(self):
+        a, b = source(), source()
+        b['layers'][0]['fields']['Group'] = 'PAINTGROUP'
+        b['layers'][0]['fields']['SelectToMatchBase'] = 'true'
+        result = E['evaluate_fresh_resources']([a,b], 7, [{'family': 'Rock'}])
+        self.assertEqual(result['final_rows'][1]['name'], 'CHOICE')
+        self.assertEqual(result['final_rows'][1]['group'], 'PAINTGROUP')
+        self.assertEqual(len(result['first_pass']['layers'][1]['draws']), 1)
+
+    def test_merged_unsupported_inputs_fail_explicitly(self):
+        with self.assertRaises(ValueError): E['evaluate_fresh_resources']([],7,[])
+        bad = source()
+        bad['layers'][0]['options'][0]['palette']['Index'] = '17'
+        with self.assertRaises(ValueError): E['evaluate_fresh_resources']([bad],7,[{'family':'Rock'}])
+        bad = source()
+        bad['layers'][0]['options'][0]['fields']['TextureGameplayUse'] = 'MatchName'
+        with self.assertRaises(ValueError): E['evaluate_fresh_resources']([bad],7,[{'family':'Rock'}])
+
 
 if __name__ == '__main__':
     unittest.main()

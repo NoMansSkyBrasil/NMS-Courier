@@ -29,7 +29,8 @@ def collect(layers, families):
             raise ValueError('Unsupported collection context')
         if not layer['options']:
             continue
-        existing = next((g for g in groups if (g['layer'], g['group']) == (f['Name'], f['Group'])), None)
+        force_new = layer.get('always_enable_unnamed', False) and len(layer['options']) == 1 and not f['Name']
+        existing = None if force_new else next((g for g in groups if (g['layer'], g['group']) == (f['Name'], f['Group'])), None)
         if existing is None:
             existing = {'layer': f['Name'], 'group': f['Group'], 'occurrences': 0,
                         'probability_sum': 0.0, 'base_match': False, 'options': []}

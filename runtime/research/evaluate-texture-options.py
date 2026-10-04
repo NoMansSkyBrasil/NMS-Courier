@@ -1,9 +1,10 @@
-"""Bounded first-pass and fresh-single candidates for 631310 texture selection.
+"""Bounded first-pass, fresh-single and fresh-merged texture selection candidates.
 
-Requires explicit texture and palette inputs; rejects merged/duplicate layers,
+Requires explicit ordered texture and palette inputs; rejects linked layers,
 gameplay name matching and non-default indices. No rendering, runtime calls or
 complete entity/inverse-seed claim. The first-pass state is intermediate;
-fresh-single adds bounded fallback/base matching and later draws.
+fresh modes add bounded fallback/base matching and later draws. Merged mode
+reconstructs collection before selection; natural material order remains open.
 """
 import argparse
 import json
@@ -171,36 +172,137 @@ def evaluate_fresh_single(source, texture_seed, palette_rows, enabled=True):
             'scope': 'Restricted fresh single resource; default context only'}
 
 
+def evaluate_fresh_resources(sources, texture_seed, palette_rows, enabled=True):
+    """Merged unlinked IgnoreName candidate with explicit resource order.
+
+    Source/caller order must be supplied; this does not discover material order.
+    Default indices and no caller ground color only. Returns complete row/state
+    traces for isolated native comparison, not a whole entity appearance claim.
+    """
+    if not 1 <= len(sources) <= 8 or any(s.get('status') != 'inspected' or len(s['layers']) > 8 for s in sources):
+        raise ValueError('Expected 1..8 inspected eight-layer resources')
+    layers = []
+    for source in sources:
+        flag = source.get('declaration_fields', {}).get('AlwaysEnableUnnamedTextureLayers', 'false')
+        if flag not in ('true', 'false'):
+            raise ValueError('Unknown unnamed-layer mode')
+        layers += [dict(layer, always_enable_unnamed=flag == 'true') for layer in source['layers']]
+    for layer in layers:
+        if layer['fields'].get('SelectToMatchBase') not in ('true', 'false'):
+            raise ValueError('Unknown base-matching flag')
+        if len(layer['options']) > 256 or any(o['palette']['Index'] != '-1' or
+                o['palette']['ColourAlt'] == 'MatchGround' for o in layer['options']):
+            raise ValueError('Unsupported option count/index/ground context')
+    families = {row['family']: i for i, row in enumerate(palette_rows)}
+    collector = runpy.run_path(str(Path(__file__).with_name('emulate-texture-collection.py')))
+    groups = collector['collect'](layers, families)
+    if not 1 <= len(groups) <= 16 or any(len(g['options']) > 256 for g in groups):
+        raise ValueError('Merged group/option budget exceeded')
+    family_names = {i: name for name, i in families.items()}
+
+    def binding(option):
+        return {'Index': '-1', 'Palette': family_names[option['family_index']],
+                'ColourAlt': CHANNELS[option['selector']]}
+
+    def row(group, option):
+        return {'name': option['name'], 'layer': group['layer'], 'group': group['group'],
+                'selector': option['selector'], 'family_index': option['family_index'],
+                'rgba': list(color_binding(binding(option), palette_rows)['rgba'])}
+
+    def declared_row(layer, option):
+        b = option['palette']
+        return {'name': option['fields']['Name'], 'layer': layer['fields']['Name'],
+                'group': layer['fields']['Group'], 'selector': CHANNELS.index(b['ColourAlt']),
+                'family_index': families[b['Palette']],
+                'rgba': list(color_binding(b, palette_rows)['rgba'])}
+
+    state, records, rows = P['seed_state'](texture_seed, enabled), [], []
+    for group in groups:
+        chance = f32(group['probability_sum'] / group['occurrences'])
+        weights = [f32(o['probability_sum'] / o['occurrences']) for o in group['options']]
+        before, draws, selected = list(state), [], None
+        if chance > 0:
+            state, draw = P['advance'](state); draws.append(draw)
+            if fraction(draw) < chance and not group['base_match']:
+                state, draw = P['advance'](state); draws.append(draw)
+                selected = choose(draw, weights)
+        chosen = row(group, group['options'][selected]) if selected is not None else {
+            'name': '', 'layer': group['layer'], 'group': group['group'],
+            'selector': 0, 'family_index': 4, 'rgba': [1.0]*4}
+        rows.append(chosen)
+        records.append({'layer': group['layer'], 'group': group['group'], 'state_before': before,
+                        'draws': draws, 'option_index': selected, 'row': dict(chosen), 'state_after': list(state)})
+    first_state, fallback = list(state), []
+    for source in sources:
+        eligible = next((l for l in source['layers'] if l['options'] and l['fields']['Group'] in ('', 'BASE')), None)
+        if eligible is None:
+            continue
+        options = [declared_row(eligible, o) for o in eligible['options']]
+        remembered, matched = None, False
+        for existing in rows:
+            if (existing['layer'], existing['group']) != (eligible['fields']['Name'], eligible['fields']['Group']):
+                continue
+            for option in options:
+                if option['name'] == existing['name']:
+                    remembered = option
+                    if all(option[k] == existing[k] for k in ('selector', 'family_index')):
+                        matched = True
+        if not matched:
+            rows.append(dict(remembered or options[0]))
+            fallback.append({'resource': source['resource'], 'layer': eligible['fields']['Name']})
+    later = []
+    for i, group in enumerate(groups):
+        state, draw = P['advance'](state)
+        later.append({'layer': group['layer'], 'group': group['group'], 'draw': draw})
+        chance = f32(group['probability_sum'] / group['occurrences'])
+        if group['base_match'] and fraction(draw) < chance:
+            match = next((o for existing in rows if existing['group'] in ('', 'BASE') and
+                          existing['layer'] == group['layer'] for o in group['options'] if o['name'] == existing['name']), None)
+            if match is not None:
+                rows[i] = row(group, match)
+    return {'first_pass': {'layers': records, 'first_pass_state': first_state},
+            'collected': groups, 'final_rows': rows, 'fallback_layers': fallback,
+            'later_draws': later, 'selector_exit_state': list(state),
+            'scope': 'Merged fresh default candidate; explicit declaration order, unlinked IgnoreName'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)
-    parser.add_argument('--asset', required=True)
+    parser.add_argument('--asset', action='append', required=True)
     parser.add_argument('--texture-seed', type=lambda v: int(v, 0), required=True)
     parser.add_argument('--palette-seed', type=lambda v: int(v, 0), required=True)
-    parser.add_argument('--phase', choices=('first-pass', 'fresh-single'), default='first-pass')
+    parser.add_argument('--phase', choices=('first-pass', 'fresh-single', 'fresh-merged'), default='first-pass')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     corpus, output = args.corpus.resolve(), args.output.resolve()
     if output.exists() or output.is_relative_to(corpus) or output.is_relative_to(Path(__file__).resolve().parents[2]):
         parser.error('Output must be new and outside corpus/repository')
-    source = T['inspect'](corpus, [args.asset])['sources'][0]
+    if not 1 <= len(args.asset) <= 8 or args.phase != 'fresh-merged' and len(args.asset) != 1:
+        parser.error('Use exactly one asset unless fresh-merged (1..8 in explicit order)')
+    sources = T['inspect'](corpus, args.asset)['sources']
+    source = sources[0]
     rows = B['generate'](args.palette_seed, B['load_base'](corpus))
-    result = (evaluate_fresh_single if args.phase == 'fresh-single' else evaluate)(source, args.texture_seed, rows)
-    report = {'mode': 'experimental_single_resource_texture_' + args.phase.replace('-', '_'),
+    result = (evaluate_fresh_resources(sources, args.texture_seed, rows) if args.phase == 'fresh-merged' else
+              (evaluate_fresh_single if args.phase == 'fresh-single' else evaluate)(source, args.texture_seed, rows))
+    report = {'mode': 'experimental_texture_' + args.phase.replace('-', '_'),
               'offline_exe_sha256': '671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4',
               'native_candidate_rva': '0x631310',
               'runtime_verified': False, 'appearance_evaluator_complete': False,
               'texture_seed': hex(args.texture_seed), 'palette_seed': hex(args.palette_seed),
               'source_hashes': {key: source.get(key) for key in ('binary_sha256', 'xml_sha256')},
+              'ordered_sources': [{key: s.get(key) for key in ('resource', 'binary_sha256', 'xml_sha256')} for s in sources],
               'palette_binary_sha256': B['BASE_HASH'],
               'result': result,
               'limitations': (['First pass only; compatibility/base matching and their draws are not evaluated.'] if args.phase == 'first-pass' else []) + [
-                              'Single resource, at most 256 alternatives per layer; no merged collection.',
-                              'Only fresh/default context, unique layer names, no links or gameplay-name filtering.',
+                              ('Explicit resource order; at most 16 merged groups and 256 options per group.' if args.phase == 'fresh-merged'
+                               else 'Single resource, at most 256 alternatives per layer; no merged collection.'),
+                              'Only fresh/default context, no links or gameplay-name filtering.',
                               'Explicit caller seeds; neither is inferred from an entity/model seed.',
                               'Base palette candidate only; no DDS masks/shaders, native rendering or full inverse.']}
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2), encoding='utf-8')
+    with output.open('x', encoding='utf-8') as stream:
+        json.dump(report, stream, indent=2)
     print(json.dumps({'layers': len(result['layers'] if args.phase == 'first-pass' else result['first_pass']['layers']),
                       'phase': args.phase, 'runtime_verified': False}))
 

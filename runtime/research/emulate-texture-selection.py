@@ -1,8 +1,9 @@
 """Emulate bounded build-180383 texture selection in private synthetic memory.
 
 Original x64 selector/record initialization instructions run only in Unicorn.
-Container allocation/resize/free are explicit stubs; loaded resources and
-single-occurrence collection are synthetic. No game process, imports or I/O
+Merged mode also executes the resource-order wrapper and collector. Container
+allocation/resize/free and empty-path substring checks are explicit stubs;
+loaded resource handles are synthetic. No game process, host imports or I/O
 are reachable from the emulator. This is not a live entity appearance oracle.
 """
 import argparse
@@ -35,15 +36,23 @@ def main():
     parser.add_argument('--asset', action='append', required=True)
     parser.add_argument('--texture-seed', type=lambda v: int(v, 0), default=7)
     parser.add_argument('--palette-seed', type=lambda v: int(v, 0), default=7)
+    parser.add_argument('--payload-index', type=int, choices=(0, 1), default=0,
+                        help='Select one of the native wrapper two declaration/output channels')
     parser.add_argument('--samples', type=int, default=0,
                         help='Add four boundary seeds and this many deterministic random seeds (0..8)')
     parser.add_argument('--include-zero-probability-fixtures', action='store_true')
+    parser.add_argument('--merged', action='store_true',
+                        help='Collect all explicit assets with original collector before selecting together')
+    parser.add_argument('--include-merged-profiles', action='store_true',
+                        help='Add copied uneven, base-matching and unnamed-layer profiles; requires merged')
     parser.add_argument('--python-tools', type=Path, required=True)
     parser.add_argument('--emulator-tools', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if not 0 <= args.samples <= 8 or len(args.asset) > 8:
         parser.error('Expected samples=0..8 and at most eight sources')
+    if args.include_merged_profiles and not args.merged:
+        parser.error('Merged profiles require --merged')
     exe, corpus, output = args.executable.resolve(), args.corpus.resolve(), args.output.resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (exe.parent.parent, corpus, Path(__file__).resolve().parents[2])):
         parser.error('Output must be new and outside game/corpus/repository')
@@ -59,6 +68,9 @@ def main():
     if unicorn.__version__ != '2.1.4':
         parser.error('Requires private Unicorn 2.1.4')
     evaluator = runpy.run_path(str(Path(__file__).with_name('evaluate-texture-options.py')))
+    windows = WINDOWS + (((0x62f940, 0x62fb9a), (0x62fba0, 0x630273), (0x63bb20, 0x63bb9c)) if args.merged else ())
+    stubs = STUBS + ((0x2bf5d70,) if args.merged else ())
+    record_limit = 32 if args.merged else 16
     sections = runpy.run_path(str(Path(__file__).parents[1] / 'native/asi/locate-frontend-hooks.py'))['executable_sections'](raw)
 
     def read(rva, size):
@@ -69,7 +81,7 @@ def main():
 
     decoder = Cs(CS_ARCH_X86, CS_MODE_64)
     code_meta, constants, code = [], {}, {}
-    for begin, end in WINDOWS:
+    for begin, end in windows:
         data = read(begin, end - begin)
         instructions = list(decoder.disasm(data, BASE + begin))
         if sum(i.size for i in instructions) != len(data):
@@ -98,11 +110,32 @@ def main():
         seeds += [0, 1, 0xffffffff, 0xffffffffffffffff] + [rng.getrandbits(64) for _ in range(args.samples)]
     seeds = list(dict.fromkeys(seeds))
     profiles = ('declared', 'zero_probability') if args.include_zero_probability_fixtures else ('declared',)
-    for original, texture_seed, profile in ((s, k, p) for s in sources for k in seeds for p in profiles):
-        source = copy.deepcopy(original)
+    if args.include_merged_profiles:
+        profiles += ('uneven_probabilities', 'base_matching', 'unnamed_layer_mode')
+    bundles = [sources] if args.merged else [[s] for s in sources]
+    for originals, texture_seed, profile in ((s, k, p) for s in bundles for k in seeds for p in profiles):
+        bundle = copy.deepcopy(originals)
+        source = bundle[0]
         if profile == 'zero_probability':
-            for layer in source['layers']: layer['fields']['Probability'] = '0'
-        candidate = evaluator['evaluate_fresh_single'](source, texture_seed, palette)
+            for item in bundle:
+                for layer in item['layers']: layer['fields']['Probability'] = '0'
+        elif profile in ('uneven_probabilities', 'base_matching'):
+            for item_index, item in enumerate(bundle):
+                for layer_index, layer in enumerate(item['layers']):
+                    layer['fields']['Probability'] = ('0.1', '0.3', '1')[item_index % 3]
+                    if profile == 'base_matching':
+                        layer['fields']['SelectToMatchBase'] = 'true' if (item_index + layer_index) % 2 else 'false'
+                    for option_index, option in enumerate(layer['options']):
+                        option['fields']['Probability'] = ('0.1', '0.125', '0.3', '1')[option_index % 4]
+        elif profile == 'unnamed_layer_mode':
+            for item in bundle:
+                item.setdefault('declaration_fields', {})['AlwaysEnableUnnamedTextureLayers'] = 'true'
+                first = next((l for l in item['layers'] if l['options']), None)
+                if first is not None:
+                    first['fields']['Name'] = ''
+                    first['options'] = first['options'][:1]
+        candidate = (evaluator['evaluate_fresh_resources'](bundle, texture_seed, palette) if args.merged
+                     else evaluator['evaluate_fresh_single'](source, texture_seed, palette))
         machine = unicorn.Uc(unicorn.UC_ARCH_X86, unicorn.UC_MODE_64)
         mapped = set()
 
@@ -121,7 +154,7 @@ def main():
             page(BASE + rva)
             page(BASE + rva + len(data) - 1)
             machine.mem_write(BASE + rva, data)
-        for rva in STUBS:
+        for rva in stubs:
             page(BASE + rva, True)
             machine.mem_write(BASE + rva, b'\xc3')
         heap, cursor = 0x20000000, 0x20000000
@@ -145,26 +178,34 @@ def main():
         def get(name): return machine.reg_read(getattr(regs, 'UC_X86_REG_' + name))
         def put(name, value): machine.reg_write(getattr(regs, 'UC_X86_REG_' + name), value)
 
-        layers = [l for l in source['layers'] if l['options']]
-        context, collection, collection_rows = allocate(0x50), allocate(16), allocate(len(layers) * 0x40)
-        resource_rows, declaration = allocate(0x228), allocate(8 * 0x48)
-        output_slot, output_table = allocate(8), allocate(16)
+        layers = [l for item in bundle for l in item['layers'] if l['options']]
+        context, collection = allocate(0x50), allocate(16)
+        collection_rows = allocate(16 * 0x40 if args.merged else len(layers) * 0x40)
+        resource_rows = allocate(len(bundle) * 0x228)
+        declarations = [allocate(8 * 0x48 + 16) for item in bundle]
+        output_slot, output_table = allocate(8), allocate(32)
         write(output_slot, '<Q', output_table)
         write(context + 0x10, '<Q', output_slot)
-        write(context + 0x2c, '<I', 1)
+        write(context + 0x2c, '<I', len(bundle))
         write(context + 0x30, '<Q', resource_rows)
-        write(resource_rows + 0x108, '<Q', declaration)
-        write(collection, '<IIQ', len(layers), len(layers), collection_rows)
+        for i, declaration in enumerate(declarations):
+            write(resource_rows + i * 0x228 + 0x108 + args.payload_index*0x110, '<Q', declaration)
+            flag = bundle[i].get('declaration_fields', {}).get('AlwaysEnableUnnamedTextureLayers', 'false')
+            write(declaration + 0x240, '<B', flag == 'true')
+        write(collection, '<IIQ', 16 if args.merged else len(layers), 0 if args.merged else len(layers), collection_rows)
+        layer_positions = [(declarations[i] + j*0x48, layer) for i,item in enumerate(bundle)
+                           for j,layer in enumerate(item['layers']) if layer['options']]
         for i, layer in enumerate(layers):
             fields, options = layer['fields'], layer['options']
             row = collection_rows + i * 0x40
-            declaration_row = declaration + source['layers'].index(layer) * 0x48
+            declaration_row = layer_positions[i][0]
             alternatives = allocate(len(options) * 0x38)
             native_options = allocate(len(options) * 0x60)
-            write(row, '<IIQI f', len(options), len(options), alternatives, 1, float(fields['Probability']))
-            machine.mem_write(row + 0x18, identifier(fields['Group'], 16))
-            machine.mem_write(row + 0x28, identifier(fields['Name'], 16))
-            machine.mem_write(row + 0x38, bytes([fields['SelectToMatchBase'] == 'true']))
+            if not args.merged:
+                write(row, '<IIQI f', len(options), len(options), alternatives, 1, float(fields['Probability']))
+                machine.mem_write(row + 0x18, identifier(fields['Group'], 16))
+                machine.mem_write(row + 0x28, identifier(fields['Name'], 16))
+                machine.mem_write(row + 0x38, bytes([fields['SelectToMatchBase'] == 'true']))
             machine.mem_write(declaration_row, identifier(fields['Name'], 16))
             machine.mem_write(declaration_row + 0x20, identifier(fields['Group'], 16))
             write(declaration_row + 0x30, '<QI', native_options, len(options))
@@ -184,15 +225,22 @@ def main():
             for j, color in enumerate(row['colors']): write(palette_at + i * 0x70 + j * 16, '<4f', *color['rgba'])
         write(seed_at, '<QB', texture_seed, 1)
         write(rsp, '<Q', stop)
-        write(rsp + 0x28, '<Q', 0)
+        write(rsp + 0x28, '<Q', args.payload_index)
         write(rsp + 0x30, '<Q', ground_at)
         write(rsp + 0x38, '<Q', 0)
         write(rsp + 0x40, '<Q', name_at)
         for name, value in {'RCX': context, 'RDX': collection, 'R8': seed_at, 'R9': palette_at, 'RSP': rsp}.items(): put(name, value)
-        trace, first_pass, states = [], [], {}
+        trace, first_pass, states, collector_calls = [], [], {}, []
+        strstr_stub = 0x10001000
+        if args.merged:
+            page(strstr_stub, True)
+            machine.mem_write(strstr_stub, b'\xc3')
+            # Explicit IAT stub for the wrapper's path probe. Fixture paths are
+            # empty; a nonempty search string cannot match. Never load imports.
+            write(BASE + 0x3411140, '<Q', strstr_stub)
 
         def records(pointer, count):
-            if count > 16: raise ValueError('Synthetic record count budget exceeded')
+            if count > record_limit: raise ValueError('Synthetic record count budget exceeded')
             rows = []
             for i in range(count):
                 data = bytes(machine.mem_read(pointer + i * 0x60, 0x60))
@@ -204,24 +252,35 @@ def main():
             return rows
 
         def hook(uc, address, size, user):
+            if args.merged and address == strstr_stub:
+                if bytes(machine.mem_read(get('RCX'), 1)) != b'\0' or bytes(machine.mem_read(get('RDX'), 1)) == b'\0':
+                    raise ValueError('Unexpected wrapper path-probe inputs')
+                sp = get('RSP')
+                put('RAX', 0); put('RIP', unpack(sp, '<Q')[0]); put('RSP', sp + 8)
+                return
             rva = address - BASE
+            if args.merged and rva == 0x62fba0:
+                collector_calls.append({'layer': bytes(machine.mem_read(get('RCX'),16)).split(b'\0',1)[0].decode('ascii'),
+                                        'unnamed_mode': bool(unpack(get('RSP')+0x30,'<B')[0])})
+                if len(collector_calls) > 64:
+                    raise ValueError('Collector declaration call budget exceeded')
             if rva == 0x631786:
                 first_pass.extend(records(unpack(get('RSP') + 0x78, '<Q')[0], unpack(get('RSP') + 0x74, '<I')[0]))
                 states['first_pass'] = [unpack(get('RSP') + offset, '<I')[0] for offset in (0x80, 0x98)]
             if rva == 0x631ea6:
                 states['selector_exit'] = [unpack(get('RSP') + offset, '<I')[0] for offset in (0x80, 0x98)]
-            if rva not in STUBS:
-                if not any(BASE + b <= address < BASE + e for b, e in WINDOWS) and address != stop:
+            if rva not in stubs:
+                if not any(BASE + b <= address < BASE + e for b, e in windows) and address != stop:
                     raise ValueError('Unapproved execution target: ' + hex(address))
                 return
             trace.append(hex(rva))
-            if len(trace) > 64: raise ValueError('Container stub call budget exceeded')
+            if len(trace) > (512 if args.merged else 64): raise ValueError('Container stub call budget exceeded')
             sp = get('RSP')
             if rva == 0x2bf5930:
                 capacity, count = unpack(get('RCX'), '<II')
                 index, src = unpack(sp + 0x28, '<Q')[0], unpack(sp + 0x30, '<Q')[0]
                 stride = unpack(sp + 0x50, '<Q')[0]
-                if stride != 0x60 or count > 16 or index != count:
+                if stride not in ((0x38, 0x60) if args.merged else (0x60,)) or count > (256 if stride == 0x38 else record_limit) or index != count:
                     raise ValueError('Unexpected container append layout')
                 new_at = allocate((count + 1) * stride)
                 if count: machine.mem_write(new_at, bytes(machine.mem_read(get('R9'), count * stride)))
@@ -230,8 +289,16 @@ def main():
                 put('RAX', new_at)
             elif rva == 0x211420:
                 count = get('RDX') & 0xffffffff
-                if count > 16: raise ValueError('Unexpected output resize count')
+                if count > record_limit: raise ValueError('Unexpected output resize count')
                 write(get('RCX'), '<QII', allocate(max(1, count) * 0x60), count, count)
+            elif rva == 0x2bf5d70:
+                count, stride = get('R8') & 0xffffffff, get('R9') & 0xffffffff
+                if count > 256 or stride != 0x38:
+                    raise ValueError('Unexpected collected-option copy layout')
+                new_at = allocate(max(1, count) * stride)
+                if count: machine.mem_write(new_at, bytes(machine.mem_read(get('RDX'), count * stride)))
+                write(get('RCX'), '<II', count, count)
+                put('RAX', new_at)
             else:
                 # Free has no observable payload effect in the synthetic heap.
                 pass
@@ -240,14 +307,46 @@ def main():
             put('RIP', return_at)
 
         machine.hook_add(unicorn.UC_HOOK_CODE, hook)
+        if args.merged:
+            write(rsp, '<Q', stop); write(rsp + 0x28, '<Q', args.payload_index)
+            for name, value in {'RCX': context, 'RDX': 0, 'R8': collection, 'R9': name_at, 'RSP': rsp}.items(): put(name, value)
+            machine.emu_start(BASE + 0x62f940, stop, timeout=200000, count=100000)
+            if get('RIP') != stop: raise RuntimeError('Native collection wrapper did not return within bounds')
+            if unpack(collection + 4, '<I')[0] != len(candidate['collected']):
+                raise AssertionError('Native collector group count mismatch')
+            actual_collection = []
+            for i in range(len(candidate['collected'])):
+                at = collection_rows + i*0x40
+                option_count, pointer = unpack(at+4,'<IQ')
+                if option_count > 256: raise ValueError('Native collection option budget exceeded')
+                text = lambda addr,width: bytes(machine.mem_read(addr,width)).split(b'\0',1)[0].decode('ascii')
+                group = {'layer':text(at+0x28,16),'group':text(at+0x18,16),
+                         'occurrences':unpack(at+0x10,'<I')[0], 'probability_sum':unpack(at+0x14,'<f')[0],
+                         'base_match':bool(unpack(at+0x38,'<B')[0]),'options':[]}
+                for j in range(option_count):
+                    pos=pointer+j*0x38
+                    selector,index,family,occurrences,weight=unpack(pos+0x20,'<iiiIf')
+                    group['options'].append({'name':text(pos,32),'selector':selector,'index':index,
+                                            'family_index':family,'occurrences':occurrences,'probability_sum':weight})
+                actual_collection.append(group)
+            if actual_collection != candidate['collected']:
+                raise AssertionError('Native wrapper/collector rows mismatch')
+            write(rsp, '<Q', stop)
+            write(rsp + 0x28, '<Q', args.payload_index); write(rsp + 0x30, '<Q', ground_at)
+            write(rsp + 0x38, '<Q', 0); write(rsp + 0x40, '<Q', name_at)
+            for name, value in {'RCX': context, 'RDX': collection, 'R8': seed_at, 'R9': palette_at, 'RSP': rsp}.items(): put(name, value)
         try:
             machine.emu_start(BASE + 0x631310, stop, timeout=200000, count=100000)
         except unicorn.UcError as error:
             raise RuntimeError('Bounded emulation stopped at ' + hex(get('RIP')) + ': ' + str(error)) from error
         if get('RIP') != stop: raise RuntimeError('Native selector did not return within bounds')
-        pointer, count = unpack(output_table, '<QI')
+        pointer, count = unpack(output_table + args.payload_index*16, '<QI')
         final = records(pointer, count)
         for actual, expected in zip(first_pass, candidate['first_pass']['layers'], strict=True):
+            if args.merged:
+                if actual != expected['row']:
+                    raise AssertionError('Merged first-pass row mismatch: ' + json.dumps({'actual': actual, 'expected': expected['row']}))
+                continue
             if expected.get('option'):
                 if actual['name'] != expected['option']['fields']['Name'] or tuple(actual['rgba']) != tuple(expected['color']['rgba']):
                     raise AssertionError('Native first-pass choice/color mismatch: ' + json.dumps(
@@ -258,18 +357,27 @@ def main():
         if states != {'first_pass': candidate['first_pass']['first_pass_state'], 'selector_exit': candidate['selector_exit_state']}:
             raise AssertionError('Native selector state/candidate mismatch: ' + json.dumps(states))
         results.append({'resource': source['resource'], 'source_sha256': source['binary_sha256'],
+                        'resources': [s['resource'] for s in bundle],
+                        'source_hashes': [s['binary_sha256'] for s in bundle],
+                        'xml_hashes': [s['xml_sha256'] for s in bundle],
+                        'collector_calls': collector_calls,
+                        'collected': candidate.get('collected'),
                         'texture_seed': hex(texture_seed), 'fixture_profile': profile,
                         'first_pass': first_pass, 'final_rows': final, 'states': states,
                         'container_stub_calls': trace})
     report = {'exe_sha256': EXE_HASH, 'windows': code_meta, 'emulator': 'Unicorn 2.1.4',
               'texture_seed': hex(args.texture_seed), 'palette_seed': hex(args.palette_seed), 'results': results,
+              'payload_index': args.payload_index,
               'comparisons': {'cases': len(results), 'first_pass_mismatches': 0,
                               'final_row_mismatches': 0, 'state_mismatches': 0},
               'runtime_verified': False, 'appearance_verified': False,
-              'scope': 'Full selector with synthetic single-resource collection and container stubs; fresh/default context only',
-              'limits': {'heap_bytes': 1048576, 'stack_bytes': 65536, 'instructions_per_case': 100000,
-                         'timeout_microseconds_per_case': 200000, 'records_per_case': 16},
-              'not_proven': ['Native collector equivalence or merged resources', 'Caller seeds, alternate palettes, DDS composition and gameplay']}
+              'scope': ('Original resource-order wrapper, collector then full selector; explicit resource order, unlinked IgnoreName only' if args.merged
+                        else 'Full selector with synthetic single-resource collection and container stubs; fresh/default context only'),
+              'limits': {'heap_bytes': 1048576, 'stack_bytes': 65536, 'instructions_per_call': 100000,
+                         'timeout_microseconds_per_call': 200000, 'records_per_case': record_limit},
+              'not_proven': (['Native material resource order, linked/name-filtered contexts'] if args.merged else
+                            ['Native collector equivalence or merged resources']) +
+                           ['Caller seeds, alternate palettes, DDS composition and gameplay']}
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open('x', encoding='utf-8') as stream: json.dump(report, stream, indent=2)
     print(json.dumps({'cases': len(results), 'first_pass_mismatches': 0, 'final_row_mismatches': 0,
