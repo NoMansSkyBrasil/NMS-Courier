@@ -550,3 +550,40 @@ two for NPCs, and the last for freighter base matching, as documented in the
 owning note. Maximum eight assets and eight extra random seeds per invocation.
 The fixture's copied zero-probability profile does not alter source files.
 Developer-only private tools; no game process, imports or host runtime execution.
+
+For the user's appearance-to-matching-seed objective and organized priority
+resource map, read [priority catalog](../../docs/PRIORITY_APPEARANCE_CATALOG.md).
+Generate declarations with dependencies, fingerprints and source failures:
+
+```powershell
+python runtime/research/build-priority-appearance-catalog.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\priority-catalog-new.json
+```
+
+This is not inverse seed search. Maximum 512 descriptor rows, 256 texture rows,
+2,048 scene metadata rows per selected prefix and 64 MiB total asset reads.
+Only shallow scenes are recorded; supports/fixed/legacy roles stay explicit.
+No game assets are copied into the repository or packaged application.
+
+For native unlinked IgnoreName merging, read
+[collector comparison](../../docs/TEXTURE_COLLECTION_RESEARCH.md). Compare the
+same eight decal resources, first four tool resources and freighter texture:
+
+```powershell
+$assetArguments = @()
+$selectedAssets = @(Get-Content runtime/research/appearance-decal-assets-180383.txt)
+$selectedAssets += @(Get-Content runtime/research/appearance-texture-assets-180383.txt | Select-Object -First 4)
+$selectedAssets += 'textures/common/spacecraft/industrial/shared/freighter_proc.texture.mbin'
+foreach ($asset in $selectedAssets) { $assetArguments += @('--asset', $asset) }
+python runtime/research/emulate-texture-collection.py `
+  --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  --corpus E:\NMS-Courier-Research\corpus @assetArguments `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --emulator-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\unicorn-2.1.4" `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\texture-collector-new.json
+python -m unittest discover -s runtime/research -p test_priority_appearance_catalog.py
+```
+
+At most 16 sources, five copied fixture profiles each. This checks collection
+records, not merged final selection, native material loading order or rendering.

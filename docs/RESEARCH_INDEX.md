@@ -30,6 +30,11 @@ and the current continuation target, read [AI continuation](AI_CONTINUATION.md).
 For the 468-case isolated native check and closed restricted compatibility path,
 read [texture selector emulation](TEXTURE_SELECTOR_EMULATION.md). For a map of
 rules/input channels by category, read [seed coverage](SEED_RESEARCH_COVERAGE.md).
+For the current ships/tools/freighters parts and texture catalog, read
+[priority catalog](PRIORITY_APPEARANCE_CATALOG.md). It defines the user's
+appearance-to-matching-seed objective and preserves conditional dependencies.
+For the 65-case native collection/merge comparison and its exact limitations,
+read [texture collection](TEXTURE_COLLECTION_RESEARCH.md).
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector

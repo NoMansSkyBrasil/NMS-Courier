@@ -4,6 +4,10 @@ Updated 2026-10-04. This maps **rules and input channels**, not all uint64 seeds
 Different seeds can share choices. Appearance also depends on model resource,
 category, explicit customisation, palette input, filters and referenced assets.
 Read [AI continuation](AI_CONTINUATION.md) for onboarding and exact next targets.
+Current user priority is ships, multitools and freighters, with an inverse from
+chosen parts/colors/decals to a matching seed. [Priority catalog](PRIORITY_APPEARANCE_CATALOG.md)
+organizes declaration dependencies; [collector comparison](TEXTURE_COLLECTION_RESEARCH.md)
+closes unlinked IgnoreName merging in 65 isolated cases. Full inverse remains open.
 
 | Category | Resource/parts | Palette input | Texture/decal rules | Remaining source boundary |
 | --- | --- | --- | --- | --- |
@@ -26,7 +30,7 @@ Owning evidence:
 Current closed subset: fresh/default single-resource texture selection with
 unique layers, IgnoreName options, default palette indices and supplied colors;
 468 isolated native comparisons across 18 resources/35 layers. This is not
-complete scene appearance. Group merging, linked layers, gameplay-name filters,
+complete scene appearance. Multi-resource final selection, linked layers, gameplay-name filters,
 alternate-bank callers and native DDS masks remain independent requirements.
 Class/stats/inventory slots and delivery authorization are separate systems.
 

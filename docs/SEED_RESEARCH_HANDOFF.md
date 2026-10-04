@@ -20,7 +20,11 @@ to owning documents, exact methods, evidence limits and reproduction commands.
 Subsequent [isolated selector emulation](TEXTURE_SELECTOR_EMULATION.md) closes
 restricted fresh-single compatibility/base matching across 18 selected resources.
 [Coverage](SEED_RESEARCH_COVERAGE.md) tracks rules/inputs per category. The next
-unclosed boundary is native collection/merge/resource order and natural callers.
+unclosed boundary was native collection/merge/resource order and natural callers.
+The [collector continuation](TEXTURE_COLLECTION_RESEARCH.md) now closes unlinked
+IgnoreName merging in 65 isolated cases. Next is merged full selection/resource
+order. [Priority catalog](PRIORITY_APPEARANCE_CATALOG.md) organizes ship/tool/freighter
+choices and the requested complete appearance-to-seed inverse acceptance rules.
 Current scope: offline discovery and documentation across categories, not
 features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
 checks validate research tooling only. The objective is to

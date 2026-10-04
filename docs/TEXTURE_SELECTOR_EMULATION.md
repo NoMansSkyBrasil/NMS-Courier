@@ -121,8 +121,10 @@ See [pipeline commands](../runtime/research/README.md). External evidence in
 and bounded compatibility/default/return/input fragment reports.
 Reports contain asset hashes and native window hashes; keep them external.
 
-Continue at 62fba0 native collection/merge equivalence, then the resource order
-provided by 62f420. Link category callers to prepared inputs; do not reopen the
+The subsequent [collector comparison](TEXTURE_COLLECTION_RESEARCH.md) closes
+unlinked IgnoreName merging in 65 isolated cases. Continue linking its output
+to multi-resource final selection and the resource order provided by 62f420.
+Link category callers to prepared inputs; do not reopen the
 completed cache-key investigation. Next independent work is selected DDS masks
 and shader composition. No runtime support, new delivery, full inverse, all NPC
 families or whole visual seed oracle is claimed.

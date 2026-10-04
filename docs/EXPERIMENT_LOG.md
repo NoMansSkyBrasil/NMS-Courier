@@ -1969,3 +1969,67 @@ records these checks. Source navigation refreshed to 101 files/322 functions;
 corpus/native counts unchanged, zero import warnings. XML float32 fixture values
 and supplied palette candidates are explicit inputs; binary round-trip precision
 and native bank generation are not claimed by these comparisons.
+
+## 2026-10-04: priority parts catalog and restricted native texture collection
+
+Offline build 180383, executable SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Original sources/configuration: `build-priority-appearance-catalog.py`,
+`emulate-texture-collection.py`, existing decal manifest plus first four priority
+weapon textures and freighter_proc texture. Owning notes:
+[priority catalog](PRIORITY_APPEARANCE_CATALOG.md),
+[collector comparison](TEXTURE_COLLECTION_RESEARCH.md). The user's explicit
+objective is chosen parts/colors/decals to a reproducing seed, not a random
+generator or metadata browser. NPCs/frigates deferred.
+
+Trigger/save conditions: no game process or save accessed. Python 3.14, private
+Unicorn 2.1.4/Capstone 5.0.5, existing corpus opened read-only. Hash-check selected
+MBIN and XML inputs. No extraction, disk repair, D: access or BitLocker changes.
+Original collector and group-copy instructions execute only in private emulation;
+append/copy/free are explicit bounded stubs. Preallocated group storage avoids
+the unaudited vector-growth branch. Unknown targets abort. Limits and code
+fingerprints are in the owning note and source/report.
+
+Observed: catalog covers 229 descriptor sources, 1,320 groups, 3,037 option
+occurrences, 131 texture resources/390 nonempty layers/577 texture options;
+4,069,456 asset bytes read. All selected descriptors uniquely indexed and all
+textures inspected. Ancestor guards, reference paths, Chance and default Name
+weight clues preserved. Shallow scenes include fixed/support/legacy candidates;
+catalog categories are research resource families, not verified spawn types.
+
+Collector comparison: 65 cases/160 calls across 13 resources and five copied
+profiles, zero divergences. Layer identity includes Name+Group; option identity
+includes Name+selector+family but ignores Index. First retained Index survives.
+Probability sums/counts and base-flag OR agree; initial duplicates are preserved,
+later repeated declarations merge the first match. These are ordered collector
+records, not rendered appearances or live observations.
+
+Failures/rejected hypotheses: initial collector inspection read only the split
+prologue (18 instructions); targeted body/return/helper inspection added 427.
+One synthetic XML test fixture missed a closing tag; fixed the fixture before
+all six tests passed. An attempted documentation patch missed an exact context
+and failed without changing files; corrected patch applied. No game, source
+corpus or storage failures occurred. No complete inverse or seed uniqueness
+claim; same appearance may have multiple satisfying seeds.
+
+Not proven: native resource order, merged full selector, linked/name-filtered
+contexts, all palette input schedules, original binary/XML float precision,
+DDS/shader composition, whole category forward oracle or exact inverse/delivery.
+Next is collector-to-multi-resource selector linkage and actual material order.
+
+Rollback/state: original executable, mods, bridge, saves and corpus untouched.
+Only original research scripts/docs and new bounded external reports changed.
+External evidence: `priority-appearance-catalog-20261004.json`,
+`texture-priority-collector-matrix-20261004.json`, collector entry/body instruction
+reports under `E:\NMS-Courier-Research\seed-analysis-180383`.
+
+Final checks: six new dependency/collector boundary tests and ten existing
+selector tests passed; three new Python sources parsed; 108 selected relative
+documentation links resolved; `git diff --check` passed. Catalog repository
+output was rejected before asset reads and without creating a file. The final
+collector report `texture-priority-collector-final-20261004.json` confirms 65
+zero-divergence cases with current source metadata/limits. Navigation refreshed
+to 104 source files/344 functions, 249 native candidates, zero import warnings.
+The catalog note derives a desired descriptor option's exact draw interval from
+the recovered multiply-high branch; no texture float32 constraint is substituted
+with that integer formula and no solver is claimed implemented.

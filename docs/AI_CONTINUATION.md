@@ -8,10 +8,13 @@ owning documents for the selected task.
 
 ## Current objective and boundaries
 
-Recover the procedural appearance algorithm, especially ships, multitools,
-freighters, frigates and NPCs: resource/category, descriptor pieces, palette
+Recover the procedural appearance algorithm, prioritizing ships, multitools and
+freighters; frigates and NPCs are deferred: resource/category, descriptor pieces, palette
 inputs, texture alternatives, decal selection and material masks. Ultimately
 support accurate local previews and desired appearance delivery. The user
+specifically requires user-selected parts/colors/decals to a matching seed,
+not a random generator or catalog alone. See the exact-result boundary in
+[priority catalog](PRIORITY_APPEARANCE_CATALOG.md). The user
 permits offline analysis and existing preview inspection while unavailable for
 live tests. Do not infer permission to mutate a remote/unattended game.
 
@@ -101,8 +104,12 @@ over already prepared records. State-5 62ebd0 preparation now reaches the actual
 631310 selector through 62f940/62fba0 collection. The bounded first-pass tool
 now has `--phase fresh-single` for final restricted rows and exit state;
 the fallback/base-matching subset is compared in 468 native-emulated cases.
-Read [the emulation continuation](TEXTURE_SELECTOR_EMULATION.md), then finish
-62fba0 collection/merging and resource order plus natural caller correlation.
+Read [the emulation continuation](TEXTURE_SELECTOR_EMULATION.md), then
+[collector continuation](TEXTURE_COLLECTION_RESEARCH.md): unlinked IgnoreName
+collection now agrees in 65 native-isolated cases. Continue linking collection
+to the merged full selector and resource order plus natural caller correlation.
+The [priority catalog](PRIORITY_APPEARANCE_CATALOG.md) maps 229 descriptor sources
+and 131 texture resources with guards/references; it is declarative, not inverse.
 The default owned ship/tool task seed chain is connected in that note. Do not
 retrace 630d50/6308a0/63ae70 or mistake this subset for native material rendering.
 Keep explicit customisation (11499c0) separate from natural seed generation.
