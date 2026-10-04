@@ -17,6 +17,10 @@ The latest [decal continuation](DECAL_TEXTURE_SELECTION_RESEARCH.md) identifies
 Continue with collection/compatibility and caller correlation, not the rejected
 async loader/cache route. [AI continuation](AI_CONTINUATION.md) routes other AIs
 to owning documents, exact methods, evidence limits and reproduction commands.
+Subsequent [isolated selector emulation](TEXTURE_SELECTOR_EMULATION.md) closes
+restricted fresh-single compatibility/base matching across 18 selected resources.
+[Coverage](SEED_RESEARCH_COVERAGE.md) tracks rules/inputs per category. The next
+unclosed boundary is native collection/merge/resource order and natural callers.
 Current scope: offline discovery and documentation across categories, not
 features, gameplay tests, live hooks, delivery or save editing. Parser-boundary
 checks validate research tooling only. The objective is to

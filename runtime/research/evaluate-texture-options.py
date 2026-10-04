@@ -1,9 +1,9 @@
-"""Bounded first-pass candidate for the fresh 631310 texture branch.
+"""Bounded first-pass and fresh-single candidates for 631310 texture selection.
 
-Requires explicit texture and palette inputs; rejects grouping, linked layers,
-base matching, gameplay name matching and non-default indices. No rendering,
-runtime calls or complete entity/inverse-seed claim. Later compatibility and
-base-matching passes are not evaluated; the final state is intermediate.
+Requires explicit texture and palette inputs; rejects merged/duplicate layers,
+gameplay name matching and non-default indices. No rendering, runtime calls or
+complete entity/inverse-seed claim. The first-pass state is intermediate;
+fresh-single adds bounded fallback/base matching and later draws.
 """
 import argparse
 import json
@@ -85,11 +85,11 @@ def evaluate(source, texture_seed, palette_rows, enabled=True):
         if not options:
             continue
         name = fields['Name']
-        if name in names or fields.get('Group') or fields.get('LinkedLayer'):
-            raise ValueError('Grouped, linked or duplicate layers require collector evaluation')
+        if name in names or fields.get('LinkedLayer'):
+            raise ValueError('Linked or duplicate layers require collector evaluation')
         names.add(name)
-        if fields.get('SelectToMatchBase') != 'false':
-            raise ValueError('Base matching is unsupported')
+        if fields.get('SelectToMatchBase') not in ('false', 'true'):
+            raise ValueError('Unknown base-matching flag')
         if any(o['fields'].get('TextureGameplayUse') != 'IgnoreName' for o in options):
             raise ValueError('Gameplay name matching requires caller context')
         if len(options) > 256:
@@ -104,7 +104,7 @@ def evaluate(source, texture_seed, palette_rows, enabled=True):
         if chance > 0:
             state, draw = P['advance'](state)
             draws.append(draw)
-            if fraction(draw) < chance:
+            if fraction(draw) < chance and fields['SelectToMatchBase'] == 'false':
                 state, draw = P['advance'](state)
                 draws.append(draw)
                 selected = choose(draw, weights)
@@ -117,12 +117,67 @@ def evaluate(source, texture_seed, palette_rows, enabled=True):
     return {'source': source['resource'], 'layers': output, 'first_pass_state': list(state)}
 
 
+def evaluate_fresh_single(source, texture_seed, palette_rows, enabled=True):
+    """Add compatibility fallback/state draws for the restricted default case.
+
+    The first-pass validator enforces unique layers, no links or name
+    filters. No merged-resource, edited-context or alternate palette claim.
+    """
+    first = evaluate(source, texture_seed, palette_rows, enabled)
+    layers = [layer for layer in source['layers'] if layer['options']]
+    family_indices = {row['family']: i for i, row in enumerate(palette_rows)}
+    if any(o['palette']['ColourAlt'] == 'MatchGround' for layer in layers for o in layer['options']):
+        raise ValueError('Fresh-single requires an explicit ground color implementation')
+
+    def option_row(layer, option):
+        binding = option['palette']
+        return {'name': option['fields']['Name'], 'layer': layer['fields']['Name'],
+                'group': layer['fields']['Group'], 'rgba': list(color_binding(binding, palette_rows)['rgba']),
+                'selector': CHANNELS.index(binding['ColourAlt']),
+                'family_index': family_indices[binding['Palette']]}
+
+    rows, fallback = [], []
+    for layer, selected in zip(layers, first['layers'], strict=True):
+        if selected.get('option'):
+            rows.append(option_row(layer, selected['option']))
+        else:
+            rows.append({'name': '', 'layer': layer['fields']['Name'], 'group': layer['fields']['Group'],
+                         'rgba': [1.0]*4, 'selector': 0, 'family_index': 4})
+    # 631c42..631c5e advances the resource after its first eligible layer.
+    # Only empty/BASE groups qualify; other groups remain independent here.
+    eligible = [layer for layer in layers if layer['fields']['Group'] in ('', 'BASE')]
+    for layer in eligible[:1]:
+        options = [option_row(layer, o) for o in layer['options']]
+        if not any(row['layer'] == layer['fields']['Name'] and
+                   all(row[key] == option[key] for key in ('name', 'group', 'selector', 'family_index'))
+                   for row in rows for option in options):
+            rows.append(options[0])
+            fallback.append(layer['fields']['Name'])
+    state, later_draws = tuple(first['first_pass_state']), []
+    # Native later loop rolls every collected row, even when its base flag is false.
+    for index, layer in enumerate(layers):
+        state, draw = P['advance'](state)
+        later_draws.append({'layer': layer['fields']['Name'], 'draw': draw})
+        if layer['fields']['SelectToMatchBase'] == 'true' and fraction(draw) < probability(layer['fields']['Probability']):
+            compatible = next((option for row in rows
+                               if row['group'] in ('', 'BASE') and row['layer'] == layer['fields']['Name']
+                               for option in layer['options'] if row['name'] == option['fields']['Name']), None)
+            if compatible is not None:
+                replacement = option_row(layer, compatible)
+                replacement['group'] = rows[index]['group']
+                rows[index] = replacement
+    return {'first_pass': first, 'final_rows': rows, 'fallback_layers': fallback,
+            'later_draws': later_draws, 'selector_exit_state': list(state),
+            'scope': 'Restricted fresh single resource; default context only'}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)
     parser.add_argument('--asset', required=True)
     parser.add_argument('--texture-seed', type=lambda v: int(v, 0), required=True)
     parser.add_argument('--palette-seed', type=lambda v: int(v, 0), required=True)
+    parser.add_argument('--phase', choices=('first-pass', 'fresh-single'), default='first-pass')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     corpus, output = args.corpus.resolve(), args.output.resolve()
@@ -130,22 +185,24 @@ def main():
         parser.error('Output must be new and outside corpus/repository')
     source = T['inspect'](corpus, [args.asset])['sources'][0]
     rows = B['generate'](args.palette_seed, B['load_base'](corpus))
-    report = {'mode': 'experimental_single_resource_texture_first_pass',
+    result = (evaluate_fresh_single if args.phase == 'fresh-single' else evaluate)(source, args.texture_seed, rows)
+    report = {'mode': 'experimental_single_resource_texture_' + args.phase.replace('-', '_'),
               'offline_exe_sha256': '671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4',
               'native_candidate_rva': '0x631310',
               'runtime_verified': False, 'appearance_evaluator_complete': False,
               'texture_seed': hex(args.texture_seed), 'palette_seed': hex(args.palette_seed),
               'source_hashes': {key: source.get(key) for key in ('binary_sha256', 'xml_sha256')},
               'palette_binary_sha256': B['BASE_HASH'],
-              'result': evaluate(source, args.texture_seed, rows),
-              'limitations': ['First pass only; later compatibility/base matching and their draws are not evaluated.',
+              'result': result,
+              'limitations': (['First pass only; compatibility/base matching and their draws are not evaluated.'] if args.phase == 'first-pass' else []) + [
                               'Single resource, at most 256 alternatives per layer; no merged collection.',
-                              'Only fresh selection with empty groups, no links/base matching or gameplay-name filtering.',
+                              'Only fresh/default context, unique layer names, no links or gameplay-name filtering.',
                               'Explicit caller seeds; neither is inferred from an entity/model seed.',
                               'Base palette candidate only; no DDS masks/shaders, native rendering or full inverse.']}
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2), encoding='utf-8')
-    print(json.dumps({'layers': len(report['result']['layers']), 'runtime_verified': False}))
+    print(json.dumps({'layers': len(result['layers'] if args.phase == 'first-pass' else result['first_pass']['layers']),
+                      'phase': args.phase, 'runtime_verified': False}))
 
 
 if __name__ == '__main__':

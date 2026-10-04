@@ -1899,3 +1899,73 @@ CLI/report schema, with an explicitly intermediate `first_pass_state`.
 One mistyped unittest pattern initially discovered no tests; the corrected exact
 filename ran five tests. A guessed report filename was replaced by the actual
 `run-<stage>.json` filename after directory inspection.
+
+## 2026-10-04 - Restricted selector compatibility and cross-category emulation
+
+Offline executable build 180383, SHA-256
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Original sources/configuration: `emulate-texture-selection.py`, the existing
+decal/priority texture selections and `evaluate-texture-options.py --phase
+fresh-single`. Owning findings and code hashes:
+[selector emulation](TEXTURE_SELECTOR_EMULATION.md); category/remaining-input
+map: [seed coverage](SEED_RESEARCH_COVERAGE.md). AI continuation updated.
+
+Trigger/save conditions: no game or save; private Unicorn 2.1.4, Capstone 5.0.5,
+Python 3.14, existing read-only corpus. Three bounded original code windows
+plus copied constants run inside private synthetic memory. Resource declarations
+and single-occurrence collection are fixtures; container operations are explicit
+append/resize/free stubs. No imports, real game functions or OS endpoints execute.
+Per-case caps: 1 MiB heap, 64 KiB stack, 100,000 instructions, 200,000 microseconds,
+16 rows/64 stub calls. No increased extraction/storage budgets.
+
+Observed: 468 cases across 18 resources/35 nonempty layers agreed on first-pass
+choice/color, final ordered rows and first-pass/exit random states, zero
+divergences. Matrices: 208 decal, 182 tool/frigate, 52 Explorer/Warrior NPC and
+26 freighter base-match cases. Each resource used 13 seeds and declared/copied
+zero-probability profiles. Added restricted fallback/base-match port; original
+defaults are white RGBA/empty choice, not arbitrary black. Compatibility visits
+the first eligible empty/BASE-group layer per resource. Later draws occur even
+for zero chance or false base-match flags. Nonempty unique groups are admitted
+in single-resource fixtures; merged collection is not silently approximated.
+Ten meaningful tooling tests passed. The fresh-single CLI evaluated freighter
+paint and outputs final rows/exit state with unsupported contexts explicit.
+
+Reused existing task exports and inspected four input-copy fragments (241
+instructions): the default owned ship/tool working seed goes through descriptor
+pair +10/+18 and task +138/+140 to default texture selection. Explicit descriptors
+instead disable the prepared seed; supplied palettes bypass state-0 generation.
+Natural NPC inputs and every category acquisition path remain unproven.
+
+Failures/rejected hypotheses: two initial evidence reads used nonexistent paths;
+the function index/actual manifest corrected them. A leaf initializer had no
+unwind range; its 64-byte bounded raw decode identified four instructions and a
+return without widening extraction. The emulator initially denied execute on a
+stub page first mapped as constant data; permissions were corrected only for
+explicit private code/stub pages. Equal colors were falsely rejected as list
+versus tuple; comparison now compares component tuples. A zero-probability
+two-layer fixture rejected all-layer fallback: original branch targets advance
+the resource after one eligible layer. The corrected port passed the matrix.
+An owning-note patch context missed a line prefix and was rejected before change;
+the corrected context applied. These are analysis/tooling errors, not disk errors.
+
+Not proven: native merged collector, linked/name-filtered/edited-context modes,
+alternate palette bank/ground color, natural NPC/category inputs, all model
+materials/masks, accurate 3D native appearance, inverse from requested appearance,
+or new runtime/delivery compatibility. Continue native collection/resource order
+and natural inputs; do not reclassify this fixture check as a live validation.
+
+Rollback/state: original executable, bridge, mods, saves and corpus untouched;
+no extraction, D: access, disk repair or BitLocker commands. Only original tooling,
+documentation and bounded external reports changed; no new Ghidra stage/import.
+External evidence: four `texture-*-matrix-20261004.json` reports, bounded
+compatibility/default/return/input instruction reports, and
+`freighter-fresh-single-20261004.json` under seed-analysis-180383.
+
+Final checks: ten selector tests and five native-index tests passed; 128 selected
+relative documentation links resolved; all changed Python sources parsed.
+Matrix report counts/window hashes/state fields verified; unsafe repository output
+was rejected without writing. External `texture-compatibility-verification-20261004.json`
+records these checks. Source navigation refreshed to 101 files/322 functions;
+corpus/native counts unchanged, zero import warnings. XML float32 fixture values
+and supplied palette candidates are explicit inputs; binary round-trip precision
+and native bank generation are not claimed by these comparisons.

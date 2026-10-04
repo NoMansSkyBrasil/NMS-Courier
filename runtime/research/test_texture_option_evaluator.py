@@ -10,7 +10,7 @@ def source(chance='1', count=1):
     return {'status': 'inspected', 'resource': 'synthetic.texture.mbin', 'layers': [
         {'fields': {'Name': 'BASE', 'Probability': chance, 'Group': '',
                     'LinkedLayer': '', 'SelectToMatchBase': 'false'},
-         'options': [{'fields': {'Probability': '1', 'TextureGameplayUse': 'IgnoreName'},
+         'options': [{'fields': {'Name': 'CHOICE', 'Probability': '1', 'TextureGameplayUse': 'IgnoreName'},
                       'palette': {'Palette': 'Rock', 'ColourAlt': 'None', 'Index': '-1'}}] * count}]}
 
 
@@ -37,9 +37,9 @@ class TextureOptionTests(unittest.TestCase):
         self.assertEqual(E['choose'](0, [0.0, 1.0]), 1)
         self.assertIsNone(E['choose'](123, [0.0, 0.0]))
 
-    def test_group_and_excessive_option_count_are_rejected(self):
+    def test_link_and_excessive_option_count_are_rejected(self):
         grouped = source()
-        grouped['layers'][0]['fields']['Group'] = 'SHARED'
+        grouped['layers'][0]['fields']['LinkedLayer'] = 'SHARED'
         with self.assertRaises(ValueError): E['evaluate'](grouped, 7, [])
         with self.assertRaises(ValueError): E['evaluate'](source(count=257), 7, [])
 
@@ -56,6 +56,35 @@ class TextureOptionTests(unittest.TestCase):
                                     [{'family': 'Paint', 'colors': colors}])
         self.assertEqual(result['sample_slot'], 3)
         self.assertEqual(result['rgba'], [3, 3, 3, 1])
+
+    def test_fallback_visits_first_eligible_layer_only(self):
+        import copy
+        data = source('0')
+        other = copy.deepcopy(data['layers'][0])
+        other['fields']['Name'] = 'OVERLAY'
+        data['layers'].append(other)
+        result = E['evaluate_fresh_single'](data, 7, [{'family': 'Rock'}])
+        self.assertEqual([r['name'] for r in result['final_rows']], ['', '', 'CHOICE'])
+        self.assertEqual(result['fallback_layers'], ['BASE'])
+        self.assertEqual(len(result['later_draws']), 2)
+        self.assertNotEqual(result['selector_exit_state'], result['first_pass']['first_pass_state'])
+
+    def test_nonbase_group_has_no_fallback_but_consumes_later_draw(self):
+        data = source('0')
+        data['layers'][0]['fields']['Group'] = 'VMARK'
+        result = E['evaluate_fresh_single'](data, 7, [{'family': 'Rock'}])
+        self.assertEqual(result['fallback_layers'], [])
+        self.assertEqual(result['final_rows'][0]['group'], 'VMARK')
+        self.assertEqual(result['final_rows'][0]['rgba'], [1.0]*4)
+        self.assertEqual(len(result['later_draws']), 1)
+
+    def test_base_matching_consumes_presence_without_weighted_choice(self):
+        data = source()
+        data['layers'][0]['fields']['SelectToMatchBase'] = 'true'
+        result = E['evaluate_fresh_single'](data, 7, [{'family': 'Rock'}])
+        self.assertEqual(len(result['first_pass']['layers'][0]['draws']), 1)
+        self.assertEqual([r['name'] for r in result['final_rows']], ['CHOICE', 'CHOICE'])
+        self.assertEqual(result['final_rows'][0]['rgba'], [0.0]*4)
 
 
 if __name__ == '__main__':

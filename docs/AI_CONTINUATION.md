@@ -34,7 +34,7 @@ bounded reports/indexes instead. Preserve uncertain one-shot outcomes.
 | Base palette schedule | Implemented partial 66-family/five-sample candidate; alternate branch and entity inputs not universally verified | Same note; `evaluate-base-palettes.py` |
 | Ship/tool/freighter/frigate/NPC inputs | Selected source fields/callers recovered; natural NPC generation incomplete | [Entity seed flow](ENTITY_APPEARANCE_SEED_FLOW.md) |
 | Planet/fauna/flora inputs | Separate child streams, overrides and category gaps | [Planet/fauna flow](PLANET_FAUNA_SEED_FLOW.md) |
-| Texture/decal channels | Selected declarations verified against indexed asset hashes; native selection being traced | [Texture flow](APPEARANCE_TEXTURE_SEED_FLOW.md), [decal continuation](DECAL_TEXTURE_SELECTION_RESEARCH.md) |
+| Texture/decal channels | Restricted fresh single-resource selector compared against original instructions: 468 cases, 18 resources/35 layers; native collector/merged order still open | [Texture flow](APPEARANCE_TEXTURE_SEED_FLOW.md), [selector emulation](TEXTURE_SELECTOR_EMULATION.md), [coverage](SEED_RESEARCH_COVERAGE.md) |
 | 3D workshop | GLB mesh visibility, orbit/zoom and tint implemented and rendered-tested; native DDS masks/current geometry conversion incomplete | [Preview research](MODEL_PREVIEW_RESEARCH.md) |
 | Complete requested parts/colors/decals-to-seed generator | Not established | Never label partial evaluators or arbitrary mesh tinting as this capability |
 
@@ -99,8 +99,12 @@ The previous pass mistook the task's 32-byte input for selection context without
 knowing its writer. The subsequent 63f290 export shows a hash-derived cache key
 over already prepared records. State-5 62ebd0 preparation now reaches the actual
 631310 selector through 62f940/62fba0 collection. The bounded first-pass tool
-supports eight selected decal resources; finish collection/compatibility and
-caller correlation next. Do not retrace 630d50/6308a0/63ae70.
+now has `--phase fresh-single` for final restricted rows and exit state;
+the fallback/base-matching subset is compared in 468 native-emulated cases.
+Read [the emulation continuation](TEXTURE_SELECTOR_EMULATION.md), then finish
+62fba0 collection/merging and resource order plus natural caller correlation.
+The default owned ship/tool task seed chain is connected in that note. Do not
+retrace 630d50/6308a0/63ae70 or mistake this subset for native material rendering.
 Keep explicit customisation (11499c0) separate from natural seed generation.
 The owning note records the latest resolved callees and remaining target.
 

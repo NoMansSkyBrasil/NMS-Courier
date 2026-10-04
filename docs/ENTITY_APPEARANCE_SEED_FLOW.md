@@ -135,6 +135,9 @@ The branch supports both absent customisation, which creates a default input,
 and an explicit customisation input. Consequently **the two seed channels are
 equal at this writer, while explicit parts/colors can still override output**.
 This closes a concrete propagation link, not the whole owned-ship lifecycle.
+The subsequent [texture selector continuation](TEXTURE_SELECTOR_EMULATION.md#owned-resource-input-chain)
+connects the default working seed through descriptor preparation/task copying
+to texture selection. Explicit descriptors and supplied edited palettes differ.
 
 The existing purchase-state export `8e8830` also writes the custom-object seed.
 It chooses an enabled seed pair returned by `183cd20`; otherwise it uses the

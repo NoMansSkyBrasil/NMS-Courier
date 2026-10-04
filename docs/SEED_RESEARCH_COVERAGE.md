@@ -1,0 +1,37 @@
+# Procedural appearance research coverage
+
+Updated 2026-10-04. This maps **rules and input channels**, not all uint64 seeds.
+Different seeds can share choices. Appearance also depends on model resource,
+category, explicit customisation, palette input, filters and referenced assets.
+Read [AI continuation](AI_CONTINUATION.md) for onboarding and exact next targets.
+
+| Category | Resource/parts | Palette input | Texture/decal rules | Remaining source boundary |
+| --- | --- | --- | --- | --- |
+| Ships | Default descriptor forward candidate; owned writer 55cb20 connects Resource.Seed and working seed; explicit parts separate | Default task chain now connected; edited palette bypass identified | Eight selected decal resources, native-emulated restricted selector | Complete material resource order, conditional descriptors, category variants/masks |
+| Multitools | Owned record writer 553600 and custom task identified; accessory/offer paths distinct | Default owned chain connected; planet/offer input separate | Four selected weapon textures compared through restricted selector | Full category/offer sources, explicit staff/accessory paths, native geometry |
+| Freighters | Model seed and Pirate/custom slots identified statically; delivery remains historical C offer | Separate seed/indices/custom overlays; no universal model-only color claim | Procedural freighter base matching and selected decals compared | Source HomeSystemSeed association, merged resources, S delivery independent |
+| Frigates | Reward model-seed derivation and ordinary/living resource links | Declared family bindings; full natural caller chain incomplete | Three ordinary/living frigate textures compared | Natural seed inputs, complete materials/geometry and masks |
+| NPCs | Generic loader/registry rejected as natural spawn proof | Custom_Head/etc bindings identified; actual natural seed/bank still open | Explorer/Warrior texture groups compared with supplied fixtures | Natural category/seed writer, other races/subcategories, edited/default palettes |
+| Fauna | Planet child streams, resource seed overrides and scale/fur leads | Selected planet palette/scale consumers mapped | No equivalent complete multi-resource texture port claimed | Full species/part constraints, natural caller correlation, masks/rendering |
+| Flora/worlds | Indexed table/resource dependencies, distinct category streams | Selected planet base/alternate branches mapped | No whole world appearance oracle claimed | Generation schedules, biome/resource filters, material composition |
+| Procedural products/technology | Pi-derived version-aware investigation, distinct from visual seeds | Not a visual palette category | Not an entity model/decal selector | Current-build item-stat oracle and delivery validation |
+
+Owning evidence:
+[entity inputs](ENTITY_APPEARANCE_SEED_FLOW.md),
+[planet/fauna](PLANET_FAUNA_SEED_FLOW.md),
+[descriptor/palette arithmetic](PROCEDURAL_SEED_RESEARCH.md),
+[texture instruction comparison](TEXTURE_SELECTOR_EMULATION.md),
+[product seeds](PI_PROCEDURAL_ITEM_RESEARCH.md).
+
+Current closed subset: fresh/default single-resource texture selection with
+unique layers, IgnoreName options, default palette indices and supplied colors;
+468 isolated native comparisons across 18 resources/35 layers. This is not
+complete scene appearance. Group merging, linked layers, gameplay-name filters,
+alternate-bank callers and native DDS masks remain independent requirements.
+Class/stats/inventory slots and delivery authorization are separate systems.
+
+Prefer a fixture that changes one input at a time: resource, texture seed,
+palette seed, explicit customization, group/filter or conditional presence.
+Record selected choices, color payloads **and RNG state**. Validate the rule
+against original bounded instructions before widening supported configurations.
+No image-only resemblance or arbitrary mesh tint should close a seed rule.

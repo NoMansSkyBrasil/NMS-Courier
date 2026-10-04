@@ -27,6 +27,9 @@ palette families, texture alternatives and existing mesh-tint visualization.
 For the recovered texture first pass and selected decal resources, read
 [decal selection](DECAL_TEXTURE_SELECTION_RESEARCH.md). For portable onboarding
 and the current continuation target, read [AI continuation](AI_CONTINUATION.md).
+For the 468-case isolated native check and closed restricted compatibility path,
+read [texture selector emulation](TEXTURE_SELECTOR_EMULATION.md). For a map of
+rules/input channels by category, read [seed coverage](SEED_RESEARCH_COVERAGE.md).
 
 For seed-to-parts, inverse search and native descriptor candidates, read
 [procedural seed research](PROCEDURAL_SEED_RESEARCH.md). The descriptor collector

@@ -516,8 +516,37 @@ python runtime/research/evaluate-texture-options.py `
 python -m unittest discover -s runtime/research -p test_texture_option_evaluator.py
 ```
 
-This is a first-pass candidate, not a full entity evaluator. It rejects grouping,
-links, base matching, gameplay-name filtering, explicit palette indices and
-unsupported budgets. Later matching/draws, alternate palette collection and
+This is a first-pass candidate, not a full entity evaluator. It rejects merged
+or linked layers, gameplay-name filtering, explicit palette indices and
+unsupported budgets. In first-pass mode, later matching/draws, alternate palette collection and
 native DDS-mask rendering are outside it. Outputs are new/external, sources are
 hash-checked and read through the read-only corpus. No game executes.
+
+The subsequent [selector emulation](../../docs/TEXTURE_SELECTOR_EMULATION.md)
+closes restricted fresh-single fallback/base matching and retains intermediate
+versus exit states. Add `--phase fresh-single` to the evaluation command for that
+subset. Unique nonempty groups are allowed; merged/linked/name-filtered contexts
+remain unsupported. The existing first-pass command remains available.
+
+Compare original selector instructions in isolated Unicorn, with controlled
+single-occurrence fixtures and explicit container stubs:
+
+```powershell
+$assetArguments = @()
+Get-Content runtime/research/appearance-decal-assets-180383.txt | ForEach-Object {
+  $assetArguments += @('--asset', $_)
+}
+python runtime/research/emulate-texture-selection.py `
+  --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
+  --corpus E:\NMS-Courier-Research\corpus @assetArguments `
+  --samples 8 --include-zero-probability-fixtures `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --emulator-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\unicorn-2.1.4" `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\texture-selector-matrix-new.json
+```
+
+Repeat with the first seven priority texture assets for tools/frigates, the next
+two for NPCs, and the last for freighter base matching, as documented in the
+owning note. Maximum eight assets and eight extra random seeds per invocation.
+The fixture's copied zero-probability profile does not alter source files.
+Developer-only private tools; no game process, imports or host runtime execution.

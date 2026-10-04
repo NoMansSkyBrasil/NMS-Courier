@@ -7,6 +7,11 @@ Read [AI continuation](AI_CONTINUATION.md) for portable research instructions an
 bindings. This pass identifies a genuine random consumer and implements only
 its bounded first pass. It does not recover the complete entity appearance.
 
+Continuation: [native selector emulation](TEXTURE_SELECTOR_EMULATION.md) now
+closes fallback/base matching for a restricted fresh single-resource case,
+with 468 native comparisons across 18 resources/35 layers. The initial findings
+below are retained; its later-pass gaps are superseded only for that subset.
+
 ## Distinguish three mechanisms
 
 Decals can be alternatives in a procedural texture declaration, geometry/parts
@@ -148,7 +153,9 @@ External evidence under `E:\NMS-Courier-Research\seed-analysis-180383`:
 and `decal-first-pass-batch-20261004.json`.
 The native project contains each stage's `manifest.tsv` and pseudocode.
 
-Next: resolve collection order/merging and the later 631310 compatibility pass,
+Historical next target: collection order/merging and 631310 compatibility.
+The emulation continuation above closes the restricted single-resource subset;
+native merged collection remains open. Continue there,
 then correlate actual caller seeds per category. Only then combine selected
 DDS masks with materials in the
 viewer. No full seed inverse, native preview fidelity, new delivery capability
