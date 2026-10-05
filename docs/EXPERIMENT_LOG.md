@@ -1,5 +1,43 @@
 # Runtime experiment log
 
+## 2026-10-04 — bounded appearance search and recipe preview
+
+Offline build 180383 fingerprint:
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Exact source/configuration and reproduction commands:
+[appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md), committed
+`appearance-search-fixture-180383.json`, `search-appearance-seeds.py`,
+`test_appearance_search.py`, recipe adapter/shared contract and
+`validate-appearance-recipe.cjs`. No game process/save trigger was used.
+
+Observed: Fighter and Royal constraints each found candidate `0x7` after eight
+enumerated seeds, with identical forward replay. Royal used two explicitly
+supplied mesh bindings and GLB hash
+`9e188cf03419ecbd6e2c868c67461d381539112115ac7e5902f38a0f4314e357`.
+Nine search tests and six recipe tests passed. Full repository Vitest run:
+52 tests passed; lint, typecheck and build passed. Rendered Electron import/apply
+changed the canvas and bound visibility; hash mismatch, invalid recipe and
+cancellation preserved state. Portuguese screenshot inspection: no horizontal
+overflow/page errors. Native pixels were explicitly not asserted.
+
+Not proven: native DDS/mask/decal/shader composition, complete GLB assembly,
+natural material order, all category/preset contexts, complete uint64 inversion,
+seed uniqueness or runtime delivery. Independent freighter palette/texture
+channels remain fixed supplied inputs in model-seed enumeration.
+
+Failures/corrections: initial inspection referenced nonexistent
+`evaluate-texture-selection.py`; corrected to `evaluate-texture-options.py`.
+Documentation patches used incorrect heading contexts and failed without
+changes; corrected against actual headings. No storage/game/corpus failures.
+
+External evidence under `E:/NMS-Courier-Research/seed-analysis-180383`:
+`appearance-search-20261004.json`, `appearance-preview-request-20261004.json`,
+`appearance-preview-search-20261004.json`. Rendered report/screenshots:
+`E:/NMS-Courier-Research/preview-models/recipe-acceptance-20261004`.
+Rollback/state: executable, bridge, mods, personal saves and corpus untouched;
+only repository code/docs and new external reports changed. No D: access,
+extraction or storage repair. Stages 4–5 remain partial, with owning continuation.
+
 ## 2026-10-04: category input linkage to descriptor/material/base palette trace
 
 Offline build 180383, algorithm executable SHA-256

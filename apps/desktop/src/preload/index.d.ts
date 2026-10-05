@@ -4,6 +4,9 @@ declare global {
   interface Window {
     nms: {
       selectPreviewModel: () => Promise<import('../shared/model-preview').PreviewImportResult>
+      selectAppearanceRecipe: () => Promise<
+        import('../shared/appearance-recipe').RecipeImportResult
+      >
       selectPreviewPalettes: () => Promise<import('../shared/model-preview').PaletteImportResult>
       previewPaletteSeed: (
         seed: string

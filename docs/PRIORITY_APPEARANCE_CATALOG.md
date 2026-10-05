@@ -1,5 +1,10 @@
 # Priority appearance catalog and inverse-search objective
 
+Superseding implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md)
+adds bounded partial-evaluator enumeration with replay and explicit preview
+recipes. The exact-result acceptance rules below still apply; no full inverse
+or native appearance equivalence is claimed.
+
 Updated 2026-10-04. Priority: ships, multitools and freighters. NPCs and frigates
 are deferred for this pass. The requested outcome is **appearance constraints
 to a seed that reproduces them**, not merely a random seed or a parts browser.

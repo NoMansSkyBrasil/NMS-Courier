@@ -1,5 +1,15 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding checkpoint: stages 4–5, 2026-10-04
+
+The user resumed rendering/inverse implementation. See
+[appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md): bounded
+descriptor/palette/texture candidate search, forward replay and explicit
+hash-bound mesh recipes now exist. Fighter and Royal searches find `0x7` after
+eight candidates; rendered Electron acceptance passed. This is partial-evaluator
+enumeration and RGB/visibility preview, not native shaders or a complete inverse.
+Resume from that note's remaining gates. Earlier deferral below is historical.
+
 ## Latest checkpoint: gates 1–3, 2026-10-04
 
 Supplied category inputs are now joined by [the category pipeline](ENTITY_INPUT_PIPELINE.md):

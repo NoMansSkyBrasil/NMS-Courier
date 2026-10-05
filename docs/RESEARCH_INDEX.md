@@ -1,5 +1,10 @@
 # Research navigation index
 
+Latest stages 4–5 implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
+Use `search-appearance-seeds.py` for bounded candidate enumeration and workshop
+recipe import for explicit hash-bound visibility/RGB. Native pixels, natural
+material order and complete inverse solving remain open.
+
 Latest input integration: [category input pipeline](ENTITY_INPUT_PIPELINE.md).
 Use `evaluate-entity-inputs.py` with the committed synthetic fixtures to join
 source-associated input pairs and explicit pieces to the offline scene trace.
@@ -14,7 +19,8 @@ Current checkpoint: [complete recursion and owned appearance inputs](SEED_RECURS
 records 273 matching recursive comparisons, nineteen corpus roots, the named
 owned-freighter model/palette split, packed child order, five node collector tables,
 and resource-cache context variants. Its acceptance ledger states exactly which
-parts of gates 1–3 remain open. Rendering and inverse search are deferred.
+parts of gates 1–3 remain open. Rendering/inverse work resumed as bounded
+candidate search and explicit recipes; see the superseding note above.
 
 Latest continuation: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md) records
 375 zero-divergence original-instruction comparisons, concrete material-vector

@@ -1,5 +1,10 @@
 # Model preview and public seed references
 
+Latest implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
+The workshop imports candidate recipes through a narrow native-dialog API and
+applies explicit visibility/RGB after exact GLB hash/name validation. Rendered
+Royal acceptance passed; native DDS/mask/shader pixels remain open.
+
 Inspected on 2026-10-03. This is an offline research assessment, not an implemented
 Electron preview, whole appearance oracle or runtime delivery capability.
 Return to [seed research](PROCEDURAL_SEED_RESEARCH.md).

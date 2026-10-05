@@ -39,6 +39,12 @@ The B0 clean offline Windows validation and native dependency audit remain open.
 
 ## 3. Documentation ownership
 
+On 2026-10-04, bounded offline appearance-constraint search and an Electron
+recipe importer were implemented. Candidate seeds are replayed; explicit mesh
+visibility/RGB is bound to the GLB hash. This is not a complete inverse, native
+shader rendering or live delivery. See
+[the stages 4–5 checkpoint](APPEARANCE_SEARCH_AND_RECIPE.md).
+
 On 2026-10-03, an independent static GLB model workshop was implemented and
 validated in rendered Electron. It imports bounded texture-free local models,
 filters/toggles mesh visibility and provides orbit/zoom/tint controls. Royal

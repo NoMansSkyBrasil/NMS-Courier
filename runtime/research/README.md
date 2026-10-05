@@ -1,5 +1,10 @@
 # Bulk game-data research
 
+For bounded appearance-constraint enumeration and hash-bound Electron preview
+recipes, read [the stages 4–5 checkpoint](../../docs/APPEARANCE_SEARCH_AND_RECIPE.md).
+`search-appearance-seeds.py` emits replayed partial-evaluator candidates;
+it is not a full inverse or a live delivery tool.
+
 [Category input pipeline](../../docs/ENTITY_INPUT_PIPELINE.md):
 `evaluate-entity-inputs.py --inputs` connects supplied model/palette/context pairs
 and seeded/explicit descriptors to bounded scene/material traces. Optional

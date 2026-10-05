@@ -5,6 +5,7 @@ import { useLocale } from '@renderer/i18n/locale-provider'
 import { previewCopy } from '@renderer/i18n/preview-copy'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
+import { AppearanceRecipeControls } from './appearance-recipe-controls'
 import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card'
 import { Badge } from './ui/badge'
@@ -205,6 +206,30 @@ export function ModelPreviewPage(): React.JSX.Element {
           <p className="text-sm text-muted-foreground">{copy.limits}</p>
         </CardFooter>
       </Card>
+      <AppearanceRecipeControls
+        key={model?.sha256 ?? 'no-model'}
+        modelSha256={model?.sha256 ?? null}
+        parts={parts}
+        onApply={(bindings) => {
+          setTint(null)
+          setHidden((previous) => {
+            const next = new Set(previous)
+            for (const binding of bindings) {
+              if (binding.visible) next.delete(binding.id)
+              else next.add(binding.id)
+            }
+            return next
+          })
+          setPartColors((previous) => {
+            const next = new Map(previous)
+            for (const binding of bindings) {
+              if (binding.rgba) next.set(binding.id, binding.rgba)
+              else next.delete(binding.id)
+            }
+            return next
+          })
+        }}
+      />
     </main>
   )
 }

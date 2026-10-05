@@ -1,5 +1,10 @@
 # AI continuation guide
 
+Latest stages 4–5 implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
+Bounded constraints-to-candidate search and hash-bound preview recipes are
+implemented and rendered-tested. Native DDS/mask/shader reproduction and a
+complete inverse remain open; do not report these stages as fully complete.
+
 Latest owning checkpoint: [packed scene materials and seed context](PACKED_SCENE_SEED_CONTEXT.md).
 Latest implemented input connection: [category input pipeline](ENTITY_INPUT_PIPELINE.md).
 Use `evaluate-entity-inputs.py` for supplied owned ship/tool/freighter and ship
@@ -20,8 +25,10 @@ owning documents for the selected task.
 
 ## Current objective and boundaries
 
-Latest active scope: finish gates 1–3 only; gates 4–5 (rendering and whole-entity
-inverse solving) are deferred. Begin at [recursion and owned inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
+Latest active scope: implement gates 4–5 (rendering and whole-entity inverse
+solving), authorized after the input pipeline checkpoint. Begin at
+[appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md), then
+[recursion and owned inputs](SEED_RECURSION_AND_OWNED_INPUTS.md)
 and the latest block in [the handoff](SEED_RESEARCH_HANDOFF.md). These supersede
 the older next-target paragraphs below: complete descriptor recursion has 273
 matching cases, the loaded-node collectors are identified, and the named owned

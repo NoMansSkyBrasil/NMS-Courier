@@ -11,6 +11,7 @@ import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-res
 import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 import { importPreviewModel } from './model-preview-import'
 import { BasePalettePreviewAdapter } from './nms-adapters/base-palette-preview'
+import { importAppearanceRecipe } from './nms-adapters/appearance-recipe'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
@@ -153,6 +154,17 @@ app.whenReady().then(() => {
     })
     if (result.canceled || result.filePaths.length !== 1) return { state: 'canceled' }
     return importPreviewModel(result.filePaths[0])
+  })
+  ipcMain.handle('nms:select-appearance-recipe', async (event) => {
+    const owner = BrowserWindow.fromWebContents(event.sender)
+    if (!owner || event.senderFrame !== event.sender.mainFrame) return { state: 'canceled' }
+    const result = await dialog.showOpenDialog(owner, {
+      title: 'Select an experimental appearance recipe',
+      filters: [{ name: 'Appearance recipe or search report', extensions: ['json'] }],
+      properties: ['openFile']
+    })
+    if (result.canceled || result.filePaths.length !== 1) return { state: 'canceled' }
+    return importAppearanceRecipe(result.filePaths[0])
   })
   ipcMain.handle('nms:select-preview-palettes', async (event) => {
     const owner = BrowserWindow.fromWebContents(event.sender)

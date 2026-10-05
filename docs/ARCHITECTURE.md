@@ -1,5 +1,11 @@
 # Architecture and technology usage
 
+The experimental preview exposes `selectAppearanceRecipe()` through preload.
+Main owns the native dialog and bounded recipe validation; renderer receives
+only candidate seed, descriptor, model hash and explicit visibility/RGBA rows.
+The standalone offline search CLI is not a renderer execution endpoint. See
+[appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
+
 Status: M0 desktop code exists; the native game bridge remains an exact-build research prototype.
 
 The independent static GLB workshop is now implemented. Main owns its file

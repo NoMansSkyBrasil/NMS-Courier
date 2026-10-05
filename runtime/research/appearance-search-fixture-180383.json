@@ -1,0 +1,14 @@
+{
+  "input": {
+    "category": "ship", "route": "owned_default",
+    "descriptor": "models/common/spacecraft/fighters/fighter_proc.descriptor.mbin",
+    "model_seed": {"value": "0x7", "enabled": true},
+    "material_second_seed": {"value": "0xffffffffffffffff", "enabled": false},
+    "engine_context_index": 0, "resource_flags": 0, "selection": {"mode": "seeded"}
+  },
+  "constraints": {
+    "required_ids": ["_ENGINE_C", "_WINGS_K", "_WINGSK_A", "_COCKPIT_D", "_LOGOR_A2", "_LOGOL_A1"],
+    "palette": [{"family": "Paint", "slot": 1, "index": 17}]
+  },
+  "start": "0x0", "count": 32, "seconds": 10, "max_results": 1
+}
