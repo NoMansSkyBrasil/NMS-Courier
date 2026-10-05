@@ -57,5 +57,13 @@ class AlternatePaletteTests(unittest.TestCase):
         self.assertEqual(branch, 'alternate')
         self.assertEqual(parameters['similarity_threshold'], M['BASE']['f32'](0.1))
 
+    def test_missing_buffer_uses_pinned_magenta_without_override(self):
+        _, rows = M['palette_row']((7, 9), None, 0.1)
+        self.assertEqual([r['rgba'] for r in rows], [(1.0, 0.0, 1.0, 1.0)] * 5)
+        self.assertEqual([r['retries'] for r in rows], [0, 63, 63, 63, 63])
+        _, parameters = SEARCH['palette_configuration']({'palette_branch': 'alternate',
+            'palette_parameters': {'similarity_threshold': 0}})
+        self.assertEqual(parameters['fallback_rgba'], (1.0, 0.0, 1.0, 1.0))
+
 
 if __name__ == '__main__': unittest.main()

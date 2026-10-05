@@ -20,6 +20,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--task-inputs', action='store_true', help='Resolve branch from task inputs and use pinned fallback')
     args = parser.parse_args()
     corpus, output = args.corpus.resolve(), args.output.resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (corpus, HERE.parents[1])):
@@ -32,7 +33,8 @@ def main():
         for category, descriptor in PROFILES:
             selected = SEARCH['D']['evaluate'](7, loader.load(descriptor), loader.load)['selected_ids']
             palette_seed = 0x1ad0003900054 if category == 'freighter' else 7
-            rows = SEARCH['A']['generate'](palette_seed, palettes, 0.1, [0.25, 0.5, 0.75, 1])
+            fallback = SEARCH['A']['FALLBACK_RGBA'] if args.task_inputs else [0.25, 0.5, 0.75, 1]
+            rows = SEARCH['A']['generate'](palette_seed, palettes, 0.1, fallback)
             paint = next(row for row in rows if row['family'] == ('Freighter' if category == 'freighter' else 'Paint'))
             record = {'category': category, 'route': 'owned_default', 'descriptor': descriptor,
                       'model_seed': {'value': '0x7', 'enabled': True},
@@ -45,6 +47,10 @@ def main():
                        'palette_branch': 'alternate', 'palette_parameters': {
                            'similarity_threshold': 0.1, 'fallback_rgba': [0.25, 0.5, 0.75, 1]},
                        'start': '0x0', 'count': 8, 'seconds': 60, 'max_results': 20}
+            if args.task_inputs:
+                del request['palette_branch']
+                del request['palette_parameters']['fallback_rgba']
+                request['palette_task'] = {'alternate_flag': 1, 'global_mode': 0, 'precomputed': False}
             request_at, report_at = output / (category + '-request.json'), output / (category + '-result.json')
             request_at.write_text(json.dumps(request, indent=2), encoding='utf-8')
             run = subprocess.run([sys.executable, str(HERE / 'search-appearance-seeds.py'), '--corpus', str(corpus),
@@ -52,7 +58,7 @@ def main():
                                  capture_output=True, text=True, timeout=90, check=True)
             result = json.loads(report_at.read_text(encoding='utf-8'))
             anchor = next((r for r in result['candidates'] if r['seed'] == '0x7'), None)
-            matched = result['examined'] == 8 and anchor is not None and anchor['selected_ids'] == selected and all(
+            matched = result['palette_branch'] == 'alternate' and result.get('palette_task') == request.get('palette_task') and result['examined'] == 8 and anchor is not None and anchor['selected_ids'] == selected and all(
                 list(color['rgba']) == list(reference['rgba']) for row, expected in zip(anchor['palette_rows'], rows)
                 for color, reference in zip(row['colors'], expected['colors']))
             records.append({'category': category, 'descriptor': descriptor, 'examined': result['examined'],
@@ -62,7 +68,7 @@ def main():
     finally:
         loader.close()
     report = {'cases': len(records), 'mismatches': sum(not r['matches'] for r in records), 'records': records,
-              'executable_sha256': SEARCH['INPUTS']['SCENES']['CONTEXTS']['HASH'], 'runtime_verified': False,
+              'executable_sha256': SEARCH['INPUTS']['SCENES']['CONTEXTS']['HASH'], 'task_inputs': args.task_inputs, 'runtime_verified': False,
               'limitations': ['Round-trip integration uses recovered forward evaluators, not an independent game oracle.',
                               'Explicit alternate threshold and base collection; natural category branch selection is unproven.']}
     (output / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')

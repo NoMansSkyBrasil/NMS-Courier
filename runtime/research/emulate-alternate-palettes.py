@@ -19,6 +19,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ('executable', 'corpus', 'python-tools', 'emulator-tools', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
+    parser.add_argument('--native-fallback', action='store_true', help='Use verified file-backed fallback and padding constants')
     args = parser.parse_args()
     exe, corpus, output = args.executable.resolve(), args.corpus.resolve(), args.output.resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (exe.parent.parent, corpus, HERE.parents[1])):
@@ -60,12 +61,16 @@ def main():
                     constants[rva] = operand.size
     if set(constants) != {0x4b26778, 0x4b2f8d0, 0x525d910}:
         raise ValueError('Unexpected alternate palette runtime constants')
+    native_fallback = read(0x4b2f8d0, 16)
+    native_padding = read(0x4b26778, 4)
+    if struct.unpack('<4f', native_fallback) != PORT['FALLBACK_RGBA'] or struct.unpack('<f', native_padding) != (1.0,):
+        raise ValueError('Pinned palette literal mismatch')
     palettes = PORT['BASE']['load_base'](corpus)
     seeds = (0, 7, 0x1ad0003900054, 2**64 - 1)
     records = []
     def fixture(palette_rows, threshold, present=True, collection_enabled=True):
-        fallback = (0.25, 0.5, 0.75, 1.0)
-        constant_data = {0x4b26778: struct.pack('<f', 0),
+        fallback = PORT['FALLBACK_RGBA'] if args.native_fallback else (0.25, 0.5, 0.75, 1.0)
+        constant_data = {0x4b26778: native_padding if args.native_fallback else struct.pack('<f', 0),
                          0x4b2f8d0: struct.pack('<4f', *fallback),
                          0x525d910: struct.pack('<f', threshold)}
         draws = [0]
@@ -131,7 +136,9 @@ def main():
               'port_sha256': hashlib.sha256((HERE / 'evaluate-alternate-palettes.py').read_bytes()).hexdigest(),
               'windows': [{'begin': hex(b), 'end': hex(e), 'sha256': hashlib.sha256(code[b]).hexdigest()} for b, e in WINDOWS],
               'cases': len(records), 'mismatches': sum(not row['matches'] for row in records), 'records': records,
-              'runtime_verified': False, 'limitations': ['Explicit threshold/fallback/collection fixtures, not natural task state.',
+              'literal_mode': 'file_backed' if args.native_fallback else 'controlled_override',
+              'native_literals': {'fallback_rgba': list(PORT['FALLBACK_RGBA']), 'fallback_hex': native_fallback.hex(), 'padding_hex': native_padding.hex()},
+              'runtime_verified': False, 'limitations': ['Explicit threshold/collection fixtures, not natural task state; fallback mode is recorded.',
                   'Collection scheduling compared at thresholds 0 and float32(0.1); other runtime values are not inferred.',
                   'No textures, native rendering, game process or delivery.']}
     output.parent.mkdir(parents=True, exist_ok=True)

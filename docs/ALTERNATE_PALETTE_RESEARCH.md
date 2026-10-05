@@ -1,5 +1,9 @@
 # Alternate procedural palette branch
 
+Superseded constant/routing statements: [palette task inputs](PALETTE_TASK_ROUTING.md)
+recover the file-backed magenta fallback, add 404 native-literal comparisons,
+16 dispatch comparisons and connect explicit task inputs to search.
+
 Checkpoint: 2026-10-05 UTC (2026-10-04 local). The previously unimplemented
 alternate color route now has an explicit-input port and **404 matching
 original-instruction comparisons**. It is connected to bounded appearance
@@ -19,7 +23,7 @@ collection flag, present palette buffer and mode `_8` (enum 3), the index is
 `second >> 29`. Otherwise it is `(first >> 29) * 8 + (second >> 29)`.
 The other mode fields do not use the base branch's `_1`/`_4`/`_16` remapping.
 Color lookup is direct from the selected 64-entry row, including Inactive mode.
-A missing palette buffer uses a separately supplied four-float fallback.
+A missing palette buffer uses the pinned magenta fallback; fixtures may override it.
 
 For each sample, the RGB distance to every preceding sample uses float32
 subtraction/multiplication, `B² + (G² + R²)` with rounded additions, then a
@@ -62,8 +66,9 @@ collection at most 2,000,000 instructions/two seconds. IO reads at most a
 - Four disabled collection cases preserve every byte of a sentinel output and
   consume zero row draws.
 
-The threshold at RVA `525d910` is runtime state. Fallback RGBA at `4b2f8d0` is
-also unresolved. The comparison supplies `(0.25, 0.5, 0.75, 1)` as its fixture
+The threshold at RVA `525d910` is runtime state. Fallback RGBA at `4b2f8d0` was
+initially unresolved, then recovered as file-backed magenta (see superseding
+checkpoint). This earlier comparison supplies `(0.25, 0.5, 0.75, 1)` as its fixture
 fallback and zero as the SIMD padding lane; neither is inferred game data.
 An existing Ghidra database reference query found one READ of the threshold and
 three READs of the fallback, no writer. Owners were unavailable in that database.
@@ -90,7 +95,8 @@ Select the new path explicitly in the request:
 ```
 
 These fields supplement the existing request; they are research inputs, not
-the natural settings of the pictured ship. Missing/unknown parameters fail.
+the natural settings of the pictured ship. Missing threshold/unknown parameters fail;
+fallback omission now selects the pinned magenta constant.
 Reports retain branch, rounded parameters and evaluator/palette fingerprints.
 Recipes still carry candidate evidence and use the existing preview importer.
 
@@ -132,8 +138,9 @@ The first search-regression report falsely marked three mismatches because JSON
 lists were compared directly to Python tuples; normalizing the representation
 produced three matches. Seeds and colors did not change. No corpus or disk error.
 
-Next trace the runtime threshold writer and natural palette collection/branch
-selection at task flag `1c9`, including precomputed customization color bypass.
+Next trace the runtime threshold writer and category-specific palette bank/source
+flag values. Initial task routing and precomputed bypass are now mapped in the
+superseding checkpoint.
 Then connect those explicit inputs to natural material assembly. DDS masks,
 decals as pixels, shaders and a complete appearance inverse remain open. Do not
 repeat this closed matrix without a changed implementation or new boundary.

@@ -1,12 +1,23 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding task checkpoint: 2026-10-05 local
+
+[Palette task routing](PALETTE_TASK_ROUTING.md) corrects the earlier fallback
+claim: pinned `.rdata` contains magenta, not unresolved runtime state. The PE
+virtual-tail threshold remains unknown. Native-literal matrix: 404/404; dispatch:
+16/16; explicit task search: 3/3 categories. Source byte `+70` reaches task `+1c9`;
+source `+71` gates a precomputed palette that bypasses initial seed generation.
+Next identify category flag defaults, alternate bank population and indirect
+threshold initialization. Exact bounds, failures and continuation commands are
+in the owning note. No game/save/mod/bridge/corpus mutation.
+
 ## Superseding color checkpoint: 2026-10-05 UTC
 
 [Alternate palette research](ALTERNATE_PALETTE_RESEARCH.md) closes the previously
 missing `62e4e0/62e780` explicit arithmetic/schedule port with 404 matching
 original-instruction cases. Search supports this branch with explicit runtime
-parameters; Fighter/tool/Pirate regression passes. Next resolve threshold and
-fallback writers, collection choice and task branch inputs. Do not infer those
+parameters; Fighter/tool/Pirate regression passes. This earlier next-step list
+is superseded by the task checkpoint above. Do not infer natural category
 parameters from the fixtures or claim complete native appearance.
 
 ## Superseding checkpoint: stages 4–5, 2026-10-04

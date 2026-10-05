@@ -1,5 +1,62 @@
 # Runtime experiment log
 
+## 2026-10-05 local — palette task routing and literal correction
+
+Pinned offline build 180383 executable SHA-256:
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Exact sources, input configuration, instruction sites, byte bounds, reproduction
+and unresolved targets: [palette task routing](PALETTE_TASK_ROUTING.md).
+Sources: `resolve-palette-task.py`, `emulate-palette-task-route.py`,
+`scan-rip-data-references.py`, `palette-task-data-180383.tsv`, updated alternate
+port/emulator/search/integration and three focused test files.
+
+No game/save trigger. Reused existing Ghidra exports and hash-pinned corpus;
+Capstone inspection and private Unicorn 2.1.4 emulation only. Initial worker
+dispatch slice `638a8a..638af2`, flags 0/1/2/255, modes 0/1/5/max uint32,
+explicit seed pair `(7,1)` and private pointers. Calls to both generators are
+captured no-op boundaries. Precomputed bypass is source/instruction evidence.
+Separate color matrix uses file-backed magenta/padding 1, controlled thresholds
+0/float32(0.1), explicit base collection, four seeds and all six palette modes.
+
+Observed: 16 dispatch comparisons and 404 native-literal arithmetic comparisons,
+zero mismatches. Three integrated searches route from explicit task inputs,
+omit separate branch/fallback fields, and retain anchor `0x7` after eight seeds.
+37 focused unit tests pass (8 alternate, 5 routing, 6 RIP/PE storage, 9 search,
+3 base, 6 primitives). No UI change; application build/render repetition omitted.
+
+Correction: earlier string inspection hid file-backed fallback bytes because
+the first byte was zero. Raw bytes prove RGBA `(1,0,1,1)` at `4b2f8d0` and padding
+float 1 at `4b26778`. Controlled previous fixtures remain valid but are not these
+native constants. Threshold `525d910` is a zero-filled virtual `.data` tail;
+manual raw-offset diagnostics produced unrelated bytes outside the raw section,
+which were rejected, not treated as threshold data. New scanner reports storage
+explicitly. It finds 28 candidates, 23 checked references, two no-unwind skips,
+no checked RIP writer; indirect/absolute/relocated/nearby writes remain outside
+coverage. Missing writer evidence does not establish runtime immutability.
+
+Failures: arbitrary inspector RVA `638d00` was not an instruction boundary;
+reissued at previously observed `638b9a`. One overlap test initially omitted an
+allowed trailing-immediate false candidate; corrected expected candidate set,
+not instruction truth. A guessed test glob name found zero tests; reran the
+actual test filenames and required successful exit. Windows wildcard/path
+reads were corrected to existing source paths. Source-index refresh initially
+used a nonexistent navigation path and failed before writing; corrected to
+the documented existing `E:/NMS-Courier-Research/navigation` index, preserving
+data/native imports and warnings. No game/corpus/storage failure.
+
+Not proven: runtime threshold initialization, category-wide values of source
+flags `+70/+71`, population of both palette banks, native material pixels,
+complete inverse seed solving or runtime delivery. Explicit task inputs do not
+extend category/build support. Precomputed colors must not be inferred from seed.
+
+External evidence: `seed-analysis-180383/palette-task-and-constants-20261005.json`,
+`palette-route-bodies-20261005.json`, `palette-task-fields-20261005.json`,
+`palette-global-storage-20261005.json`, `alternate-native-literals-20261005.json`,
+`palette-task-route-20261005.json`, `alternate-task-search-final-20261005/report.json`.
+Rollback: game executable, DLLs, mods, saves and corpus unchanged; only repository
+source/docs and bounded external reports changed. No disk commands, D: access,
+extraction or BitLocker changes.
+
 ## 2026-10-05 UTC — alternate palette branch and explicit search inputs
 
 Build 180383 executable SHA-256:

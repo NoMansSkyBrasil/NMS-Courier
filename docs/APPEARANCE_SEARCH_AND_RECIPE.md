@@ -9,8 +9,11 @@ appearance. This is offline research, not a delivery API or packaged solver.
 
 Update: [alternate palette research](ALTERNATE_PALETTE_RESEARCH.md) adds explicit
 `palette_branch: "alternate"` and mandatory `palette_parameters` (similarity
-threshold and fallback RGBA). The default remains base; natural branch/collection
-selection is not inferred. Reports retain the branch and evaluator fingerprint.
+threshold, optional fallback override). [Palette task routing](PALETTE_TASK_ROUTING.md)
+also accepts explicit `palette_task` inputs to select the branch and uses pinned
+magenta when fallback is omitted. Conflicts and generation bypasses are rejected.
+Without task/branch input the default remains base; natural category flag/bank
+values are not inferred. Reports retain task, branch and evaluator fingerprints.
 
 `runtime/research/search-appearance-seeds.py` uses the
 [category input contract](ENTITY_INPUT_PIPELINE.md) and reads the existing corpus.

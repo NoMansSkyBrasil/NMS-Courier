@@ -5,9 +5,11 @@ import runpy
 
 BASE = runpy.run_path(str(Path(__file__).with_name('evaluate-base-palettes.py')))
 CORE = BASE['core']
+# File-backed .rdata at RVA 4b2f8d0 in pinned offline build 180383.
+FALLBACK_RGBA = (1.0, 0.0, 1.0, 1.0)
 
 
-def configuration(threshold, fallback):
+def configuration(threshold, fallback=FALLBACK_RGBA):
     if type(threshold) not in (int, float) or not math.isfinite(threshold) or not 0 <= threshold <= 2:
         raise ValueError('Require explicit finite similarity threshold 0..2')
     if not isinstance(fallback, (list, tuple)) or len(fallback) != 4 or any(
@@ -16,7 +18,7 @@ def configuration(threshold, fallback):
     return BASE['f32'](threshold), tuple(BASE['f32'](v) for v in fallback)
 
 
-def palette_row(state, palette, threshold, fallback, count=5, collection_enabled=True):
+def palette_row(state, palette, threshold, fallback=FALLBACK_RGBA, count=5, collection_enabled=True):
     threshold, fallback = configuration(threshold, fallback)
     if type(count) is not int or not 0 <= count <= 5:
         raise ValueError('Alternate row count must be 0..5')
@@ -40,7 +42,7 @@ def palette_row(state, palette, threshold, fallback, count=5, collection_enabled
     return state, records
 
 
-def generate(seed, palettes, threshold, fallback, enabled=True, collection_enabled=True):
+def generate(seed, palettes, threshold, fallback=FALLBACK_RGBA, enabled=True, collection_enabled=True):
     configuration(threshold, fallback)
     if len(palettes) != 66:
         raise ValueError('Expected 66 palette families')

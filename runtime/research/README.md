@@ -1,8 +1,12 @@
 # Bulk game-data research
 
+[Palette task routing](../../docs/PALETTE_TASK_ROUTING.md): recovered magenta
+fallback, 404 native-literal comparisons, 16 dispatch comparisons and explicit
+task-to-search routing. Threshold initialization/category bank defaults remain open.
+
 [Alternate palette branch](../../docs/ALTERNATE_PALETTE_RESEARCH.md): explicit
 66-family/retry port and 404-case original-instruction matrix. Search can opt
-into this route with mandatory threshold/fallback; natural globals are not inferred.
+into this route with mandatory threshold and optional fallback override.
 
 For bounded appearance-constraint enumeration and hash-bound Electron preview
 recipes, read [the stages 4–5 checkpoint](../../docs/APPEARANCE_SEARCH_AND_RECIPE.md).

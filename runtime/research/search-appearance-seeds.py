@@ -17,10 +17,16 @@ D = INPUTS['DESCRIPTORS']
 B = INPUTS['PALETTES']
 T = runpy.run_path(str(HERE / 'evaluate-texture-options.py'))
 A = runpy.run_path(str(HERE / 'evaluate-alternate-palettes.py'))
+TASK = runpy.run_path(str(HERE / 'resolve-palette-task.py'))
 
 
 def palette_configuration(request):
-    branch = request.get('palette_branch', 'base')
+    task = TASK['resolve'](request['palette_task']) if 'palette_task' in request else None
+    if task and task['route'] not in ('base', 'alternate'):
+        raise ValueError('Palette task bypasses generated colors; seed search cannot infer them')
+    branch = request.get('palette_branch', task['route'] if task else 'base')
+    if task and branch != task['route']:
+        raise ValueError('Explicit palette branch conflicts with task inputs')
     if branch not in ('base', 'alternate'):
         raise ValueError('Unknown palette branch')
     parameters = request.get('palette_parameters')
@@ -28,9 +34,9 @@ def palette_configuration(request):
         if parameters is not None:
             raise ValueError('Base branch does not accept alternate runtime parameters')
         return branch, None
-    if not isinstance(parameters, dict) or set(parameters) != {'similarity_threshold', 'fallback_rgba'}:
-        raise ValueError('Alternate branch requires explicit runtime threshold and fallback')
-    threshold, fallback = A['configuration'](parameters['similarity_threshold'], parameters['fallback_rgba'])
+    if not isinstance(parameters, dict) or 'similarity_threshold' not in parameters or set(parameters) - {'similarity_threshold', 'fallback_rgba'}:
+        raise ValueError('Alternate branch requires explicit runtime threshold; fallback override is optional')
+    threshold, fallback = A['configuration'](parameters['similarity_threshold'], parameters.get('fallback_rgba', A['FALLBACK_RGBA']))
     return branch, {'similarity_threshold': threshold, 'fallback_rgba': fallback}
 
 
@@ -155,7 +161,7 @@ def main():
     if source.stat().st_size > 1024 * 1024:
         parser.error('Request byte budget exceeded')
     raw = source.read_bytes(); request = json.loads(raw)
-    if not isinstance(request, dict) or set(request) - {'input', 'constraints', 'start', 'count', 'seconds', 'max_results', 'texture_resources', 'texture_seed', 'preview_binding', 'palette_branch', 'palette_parameters'}:
+    if not isinstance(request, dict) or set(request) - {'input', 'constraints', 'start', 'count', 'seconds', 'max_results', 'texture_resources', 'texture_seed', 'preview_binding', 'palette_branch', 'palette_parameters', 'palette_task'}:
         parser.error('Unknown search request fields')
     branch, parameters = palette_configuration(request)
     resolved = INPUTS['resolve_inputs'](request.get('input'))
@@ -198,7 +204,8 @@ def main():
         if 'preview_binding' in request and result['candidates']:
             result['preview_recipe'] = preview_recipe(request['preview_binding'], result['candidates'][0])
         result.update(runtime_verified=False, appearance_evaluator_complete=False,
-            palette_branch=branch, palette_parameters=parameters,
+            palette_branch=branch, palette_parameters=parameters, palette_task=request.get('palette_task'),
+            palette_task_evaluator_sha256=hashlib.sha256((HERE / 'resolve-palette-task.py').read_bytes()).hexdigest(),
             algorithm_executable_sha256=INPUTS['SCENES']['CONTEXTS']['HASH'],
             request_sha256=hashlib.sha256(raw).hexdigest(),
             source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -208,7 +215,7 @@ def main():
             texture_sources=[] if texture_sources is None else [{k: v for k, v in row.items() if k != 'layers'} for row in texture_sources],
             limitations=['Bounded enumeration, not a complete uint64 inverse solver.',
                         'Matches are partial-evaluator candidates; explicitly selected color branch and texture order are not final game appearance.',
-                        'Alternate runtime threshold/fallback and use of the base collection are explicit inputs, not natural caller inference.',
+                        'Alternate threshold and collection are explicit inputs; omitted fallback uses pinned build 180383 magenta.',
                         'Freighter palette input and supplied texture seed remain independent fixed channels.',
                         'Preview mesh bindings are explicit research mappings; DDS pixels, masks and shaders are not reproduced.'])
     finally:
