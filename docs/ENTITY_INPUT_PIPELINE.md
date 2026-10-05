@@ -1,5 +1,18 @@
 # Category input linkage for bounded appearance research
 
+Owned multitool input also accepts optional strict boolean `use_legacy_colours`.
+It preserves source-associated `UseLegacyColours` runtime `+2bd` as palette flag
+0/1; omission remains unknown. Bounded search requires explicit task mode and
+precomputed state, derives the flag and rejects conflicting overrides or bypass
+inference. Other categories cannot use this field. See
+[the source association](CUSTOMISATION_COLOR_RESEARCH.md). This is research
+input routing, not a live read, save edit or complete color oracle.
+Current focused input checks: thirteen tests, including explicit false/true,
+unknown/missing flag, invalid types and rejection outside the tool category.
+The base-only joined trace omits its color candidate when this known flag is
+true and reports the reason; it retains descriptor/material evidence. It never
+substitutes base generation for a supplied alternate route.
+
 Checkpoint: 2026-10-04. Owning algorithm evidence:
 [packed scene context](PACKED_SCENE_SEED_CONTEXT.md) and
 [owned appearance sources](SEED_RECURSION_AND_OWNED_INPUTS.md).
@@ -35,8 +48,9 @@ customisation/task override. No IsGift-to-S-rank assumption is made.
 
 The input JSON is a list of 1–32 records, at most 32 KiB. Each record requires:
 
-- `category`: `ship`, `multitool` or `freighter`.
-- `route`: `owned_default`, or `ship_purchase` for ships only.
+- `category`: `ship`, `multitool`, `freighter` or research-only `npc`.
+- `route`: `owned_default`, `ship_purchase` for ships only, or mandatory
+  `npc_supplied` for NPCs (no natural spawn claim).
 - `descriptor`: one of the nineteen category-matched roots in
   `appearance-recursion-models-180383.json`.
 - `model_seed`: `{ "value": "0x7", "enabled": true }`. Values must be decimal
@@ -58,7 +72,7 @@ These fields are explicit inputs, not an automatic FILTER.MBIN caller resolver.
 Explicit IDs exercise the independently compared explicit helper. They do not
 claim that all category-specific customisation callers are recovered. Missing,
 unknown or mismatched fields/routes fail rather than silently falling back.
-NPCs, frigates, gift/preset/update variants and arbitrary user color overrides
+Natural NPCs, frigates, gift/preset/update variants and arbitrary user color overrides
 are not currently supported input profiles.
 
 ## Output and limits
@@ -103,3 +117,17 @@ Bounds: 32 input records, 256 ID records per field, 31 bytes per ASCII ID,
 64 MiB XML/256 assets/32,768 visits/depth 64 per root, source metadata indexed
 once. Output must be new and outside corpus/repository. No game, bridge, patch,
 save, archive or corpus mutation; no extraction or disk operations.
+
+2026-10-05 expansion: [category ledger](SEED_CATEGORY_LEDGER.md) preserves the
+NPC supplied-only profile. Its descriptor is one of eleven additional roots in
+npc-recursion-models-180383.json; independent palette_seed is mandatory and
+HomeSystemSeed inference is rejected. Other categories reject palette_seed
+overrides. NPC search requires explicit palette_branch/task and holds the
+supplied palette pair fixed while searching model seeds. No natural bank inference.
+
+Committed npc-input-fixtures-180383.json joins eleven roots with independent
+synthetic pairs, 11/11 successful traces. Twelve input tests pass. selected_ids/
+descriptor_trace_completed survive a later unsupported scene stage, preserving
+partial evidence. Latest priority is ships/tools/freighters; further NPC work
+is deferred. Existing nineteen-root and six-case descriptions above are the
+earlier checkpoint, supplemented by this explicit eleven-root route.

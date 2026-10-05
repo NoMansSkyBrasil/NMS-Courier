@@ -1,5 +1,112 @@
 # Runtime experiment log
 
+## 2026-10-05 local — category catalog, explicit colors and named tool flag
+
+Offline build 180383 executable SHA-256:
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Owners: [explicit color rules](CUSTOMISATION_COLOR_RESEARCH.md),
+[category ledger and continuation order](SEED_CATEGORY_LEDGER.md),
+[input linkage](ENTITY_INPUT_PIPELINE.md) and
+[catalog](PRIORITY_APPEARANCE_CATALOG.md). Exact algorithm windows, table hashes,
+input limits, manifests and reproduction are in those notes. New AI handoff
+rule requires every model to maintain owners/log/guide before stopping.
+
+No game/save trigger or live process access. Existing corpus/index only;
+private Unicorn 2.1.4, Capstone and Ghidra 12.1.4/Temurin 25. Ghidra used the
+existing Acquisition180383 project, no autoanalysis, two CPUs, 4 GiB heap,
+120-second guard and 20 GiB free-space reserve. Reproducible ports/manifests
+remain in repository; game assets/pseudocode/reports remain external.
+
+Observed catalog: 293 descriptors, 1,665 groups, 3,709 alternatives, 87 shallow
+scenes, 343 texture sources, 17 explicitly unclassified descriptors; 6,777,077
+source bytes read. Added enabled/unfiltered integer multiply-high draw intervals,
+keeping ancestor guards, references and Name weights separate from XML Chance.
+Active three-category subset: 229 descriptors, 1,320 groups, 3,037 alternatives.
+Corvette scene assets are candidates, not a recovered seed constructor.
+
+Explicit customisation table binary SHA-256:
+`29410ccb0918d4dddb483757d2f819100eeed046b192a4acc1287d6a77188387`.
+Native comparisons: 222 quantizer, 40 final-overlay, 47 lookup fixtures, zero
+mismatches (309 total). Quantizer includes alpha, float32 reduction, first
+component-tolerance match, all six modes and adjacent tolerance values.
+Overlay checks all 330 RGBA slots across exact/nonexact alpha values. Lookup
+checks 26 categories, 18 IDs and three captured fallback branches before TLS.
+Four CLI categories 2/3/15/23 select NULL/SHIP/FREIGHTER/PIRATEFREIGHTER.
+Family-43 fallback is supplied after edits; contradictory edits fail rather
+than silently assuming native initialization. Unknown-ID fallback stays rejected.
+Its leaf initializer fills white/inactive source state, not proven mutable
+runtime state. No-unwind inspector rejection was preserved.
+
+Owned-tool flag chain is source-associated: `551de0` exports runtime `+2bd`
+to record `+281`; reused `2a126e0` emits the latter under literal `34f1430`,
+exactly UseLegacyColours. `552730` writes argument 7 to `+2bd`; `553af0`
+preserves it between selected slots; `553600` forwards it to setter argument 5,
+then palette-task `+1c9`. Bounded field scanner: 285 fragments, ten candidates,
+one skip. Literal scanner: four instruction-checked references, zero skips.
+Overlapping copies in `551500/551630` were not assigned the same object type.
+Explicit boolean tool input now derives the task flag without changing seed
+channels; conflicting overrides and precomputed/mode-5 inverse claims fail.
+Three integrated category searches examine eight seeds each and preserve
+anchor `0x7`, zero mismatches; tool uses the named field instead of task flag.
+Joined tool input also retains its descriptor/material trace while rejecting
+a base-only color substitute for supplied UseLegacyColours=true. Evidence:
+`tool-legacy-joined-input-20261005.json` and `tool-legacy-joined-result-20261005.json`.
+45 focused unit tests pass: 13 input, 12 search, ten catalog, ten explicit color.
+No UI implementation changed; application build/render repetition omitted.
+
+NPC work completed before the user deferred it is preserved: eleven supplied
+racial/named roots, 33 native recursive comparisons at seeds 0/7/max, zero
+mismatches/failures; eleven joined scene/input traces and one candidate replay.
+Three pinned tables expose nine race entries, 24 named NPCs, 60 placement
+declarations, thirteen presets and seventeen color groups. These are
+declarations/supplied contexts, not natural NPC spawn or bank proof. Latest
+priority is ships, multitools and freighters; no further NPC research started.
+
+Failures/rejected assumptions: an unclassified shallow scene initially reached
+string membership with None; fixed by excluding unclassified scene candidates
+while reporting unclassified descriptors. Guessed headings/path reads and
+four documentation patches failed validation before writing; corrected
+using existing headings. Rounded XML colors do not replace binary float32;
+inactive Weapon palette does not quantize to ship colors. Constructor source
+and matching offsets do not establish runtime global state or object identity.
+No game, corpus or storage failures occurred.
+
+Final bounded follow-up: direct E8/E9 scanner found two initializer edges.
+`8ebd21` passes argument 7 from frame byte `[rbp+2b78]`; `13f8de3` supplies
+literal 1. Two containing fragment windows decoded 964 instructions. Semantic
+identities and split/indirect callers remain unresolved. Output was a directory
+named with a .json suffix; an attempted file read and Windows rg wildcard failed,
+then corrected to `callers.json`. This was a path/tool error, not storage damage.
+
+External evidence under `seed-analysis-180383`: `priority-catalog-intervals-20261005.json`,
+`customisation-colors-full-20261005.json`, `customisation-fallback-literal-20261005.json`,
+`tool-alternate-field-20261005.json`, `tool-legacy-name-20261005.json`,
+`tool-legacy-search-20261005/report.json`, `npc-recursion-20261005.json`,
+`tool-legacy-callers-20261005.json/callers.json`,
+`tool-legacy-caller-windows-20261005.json`,
+`npc-tables-20261005.json`, `npc-input-traces-20261005.json`,
+`npc-search-20261005.json`, `priority-search-regression-20261005/report.json`.
+Ghidra manifests/exports: `customisation-palette-lookup-180383.tsv`,
+`tool-palette-flag-180383.tsv`, `tool-palette-callers-180383.tsv`; `custompalette20261005-export`,
+`custompalettefallback20261005-export`, `toolpaletteflag20261005-export`.
+Native comparison reports contain source, table and code-window hashes.
+The final explicit-color port only clarifies the unmatched-ID diagnostic to
+describe unverified mutable runtime state; arithmetic/lookup/overlay code is
+unchanged from the 309-case comparison fingerprint. Source navigation refreshed
+to 138 files/546 definitions, preserving earlier data/native import snapshots
+and zero import warnings; 12 changed Python sources parse and 795 local links
+resolve. Generated metadata is not a new native compatibility claim.
+
+Not proven: initializer argument-7 caller values, natural palette bank/threshold
+initialization, all offer/gift/customization paths, full decal/mask/shader and
+geometry assembly, exact arbitrary appearance-to-seed inversion, or delivery.
+Next bounded work: identify the two checked initializer caller contexts and
+their frame-byte producer from the existing windows/caller manifest,
+then category precomputed palette/material assembly. Reuse closed matrices.
+Rollback: executable, game DLLs/mods/saves and corpus unchanged. Only repository
+code/docs and bounded external reports changed. No extraction, disk commands,
+D: access or BitLocker operations.
+
 ## 2026-10-05 local — palette task routing and literal correction
 
 Pinned offline build 180383 executable SHA-256:

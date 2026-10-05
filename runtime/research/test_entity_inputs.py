@@ -16,6 +16,21 @@ def fixture(category='ship'):
 
 
 class EntityInputsTests(unittest.TestCase):
+    def test_owned_multitool_legacy_flag_is_explicit_and_category_bound(self):
+        record = fixture('multitool')
+        self.assertIsNone(resolve(record)['palette_alternate_flag'])
+        for value, expected in ((False, 0), (True, 1)):
+            record['use_legacy_colours'] = value
+            result = resolve(record)
+            self.assertEqual(result['palette_alternate_flag'], expected)
+            self.assertIn('UseLegacyColours', result['palette_flag_source'])
+            self.assertEqual(result['model_pair'], (7, True))
+        for value in (0, 1, None, 'true'):
+            record['use_legacy_colours'] = value
+            with self.assertRaises(ValueError): resolve(record)
+        record = fixture(); record['use_legacy_colours'] = False
+        with self.assertRaises(ValueError): resolve(record)
+
     def test_owned_freighter_palette_does_not_replace_model_or_material_pair(self):
         record = fixture('freighter')
         record['home_system_seed'] = {'value': '0x123', 'enabled': True}
@@ -66,6 +81,21 @@ class EntityInputsTests(unittest.TestCase):
 
     def test_boolean_context_index_is_not_an_integer_context(self):
         record = fixture(); record['engine_context_index'] = True
+        with self.assertRaises(ValueError): resolve(record)
+
+    def test_npc_requires_supplied_route_and_independent_palette_pair(self):
+        record = fixture(); record.update(category='npc', route='npc_supplied', descriptor=sorted(MODULE['NPCS'])[0])
+        with self.assertRaises(ValueError): resolve(record)
+        record['palette_seed'] = {'value': '0x123', 'enabled': False}
+        result = resolve(record)
+        self.assertEqual(result['model_pair'], (7, True))
+        self.assertEqual(result['palette_pair'], (0x123, False))
+        self.assertIn('unresolved', result['palette_source'])
+        record['route'] = 'owned_default'
+        with self.assertRaises(ValueError): resolve(record)
+
+    def test_independent_palette_cannot_silently_override_ship_route(self):
+        record = fixture(); record['palette_seed'] = {'value': '0x123', 'enabled': True}
         with self.assertRaises(ValueError): resolve(record)
 
 

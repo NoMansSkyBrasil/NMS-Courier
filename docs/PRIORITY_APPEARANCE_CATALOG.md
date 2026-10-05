@@ -5,8 +5,9 @@ adds bounded partial-evaluator enumeration with replay and explicit preview
 recipes. The exact-result acceptance rules below still apply; no full inverse
 or native appearance equivalence is claimed.
 
-Updated 2026-10-04. Priority: ships, multitools and freighters. NPCs and frigates
-are deferred for this pass. The requested outcome is **appearance constraints
+Updated 2026-10-05. Priority: ships, multitools and freighters. Further NPC and
+frigate work is deferred. [The category ledger](SEED_CATEGORY_LEDGER.md) preserves
+completed NPC work and exact catalog counts. The requested outcome is **appearance constraints
 to a seed that reproduces them**, not merely a random seed or a parts browser.
 
 ## What the desired inverse must solve
@@ -98,6 +99,16 @@ read-only corpus index. It emits an external JSON containing:
 The source corpus is not redistributed. Generated game-derived records stay
 external. The original script and these findings are tracked for another AI.
 No asset extraction or game/save access occurs.
+
+The 2026-10-05 catalog includes Corvette's shallow scene without a descriptor/
+seed-constructor claim, NPC root/shared-part distinctions and unclassified
+descriptor records. priority-catalog-intervals-20261005.json contains 293
+descriptors, 1,665 groups, 3,709 alternatives, 87 shallow scenes and 343 textures.
+The ship/tool/freighter subset has 229 descriptors, 1,320 groups and 3,037
+alternatives. Source bytes: 6,777,077, within the unchanged 64 MiB budget.
+Texture metadata row cap is explicitly 512; other guards remain. Per-option
+draw intervals and group total weights apply only to the enabled unfiltered
+integer branch; zero-weight alternatives have no interval, not a guessed seed.
 
 Observed corpus snapshot: 229 descriptor sources, all uniquely indexed and
 hash-checked; 1,320 groups and 3,037 declared option occurrences. This includes

@@ -7,6 +7,32 @@ M = runpy.run_path(str(Path(__file__).with_name('search-appearance-seeds.py')))
 
 
 class AppearanceSearchTests(unittest.TestCase):
+    def test_multitool_legacy_flag_selects_branch_without_changing_seed_channels(self):
+        for flag, expected in ((0, 'base'), (1, 'alternate')):
+            request = {'palette_task': {'global_mode': 0, 'precomputed': False}}
+            if flag:
+                request['palette_parameters'] = {'similarity_threshold': 0}
+            self.assertEqual(M['palette_configuration'](request, {'palette_alternate_flag': flag})[0], expected)
+        request = {'palette_task': {'global_mode': 5, 'precomputed': False}}
+        with self.assertRaisesRegex(ValueError, 'bypasses'):
+            M['palette_configuration'](request, {'palette_alternate_flag': 1})
+        request['palette_task'].update(global_mode=0, precomputed=True)
+        with self.assertRaisesRegex(ValueError, 'bypasses'):
+            M['palette_configuration'](request, {'palette_alternate_flag': 1})
+
+    def test_multitool_legacy_flag_rejects_unknown_task_and_conflicting_overrides(self):
+        for request in ({}, {'palette_task': {'alternate_flag': 0, 'global_mode': 0, 'precomputed': False}},
+                        {'palette_task': {'alternate_flag': True, 'global_mode': 0, 'precomputed': False}},
+                        {'palette_task': {'global_mode': 0, 'precomputed': False}, 'palette_branch': 'base',
+                         'palette_parameters': {'similarity_threshold': 0}}):
+            with self.assertRaises(ValueError):
+                M['palette_configuration'](request, {'palette_alternate_flag': 1})
+
+    def test_model_seed_search_preserves_independent_npc_and_freighter_palette(self):
+        for category in ('npc', 'freighter'):
+            self.assertEqual(M['palette_pair_for_candidate']({'category': category, 'palette_pair': (123, False)}, 7), (123, False))
+        self.assertEqual(M['palette_pair_for_candidate']({'category': 'ship', 'palette_pair': (123, False)}, 7), (7, True))
+
     def test_required_and_forbidden_ids_both_apply(self):
         wanted = M['constraints']({'required_ids': ['_WING'], 'forbidden_ids': ['_BAD']})
         self.assertTrue(M['matches_ids'](['_WING', '_BODY'], wanted))

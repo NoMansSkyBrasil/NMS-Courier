@@ -16,10 +16,38 @@ def layer(name='PAINT', group='', index='-1', selector='Primary', probability='1
 
 
 class PriorityAppearanceTests(unittest.TestCase):
+    def test_draw_interval_boundaries_match_integer_multiply_high(self):
+        weights = [20, 1, 0, 20]
+        intervals = C['draw_intervals'](weights)
+        self.assertIsNone(intervals[2])
+        self.assertEqual(intervals[0]['lower_inclusive'], 0)
+        self.assertEqual(intervals[3]['upper_exclusive'], 2**32)
+        cumulative = 0
+        for weight, interval in zip(weights, intervals):
+            if weight:
+                lower, upper = interval['lower_inclusive'], interval['upper_exclusive']
+                for draw in (lower, upper - 1):
+                    self.assertLessEqual(cumulative, (draw * sum(weights)) >> 32)
+                    self.assertLess((draw * sum(weights)) >> 32, cumulative + weight)
+                if lower: self.assertLess(((lower - 1) * sum(weights)) >> 32, cumulative)
+                if upper < 2**32: self.assertGreaterEqual((upper * sum(weights)) >> 32, cumulative + weight)
+            cumulative += weight
+
+    def test_zero_weights_have_no_default_draw_and_invalid_weights_fail(self):
+        self.assertEqual(C['draw_intervals']([0, 0]), [None, None])
+        for weights in ([True], [-1], [2**32], [1] * 4097):
+            with self.assertRaises(ValueError): C['draw_intervals'](weights)
+
     def test_categories_do_not_label_frigates_or_shared_assets_as_ships(self):
         self.assertEqual(C['category']('models/common/spacecraft/sentinelship/parts/wingsb.descriptor.mbin'),'ship/interceptor')
         self.assertIsNone(C['category']('models/common/spacecraft/frigates/livingfrigate.descriptor.mbin'))
         self.assertIsNone(C['category']('textures/common/spacecraft/shared/decals/logo.texture.mbin'))
+
+    def test_npc_roots_and_shared_parts_have_distinct_catalog_roles(self):
+        prefix = 'models/common/player/playercharacter/'
+        self.assertEqual(C['category'](prefix + 'npcgek.descriptor.mbin'), 'npc/gek')
+        self.assertEqual(C['category'](prefix + 'parts/head/headclassic.descriptor.mbin'), 'npc/shared-character-parts')
+        self.assertIsNone(C['category'](prefix + 'playercharacter.descriptor.mbin'))
 
     def test_descriptor_guards_and_chance_remain_separate_from_name_weight(self):
         root=ET.fromstring('''<Data template="cTkModelDescriptorList"><Property name="List">

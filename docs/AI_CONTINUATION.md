@@ -1,5 +1,19 @@
 # AI continuation guide
 
+Newest checkpoint: [explicit colors](CUSTOMISATION_COLOR_RESEARCH.md) and
+[category ledger](SEED_CATEGORY_LEDGER.md), 2026-10-05. Lookup/quantizer/overlay
+have 309 original-instruction matches. Catalog: 293 descriptor sources with
+per-option unfiltered draw intervals, 343 textures. Latest user priority is ships,
+multitools and freighters; further NPC work is deferred, preserving 33 recursion
+matches and 11 joined traces. Begin at the ledger's exact next steps. Every AI
+must maintain the portable handoff rule in [AGENTS.md](../AGENTS.md).
+Owned-tool `UseLegacyColours` now maps to the palette-task flag through runtime
+`+2bd`, exported `+281` and its named metadata literal. Explicit research/search
+inputs are connected and three-category regression passes. Next inspect
+the checked `552730` callers `8ebad1`/`13f8340`: one reads a frame byte, the
+other supplies literal 1. Identify their contexts from existing bounded windows;
+do not repeat the closed metadata link or assign every tool the same flag.
+
 Newest algorithm checkpoint: [palette task routing](PALETTE_TASK_ROUTING.md).
 The file-backed magenta fallback is recovered, with 404 native-literal matches.
 Sixteen initial-dispatch comparisons verify flag/bank selection; search accepts

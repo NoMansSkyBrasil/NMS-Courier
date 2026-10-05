@@ -21,7 +21,10 @@ def main():
     parser.add_argument('--corpus', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--task-inputs', action='store_true', help='Resolve branch from task inputs and use pinned fallback')
+    parser.add_argument('--tool-legacy-inputs', action='store_true', help='Supply owned multitool UseLegacyColours instead of a task flag')
     args = parser.parse_args()
+    if args.tool_legacy_inputs and not args.task_inputs:
+        parser.error('Tool legacy inputs require task inputs')
     corpus, output = args.corpus.resolve(), args.output.resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (corpus, HERE.parents[1])):
         parser.error('Require a new external output directory')
@@ -51,6 +54,9 @@ def main():
                 del request['palette_branch']
                 del request['palette_parameters']['fallback_rgba']
                 request['palette_task'] = {'alternate_flag': 1, 'global_mode': 0, 'precomputed': False}
+                if category == 'multitool' and args.tool_legacy_inputs:
+                    record['use_legacy_colours'] = True
+                    del request['palette_task']['alternate_flag']
             request_at, report_at = output / (category + '-request.json'), output / (category + '-result.json')
             request_at.write_text(json.dumps(request, indent=2), encoding='utf-8')
             run = subprocess.run([sys.executable, str(HERE / 'search-appearance-seeds.py'), '--corpus', str(corpus),
@@ -61,6 +67,8 @@ def main():
             matched = result['palette_branch'] == 'alternate' and result.get('palette_task') == request.get('palette_task') and result['examined'] == 8 and anchor is not None and anchor['selected_ids'] == selected and all(
                 list(color['rgba']) == list(reference['rgba']) for row, expected in zip(anchor['palette_rows'], rows)
                 for color, reference in zip(row['colors'], expected['colors']))
+            if category == 'multitool' and args.tool_legacy_inputs:
+                matched = matched and result['palette_alternate_flag'] == 1 and 'UseLegacyColours' in result['palette_flag_source']
             records.append({'category': category, 'descriptor': descriptor, 'examined': result['examined'],
                             'candidate_count': len(result['candidates']), 'anchor_seed': '0x7', 'matches': matched,
                             'palette_seed': hex(palette_seed), 'request_sha256': result['request_sha256'],
@@ -68,7 +76,8 @@ def main():
     finally:
         loader.close()
     report = {'cases': len(records), 'mismatches': sum(not r['matches'] for r in records), 'records': records,
-              'executable_sha256': SEARCH['INPUTS']['SCENES']['CONTEXTS']['HASH'], 'task_inputs': args.task_inputs, 'runtime_verified': False,
+              'executable_sha256': SEARCH['INPUTS']['SCENES']['CONTEXTS']['HASH'], 'task_inputs': args.task_inputs,
+              'tool_legacy_inputs': args.tool_legacy_inputs, 'runtime_verified': False,
               'limitations': ['Round-trip integration uses recovered forward evaluators, not an independent game oracle.',
                               'Explicit alternate threshold and base collection; natural category branch selection is unproven.']}
     (output / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')

@@ -1,5 +1,25 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding checkpoint: explicit colors and active scope, 2026-10-05
+
+Read [explicit colors](CUSTOMISATION_COLOR_RESEARCH.md) and the
+[category ledger](SEED_CATEGORY_LEDGER.md) first. Original comparison closes
+222 quantizer, 40 final-overlay and 47 lookup fixtures (309 total, zero mismatch).
+Unknown-ID global fallback remains rejected; white/inactive initializer source
+is not runtime-state proof. Catalog: 293 descriptors/1,665 groups/3,709 options,
+343 textures and per-option uint32 draw intervals; no complete inverse.
+
+Latest priority is ships, multitools and freighters. Preserve completed NPC
+work (33 native recursion matches, 11 joined traces, supplied-only search and
+hash-pinned declarations); defer further NPC work. Owned tool `+2bd` is now
+source-associated with `UseLegacyColours` through serialized `+281` and named
+metadata. Optional boolean research input is connected to search task routing;
+three-category replay passes. Checked initializer callers `8ebad1`/`13f8340`
+read a frame byte/supply literal 1 respectively; next identify these contexts
+and category working palette/material assembly. The ledger links
+sources, reports, failures and reproduction. Mandatory AGENTS handoff rule:
+every AI updates owners/log/guide with evidence and bounded next steps.
+
 ## Superseding task checkpoint: 2026-10-05 local
 
 [Palette task routing](PALETTE_TASK_ROUTING.md) corrects the earlier fallback

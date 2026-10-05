@@ -1,7 +1,8 @@
 """Join supplied category inputs to bounded descriptor, scene and palette traces.
 
 Inputs are explicit research snapshots, not saves or live process reads.
-Only source-associated owned/default and ship purchase routes are supported.
+Source-associated owned/default and ship purchase routes are supported. NPCs
+require a research-only supplied route with independent palette/context inputs.
 Palette output remains a base-only candidate, not an appearance oracle.
 """
 import argparse
@@ -19,6 +20,7 @@ ROOTS = json.loads((HERE / 'appearance-recursion-models-180383.json').read_text(
 FREIGHTERS = frozenset(path for path in ROOTS if '/industrial/' in path)
 TOOLS = frozenset(path for path in ROOTS if '/weapons/' in path)
 SHIPS = frozenset(ROOTS) - FREIGHTERS - TOOLS
+NPCS = frozenset(json.loads((HERE / 'npc-recursion-models-180383.json').read_text(encoding='utf-8')))
 PAIR_KEYS = {'value', 'enabled'}
 
 
@@ -49,26 +51,38 @@ def resolve_inputs(record):
     """Keep model, palette and material second-pair channels distinct."""
     allowed = {'category', 'route', 'descriptor', 'model_seed', 'home_system_seed',
                'loaded_resource_seed', 'material_second_seed', 'engine_context_index',
-               'resource_flags', 'selection', 'inclusion', 'exclusion', 'prefix'}
+               'resource_flags', 'selection', 'inclusion', 'exclusion', 'prefix', 'palette_seed',
+               'use_legacy_colours'}
     if not isinstance(record, dict) or set(record) - allowed:
         raise ValueError('Unknown entity input fields')
     category, route, descriptor = (record.get(key) for key in ('category', 'route', 'descriptor'))
-    roots = {'ship': SHIPS, 'multitool': TOOLS, 'freighter': FREIGHTERS}
+    roots = {'ship': SHIPS, 'multitool': TOOLS, 'freighter': FREIGHTERS, 'npc': NPCS}
     if not isinstance(category, str) or not isinstance(descriptor, str) or category not in roots or descriptor not in roots[category]:
-        raise ValueError('Category/resource is outside the nineteen-root evidence scope')
-    if not isinstance(route, str) or route not in ('owned_default', 'ship_purchase') or route == 'ship_purchase' and category != 'ship':
+        raise ValueError('Category/resource is outside the thirty-root evidence scope')
+    valid_routes = ('npc_supplied',) if category == 'npc' else ('owned_default', 'ship_purchase') if category == 'ship' else ('owned_default',)
+    if not isinstance(route, str) or route not in valid_routes:
         raise ValueError('Category route is not source-associated')
+    legacy = record.get('use_legacy_colours')
+    if 'use_legacy_colours' in record and (category != 'multitool' or type(legacy) is not bool):
+        raise ValueError('UseLegacyColours requires a supplied boolean on the owned multitool route')
     model = pair(record.get('model_seed'))
     model_source = {'ship': '55cb20 resource model pair', 'multitool': '553600 selected Resource pair',
-                    'freighter': '542910 CurrentFreighter.Resource model pair'}[category]
+                    'freighter': '542910 CurrentFreighter.Resource model pair',
+                    'npc': 'Explicit research input; natural NPC model-seed caller unresolved'}[category]
     if route == 'ship_purchase':
         loaded = pair(record.get('loaded_resource_seed'))
         model, model_source = (loaded, '8e8830 loaded resource context pair') if loaded[1] else (
             model, '8e8830 purchase-object fallback pair')
     elif 'loaded_resource_seed' in record:
         raise ValueError('Loaded resource seed is only supported for ship_purchase')
+    if category != 'npc' and 'palette_seed' in record:
+        raise ValueError('Independent supplied palette_seed is only supported for npc_supplied')
     if category == 'freighter':
         palette, palette_source = pair(record.get('home_system_seed')), '542910 CurrentFreighterHomeSystemSeed pair'
+    elif category == 'npc':
+        if 'home_system_seed' in record:
+            raise ValueError('NPC route cannot infer a home system seed')
+        palette, palette_source = pair(record.get('palette_seed')), 'Explicit research input; natural NPC palette caller unresolved'
     else:
         if 'home_system_seed' in record:
             raise ValueError('Home system seed route is only associated with owned freighters')
@@ -92,6 +106,8 @@ def resolve_inputs(record):
     return {'category': category, 'route': route, 'descriptor': descriptor,
             'model_pair': model, 'palette_pair': palette, 'material_second_pair': second,
             'model_source': model_source, 'palette_source': palette_source,
+            'palette_alternate_flag': None if legacy is None else int(legacy),
+            'palette_flag_source': None if legacy is None else 'UseLegacyColours: 551de0 record +2bd -> metadata +281; 553600 setter argument 5',
             'material_second_source': 'Explicit preserved context pair; not inferred from palette input',
             'context_index': context_index, 'flags': flags, 'selection_mode': selection['mode'],
             'choices': choices, 'inclusion': inclusion, 'exclusion': exclusion, 'prefix': prefix}
@@ -131,6 +147,7 @@ def main():
                 evaluated = DESCRIPTORS['evaluate'](model, tree, loader.load, enabled,
                     values['inclusion'], values['exclusion'], values['prefix'])
             selected = evaluated['selected_ids']
+            result.update(selected_ids=selected, descriptor_trace_completed=True)
             texture, texture_enabled = values['material_second_pair']
             context = (tuple(selected), model, enabled, texture, texture_enabled)
             path = SCENES['canonical'](values['descriptor'].replace('.descriptor.', '.scene.'))
@@ -139,7 +156,10 @@ def main():
                 ordered_materials=[scene.materials[i - 1] for i in order], material_requests=scene.requests)
             if palettes is not None:
                 palette_seed, palette_enabled = values['palette_pair']
-                result['base_palette_candidate'] = PALETTES['generate'](palette_seed, palettes, enabled=palette_enabled)
+                if values['palette_alternate_flag'] == 1:
+                    result['base_palette_candidate_unavailable'] = 'Supplied UseLegacyColours selects alternate generation; use search with explicit task/threshold inputs'
+                else:
+                    result['base_palette_candidate'] = PALETTES['generate'](palette_seed, palettes, enabled=palette_enabled)
         except (ValueError, TypeError, OverflowError) as error:
             result.update(status='unsupported_or_budget', error=str(error))
         finally:
@@ -156,6 +176,7 @@ def main():
                                HERE / 'emulate-reference-altid.py', HERE / 'emulate-packed-material-context.py',
                                HERE / 'procedural-seed-primitives.py')},
               'limitations': ['Supplied inputs are not live reads or save data.',
+                              'NPC route is supplied-only; natural spawn, preset/race transforms and color bank are unresolved.',
                               'Explicit piece inputs exercise the compared helper, not every category customisation caller.',
                               'Palette output is base-only; material masks, overrides and rendering remain unverified.',
                               'Material cache handles and geometry/async success remain controlled assumptions.']}

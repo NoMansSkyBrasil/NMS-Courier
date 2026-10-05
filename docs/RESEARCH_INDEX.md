@@ -1,5 +1,12 @@
 # Research navigation index
 
+Newest checkpoint: [explicit colors](CUSTOMISATION_COLOR_RESEARCH.md) and
+[category ledger](SEED_CATEGORY_LEDGER.md). Start there for category/PaletteID
+lookup, RGBA quantization, final overlay, catalogs and exact continuation.
+Sources: evaluate-customisation-colors.py, emulate-customisation-colors.py,
+inspect-npc-appearance-tables.py, expanded catalog/input/search scripts.
+Active priority is ships, multitools and freighters; NPC work is preserved/deferred.
+
 Newest algorithm checkpoint: [palette task routing](PALETTE_TASK_ROUTING.md).
 Use `resolve-palette-task.py`, `emulate-palette-task-route.py` and
 `scan-rip-data-references.py` for explicit dispatch and safe PE data references.

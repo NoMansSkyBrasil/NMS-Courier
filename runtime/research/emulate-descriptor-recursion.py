@@ -38,11 +38,14 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--corpus', type=Path)
     parser.add_argument('--models-file', type=Path)
+    parser.add_argument('--corpus-only', action='store_true', help='Compare new corpus boundaries without repeating synthetic cases')
     parser.add_argument('--explicit-list', action='store_true',
                         help='Compare original 2d63810 explicit selection instead of seeded recursion')
     args = parser.parse_args()
     if bool(args.corpus) != bool(args.models_file):
         parser.error('Corpus and model manifest must be supplied together')
+    if args.corpus_only and not args.corpus:
+        parser.error('Corpus-only requires corpus and model manifest')
     output = args.output.resolve()
     if output.exists() or output.is_relative_to(HERE.parents[1]) or output.is_relative_to(args.executable.resolve().parent.parent):
         parser.error('Require a new external output')
@@ -214,7 +217,7 @@ def main():
                         'native_classification': result, 'expected_classification': expected['classification'],
                         'matched': matched})
     try:
-        for i, tree in enumerate(trees):
+        for i, tree in enumerate(() if args.corpus_only else trees):
             seeds = (0,) if args.explicit_list else (0, 7, 0xffffffffffffffff)
             flags = (False,) if args.explicit_list else (False, True)
             for seed, enabled, context in itertools.product(seeds, flags, contexts):

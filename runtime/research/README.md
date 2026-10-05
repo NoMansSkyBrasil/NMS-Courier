@@ -1,5 +1,14 @@
 # Bulk game-data research
 
+[Explicit customisation colors](../../docs/CUSTOMISATION_COLOR_RESEARCH.md):
+hash-pinned category/PaletteID lookup, RGBA quantization and final snapshot overlay,
+309 matching original-instruction cases. Use evaluate-customisation-colors.py
+and emulate-customisation-colors.py; explicit colors are not seed inverses.
+[Category ledger](../../docs/SEED_CATEGORY_LEDGER.md) records expanded catalog,
+per-draw choice intervals and exact next targets. Priority is ships/tools/
+freighters. Preserve the completed supplied-only NPC checkpoint; further NPC
+work is deferred. No new extraction or live changes are needed.
+
 [Palette task routing](../../docs/PALETTE_TASK_ROUTING.md): recovered magenta
 fallback, 404 native-literal comparisons, 16 dispatch comparisons and explicit
 task-to-search routing. Threshold initialization/category bank defaults remain open.

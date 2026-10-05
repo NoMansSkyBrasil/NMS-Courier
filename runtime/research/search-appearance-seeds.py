@@ -20,8 +20,17 @@ A = runpy.run_path(str(HERE / 'evaluate-alternate-palettes.py'))
 TASK = runpy.run_path(str(HERE / 'resolve-palette-task.py'))
 
 
-def palette_configuration(request):
-    task = TASK['resolve'](request['palette_task']) if 'palette_task' in request else None
+def palette_configuration(request, resolved=None):
+    context = request.get('palette_task')
+    flag = resolved.get('palette_alternate_flag') if resolved else None
+    if flag is not None:
+        if not isinstance(context, dict):
+            raise ValueError('UseLegacyColours requires explicit task mode and precomputed state')
+        context = dict(context)
+        if 'alternate_flag' in context and (type(context['alternate_flag']) is not int or context['alternate_flag'] != flag):
+            raise ValueError('Palette task flag conflicts with supplied UseLegacyColours')
+        context['alternate_flag'] = flag
+    task = TASK['resolve'](context) if 'palette_task' in request else None
     if task and task['route'] not in ('base', 'alternate'):
         raise ValueError('Palette task bypasses generated colors; seed search cannot infer them')
     branch = request.get('palette_branch', task['route'] if task else 'base')
@@ -97,6 +106,11 @@ def matches_textures(rows, wanted):
                for condition in wanted['textures'])
 
 
+def palette_pair_for_candidate(resolved, seed):
+    """Preserve explicitly independent palette channels during model-seed search."""
+    return resolved['palette_pair'] if resolved['category'] in ('freighter', 'npc') else (seed, True)
+
+
 def search(start, count, seconds, maximum, evaluate, wanted, clock=time.monotonic):
     if type(start) is not int or not 0 <= start < 2**64 or type(count) is not int or not 1 <= count <= 100000:
         raise ValueError('Require uint64 start and 1..100000 candidates')
@@ -163,8 +177,10 @@ def main():
     raw = source.read_bytes(); request = json.loads(raw)
     if not isinstance(request, dict) or set(request) - {'input', 'constraints', 'start', 'count', 'seconds', 'max_results', 'texture_resources', 'texture_seed', 'preview_binding', 'palette_branch', 'palette_parameters', 'palette_task'}:
         parser.error('Unknown search request fields')
-    branch, parameters = palette_configuration(request)
     resolved = INPUTS['resolve_inputs'](request.get('input'))
+    branch, parameters = palette_configuration(request, resolved)
+    if resolved['category'] == 'npc' and not ('palette_branch' in request or 'palette_task' in request):
+        parser.error('NPC search requires explicitly supplied palette branch/task; natural NPC bank is unresolved')
     if resolved['selection_mode'] != 'seeded' or not resolved['model_pair'][1]:
         parser.error('Seed search requires enabled seeded model input; explicit overrides are not inverted')
     wanted = constraints(request.get('constraints'))
@@ -187,8 +203,7 @@ def main():
             selected = D['evaluate'](seed, tree, loader.load, True, resolved['inclusion'], resolved['exclusion'], resolved['prefix'])['selected_ids']
             if not matches_ids(selected, wanted):
                 return None
-            # Separate freighter HomeSystemSeed remains fixed in a model-seed search.
-            palette_seed, enabled = resolved['palette_pair'] if resolved['category'] == 'freighter' else (seed, True)
+            palette_seed, enabled = palette_pair_for_candidate(resolved, seed)
             rows = B['generate'](palette_seed, palettes, enabled=enabled) if branch == 'base' else A['generate'](
                 palette_seed, palettes, parameters['similarity_threshold'], parameters['fallback_rgba'], enabled=enabled)
             if not matches_colors(rows, wanted):
@@ -204,7 +219,10 @@ def main():
         if 'preview_binding' in request and result['candidates']:
             result['preview_recipe'] = preview_recipe(request['preview_binding'], result['candidates'][0])
         result.update(runtime_verified=False, appearance_evaluator_complete=False,
+            input_route=resolved['route'], model_input_source=resolved['model_source'],
+            palette_input_source=resolved['palette_source'],
             palette_branch=branch, palette_parameters=parameters, palette_task=request.get('palette_task'),
+            palette_alternate_flag=resolved['palette_alternate_flag'], palette_flag_source=resolved['palette_flag_source'],
             palette_task_evaluator_sha256=hashlib.sha256((HERE / 'resolve-palette-task.py').read_bytes()).hexdigest(),
             algorithm_executable_sha256=INPUTS['SCENES']['CONTEXTS']['HASH'],
             request_sha256=hashlib.sha256(raw).hexdigest(),

@@ -1,5 +1,11 @@
 # Procedural appearance research coverage
 
+Newest checkpoint: [category ledger](SEED_CATEGORY_LEDGER.md) and
+[explicit colors](CUSTOMISATION_COLOR_RESEARCH.md). Adds 309 original color
+lookup/quantizer/overlay cases, exact per-draw catalog intervals and preserved
+33 NPC recursion cases/11 joined traces. Latest priority is ships, multitools and
+freighters; further NPC work is deferred. Full native pixels/inverse remain open.
+
 [Packed scene continuation](PACKED_SCENE_SEED_CONTEXT.md) adds 353 original
 material/context/reference comparisons, 74 explicit-list recursion comparisons,
 and nineteen joined scene traces. These close concrete algorithm branches, not

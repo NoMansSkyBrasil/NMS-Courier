@@ -1,0 +1,5 @@
+551500	Candidate 2b0 range writer near owned tool selection; record ownership unverified
+551630	Candidate 2b0 range writer near owned tool selection; record ownership unverified
+551de0	Candidate owned tool serialization consumer of byte 2bd; identity unverified
+552730	Candidate owned tool initialization writer of byte 2bd; identity unverified
+553af0	Candidate owned tool slot-to-slot copy of byte 2bd; identity unverified

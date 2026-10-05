@@ -1,5 +1,11 @@
 # Appearance search and preview recipes
 
+2026-10-05 expansion: [category ledger](SEED_CATEGORY_LEDGER.md) records
+research-only NPC search with an explicit independent palette pair/bank. Native
+NPC generation remains unknown and further NPC work is deferred. Search reports
+now retain route and model/palette source labels. Priority remains ships,
+multitools and freighters; no complete inverse or native shader claim.
+
 Checkpoint: 2026-10-04. Stages 4–5 now have a bounded implementation: appearance
 constraints produce replayed candidate seeds, and explicit recipes apply mesh
 visibility and palette samples in Electron. Neither stage is complete for native

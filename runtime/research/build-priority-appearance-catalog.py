@@ -21,14 +21,40 @@ MODEL_FAMILIES = {
     'scientific': 'ship/explorer', 'shuttle': 'ship/shuttle',
     's-class': 'ship/exotic-and-living', 'sailship': 'ship/solar',
     'sentinelship': 'ship/interceptor', 'industrial': 'freighter',
+    'corvette': 'ship/corvette-assets',
 }
 
 
 def category(path):
+    character = 'models/common/player/playercharacter/'
+    if path.startswith(character):
+        suffix = path[len(character):]
+        if '/' not in suffix and suffix.startswith('npc'):
+            return 'npc/' + suffix.split('.')[0][3:]
+        if suffix.startswith('parts/'):
+            return 'npc/shared-character-parts'
     if path.startswith('models/common/weapons/multitool/'):
         return 'multitool'
     prefix = 'models/common/spacecraft/'
     return MODEL_FAMILIES.get(path[len(prefix):].split('/')[0]) if path.startswith(prefix) else None
+
+
+def draw_intervals(weights):
+    """Invert only the enabled, unfiltered integer multiply-high choice branch."""
+    if not isinstance(weights, list) or len(weights) > 4096 or any(type(w) is not int or w < 0 for w in weights):
+        raise ValueError('Expected at most 4096 nonnegative integer weights')
+    total = sum(weights)
+    if total >= 2**32:
+        raise ValueError('Weight total exceeds the compared uint32 choice branch')
+    if not total:
+        return [None for _ in weights]
+    records, before = [], 0
+    for weight in weights:
+        lower = (before * 2**32 + total - 1) // total
+        before += weight
+        upper = (before * 2**32 + total - 1) // total
+        records.append({'lower_inclusive': lower, 'upper_exclusive': upper} if weight else None)
+    return records
 
 
 def descriptor_record(root, path):
@@ -36,6 +62,11 @@ def descriptor_record(root, path):
     for group in groups:
         for option in group['options']:
             option['default_name_weight_candidate'] = P['option_weight'](option['name'])
+        weights = [o['default_name_weight_candidate'] for o in group['options']]
+        group['default_total_weight'] = sum(weights)
+        group['draw_interval_context'] = 'enabled_unfiltered_name_weight_branch_only'
+        for option, interval in zip(group['options'], draw_intervals(weights)):
+            option['default_draw_interval'] = interval
     return {'resource': path, 'category': category(path), 'groups': groups,
             'group_count': len(groups), 'option_count': sum(len(g['options']) for g in groups)}
 
@@ -47,13 +78,17 @@ def build(corpus):
     try:
         rows = db.execute("SELECT path,archive,xml_path,content_hash FROM files WHERE "
                           "(path LIKE 'models/common/spacecraft/%.descriptor.mbin' OR "
-                          "path LIKE 'models/common/weapons/multitool/%.descriptor.mbin') "
+                          "path LIKE 'models/common/weapons/multitool/%.descriptor.mbin' OR "
+                          "path LIKE 'models/common/player/playercharacter/%.descriptor.mbin') "
                           "ORDER BY path,archive LIMIT 513").fetchall()
         if len(rows) > 512:
             raise ValueError('Descriptor query row budget exceeded')
         counts = Counter(r[0] for r in rows)
+        unclassified = []
         for path, archive, xml, digest in rows:
             if not category(path):
+                unclassified.append({'resource': path, 'archive': archive, 'binary_sha256': digest,
+                                     'reason': 'no_priority_category_association'})
                 continue
             record = {'resource': path, 'category': category(path), 'archive': archive,
                       'binary_sha256': digest}
@@ -82,13 +117,14 @@ def build(corpus):
                           xml_sha256=hashlib.sha256(raw).hexdigest())
         # Shallow scenes include fixed models as well as procedural roots. Do
         # not infer a spawn category or require a descriptor for fixed assets.
-        for prefix in [f'models/common/spacecraft/{k}/' for k in MODEL_FAMILIES] + ['models/common/weapons/multitool/']:
+        for prefix in [f'models/common/spacecraft/{k}/' for k in MODEL_FAMILIES] + ['models/common/weapons/multitool/',
+                                                                                 'models/common/player/playercharacter/']:
             candidates = db.execute('SELECT path,archive,content_hash FROM files WHERE path LIKE ? '
                                     'ORDER BY path,archive LIMIT 2049', (prefix+'%.scene.mbin',)).fetchall()
             if len(candidates) > 2048:
                 raise ValueError('Scene metadata row budget exceeded')
             for path, archive, digest in candidates:
-                if '/' in path[len(prefix):]:
+                if '/' in path[len(prefix):] or category(path) is None:
                     continue
                 sibling = path.replace('.scene.', '.descriptor.', 1)
                 scenes.append({'resource': path, 'category': category(path), 'archive': archive,
@@ -96,8 +132,10 @@ def build(corpus):
                                'descriptor_indexed': any(d['resource'] == sibling for d in descriptors),
                                'role': 'shallow_scene_candidate_not_verified_spawn_root'})
         paths = db.execute("SELECT path FROM files WHERE path LIKE 'textures/common/spacecraft/%.texture.mbin' "
-                           "OR path LIKE 'textures/common/weapons/%.texture.mbin' ORDER BY path LIMIT 257").fetchall()
-        if len(paths) > 256:
+                           "OR path LIKE 'textures/common/weapons/%.texture.mbin' "
+                           "OR path LIKE 'textures/common/player/%.texture.mbin' "
+                           "OR path LIKE 'textures/planets/npcs/%.texture.mbin' ORDER BY path LIMIT 513").fetchall()
+        if len(paths) > 512:
             raise ValueError('Texture metadata row budget exceeded')
         # Exclude frigates from this priority pass. Shared paths remain shared;
         # filename resemblance is not a proven model-to-material association.
@@ -124,10 +162,13 @@ def build(corpus):
     return {'mode': 'declarative_priority_appearance_catalog', 'runtime_verified': False,
             'appearance_evaluator_complete': False, 'bytes_read': total,
             'categories': totals, 'descriptors': descriptors, 'scenes': scenes, 'textures': textures,
+            'unclassified_descriptors': unclassified,
             'limitations': ['Catalog contains declared alternatives, not seed-selected or reachable combinations.',
                             'Ancestor guards are local to each descriptor; reference paths retain cross-resource dependencies.',
                             'Name weights describe the recovered default branch; Chance is retained separately.',
-                            'Shared textures require proven material edges; decal path hints are not selection semantics.',
+                            'Draw intervals constrain one ordered draw; they do not solve initializer/child streams or filtered contexts.',
+                            'Shared character parts and textures require proven root/material edges; path labels are not spawn rules.',
+                            'Decal path hints are not selection semantics; natural NPC seed/palette callers remain unresolved.',
                             'Shallow scenes include fixed, legacy and support assets; role is not inferred.',
                             'No native pixels, complete appearance inverse, class/slots or delivery claim.']}
 

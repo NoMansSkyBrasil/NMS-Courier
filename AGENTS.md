@@ -58,6 +58,7 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 
 ## Evidence and completion
 
+- Every AI/model must leave a current, portable continuation checkpoint after meaningful research or implementation and before handing off or stopping. Update the owning document first, then `docs/EXPERIMENT_LOG.md`, `docs/SEED_RESEARCH_HANDOFF.md` and `docs/AI_CONTINUATION.md` with the active scope, exact source/configuration and fingerprints, observed results, failed/rejected hypotheses, remaining limitations and the next bounded reproduction command. Link existing evidence instead of copying large exports. Clearly separate completed checks from proposed steps so another AI can resume without repeating work or assuming success. This rule applies to all models and external AI collaborators using this repository.
 - Distinguish planned, implemented, simulated, and verified behavior.
 - Run checks appropriate to actual changes. Documentation-only work does not require an application build.
 - Validate rendered Electron UI when UI implementation starts.

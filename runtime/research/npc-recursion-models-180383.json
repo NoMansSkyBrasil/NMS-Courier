@@ -1,0 +1,13 @@
+[
+  "models/common/player/playercharacter/npcgek.descriptor.mbin",
+  "models/common/player/playercharacter/npcvykeen.descriptor.mbin",
+  "models/common/player/playercharacter/npckorvax.descriptor.mbin",
+  "models/common/player/playercharacter/npcfourth.descriptor.mbin",
+  "models/common/player/playercharacter/npcfifth.descriptor.mbin",
+  "models/common/player/playercharacter/npcrobot.descriptor.mbin",
+  "models/common/player/playercharacter/npcnada.descriptor.mbin",
+  "models/common/player/playercharacter/npcpolo.descriptor.mbin",
+  "models/common/player/playercharacter/npcsettler.descriptor.mbin",
+  "models/common/player/playercharacter/npcspecialshop.descriptor.mbin",
+  "models/common/player/playercharacter/npcunique.descriptor.mbin"
+]
