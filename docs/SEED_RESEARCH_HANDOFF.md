@@ -1,5 +1,14 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding color checkpoint: 2026-10-05 UTC
+
+[Alternate palette research](ALTERNATE_PALETTE_RESEARCH.md) closes the previously
+missing `62e4e0/62e780` explicit arithmetic/schedule port with 404 matching
+original-instruction cases. Search supports this branch with explicit runtime
+parameters; Fighter/tool/Pirate regression passes. Next resolve threshold and
+fallback writers, collection choice and task branch inputs. Do not infer those
+parameters from the fixtures or claim complete native appearance.
+
 ## Superseding checkpoint: stages 4–5, 2026-10-04
 
 The user resumed rendering/inverse implementation. See

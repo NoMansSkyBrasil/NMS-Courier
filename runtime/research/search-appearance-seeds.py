@@ -16,6 +16,22 @@ INPUTS = runpy.run_path(str(HERE / 'evaluate-entity-inputs.py'))
 D = INPUTS['DESCRIPTORS']
 B = INPUTS['PALETTES']
 T = runpy.run_path(str(HERE / 'evaluate-texture-options.py'))
+A = runpy.run_path(str(HERE / 'evaluate-alternate-palettes.py'))
+
+
+def palette_configuration(request):
+    branch = request.get('palette_branch', 'base')
+    if branch not in ('base', 'alternate'):
+        raise ValueError('Unknown palette branch')
+    parameters = request.get('palette_parameters')
+    if branch == 'base':
+        if parameters is not None:
+            raise ValueError('Base branch does not accept alternate runtime parameters')
+        return branch, None
+    if not isinstance(parameters, dict) or set(parameters) != {'similarity_threshold', 'fallback_rgba'}:
+        raise ValueError('Alternate branch requires explicit runtime threshold and fallback')
+    threshold, fallback = A['configuration'](parameters['similarity_threshold'], parameters['fallback_rgba'])
+    return branch, {'similarity_threshold': threshold, 'fallback_rgba': fallback}
 
 
 def constraints(value):
@@ -139,8 +155,9 @@ def main():
     if source.stat().st_size > 1024 * 1024:
         parser.error('Request byte budget exceeded')
     raw = source.read_bytes(); request = json.loads(raw)
-    if not isinstance(request, dict) or set(request) - {'input', 'constraints', 'start', 'count', 'seconds', 'max_results', 'texture_resources', 'texture_seed', 'preview_binding'}:
+    if not isinstance(request, dict) or set(request) - {'input', 'constraints', 'start', 'count', 'seconds', 'max_results', 'texture_resources', 'texture_seed', 'preview_binding', 'palette_branch', 'palette_parameters'}:
         parser.error('Unknown search request fields')
+    branch, parameters = palette_configuration(request)
     resolved = INPUTS['resolve_inputs'](request.get('input'))
     if resolved['selection_mode'] != 'seeded' or not resolved['model_pair'][1]:
         parser.error('Seed search requires enabled seeded model input; explicit overrides are not inverted')
@@ -166,26 +183,32 @@ def main():
                 return None
             # Separate freighter HomeSystemSeed remains fixed in a model-seed search.
             palette_seed, enabled = resolved['palette_pair'] if resolved['category'] == 'freighter' else (seed, True)
-            rows = B['generate'](palette_seed, palettes, enabled=enabled)
+            rows = B['generate'](palette_seed, palettes, enabled=enabled) if branch == 'base' else A['generate'](
+                palette_seed, palettes, parameters['similarity_threshold'], parameters['fallback_rgba'], enabled=enabled)
             if not matches_colors(rows, wanted):
                 return None
             textures = T['evaluate_fresh_resources'](texture_sources, texture_pair[0], rows, enabled=texture_pair[1])['final_rows'] if texture_sources else []
             if not matches_textures(textures, wanted):
                 return None
             return {'descriptor': resolved['descriptor'], 'selected_ids': selected,
-                    'palette_seed': hex(palette_seed), 'palette_rows': rows, 'texture_rows': textures}
+                    'palette_seed': hex(palette_seed), 'palette_branch': branch,
+                    'palette_rows': rows, 'texture_rows': textures}
         result = search(INPUTS['pair']({'value': request.get('start'), 'enabled': True})[0],
                         request.get('count'), request.get('seconds'), request.get('max_results'), evaluate, wanted)
         if 'preview_binding' in request and result['candidates']:
             result['preview_recipe'] = preview_recipe(request['preview_binding'], result['candidates'][0])
         result.update(runtime_verified=False, appearance_evaluator_complete=False,
+            palette_branch=branch, palette_parameters=parameters,
             algorithm_executable_sha256=INPUTS['SCENES']['CONTEXTS']['HASH'],
             request_sha256=hashlib.sha256(raw).hexdigest(),
             source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            palette_evaluator_sha256=hashlib.sha256((HERE / ('evaluate-base-palettes.py' if branch == 'base' else 'evaluate-alternate-palettes.py')).read_bytes()).hexdigest(),
+            palette_binary_sha256=B['BASE_HASH'],
             descriptor_sources=[{k: v for k, v in row.items() if k != 'tree'} for row in loader.cache.values()],
             texture_sources=[] if texture_sources is None else [{k: v for k, v in row.items() if k != 'layers'} for row in texture_sources],
             limitations=['Bounded enumeration, not a complete uint64 inverse solver.',
-                        'Matches are partial-evaluator candidates; base colors and explicit texture order are not final game appearance.',
+                        'Matches are partial-evaluator candidates; explicitly selected color branch and texture order are not final game appearance.',
+                        'Alternate runtime threshold/fallback and use of the base collection are explicit inputs, not natural caller inference.',
                         'Freighter palette input and supplied texture seed remain independent fixed channels.',
                         'Preview mesh bindings are explicit research mappings; DDS pixels, masks and shaders are not reproduced.'])
     finally:

@@ -415,6 +415,11 @@ claimed by this checkpoint.
 
 ### Base palette forward evaluator and second color branch
 
+Superseding implementation: [alternate palette research](ALTERNATE_PALETTE_RESEARCH.md)
+now implements the second branch with explicit globals and 404 matching native
+instruction fixtures. Earlier unresolved-implementation statements below are
+historical; natural collection/threshold/caller selection is still unresolved.
+
 The follow-up implements `evaluate-base-palettes.py` for an explicitly selected
 base collection, including the entire 66-family scheduling branch of candidate
 62c480. It reads RGBA directly from the existing MBIN, not rounded XML decimals.

@@ -39,6 +39,12 @@ The B0 clean offline Windows validation and native dependency audit remain open.
 
 ## 3. Documentation ownership
 
+The alternate palette route now has an explicit-input implementation, 404
+matching original-instruction cases and three-category search integration.
+This extends offline candidate search, not native appearance or delivery.
+Runtime globals/collection choice remain open. See
+[alternate palette research](ALTERNATE_PALETTE_RESEARCH.md).
+
 On 2026-10-04, bounded offline appearance-constraint search and an Electron
 recipe importer were implemented. Candidate seeds are replayed; explicit mesh
 visibility/RGB is bound to the GLB hash. This is not a complete inverse, native

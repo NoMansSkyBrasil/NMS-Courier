@@ -1,5 +1,49 @@
 # Runtime experiment log
 
+## 2026-10-05 UTC — alternate palette branch and explicit search inputs
+
+Build 180383 executable SHA-256:
+`671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
+Exact implementation, windows, configurations, commands, evidence and remaining
+targets: [alternate palette research](ALTERNATE_PALETTE_RESEARCH.md).
+Sources: `evaluate-alternate-palettes.py`, `emulate-alternate-palettes.py`,
+`validate-alternate-search.py`, updated `search-appearance-seeds.py` and
+`alternate-palette-data-180383.tsv`. No game/save trigger; private offline
+Unicorn 2.1.4 execution only, no host imports. Explicit corpus base bank;
+threshold fixtures 0/float32(0.1), null fallback `(0.25,0.5,0.75,1)`.
+
+Observed: 384 row + 16 collection + four disabled-output comparisons, zero
+mismatches. Row checks include state/draw counts and 64-attempt cap; collection
+checks all 330 RGBA/index values and common reset race child seed. Three
+integrated category searches each examined eight seeds and include anchor `0x7`;
+ship/tool have one candidate and Pirate freighter eight. HomeSystemSeed remains
+fixed separately. Original base fixture still finds `0x7` after eight candidates.
+25 focused Python tests passed (seven new, nine search, three base, six primitive).
+
+Ghidra 12.1.4 noanalysis database query completed in 28 seconds: threshold has
+one READ reference, fallback three READ references, owners unavailable and no
+writer recovered. This database limitation does not prove the absence of writers.
+No natural threshold/fallback values or complete appearance are established.
+
+Failures: nonexistent emulator/path and PowerShell glob probes corrected using
+existing scripts; inspector initially omitted required hash, then rejected a
+non-file-backed threshold literal. Prologue fragments were insufficient; body/
+return fragments added. Initial three-category integration reported mismatches
+from JSON-list/Python-tuple comparison, fixed representation only before 3/3
+passed. Preserve that failed report; no game/corpus/storage failures occurred.
+
+Not proven: natural alternate branch/collection selection, runtime global writers,
+precomputed customization colors, native materials/pixels, complete inverse or
+runtime delivery. Explicit parameters are not game defaults. No end-user runtime
+or packaging claim. No UI change, so application build/render repetition omitted.
+
+External evidence: `seed-analysis-180383/alternate-palette-comparison-final-20261005.json`,
+`alternate-search-final-20261005`, `base-search-regression-20261005.json`,
+body/prologue reports, and `acquisition-180383/alternatepaletteglobals20261005-export`.
+Rollback: installed executable/DLL/mods, saves and corpus unchanged. Only source,
+documentation, existing external analysis database and new bounded reports changed.
+No D: access, disk repair, BitLocker change or extraction.
+
 ## 2026-10-04 — bounded appearance search and recipe preview
 
 Offline build 180383 fingerprint:

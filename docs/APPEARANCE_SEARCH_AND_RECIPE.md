@@ -7,6 +7,11 @@ appearance. This is offline research, not a delivery API or packaged solver.
 
 ## Search contract
 
+Update: [alternate palette research](ALTERNATE_PALETTE_RESEARCH.md) adds explicit
+`palette_branch: "alternate"` and mandatory `palette_parameters` (similarity
+threshold and fallback RGBA). The default remains base; natural branch/collection
+selection is not inferred. Reports retain the branch and evaluator fingerprint.
+
 `runtime/research/search-appearance-seeds.py` uses the
 [category input contract](ENTITY_INPUT_PIPELINE.md) and reads the existing corpus.
 It never extracts archives or edits assets, saves, mods or process memory.

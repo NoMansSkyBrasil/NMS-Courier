@@ -1,5 +1,9 @@
 # Bulk game-data research
 
+[Alternate palette branch](../../docs/ALTERNATE_PALETTE_RESEARCH.md): explicit
+66-family/retry port and 404-case original-instruction matrix. Search can opt
+into this route with mandatory threshold/fallback; natural globals are not inferred.
+
 For bounded appearance-constraint enumeration and hash-bound Electron preview
 recipes, read [the stages 4–5 checkpoint](../../docs/APPEARANCE_SEARCH_AND_RECIPE.md).
 `search-appearance-seeds.py` emits replayed partial-evaluator candidates;

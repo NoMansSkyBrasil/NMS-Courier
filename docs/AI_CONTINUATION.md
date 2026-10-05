@@ -1,5 +1,11 @@
 # AI continuation guide
 
+Newest algorithm checkpoint: [alternate palette branch](ALTERNATE_PALETTE_RESEARCH.md).
+The second color route is implemented and matches 404 original-instruction
+fixtures. Bounded search now accepts an explicit branch/threshold/fallback;
+three-category search regression passes. Natural globals/collection selection
+remain unknown; continue at their writers, not the closed arithmetic matrix.
+
 Latest stages 4–5 implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
 Bounded constraints-to-candidate search and hash-bound preview recipes are
 implemented and rendered-tested. Native DDS/mask/shader reproduction and a

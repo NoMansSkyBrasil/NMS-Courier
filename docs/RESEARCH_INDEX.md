@@ -1,5 +1,10 @@
 # Research navigation index
 
+Newest algorithm checkpoint: [alternate palette branch](ALTERNATE_PALETTE_RESEARCH.md).
+`evaluate-alternate-palettes.py` and `emulate-alternate-palettes.py` implement/
+compare the second color route. `validate-alternate-search.py` checks explicit
+branch search for ship/tool/freighter. Runtime globals remain unresolved.
+
 Latest stages 4–5 implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
 Use `search-appearance-seeds.py` for bounded candidate enumeration and workshop
 recipe import for explicit hash-bound visibility/RGB. Native pixels, natural
