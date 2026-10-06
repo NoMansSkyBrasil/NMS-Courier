@@ -1,5 +1,11 @@
 # AI continuation guide
 
+**Persistence confirmed, 2026-10-06 evening:** the delivered freighter kept S,
+120 cargo and the all-special technology grid after save and restart. Built and
+awaiting a first run: per-request scene, model seed and home seed plus
+repeatable dispatch (DLL `f36ba9d6...`). Target example: pirate scene with
+model seed `0x8C968767B3282F13` and home seed `0x175000B001FFD`.
+
 Next user-requested target (not started): per-request freighter category and
 seeds, starting with the pirate capital freighter example recorded in
 [inventory class research](INVENTORY_CLASS_RESEARCH.md#next-target-requested-by-the-user-freighter-category-model-and-seeds-2026-10-06).

@@ -84,10 +84,29 @@ __declspec(dllexport) __declspec(noinline) void CourierTestAccept(void *owned_st
     CourierTestSpecialGenerator(owned_store, 8, seed);
     InterlockedIncrement(&special_calls);
 }
+static volatile uint64_t home_value, setup_seed;
+static char setup_scene[128];
+static void *volatile home_owner;
+__declspec(dllexport) __declspec(noinline) void CourierTestHomeSeed(void *ownership, const void *seed) {
+    home_owner = ownership;
+    home_value = *(const uint64_t *)seed;
+}
+// Stand-ins for the two callers of the home seed setter; only the first one is the reward acceptance.
+__declspec(dllexport) __declspec(noinline) void CourierTestAcceptHome(void *ownership, const void *seed) {
+    CourierTestHomeSeed(ownership, seed);
+    InterlockedIncrement(&special_calls);
+}
+__declspec(dllexport) __declspec(noinline) void CourierTestOtherHome(void *ownership, const void *seed) {
+    CourierTestHomeSeed(ownership, seed);
+    InterlockedIncrement(&special_calls);
+}
 __declspec(dllexport) __declspec(noinline) uintptr_t CourierTestPurchaseSetup(
     uintptr_t item, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6,
     uintptr_t kind, uintptr_t a8, uintptr_t a9, uintptr_t a10, uintptr_t a11) {
     InterlockedIncrement(&setup_calls);
+    setup_seed = a2 ? *(const uint64_t *)a2 : 0;
+    memset(setup_scene, 0, sizeof(setup_scene));
+    if (a3) strncpy(setup_scene, (const char *)a3, sizeof(setup_scene) - 1);
     // Like the native layout initializer, setup itself leaves class 0 in every store.
     if (item && (uint32_t)kind == 3) {
         CourierTestLayoutInitializer(item + 0x980, 7, 18, 0, 0, 0x1c, 0, 2, 0);
@@ -185,9 +204,7 @@ int main(void) {
     if (reward_calls != 1 || strcmp(last_reward_id, "RS_S13_S4M6") != 0 || last_reward_scalars != 0x2d ||
         stat_count != 6 || !classes(reward_item, 1) || !stat_matches(3, reward_item, 1) ||
         snapshot(values) != -1 || values[2] != 2 || values[4] != 3) return 13;
-    if (!signal_event(base, "dispatch")) return 14;
-    for (int index = 0; index < 5; ++index) CourierTestUpdate(NULL);
-    if (reward_calls != 1 || update_calls != 10) return 15;
+    if (update_calls != 5) return 15;
 
     // An unwritable item pointer is rejected without calling the generator.
     if (!signal_event(base, "a")) return 16;
@@ -249,7 +266,49 @@ int main(void) {
     CourierTestAccept(owned, item + 0x10);
     if (copy_calls != 1) return 30;
     printf("super_all_valid=1 grow_arguments=1 carry_scope=1 carry_once=1\n");
-    printf("pre_arm_excluded=1 kind_filter=1 one_shot_class=1 stat_arguments=1 dispatch_once=1 bad_item_rejected=1\n");
+    // Model request: scene, model seed and home seed from the per-process request file.
+    typedef LONG (*model_snapshot_fn)(LONG values[4]);
+    model_snapshot_fn model_snapshot = (model_snapshot_fn)(void *)GetProcAddress(proxy, "CourierFreighterModelSnapshot");
+    LONG model_values[4];
+    char request_path[MAX_PATH];
+    snprintf(request_path, sizeof(request_path), "%s\\NMSCourier\\diagnostics\\native-freighter-request-180836-%lu.txt",
+             root, (unsigned long)GetCurrentProcessId());
+    static const struct { const char *text; int accepted; } requests[] = {
+        {"scene=models/lowercase.SCENE.MBIN\n", 0}, {"scene=MODELS/A/../B.SCENE.MBINX\n", 0},
+        {"model_seed=0x12345678901234567\n", 0}, {"unknown=1\n", 0},
+        {"scene=MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN\n"
+         "model_seed=0x8C968767B3282F13\nhome_seed=0x175000B001FFD\n", 1}};
+    uint64_t native_seed[2] = {0x1111, 1}, system_seed[2] = {0x2222, 1};
+    if (!model_snapshot) return 31;
+    for (unsigned index = 0; index < sizeof(requests) / sizeof(requests[0]); ++index) {
+        FILE *request = fopen(request_path, "w");
+        if (!request) return 32;
+        fputs(requests[index].text, request);
+        fclose(request);
+        if (!signal_event(base, "model") || model_snapshot(model_values) != requests[index].accepted ||
+            model_values[3] != (LONG)(requests[index].accepted ? 4 : index + 1)) return 33;
+    }
+    remove(request_path);
+    // A non-freighter setup keeps its arguments and the request; the freighter setup consumes it.
+    CourierTestPurchaseSetup((uintptr_t)item, (uintptr_t)native_seed, (uintptr_t)"NATIVE.SCENE.MBIN", 0, 0, 0, 0, 0, 0, 1, 0x2d);
+    if (setup_seed != 0x1111 || strcmp(setup_scene, "NATIVE.SCENE.MBIN") != 0 || model_snapshot(model_values) != 1) return 34;
+    CourierTestPurchaseSetup((uintptr_t)item, (uintptr_t)native_seed, (uintptr_t)"NATIVE.SCENE.MBIN", 0, 0, 0, 3, 0, 0, 1, 0x2d);
+    if (setup_seed != 0x8C968767B3282F13ull ||
+        strcmp(setup_scene, "MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN") != 0 ||
+        model_snapshot(model_values) != 0 || model_values[0] != 1 || model_values[2] != 1) return 35;
+    CourierTestOtherHome(owned, system_seed);
+    if (home_value != 0x2222 || model_snapshot(model_values) != 0 || model_values[2] != 1) return 36;
+    CourierTestAcceptHome(owned, system_seed);
+    if (home_value != 0x175000B001FFDull || home_owner != owned || model_snapshot(model_values) != 0 ||
+        model_values[1] != 1 || model_values[2] != 0) return 37;
+    CourierTestAcceptHome(owned, system_seed);
+    if (home_value != 0x2222) return 38;
+    // After a returned dispatch another one may be requested explicitly.
+    if (!signal_event(base, "dispatch")) return 39;
+    for (int index = 0; index < 3; ++index) CourierTestUpdate(NULL);
+    if (reward_calls != 2) return 40;
+    printf("request_validation=1 model_arguments=1 home_seed_scope=1 home_once=1 repeat_dispatch=1\n");
+    printf("pre_arm_excluded=1 kind_filter=1 one_shot_class=1 stat_arguments=1 dispatch_scope=1 bad_item_rejected=1\n");
     printf("slots_scope=1 slots_one_shot=1 main_120=1 technology_60=1 third_store_native=1\n");
 
     Sleep(9000);
@@ -260,7 +319,7 @@ int main(void) {
     fclose(log);
     if (!completed) return 19;
     if (CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d) != expected ||
-        stat_count != 6 || setup_calls < 10) return 20;
+        stat_count != 6 || setup_calls < 12) return 20;
     printf("timed_hook_removal_verified=1 original_function_available=1\n");
     return 0;
 }

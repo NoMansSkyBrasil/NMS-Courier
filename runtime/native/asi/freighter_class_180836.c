@@ -9,7 +9,10 @@
 // grid height bound for that one layout call, and at acceptance copy the
 // offered technology store into the owned one with the native store copy, as
 // the game itself does for a freighter bought from an NPC. Nothing is changed
-// unless an event was signaled; one armed request applies once.
+// unless an event was signaled; one armed request applies once. A model
+// request read from a per-process request file replaces the scene filename and
+// model seed arguments of that setup, and a home seed replaces the value the
+// reward acceptance would copy from the current solar system.
 // An optional one-shot dispatch of a shipped freighter reward provides a test
 // trigger. This is not a production delivery adapter.
 #define WIN32_LEAN_AND_MEAN
@@ -37,6 +40,10 @@
 #define VECTOR_GROW_CALLBACK_RVA 0x2bf9f00u
 #define ACCEPT_SITE_RVA 0x8ee2a6u
 #define ACCEPT_RETURN_RVA 0x8ee2cau
+#define HOME_SEED_SETTER_RVA 0x546d40u
+#define HOME_SEED_SITE_RVA 0x8ee71au
+#define HOME_SEED_RETURN_RVA 0x8ee735u
+#define SCENE_CAPACITY 128
 // Extent of the purchase update function that contains the acceptance block.
 #define PURCHASE_UPDATE_BEGIN_RVA 0x8ea6f0u
 #define PURCHASE_UPDATE_END_RVA 0x8ef9c6u
@@ -56,7 +63,7 @@
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 4)
+#define EVENT_COUNT (CLASS_COUNT + 5)
 // Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
 #define MAX_MAIN_SLOTS 120u
 #define MAX_TECHNOLOGY_SLOTS 60u
@@ -86,6 +93,8 @@ typedef void *(*vector_grow_fn)(void *vector, void *callback, uint32_t new_count
                                 const void *element, uint64_t one, uint64_t zero_1, uint64_t zero_2,
                                 uint64_t element_size, uint64_t alignment, uint32_t minus_one, void *data_again,
                                 uint64_t zero_3);
+typedef void (*home_seed_fn)(void *ownership, const void *seed);
+typedef struct { uint64_t value; uint64_t valid; } seed_pair;
 typedef struct { int32_t x, y, type; } special_slot;
 typedef struct { uint32_t capacity, count; special_slot *data; } special_vector;
 typedef uint8_t (*give_reward_fn)(void *manager, const char *reward_id, const char *mission_id,
@@ -120,6 +129,18 @@ static volatile LONG super_errors;
 static volatile LONG table_patches;
 static volatile LONG table_rejected;
 static volatile LONG carry_applied;
+// One model request: optional scene, model seed and home seed, armed by the model event.
+static void *home_target;
+static void *home_return;
+static home_seed_fn original_home;
+static char request_scene[SCENE_CAPACITY];
+static seed_pair request_model_seed, request_home_seed;
+static volatile LONG request_has_scene, request_has_model_seed, request_has_home_seed;
+static volatile LONG model_armed;
+static volatile LONG model_applied;
+static volatile LONG home_pending;
+static volatile LONG home_applied;
+static volatile LONG request_errors;
 // Diagnostics while a carry is pending: type-8 calls for stores outside the offer.
 static volatile LONG carry_candidates;
 static volatile LONG carry_seed_equal = -1;
@@ -170,7 +191,7 @@ static void write_status(const char *status, MH_STATUS result) {
     // The startup verifier already created this diagnostics directory.
     HANDLE file = CreateFileW(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (file == INVALID_HANDLE_VALUE) return;
-    char text[1536];
+    char text[2048];
 #define READ(value) ((long)InterlockedCompareExchange(&(value), 0, 0))
     size = snprintf(text, sizeof(text),
         "status=%s\npid=%lu\nhook_status=%d\nmode=request_scoped_class_research\nevent_base=%ls\n"
@@ -181,7 +202,8 @@ static void write_status(const char *status, MH_STATUS result) {
         "main_grid=%ld,%ld,%ld\ntechnology_grid=%ld,%ld,%ld\n"
         "super_added=%ld\nsuper_errors=%ld\ntable_patches=%ld\ntable_rejected=%ld\n"
         "carry_pending=%d\ncarry_applied=%ld\ncarry_candidates=%ld\ncarry_seed_equal=%ld\n"
-        "carry_exact_site=%ld\ncarry_callers=%lx,%lx,%lx,%lx,%lx,%lx\n",
+        "carry_exact_site=%ld\ncarry_callers=%lx,%lx,%lx,%lx,%lx,%lx\n"
+        "model_armed=%ld\nmodel_applied=%ld\nhome_pending=%ld\nhome_applied=%ld\nrequest_errors=%ld\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
@@ -193,7 +215,8 @@ static void write_status(const char *status, MH_STATUS result) {
         carry_item != 0, READ(carry_applied), READ(carry_candidates), READ(carry_seed_equal),
         READ(carry_exact_site), (unsigned long)READ(carry_trace[0]), (unsigned long)READ(carry_trace[1]),
         (unsigned long)READ(carry_trace[2]), (unsigned long)READ(carry_trace[3]),
-        (unsigned long)READ(carry_trace[4]), (unsigned long)READ(carry_trace[5]));
+        (unsigned long)READ(carry_trace[4]), (unsigned long)READ(carry_trace[5]),
+        READ(model_armed), READ(model_applied), READ(home_pending), READ(home_applied), READ(request_errors));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -329,6 +352,62 @@ static void special_detour(void *store, uint32_t inventory_type, void *seed) {
     original_special(store, inventory_type, seed);
 }
 
+static void home_detour(void *ownership, const void *seed) {
+#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+    int from_acceptance = (uintptr_t)__builtin_return_address(0) - (uintptr_t)home_return < 0x20;
+#else
+    int from_acceptance = __builtin_return_address(0) == home_return;
+#endif
+    // Only the reward-acceptance write of the current system seed is replaced, once.
+    if (from_acceptance && InterlockedCompareExchange(&home_pending, 0, 1) == 1) {
+        seed = &request_home_seed;
+        InterlockedIncrement(&home_applied);
+    }
+    original_home(ownership, seed);
+}
+
+// Parse "key=value" lines of the per-process request file; unknown or invalid lines reject the request.
+static int read_model_request(void) {
+    wchar_t root[MAX_PATH], path[MAX_PATH];
+    DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, MAX_PATH);
+    if (!length || length >= MAX_PATH ||
+        swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-freighter-request-180836-%lu.txt",
+                 root, (unsigned long)GetCurrentProcessId()) < 0) return 0;
+    FILE *file = _wfopen(path, L"r");
+    if (!file) return 0;
+    char line[256], scene[SCENE_CAPACITY] = {0};
+    unsigned long long model = 0, home = 0;
+    int has_scene = 0, has_model = 0, has_home = 0, ok = 1;
+    while (ok && fgets(line, sizeof(line), file)) {
+        size_t size = strcspn(line, "\r\n");
+        line[size] = 0;
+        if (!size) continue;
+        char *end = NULL;
+        if (strncmp(line, "scene=", 6) == 0) {
+            size_t count = size - 6;
+            // Shipped model scenes only: fixed prefix and suffix, conservative characters.
+            ok = count > 23 && count < SCENE_CAPACITY && strncmp(line + 6, "MODELS/", 7) == 0 &&
+                 strcmp(line + size - 11, ".SCENE.MBIN") == 0 &&
+                 strspn(line + 6, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_/.") == count;
+            if (ok) { memcpy(scene, line + 6, count); has_scene = 1; }
+        } else if (strncmp(line, "model_seed=0x", 13) == 0) {
+            model = strtoull(line + 13, &end, 16); ok = end != line + 13 && !*end && size - 13 <= 16; has_model = ok;
+        } else if (strncmp(line, "home_seed=0x", 12) == 0) {
+            home = strtoull(line + 12, &end, 16); ok = end != line + 12 && !*end && size - 12 <= 16; has_home = ok;
+        } else ok = 0;
+    }
+    fclose(file);
+    if (!ok || !(has_scene || has_model || has_home)) return 0;
+    memset(request_scene, 0, sizeof(request_scene));
+    memcpy(request_scene, scene, sizeof(scene));
+    request_model_seed = (seed_pair){model, 1};
+    request_home_seed = (seed_pair){home, 1};
+    InterlockedExchange(&request_has_scene, has_scene);
+    InterlockedExchange(&request_has_model_seed, has_model);
+    InterlockedExchange(&request_has_home_seed, has_home);
+    return 1;
+}
+
 static void record_grid(uintptr_t item) {
     static const uint32_t offsets[2] = {MAIN_STORE_OFFSET, TECHNOLOGY_STORE_OFFSET};
     if (!writable_range(item, ITEM_READ_SPAN)) return;
@@ -345,7 +424,17 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
                               uintptr_t a11) {
     int scoped = (uint32_t)kind == FREIGHTER_ITEM_KIND && item &&
                  InterlockedCompareExchange(&slots_armed, 0, 1) == 1;
-    if ((uint32_t)kind == FREIGHTER_ITEM_KIND) carry_item = 0;   // a new offer supersedes any pending carry
+    if ((uint32_t)kind == FREIGHTER_ITEM_KIND) {
+        carry_item = 0;   // a new offer supersedes any pending carry
+        InterlockedExchange(&home_pending, 0);
+        if (item && InterlockedCompareExchange(&model_armed, 0, 1) == 1) {
+            // Native meaning of arguments 2 and 3: model seed pair and scene filename.
+            if (InterlockedCompareExchange(&request_has_model_seed, 0, 0)) a2 = (uintptr_t)&request_model_seed;
+            if (InterlockedCompareExchange(&request_has_scene, 0, 0)) a3 = (uintptr_t)request_scene;
+            if (InterlockedCompareExchange(&request_has_home_seed, 0, 0)) InterlockedExchange(&home_pending, 1);
+            InterlockedIncrement(&model_applied);
+        }
+    }
     if (scoped) {
         InterlockedExchange(&scope_rows, InterlockedExchange(&tech_rows_armed, 0));
         scope_item = item;
@@ -401,6 +490,9 @@ static int resolve_targets(void) {
     vector_grow = (vector_grow_fn)(void *)GetProcAddress(host, "CourierTestVectorGrow");
     vector_grow_callback = (void *)GetProcAddress(host, "CourierTestVectorGrowCallback");
     accept_return = (void *)GetProcAddress(host, "CourierTestAccept");
+    home_target = (void *)GetProcAddress(host, "CourierTestHomeSeed");
+    home_return = (void *)GetProcAddress(host, "CourierTestAcceptHome");
+    if (!home_target || !home_return) return 0;
     if (!accept_return || !special_target || !store_copy || !vector_grow || !vector_grow_callback) return 0;
     stat_generator = (stat_generator_fn)(void *)GetProcAddress(host, "CourierTestStatGenerator");
     give_reward = (give_reward_fn)(void *)GetProcAddress(host, "CourierTestGiveReward");
@@ -451,6 +543,16 @@ static int resolve_targets(void) {
         0x8d, 0xff, 0x4c, 0x8d, 0x45, 0x20, 0x41, 0x8b, 0xd7, 0x48, 0x8b, 0xcb,
         0x0f, 0x10, 0x00, 0x0f, 0x29, 0x45, 0x20, 0xe8, 0x86, 0x40, 0xbe, 0xff
     };
+    static const unsigned char home_entry[16] = {
+        0x0f, 0x10, 0x02, 0x0f, 0x11, 0x81, 0xb0, 0x02, 0x00, 0x00, 0xc3, 0xcc,
+        0xcc, 0xcc, 0xcc, 0xcc
+    };
+    // Reward acceptance: current solar system seed passed to the home seed setter.
+    static const unsigned char home_site[27] = {
+        0x48, 0x8b, 0x88, 0x20, 0xe0, 0x25, 0x00, 0xe8, 0xaa, 0xea, 0x8d, 0xff,
+        0x48, 0x8b, 0xcb, 0x48, 0x8d, 0x90, 0x80, 0x24, 0x00, 0x00, 0xe8, 0x0b,
+        0x86, 0xc5, 0xff
+    };
     // The three native class-0 stat calls for stores 0x980, 0xe10 and 0xbc8.
     static const unsigned char freighter_block[127] = {
         0x8b, 0x95, 0x68, 0x3e, 0x00, 0x00, 0x4c, 0x8d, 0x46, 0x10, 0xc6, 0x44,
@@ -473,6 +575,8 @@ static int resolve_targets(void) {
     vector_grow = (vector_grow_fn)(base + VECTOR_GROW_RVA);
     vector_grow_callback = (void *)(base + VECTOR_GROW_CALLBACK_RVA);
     accept_return = (void *)(base + ACCEPT_RETURN_RVA);
+    home_target = (void *)(base + HOME_SEED_SETTER_RVA);
+    home_return = (void *)(base + HOME_SEED_RETURN_RVA);
     stat_generator = (stat_generator_fn)(base + STAT_GENERATOR_RVA);
     give_reward = (give_reward_fn)(base + GIVE_REWARD_RVA);
     reward_manager = (void *)(base + REWARD_MANAGER_RVA);
@@ -484,6 +588,8 @@ static int resolve_targets(void) {
            memcmp((void *)(base + STORE_COPY_RVA), copy_entry, sizeof(copy_entry)) == 0 &&
            memcmp((void *)(base + VECTOR_GROW_RVA), grow_entry, sizeof(grow_entry)) == 0 &&
            memcmp((void *)(base + ACCEPT_SITE_RVA), accept_site, sizeof(accept_site)) == 0 &&
+           memcmp(home_target, home_entry, sizeof(home_entry)) == 0 &&
+           memcmp((void *)(base + HOME_SEED_SITE_RVA), home_site, sizeof(home_site)) == 0 &&
            writable_range(base + MANAGER_POINTER_RVA, sizeof(uintptr_t)) &&
            memcmp((void *)(base + STAT_GENERATOR_RVA), statgen_entry, sizeof(statgen_entry)) == 0 &&
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
@@ -493,7 +599,7 @@ static int resolve_targets(void) {
 
 void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
-                                                     L"techrows", L"super"};
+                                                     L"techrows", L"super", L"model"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -502,6 +608,7 @@ void courier_probe_after_verified(void) {
     if (result == MH_OK) result = MH_CreateHook(setup_target, (void *)setup_detour, (void **)&original_setup);
     if (result == MH_OK) result = MH_CreateHook(layout_target, (void *)layout_detour, (void **)&original_layout);
     if (result == MH_OK) result = MH_CreateHook(special_target, (void *)special_detour, (void **)&original_special);
+    if (result == MH_OK) result = MH_CreateHook(home_target, (void *)home_detour, (void **)&original_home);
     if (result != MH_OK) { write_status("hook_create_failed", result); return; }
     unsigned long random[4];
     if (BCryptGenRandom(NULL, (PUCHAR)random, sizeof(random), BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0 ||
@@ -538,14 +645,22 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 1) InterlockedExchange(&slots_armed, 1);
         else if (index == CLASS_COUNT + 2) { InterlockedExchange(&tech_rows_armed, 1); InterlockedExchange(&slots_armed, 1); }
         else if (index == CLASS_COUNT + 3) InterlockedExchange(&super_armed, 1);
-        // A consumed or uncertain dispatch is never requested again in this process.
-        else InterlockedCompareExchange(&dispatch_state, 1, 0);
+        else if (index == CLASS_COUNT + 4) {
+            if (read_model_request()) InterlockedExchange(&model_armed, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        // A dispatch may be requested again only after the previous call returned (state 3);
+        // a call that never returned leaves state 2 and blocks further requests in this process.
+        else if (InterlockedCompareExchange(&dispatch_state, 1, 0) != 0)
+            InterlockedCompareExchange(&dispatch_state, 1, 3);
         write_status("armed", MH_OK);
     }
     InterlockedExchange(&requested_class, -1);
     InterlockedExchange(&slots_armed, 0);
     InterlockedExchange(&tech_rows_armed, 0);
     InterlockedExchange(&super_armed, 0);
+    InterlockedExchange(&model_armed, 0);
+    InterlockedExchange(&home_pending, 0);
     carry_item = 0;
     for (unsigned index = 0; index < EVENT_COUNT; ++index) CloseHandle(events[index]);
     if (hooks_enabled) result = MH_DisableHook(MH_ALL_HOOKS);
@@ -553,6 +668,13 @@ void courier_probe_after_verified(void) {
 }
 
 #ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+__declspec(dllexport) LONG CourierFreighterModelSnapshot(LONG values[4]) {
+    values[0] = InterlockedCompareExchange(&model_applied, 0, 0);
+    values[1] = InterlockedCompareExchange(&home_applied, 0, 0);
+    values[2] = InterlockedCompareExchange(&home_pending, 0, 0);
+    values[3] = InterlockedCompareExchange(&request_errors, 0, 0);
+    return InterlockedCompareExchange(&model_armed, 0, 0);
+}
 __declspec(dllexport) LONG CourierFreighterSpecialSnapshot(LONG values[3]) {
     values[0] = InterlockedCompareExchange(&super_added, 0, 0);
     values[1] = InterlockedCompareExchange(&super_errors, 0, 0);

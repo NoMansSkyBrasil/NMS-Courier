@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-06 evening: persistence of the delivered freighter confirmed; model request built
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#persistence-check-of-the-fourth-live-result-2026-10-06-evening).
+
+- Build fingerprint: executable 180836 `13d5060d...cc3499`; installed bridge
+  `99a887a3...4db61`; PID 13136 started 18:28:28 local. Nothing was signaled.
+- Observed (user screenshot after restart): owned freighter S, storage 120,
+  technology slots special with default technologies, hyperdrive range 210.0.
+- Not proven: lower technology rows after restart, stability in play.
+- Offline in the same session: located the model seed and scene arguments of
+  purchase setup and the reward-acceptance home seed write; built DLL
+  `f36ba9d6...adf0` with a file-based model/seed request and repeatable
+  dispatch after a returned call. Fixture passed; not run in the game.
+- Rollback state: unchanged; `99a887a3...` remains installed until replaced.
+
 ## 2026-10-06 local: owned S freighter, 120 cargo, 120 all-special technology slots (live, one run)
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#fourth-live-result-owned-s-freighter-with-120-cargo-and-120-all-special-technology-slots-2026-10-06).

@@ -466,6 +466,60 @@ scoped argument change at the handler or setup), how the home seed reaches the
 owned freighter at acceptance, and whether the pirate scene needs the pirate
 palette/customisation category.
 
+### Persistence check of the fourth live result (2026-10-06 evening)
+
+The user restarted the game about six and a half hours later (process started
+18:28:28 local, PID 13136, same executable and installed DLL `99a887a3...`,
+nothing signaled) and supplied a screenshot of the owned freighter: S badge,
+storage 120 with the full cargo grid, technology grid with every visible slot
+special and both default technologies, hyperdrive range 210.0, warp efficiency
+0.7, fleet coordination 27.1. **The class, both grids and the special slots
+survived an ordinary save, exit and reload.** Only the first three technology
+rows are visible in the screenshot; the lower rows were not re-inspected.
+
+### Model, model seed and home seed per request (built, not yet run)
+
+Offline reading of the 180836 handler, setup and reward-acceptance block:
+
+- Purchase setup receives the model seed pair as argument 2 and the scene
+  filename as argument 3 (the handler passes payload `+0x1e8` and the string
+  pointer at payload `+0x1c8`, or an empty string). Setup copies the seed to
+  item `+0x10` and loads the resource from that filename.
+- At reward acceptance (`8ee5fe` onward) the ownership resource filename and
+  seed are taken from that resource, and the home seed is written by the
+  three-instruction setter `546d40` (ownership `+0x2b0`) from the **current
+  solar system** (`+0x2480` of the object at `+0x25e020`), call site `8ee730`.
+  The setter has exactly one other direct caller, `8ee49f`, in the NPC branch.
+- Shipped scenes in the 180383 corpus: `FREIGHTER_PROC`, `FREIGHTERSMALL_PROC`,
+  `FREIGHTERTINY_PROC`, `CAPITALFREIGHTER_PROC` and `PIRATEFREIGHTER` under
+  `MODELS/COMMON/SPACECRAFT/INDUSTRIAL/`.
+
+Profile additions:
+
+- `model` event: the worker reads
+  `native-freighter-request-180836-<PID>.txt` (lines `scene=`, `model_seed=0x`,
+  `home_seed=0x`), accepts only an upper-case `MODELS/...SCENE.MBIN` path and
+  hexadecimal seeds of at most 16 digits, and arms one request. For the next
+  kind-3 setup it substitutes arguments 2 and 3. If a home seed was given, a
+  detour on `546d40` replaces the source pointer for the single call returning
+  to `8ee735`.
+- Dispatch may now be requested again after the previous call **returned**
+  (state 3); a call that never returned (state 2) still blocks the process.
+  This follows the user's requirement of several requests per session and
+  keeps the rule against repeating an uncertain outcome.
+
+Fixture: all earlier checks, four rejected request files, argument
+substitution only for the armed freighter setup, home seed replaced only for
+the acceptance stand-in and only once, second dispatch after a returned first.
+A fixture failure was again a test artifact (two adjacent stand-ins inside the
+accepted caller range). Fixture DLL SHA-256
+`b6912adae68d0ffb416f71e87f399f057b196757d98763c11ec687a018dc0955`; production
+DLL SHA-256 `f36ba9d65f97c82477b5daa043f8dd76ee8acbdecba23d459d65c30ff254adf0`
+(`native-builds\freighter-model-180836-20261006`). **Not run in the game.**
+Unknowns: whether the pirate scene loads through this path, whether its
+palette follows the home seed, what the offer installs as technologies (still
+the test reward's hyperdrive and teleporter, not a natural pirate loadout).
+
 ### Special (supercharged) slots: recovered rule and additions
 
 Offline, bounded disassembly of build 180383 `4d22c0` (180836 `4d2350`), the
