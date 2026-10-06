@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-06 night: procedural upgrade table in the technology emulation (offline)
+
+Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#procedural-upgrade-table-added-2026-10-06-later-run).
+Offline only, build 180383 executable `671de226...e497a4`, tables
+`b8f35e5e...acf8b` and `8c72de23...b76df`, Unicorn 2.1.4.
+
+- Observed: ship and multitool stores now receive procedural picks; eight
+  cases without error. The pirate descriptor has one group with one option; the
+  inventory generation ranges per size type were tabulated in the class note,
+  which also corrects the size type used by the reward setup (index 28,
+  FreighterMedium).
+- Not proven: generated procedural statistics, natural callers' inputs, any
+  live loadout, build 180836 tables.
+- Rollback state: nothing to roll back.
+
 ## 2026-10-06 night: original technology routine executed under emulation (offline)
 
 Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#original-routine-under-emulation-2026-10-06).

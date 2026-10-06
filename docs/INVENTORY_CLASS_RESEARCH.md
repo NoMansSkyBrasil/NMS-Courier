@@ -668,6 +668,36 @@ enables all hooks in one call and the fixture waits 900 ms. Production DLL
 SHA-256 `2e4403736cef5bed030fa082eba0fd077fac32ce7afdb61a0d635c6b140bc94c`
 (`native-buildsreighter-class-slots-180836-20261006`). Live result: see the second live result above.
 
+### Native generation ranges per size type (build 180383 table)
+
+From `GenerationDataPerSizeType` of the converted inventory table (SHA-256
+`2b6cb078...3dee25`), in table order, which is the size-type index the code
+multiplies by `0x54`. "Slots" is the main inventory range, "Tech" the
+technology range. All ship and freighter rows share main bounds up to 10 x 12
+and technology bounds up to 10 x 6 with at most four special technology slots;
+multitool bounds end at 10 x 6.
+
+| Index | Size type | Slots | Tech |
+| --- | --- | --- | --- |
+| 0-2 | Sci Small / Medium / Large (explorer) | 24-29 / 24-32 / 30-38 | 14-19 / 19-24 / 24-30 |
+| 3-5 | Fgt Small / Medium / Large (fighter) | 24-28 / 24-32 / 30-38 | 14-19 / 14-24 / 19-30 |
+| 6-8 | Shu Small, Sht Medium / Large (shuttle) | 24-32 / 28-36 / 32-42 | 12-19 / 18-26 / 18-28 |
+| 9-11 | Drp Small / Medium / Large (hauler) | 30-36 / 36-40 / 40-48 | 12-18 / 18-24 / 20-30 |
+| 12-14 | Roy Small / Medium / Large (exotic) | 24-30 / 24-30 / 24-32 | 14-19 / 20-28 / 26-30 |
+| 15-17 | Alien (living) | 36 | 30 |
+| 18-20 | Sail Small / Medium / Large (solar) | 24-30 / 24-32 / 30-36 | 13-18 / 14-22 / 20-30 |
+| 21-23 | Robot (sentinel) | 32-40 | 22-28 |
+| 24-26 | Weapon Small / Medium / Large | 9-18 / 13-20 / 17-30 | same as slots |
+| 27-29 | Freighter Small / Medium / Large | 15-19 / 24-34 / 35-48 | 8-12 / 12-20 / 18-30 |
+| 43 | Corvette | 40-48 | 20-30 |
+
+Correction to earlier text in this note: when the reward does not override the
+size type, purchase setup uses index `0x1c` (28) for item kind 3, which is
+**FreighterMedium**, not FreighterLarge. The bounds used by the slot override
+are identical for the three freighter size types, so the live results are
+unaffected; only the name was wrong. The class argument derived from a size
+type by `4d47f0` is listed in [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md).
+
 ### Requested delivery defaults (user, 2026-10-06)
 
 Deliveries should default to the requested class (S unless chosen otherwise),

@@ -32,6 +32,9 @@ COPY, MOVE, FILL = 0x33e0fe6, 0x33e0fec, 0x33e0ff2
 # Engine allocator (pool, size, ...) and its two release routines; a private bump heap replaces them.
 ALLOCATE, RELEASE, RELEASE_VECTOR = 0x2c1d1e0, 0x2c1b8c0, 0x2bf6c60
 HEAP = 0x48000000
+# Second (procedural) table: stride, ID, template ID and skip flag offsets; engine lookups replaced privately.
+PROCEDURAL_SIZE, PROCEDURAL_START, PROCEDURAL = 0x290, 0x30, 0x49000000
+LOOKUP, GENERATE, GENERATED = 0xec6f10, 0xec1a10, 0xec1e60
 MANAGER, SYSTEM, TABLE, LISTS, STORE, SEED, STACK, RETURN = (
     0x40000000, 0x41000000, 0x42000000, 0x43000000, 0x44000000, 0x45000000, 0x46000000, 0x47000000)
 
@@ -60,6 +63,8 @@ def main():
     for key in ('executable', 'table', 'python-tools', 'emulator-tools', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
     parser.add_argument('--table-sha256', required=True)
+    parser.add_argument('--procedural-table', type=Path, help='Original procedural technology table binary')
+    parser.add_argument('--procedural-table-sha256')
     parser.add_argument('--inventory-type', type=int, required=True)
     parser.add_argument('--class-argument', type=int, default=0)
     parser.add_argument('--size-argument', type=int, default=0)
@@ -82,6 +87,17 @@ def main():
     if len(raw) > 128 * 1024**2 or hashlib.sha256(raw).hexdigest() != HASH:
         parser.error('Executable fingerprint mismatch')
     table, count = load_table(args.table, args.table_sha256)
+    procedural, procedural_count, templates = b'', 0, {}
+    if args.procedural_table:
+        procedural = args.procedural_table.read_bytes()
+        if len(procedural) > 8 * 1024**2 or hashlib.sha256(procedural).hexdigest() != (args.procedural_table_sha256 or '').lower():
+            parser.error('Procedural table fingerprint or byte budget mismatch')
+        offset, procedural_count = struct.unpack_from('<qI', procedural, 0x20)
+        if 0x20 + offset != PROCEDURAL_START or not 1 <= procedural_count <= 2048:
+            parser.error('Unexpected procedural table header')
+        for index in range(procedural_count):
+            entry = PROCEDURAL_START + index * PROCEDURAL_SIZE
+            templates[procedural[entry + 0x40:entry + 0x50]] = procedural[entry + 0x60:entry + 0x70]
     weights = [float(value) for value in args.rarity_weights.split(',')]
     if len(weights) != 7:
         parser.error('Expected seven rarity weights')
@@ -109,7 +125,7 @@ def main():
             machine.mem_write(BASE + address, raw[raw_at:raw_at + raw_size])
         for address, size in ((MANAGER, 0x800000), (SYSTEM, 0x10000), (TABLE, 0x100000), (LISTS, 0x100000),
                               (STORE, 0x10000), (SEED, 0x1000), (STACK, 0x100000), (RETURN, 0x1000),
-                              (HEAP, 0x400000)):
+                              (HEAP, 0x400000), (PROCEDURAL, 0x100000)):
             machine.mem_map(address, size)
         machine.mem_write(TABLE, bytes(image))
         write = lambda address, layout, *values: machine.mem_write(address, struct.pack(layout, *values))
@@ -120,7 +136,8 @@ def main():
         write(BASE + RARITY_POINTER, '<Q', LISTS)
         write(LISTS, '<7f', *weights)
         write(LISTS + 0x100, '<QI', TABLE + TABLE_START, count)          # technology table descriptor
-        write(LISTS + 0x200, '<QI', 0, 0)                                # second table left empty
+        machine.mem_write(PROCEDURAL, procedural)
+        write(LISTS + 0x200, '<QI', PROCEDURAL + PROCEDURAL_START, procedural_count)
         write(MANAGER + 0x70, '<Q', LISTS + 0x100)
         write(MANAGER + 0x98, '<Q', LISTS + 0x200)
         write(MANAGER + 0x72afb0, '<Q', SYSTEM)
@@ -146,7 +163,8 @@ def main():
         machine.reg_write(regs.UC_X86_REG_RDX, args.inventory_type)
         machine.reg_write(regs.UC_X86_REG_R8, SEED)
         machine.reg_write(regs.UC_X86_REG_R9, args.class_argument)
-        picked, state = [], {'error': None, 'heap': HEAP}
+        picked, state = [], {'error': None, 'heap': HEAP, 'pending': None}
+        entry_of = {identifier: TABLE + TABLE_START + index * ENTRY_SIZE for index, identifier in enumerate(identifiers)}
 
         def leave(emulator, value=None):
             top = emulator.reg_read(regs.UC_X86_REG_RSP)
@@ -177,6 +195,25 @@ def main():
                 data = bytes([second & 0xff]) * length if rva == FILL else bytes(emulator.mem_read(second, length))
                 emulator.mem_write(target, data)
                 leave(emulator, target)
+            elif rva == LOOKUP:
+                wanted = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_RDX), 16))
+                leave(emulator, entry_of.get(wanted, 0))
+            elif rva == GENERATE:
+                # Remember which procedural ID is being instantiated; the output buffer receives that ID.
+                state['pending'] = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R8), 16))
+                emulator.mem_write(emulator.reg_read(regs.UC_X86_REG_RDX), state['pending'])
+                leave(emulator)
+            elif rva == GENERATED:
+                # Private instance: the template entry with the procedural ID; real generated stats are not modeled.
+                template = entry_of.get(templates.get(state['pending'], b''), 0)
+                if not template or state['heap'] + ENTRY_SIZE > HEAP + 0x400000:
+                    leave(emulator, 0)
+                else:
+                    instance = state['heap']
+                    state['heap'] += ENTRY_SIZE
+                    emulator.mem_write(instance, bytes(emulator.mem_read(template, ENTRY_SIZE)))
+                    emulator.mem_write(instance + 0x108, state['pending'])
+                    leave(emulator, instance)
             elif rva == ALLOCATE:
                 length = (emulator.reg_read(regs.UC_X86_REG_RDX) & 0xffffffff) + 15 & ~15
                 if not length or state['heap'] + length > HEAP + 0x400000:
@@ -199,7 +236,7 @@ def main():
 
         machine.hook_add(unicorn.UC_HOOK_BLOCK, block)
         for stub in (CLEAR_MAP, STATE_INIT, STACK_PROBE, INSERT, ASSERT, COPY, MOVE, FILL,
-                     ALLOCATE, RELEASE, RELEASE_VECTOR):
+                     ALLOCATE, RELEASE, RELEASE_VECTOR, LOOKUP, GENERATE, GENERATED):
             machine.hook_add(unicorn.UC_HOOK_CODE, hook, begin=BASE + stub, end=BASE + stub)
         try:
             machine.emu_start(BASE + ROUTINE, RETURN, count=20_000_000)
@@ -221,11 +258,13 @@ def main():
               'tool_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'routine_rva': hex(ROUTINE),
               'inputs': {'inventory_type': args.inventory_type, 'class_argument': args.class_argument,
                          'size_argument': args.size_argument, 'progress': args.progress, 'known': args.known,
-                         'special_id': args.special_id,
+                         'special_id': args.special_id, 'procedural_table_sha256': args.procedural_table_sha256,
                          'rarity_weights': weights}, 'records': records,
               'errors': sum(bool(r['error']) for r in records), 'runtime_verified': False,
               'limitations': ['Synthetic manager, wealth row, progress value, known-technology list and store.',
-                              'The second (procedural) table is empty; stores that draw from it are incomplete.',
+                              'Procedural picks are instantiated as their template entry with the procedural ID; generated stats, '
+                              'and therefore the stat-class penalty they cause, are approximated. Without --procedural-table '
+                              'the second table is empty.',
                               'Element insertion is recorded, not executed; slot placement is not reproduced.',
                               'The settings float that selects an empty initial charge is zero; charge amounts are not reported.',
                               'Caller arguments of natural generation are assumptions, not traced facts.',

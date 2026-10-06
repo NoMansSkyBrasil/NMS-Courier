@@ -162,6 +162,30 @@ Warp Core Resonator, Plasmatic Warp Injector and, outside poor systems,
 Interstellar Scanner. This is a prediction from emulated original code under
 the stated assumptions, not an observation of the game.
 
+### Procedural upgrade table added (2026-10-06, later run)
+
+The emulator now also maps the original procedural technology table (SHA-256
+`8c72de23...b76df`, 254 entries of `0x290` bytes: ID `+0x40`, template ID
+`+0x60`, skip flag `+0x284`, 31 flagged). Three engine routines are private
+boundaries: the technology lookup by ID (`ec6f10`) answers from the mapped main
+table, and the two procedural-instance routines (`ec1a10`, `ec1e60`) return a
+copy of the template entry carrying the procedural ID. Real generated stats are
+therefore not modeled, and the routine's penalty for an already present stat
+class is only approximate for procedural picks.
+
+With that table (20 slots, wealthy row, fighter class argument 2): seed 7 gave
+the five core parts plus `UP_S_SHL3`; `0xDEADBEEF` plus `UP_S_SHL4` and
+`UP_S_SHL1`; seed 1 plus `UP_S_SHL4`; seed 2 plus `UP_S_SHL3` and `UP_S_SHL4`.
+Multitool, 24 slots: seed 7 scanner, visor, mining beam, survey device and
+`UP_LASER4`; `0xDEADBEEF` added boltcaster, survey device, `UP_LASER4` and
+`UP_LASER1`; seed 1 terrain manipulator and `UP_SCAN2`; seed 2 boltcaster,
+`UP_LASERX` and terrain manipulator. Compared with the earlier main-table-only
+runs the weighted picks changed, as expected when more candidates draw from
+the same stream. Repeated shield or laser upgrades in one result are exactly
+where the unmodeled stat penalty matters, so treat multi-upgrade results as
+provisional. Reports: `default-technology-fighter-procedural-try1-20261006.json`
+and `default-technology-weapon-procedural-try1-20261006.json`.
+
 ## Not established
 
 - The category enum order beyond what the mapping table and candidate counts
@@ -173,13 +197,14 @@ the stated assumptions, not an observation of the game.
   paths), and that natural freighters use this routine with type 8.
 - Agreement with a running game: emulation only, no live observation, and no
   independent Python port compared against it.
-- Procedural upgrades (the second table) for ship and multitool stores.
+- Generated statistics of procedural upgrades and the resulting stat-class
+  penalty; results with several upgrades of one kind are provisional.
 - Build 180836 values; the tables above are from the 180383 corpus.
 
 ## Next bounded steps
 
-1. Load the procedural table and the engine lookups it needs so ship and
-   multitool results are complete; then write the Python port and compare it
+1. Model procedural instances faithfully (their stat lists come from the
+   procedural table's stat levels), then write the Python port and compare it
    with the emulated original, as done for the class draw.
 2. Read the three natural callers' arguments from bounded disassembly.
 3. Decide delivery: calling this native routine on the offer's technology
