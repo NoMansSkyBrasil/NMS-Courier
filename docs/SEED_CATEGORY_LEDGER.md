@@ -38,6 +38,30 @@ seed therefore cannot change the hull; what varies is color (home seed), name,
 class, slots and technologies. For ordinary and capital freighters, ships and
 multitools the model seed also selects parts.
 
+Pirate freighter color chain, read from the 180383 corpus and evaluated with
+the existing base-palette candidate (`evaluate-entity-inputs.py --base-palettes`,
+route `owned_default`, report `hayasenn-inputs-20261006.json`):
+
+- The scene's hull materials use the shared procedural textures
+  `textures/space/shared/largetilingpanels` (layers BASE: Metal/Primary,
+  PAINTED: PirateBase/Primary, ALTPANELS: PirateBase/Alternative1) and
+  `largetilingpanelsalt` (BASE: Metal/Primary, MAINCOLOUR:
+  PirateAlt/Alternative2, COLPANELS: PirateBase/Alternative1, and a STRIP layer
+  with five alternatives, all PirateAlt/Primary). The remaining materials are
+  glow, light-card, shield and shadow materials with fixed textures.
+- So a pirate freighter's seeded look is the Metal, PirateBase and PirateAlt
+  palette families (from the home seed) plus which of five strip textures is
+  chosen (a texture-selection draw, not evaluated here).
+- For home seed `0x175000B001FFD` the base-only candidate gives PirateBase
+  `#696761, #212324, #5B595A, #393836, #6B6E6F` and PirateAlt
+  `#949494, #C58A64, #074861, #BD3535, #DA5858` (five colors per family in
+  generator order). Mapping "Primary/Alternative1/Alternative2" to positions
+  0, 1, 2 is the usual reading of the enum and is **not verified** here; the
+  generator itself is the partial base branch whose bank and threshold state
+  remain open. The dark grey hull seen in the user's screenshot of this
+  freighter is compatible with the PirateBase values; that is a visual
+  impression, not a measurement.
+
 Order of work that follows from this table: complete installed technologies
 (procedural table), then name generation, then a single forward "seed profile"
 command per category that joins parts, colors, class, slots and technologies,
