@@ -449,6 +449,17 @@ Known inputs to start from, none of them live-verified for this purpose:
   (palette) seed; see [entity seed flow](ENTITY_APPEARANCE_SEED_FLOW.md) and the
   three-seed freighter form in [the feature catalog](REFERENCE_FEATURE_CATALOG.md).
 
+Requested outcome for this target (user, 2026-10-06): the delivered pirate
+freighter keeps the technologies a naturally generated one starts with, and
+uses the same layout as the fourth live result (120 cargo, 120 technology
+slots, all technology slots special). Which technologies a natural pirate
+freighter starts with is **not known here**: the reward path installs only the
+elements listed in the payload (the test reward lists the hyperdrive and the
+teleporter), while natural generation goes through the ordinary inventory
+wrapper and its installed-technology routine (`4cef50` on 180383), which has
+not been read. The wiki screenshot the user supplied shows a hyperdrive and one
+further module, which is an external illustration, not evidence for this build.
+
 Open questions for the first offline pass: where the payload filename and seed
 can be supplied per request without a data mod (payload construction or a
 scoped argument change at the handler or setup), how the home seed reaches the
