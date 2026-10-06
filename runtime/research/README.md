@@ -1,5 +1,12 @@
 # Bulk game-data research
 
+[Inventory class draw](../../docs/INVENTORY_CLASS_RESEARCH.md): `evaluate-inventory-class.py`
+ports the seed/wealth-row C/B/A/S draw and reports exact per-class draw
+intervals and matching seed high words; `emulate-inventory-class.py` compares it
+with original instructions (619 cases). `ExportOriginalExecutable.java` recovers
+the hash-verified build 180383 executable from the read-only Ghidra project now
+that the installed game has been updated. Not a class-setting or delivery tool.
+
 [Explicit customisation colors](../../docs/CUSTOMISATION_COLOR_RESEARCH.md):
 hash-pinned category/PaletteID lookup, RGBA quantization and final snapshot overlay,
 309 matching original-instruction cases. Use evaluate-customisation-colors.py

@@ -1,5 +1,19 @@
 # AI continuation guide
 
+Newest checkpoint: [inventory class research](INVENTORY_CLASS_RESEARCH.md),
+2026-10-06 (Claude Code). **Read its environment section before running any
+tool:** Steam replaced the installed `NMS.exe` on 2026-10-05 (new SHA-256
+`13d5060d...cc3499`, not build 180383); the exact 180383 executable was
+recovered to `E:\NMS-Courier-Executables\180383\NMS.exe`; Ghidra, the JDK,
+Unicorn and pinned references physically live under Codex's packaged-app
+directory `%LOCALAPPDATA%\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\NMSCourier`.
+Recovered: seed plus solar-system wealth row to C/B/A/S class (`4cfd10`), the
+wrapper type filter (`4ccfa0`) and the static reason the specific-ship freighter
+reward stays C (`8e3a10` kind 3 passes class 0). 619 original-instruction
+comparisons, zero mismatches. Not established: natural freighter purchase path,
+live row source, any class-setting API. Next steps are listed in that note.
+The appearance checkpoints below remain valid for build 180383 only.
+
 Newest checkpoint: [explicit colors](CUSTOMISATION_COLOR_RESEARCH.md) and
 [category ledger](SEED_CATEGORY_LEDGER.md), 2026-10-05. Lookup/quantizer/overlay
 have 309 original-instruction matches. Catalog: 293 descriptor sources with

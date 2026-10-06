@@ -1,5 +1,46 @@
 # Runtime experiment log
 
+## 2026-10-06 local: inventory class draw, executable recovery and tool location
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). Offline only; no
+game process, save, mod, bridge or corpus change. Performed by Claude Code.
+
+- Build fingerprint: analysis used build 180383, SHA-256
+  `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`, recovered
+  from the read-only Ghidra project's stored file bytes with
+  `ExportOriginalExecutable.java` (88,545,352 bytes, hash verified by the script
+  and again with `Get-FileHash`). The installed executable is now a different,
+  unresearched build: SHA-256
+  `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`, Steam
+  build ID 25732212, written 2026-10-05 15:05 local.
+- Configuration: Ghidra 12.1.4 / Temurin 25 and Unicorn 2.1.4 from the physical
+  Codex package directory; existing Acquisition180383 project, no autoanalysis,
+  two CPUs, 4 GiB heap, 600-second process guard, 30-second per-function limit.
+  Selection `class-generation-180383.tsv`, stage `classgeneration20261006`.
+- Observed: `4cfd10` draws once from the seed and compares against cumulative
+  `ClassProbabilityData` weights (table `+0x1a54`, row from
+  `*(manager+0x72afb0)+0x2524`). Wrapper `4ccfa0` stores an explicit class, or
+  for request value 4 keeps the generated class only for inventory types 3, 4
+  and 7. NPC component `170a7a0` stores class 3 for ship-type values 6 and 7.
+  Purchase setup `8e3a10` kind 3 never reads the payload class and generates
+  base stats for class 0. Port versus original instructions: 619 cases, zero
+  mismatches. Nine synthetic unit tests pass. Navigation index regenerated with
+  the new stage registered; zero import warnings.
+- Failures: nine of ten exports succeeded; `572c40` timed out. The first port
+  had a transposed double literal: 421 arbitrary cases passed, 75 of 198
+  boundary cases failed, then all 619 passed after correcting the bytes. A
+  first caller scan was refused because its output was under the executable's
+  grandparent directory; the recovered executable was moved to its own root.
+- Static pattern only on the new build: masked bytes of `4cfd10` and the
+  wrapper head each match once (RVAs `4cfda0`, `4cd030`); the `8e3a10` head
+  does not match. No table values were read from the new build.
+- Not proven: natural freighter purchase path and its seed, the live identity
+  of the row source, any class-setting API, anything on the new build at
+  runtime, slots or supercharged positions.
+- Rollback state: nothing to roll back. New external files only:
+  `E:\NMS-Courier-Executables\180383\NMS.exe`, the stage export and three
+  emulation reports plus one caller report under `E:\NMS-Courier-Research`.
+
 ## 2026-10-05 local — category catalog, explicit colors and named tool flag
 
 Offline build 180383 executable SHA-256:

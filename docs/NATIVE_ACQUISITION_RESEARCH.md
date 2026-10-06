@@ -3,6 +3,12 @@
 Status: offline executable evidence, not a runtime adapter. The existing DLL
 remains the delivery bridge. No game, mod, inventory, or save was changed.
 
+Continuation, 2026-10-06: [inventory class research](INVENTORY_CLASS_RESEARCH.md)
+recovers the seed/wealth-row class draw `4cfd10`, the wrapper rule in `4ccfa0`
+and shows statically that purchase setup kind 3 generates class-0 stats on
+build 180383. The installed executable has since been updated; read that
+note's environment section first.
+
 ## Sources and exact scope
 
 The installed research executable is build 180383, SHA-256

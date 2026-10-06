@@ -21,7 +21,7 @@ seed constructor is asserted. Support/legacy scenes remain candidates.
 | --- | --- | --- | --- |
 | Ships | 154 / 664 / 1,685 | Ordered recursion, explicit/filter helper comparisons, source-associated owned/purchase input routes, partial base/alternate colors, selected decal/texture rules | All gift/preset/custom resource variants, actual palette bank/threshold state, complete material masks and shader composition |
 | Multitools | 19 / 301 / 764 | Ordered recursion and explicit parts, owned Resource input, compared weapon textures, Weapon-to-NULL mapping, UseLegacyColours source-to-task association and explicit research input | Initializer argument-7 caller values, offer/accessory/staff contexts, complete material bindings/geometry |
-| Freighters | 56 / 355 / 588 | Ordered recursion, named model vs HomeSystemSeed split, partial generated colors and distinct custom overlays, selected paint/decal rules | Other offer/preset palette sources, exact bank/material assembly, final native appearance; S class/slots are separate systems |
+| Freighters | 56 / 355 / 588 | Ordered recursion, named model vs HomeSystemSeed split, partial generated colors and distinct custom overlays, selected paint/decal rules | Other offer/preset palette sources, exact bank/material assembly, final native appearance; S class/slots are separate systems (class draw: [inventory class research](INVENTORY_CLASS_RESEARCH.md)) |
 
 Group records preserve ancestor guards, ordered alternatives, reference paths,
 raw XML Chance and recovered Name weights. They now also expose exact uint32

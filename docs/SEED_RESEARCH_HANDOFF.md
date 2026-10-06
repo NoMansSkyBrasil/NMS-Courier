@@ -1,5 +1,21 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding checkpoint: inventory class and environment, 2026-10-06
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). The installed
+executable changed on 2026-10-05 and no longer matches build 180383; use the
+recovered copy at `E:\NMS-Courier-Executables\180383\NMS.exe` for every
+hash-pinned offline command in this handoff, and the physical Codex package
+path for Ghidra/JDK/Unicorn when not running inside Codex. Class is a separate
+draw from appearance: one MWC draw of the supplied seed against the
+`ClassProbabilityData` row selected by a solar-system field (`4cfd10`), kept
+only for inventory types 3, 4 and 7 when the caller requests class 4. The port
+and its inverse helper agree with original instructions in 619 cases. A first
+port with a transposed double literal passed 421 arbitrary cases and failed 75
+of 198 boundary cases; keep boundary seeds in any future float comparison.
+Appearance work below is unchanged. Next bounded steps are in the owner note;
+do not treat the class port as a delivery capability.
+
 ## Superseding checkpoint: explicit colors and active scope, 2026-10-05
 
 Read [explicit colors](CUSTOMISATION_COLOR_RESEARCH.md) and the
