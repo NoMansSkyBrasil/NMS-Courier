@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-06 night: natural default technology rule, build 180383 (offline)
+
+Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md). Performed
+by Claude Code. Offline only; no game process, save, mod or bridge change.
+
+- Build fingerprint: executable 180383 `671de226...e497a4` (recovered copy);
+  corpus tables with the hashes listed in the owner note.
+- Configuration: Ghidra 12.1.4, existing project, no autoanalysis, stage
+  `defaulttechnology20261006`, selection `default-technology-180383.tsv`, three
+  exports in 46 seconds; `inspect-default-technology.py` over the read-only
+  corpus index.
+- Observed: `F_HDRIVEBOOST2` is "Plasmatic Warp Injector" (Freighter,
+  VeryRare, requires the hyperdrive); `F_TELEPORT` is rarity Impossible; rarity
+  weights 10/50/25/2/1/0/9999999; routine `4cef50` builds seeded weighted
+  candidates, with a pick count from slots and the solar-system wealth row, and
+  freighter stores draw no procedural upgrades.
+- Not proven: every numeric detail of the routine (no emulation), caller
+  arguments, category enum order, build 180836 tables, any live loadout.
+- Rollback state: nothing to roll back; one external report added.
+
 ## 2026-10-06 evening: pirate freighter by scene and seeds, three offers in one process (live)
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#fifth-live-result-pirate-freighter-by-scene-and-seeds-three-offers-in-one-process-2026-10-06-evening).

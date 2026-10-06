@@ -1,5 +1,9 @@
 # Bulk game-data research
 
+`inspect-default-technology.py` catalogs, per technology category, the entries
+natural inventory generation can draw (not a loadout predictor); see
+[default technology research](../../docs/DEFAULT_TECHNOLOGY_RESEARCH.md).
+
 `relocate-native-signatures.py` relocates masked instruction windows between
 two hash-pinned executables (used for 180383 to 180836); a unique match is a
 location candidate only. See [inventory class research](../../docs/INVENTORY_CLASS_RESEARCH.md).

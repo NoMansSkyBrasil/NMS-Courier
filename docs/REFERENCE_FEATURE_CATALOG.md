@@ -75,6 +75,9 @@ inventory. Status per part is tracked in
 [inventory class research](INVENTORY_CLASS_RESEARCH.md); only the freighter
 offer class has live evidence so far.
 
+Natural default technologies per entity are tracked in
+[default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md).
+
 ## How to use this tracker
 
 Add evidence links and change a status only when the owning specification and

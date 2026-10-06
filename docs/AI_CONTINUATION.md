@@ -1,5 +1,13 @@
 # AI continuation guide
 
+Newest research note: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md),
+2026-10-06. Table facts are confirmed (for example Plasmatic Warp Injector is
+`F_HDRIVEBOOST2`, Freighter, VeryRare; the test reward's teleporter is rarity
+Impossible), and the native selection routine `4cef50` is read but **not
+emulated**. The user ranks natural default technologies for freighters, ships
+and multitools as very important. Next: port and compare `4cef50`, then decide
+between calling it natively at delivery and an explicit list.
+
 **Fifth live result, 2026-10-06 evening:** scene, model seed and home seed per
 request work; the user now owns an S pirate freighter (120 cargo, 120
 all-special technology slots) and three offers were sent in one process. Open:

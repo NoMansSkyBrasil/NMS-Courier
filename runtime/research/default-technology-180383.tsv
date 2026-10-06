@@ -1,0 +1,3 @@
+4cef50	Installed-technology generation routine called by the ordinary inventory wrapper after layout
+4d46d0	Per-technology eligibility predicate called by 4cef50 with inventory type, entry and size argument
+4d06f0	Store element insertion helper used by purchase setup and 4ccfa0
