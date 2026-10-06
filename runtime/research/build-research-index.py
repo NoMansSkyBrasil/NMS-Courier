@@ -132,7 +132,7 @@ def native_items(native):
                   'appearancereferenceresourcetraversal20261004', 'appearancematerialnamevalidator20261004',
                   'appearancescenenonmeshfactories20261004', 'appearanceemitterfactory20261004',
                   'appearanceemittermaterial20261004', 'appearanceemittercollector20261004',
-                  'classgeneration20261006')
+                  'classgeneration20261006', 'freighteraccept20261006')
         for directory in (*(native / (stage + '-export') for stage in stages), export):
             if not (directory / "manifest.tsv").is_file():
                 run_path = native / ('run-' + directory.name.removesuffix('-export') + '.json')

@@ -1,0 +1,4 @@
+542750	Ownership routine called after the reward-acceptance home seed write
+543690	Ownership routine called last in the reward-acceptance block with argument 0
+547240	Ownership routine called in the NPC acceptance branch with handle and flag
+546c00	Ownership resource accessor used by the acceptance block

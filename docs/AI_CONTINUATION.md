@@ -1,5 +1,12 @@
 # AI continuation guide
 
+**Fifth live result, 2026-10-06 evening:** scene, model seed and home seed per
+request work; the user now owns an S pirate freighter (120 cargo, 120
+all-special technology slots) and three offers were sent in one process. Open:
+the visible model updates only after restart (flags `+0x461`/`+0x463` and
+`543690` are the leads), the natural technology loadout, base-transfer effects.
+Installed DLL: `f36ba9d6...`.
+
 **Persistence confirmed, 2026-10-06 evening:** the delivered freighter kept S,
 120 cargo and the all-special technology grid after save and restart. Built and
 awaiting a first run: per-request scene, model seed and home seed plus

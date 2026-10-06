@@ -466,6 +466,61 @@ scoped argument change at the handler or setup), how the home seed reaches the
 owned freighter at acceptance, and whether the pirate scene needs the pirate
 palette/customisation category.
 
+### Fifth live result: pirate freighter by scene and seeds, three offers in one process (2026-10-06 evening)
+
+| Item | Value |
+| --- | --- |
+| When | 2026-10-06, about 18:48 to 19:20 local; game process started 18:48:33 |
+| Where | Same installed game and user save, PID 23116 |
+| Executable | Build 180836, SHA-256 `13d5060d...cc3499` |
+| Bridge | SHA-256 `f36ba9d65f97c82477b5daa043f8dd76ee8acbdecba23d459d65c30ff254adf0` (source commit `97a4313`), installed with the game closed over `99a887a3...` after hash checks |
+| Request | `-Class S -MaxSlots -ExtendedTechnology -Supercharge -Scene MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN -ModelSeed 0x8C968767B3282F13 -HomeSeed 0x175000B001FFD -DispatchTestReward`, sent **three times** in the same process |
+
+Sequence and observations:
+
+1. First request: log `model_applied=1`, `applied_count=1`, grids 120/120,
+   `super_added=119`. The user declined by mistake before reporting the screen.
+2. Second request, same process (first repeated dispatch): log
+   `setup_calls=2`, `model_applied=2`. Offer screenshot: **pirate freighter
+   model**, S badge, 120 and 120, all technology slots special, hyperdrive and
+   teleporter installed, cost 600,000,000, hyperdrive range 212.1, fleet
+   coordination 26.3. The user accepted through the comparison screen and
+   answered **Yes** to the base transfer. Log afterwards: `carry_applied=1`,
+   `carry_exact_site=1`, `carry_seed_equal=1`, `home_applied=1`. The user saw
+   no replacement and reported it as a bug.
+3. Third request, same process: accepted with **No** to the base transfer. Log
+   `carry_applied=2`, `carry_callers=8ee2ca,8ee2ca`, `home_applied=2`. The owned
+   freighter screen showed the offer's statistics (212.1 and 26.3 instead of
+   210.0 and 27.1) but still the **previous model and name**.
+4. The user closed and reopened the game. The owned freighter then showed the
+   pirate model, the name "Hayasenn CV-5", S badge, storage 120, all visible
+   technology slots special, hyperdrive range 212.1, fleet coordination 26.3.
+   The public example the user had cited for these seeds carries the name
+   "CV-5 Hayasenn".
+
+Established: scene and model seed substituted at setup arguments 2 and 3
+produce the requested model in the offer; the acceptance block runs with either
+base-transfer answer; the home seed override fires at the expected site; the
+ownership record holds the new model after an ordinary save and restart;
+several dispatches per process work when each call returns.
+
+Open, with what is known:
+
+- **The visible model and name do not update until restart.** Read offline on
+  180383: after the home seed write the block calls `542750`, sets two byte
+  flags at ownership `+0x461` and `+0x463`, and calls `543690(ownership, 0)`,
+  which returns immediately when a predicate on the ownership position fields
+  (`546290`) fails. The routine that consumes the two flags was not read. A
+  deferred rebuild that never ran in that session is a hypothesis, not a
+  finding. The earlier runs could not show this because the model did not
+  change.
+- Whether the first acceptance with **Yes** to the base transfer left any
+  inconsistent base state; nothing was inspected.
+- **Installed technologies**: every offer so far carries only the hyperdrive
+  and teleporter listed by the test reward. The natural pirate loadout is
+  unknown.
+- Palette under the home seed was not compared with a reference.
+
 ### Persistence check of the fourth live result (2026-10-06 evening)
 
 The user restarted the game about six and a half hours later (process started

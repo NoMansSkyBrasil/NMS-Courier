@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-06 evening: pirate freighter by scene and seeds, three offers in one process (live)
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#fifth-live-result-pirate-freighter-by-scene-and-seeds-three-offers-in-one-process-2026-10-06-evening).
+Performed by Claude Code with the user at the game.
+
+- Build fingerprint: executable 180836 `13d5060d...cc3499`; bridge
+  `f36ba9d65f97c82477b5daa043f8dd76ee8acbdecba23d459d65c30ff254adf0` (commit
+  `97a4313`), installed with the game closed; no freighter data patch.
+- Trigger and save conditions: PID 23116 started 18:48:33 local; user save in
+  ordinary gameplay with the S 120/120 freighter from the fourth run. Three
+  identical requests; each earlier dispatch had returned (`dispatch_state=3`)
+  before the next was sent, at the user's explicit request.
+- Observed: pirate model in the offer; acceptance ran twice (`carry_applied=2`,
+  `home_applied=2`); owned statistics changed at once, model and name only
+  after the user restarted the game, when the freighter appeared as the pirate
+  model named "Hayasenn CV-5".
+- Failures: one offer declined by mistake; the user perceived both acceptances
+  as failed because the model did not change in that session.
+- Offline follow-up: Ghidra stage `freighteraccept20261006`, selection
+  `freighter-accept-180383.tsv`, four exports succeeded (265 s). Cause of the
+  missing in-session refresh not identified.
+- Not proven: in-session model refresh, base-transfer consequences, natural
+  technology loadout, palette correctness, long-term stability.
+- Rollback state: DLL `f36ba9d6...` installed; backups unchanged.
+
 ## 2026-10-06 evening: persistence of the delivered freighter confirmed; model request built
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#persistence-check-of-the-fourth-live-result-2026-10-06-evening).
