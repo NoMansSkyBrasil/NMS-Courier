@@ -428,6 +428,33 @@ must accept repeated requests with arbitrary parameters without restarting the
 game. The one-shot-per-process dispatch is a property of this research
 profile only.
 
+### Next target requested by the user: freighter category, model and seeds (2026-10-06)
+
+Not started. The user wants to choose the freighter category (normal, capital,
+pirate "Dreadnought") and its seeds per request; the frontend may ship examples
+but the seeds stay user-editable. Example supplied by the user for a pirate
+capital freighter: model seed `0x8C968767B3282F13`, home/color seed
+`0x175000B001FFD`. The reference images came from Reddit and the community
+wiki, not from this project; they show an S-class pirate freighter and are not
+evidence about any build researched here.
+
+Known inputs to start from, none of them live-verified for this purpose:
+
+- The specific-ship payload carries the scene filename and model seed
+  (`ShipResource`), read by handler `f29b80` and passed to purchase setup; the
+  test reward `RS_S13_S4M6` uses the ordinary procedural freighter scene.
+- [The uninstalled pirate model variant](../runtime/mods/freighter_pirate_model_research/README.md)
+  records the pirate scene path and its table source for build 180383.
+- Owned freighter appearance uses a model seed and a separate home-system
+  (palette) seed; see [entity seed flow](ENTITY_APPEARANCE_SEED_FLOW.md) and the
+  three-seed freighter form in [the feature catalog](REFERENCE_FEATURE_CATALOG.md).
+
+Open questions for the first offline pass: where the payload filename and seed
+can be supplied per request without a data mod (payload construction or a
+scoped argument change at the handler or setup), how the home seed reaches the
+owned freighter at acceptance, and whether the pirate scene needs the pirate
+palette/customisation category.
+
 ### Special (supercharged) slots: recovered rule and additions
 
 Offline, bounded disassembly of build 180383 `4d22c0` (180836 `4d2350`), the

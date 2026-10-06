@@ -1,5 +1,10 @@
 # AI continuation guide
 
+Next user-requested target (not started): per-request freighter category and
+seeds, starting with the pirate capital freighter example recorded in
+[inventory class research](INVENTORY_CLASS_RESEARCH.md#next-target-requested-by-the-user-freighter-category-model-and-seeds-2026-10-06).
+Restart persistence of the fourth live result is still to be confirmed first.
+
 **Fourth live result, 2026-10-06:** with DLL `99a887a3...` the user accepted an
 offer and now owns an S freighter showing 120 cargo and 120 technology slots,
 all technology slots special, default technologies kept. One run; restart
