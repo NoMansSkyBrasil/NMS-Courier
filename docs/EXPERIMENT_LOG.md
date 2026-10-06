@@ -1,5 +1,31 @@
 # Runtime experiment log
 
+## 2026-10-06 night: original technology routine executed under emulation (offline)
+
+Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#original-routine-under-emulation-2026-10-06).
+Performed by Claude Code. Offline only.
+
+- Build fingerprint: executable 180383 `671de226...e497a4` (recovered copy);
+  technology table binary `b8f35e5e...acf8b`; Unicorn 2.1.4.
+- Configuration: `emulate-default-technology.py`; whole `.text`, `.rdata` and
+  `.data` mapped; synthetic manager, wealth row, progress 100, all
+  technologies in the required-technology list, rarity weights from
+  `gcplayerglobals`, special ID assumed `SOLAR_SAIL`, second table empty.
+- Observed: all reported runs completed without error. Freighter store, type
+  8, class argument 0: 24 cases for seed `0x8C968767B3282F13` and 16 further
+  seeds; ship classes 1 to 9 and the multitool store with main-table picks.
+  Results are tabulated in the owner note.
+- Failures on the way, each resolved by a documented boundary: stack probe
+  reading the thread block, three import thunks, the engine allocator, a
+  settings pointer in the unmapped data tail, and a source-file null byte
+  introduced by my own edit. Six discarded attempt reports
+  (`default-technology-emulation-try1..6-20261006.json`) are kept externally.
+  With the special ID left zero every non-living ship class received the
+  Vesper Sail.
+- Not proven: natural callers' seed and state, procedural upgrades, agreement
+  with a running game, build 180836 tables.
+- Rollback state: nothing to roll back.
+
 ## 2026-10-06 night: natural default technology rule, build 180383 (offline)
 
 Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md). Performed

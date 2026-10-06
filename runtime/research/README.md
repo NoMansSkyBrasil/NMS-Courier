@@ -1,6 +1,8 @@
 # Bulk game-data research
 
-`inspect-default-technology.py` catalogs, per technology category, the entries
+`emulate-default-technology.py` runs the original installed-technology routine
+with the original table binary and synthetic runtime state and reports the IDs
+selected for a seed. `inspect-default-technology.py` catalogs, per technology category, the entries
 natural inventory generation can draw (not a loadout predictor); see
 [default technology research](../../docs/DEFAULT_TECHNOLOGY_RESEARCH.md).
 

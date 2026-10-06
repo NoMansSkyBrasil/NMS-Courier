@@ -1,8 +1,9 @@
 # Default (naturally generated) technology research
 
-Checkpoint: 2026-10-06 (Claude Code). Status: **offline table reading and
-partial pseudocode reading on build 180383**. Nothing here has been compared
-with original instructions under emulation or observed in a running game. No
+Checkpoint: 2026-10-06 (Claude Code). Status: **offline table reading,
+pseudocode reading and execution of the original routine under emulation on
+build 180383** with synthetic runtime state. Nothing here has been observed in
+a running game. No
 game, save, mod or bridge file was changed for this note. Start from
 [AI continuation](AI_CONTINUATION.md); delivery context is in
 [inventory class research](INVENTORY_CLASS_RESEARCH.md).
@@ -98,6 +99,69 @@ upgrades; multitools get scanner, visor and mining beam plus weighted picks.
 The loadout is a function of seed, slot count, wealth row and progress, so it
 is not one fixed list per entity type.
 
+## Original routine under emulation (2026-10-06)
+
+[emulate-default-technology.py](../runtime/research/emulate-default-technology.py)
+maps the `.text`, `.rdata` and `.data` sections of the pinned 180383 executable
+and the **original technology table binary** (SHA-256
+`b8f35e5e...acf8b`; its entry layout equals the runtime layout: ID `+0x108`,
+category `+0x194`, rarity `+0x1b0`, required technology `+0x128`, stat list
+`+0x158`, template flag `+0x2c9`) into Unicorn 2.1.4 and runs `4cef50` itself.
+Synthetic inputs: manager block, wealth row, progress value, the list searched
+for required technologies, rarity weights and a fully valid ten-column store.
+Boundaries replaced by private code: element insertion (`4d06f0`, recorded and
+appended to the store), the engine allocator and its releases, three imported
+memory helpers, the stack probe, one map clear and one no-op initializer.
+Everything else, including the predicate, weighting, dependency checks, stat
+set and candidate removal, is the game's own instructions.
+
+The rarity enum order is now read from the binary (0 Normal, 1 VeryCommon,
+2 Common, 3 Rare, 4 VeryRare, 5 Impossible, 6 Always). The class argument is
+`4d47f0(size type)`, decoded from its jump table: freighter size types 27..29
+give 0, scientific 3, fighter 2, shuttle 4, hauler 1, exotic 6, living 7,
+solar 8, sentinel 9, multitool sizes 12.
+
+Results (reports under `seed-analysis-180383`, all runs without error):
+
+- Freighter technology store, type 8, class argument 0, seed
+  `0x8C968767B3282F13` (the user's pirate model seed), 24 cases
+  (`default-technology-freighter-pirate-seed-20261006.json`):
+
+  | Slots | Poor | Average | Wealthy | Pirate |
+  | --- | --- | --- | --- | --- |
+  | 13, 19, 25 | hyperdrive + Warp Core Resonator | same | same | same |
+  | 30 | same | same | + Plasmatic Warp Injector | same |
+  | 60 | hyperdrive + Resonator | + Injector | + Injector + Interstellar Scanner | + Injector |
+  | 120 | + Injector | + Injector + Scanner | + Injector + Scanner | + Injector + Scanner |
+
+- Sixteen other seeds at 25 slots, Pirate row
+  (`default-technology-freighter-seeds-20261006.json`): always the hyperdrive
+  plus exactly one of Warp Core Resonator or Plasmatic Warp Injector (seeds 1
+  to 7 and `0xFFFFFFFFFFFFFFFF` gave the Injector, the others the Resonator).
+- Ship stores (type 5) with the second table empty, so procedural upgrades are
+  missing: classes 1, 2, 3, 4, 6 gave pulse engine, launch thruster,
+  hyperdrive, deflector shield, photon cannon and one or two weighted picks
+  (rocket launcher, cyclotron ballista); class 7 the six living-ship parts;
+  class 9 the sentinel parts plus weighted picks; class 8 additionally the
+  Vesper Sail.
+- Multitool store (type 3, class argument 12), second table empty: scanner,
+  analysis visor and mining beam plus two to four weighted picks that differ
+  by seed (boltcaster, scatter blaster, survey device, waveform recycler,
+  blaze javelin, terrain manipulator).
+
+Assumptions that the reports state and that still need evidence: the seed fed
+to this routine by natural callers is the entity's model seed; every required
+technology is in the manager list; the progress value does not exclude
+entries; the runtime-initialized ID global at `5220e20` holds `SOLAR_SAIL`
+(with it left zero every non-living class received the Vesper Sail, which is
+the behavior the special branch is evidently there to prevent).
+
+For the user's Dreadnought seed this predicts a natural loadout of hyperdrive
+plus Warp Core Resonator at native slot counts, and at 120 slots hyperdrive,
+Warp Core Resonator, Plasmatic Warp Injector and, outside poor systems,
+Interstellar Scanner. This is a prediction from emulated original code under
+the stated assumptions, not an observation of the game.
+
 ## Not established
 
 - The category enum order beyond what the mapping table and candidate counts
@@ -107,13 +171,16 @@ is not one fixed list per entity type.
   conflict set and the override list semantics.
 - Which arguments each natural caller passes (NPC ship component, purchase
   paths), and that natural freighters use this routine with type 8.
-- Any numeric agreement with the game: no emulation, no live observation.
+- Agreement with a running game: emulation only, no live observation, and no
+  independent Python port compared against it.
+- Procedural upgrades (the second table) for ship and multitool stores.
 - Build 180836 values; the tables above are from the 180383 corpus.
 
 ## Next bounded steps
 
-1. Port the routine and compare it with original instructions under Unicorn
-   (synthetic technology table plus the real one), as done for the class draw.
+1. Load the procedural table and the engine lookups it needs so ship and
+   multitool results are complete; then write the Python port and compare it
+   with the emulated original, as done for the class draw.
 2. Read the three natural callers' arguments from bounded disassembly.
 3. Decide delivery: calling this native routine on the offer's technology
    store before the screen opens would give the natural loadout for the
@@ -126,6 +193,15 @@ is not one fixed list per entity type.
 
 ```powershell
 $py = "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe"
+$cx = "$env:LOCALAPPDATA\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\NMSCourier\research-tools"
+$table = 'E:\NMS-Courier-Research\corpus\archives\NMSARC.Precache-a6371a8b2f06\metadata\reality\tables\nms_reality_gctechnologytable.mbin'
+& $py runtime/research/emulate-default-technology.py `
+  --executable E:\NMS-Courier-Executables\180383\NMS.exe --table $table `
+  --table-sha256 b8f35e5eec6bef07700e106d93359ae9a01e6ff10ef991fdc334c4ad64bacf8b `
+  --python-tools "$env:LOCALAPPDATA\NMSCourier\research-tools\python" `
+  --emulator-tools "$cx\unicorn-2.1.4" --inventory-type 8 `
+  --slots 19 --slots 120 --wealth-row 1 --seed 8C968767B3282F13 `
+  --output E:\NMS-Courier-Research\seed-analysis-180383\default-technology-NEW-emulation.json
 & $py runtime/research/inspect-default-technology.py `
   --corpus E:/NMS-Courier-Research/corpus `
   --output E:/NMS-Courier-Research/seed-analysis-180383/default-technology-NEW.json
