@@ -1,5 +1,28 @@
 # Runtime experiment log
 
+## 2026-10-06 local: 120/120 all-special freighter offer; acceptance carry failed (live, one run)
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#third-live-result-120120-offer-all-technology-slots-special-carry-not-applied-2026-10-06).
+Performed by Claude Code with the user at the game.
+
+- Build fingerprint: executable 180836 `13d5060d...cc3499`; bridge
+  `ec4da1c76b313ab860b76fdcc40438b2d7a233fd167ede758a8e3eb3f652681c` (commit
+  `a8fe8e0`), installed with the game closed; no freighter data patch.
+- Trigger and save conditions: PID 9912 started 11:27:13 local, user save in
+  ordinary gameplay, owned freighter S with 120 cargo and the old sparse
+  technology grid. Preflight passed; one signal with class S, maximum slots,
+  twelve technology rows, all special slots and one dispatch of `RS_S13_S4M6`.
+- Observed: log `technology_grid=10,12,120`, `table_patches=1`,
+  `super_added=119`, `super_errors=0`; offer screenshot with S, 120 and 120
+  slots, all technology slots special, hyperdrive range 210.0.
+- Failed: after the user accepted, `carry_applied=0` and the owned technology
+  grid was unchanged. Cause not identified; the profile lacked diagnostics.
+- Not proven: technology transfer, persistence of a 120-slot all-special
+  technology store, repeatability.
+- Rollback state: profile DLL installed; backups under
+  `E:\NMS-Courier-Research\native-builds\installed-backup-20261006`; one-shot
+  dispatch of PID 9912 consumed. A revised DLL `99a887a3...` is built, not run.
+
 ## 2026-10-06 local: S-class freighter offer with 120/60 grids, build 180836 (live, one run)
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#second-live-result-s-class-with-12060-grids-2026-10-06-build-180836).

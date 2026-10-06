@@ -235,12 +235,15 @@ int main(void) {
         special_snapshot(special_values) != 1 || special_values[0] != 120 || special_values[1] != 0 ||
         vector->count != 120 || grow_calls != 120 || grow_bad != 0 || vector->data[0].type != 4 ||
         vector->data[119].x != 9 || vector->data[119].y != 11) return 27;
-    // A call from anywhere but the acceptance stand-in, or with another seed, copies nothing.
+    // A call from anywhere but the acceptance stand-in, or after the offer's seed changed, copies nothing.
     unsigned char other_seed[16] = "another-seed-xx";
     CourierTestSpecialGenerator(owned, 8, item + 0x10);
+    item[0x10] ^= 1;
     CourierTestAccept(owned, other_seed);
+    item[0x10] ^= 1;
     if (copy_calls != 0 || special_snapshot(special_values) != 1) return 28;
-    CourierTestAccept(owned, item + 0x10);
+    // The seed argument of the acceptance call itself is not required to match.
+    CourierTestAccept(owned, other_seed);
     if (copy_calls != 1 || copy_destination != owned || copy_source != item + 0xe10 ||
         special_snapshot(special_values) != 0 || special_values[2] != 1) return 29;
     CourierTestAccept(owned, item + 0x10);

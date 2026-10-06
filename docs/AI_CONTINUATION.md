@@ -1,5 +1,11 @@
 # AI continuation guide
 
+**Third live result, 2026-10-06:** the offer showed S, 120 cargo, 120
+technology slots, all technology slots special. Accepting did **not** carry
+the technology store to the owned freighter (`carry_applied=0`); a revised DLL
+`99a887a3...` with relaxed recognition and caller diagnostics is built and
+awaits a run. Read the carry log fields first after the next acceptance.
+
 **Second live result, 2026-10-06:** class S plus 120/60 offer grids shown on
 build 180836; the first accepted S freighter stayed S after restart (user
 report). Built but **not yet run**: all technology slots special, 12-row

@@ -329,7 +329,60 @@ price follows class and slots (23,000,000 at 19/19, 600,000,000 at 120/60).
 Not established: owned grids after acceptance, persistence, technology
 transfer, more than one run.
 
-### Special (supercharged) slots: recovered rule and untested additions
+### Third live result: 120/120 offer, all technology slots special; carry not applied (2026-10-06)
+
+| Item | Value |
+| --- | --- |
+| When | 2026-10-06, about 11:27 to 11:45 local; game process started 11:27:13 |
+| Where | Same installed game and user save, PID 9912 |
+| Executable | Build 180836, SHA-256 `13d5060d...cc3499` |
+| Bridge | SHA-256 `ec4da1c76b313ab860b76fdcc40438b2d7a233fd167ede758a8e3eb3f652681c` (source commit `a8fe8e0`), installed with the game closed over `2e440373...` after hash checks |
+| Trigger | `signal-freighter-class-180836.ps1 -Class S -MaxSlots -ExtendedTechnology -Supercharge -DispatchTestReward` after a passing preflight, one time |
+
+Owned state before the run (user screenshot of the freighter accepted in the
+second run, after save and restart): S badge, storage 120 with a full
+ten-column cargo grid, but the **technology grid was still the older sparse
+seven-column layout** with one special slot. This confirms the static reading
+that a reward offer's technology store is not transferred at acceptance while
+class and main grid are.
+
+Profile log after the signal: `dispatch_state=3`, `applied_count=1`,
+`class_after=3,3,3`, `layout_overrides=2`, `main_grid=10,12,120`,
+`technology_grid=10,12,120`, `table_patches=1`, `table_rejected=0`,
+`super_added=119`, `super_errors=0`, `carry_pending=1`. Process alive and
+responsive.
+
+User screenshot of the offer: S badge, slot summary **120 and 120**, every
+visible technology slot drawn as a special slot, both default technologies
+installed, cost 600,000,000, hyperdrive range 210.0 (168.2 in the earlier
+offers), fleet coordination 27.1.
+
+The user accepted. Afterwards the owned freighter looked the same as before
+the run (sparse technology grid, one special slot), and the log still showed
+`carry_pending=1`, `carry_applied=0`: **the acceptance carry did not fire.**
+The profile had no diagnostics for why. Candidate causes: the seed passed at
+acceptance is read from the resource descriptor (`+0x10` of the object returned
+for the item's handle), which need not equal the item seed the profile
+compared with; or acceptance through the comparison screen reaches the
+routine from another call site.
+
+Established on build 180836: the native growth helper call shape works for the
+special-slot vector (119 appends, no error); a scoped height bound of 12
+produces a 10 x 12 technology grid in the offer; the offer screen draws all of
+them as special slots; installed special-slot bonus is reflected in the
+displayed hyperdrive range. Not established: any transfer of the offered
+technology store to the owned freighter.
+
+Follow-up build (not yet run): the carry now requires only inventory type 8, a
+store outside the offer, an unchanged offer seed and a caller inside the
+purchase update function (`8ea6f0..8ef9c6`); it records up to six caller RVAs,
+whether the caller was the exact expected site and whether the passed seed
+equalled the offer seed. Fixture DLL SHA-256
+`53e2c6df7905fd69c532022702455e8c0a8089dc33477deb4f891947a557a320`; production
+DLL SHA-256 `99a887a3aa9fba5307bcbe72779285cf4af2f21d552db0ea198209ea2d64db61`
+(`native-builds\freighter-class-carry-180836-20261006`).
+
+### Special (supercharged) slots: recovered rule and additions
 
 Offline, bounded disassembly of build 180383 `4d22c0` (180836 `4d2350`), the
 routine purchase setup calls for every store right after layout:

@@ -37,6 +37,10 @@
 #define VECTOR_GROW_CALLBACK_RVA 0x2bf9f00u
 #define ACCEPT_SITE_RVA 0x8ee2a6u
 #define ACCEPT_RETURN_RVA 0x8ee2cau
+// Extent of the purchase update function that contains the acceptance block.
+#define PURCHASE_UPDATE_BEGIN_RVA 0x8ea6f0u
+#define PURCHASE_UPDATE_END_RVA 0x8ef9c6u
+#define CARRY_TRACE_CAPACITY 6
 #define MANAGER_POINTER_RVA 0x6e8d708u
 #define TABLE_POINTER_OFFSET 0x218u
 #define GENERATION_ENTRIES_OFFSET 0x5e0u
@@ -116,6 +120,12 @@ static volatile LONG super_errors;
 static volatile LONG table_patches;
 static volatile LONG table_rejected;
 static volatile LONG carry_applied;
+// Diagnostics while a carry is pending: type-8 calls for stores outside the offer.
+static volatile LONG carry_candidates;
+static volatile LONG carry_seed_equal = -1;
+static volatile LONG carry_exact_site = -1;
+static volatile LONG carry_trace_count;
+static volatile LONG carry_trace[CARRY_TRACE_CAPACITY];   // caller return RVAs, 0 if outside the executable
 static volatile LONG scope_rows;
 // Offer whose technology store is copied at acceptance; identified by item and seed.
 static volatile uintptr_t carry_item;
@@ -170,7 +180,8 @@ static void write_status(const char *status, MH_STATUS result) {
         "slots_armed=%ld\nslots_applied=%ld\nlayout_overrides=%ld\n"
         "main_grid=%ld,%ld,%ld\ntechnology_grid=%ld,%ld,%ld\n"
         "super_added=%ld\nsuper_errors=%ld\ntable_patches=%ld\ntable_rejected=%ld\n"
-        "carry_pending=%d\ncarry_applied=%ld\n",
+        "carry_pending=%d\ncarry_applied=%ld\ncarry_candidates=%ld\ncarry_seed_equal=%ld\n"
+        "carry_exact_site=%ld\ncarry_callers=%lx,%lx,%lx,%lx,%lx,%lx\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
@@ -179,7 +190,10 @@ static void write_status(const char *status, MH_STATUS result) {
         READ(slots_armed), READ(slots_applied), READ(layout_overrides),
         READ(grid[0]), READ(grid[1]), READ(grid[2]), READ(grid[3]), READ(grid[4]), READ(grid[5]),
         READ(super_added), READ(super_errors), READ(table_patches), READ(table_rejected),
-        carry_item != 0, READ(carry_applied));
+        carry_item != 0, READ(carry_applied), READ(carry_candidates), READ(carry_seed_equal),
+        READ(carry_exact_site), (unsigned long)READ(carry_trace[0]), (unsigned long)READ(carry_trace[1]),
+        (unsigned long)READ(carry_trace[2]), (unsigned long)READ(carry_trace[3]),
+        (unsigned long)READ(carry_trace[4]), (unsigned long)READ(carry_trace[5]));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -288,20 +302,29 @@ static void add_special_slots(uint8_t *store) {
 
 static void special_detour(void *store, uint32_t inventory_type, void *seed) {
     uintptr_t item = carry_item;
-    // Only the acceptance call for the same offer: owned technology store, purchase seed.
-#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
-    int from_acceptance = (uintptr_t)__builtin_return_address(0) - (uintptr_t)accept_return < 0x80;
-#else
-    int from_acceptance = __builtin_return_address(0) == accept_return;
-#endif
-    if (item && inventory_type == 8 && from_acceptance && seed &&
-        memcmp(seed, carry_seed, sizeof(carry_seed)) == 0 &&
+    // Candidate: a type-8 store outside the armed offer whose own seed is unchanged.
+    if (item && inventory_type == 8 && (uintptr_t)store - item >= ITEM_READ_SPAN &&
         writable_range(item, ITEM_READ_SPAN) &&
-        memcmp((const void *)(item + ITEM_SEED_OFFSET), carry_seed, sizeof(carry_seed)) == 0 &&
-        (uintptr_t)store - item >= ITEM_READ_SPAN) {
-        carry_item = 0;
-        store_copy(store, (const void *)(item + TECHNOLOGY_STORE_OFFSET));
-        InterlockedIncrement(&carry_applied);
+        memcmp((const void *)(item + ITEM_SEED_OFFSET), carry_seed, sizeof(carry_seed)) == 0) {
+        uintptr_t caller = (uintptr_t)__builtin_return_address(0);
+#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+        int from_purchase = caller - (uintptr_t)accept_return < 0x80;
+        uintptr_t caller_rva = caller - (uintptr_t)accept_return;
+#else
+        uintptr_t caller_rva = caller - (uintptr_t)GetModuleHandleW(NULL);
+        int from_purchase = caller_rva >= PURCHASE_UPDATE_BEGIN_RVA && caller_rva < PURCHASE_UPDATE_END_RVA;
+        InterlockedExchange(&carry_exact_site, (void *)caller == accept_return);
+#endif
+        InterlockedIncrement(&carry_candidates);
+        LONG slot = InterlockedIncrement(&carry_trace_count) - 1;
+        if (slot < CARRY_TRACE_CAPACITY) InterlockedExchange(&carry_trace[slot], (LONG)(caller_rva & 0x7fffffff));
+        InterlockedExchange(&carry_seed_equal, seed && memcmp(seed, carry_seed, sizeof(carry_seed)) == 0);
+        // Only a call made by the purchase update function copies; the passed seed is diagnostic.
+        if (from_purchase) {
+            carry_item = 0;
+            store_copy(store, (const void *)(item + TECHNOLOGY_STORE_OFFSET));
+            InterlockedIncrement(&carry_applied);
+        }
     }
     original_special(store, inventory_type, seed);
 }
