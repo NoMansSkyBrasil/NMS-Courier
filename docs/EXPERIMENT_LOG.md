@@ -1,5 +1,29 @@
 # Runtime experiment log
 
+## 2026-10-06 local: owned S freighter, 120 cargo, 120 all-special technology slots (live, one run)
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#fourth-live-result-owned-s-freighter-with-120-cargo-and-120-all-special-technology-slots-2026-10-06).
+Performed by Claude Code with the user at the game.
+
+- Build fingerprint: executable 180836 `13d5060d...cc3499`; bridge
+  `99a887a3aa9fba5307bcbe72779285cf4af2f21d552db0ea198209ea2d64db61` (commit
+  `d21c2a7`), installed with the game closed; no freighter data patch.
+- Trigger and save conditions: PID 436 started 11:37:19 local, user save in
+  ordinary gameplay, owned freighter S with 120 cargo and 13 technology slots.
+  Preflight passed; one signal identical to the third run.
+- Observed: offer S, 120/120, all technology slots special. The user accepted
+  through the comparison screen and declined the base transfer. Log
+  `carry_applied=1`, `carry_exact_site=1`, `carry_callers=8ee2ca`,
+  `carry_seed_equal=0`. Owned freighter screenshot: S, storage 120, technology
+  grid all special with default technologies, hyperdrive range 210.0.
+- Explains the third run: the earlier profile required the acceptance seed to
+  equal the item seed, and it does not.
+- Not proven: persistence after restart, base-transfer branch, stability of
+  the non-native grid in play, repeatability, other entity types.
+- Rollback state: DLL `99a887a3...` remains installed; backups under
+  `E:\NMS-Courier-Research\native-builds\installed-backup-20261006`; one-shot
+  dispatch of PID 436 consumed; the user closed the game after saving.
+
 ## 2026-10-06 local: 120/120 all-special freighter offer; acceptance carry failed (live, one run)
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#third-live-result-120120-offer-all-technology-slots-special-carry-not-applied-2026-10-06).

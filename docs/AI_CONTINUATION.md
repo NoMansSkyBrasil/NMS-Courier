@@ -1,5 +1,13 @@
 # AI continuation guide
 
+**Fourth live result, 2026-10-06:** with DLL `99a887a3...` the user accepted an
+offer and now owns an S freighter showing 120 cargo and 120 technology slots,
+all technology slots special, default technologies kept. One run; restart
+persistence is the next check, then the same defaults for ships, multitools
+and the exosuit, appearance/seed selection, and a repeatable command path
+(the user requires many requests per session in the final bridge). Details:
+[inventory class research](INVENTORY_CLASS_RESEARCH.md).
+
 **Third live result, 2026-10-06:** the offer showed S, 120 cargo, 120
 technology slots, all technology slots special. Accepting did **not** carry
 the technology store to the owned freighter (`carry_applied=0`); a revised DLL

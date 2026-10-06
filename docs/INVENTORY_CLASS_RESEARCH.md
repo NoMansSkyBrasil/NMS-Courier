@@ -382,6 +382,52 @@ equalled the offer seed. Fixture DLL SHA-256
 DLL SHA-256 `99a887a3aa9fba5307bcbe72779285cf4af2f21d552db0ea198209ea2d64db61`
 (`native-builds\freighter-class-carry-180836-20261006`).
 
+### Fourth live result: owned S freighter with 120 cargo and 120 all-special technology slots (2026-10-06)
+
+| Item | Value |
+| --- | --- |
+| When | 2026-10-06, about 11:37 to 11:55 local; game process started 11:37:19 |
+| Where | Same installed game and user save, PID 436 |
+| Executable | Build 180836, SHA-256 `13d5060d...cc3499` |
+| Bridge | SHA-256 `99a887a3aa9fba5307bcbe72779285cf4af2f21d552db0ea198209ea2d64db61` (source commit `d21c2a7`), installed with the game closed over `ec4da1c7...` after hash checks |
+| Trigger | `signal-freighter-class-180836.ps1 -Class S -MaxSlots -ExtendedTechnology -Supercharge -DispatchTestReward` after a passing preflight, one time |
+
+Sequence: the offer opened as in the third run (S, 120 and 120, every
+technology slot special, cost 600,000,000, hyperdrive range 210.0). The user
+pressed "Comparar"; the comparison screen listed the current freighter as
+"120 / 13" with hyperdrive range 168.2 and the new one as "120 / 120" with
+210.0, trade-in value 210,000,000. The user chose "Obter nave cargueira" and
+answered **No** to the base-transfer prompt.
+
+Profile log after acceptance: `carry_applied=1`, `carry_pending=0`,
+`carry_candidates=1`, `carry_exact_site=1`, `carry_callers=8ee2ca`,
+`carry_seed_equal=0`; earlier fields `class_after=3,3,3`,
+`main_grid=10,12,120`, `technology_grid=10,12,120`, `super_added=119`,
+`super_errors=0`, `table_patches=1`.
+
+User screenshot of the **owned** freighter afterwards: S badge, full
+ten-column cargo grid with storage 120, technology grid with every visible
+slot special and both default technologies installed, hyperdrive range 210.0,
+warp efficiency 0.7, fleet coordination 27.1. The user saved and closed the
+game.
+
+Established: the acceptance call is the expected site (`8ee2ca`); the seed it
+passes is not the item seed, which is why the third run's carry did not fire;
+the native store copy at that point gives the owned freighter the offered
+technology store, including the 10 x 12 grid and the special slots.
+
+Not established: persistence after restart (the user will check later);
+behavior when the base transfer is accepted; whether a 12-row technology grid
+and 120 special slots stay stable in play; what happened to technologies of
+the replaced freighter (its technology store held only the hyperdrive); any
+second run of this exact configuration; anything for ships, multitools or the
+exosuit.
+
+Design requirement recorded from the user in this session: the final bridge
+must accept repeated requests with arbitrary parameters without restarting the
+game. The one-shot-per-process dispatch is a property of this research
+profile only.
+
 ### Special (supercharged) slots: recovered rule and additions
 
 Offline, bounded disassembly of build 180383 `4d22c0` (180836 `4d2350`), the
