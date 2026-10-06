@@ -18,15 +18,15 @@ and multitools, so the application can choose seeds by desired outcome.
 
 | Seeded property | Inputs | Status |
 | --- | --- | --- |
-| Model parts | Scene descriptor, model seed | Ordered recursive selection ported and instruction-compared (see below); natural caller context partly open |
+| Model parts | Scene descriptor, model seed | Ordered recursive selection ported and instruction-compared (see below); natural caller context partly open; renderable per seed through [the scene exporter](MODEL_PREVIEW_RESEARCH.md#native-scene-export-and-seed-selected-renders-2026-10-06) |
 | Colors | Palette seed (home-system seed for freighters), palette bank, flags | Base and alternate generators ported; bank and threshold state open |
 | Textures and decals | Model seed streams, material bindings | Restricted selector compared; full composition open |
 | Class C/B/A/S | Seed, solar-system wealth row | Ported and instruction-compared: [inventory class](INVENTORY_CLASS_RESEARCH.md) |
 | Slot grids | Size-type table, class, requested count | Rule read; live override validated for freighter offers |
 | Special slots | Store seed, class, size-type limits | Rule read; live all-slot marking validated for freighter offers |
-| Installed technologies | Store seed, slots, wealth row, class argument, technology tables | Original routine runs under emulation: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md); procedural upgrades open |
+| Installed technologies | Store seed, slots, wealth row, class argument, technology tables | Selection and procedural upgrade statistics ported and instruction-compared: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md); natural caller arguments and boosted-roll percentage open |
 | Name | Not researched in this repository | Open; a public name generator was only compared for its PRNG |
-| Base stats | Store seed, class, base-stat table | Generator located and called natively at delivery; not ported |
+| Base stats | Store seed, class, base-stat table | Generator `4cea20` read (one draw per entry, linear between the class row's bounds); called natively at delivery; port pending |
 
 Scene-specific fact, from the 180383 corpus descriptors: the pirate freighter
 scene has **one group with one option** (`_PIRATEFREIGHTER_`), while the

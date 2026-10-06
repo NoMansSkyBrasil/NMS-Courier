@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import runpy
 import struct
 import sys
 
@@ -65,6 +66,10 @@ def main():
     parser.add_argument('--table-sha256', required=True)
     parser.add_argument('--procedural-table', type=Path, help='Original procedural technology table binary')
     parser.add_argument('--procedural-table-sha256')
+    parser.add_argument('--reality-data', type=Path,
+                        help='Original defaultreality binary; enables generated statistics for procedural instances')
+    parser.add_argument('--reality-data-sha256')
+    parser.add_argument('--boost-chance', type=int, default=0)
     parser.add_argument('--inventory-type', type=int, required=True)
     parser.add_argument('--class-argument', type=int, default=0)
     parser.add_argument('--size-argument', type=int, default=0)
@@ -77,12 +82,22 @@ def main():
     parser.add_argument('--special-id', default='SOLAR_SAIL',
                         help='Assumed value of the runtime ID global at 5220e20; empty to leave it zero')
     parser.add_argument('--rarity-weights', default='10,50,25,2,1,0,9999999')
+    parser.add_argument('--compare-port', action='store_true',
+                        help='Also evaluate evaluate-default-technology.py and count disagreements')
+    parser.add_argument('--seed-range', type=int, default=0,
+                        help='Additionally use this many seeds derived from a fixed 64-bit mixing sequence')
     args = parser.parse_args()
     exe, output = args.executable.resolve(), args.output.resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (exe.parent.parent, Path(__file__).resolve().parents[2])):
         parser.error('Require a new external output')
-    if not 1 <= len(args.seed) <= 64 or len(args.slots) * len(args.wealth_row) * len(args.seed) > 2048:
-        parser.error('Select at most 64 seeds and 2048 cases')
+    seeds = [int(text, 16) for text in args.seed]
+    value = 0x9E3779B97F4A7C15
+    for _ in range(args.seed_range):
+        # Fixed odd-multiplier sequence; covers high and low words without a random source.
+        value = (value * 0xD1342543DE82EF95 + 1) & 0xffffffffffffffff
+        seeds.append(value)
+    if not 1 <= len(seeds) <= 4096 or len(args.slots) * len(args.wealth_row) * len(seeds) > 8192:
+        parser.error('Select at most 4096 seeds and 8192 cases')
     raw = exe.read_bytes()
     if len(raw) > 128 * 1024**2 or hashlib.sha256(raw).hexdigest() != HASH:
         parser.error('Executable fingerprint mismatch')
@@ -98,6 +113,18 @@ def main():
         for index in range(procedural_count):
             entry = PROCEDURAL_START + index * PROCEDURAL_SIZE
             templates[procedural[entry + 0x40:entry + 0x50]] = procedural[entry + 0x60:entry + 0x70]
+    generator = curves = generator_entries = None
+    if args.reality_data:
+        if not args.procedural_table:
+            parser.error('--reality-data requires --procedural-table')
+        reality = args.reality_data.read_bytes()
+        if hashlib.sha256(reality).hexdigest() != (args.reality_data_sha256 or '').lower():
+            parser.error('Reality data fingerprint mismatch')
+        generator = runpy.run_path(str(Path(__file__).resolve().parent / 'evaluate-procedural-technology.py'))
+        first = 0x20 + generator['WEIGHTING_CURVES_OFFSET']
+        curves = list(reality[first:first + 7])
+        generator_entries = {entry['id'].encode('ascii').ljust(16, bytes(1)): entry for entry in
+                             generator['load_procedural'](args.procedural_table, args.procedural_table_sha256)}
     weights = [float(value) for value in args.rarity_weights.split(',')]
     if len(weights) != 7:
         parser.error('Expected seven rarity weights')
@@ -116,41 +143,142 @@ def main():
         relative, items = struct.unpack_from('<qI', table, entry + 0x158)
         struct.pack_into('<Q', image, entry + 0x158, TABLE + entry + 0x158 + relative if items else 0)
 
+    # One machine for all cases: constant image and tables are mapped once, mutable inputs are rewritten per case.
+    machine = unicorn.Uc(unicorn.UC_ARCH_X86, unicorn.UC_MODE_64)
+    for name, address, virtual_size, raw_at, raw_size in sections(raw):
+        if name not in ('.text', '.rdata', '.data'):
+            continue
+        machine.mem_map(BASE + address, (max(virtual_size, raw_size) + 0xfff) & ~0xfff)
+        machine.mem_write(BASE + address, raw[raw_at:raw_at + raw_size])
+    for address, size in ((MANAGER, 0x800000), (SYSTEM, 0x10000), (TABLE, 0x100000), (LISTS, 0x100000),
+                          (STORE, 0x10000), (SEED, 0x1000), (STACK, 0x100000), (RETURN, 0x1000),
+                          (HEAP, 0x400000), (PROCEDURAL, 0x100000)):
+        machine.mem_map(address, size)
+    machine.mem_write(TABLE, bytes(image))
+    write = lambda address, layout, *values: machine.mem_write(address, struct.pack(layout, *values))
+    write(BASE + MANAGER_POINTER, '<Q', MANAGER)
+    write(BASE + MODE_GLOBAL, '<I', 0)
+    write(BASE + SETTINGS_POINTER, '<Q', LISTS + 0x80000)       # zero floats: charged elements
+    machine.mem_write(BASE + SPECIAL_ID, args.special_id.encode('ascii').ljust(16, bytes(1))[:16])
+    write(BASE + RARITY_POINTER, '<Q', LISTS)
+    write(LISTS, '<7f', *weights)
+    write(LISTS + 0x100, '<QI', TABLE + TABLE_START, count)          # technology table descriptor
+    machine.mem_write(PROCEDURAL, procedural)
+    write(LISTS + 0x200, '<QI', PROCEDURAL + PROCEDURAL_START, procedural_count)
+    write(MANAGER + 0x70, '<Q', LISTS + 0x100)
+    write(MANAGER + 0x98, '<Q', LISTS + 0x200)
+    write(MANAGER + 0x72afb0, '<Q', SYSTEM)
+    write(MANAGER + 0x26310, '<i', args.progress)
+    known = identifiers if args.known == 'all' else []
+    machine.mem_write(LISTS + 0x1000, b''.join(known))
+    write(MANAGER + 0x24074, '<I', len(known))
+    write(MANAGER + 0x24078, '<Q', LISTS + 0x1000)
+    picked, state = [], {'error': None, 'heap': HEAP, 'pending': None, 'used': 0}
+    entry_of = {identifier: TABLE + TABLE_START + index * ENTRY_SIZE for index, identifier in enumerate(identifiers)}
+
+    def leave(emulator, value=None):
+        top = emulator.reg_read(regs.UC_X86_REG_RSP)
+        emulator.reg_write(regs.UC_X86_REG_RIP, struct.unpack('<Q', emulator.mem_read(top, 8))[0])
+        emulator.reg_write(regs.UC_X86_REG_RSP, top + 8)
+        if value is not None:
+            emulator.reg_write(regs.UC_X86_REG_RAX, value)
+
+    def hook(emulator, address, size, user):
+        rva = address - BASE
+        if rva in (CLEAR_MAP, STATE_INIT, STACK_PROBE):
+            leave(emulator)
+        elif rva == INSERT:
+            element = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R8), 0x30))
+            target = emulator.reg_read(regs.UC_X86_REG_RCX)
+            _, used, data = struct.unpack('<IIQ', emulator.mem_read(target + 0x88, 16))
+            # Give the element the next valid slot so the native free-slot counter sees it as occupied.
+            element = element[:0x10] + struct.pack('<ii', state['used'] % 10, state['used'] // 10) + element[0x18:]
+            state['used'] += 1
+            emulator.mem_write(data + used * 0x30, element)
+            emulator.mem_write(target + 0x8c, struct.pack('<I', used + 1))
+            picked.append(element[:16].split(b'\0')[0].decode('ascii', 'replace'))
+            leave(emulator)
+        elif rva in (COPY, MOVE, FILL):
+            target, second, length = (emulator.reg_read(r) for r in
+                                      (regs.UC_X86_REG_RCX, regs.UC_X86_REG_RDX, regs.UC_X86_REG_R8))
+            if length > 0x100000:
+                state['error'] = 'memory helper length out of bounds'
+                emulator.emu_stop()
+                return
+            data = bytes([second & 0xff]) * length if rva == FILL else bytes(emulator.mem_read(second, length))
+            emulator.mem_write(target, data)
+            leave(emulator, target)
+        elif rva == LOOKUP:
+            wanted = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_RDX), 16))
+            leave(emulator, entry_of.get(wanted, 0))
+        elif rva == GENERATE:
+            # Remember which procedural ID is being instantiated. With the generator the output buffer
+            # receives the instance ID built from the store seed passed in r9; otherwise the bare ID.
+            state['pending'] = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R8), 16))
+            state['instance_id'] = state['pending']
+            if generator:
+                seed_value, enabled = struct.unpack('<QB', emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R9), 9))
+                state['number'] = generator['instance_number'](seed_value, bool(enabled))
+                name = generator['instance_id'](generator_entries[state['pending']]['id'], state['number'])
+                state['instance_id'] = name.encode('ascii').ljust(16, bytes(1))[:16]
+            emulator.mem_write(emulator.reg_read(regs.UC_X86_REG_RDX), state['instance_id'])
+            leave(emulator)
+        elif rva == GENERATED:
+            # Private instance: the template entry with the instance ID and, with the generator, the
+            # statistics list produced by the separately compared procedural port.
+            template = entry_of.get(templates.get(state['pending'], b''), 0)
+            if not template or state['heap'] + ENTRY_SIZE + 0x40 > HEAP + 0x400000:
+                leave(emulator, 0)
+            else:
+                instance = state['heap']
+                state['heap'] += ENTRY_SIZE + 0x40
+                emulator.mem_write(instance, bytes(emulator.mem_read(template, ENTRY_SIZE)))
+                emulator.mem_write(instance + 0x108, state['instance_id'])
+                if generator:
+                    stats = generator['generate'](generator_entries[state['pending']], state['number'], curves,
+                                                  args.boost_chance)
+                    packed = b''.join(struct.pack('<fii', value, level, stat) for stat, value, level in stats)
+                    emulator.mem_write(instance + ENTRY_SIZE, packed)
+                    emulator.mem_write(instance + 0x158,
+                                       struct.pack('<QI', instance + ENTRY_SIZE if stats else 0, len(stats)))
+                leave(emulator, instance)
+        elif rva == ALLOCATE:
+            length = (emulator.reg_read(regs.UC_X86_REG_RDX) & 0xffffffff) + 15 & ~15
+            if not length or state['heap'] + length > HEAP + 0x400000:
+                state['error'] = 'private heap exhausted'
+                emulator.emu_stop()
+                return
+            state['heap'] += length
+            leave(emulator, state['heap'] - length)
+        elif rva in (RELEASE, RELEASE_VECTOR):
+            leave(emulator)
+        elif rva == ASSERT:
+            state['error'] = 'native assertion path reached'
+            emulator.emu_stop()
+
+    trail = []
+
+    def block(emulator, address, size, user):
+        trail.append(address - BASE)
+        del trail[:-6]
+
+    machine.hook_add(unicorn.UC_HOOK_BLOCK, block)
+    for stub in (CLEAR_MAP, STATE_INIT, STACK_PROBE, INSERT, ASSERT, COPY, MOVE, FILL,
+                 ALLOCATE, RELEASE, RELEASE_VECTOR, LOOKUP, GENERATE, GENERATED):
+        machine.hook_add(unicorn.UC_HOOK_CODE, hook, begin=BASE + stub, end=BASE + stub)
+
     def run(seed, slots, wealth):
-        machine = unicorn.Uc(unicorn.UC_ARCH_X86, unicorn.UC_MODE_64)
-        for name, address, virtual_size, raw_at, raw_size in sections(raw):
-            if name not in ('.text', '.rdata', '.data'):
-                continue
-            machine.mem_map(BASE + address, (max(virtual_size, raw_size) + 0xfff) & ~0xfff)
-            machine.mem_write(BASE + address, raw[raw_at:raw_at + raw_size])
-        for address, size in ((MANAGER, 0x800000), (SYSTEM, 0x10000), (TABLE, 0x100000), (LISTS, 0x100000),
-                              (STORE, 0x10000), (SEED, 0x1000), (STACK, 0x100000), (RETURN, 0x1000),
-                              (HEAP, 0x400000), (PROCEDURAL, 0x100000)):
-            machine.mem_map(address, size)
-        machine.mem_write(TABLE, bytes(image))
-        write = lambda address, layout, *values: machine.mem_write(address, struct.pack(layout, *values))
-        write(BASE + MANAGER_POINTER, '<Q', MANAGER)
-        write(BASE + MODE_GLOBAL, '<I', 0)
-        write(BASE + SETTINGS_POINTER, '<Q', LISTS + 0x80000)       # zero floats: charged elements
-        machine.mem_write(BASE + SPECIAL_ID, args.special_id.encode('ascii').ljust(16, bytes(1))[:16])
-        write(BASE + RARITY_POINTER, '<Q', LISTS)
-        write(LISTS, '<7f', *weights)
-        write(LISTS + 0x100, '<QI', TABLE + TABLE_START, count)          # technology table descriptor
-        machine.mem_write(PROCEDURAL, procedural)
-        write(LISTS + 0x200, '<QI', PROCEDURAL + PROCEDURAL_START, procedural_count)
-        write(MANAGER + 0x70, '<Q', LISTS + 0x100)
-        write(MANAGER + 0x98, '<Q', LISTS + 0x200)
-        write(MANAGER + 0x72afb0, '<Q', SYSTEM)
+        picked.clear()
+        state.update(error=None, heap=HEAP, pending=None, used=0)
+        del trail[:]
+        machine.mem_write(STORE, bytes(0x4000))
+        machine.mem_write(HEAP, bytes(0x40000))
         write(SYSTEM + 0x2524, '<i', wealth)
-        write(MANAGER + 0x26310, '<i', args.progress)
-        known = identifiers if args.known == 'all' else []
-        machine.mem_write(LISTS + 0x1000, b''.join(known))
-        write(MANAGER + 0x24074, '<I', len(known))
-        write(MANAGER + 0x24078, '<Q', LISTS + 0x1000)
         # Store: ten columns, every slot valid, empty element vector with room for 256 elements.
         rows = (slots + 9) // 10
         for row in range(min(rows, 16)):
-            write(STORE + row * 8, '<Q', 0x3ff)
+            # The last row is valid only up to the slot count, so the native free-slot count equals it.
+            write(STORE + row * 8, '<Q', (1 << min(10, slots - row * 10)) - 1)
         write(STORE + 0x80, '<3h', 10, rows, slots)
         write(STORE + 0x88, '<IIQ', 256, 0, STORE + 0x1000)
         write(SEED, '<QQ', seed, 1)
@@ -163,81 +291,6 @@ def main():
         machine.reg_write(regs.UC_X86_REG_RDX, args.inventory_type)
         machine.reg_write(regs.UC_X86_REG_R8, SEED)
         machine.reg_write(regs.UC_X86_REG_R9, args.class_argument)
-        picked, state = [], {'error': None, 'heap': HEAP, 'pending': None}
-        entry_of = {identifier: TABLE + TABLE_START + index * ENTRY_SIZE for index, identifier in enumerate(identifiers)}
-
-        def leave(emulator, value=None):
-            top = emulator.reg_read(regs.UC_X86_REG_RSP)
-            emulator.reg_write(regs.UC_X86_REG_RIP, struct.unpack('<Q', emulator.mem_read(top, 8))[0])
-            emulator.reg_write(regs.UC_X86_REG_RSP, top + 8)
-            if value is not None:
-                emulator.reg_write(regs.UC_X86_REG_RAX, value)
-
-        def hook(emulator, address, size, user):
-            rva = address - BASE
-            if rva in (CLEAR_MAP, STATE_INIT, STACK_PROBE):
-                leave(emulator)
-            elif rva == INSERT:
-                element = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R8), 0x30))
-                target = emulator.reg_read(regs.UC_X86_REG_RCX)
-                _, used, data = struct.unpack('<IIQ', emulator.mem_read(target + 0x88, 16))
-                emulator.mem_write(data + used * 0x30, element)
-                emulator.mem_write(target + 0x8c, struct.pack('<I', used + 1))
-                picked.append(element[:16].split(b'\0')[0].decode('ascii', 'replace'))
-                leave(emulator)
-            elif rva in (COPY, MOVE, FILL):
-                target, second, length = (emulator.reg_read(r) for r in
-                                          (regs.UC_X86_REG_RCX, regs.UC_X86_REG_RDX, regs.UC_X86_REG_R8))
-                if length > 0x100000:
-                    state['error'] = 'memory helper length out of bounds'
-                    emulator.emu_stop()
-                    return
-                data = bytes([second & 0xff]) * length if rva == FILL else bytes(emulator.mem_read(second, length))
-                emulator.mem_write(target, data)
-                leave(emulator, target)
-            elif rva == LOOKUP:
-                wanted = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_RDX), 16))
-                leave(emulator, entry_of.get(wanted, 0))
-            elif rva == GENERATE:
-                # Remember which procedural ID is being instantiated; the output buffer receives that ID.
-                state['pending'] = bytes(emulator.mem_read(emulator.reg_read(regs.UC_X86_REG_R8), 16))
-                emulator.mem_write(emulator.reg_read(regs.UC_X86_REG_RDX), state['pending'])
-                leave(emulator)
-            elif rva == GENERATED:
-                # Private instance: the template entry with the procedural ID; real generated stats are not modeled.
-                template = entry_of.get(templates.get(state['pending'], b''), 0)
-                if not template or state['heap'] + ENTRY_SIZE > HEAP + 0x400000:
-                    leave(emulator, 0)
-                else:
-                    instance = state['heap']
-                    state['heap'] += ENTRY_SIZE
-                    emulator.mem_write(instance, bytes(emulator.mem_read(template, ENTRY_SIZE)))
-                    emulator.mem_write(instance + 0x108, state['pending'])
-                    leave(emulator, instance)
-            elif rva == ALLOCATE:
-                length = (emulator.reg_read(regs.UC_X86_REG_RDX) & 0xffffffff) + 15 & ~15
-                if not length or state['heap'] + length > HEAP + 0x400000:
-                    state['error'] = 'private heap exhausted'
-                    emulator.emu_stop()
-                    return
-                state['heap'] += length
-                leave(emulator, state['heap'] - length)
-            elif rva in (RELEASE, RELEASE_VECTOR):
-                leave(emulator)
-            elif rva == ASSERT:
-                state['error'] = 'native assertion path reached'
-                emulator.emu_stop()
-
-        trail = []
-
-        def block(emulator, address, size, user):
-            trail.append(address - BASE)
-            del trail[:-6]
-
-        machine.hook_add(unicorn.UC_HOOK_BLOCK, block)
-        for stub in (CLEAR_MAP, STATE_INIT, STACK_PROBE, INSERT, ASSERT, COPY, MOVE, FILL,
-                     ALLOCATE, RELEASE, RELEASE_VECTOR, LOOKUP, GENERATE, GENERATED):
-            machine.hook_add(unicorn.UC_HOOK_CODE, hook, begin=BASE + stub, end=BASE + stub)
         try:
             machine.emu_start(BASE + ROUTINE, RETURN, count=20_000_000)
         except unicorn.UcError as error:
@@ -245,26 +298,49 @@ def main():
                 error, machine.reg_read(regs.UC_X86_REG_RIP) - BASE, ','.join('%x' % rva for rva in trail))
         if not state['error'] and machine.reg_read(regs.UC_X86_REG_RIP) != RETURN:
             state['error'] = 'instruction budget exhausted'
-        return picked, state['error']
+        return list(picked), state['error']
 
+    port = literals = port_tables = None
+    if args.compare_port:
+        port = runpy.run_path(str(Path(__file__).resolve().parent / 'evaluate-default-technology.py'))
+        literals = port['load_literals'](exe)
+        port_tables = (port['load_technologies'](args.table, args.table_sha256),
+                       port['load_procedural'](args.procedural_table, args.procedural_table_sha256)
+                       if args.procedural_table else [])
     records = []
     for slots in args.slots:
         for wealth in args.wealth_row:
-            for text in args.seed:
-                picked, error = run(int(text, 16), slots, wealth)
-                records.append({'seed': '0x%X' % int(text, 16), 'slots': slots, 'wealth_row': wealth,
-                                'installed': picked, 'error': error})
+            for seed in seeds:
+                result, error = run(seed, slots, wealth)
+                record = {'seed': '0x%X' % seed, 'slots': slots, 'wealth_row': wealth,
+                          'installed': result, 'error': error}
+                if port:
+                    model = port['instance_model'](generator, list(generator_entries.values()), curves, seed,
+                                                   args.boost_chance) if generator else None
+                    chosen = port['select'](literals, port_tables[0], port_tables[1], args.inventory_type,
+                                            args.class_argument, args.size_argument, slots, wealth, seed, weights,
+                                            progress=args.progress,
+                                            known=None if args.known == 'all' else [],
+                                            special_id=args.special_id.encode('ascii'), instance=model)
+                    record['port'] = [entry_id.split(bytes(1))[0].decode('ascii', 'replace') for entry_id, _ in chosen]
+                    record['matches'] = record['port'] == result and not error
+                records.append(record)
     report = {'executable_sha256': HASH, 'table_sha256': args.table_sha256.lower(),
               'tool_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'routine_rva': hex(ROUTINE),
               'inputs': {'inventory_type': args.inventory_type, 'class_argument': args.class_argument,
                          'size_argument': args.size_argument, 'progress': args.progress, 'known': args.known,
                          'special_id': args.special_id, 'procedural_table_sha256': args.procedural_table_sha256,
+                         'reality_data_sha256': args.reality_data_sha256, 'boost_chance': args.boost_chance,
                          'rarity_weights': weights}, 'records': records,
-              'errors': sum(bool(r['error']) for r in records), 'runtime_verified': False,
+              'errors': sum(bool(r['error']) for r in records),
+              'port_mismatches': sum(not r['matches'] for r in records) if args.compare_port else None,
+              'port_sha256': hashlib.sha256((Path(__file__).resolve().parent / 'evaluate-default-technology.py').read_bytes()).hexdigest()
+              if args.compare_port else None, 'runtime_verified': False,
               'limitations': ['Synthetic manager, wealth row, progress value, known-technology list and store.',
-                              'Procedural picks are instantiated as their template entry with the procedural ID; generated stats, '
-                              'and therefore the stat-class penalty they cause, are approximated. Without --procedural-table '
-                              'the second table is empty.',
+                              'The instance routines ec1a10 and ec1e60 are replaced: with --reality-data an instance is the '
+                              'template entry with the ported instance ID and statistics (compared separately by '
+                              'emulate-procedural-technology.py); without it the template statistics and bare ID are used. '
+                              'Without --procedural-table the second table is empty.',
                               'Element insertion is recorded, not executed; slot placement is not reproduced.',
                               'The settings float that selects an empty initial charge is zero; charge amounts are not reported.',
                               'Caller arguments of natural generation are assumptions, not traced facts.',
@@ -273,9 +349,11 @@ def main():
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open('x', encoding='utf-8') as stream:
         json.dump(report, stream, indent=2)
-    print(json.dumps({'cases': len(records), 'errors': report['errors']}))
-    for record in records[:40]:
-        print(record['seed'], record['slots'], record['wealth_row'], record['installed'], record['error'] or '')
+    print(json.dumps({'cases': len(records), 'errors': report['errors'], 'port_mismatches': report['port_mismatches']}))
+    shown = [r for r in records if r.get('matches') is False][:12] if args.compare_port else records[:40]
+    for record in shown:
+        print(record['seed'], record['slots'], record['wealth_row'], record['installed'], record.get('port', ''),
+              record['error'] or '')
 
 
 if __name__ == '__main__':

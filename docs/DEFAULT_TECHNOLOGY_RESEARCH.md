@@ -186,6 +186,82 @@ where the unmodeled stat penalty matters, so treat multi-upgrade results as
 provisional. Reports: `default-technology-fighter-procedural-try1-20261006.json`
 and `default-technology-weapon-procedural-try1-20261006.json`.
 
+## Selection port compared with the original (2026-10-06, later)
+
+`runtime/research/evaluate-default-technology.py` is an independent Python
+port of `4cef50` and its predicate `4d46d0`: candidate lists and per-candidate
+draws, the pick quota (`slots/9`, or `/5` for inventory type 3, times the
+wealth factor, rounded, clamped 1..10, then one draw; size argument 9 forces
+5..9+), the weight rule (`TechRarityData` weight times the draw; Always is
+9999999; Impossible and unmet level, known-list or in-store requirements give
+-1), the stat-class penalty (x0.1) and the order of installation.
+`emulate-default-technology.py --compare-port` runs the original routine and
+the port on the same inputs and counts differences.
+
+| Store | Inputs | Cases | Differences |
+| --- | --- | --- | --- |
+| Freighter technology (type 8) | slots x wealth rows x seeds | 8,000 | 0 |
+| Freighter main (type 7) | same shape | 1,200 | 0 |
+| Freighter type 9 | same shape | 800 | 0 |
+| Ship type 5, class argument 1 (hauler) | same shape | 2,000 | 0 |
+| Ship type 5, class argument 2 (fighter) | same shape | 2,000 | 0 |
+| Ship type 5, class argument 3 (scientific) | same shape | 2,000 | 0 |
+| Ship type 5, class argument 4 (shuttle) | same shape | 2,000 | 0 |
+
+The remaining ship class arguments (6 to 10), the multitool store and the
+other variants of that matrix were still running at this checkpoint; read the
+reports before citing them.
+
+### Procedural upgrade instances
+
+A procedural pick is not installed as the table entry. `ec1a10` builds the
+instance ID `'%.9s#%05u'` from **one draw of the store seed**
+(`number = draw * 100000 >> 32`), so every procedural upgrade generated for one
+store shares the same five digits. `ec1e60` copies the template entry
+(`5f0b00`), writes the new ID, clears the template byte `+0x2c9`, keeps the
+base stat (`+0x18c`) and replaces the stat list with a generated one:
+
+1. Stream state from the number alone:
+   `h = ((n ^ 0x3d0000) >> 16) ^ n; h *= 9; h ^= h >> 4; h *= 0x1b873593;
+   h ^= h >> 15` (32-bit), then the usual state layout.
+2. For qualities 4, 5 and 6 one extra draw decides a boosted roll:
+   `draw * 100 >> 32 < percentage` (the percentage is a runtime global,
+   RVA `5246310`; its value is not read offline).
+3. One draw through the entry's weighting curve gives the number of stats
+   between `NumStatsMin` and `NumStatsMax` (rounded half away from zero).
+4. Non-always stat levels are shuffled from the last index down
+   (`other = draw * (position + 1) >> 32`); always-stats come first; at most
+   four stats are kept.
+5. Each kept stat takes one draw through its own weighting curve between its
+   minimum and maximum (boosted rolls use a second draw in a narrow top or
+   bottom band; the forced flag uses constants).
+
+Weighting curves come from `DefaultReality` (struct offset `85d2`, seven
+bytes `00 10 13 19 11 14 1a`: linear, ease-in quad/quart/expo, ease-out
+quad/quart/expo); formulas were read from `2d6b820`.
+
+`runtime/research/evaluate-procedural-technology.py` ports this;
+`emulate-procedural-technology.py` executes the original instruction windows
+`ec1f9b..ec1fe3` (state) and `ec272e..ec2e75` (stats) and compares: state
+10/10, statistics 4,256/4,256 with `--numbers 6`. Not ported: names,
+descriptions, colours and the copied template fields.
+
+The selection comparison now uses these instances: with `--reality-data` the
+emulator's stand-ins for `ec1a10`/`ec1e60` give the original routine a
+template copy with the ported ID and statistics, and the port receives the
+same model. This checks how selection consumes instances (the stat-class
+penalty of later picks); the generator itself is checked by the window
+comparison above, not end to end. First results with boosted percentage 0 and
+100: ship class argument 1, 732 + 732 cases, 0 differences; a 204-case fighter
+smoke run, 0 differences. The other classes and the multitool store were still
+running at this checkpoint.
+
+Two tool defects were found and fixed while doing this, neither in the port:
+the report stored each case's installed list in a list that the next case
+overwrote (the comparison itself used the right values), and the synthetic
+store marked ten valid slots for a five-slot store, which produced 303 false
+differences until the last row's mask followed the slot count.
+
 ## Not established
 
 - The category enum order beyond what the mapping table and candidate counts
@@ -195,17 +271,16 @@ and `default-technology-weapon-procedural-try1-20261006.json`.
   conflict set and the override list semantics.
 - Which arguments each natural caller passes (NPC ship component, purchase
   paths), and that natural freighters use this routine with type 8.
-- Agreement with a running game: emulation only, no live observation, and no
-  independent Python port compared against it.
-- Generated statistics of procedural upgrades and the resulting stat-class
-  penalty; results with several upgrades of one kind are provisional.
+- Agreement with a running game: emulation and port only, no live observation.
+- The boosted-roll percentage (runtime global) and the forced flag's callers.
+- An end-to-end run of `ec1e60` inside the selection emulation; the instance
+  generator is compared by instruction windows only.
 - Build 180836 values; the tables above are from the 180383 corpus.
 
 ## Next bounded steps
 
-1. Model procedural instances faithfully (their stat lists come from the
-   procedural table's stat levels), then write the Python port and compare it
-   with the emulated original, as done for the class draw.
+1. Done 2026-10-06: port, procedural instances and comparison (section
+   above). Finish reading the remaining matrix reports.
 2. Read the three natural callers' arguments from bounded disassembly.
 3. Decide delivery: calling this native routine on the offer's technology
    store before the screen opens would give the natural loadout for the

@@ -1,0 +1,5 @@
+4e7330	Free-slot counter called by 4cef50 before each insertion
+ec1a10	Procedural technology instance request called by 4cef50 with ID and seed
+ec1e60	Procedural technology instance lookup called after ec1a10
+20e300	Integer set insertion used for stat classes in 4cef50
+ec6f10	Technology lookup by ID used for procedural templates

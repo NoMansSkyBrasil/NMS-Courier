@@ -3,7 +3,8 @@ import { basename } from 'node:path'
 import { createHash } from 'node:crypto'
 import type { PreviewImportResult } from '../shared/model-preview'
 
-export const maxPreviewBytes = 16 * 1024 * 1024
+// Sized for whole freighter scenes exported by runtime/research/export-scene-glb.py.
+export const maxPreviewBytes = 64 * 1024 * 1024
 
 function invalid(): never {
   throw new Error('INVALID_MODEL')
@@ -41,7 +42,7 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
     invalid()
   const jsonSize = view.getUint32(12, true)
   if (
-    jsonSize > 1024 * 1024 ||
+    jsonSize > 4 * 1024 * 1024 ||
     jsonSize % 4 ||
     20 + jsonSize + 8 > bytes.byteLength ||
     view.getUint32(16, true) !== 0x4e4f534a
@@ -84,7 +85,7 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
   if (buffers.length !== 1) invalid()
   const bufferSize = integer(buffers[0].byteLength, binarySize)
   if (binarySize - bufferSize > 3) invalid()
-  const views = array(document.bufferViews, 4096)
+  const views = array(document.bufferViews, 16384)
   for (const item of views) {
     if (item.buffer !== 0) invalid()
     const offset = integer(item.byteOffset ?? 0, bufferSize)
@@ -95,7 +96,7 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
       if (stride < 4 || stride % 4) invalid()
     }
   }
-  const accessors = array(document.accessors, 4096)
+  const accessors = array(document.accessors, 16384)
   let elements = 0
   for (const item of accessors) {
     if (item.sparse !== undefined) unsupported()
@@ -117,9 +118,9 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
     if (stride < width || offset + stride * (count - 1) + width > Number(source.byteLength))
       invalid()
     elements += count
-    if (elements > 3_000_000) unsupported()
+    if (elements > 12_000_000) unsupported()
   }
-  const meshes = array(document.meshes, 512)
+  const meshes = array(document.meshes, 8192)
   if (!meshes.length) invalid()
   let primitives = 0
   let vertices = 0
@@ -127,14 +128,14 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
   for (const mesh of meshes) {
     let meshCount = 0
     for (const primitive of array(mesh.primitives, 256)) {
-      if (++primitives > 1024) unsupported()
+      if (++primitives > 8192) unsupported()
       if (primitive.mode !== undefined && primitive.mode !== 4) unsupported()
       if (primitive.targets !== undefined) unsupported()
       const attributes = object(primitive.attributes)
       const position = accessors[integer(attributes.POSITION, accessors.length - 1)]
       vertices += Number(position.count)
       meshCount += Number(position.count)
-      if (vertices > 1_000_000) unsupported()
+      if (vertices > 4_000_000) unsupported()
       if (position.type !== 'VEC3' || position.componentType !== 5126) unsupported()
       for (const reference of Object.values(attributes)) integer(reference, accessors.length - 1)
       if (primitive.indices !== undefined) {
@@ -156,13 +157,13 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
     }
     meshVertices.push(meshCount)
   }
-  const nodes = array(document.nodes, 512)
+  const nodes = array(document.nodes, 8192)
   const parents = new Set<number>()
   let instanceVertices = 0
   for (const node of nodes) {
     if (node.mesh !== undefined) {
       instanceVertices += meshVertices[integer(node.mesh, meshes.length - 1)]
-      if (instanceVertices > 1_000_000) unsupported()
+      if (instanceVertices > 8_000_000) unsupported()
     }
     for (const key of ['matrix', 'translation', 'rotation', 'scale']) {
       const transform = node[key]
@@ -177,7 +178,7 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
         invalid()
     }
     if (node.children !== undefined) {
-      if (!Array.isArray(node.children) || node.children.length > 512) invalid()
+      if (!Array.isArray(node.children) || node.children.length > 4096) invalid()
       for (const child of node.children) {
         const index = integer(child, nodes.length - 1)
         if (parents.has(index)) invalid()

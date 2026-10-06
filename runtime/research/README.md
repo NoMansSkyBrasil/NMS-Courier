@@ -1,5 +1,15 @@
 # Bulk game-data research
 
+`export-scene-glb.py` converts a corpus scene (scene graph, geometry metadata
+and stream container XML) to a texture-free GLB for the desktop Model
+workshop; `--seed` keeps only the parts the descriptor traversal port selects.
+`evaluate-default-technology.py` and `evaluate-procedural-technology.py` are
+the Python ports of installed-technology selection and procedural upgrade
+statistics; `emulate-default-technology.py --compare-port` and
+`emulate-procedural-technology.py` compare them with the original code. See
+[model preview research](../../docs/MODEL_PREVIEW_RESEARCH.md) and
+[default technology research](../../docs/DEFAULT_TECHNOLOGY_RESEARCH.md).
+
 `emulate-default-technology.py` runs the original installed-technology routine
 with the original table binary and synthetic runtime state and reports the IDs
 selected for a seed. `inspect-default-technology.py` catalogs, per technology category, the entries

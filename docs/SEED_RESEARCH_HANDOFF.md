@@ -1,5 +1,15 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding checkpoint: seed-selected renders and technology ports, 2026-10-06 late
+
+Part selection can now be looked at: `export-scene-glb.py --seed` plus the
+desktop workshop (see [model preview research](MODEL_PREVIEW_RESEARCH.md#native-scene-export-and-seed-selected-renders-2026-10-06)).
+The renders use the traversal port with an empty caller context and are not
+compared with the game yet. Installed-technology selection and procedural
+upgrade statistics are ported and instruction-compared
+([default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md)). Open seeded
+properties, in order: colors on the rendered model, base stats, names.
+
 ## Superseding checkpoint: build 180836 class profile, 2026-10-06
 
 Target build is now 180836 by user decision. Class forcing for the freighter

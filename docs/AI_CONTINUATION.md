@@ -1,5 +1,30 @@
 # AI continuation guide
 
+**Checkpoint 2026-10-06 late night (Claude Code).** Two increments, both
+offline:
+
+1. *Seed viewer path.* `export-scene-glb.py` turns any corpus scene into a GLB
+   for the desktop Model workshop and, with `--seed`, keeps only the parts the
+   descriptor traversal port selects. All ship, multitool and freighter scenes
+   export; seed `0x7` was rendered for sixteen of them. Read
+   [model preview research](MODEL_PREVIEW_RESEARCH.md#native-scene-export-and-seed-selected-renders-2026-10-06).
+   Next: bind the palette ports to the placeholder materials (colored
+   preview), compare one render with an in-game entity of known seed, look at
+   `freightersmall_proc`, then move conversion into the application.
+2. *Installed technologies.* The selection routine and the procedural upgrade
+   generator are ported and compared with the original code. Read
+   [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#selection-port-compared-with-the-original-2026-10-06-later).
+   Two comparison jobs were still running when this was written; their
+   reports are in `default-technology-port-matrix-20261006` (files
+   `instances-v2-*` are the instance-aware ones). Next: natural caller
+   arguments, the boosted-roll percentage, then the base-stat generator
+   (`4cea20`, read but not ported: one draw per entry of the class row,
+   `value = unit * (max - min) + min`, table selected by `4ce9b0`).
+
+The user asked on 2026-10-06 for complete algorithms for **all** ship,
+multitool and freighter categories (normal, capital, pirate), not single
+example seeds, and pointed at the workshop as the place to check results.
+
 Product direction restated by the user (2026-10-06): seeds must be understood
 completely for ships, freighters and multitools so the frontend can generate
 good entities by intent, not only by typed seed. The per-property status table

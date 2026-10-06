@@ -1,5 +1,55 @@
 # Runtime experiment log
 
+## 2026-10-06 late night: game scenes exported to the workshop, seed-selected renders (offline)
+
+Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#native-scene-export-and-seed-selected-renders-2026-10-06).
+Offline only; corpus data of build 180383; no game process, save, mod or
+bridge touched. Tools: CPython 3.14, Electron build of this repository,
+Playwright from the Codex runtime cache.
+
+- Source: `runtime/research/export-scene-glb.py`,
+  `runtime/scripts/capture-model-preview.cjs`; workshop limits and lighting in
+  `apps/desktop/src/main/model-preview-import.ts` and
+  `model-preview-canvas.tsx`.
+- Observed: seventeen ship, multitool and freighter scenes exported with all
+  alternatives; sixteen exported and rendered for seed `0x7` with the existing
+  descriptor traversal port selecting the parts. Inspected renders are single
+  coherent models (fighter, shuttle, sentinel ship, multitool, freighter,
+  capital freighter, pirate freighter).
+- Failures: old import limits exceeded; shield mesh hid the pirate hull;
+  file-level index width flag wrong for fighter `wings_k`; one scripted edit
+  broke the exporter for part of a batch. All corrected and rerun.
+  `freightersmall_proc` exports almost nothing for seed `0x7` (open).
+- Not proven: equality with the in-game model for the same seed; colors,
+  textures, decals; the Euler order (assumed, visually coherent); in-app
+  conversion of the user's own files.
+- Rollback: nothing to roll back; outputs are external and disposable.
+
+## 2026-10-06 late night: technology selection port and procedural instances compared (offline)
+
+Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#selection-port-compared-with-the-original-2026-10-06-later).
+Offline only, build 180383 executable `671de226...e497a4`, technology table
+`b8f35e5e...acf8b`, procedural table `8c72de23...b76df`, reality data
+`239a2886...8513`, Unicorn 2.1.4.
+
+- Source: `evaluate-default-technology.py`, `evaluate-procedural-technology.py`,
+  `emulate-procedural-technology.py`, `emulate-default-technology.py`
+  (`--compare-port`, `--seed-range`, `--reality-data`, `--boost-chance`).
+- Observed: selection port equals the emulated original in 18,000 cases over
+  freighter stores (types 8, 7, 9) and ship class arguments 1 to 4; the
+  procedural generator port equals the original instruction windows (state
+  10/10, statistics 4,256/4,256); instance-aware selection equals in 1,464
+  hauler cases and a 204-case fighter run.
+- Rejected: a first instance-aware matrix reported 303 differences; cause was
+  the synthetic store (ten valid slots for five), not the port. Report lists
+  were also aliased between cases. Both fixed; earlier committed reports were
+  produced before the alias was introduced.
+- Not proven: remaining ship classes and the multitool store (jobs still
+  running); live agreement; the boosted-roll percentage; natural caller
+  arguments.
+- Rollback: nothing to roll back; reports are under
+  `E:\NMS-Courier-Research\seed-analysis-180383\default-technology-port-matrix-20261006`.
+
 ## 2026-10-06 night: procedural upgrade table in the technology emulation (offline)
 
 Owner: [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#procedural-upgrade-table-added-2026-10-06-later-run).

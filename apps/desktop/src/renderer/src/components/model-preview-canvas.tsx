@@ -58,8 +58,8 @@ export function ModelPreviewCanvas({
       renderer.domElement.setAttribute('aria-label', 'Interactive model preview')
       container.appendChild(renderer.domElement)
       const scene = new THREE.Scene()
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x64748b, 2.2))
-      const light = new THREE.DirectionalLight(0xffffff, 3)
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x475569, 1.1))
+      const light = new THREE.DirectionalLight(0xffffff, 2)
       light.position.set(4, 6, 4)
       scene.add(light)
       const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 10000)
@@ -127,7 +127,7 @@ export function ModelPreviewCanvas({
             if (visibleBounds.isEmpty()) return
             const sphere = visibleBounds.getBoundingSphere(new THREE.Sphere())
             const distance =
-              (sphere.radius * 1.25) /
+              (sphere.radius * 0.85) /
               Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) /
               Math.min(camera.aspect, 1)
             camera.position

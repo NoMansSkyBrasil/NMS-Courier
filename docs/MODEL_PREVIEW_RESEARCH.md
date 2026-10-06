@@ -1,5 +1,9 @@
 # Model preview and public seed references
 
+Newest (2026-10-06): [native scene export and seed-selected renders](#native-scene-export-and-seed-selected-renders-2026-10-06)
+— any ship, multitool or freighter scene of the corpus becomes a GLB the
+workshop loads, optionally reduced to the parts one seed selects.
+
 Latest implementation: [appearance search and recipes](APPEARANCE_SEARCH_AND_RECIPE.md).
 The workshop imports candidate recipes through a narrow native-dialog API and
 applies explicit visibility/RGB after exact GLB hash/name validation. Rendered
@@ -179,8 +183,11 @@ Implemented boundary and behavior:
 
 - An Electron-owned file dialog chooses one GLB. The zero-argument preload
   method returns validated bytes, basename and SHA-256; no paths or raw reader.
-- Restricted static triangle GLB: 16 MiB file, 1 MiB JSON, 512 nodes/meshes,
-  1,024 primitives, bounded accessor and instance vertex totals. External/data
+- Restricted static triangle GLB: originally 16 MiB file, 1 MiB JSON, 512
+  nodes/meshes, 1,024 primitives; raised on 2026-10-06 to 64 MiB, 4 MiB JSON,
+  8,192 nodes/meshes/primitives, 4,096 children per node, 16,384
+  accessors/views, 12 M accessor elements and 4 M mesh vertices so whole
+  exported freighter scenes load. Bounded accessor and instance vertex totals. External/data
   URIs, extensions, textures, animation, skins and sparse accessors are rejected.
   Cyclic/multiply parented nodes and nonfinite positions are rejected before
   loading. This is a restricted importer, not a complete glTF validator.
@@ -348,3 +355,130 @@ show native masked texture recoloring. See
 [texture/channel continuation](APPEARANCE_TEXTURE_SEED_FLOW.md) for the ten
 selected multitool/frigate/NPC bindings and rejected loader routes. Evidence:
 external `preview-models/appearance-validation-20261004/report.json`.
+
+## Native scene export and seed-selected renders (2026-10-06)
+
+Status: **implemented research tool, rendered and inspected; not runtime
+verified**. Requested by the user: use the workshop to look at what a seed
+produces and improve it step by step, for every ship, multitool and freighter
+category (normal, capital and pirate), not one example.
+
+### What exists
+
+- `runtime/research/export-scene-glb.py` converts one scene of the external
+  corpus to a texture-free GLB. It reads only MBINCompiler XML already in the
+  corpus: the scene graph (`cTkSceneNodeData`), geometry metadata
+  (`cTkGeometryData`) and the stream container (`cTkGeometryStreamData`), and
+  resolves `REFERENCE` nodes through the read-only index (default depth 3).
+  No archive is extracted. Output and its JSON report must be new and outside
+  the repository and corpus.
+- With `--seed`, the exporter calls the existing traversal port
+  (`evaluate-descriptor-seed.py`, empty caller context) and drops every node
+  the loaded-node predicate rejects, so the GLB holds exactly the parts that
+  port selects for the seed. Without it every alternative is present and the
+  workshop's part list toggles them.
+- `runtime/scripts/capture-model-preview.cjs` opens a GLB in the built Electron
+  workshop and saves four orbit screenshots plus the window.
+- Workshop changes: import limits raised (list above), softer lighting and a
+  tighter camera fit in `model-preview-canvas.tsx`. The eight existing import
+  tests pass; `pnpm build` passes.
+
+### Format facts read from the corpus (build 180383 data)
+
+- A stream entry holds `MeshDataStream` = vertex bytes (`VertexDataSize`)
+  followed by index bytes (`IndexDataSize`), and `MeshPositionDataStream`.
+  Indices are relative to the stream's own first vertex.
+- Positions are the semantic-0 element of `PositionVertexLayout` (observed:
+  four half floats at offset 0, stride 16, second element semantic 1 at
+  offset 8). The main layout's packed elements (semantic 11 and others) are
+  not decoded; the workshop computes normals.
+- A scene `MESH` node finds its stream by `NameHash` equal to the stream
+  `Hash`; `BATCHCOUNT` equals the index count for the checked node.
+- `Indices16Bit = 1` with more than 65,535 total vertices occurs, so the flag
+  is per stream, not per file total. `Indices16Bit = 0` also occurs with
+  sixteen-bit streams (fighter `wings_k`): the exporter reads a stream as
+  thirty-two-bit only when the flag is clear and either the stream has more
+  than 65,535 vertices or every odd sixteen-bit word is zero. This rule is an
+  inference from two files, not a read of the engine loader.
+- Container scenes carry an empty geometry file (`VertexCount = 0`).
+- Euler angles are composed as `Rz * Ry * Rx`. This is an assumption; the
+  renders below are coherent (wings, landing gear, turrets and cargo pods sit
+  where expected), which a wrong order would visibly break on rotated parts.
+- Meshes whose name or material matches `SHIELD|SHADOW|LOD[1-9]` are dropped
+  by default (the pirate freighter's shield bubble otherwise hides the hull).
+  Each mesh keeps a placeholder material named after its game material.
+
+### Runs (offline, 2026-10-06)
+
+All-alternatives exports, one per scene, all inside the raised limits:
+
+| Scene | Meshes | Nodes | Bytes |
+| --- | --- | --- | --- |
+| `fighters/fighter_proc` | 663 | 2,019 | 10.0 MB |
+| `dropships/dropship_proc` | 693 | 5,076 | 9.6 MB |
+| `scientific/scientific_proc` | 262 | 2,789 | 5.7 MB |
+| `shuttle/shuttle_proc` | 597 | 7,633 | 10.8 MB |
+| `s-class/s-class_proc` | 243 | 641 | 2.9 MB |
+| `s-class/bioparts/bioship_proc` | 90 | 191 | 4.1 MB |
+| `sailship/sailship_proc` | 408 | 1,334 | 12.6 MB |
+| `sentinelship/sentinelship_proc` | 692 | 1,451 | 19.8 MB |
+| `weapons/multitool/multitool` | 507 | 664 | 5.8 MB |
+| `weapons/multitool/royalmultitool` | 6 | 48 | 0.5 MB |
+| `weapons/multitool/atlasmultitool` | 896 | 1,298 | 10.2 MB |
+| `weapons/multitool/sentinelmultitool` | 43 | 124 | 1.6 MB |
+| `weapons/multitool/staffmultitool` | 110 | 222 | 4.7 MB |
+| `industrial/freighter_proc` | 260 | 8,250 | 10.6 MB |
+| `industrial/capitalfreighter_proc` | 244 | 4,344 | 10.0 MB |
+| `industrial/freightersmall_proc` | 14 | 53 | 0.9 MB |
+| `industrial/piratefreighter` | 438 | 2,375 | 15.9 MB |
+
+Seed-selected exports for seed `0x7` were produced and captured for all of
+the scenes above except the Atlas multitool; a second seed
+(`0x8C968767B3282F13`) was in progress at this checkpoint. Inspected renders:
+fighter (cockpit D, engine C, wings K), shuttle, sentinel ship, standard
+multitool, freighter, capital freighter and pirate freighter — each is one
+coherent model without overlapping alternatives.
+
+Evidence (disposable, external): `E:\NMS-Courier-Research\preview-models\
+exported-20261006b` (all alternatives) and `seeded-20261006\c` (per seed,
+with `capture-*` screenshot folders and JSON reports holding source hashes,
+selected IDs and warnings).
+
+### Failures and corrections
+
+- First export exceeded the old import limits; indices became sixteen-bit
+  where possible and the limits were raised.
+- The pirate freighter first rendered as a featureless blob: its shield mesh
+  encloses the hull. Default exclusion added.
+- Fighter `wings_k` was rejected ("indexes beyond its vertices") while the
+  exporter trusted the file-level width flag; replaced by the per-stream rule.
+- A string escape lost in a scripted edit left the exporter unparsable for
+  fourteen scenes of one batch; fixed and the batch repeated.
+- `freightersmall_proc` with seed `0x7` exported two meshes only; not yet
+  investigated (its reference depth or geometry may need another route).
+
+### Not established
+
+- That these renders match the game for the same seed: no in-game model with
+  a known seed was compared yet. The natural caller context (inclusion,
+  exclusion and prefix inputs) is empty here.
+- Colors, textures, decals, normals and materials. The palette ports exist
+  separately; binding their output to the placeholder materials is the next
+  step for a colored seed preview.
+- In-app conversion. The desktop application still imports a GLB chosen by
+  the user; converting the user's own game files inside the packaged
+  application is not implemented.
+
+### Reproduction
+
+```powershell
+$py = "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe"
+& $py runtime/research/export-scene-glb.py --corpus E:/NMS-Courier-Research/corpus `
+  --scene models/common/spacecraft/fighters/fighter_proc.scene.mbin --seed 0x7 `
+  --output E:/NMS-Courier-Research/preview-models/NEW/fighter-0x7.glb
+pnpm --dir apps/desktop build
+node runtime/scripts/capture-model-preview.cjs `
+  E:/NMS-Courier-Research/preview-models/NEW/fighter-0x7.glb `
+  E:/NMS-Courier-Research/preview-models/NEW/capture-fighter-0x7 "*" `
+  C:/Users/louan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright
+```
