@@ -1,5 +1,16 @@
 # AI continuation guide
 
+Latest increment, 2026-10-06 (Claude Code): the user approved the installed
+build **180836** (SHA-256 `13d5060d...cc3499`) as target and standing
+commit/push to `main`. [Inventory class research](INVENTORY_CLASS_RESEARCH.md)
+now holds the 180383-to-180836 relocation table, the acceptance-time class copy
+and an **untested** request-scoped freighter class profile
+(`runtime/native/asi/freighter_class_180836.c`, production DLL `b3fcecf7...`,
+fixture passed, not installed). Next action is the proposed live validation in
+that note, with the user present on a disposable save; do not install or signal
+unattended and never repeat its one-shot dispatch. The reference-site feature
+backlog is [the feature catalog](REFERENCE_FEATURE_CATALOG.md).
+
 Newest checkpoint: [inventory class research](INVENTORY_CLASS_RESEARCH.md),
 2026-10-06 (Claude Code). **Read its environment section before running any
 tool:** Steam replaced the installed `NMS.exe` on 2026-10-05 (new SHA-256

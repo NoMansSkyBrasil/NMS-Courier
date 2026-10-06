@@ -1,5 +1,9 @@
 # Bulk game-data research
 
+`relocate-native-signatures.py` relocates masked instruction windows between
+two hash-pinned executables (used for 180383 to 180836); a unique match is a
+location candidate only. See [inventory class research](../../docs/INVENTORY_CLASS_RESEARCH.md).
+
 [Inventory class draw](../../docs/INVENTORY_CLASS_RESEARCH.md): `evaluate-inventory-class.py`
 ports the seed/wealth-row C/B/A/S draw and reports exact per-class draw
 intervals and matching seed high words; `emulate-inventory-class.py` compares it

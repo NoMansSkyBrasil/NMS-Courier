@@ -3,7 +3,7 @@ param(
     [string]$Compiler,
     [Parameter(Mandatory = $true)]
     [string]$Output,
-    [ValidateSet('Startup', 'Callback', 'Observer180383', 'ClassObserver180383', 'RewardObserver180383', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
+    [ValidateSet('Startup', 'Callback', 'Observer180383', 'ClassObserver180383', 'RewardObserver180383', 'FreighterClass180836', 'DeliveryTest', 'CurrencyTest', 'FreighterOfferTest', 'ScopedFreighterTest')]
     [string]$Mode = 'Startup'
 )
 
@@ -33,6 +33,10 @@ if ($Mode -eq 'RewardObserver180383') {
         (Join-Path $directory 'reward_observer_180383.S'))
 }
 
+if ($Mode -eq 'FreighterClass180836') {
+    $arguments += '-DCOURIER_BUILD_180836'
+}
+
 if ($Mode -eq 'DeliveryTest') {
     $arguments += '-DCOURIER_TEST_DELIVER_CARBON'
 }
@@ -54,6 +58,8 @@ $arguments += @('-o', $Output,
 if ($Mode -ne 'Startup') {
     if ($Mode -in @('Observer180383', 'ClassObserver180383', 'RewardObserver180383')) {
         $arguments += (Join-Path $directory 'callback_observer_180383.c')
+    } elseif ($Mode -eq 'FreighterClass180836') {
+        $arguments += (Join-Path $directory 'freighter_class_180836.c')
     } else {
         $arguments += (Join-Path $directory 'native_callback_probe.c')
         $arguments += (Join-Path $directory 'inventory_snapshot_179666.c')

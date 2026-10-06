@@ -1,5 +1,13 @@
 # Procedural seed investigation: method and continuation checkpoint
 
+## Superseding checkpoint: build 180836 class profile, 2026-10-06
+
+Target build is now 180836 by user decision. Class forcing for the freighter
+offer has an untested research profile and a proposed live procedure in
+[inventory class research](INVENTORY_CLASS_RESEARCH.md). Appearance-seed tools
+in this handoff remain pinned to 180383; use
+`relocate-native-signatures.py` before assuming any address on 180836.
+
 ## Superseding checkpoint: inventory class and environment, 2026-10-06
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). The installed

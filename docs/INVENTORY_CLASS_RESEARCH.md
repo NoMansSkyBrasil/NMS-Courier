@@ -14,7 +14,7 @@ Start from [AI continuation](AI_CONTINUATION.md); the acquisition context is in
    `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
    It no longer matches researched build 180383 (`671de226...`, 88,545,352
    bytes, PE timestamp 1790680261). Every hash-pinned tool rejects it. The
-   internal build number of the new executable has not been read. The existing
+   embedded build string of the new executable is 180836. The existing
    corpus was extracted before this update and may no longer match installed
    archives. No runtime compatibility of any kind extends to the new build.
 2. **The exact 180383 executable was recovered** from the stored file bytes of
@@ -149,6 +149,121 @@ masked, each occur exactly once in the newly installed executable, at RVAs
 manager field `0x72afb0` are unchanged in those bytes. Table values of the new
 build were not extracted. The masked head of `8e3a10` did not match.
 
+## Build 180836 continuation: forcing the offered freighter class (2026-10-06)
+
+The user authorized the newly installed executable as the research target. Its
+embedded build string is **180836** (same `NMS-Release_20260811` branch as
+180383), SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+
+### Where the owned class comes from
+
+In the existing 180383 export of purchase update `8e8830`, the item-kind-3
+acceptance block copies the temporary offer store at item `+0x980` into the
+player's type-7 store and item `+0xbc8` into the type-9 store with `4d1240`.
+Bounded disassembly of `4d1240` shows it copies the class field (`+0x100`) and
+`+0xfc`. The type-8 store is copied from an NPC object's store only when the
+item's handle resolves. Therefore the class present in the offer stores when
+the offer is accepted becomes the owned freighter class. The earlier live
+negative (changing two frontend headers while an offer was already open did
+not change the badge, build 179666) does not contradict this: that offer was
+declined, and the badge is evidently read earlier.
+
+### Relocation and equivalence on 180836
+
+[relocate-native-signatures.py](../runtime/research/relocate-native-signatures.py)
+matches masked instruction windows (rip-relative displacements and direct
+branch targets wildcarded). Report:
+`seed-analysis-180383/relocation-180383-to-180836-20261006.json`, 11 of 12
+windows unique.
+
+| Analytical label | 180383 RVA | 180836 RVA |
+| --- | --- | --- |
+| Class generator | `4cfd10` | `4cfda0` |
+| Class wrapper | `4ccfa0` | `4cd030` |
+| Base-stat generator | `4cea20` | `4ceab0` |
+| Purchase setup | `8e3a10` | `8e58e0` |
+| Setup wrapper | `8e4d30` | `8e6bf0` |
+| Specific-ship handler | `f27cd0` | `f29b80` |
+| Purchase update | `8e8830` | `8ea6f0` |
+| Inventory copy | `4d1240` | `4d12d0` |
+| Generic reward entry | `f12240` | `f140f0` |
+| Application update | `2d7530` | `2d7580` |
+| Reward dispatcher | `f19c30` | `f1bae0` |
+
+The 69-byte layout-initializer window did not match (a 64-byte prefix matches
+once at `4cd300`); it is not used by the profile. All 33 direct callers of the
+generic reward entry that load `rcx` from a static address use `7103880` on
+180383 and `7207900` on 180836. Direct disassembly of the 180836 purchase setup
+shows the same freighter block at `8e684d..8e68cc`: three calls of the stat
+generator for stores `+0x980` (type from a local set to 7), `+0xe10` (type 5)
+and `+0xbc8` (type 9), each with `xor r9d, r9d` (class 0), stack argument 6
+equal to 10 and the minimum-value byte set to 1.
+
+### Research profile (built and fixture-tested, **not installed, not live-tested**)
+
+[freighter_class_180836.c](../runtime/native/asi/freighter_class_180836.c),
+build mode `FreighterClass180836`:
+
+- Starts only when the running executable hashes to the 180836 fingerprint and
+  the in-memory bytes of the update entry, reward entry, setup entry, stat
+  generator entry and the whole 127-byte freighter block match.
+- Creates disabled hooks and five process-specific random-named events
+  (`c`, `b`, `a`, `s`, `dispatch`). Hooks are enabled on the first signal and
+  removed after a 30-minute window.
+- Setup detour: calls the original with all eleven argument slots unchanged.
+  If item kind is 3 and a class request is armed, it consumes the request
+  atomically, checks that the item span is committed read-write memory, writes
+  the class at `+0x100` of the three stores and calls the native stat generator
+  with the native argument values except the class and with the minimum-value
+  flag cleared (as the native ship reward branch does). One request applies to
+  one setup.
+- Optional `dispatch` event: one call of the generic reward entry on the
+  update thread with the shipped ID `RS_S13_S4M6` (a specific-ship freighter
+  reward whose table entry declares class B, `IsGift=false`, zero cost in the
+  180383 corpus). It can be requested once per process and is never retried.
+  The ten-argument call shape is the one live-verified on build 179666; the
+  24-byte entry prologue is identical, but the ABI is **unverified on 180836**.
+- [signal-freighter-class-180836.ps1](../runtime/native/asi/signal-freighter-class-180836.ps1)
+  checks the process, executable and DLL hashes, log freshness, profile state
+  and unused dispatch state before signaling; `-PreflightOnly` signals nothing.
+
+Fixture ([run-freighter-class-fixture.ps1](../runtime/native/asi/tests/run-freighter-class-fixture.ps1),
+fake host, never installed): unarmed exclusion, kind filter, exact generator
+arguments and store order, one-shot consumption, class B via the dispatch
+path, single dispatch, unwritable-item rejection, timed hook removal and
+preserved original return values all passed. Fixture DLL SHA-256
+`5bf9d9f5e6480c49e62947e10f258975d91e6561beece14688af22d040c8243b`.
+Production DLL SHA-256
+`b3fcecf78eebc166e708ab17a73da650e72c1961fb9a3cfa6fd823705e342bb9`, built with
+llvm-mingw 20260922 into `E:\NMS-Courier-Research\native-builds\freighter-class-180836-20261006`.
+In the fake host the production DLL exposed no fixture export and wrote no
+profile log; the startup rejection diagnostic itself was not captured because
+the host exited first. The `RewardObserver180383` mode still compiles.
+
+Currently installed in the game directory (unchanged by this work): bridge DLL
+`1cb8ed07...7a8040` (180383 reward observer, which rejects the new build) and
+data mod folder `NMSCourierCurrencyRewardProbe`.
+
+### Proposed live validation (requires the user; nothing below was executed)
+
+1. With the game closed, verify the installed executable hash, back up the
+   current `xinput9_1_0.dll` externally with its hash, and copy the production
+   DLL above into `Binaries`; verify the copied hash.
+2. Start the game, load a **disposable** save into ordinary gameplay.
+3. `signal-freighter-class-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 b3fcecf7... -Class S -PreflightOnly`,
+   then the same command with `-DispatchTestReward` instead of `-PreflightOnly`.
+4. Record what appears: whether an offer opens, its class badge, slots and
+   price; then the log `native-freighter-class-180836-<pid>.log`
+   (`applied_count`, `class_before`, `class_after`, `dispatch_state`).
+5. Decline first. Accepting replaces the save's freighter and is a separate,
+   later step with read-back of the owned class and a normal save/reload.
+
+Unknowns this test would resolve: whether the dispatch ABI and the shipped
+reward ID work on 180836; whether the badge shows the forced class; whether
+base stats follow it. Not covered: slot counts, technology cap by class,
+supercharged slots, model/seed selection, persistence. A crash or a missing
+offer is a possible outcome; the dispatch must not be repeated in that process.
+
 ## Not established
 
 - The natural freighter acquisition path and the seed it supplies to the draw.
@@ -175,8 +290,10 @@ build were not extracted. The masked head of `8e3a10` did not match.
    change of the class argument on a verified native path, or a matching seed
    chosen with `high_words_for_class` for the target system's row. Both need
    exact-build live validation; neither is implemented.
-4. Before any further native work on the installed game, fingerprint the new
-   build, re-extract or re-verify affected tables, and re-locate every address.
+4. Run the proposed live validation of the 180836 class profile with the user
+   present, then record the outcome in the experiment log before any redesign.
+5. Re-extract or re-verify the tables used here from the 180836 archives; the
+   corpus still describes 180383.
 
 ## Reproduction
 

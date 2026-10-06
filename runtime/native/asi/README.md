@@ -10,6 +10,23 @@ While the game was closed, the previous exact-hash-matched experimental proxy wa
 
 The prior [Ultimate ASI Loader v9.7.4](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/tag/v9.7.4) WinHTTP experiment remains in source as an inactive alternative. Its reviewed archive SHA-256 was `e5860e7d9a1805267535b65749575b5e406cc6ea3325c7392189c578815045d1`; the x64 DLL SHA-256 was `031a3e5576d91dce1e438d36b9a3d462c7334ab4791990a8ff1e3ddc0e132daf`. A fake executable crashed with `0xc0000005` under the loader's default lazy initialization. `dontloadfromdllmain=0` passed five fixture runs but was not accepted as a live-game safety proof. The loader, its config, and its `.asi` plugin were removed from the game before launch. The EXML Carbon planter patch was also removed from `GAMEDATA\MODS`; that folder is empty.
 
+## Request-scoped freighter class profile (180836; built, not installed)
+
+`build-probe.ps1 -Mode FreighterClass180836` builds `freighter_class_180836.c`
+for executable SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+It verifies five in-memory byte windows, then waits for process-specific events.
+A class event (`c`, `b`, `a`, `s`) arms one application: after the native
+purchase setup returns for item kind 3, the detour writes that class into the
+three temporary offer stores and regenerates their base stats with the native
+generator. The `dispatch` event requests one call of the generic reward entry
+with the shipped ID `RS_S13_S4M6`; it is one-shot per process. Status is written
+to `native-freighter-class-180836-<PID>.log`. Arm with
+`signal-freighter-class-180836.ps1`; `tests/run-freighter-class-fixture.ps1`
+runs the isolated fixture. Hashes, evidence, the unverified dispatch ABI and the
+proposed live procedure are in
+[inventory class research](../../../docs/INVENTORY_CLASS_RESEARCH.md). This
+profile has never run inside the game.
+
 ## Bounded class caller tracing (installed, NPC samples captured)
 
 The latest `ClassObserver180383` source records up to 2,048 original return

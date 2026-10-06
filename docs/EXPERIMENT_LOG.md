@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-06 local: build 180836 relocation and freighter class profile (offline)
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). Performed by
+Claude Code. **No game process was started, nothing was installed, no save or
+mod changed.**
+
+- Fingerprints: source build 180383 `671de226...e497a4` (recovered copy);
+  target installed build 180836 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`
+  (build string read from the executable). Installed bridge DLL remains
+  `1cb8ed07...7a8040`; installed data mod folder `NMSCourierCurrencyRewardProbe`.
+- Configuration: `relocate-native-signatures.py` with twelve windows; Capstone
+  5.0.5; llvm-mingw 20260922 for the DLL builds; MinHook 1.3.4 as vendored.
+- Observed: eleven windows relocate uniquely; the 180836 freighter block makes
+  the same three class-0 stat calls; `4d1240` copies store `+0x100`, and the
+  kind-3 acceptance block of `8e8830` copies offer stores into the player's
+  type-7 and type-9 stores. Reference client inspection: the freighter request
+  carries no class field ([feature catalog](REFERENCE_FEATURE_CATALOG.md)).
+- Built: `FreighterClass180836` production DLL `b3fcecf7...342bb9` and fixture
+  DLL `5bf9d9f5...c8243b`. Fixture passed every check listed in the owner note.
+- Failures and limits: the 69-byte layout-initializer window had no match. The
+  fake-host rejection run ended before a startup diagnostic was written, so
+  only the absence of hooks/exports/profile log was observed. A `git push`
+  attempt failed with a network connection error and was retried later.
+- Not proven: everything live. Dispatch ABI and reward ID on 180836, badge,
+  stats, ownership after acceptance, slots, persistence.
+- Rollback state: nothing installed. External build outputs only under
+  `E:\NMS-Courier-Research\native-builds`.
+
 ## 2026-10-06 local: inventory class draw, executable recovery and tool location
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). Offline only; no
