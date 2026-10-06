@@ -1,5 +1,10 @@
 # AI continuation guide
 
+Product direction restated by the user (2026-10-06): seeds must be understood
+completely for ships, freighters and multitools so the frontend can generate
+good entities by intent, not only by typed seed. The per-property status table
+and work order are in [the category ledger](SEED_CATEGORY_LEDGER.md).
+
 Newest research note: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md),
 2026-10-06. Table facts are confirmed (for example Plasmatic Warp Injector is
 `F_HDRIVEBOOST2`, Freighter, VeryRare; the test reward's teleporter is rarity

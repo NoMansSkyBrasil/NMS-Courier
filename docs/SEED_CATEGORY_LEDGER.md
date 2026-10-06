@@ -8,6 +8,41 @@ Build 180383 SHA-256:
 This ledger separates declarations, instruction comparisons and integration.
 None extends runtime delivery compatibility.
 
+## What a seed decides, per priority category (2026-10-06, Claude Code)
+
+The user's product goal, restated on 2026-10-06: the frontend offers actions
+such as "generate a pirate freighter" and must produce a good-looking, complete
+entity without the user typing seeds, while still accepting explicit seeds.
+That requires the forward rule of every seeded property for ships, freighters
+and multitools, so the application can choose seeds by desired outcome.
+
+| Seeded property | Inputs | Status |
+| --- | --- | --- |
+| Model parts | Scene descriptor, model seed | Ordered recursive selection ported and instruction-compared (see below); natural caller context partly open |
+| Colors | Palette seed (home-system seed for freighters), palette bank, flags | Base and alternate generators ported; bank and threshold state open |
+| Textures and decals | Model seed streams, material bindings | Restricted selector compared; full composition open |
+| Class C/B/A/S | Seed, solar-system wealth row | Ported and instruction-compared: [inventory class](INVENTORY_CLASS_RESEARCH.md) |
+| Slot grids | Size-type table, class, requested count | Rule read; live override validated for freighter offers |
+| Special slots | Store seed, class, size-type limits | Rule read; live all-slot marking validated for freighter offers |
+| Installed technologies | Store seed, slots, wealth row, class argument, technology tables | Original routine runs under emulation: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md); procedural upgrades open |
+| Name | Not researched in this repository | Open; a public name generator was only compared for its PRNG |
+| Base stats | Store seed, class, base-stat table | Generator located and called natively at delivery; not ported |
+
+Scene-specific fact, from the 180383 corpus descriptors: the pirate freighter
+scene has **one group with one option** (`_PIRATEFREIGHTER_`), while the
+ordinary freighter scene has 48 groups and 98 options and the capital scene 34
+groups and 48 options. Evaluating the pirate descriptor for model seed
+`0x8C968767B3282F13` selects that single option
+(`pirate-descriptor-hayasenn-20261006.json`). For a pirate freighter the model
+seed therefore cannot change the hull; what varies is color (home seed), name,
+class, slots and technologies. For ordinary and capital freighters, ships and
+multitools the model seed also selects parts.
+
+Order of work that follows from this table: complete installed technologies
+(procedural table), then name generation, then a single forward "seed profile"
+command per category that joins parts, colors, class, slots and technologies,
+and only then outcome-driven seed search for the frontend.
+
 ## Catalog and rule status
 
 `build-priority-appearance-catalog.py` indexes existing corpus data read-only.
