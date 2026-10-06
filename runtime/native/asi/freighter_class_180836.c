@@ -4,8 +4,12 @@
 // and regenerates their base stats with the game's own generator. A separate
 // armed request changes two arguments of the native layout initializer during
 // that setup so the offered main and technology grids are created at their
-// largest table bounds. Nothing is changed unless an event was signaled; one
-// armed request applies once.
+// largest table bounds. Further armed requests mark every valid technology
+// slot of the offer as a special (supercharged) slot, raise the technology
+// grid height bound for that one layout call, and at acceptance copy the
+// offered technology store into the owned one with the native store copy, as
+// the game itself does for a freighter bought from an NPC. Nothing is changed
+// unless an event was signaled; one armed request applies once.
 // An optional one-shot dispatch of a shipped freighter reward provides a test
 // trigger. This is not a production delivery adapter.
 #define WIN32_LEAN_AND_MEAN
@@ -27,13 +31,28 @@
 #define SETUP_RVA 0x8e58e0u
 #define STAT_GENERATOR_RVA 0x4ceab0u
 #define LAYOUT_RVA 0x4cd300u
+#define SPECIAL_GENERATOR_RVA 0x4d2350u
+#define STORE_COPY_RVA 0x4d12d0u
+#define VECTOR_GROW_RVA 0x2bf95c0u
+#define VECTOR_GROW_CALLBACK_RVA 0x2bf9f00u
+#define ACCEPT_SITE_RVA 0x8ee2a6u
+#define ACCEPT_RETURN_RVA 0x8ee2cau
+#define MANAGER_POINTER_RVA 0x6e8d708u
+#define TABLE_POINTER_OFFSET 0x218u
+#define GENERATION_ENTRIES_OFFSET 0x5e0u
+#define GENERATION_ENTRY_SIZE 0x54u
+#define ENTRY_TECH_LARGE_HEIGHT 0x18u
+#define ENTRY_TECH_LARGE_WIDTH 0x24u
+#define STORE_SPECIAL_VECTOR 0xc0u
+#define SPECIAL_SLOT_TECH_BONUS 4
+#define EXTENDED_TECHNOLOGY_ROWS 12
 #define FREIGHTER_BLOCK_RVA 0x8e684du
 #define FREIGHTER_ITEM_KIND 3
 #define ITEM_SEED_OFFSET 0x10u
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 2)
+#define EVENT_COUNT (CLASS_COUNT + 4)
 // Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
 #define MAX_MAIN_SLOTS 120u
 #define MAX_TECHNOLOGY_SLOTS 60u
@@ -56,6 +75,15 @@ typedef void (*stat_generator_fn)(void *store, uint32_t inventory_type, void *se
 typedef uintptr_t (*layout_fn)(uintptr_t store, uintptr_t inventory_type, uintptr_t slot_count,
                                uintptr_t layout, uintptr_t a5, uintptr_t size_type, uintptr_t a7,
                                uintptr_t a8, uintptr_t use_slot_count);
+typedef void (*special_generator_fn)(void *store, uint32_t inventory_type, void *seed);
+typedef void (*store_copy_fn)(void *destination, const void *source);
+// Argument list copied from the native append sites of the special-slot vector.
+typedef void *(*vector_grow_fn)(void *vector, void *callback, uint32_t new_count, void *data, uint64_t count,
+                                const void *element, uint64_t one, uint64_t zero_1, uint64_t zero_2,
+                                uint64_t element_size, uint64_t alignment, uint32_t minus_one, void *data_again,
+                                uint64_t zero_3);
+typedef struct { int32_t x, y, type; } special_slot;
+typedef struct { uint32_t capacity, count; special_slot *data; } special_vector;
 typedef uint8_t (*give_reward_fn)(void *manager, const char *reward_id, const char *mission_id,
                                   const void *seed, uint8_t peek, uint8_t force_show_message,
                                   uint64_t *out_multi_product_count, uint8_t force_silent,
@@ -75,6 +103,23 @@ static void *reward_manager;
 static void *update_target;
 static void *setup_target;
 static void *layout_target;
+static void *special_target;
+static void *accept_return;
+static special_generator_fn original_special;
+static store_copy_fn store_copy;
+static vector_grow_fn vector_grow;
+static void *vector_grow_callback;
+static volatile LONG tech_rows_armed;      // raise the technology height bound for the armed setup
+static volatile LONG super_armed;
+static volatile LONG super_added = -1;
+static volatile LONG super_errors;
+static volatile LONG table_patches;
+static volatile LONG table_rejected;
+static volatile LONG carry_applied;
+static volatile LONG scope_rows;
+// Offer whose technology store is copied at acceptance; identified by item and seed.
+static volatile uintptr_t carry_item;
+static uint64_t carry_seed[2];
 static volatile LONG slots_armed;
 static volatile LONG slots_applied;
 static volatile LONG layout_overrides;
@@ -115,7 +160,7 @@ static void write_status(const char *status, MH_STATUS result) {
     // The startup verifier already created this diagnostics directory.
     HANDLE file = CreateFileW(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (file == INVALID_HANDLE_VALUE) return;
-    char text[1024];
+    char text[1536];
 #define READ(value) ((long)InterlockedCompareExchange(&(value), 0, 0))
     size = snprintf(text, sizeof(text),
         "status=%s\npid=%lu\nhook_status=%d\nmode=request_scoped_class_research\nevent_base=%ls\n"
@@ -123,14 +168,18 @@ static void write_status(const char *status, MH_STATUS result) {
         "applied_count=%ld\napplied_class=%ld\nrejected_item=%ld\n"
         "class_before=%ld,%ld,%ld\nclass_after=%ld,%ld,%ld\n"
         "slots_armed=%ld\nslots_applied=%ld\nlayout_overrides=%ld\n"
-        "main_grid=%ld,%ld,%ld\ntechnology_grid=%ld,%ld,%ld\n",
+        "main_grid=%ld,%ld,%ld\ntechnology_grid=%ld,%ld,%ld\n"
+        "super_added=%ld\nsuper_errors=%ld\ntable_patches=%ld\ntable_rejected=%ld\n"
+        "carry_pending=%d\ncarry_applied=%ld\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
         READ(class_before[0]), READ(class_before[1]), READ(class_before[2]),
         READ(class_after[0]), READ(class_after[1]), READ(class_after[2]),
         READ(slots_armed), READ(slots_applied), READ(layout_overrides),
-        READ(grid[0]), READ(grid[1]), READ(grid[2]), READ(grid[3]), READ(grid[4]), READ(grid[5]));
+        READ(grid[0]), READ(grid[1]), READ(grid[2]), READ(grid[3]), READ(grid[4]), READ(grid[5]),
+        READ(super_added), READ(super_errors), READ(table_patches), READ(table_rejected),
+        carry_item != 0, READ(carry_applied));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -158,13 +207,42 @@ static void apply_class(uintptr_t item, int32_t item_class) {
     InterlockedIncrement(&applied_count);
 }
 
+// Large technology height bound of one generation entry, or NULL unless it holds the expected 10 x 6.
+static int32_t *technology_height_bound(uintptr_t size_type) {
+#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+    (void)size_type;
+    return NULL;
+#else
+    uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    uintptr_t manager = *(const uintptr_t *)(base + MANAGER_POINTER_RVA);
+    if (size_type > 0x40 || !writable_range(manager + TABLE_POINTER_OFFSET, sizeof(uintptr_t))) return NULL;
+    uintptr_t entry = *(const uintptr_t *)(manager + TABLE_POINTER_OFFSET) + GENERATION_ENTRIES_OFFSET +
+                      size_type * GENERATION_ENTRY_SIZE;
+    if (!writable_range(entry, GENERATION_ENTRY_SIZE) ||
+        *(const int32_t *)(entry + ENTRY_TECH_LARGE_HEIGHT) != 6 ||
+        *(const int32_t *)(entry + ENTRY_TECH_LARGE_WIDTH) != 10) return NULL;
+    return (int32_t *)(entry + ENTRY_TECH_LARGE_HEIGHT);
+#endif
+}
+
 static uintptr_t layout_detour(uintptr_t store, uintptr_t inventory_type, uintptr_t slot_count,
                                uintptr_t layout, uintptr_t a5, uintptr_t size_type, uintptr_t a7,
                                uintptr_t a8, uintptr_t use_slot_count) {
     uintptr_t item = scope_item;
+    int32_t *height = NULL;
     if (item && (LONG)GetCurrentThreadId() == InterlockedCompareExchange(&scope_thread, 0, 0)) {
         uint32_t wanted = store == item + MAIN_STORE_OFFSET ? MAX_MAIN_SLOTS :
                           store == item + TECHNOLOGY_STORE_OFFSET ? MAX_TECHNOLOGY_SLOTS : 0;
+        if (wanted == MAX_TECHNOLOGY_SLOTS && InterlockedCompareExchange(&scope_rows, 0, 0)) {
+            // The shared table is changed only for the duration of this one native call.
+            height = technology_height_bound((uint32_t)size_type);
+#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+            wanted = 10 * EXTENDED_TECHNOLOGY_ROWS;
+#else
+            if (height) wanted = 10 * EXTENDED_TECHNOLOGY_ROWS;
+            else InterlockedIncrement(&table_rejected);
+#endif
+        }
         if (wanted) {
             // Native meaning: use the supplied slot count; bounds then follow from that count.
             slot_count = wanted;
@@ -172,7 +250,60 @@ static uintptr_t layout_detour(uintptr_t store, uintptr_t inventory_type, uintpt
             InterlockedIncrement(&layout_overrides);
         }
     }
-    return original_layout(store, inventory_type, slot_count, layout, a5, size_type, a7, a8, use_slot_count);
+    if (height) { *height = EXTENDED_TECHNOLOGY_ROWS; InterlockedIncrement(&table_patches); }
+    uintptr_t result = original_layout(store, inventory_type, slot_count, layout, a5, size_type, a7, a8, use_slot_count);
+    if (height) *height = 6;
+    return result;
+}
+
+// Mark every valid slot of a store as a technology-bonus special slot.
+static void add_special_slots(uint8_t *store) {
+    const uint64_t *rows = (const uint64_t *)store;
+    int16_t width = *(const int16_t *)(store + 0x80), height = *(const int16_t *)(store + 0x82);
+    special_vector *vector = (special_vector *)(store + STORE_SPECIAL_VECTOR);
+    LONG added = 0;
+    if (width < 1 || width > 16 || height < 1 || height > 16) { InterlockedIncrement(&super_errors); return; }
+    for (int32_t y = 0; y < height; ++y) for (int32_t x = 0; x < width; ++x) {
+        if (!(rows[y] >> x & 1)) continue;
+        int present = 0;
+        for (uint32_t index = 0; index < vector->count && !present; ++index)
+            present = vector->data[index].x == x && vector->data[index].y == y &&
+                      vector->data[index].type == SPECIAL_SLOT_TECH_BONUS;
+        if (present) continue;
+        special_slot slot = {x, y, SPECIAL_SLOT_TECH_BONUS};
+        uint32_t before = vector->count;
+        if (before < vector->capacity) {
+            vector->data[before] = slot;
+            vector->count = before + 1;
+        } else {
+            vector->data = vector_grow(vector, vector_grow_callback, before + 1, vector->data, before, &slot,
+                                       1, 0, 0, sizeof(slot), 4, 0xffffffffu, vector->data, 0);
+        }
+        // Stop at the first append that did not behave as the native sites expect.
+        if (vector->count != before + 1 || !vector->data) { InterlockedIncrement(&super_errors); break; }
+        ++added;
+    }
+    InterlockedExchange(&super_added, added);
+}
+
+static void special_detour(void *store, uint32_t inventory_type, void *seed) {
+    uintptr_t item = carry_item;
+    // Only the acceptance call for the same offer: owned technology store, purchase seed.
+#ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+    int from_acceptance = (uintptr_t)__builtin_return_address(0) - (uintptr_t)accept_return < 0x80;
+#else
+    int from_acceptance = __builtin_return_address(0) == accept_return;
+#endif
+    if (item && inventory_type == 8 && from_acceptance && seed &&
+        memcmp(seed, carry_seed, sizeof(carry_seed)) == 0 &&
+        writable_range(item, ITEM_READ_SPAN) &&
+        memcmp((const void *)(item + ITEM_SEED_OFFSET), carry_seed, sizeof(carry_seed)) == 0 &&
+        (uintptr_t)store - item >= ITEM_READ_SPAN) {
+        carry_item = 0;
+        store_copy(store, (const void *)(item + TECHNOLOGY_STORE_OFFSET));
+        InterlockedIncrement(&carry_applied);
+    }
+    original_special(store, inventory_type, seed);
 }
 
 static void record_grid(uintptr_t item) {
@@ -191,7 +322,9 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
                               uintptr_t a11) {
     int scoped = (uint32_t)kind == FREIGHTER_ITEM_KIND && item &&
                  InterlockedCompareExchange(&slots_armed, 0, 1) == 1;
+    if ((uint32_t)kind == FREIGHTER_ITEM_KIND) carry_item = 0;   // a new offer supersedes any pending carry
     if (scoped) {
+        InterlockedExchange(&scope_rows, InterlockedExchange(&tech_rows_armed, 0));
         scope_item = item;
         InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
     }
@@ -199,8 +332,8 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     if (scoped) {
         InterlockedExchange(&scope_thread, 0);
         scope_item = 0;
+        InterlockedExchange(&scope_rows, 0);
         InterlockedIncrement(&slots_applied);
-        record_grid(item);
     }
     InterlockedIncrement(&setup_calls);
     InterlockedExchange(&last_kind, (LONG)(uint32_t)kind);
@@ -211,6 +344,13 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     if (item_class >= 0 && item_class < CLASS_COUNT &&
         InterlockedCompareExchange(&requested_class, -1, item_class) == item_class)
         apply_class(item, (int32_t)item_class);
+    int marked = InterlockedCompareExchange(&super_armed, 0, 1) == 1 && writable_range(item, ITEM_READ_SPAN);
+    if (marked) add_special_slots((uint8_t *)item + TECHNOLOGY_STORE_OFFSET);
+    if ((scoped || marked) && writable_range(item, ITEM_READ_SPAN)) {
+        record_grid(item);
+        memcpy(carry_seed, (const void *)(item + ITEM_SEED_OFFSET), sizeof(carry_seed));
+        carry_item = item;
+    }
     return result;
 }
 
@@ -233,6 +373,12 @@ static int resolve_targets(void) {
     update_target = (void *)GetProcAddress(host, "CourierTestUpdate");
     setup_target = (void *)GetProcAddress(host, "CourierTestPurchaseSetup");
     layout_target = (void *)GetProcAddress(host, "CourierTestLayoutInitializer");
+    special_target = (void *)GetProcAddress(host, "CourierTestSpecialGenerator");
+    store_copy = (store_copy_fn)(void *)GetProcAddress(host, "CourierTestStoreCopy");
+    vector_grow = (vector_grow_fn)(void *)GetProcAddress(host, "CourierTestVectorGrow");
+    vector_grow_callback = (void *)GetProcAddress(host, "CourierTestVectorGrowCallback");
+    accept_return = (void *)GetProcAddress(host, "CourierTestAccept");
+    if (!accept_return || !special_target || !store_copy || !vector_grow || !vector_grow_callback) return 0;
     stat_generator = (stat_generator_fn)(void *)GetProcAddress(host, "CourierTestStatGenerator");
     give_reward = (give_reward_fn)(void *)GetProcAddress(host, "CourierTestGiveReward");
     reward_manager = (void *)GetProcAddress(host, "CourierTestRewardManager");
@@ -261,6 +407,27 @@ static int resolve_targets(void) {
         0x44, 0x24, 0x18, 0x55, 0x56, 0x57, 0x41, 0x54, 0x41, 0x55, 0x41, 0x56,
         0x41, 0x57, 0x48, 0x8b, 0xec, 0x48, 0x83, 0xec
     };
+    static const unsigned char special_entry[32] = {
+        0x4c, 0x8b, 0xdc, 0x53, 0x55, 0x48, 0x81, 0xec, 0x98, 0x00, 0x00, 0x00,
+        0x4c, 0x63, 0xca, 0x49, 0x8b, 0xd8, 0x48, 0x8b, 0xe9, 0x41, 0x83, 0xf9,
+        0x0b, 0x0f, 0x87, 0xb3, 0x02, 0x00, 0x00, 0xb8
+    };
+    static const unsigned char copy_entry[32] = {
+        0x48, 0x89, 0x5c, 0x24, 0x08, 0x48, 0x89, 0x6c, 0x24, 0x10, 0x48, 0x89,
+        0x74, 0x24, 0x18, 0x57, 0x48, 0x83, 0xec, 0x40, 0x0f, 0xb7, 0x82, 0x80,
+        0x00, 0x00, 0x00, 0x48, 0x8d, 0xb1, 0x88, 0x00
+    };
+    static const unsigned char grow_entry[32] = {
+        0x40, 0x53, 0x48, 0x81, 0xec, 0xb0, 0x00, 0x00, 0x00, 0x4c, 0x8b, 0x94,
+        0x24, 0x08, 0x01, 0x00, 0x00, 0x48, 0x8d, 0x05, 0xa0, 0x3b, 0x92, 0x00,
+        0x4c, 0x8b, 0x9c, 0x24, 0xf0, 0x00, 0x00, 0x00
+    };
+    // Acceptance: special-slot generation for the owned type-8 store, ending in the hooked call.
+    static const unsigned char accept_site[36] = {
+        0x8d, 0x95, 0xa0, 0x10, 0x00, 0x00, 0x48, 0x8b, 0xc8, 0xe8, 0x1c, 0xfb,
+        0x8d, 0xff, 0x4c, 0x8d, 0x45, 0x20, 0x41, 0x8b, 0xd7, 0x48, 0x8b, 0xcb,
+        0x0f, 0x10, 0x00, 0x0f, 0x29, 0x45, 0x20, 0xe8, 0x86, 0x40, 0xbe, 0xff
+    };
     // The three native class-0 stat calls for stores 0x980, 0xe10 and 0xbc8.
     static const unsigned char freighter_block[127] = {
         0x8b, 0x95, 0x68, 0x3e, 0x00, 0x00, 0x4c, 0x8d, 0x46, 0x10, 0xc6, 0x44,
@@ -278,6 +445,11 @@ static int resolve_targets(void) {
     update_target = (void *)(base + UPDATE_RVA);
     setup_target = (void *)(base + SETUP_RVA);
     layout_target = (void *)(base + LAYOUT_RVA);
+    special_target = (void *)(base + SPECIAL_GENERATOR_RVA);
+    store_copy = (store_copy_fn)(base + STORE_COPY_RVA);
+    vector_grow = (vector_grow_fn)(base + VECTOR_GROW_RVA);
+    vector_grow_callback = (void *)(base + VECTOR_GROW_CALLBACK_RVA);
+    accept_return = (void *)(base + ACCEPT_RETURN_RVA);
     stat_generator = (stat_generator_fn)(base + STAT_GENERATOR_RVA);
     give_reward = (give_reward_fn)(base + GIVE_REWARD_RVA);
     reward_manager = (void *)(base + REWARD_MANAGER_RVA);
@@ -285,6 +457,11 @@ static int resolve_targets(void) {
            memcmp((void *)(base + GIVE_REWARD_RVA), reward_entry, sizeof(reward_entry)) == 0 &&
            memcmp(setup_target, setup_entry, sizeof(setup_entry)) == 0 &&
            memcmp(layout_target, layout_entry, sizeof(layout_entry)) == 0 &&
+           memcmp(special_target, special_entry, sizeof(special_entry)) == 0 &&
+           memcmp((void *)(base + STORE_COPY_RVA), copy_entry, sizeof(copy_entry)) == 0 &&
+           memcmp((void *)(base + VECTOR_GROW_RVA), grow_entry, sizeof(grow_entry)) == 0 &&
+           memcmp((void *)(base + ACCEPT_SITE_RVA), accept_site, sizeof(accept_site)) == 0 &&
+           writable_range(base + MANAGER_POINTER_RVA, sizeof(uintptr_t)) &&
            memcmp((void *)(base + STAT_GENERATOR_RVA), statgen_entry, sizeof(statgen_entry)) == 0 &&
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1);
@@ -292,7 +469,8 @@ static int resolve_targets(void) {
 }
 
 void courier_probe_after_verified(void) {
-    static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots"};
+    static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
+                                                     L"techrows", L"super"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -300,6 +478,7 @@ void courier_probe_after_verified(void) {
     result = MH_CreateHook(update_target, (void *)update_detour, (void **)&original_update);
     if (result == MH_OK) result = MH_CreateHook(setup_target, (void *)setup_detour, (void **)&original_setup);
     if (result == MH_OK) result = MH_CreateHook(layout_target, (void *)layout_detour, (void **)&original_layout);
+    if (result == MH_OK) result = MH_CreateHook(special_target, (void *)special_detour, (void **)&original_special);
     if (result != MH_OK) { write_status("hook_create_failed", result); return; }
     unsigned long random[4];
     if (BCryptGenRandom(NULL, (PUCHAR)random, sizeof(random), BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0 ||
@@ -334,22 +513,29 @@ void courier_probe_after_verified(void) {
         }
         if (index < CLASS_COUNT) InterlockedExchange(&requested_class, (LONG)index);
         else if (index == CLASS_COUNT + 1) InterlockedExchange(&slots_armed, 1);
+        else if (index == CLASS_COUNT + 2) { InterlockedExchange(&tech_rows_armed, 1); InterlockedExchange(&slots_armed, 1); }
+        else if (index == CLASS_COUNT + 3) InterlockedExchange(&super_armed, 1);
         // A consumed or uncertain dispatch is never requested again in this process.
         else InterlockedCompareExchange(&dispatch_state, 1, 0);
         write_status("armed", MH_OK);
     }
     InterlockedExchange(&requested_class, -1);
     InterlockedExchange(&slots_armed, 0);
+    InterlockedExchange(&tech_rows_armed, 0);
+    InterlockedExchange(&super_armed, 0);
+    carry_item = 0;
     for (unsigned index = 0; index < EVENT_COUNT; ++index) CloseHandle(events[index]);
-    if (hooks_enabled) {
-        MH_STATUS first = MH_DisableHook(setup_target), second = MH_DisableHook(update_target);
-        MH_STATUS third = MH_DisableHook(layout_target);
-        result = first != MH_OK ? first : second != MH_OK ? second : third;
-    }
+    if (hooks_enabled) result = MH_DisableHook(MH_ALL_HOOKS);
     write_status(result == MH_OK ? "window_complete" : "hook_disable_failed", result);
 }
 
 #ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+__declspec(dllexport) LONG CourierFreighterSpecialSnapshot(LONG values[3]) {
+    values[0] = InterlockedCompareExchange(&super_added, 0, 0);
+    values[1] = InterlockedCompareExchange(&super_errors, 0, 0);
+    values[2] = InterlockedCompareExchange(&carry_applied, 0, 0);
+    return carry_item != 0;
+}
 __declspec(dllexport) LONG CourierFreighterSlotsSnapshot(LONG values[3]) {
     values[0] = InterlockedCompareExchange(&slots_armed, 0, 0);
     values[1] = InterlockedCompareExchange(&slots_applied, 0, 0);

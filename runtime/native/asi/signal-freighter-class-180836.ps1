@@ -9,6 +9,10 @@ param(
     [string]$Class,
     # Create the next offer's main and technology grids at the largest table bounds (120 and 60).
     [switch]$MaxSlots,
+    # Like MaxSlots, with the technology height bound raised to twelve rows for that one layout call.
+    [switch]$ExtendedTechnology,
+    # Mark every valid technology slot of the next offer as a special slot.
+    [switch]$Supercharge,
     # Also request the one-shot dispatch of the shipped freighter reward.
     [switch]$DispatchTestReward,
     [switch]$PreflightOnly
@@ -70,6 +74,8 @@ function Send-ProfileEvent([string]$Tag) {
 
 Send-ProfileEvent $Class.ToLowerInvariant()
 if ($MaxSlots) { Send-ProfileEvent 'slots' }
+if ($ExtendedTechnology) { Send-ProfileEvent 'techrows' }
+if ($Supercharge) { Send-ProfileEvent 'super' }
 if ($DispatchTestReward) {
     # Let the worker enable its hooks and store the class before the dispatch request.
     Start-Sleep -Milliseconds 2500

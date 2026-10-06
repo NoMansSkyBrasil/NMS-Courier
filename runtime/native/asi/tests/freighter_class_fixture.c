@@ -4,6 +4,7 @@
 #include <xinput.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define ITEM_SPAN 0x1070u
@@ -40,9 +41,48 @@ __declspec(dllexport) __declspec(noinline) uintptr_t CourierTestLayoutInitialize
         layout_calls[index].store = store; layout_calls[index].inventory_type = inventory_type;
         layout_calls[index].slot_count = slot_count; layout_calls[index].use_slot_count = use_slot_count;
     }
-    // Stand-in for the native header: width, height and count at +0x80.
-    if (store) ((int16_t *)(store + 0x80))[2] = (int16_t)slot_count;
+    // Stand-in for the native header and valid rows: ten columns, every slot valid.
+    if (store) {
+        int16_t *header = (int16_t *)(store + 0x80);
+        header[0] = 10; header[1] = (int16_t)(slot_count / 10); header[2] = (int16_t)slot_count;
+        for (int row = 0; row < 16; ++row) ((uint64_t *)store)[row] = row < header[1] ? 0x3ffu : 0;
+    }
     return store + size_type;
+}
+typedef struct { int32_t x, y, type; } test_slot;
+typedef struct { uint32_t capacity, count; test_slot *data; } test_vector;
+static volatile LONG special_calls, copy_calls, grow_calls, grow_bad;
+static void *copy_destination; static const void *copy_source;
+static void *volatile special_store, *volatile special_seed; static volatile uint32_t special_type;
+__declspec(dllexport) void CourierTestVectorGrowCallback(void) {}
+__declspec(dllexport) __declspec(noinline) void *CourierTestVectorGrow(
+    void *vector, void *callback, uint32_t new_count, void *data, uint64_t count, const void *element,
+    uint64_t one, uint64_t zero_1, uint64_t zero_2, uint64_t element_size, uint64_t alignment,
+    uint32_t minus_one, void *data_again, uint64_t zero_3) {
+    test_vector *target = vector;
+    InterlockedIncrement(&grow_calls);
+    if (callback != (void *)CourierTestVectorGrowCallback || new_count != count + 1 || data != target->data ||
+        count != target->count || one != 1 || zero_1 || zero_2 || element_size != 12 || alignment != 4 ||
+        minus_one != 0xffffffffu || data_again != data || zero_3) InterlockedIncrement(&grow_bad);
+    test_slot *grown = realloc(target->data, (size_t)new_count * 12);
+    memcpy(&grown[count], element, 12);
+    target->capacity = new_count;
+    target->count = new_count;
+    return grown;
+}
+__declspec(dllexport) __declspec(noinline) void CourierTestSpecialGenerator(void *store, uint32_t type, void *seed) {
+    // Record every argument so the compiler cannot drop them at same-file call sites.
+    special_store = store; special_type = type; special_seed = seed;
+    InterlockedIncrement(&special_calls);
+}
+__declspec(dllexport) __declspec(noinline) void CourierTestStoreCopy(void *destination, const void *source) {
+    InterlockedIncrement(&copy_calls);
+    copy_destination = destination; copy_source = source;
+}
+// Stand-in for the acceptance block: the only caller whose return address is accepted.
+__declspec(dllexport) __declspec(noinline) void CourierTestAccept(void *owned_store, void *seed) {
+    CourierTestSpecialGenerator(owned_store, 8, seed);
+    InterlockedIncrement(&special_calls);
 }
 __declspec(dllexport) __declspec(noinline) uintptr_t CourierTestPurchaseSetup(
     uintptr_t item, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6,
@@ -180,6 +220,32 @@ int main(void) {
     CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
     if (layout_calls[before].slot_count != 18 || layout_calls[before].use_slot_count != 0 ||
         slots_snapshot(slot_values) != 120 || slot_values[2] != 2) return 25;
+    // Supercharge every valid technology slot, optionally with the extended row request.
+    typedef LONG (*special_snapshot_fn)(LONG values[3]);
+    special_snapshot_fn special_snapshot = (special_snapshot_fn)(void *)GetProcAddress(proxy, "CourierFreighterSpecialSnapshot");
+    LONG special_values[3];
+    unsigned char *owned = VirtualAlloc(NULL, 0x2000, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (!special_snapshot || !owned || !signal_event(base, "techrows") || !signal_event(base, "super")) return 26;
+    memset(item, 0, 0x1070);
+    memcpy(item + 0x10, "seed-of-the-offer", 16);
+    before = layout_count;
+    CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
+    test_vector *vector = (test_vector *)(item + 0xe10 + 0xc0);
+    if (layout_calls[before].slot_count != 120 || layout_calls[before + 1].slot_count != 120 ||
+        special_snapshot(special_values) != 1 || special_values[0] != 120 || special_values[1] != 0 ||
+        vector->count != 120 || grow_calls != 120 || grow_bad != 0 || vector->data[0].type != 4 ||
+        vector->data[119].x != 9 || vector->data[119].y != 11) return 27;
+    // A call from anywhere but the acceptance stand-in, or with another seed, copies nothing.
+    unsigned char other_seed[16] = "another-seed-xx";
+    CourierTestSpecialGenerator(owned, 8, item + 0x10);
+    CourierTestAccept(owned, other_seed);
+    if (copy_calls != 0 || special_snapshot(special_values) != 1) return 28;
+    CourierTestAccept(owned, item + 0x10);
+    if (copy_calls != 1 || copy_destination != owned || copy_source != item + 0xe10 ||
+        special_snapshot(special_values) != 0 || special_values[2] != 1) return 29;
+    CourierTestAccept(owned, item + 0x10);
+    if (copy_calls != 1) return 30;
+    printf("super_all_valid=1 grow_arguments=1 carry_scope=1 carry_once=1\n");
     printf("pre_arm_excluded=1 kind_filter=1 one_shot_class=1 stat_arguments=1 dispatch_once=1 bad_item_rejected=1\n");
     printf("slots_scope=1 slots_one_shot=1 main_120=1 technology_60=1 third_store_native=1\n");
 
@@ -191,7 +257,7 @@ int main(void) {
     fclose(log);
     if (!completed) return 19;
     if (CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d) != expected ||
-        stat_count != 6 || setup_calls < 9) return 20;
+        stat_count != 6 || setup_calls < 10) return 20;
     printf("timed_hook_removal_verified=1 original_function_available=1\n");
     return 0;
 }

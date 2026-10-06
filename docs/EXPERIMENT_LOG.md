@@ -1,5 +1,32 @@
 # Runtime experiment log
 
+## 2026-10-06 local: S-class freighter offer with 120/60 grids, build 180836 (live, one run)
+
+Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md#second-live-result-s-class-with-12060-grids-2026-10-06-build-180836).
+Performed by Claude Code with the user at the game.
+
+- Build fingerprint: executable 180836 `13d5060d...cc3499`; bridge
+  `2e4403736cef5bed030fa082eba0fd077fac32ce7afdb61a0d635c6b140bc94c` (source at
+  commit `12e3fef`), installed with the game closed; no freighter data patch.
+- Trigger and save conditions: PID 22292 started 11:09:15 local; the user
+  confirmed the save was loaded in ordinary gameplay and that the freighter
+  accepted from the first run still showed S after restart. Preflight passed
+  with `dispatch_state=0`. One signal: class S, maximum slots, one dispatch of
+  `RS_S13_S4M6`.
+- Observed: log `applied_count=1`, `class_after=3,3,3`, `layout_overrides=2`,
+  `main_grid=10,12,120`, `technology_grid=10,6,60`; screenshot with S badge,
+  120 and 60 slots, cost 600,000,000, default technologies present, one
+  special technology slot. The user accepted, saved and closed the game.
+- Not proven: owned grids and technology after this acceptance, persistence of
+  the second freighter, repeatability.
+- Follow-up built offline in the same session, **not yet run in the game**:
+  all-valid-slot special marking, a scoped 12-row technology bound and an
+  acceptance-time technology store copy; production DLL
+  `ec4da1c76b313ab860b76fdcc40438b2d7a233fd167ede758a8e3eb3f652681c`.
+- Rollback state: bridge backups remain under
+  `E:\NMS-Courier-Research\native-builds\installed-backup-20261006`; the one-shot
+  dispatch of PID 22292 is consumed.
+
 ## 2026-10-06 local: first S-class freighter offer, build 180836 (live, one run)
 
 Owner and full procedure: [inventory class research](INVENTORY_CLASS_RESEARCH.md#first-live-result-s-class-freighter-offer-2026-10-06-build-180836).

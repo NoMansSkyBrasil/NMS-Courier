@@ -1,5 +1,13 @@
 # AI continuation guide
 
+**Second live result, 2026-10-06:** class S plus 120/60 offer grids shown on
+build 180836; the first accepted S freighter stayed S after restart (user
+report). Built but **not yet run**: all technology slots special, 12-row
+technology grid, acceptance-time technology carry (DLL `ec4da1c7...`). See
+[inventory class research](INVENTORY_CLASS_RESEARCH.md) for rules, hashes and
+risks before signaling. User defaults: S, all slots, all technology slots
+supercharged, default technologies kept.
+
 **Live result, 2026-10-06:** the `FreighterClass180836` profile produced an
 S-class freighter offer on build 180836 in one run (log and screenshot recorded
 in [inventory class research](INVENTORY_CLASS_RESEARCH.md)). The profile DLL

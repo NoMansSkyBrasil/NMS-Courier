@@ -297,7 +297,91 @@ counts beyond the native 19/19, anything on another build, repeatability
 (one run), or behavior with a different reward, seed or model. The save was
 selected by the user; it was not independently confirmed to be disposable.
 
-### Slot grids: recovered rule and untested override (2026-10-06)
+### Second live result: S class with 120/60 grids (2026-10-06, build 180836)
+
+| Item | Value |
+| --- | --- |
+| When | 2026-10-06, about 11:09 to 11:20 local; game process started 11:09:15 |
+| Where | Same installed game and user save, PID 22292 |
+| Executable | Build 180836, SHA-256 `13d5060d...cc3499` |
+| Bridge | `FreighterClass180836` with the slot override, SHA-256 `2e4403736cef5bed030fa082eba0fd077fac32ce7afdb61a0d635c6b140bc94c`, installed with the game closed over `b3fcecf7...` after hash checks |
+| Trigger | `signal-freighter-class-180836.ps1 -Class S -MaxSlots -DispatchTestReward` after a passing preflight, one time |
+
+Earlier state reported by the user before this run: the first S offer had been
+accepted, the game saved and restarted, and the owned freighter **still showed
+S**. Owned slot counts were not reported.
+
+Profile log six seconds after the signal: `dispatch_state=3`,
+`freighter_setups=1`, `applied_count=1`, `class_before=0,0,0`,
+`class_after=3,3,3`, `slots_applied=1`, `layout_overrides=2`,
+`main_grid=10,12,120`, `technology_grid=10,6,60`. Process alive and responsive.
+
+User screenshot of the offer: S badge, slot summary **120 and 60**, storage
+120, cost 600,000,000 units, hyperdrive range 168.2, fleet coordination 27.1,
+ten-column technology and cargo grids, the two default technologies installed,
+and exactly **one** special (supercharged) technology slot at column 3, row 1.
+The user then accepted the offer, saved and closed the game; the owned state
+after this acceptance has not been reported yet.
+
+Established: changing only the slot count and argument 9 of the native layout
+initializer yields the large bounds and a fully valid grid in the offer; the
+price follows class and slots (23,000,000 at 19/19, 600,000,000 at 120/60).
+Not established: owned grids after acceptance, persistence, technology
+transfer, more than one run.
+
+### Special (supercharged) slots: recovered rule and untested additions
+
+Offline, bounded disassembly of build 180383 `4d22c0` (180836 `4d2350`), the
+routine purchase setup calls for every store right after layout:
+
+- The special-slot vector is at store `+0xc0` (capacity, count, data pointer);
+  an element is twelve bytes: x, y and a type, where type 4 is the technology
+  bonus used here. The public pinned header names this member `maSpecialSlots`.
+- It acts only for inventory types 1, 3, 5, 8, 11. The wanted number is the
+  size-type entry's `MaxNumSpecialTechSlots` (`+0x3c`), limited to
+  **class + 1** except for type 1, minus existing type-4 entries. Coordinates
+  are drawn from the store seed within `SpecialTechSlotMaxIndex` (`+0x30`,
+  `+0x34`) and duplicates are redrawn.
+- During purchase setup the class is still 0, hence exactly one special slot in
+  both live offers. A native S freighter would get four. "All technology slots
+  supercharged" therefore exceeds what the game generates.
+- In the acceptance block (180836 `8ee246..8ee2ca`) the owned type-8 store is
+  overwritten by the native store copy only when the item's NPC handle
+  resolves; afterwards the same routine runs on the owned store with the
+  purchase seed.
+
+Profile additions (same source file), each a one-shot armed request:
+
+- `super`: after setup, every valid technology slot of the offer that has no
+  type-4 entry gets one, appended in place when capacity allows and otherwise
+  through the game's vector growth helper (`2bf95c0`) with the argument list
+  of the native append sites; it stops at the first append whose count does
+  not advance by one.
+- `techrows`: for the technology layout call of the armed setup only, the
+  large technology height bound of the size-type entry is changed from 6 to 12
+  and restored when the call returns, and the count becomes 120. It is skipped
+  and counted as `table_rejected` unless the entry holds exactly 10 x 6.
+- Acceptance carry: when an armed setup changed the offer, a detour on the
+  special-slot routine copies the offer's technology store into the owned
+  store with the native store copy, only for a call that returns to the exact
+  acceptance address, with inventory type 8 and the same seed as the armed
+  offer; one time. This reproduces the NPC-purchase branch with the offer as
+  source. A later freighter setup or the end of the window cancels it.
+
+Fixture: all previous checks plus 120 appended entries with the exact growth
+arguments, last entry at (9, 11), no copy for a foreign caller or a different
+seed, exactly one copy for the acceptance stand-in. One fixture failure was a
+test defect: the compiler dropped unused arguments at a same-file call site, so
+the stand-in did not pass type 8 until it was made to record its arguments.
+Fixture DLL SHA-256 `ddbf4b134cdb9fd481845ca8960f8df6bae65ed3c2aa84e6b29024d4333bd00b`;
+production DLL SHA-256 `ec4da1c76b313ab860b76fdcc40438b2d7a233fd167ede758a8e3eb3f652681c`
+(`native-builds\freighter-class-super-180836-20261006`). **None of these three
+additions has run in the game.** Known risks: the growth helper is called by
+our code for the first time; a 10 x 12 technology grid and 60 to 120 special
+slots are outside native generation; the carry replaces the owned technology
+store contents with the offer's.
+
+### Slot grids: recovered rule and first override (2026-10-06)
 
 Offline, build 180383 export `4cd270` and bounded disassembly of its helpers
 `4ce530`/`4ce630` (relocated on 180836 to `4cd300`, `4ce5c0`, `4ce6c0`):
@@ -336,7 +420,7 @@ An earlier fixture run failed at its first armed check because three separate
 hook enables took longer than the fixture's 400 ms wait; the profile now
 enables all hooks in one call and the fixture waits 900 ms. Production DLL
 SHA-256 `2e4403736cef5bed030fa082eba0fd077fac32ce7afdb61a0d635c6b140bc94c`
-(`native-buildsreighter-class-slots-180836-20261006`). **Not live-tested.**
+(`native-buildsreighter-class-slots-180836-20261006`). Live result: see the second live result above.
 
 ### Requested delivery defaults (user, 2026-10-06)
 
