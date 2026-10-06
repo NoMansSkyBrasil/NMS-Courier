@@ -33,7 +33,7 @@ No row is a supported capability of the currently installed build 180836.
 | Ship Delivery | `SHIP_DELIVERY` | Type or variant, seed, delivery mode (NPC purchase, free/reskin, exchange screen), location, optional color, class override, S-class flag, connected supercharged slots, legacy colors | Research: seed and class algorithms; no delivery |
 | Ship upgrades | `SHIP_UPGRADER` | Class upgrade, slot unlock, repair | Research: handlers located on 180383 |
 | Multitool / Staff Delivery | `MULTITOOL_DELIVERY` | Reward ID from a fixed list | Research: handler chain located on 180383 |
-| Freighter / Frigate Delivery | `FREIGHTER_DELIVERY` | Type (normal, capital, pirate, frigate), model seed, color/home seed, NPC crew race and seed, two colors, optional reward ID. **No class field** | Research: old-build C-class offer; class override profile built, untested |
+| Freighter / Frigate Delivery | `FREIGHTER_DELIVERY` | Type (normal, capital, pirate, frigate), model seed, color/home seed, NPC crew race and seed, two colors, optional reward ID. **No class field** | Research: S-class offer shown once on build 180836 (2026-10-06); acceptance, slots and persistence open |
 | Service Bot Extender | `SERVICE_BOT_EXTENDER_DELIVERY` | Procedural type (20 ships, 10 multitools/staffs, 3 freighters, 9 frigates) and seed | Research: same seed inputs as above |
 | Pet Egg and Creature Delivery | `EGG_DELIVERY` | Creature type and seed, size, class, affinity, moveset, advanced appearance | Not started |
 | Expedition / Season Reward Unlocker | `REWARD_DELIVERY` | One or many reward IDs by season and table | Research: unlock handler located on 180383 |

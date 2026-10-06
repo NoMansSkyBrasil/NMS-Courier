@@ -1,5 +1,12 @@
 # AI continuation guide
 
+**Live result, 2026-10-06:** the `FreighterClass180836` profile produced an
+S-class freighter offer on build 180836 in one run (log and screenshot recorded
+in [inventory class research](INVENTORY_CLASS_RESEARCH.md)). The profile DLL
+`b3fcecf7...` is currently installed in the game directory. Open items:
+acceptance/persistence check and unlocked slot counts (user wants all cargo
+and technology slots). Each new process allows one dispatch; never retry.
+
 Latest increment, 2026-10-06 (Claude Code): the user approved the installed
 build **180836** (SHA-256 `13d5060d...cc3499`) as target and standing
 commit/push to `main`. [Inventory class research](INVENTORY_CLASS_RESEARCH.md)

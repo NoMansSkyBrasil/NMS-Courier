@@ -199,7 +199,7 @@ generator for stores `+0x980` (type from a local set to 7), `+0xe10` (type 5)
 and `+0xbc8` (type 9), each with `xor r9d, r9d` (class 0), stack argument 6
 equal to 10 and the minimum-value byte set to 1.
 
-### Research profile (built and fixture-tested, **not installed, not live-tested**)
+### Research profile (fixture-tested; first live run recorded below)
 
 [freighter_class_180836.c](../runtime/native/asi/freighter_class_180836.c),
 build mode `FreighterClass180836`:
@@ -244,7 +244,60 @@ Currently installed in the game directory (unchanged by this work): bridge DLL
 `1cb8ed07...7a8040` (180383 reward observer, which rejects the new build) and
 data mod folder `NMSCourierCurrencyRewardProbe`.
 
-### Proposed live validation (requires the user; nothing below was executed)
+### First live result: S-class freighter offer (2026-10-06, build 180836)
+
+**Observed, once, in one process.** This is the first time a Courier-triggered
+freighter offer showed a class other than C.
+
+| Item | Value |
+| --- | --- |
+| When | 2026-10-06, about 10:46 to 11:00 local (America/Fortaleza); game process started 10:45:58 |
+| Where | Installed Steam game, `E:\SteamLibrary\steamapps\common\No Man's Sky`, PID 22104, user's loaded save in ordinary gameplay |
+| Executable | Build 180836, SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499` (`asi-startup-22104.log`: `exact_build_startup_observed`) |
+| Bridge | `xinput9_1_0.dll` `FreighterClass180836`, SHA-256 `b3fcecf78eebc166e708ab17a73da650e72c1961fb9a3cfa6fd823705e342bb9`, installed with the game closed after hash checks; previous DLL `1cb8ed07...7a8040` backed up to `E:\NMS-Courier-Research\native-builds\installed-backup-20261006` |
+| Data mods | Only the pre-existing `NMSCourierCurrencyRewardProbe` folder; no freighter data mod |
+| Preflight | `signal-freighter-class-180836.ps1 -Class S -PreflightOnly` passed: status `awaiting_request`, hooks created, all five byte windows had matched, `dispatch_state=0` |
+| Trigger | `signal-freighter-class-180836.ps1 -GameProcessId 22104 -ExpectedDllSha256 b3fcecf7... -Class S -DispatchTestReward`, one time |
+
+How it was done, step by step:
+
+1. The class event `s` armed one request and enabled the two hooks.
+2. The `dispatch` event made the update-thread detour call the native generic
+   reward entry (`f140f0`, manager `7207900`) once with the shipped reward ID
+   `RS_S13_S4M6`.
+3. The game's own reward handling reached purchase setup (`8e58e0`) with item
+   kind 3. The original ran unchanged and left class 0 in all three offer stores.
+4. After it returned, the detour wrote class 3 at `+0x100` of stores `+0x980`,
+   `+0xe10` and `+0xbc8` and called the native base-stat generator (`4ceab0`)
+   for each with class 3 and the minimum-value flag cleared.
+5. The game then opened its normal freighter offer screen.
+
+Profile log six seconds after the signal (`native-freighter-class-180836-22104.log`):
+`dispatch_state=3`, `setup_calls=1`, `freighter_setups=1`, `last_kind=3`,
+`applied_count=1`, `applied_class=3`, `rejected_item=0`,
+`class_before=0,0,0`, `class_after=3,3,3`. The process stayed alive and
+responsive.
+
+User-supplied screenshot of the offer: title "Nave cargueira restaurada",
+**S class badge**, cost 23,000,000 units, slot summary 19 and 19, hyperdrive
+range 168.2, warp efficiency 0.3, storage 19, fleet coordination 27.1; a
+technology grid seven columns wide with two installed technologies and a
+cargo grid seven columns wide.
+
+What this establishes on build 180836: the ten-argument generic reward call
+shape and the shipped reward ID work; the specific-ship freighter setup leaves
+class C although the table entry declares B; a class stored before the offer
+screen is created is the class the screen shows. The table's zero cost did not
+produce a zero price in this offer.
+
+What it does not establish: the class after acceptance and after save/reload
+(the offer had not been accepted when this was written), whether the displayed
+stats equal native S-class stats of a naturally generated freighter, slot
+counts beyond the native 19/19, anything on another build, repeatability
+(one run), or behavior with a different reward, seed or model. The save was
+selected by the user; it was not independently confirmed to be disposable.
+
+### Live validation procedure (executed once on 2026-10-06; see the result above)
 
 1. With the game closed, verify the installed executable hash, back up the
    current `xinput9_1_0.dll` externally with its hash, and copy the production

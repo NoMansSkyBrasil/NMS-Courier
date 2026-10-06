@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-06 local: first S-class freighter offer, build 180836 (live, one run)
+
+Owner and full procedure: [inventory class research](INVENTORY_CLASS_RESEARCH.md#first-live-result-s-class-freighter-offer-2026-10-06-build-180836).
+Performed by Claude Code with the user at the game.
+
+- Build fingerprint: executable 180836 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`;
+  bridge `FreighterClass180836` `b3fcecf78eebc166e708ab17a73da650e72c1961fb9a3cfa6fd823705e342bb9`;
+  no freighter data patch (only the older `NMSCourierCurrencyRewardProbe` folder present).
+  Hashes were compared before installation (game closed) and again by the
+  signaling script against the running process.
+- Source/configuration: `runtime/native/asi/freighter_class_180836.c` at commit
+  `7a47d1a`, built with `build-probe.ps1 -Mode FreighterClass180836`.
+- Trigger and save conditions: PID 22104, started 10:45:58 local, user's loaded
+  save in ordinary gameplay. Preflight passed with `dispatch_state=0`; no
+  earlier one-shot outcome existed in this process. One signal: class S plus
+  the one-shot dispatch of shipped reward `RS_S13_S4M6`.
+- Observed: log `dispatch_state=3`, `freighter_setups=1`, `applied_count=1`,
+  `class_before=0,0,0`, `class_after=3,3,3`; process alive and responsive. The
+  user's screenshot shows the native offer screen with an **S badge**, cost
+  23,000,000, 19/19 slots, hyperdrive range 168.2, fleet coordination 27.1.
+- Not proven: ownership class after acceptance, persistence after save/reload,
+  slot expansion, equivalence with naturally generated S stats, repeatability,
+  other rewards/seeds/models/builds.
+- Rollback state: the profile DLL remains installed; the previous DLL is backed
+  up at `E:\NMS-Courier-Research\native-builds\installed-backup-20261006`.
+  The one-shot dispatch is consumed for PID 22104 and must not be repeated
+  there. Offer acceptance state was not yet reported.
+
 ## 2026-10-06 local: build 180836 relocation and freighter class profile (offline)
 
 Owner: [inventory class research](INVENTORY_CLASS_RESEARCH.md). Performed by
