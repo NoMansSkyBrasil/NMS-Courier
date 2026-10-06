@@ -7,6 +7,8 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('C', 'B', 'A', 'S')]
     [string]$Class,
+    # Create the next offer's main and technology grids at the largest table bounds (120 and 60).
+    [switch]$MaxSlots,
     # Also request the one-shot dispatch of the shipped freighter reward.
     [switch]$DispatchTestReward,
     [switch]$PreflightOnly
@@ -67,9 +69,10 @@ function Send-ProfileEvent([string]$Tag) {
 }
 
 Send-ProfileEvent $Class.ToLowerInvariant()
+if ($MaxSlots) { Send-ProfileEvent 'slots' }
 if ($DispatchTestReward) {
     # Let the worker enable its hooks and store the class before the dispatch request.
-    Start-Sleep -Milliseconds 1500
+    Start-Sleep -Milliseconds 2500
     Send-ProfileEvent 'dispatch'
     Write-Output "Class $Class armed for the next freighter offer setup; one test reward dispatch requested."
 } else {

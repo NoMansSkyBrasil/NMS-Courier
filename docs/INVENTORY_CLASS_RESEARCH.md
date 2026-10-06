@@ -297,6 +297,59 @@ counts beyond the native 19/19, anything on another build, repeatability
 (one run), or behavior with a different reward, seed or model. The save was
 selected by the user; it was not independently confirmed to be disposable.
 
+### Slot grids: recovered rule and untested override (2026-10-06)
+
+Offline, build 180383 export `4cd270` and bounded disassembly of its helpers
+`4ce530`/`4ce630` (relocated on 180836 to `4cd300`, `4ce5c0`, `4ce6c0`):
+
+- The first sixteen 64-bit words of a store are the valid-slot rows (one word
+  per row); width, height and the slot count are 16-bit values at `+0x80`,
+  `+0x82`, `+0x84`; the requested count is also kept at `+0xf4`.
+- With stack argument 9 equal to zero the initializer first draws a count from
+  the size-type generation entry (technology range for inventory types 1, 3,
+  5, 8, 11; cargo range for types 6 and 9; main range otherwise). With argument
+  9 nonzero it uses the caller's slot count. Purchase setup passes nonzero only
+  for the first store and only when the reward sets `UseOverrideSizeType`.
+- `4ce630` then picks the smallest of the entry's three bounds (small,
+  standard, large; technology bounds for the type set above) whose area holds
+  that count, and the final count is capped by width times height.
+- For `FreighterLarge` in the 180383 table the large bounds are 10 x 12 (main)
+  and 10 x 6 (technology): **120 and 60** are the largest grids the native
+  layout can produce. The observed 19/19 offer used the small 7-wide bounds.
+- In the acceptance block of `8e8830` the player's type-8 (technology) store is
+  copied from an NPC object's store only if the item's handle resolves; for a
+  reward offer it does not, so the offered technology grid is **not expected to
+  transfer**. This matches the 2026-09-24 note that an accepted C/120 offer
+  left the owned technology store at 13 valid slots. Owned technology slots
+  therefore need a separate, not yet researched native operation.
+
+Profile addition (same source file): the `slots` event arms one request. For
+the next kind-3 setup on that thread, a detour on the layout initializer
+changes only the slot count and argument 9 for the item's main store (120)
+and technology store (60); everything else, including the third store, stays
+native. The resulting width, height and count are recorded in the log
+(`main_grid`, `technology_grid`). Fixture checks passed: scope limited to the
+armed setup, direct layout calls and non-freighter setups untouched, one-shot
+consumption, third store native. Fixture DLL SHA-256
+`01261d8ca4aad6f7b142fa1967c3264705d25a45dd02f4f7ff2a67de97baf816`.
+An earlier fixture run failed at its first armed check because three separate
+hook enables took longer than the fixture's 400 ms wait; the profile now
+enables all hooks in one call and the fixture waits 900 ms. Production DLL
+SHA-256 `2e4403736cef5bed030fa082eba0fd077fac32ce7afdb61a0d635c6b140bc94c`
+(`native-buildsreighter-class-slots-180836-20261006`). **Not live-tested.**
+
+### Requested delivery defaults (user, 2026-10-06)
+
+Deliveries should default to the requested class (S unless chosen otherwise),
+every cargo and technology slot unlocked, and **every technology slot
+supercharged**, for ships, freighters, multitools and the player's own
+inventory. Supercharged slots are a separate store field and have not been
+researched in this note: purchase setup never calls the helpers that the
+ordinary inventory wrapper `4ccfa0` uses after layout (`4ce460`, `4cef50`), and
+the inventory table declares a maximum of four special technology slots per
+size type. Treat "all supercharged" as an explicit non-vanilla target that
+needs its own static research and live validation.
+
 ### Live validation procedure (executed once on 2026-10-06; see the result above)
 
 1. With the game closed, verify the installed executable hash, back up the

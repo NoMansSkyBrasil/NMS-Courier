@@ -66,6 +66,15 @@ No row is a supported capability of the currently installed build 180836.
   [entity seed flow](ENTITY_APPEARANCE_SEED_FLOW.md).
 - Seeds are entered as up to 16 hexadecimal digits and zero is replaced by 1.
 
+## Delivery defaults requested by the user
+
+Stated on 2026-10-06: an entity should arrive with the chosen class (S when not
+specified), all cargo and technology slots unlocked and all technology slots
+supercharged; this applies to ships, freighters, multitools and the player
+inventory. Status per part is tracked in
+[inventory class research](INVENTORY_CLASS_RESEARCH.md); only the freighter
+offer class has live evidence so far.
+
 ## How to use this tracker
 
 Add evidence links and change a status only when the owning specification and

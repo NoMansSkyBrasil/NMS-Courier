@@ -1,8 +1,11 @@
 // Research profile for build 180836: request-scoped freighter offer class.
 // After the native purchase setup returns for item kind 3, an explicitly armed
 // request stores the requested class in the three temporary offer inventories
-// and regenerates their base stats with the game's own generator. Nothing is
-// written unless a class event was signaled; one armed request applies once.
+// and regenerates their base stats with the game's own generator. A separate
+// armed request changes two arguments of the native layout initializer during
+// that setup so the offered main and technology grids are created at their
+// largest table bounds. Nothing is changed unless an event was signaled; one
+// armed request applies once.
 // An optional one-shot dispatch of a shipped freighter reward provides a test
 // trigger. This is not a production delivery adapter.
 #define WIN32_LEAN_AND_MEAN
@@ -23,13 +26,19 @@
 #define REWARD_MANAGER_RVA 0x7207900u
 #define SETUP_RVA 0x8e58e0u
 #define STAT_GENERATOR_RVA 0x4ceab0u
+#define LAYOUT_RVA 0x4cd300u
 #define FREIGHTER_BLOCK_RVA 0x8e684du
 #define FREIGHTER_ITEM_KIND 3
 #define ITEM_SEED_OFFSET 0x10u
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 1)
+#define EVENT_COUNT (CLASS_COUNT + 2)
+// Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
+#define MAX_MAIN_SLOTS 120u
+#define MAX_TECHNOLOGY_SLOTS 60u
+#define MAIN_STORE_OFFSET 0x980u
+#define TECHNOLOGY_STORE_OFFSET 0xe10u
 #ifdef COURIER_NATIVE_CALLBACK_FIXTURE
 #define ARM_WINDOW_SECONDS 6u
 #else
@@ -44,6 +53,9 @@ typedef uintptr_t (*setup_fn)(uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintpt
 typedef void (*stat_generator_fn)(void *store, uint32_t inventory_type, void *seed, int32_t item_class,
                                   uint32_t argument_5, uint32_t argument_6, uint64_t argument_7,
                                   uint8_t minimum_values);
+typedef uintptr_t (*layout_fn)(uintptr_t store, uintptr_t inventory_type, uintptr_t slot_count,
+                               uintptr_t layout, uintptr_t a5, uintptr_t size_type, uintptr_t a7,
+                               uintptr_t a8, uintptr_t use_slot_count);
 typedef uint8_t (*give_reward_fn)(void *manager, const char *reward_id, const char *mission_id,
                                   const void *seed, uint8_t peek, uint8_t force_show_message,
                                   uint64_t *out_multi_product_count, uint8_t force_silent,
@@ -56,11 +68,20 @@ static const struct { uint32_t offset; uint32_t inventory_type; } stores[3] = {
 
 static update_fn original_update;
 static setup_fn original_setup;
+static layout_fn original_layout;
 static stat_generator_fn stat_generator;
 static give_reward_fn give_reward;
 static void *reward_manager;
 static void *update_target;
 static void *setup_target;
+static void *layout_target;
+static volatile LONG slots_armed;
+static volatile LONG slots_applied;
+static volatile LONG layout_overrides;
+static volatile LONG grid[6] = {-1, -1, -1, -1, -1, -1};  // main w,h,count then technology w,h,count
+// Scope of one armed setup call on its own thread; read only by the layout detour.
+static volatile LONG scope_thread;
+static volatile uintptr_t scope_item;
 static volatile LONG requested_class = -1;
 static volatile LONG dispatch_state;      // 0 unused, 1 requested, 2 calling, 3 returned
 static volatile LONG setup_calls;
@@ -100,12 +121,16 @@ static void write_status(const char *status, MH_STATUS result) {
         "status=%s\npid=%lu\nhook_status=%d\nmode=request_scoped_class_research\nevent_base=%ls\n"
         "requested_class=%ld\ndispatch_state=%ld\nsetup_calls=%ld\nfreighter_setups=%ld\nlast_kind=%ld\n"
         "applied_count=%ld\napplied_class=%ld\nrejected_item=%ld\n"
-        "class_before=%ld,%ld,%ld\nclass_after=%ld,%ld,%ld\n",
+        "class_before=%ld,%ld,%ld\nclass_after=%ld,%ld,%ld\n"
+        "slots_armed=%ld\nslots_applied=%ld\nlayout_overrides=%ld\n"
+        "main_grid=%ld,%ld,%ld\ntechnology_grid=%ld,%ld,%ld\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
         READ(class_before[0]), READ(class_before[1]), READ(class_before[2]),
-        READ(class_after[0]), READ(class_after[1]), READ(class_after[2]));
+        READ(class_after[0]), READ(class_after[1]), READ(class_after[2]),
+        READ(slots_armed), READ(slots_applied), READ(layout_overrides),
+        READ(grid[0]), READ(grid[1]), READ(grid[2]), READ(grid[3]), READ(grid[4]), READ(grid[5]));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -133,10 +158,50 @@ static void apply_class(uintptr_t item, int32_t item_class) {
     InterlockedIncrement(&applied_count);
 }
 
+static uintptr_t layout_detour(uintptr_t store, uintptr_t inventory_type, uintptr_t slot_count,
+                               uintptr_t layout, uintptr_t a5, uintptr_t size_type, uintptr_t a7,
+                               uintptr_t a8, uintptr_t use_slot_count) {
+    uintptr_t item = scope_item;
+    if (item && (LONG)GetCurrentThreadId() == InterlockedCompareExchange(&scope_thread, 0, 0)) {
+        uint32_t wanted = store == item + MAIN_STORE_OFFSET ? MAX_MAIN_SLOTS :
+                          store == item + TECHNOLOGY_STORE_OFFSET ? MAX_TECHNOLOGY_SLOTS : 0;
+        if (wanted) {
+            // Native meaning: use the supplied slot count; bounds then follow from that count.
+            slot_count = wanted;
+            use_slot_count = 1;
+            InterlockedIncrement(&layout_overrides);
+        }
+    }
+    return original_layout(store, inventory_type, slot_count, layout, a5, size_type, a7, a8, use_slot_count);
+}
+
+static void record_grid(uintptr_t item) {
+    static const uint32_t offsets[2] = {MAIN_STORE_OFFSET, TECHNOLOGY_STORE_OFFSET};
+    if (!writable_range(item, ITEM_READ_SPAN)) return;
+    for (unsigned index = 0; index < 2; ++index) {
+        const int16_t *header = (const int16_t *)(item + offsets[index] + 0x80u);
+        InterlockedExchange(&grid[index * 3], header[0]);
+        InterlockedExchange(&grid[index * 3 + 1], header[1]);
+        InterlockedExchange(&grid[index * 3 + 2], header[2]);
+    }
+}
+
 static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5,
                               uintptr_t a6, uintptr_t kind, uintptr_t a8, uintptr_t a9, uintptr_t a10,
                               uintptr_t a11) {
+    int scoped = (uint32_t)kind == FREIGHTER_ITEM_KIND && item &&
+                 InterlockedCompareExchange(&slots_armed, 0, 1) == 1;
+    if (scoped) {
+        scope_item = item;
+        InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
+    }
     uintptr_t result = original_setup(item, a2, a3, a4, a5, a6, kind, a8, a9, a10, a11);
+    if (scoped) {
+        InterlockedExchange(&scope_thread, 0);
+        scope_item = 0;
+        InterlockedIncrement(&slots_applied);
+        record_grid(item);
+    }
     InterlockedIncrement(&setup_calls);
     InterlockedExchange(&last_kind, (LONG)(uint32_t)kind);
     if ((uint32_t)kind != FREIGHTER_ITEM_KIND) return result;
@@ -167,10 +232,11 @@ static int resolve_targets(void) {
     HMODULE host = (HMODULE)base;
     update_target = (void *)GetProcAddress(host, "CourierTestUpdate");
     setup_target = (void *)GetProcAddress(host, "CourierTestPurchaseSetup");
+    layout_target = (void *)GetProcAddress(host, "CourierTestLayoutInitializer");
     stat_generator = (stat_generator_fn)(void *)GetProcAddress(host, "CourierTestStatGenerator");
     give_reward = (give_reward_fn)(void *)GetProcAddress(host, "CourierTestGiveReward");
     reward_manager = (void *)GetProcAddress(host, "CourierTestRewardManager");
-    return update_target && setup_target && stat_generator && give_reward && reward_manager;
+    return update_target && setup_target && layout_target && stat_generator && give_reward && reward_manager;
 #else
     static const unsigned char update_entry[16] = {
         0x40, 0x53, 0x48, 0x83, 0xec, 0x20, 0xe8, 0xe5, 0x83, 0x92, 0x02, 0x48,
@@ -190,6 +256,11 @@ static int resolve_targets(void) {
         0x41, 0x56, 0x48, 0x81, 0xec, 0xa0, 0x00, 0x00, 0x00, 0x48, 0x8b, 0xf1,
         0x49, 0x63, 0xe9, 0x48, 0x8d, 0x8c, 0x24, 0xd0
     };
+    static const unsigned char layout_entry[32] = {
+        0x48, 0x89, 0x5c, 0x24, 0x10, 0x4c, 0x89, 0x4c, 0x24, 0x20, 0x44, 0x89,
+        0x44, 0x24, 0x18, 0x55, 0x56, 0x57, 0x41, 0x54, 0x41, 0x55, 0x41, 0x56,
+        0x41, 0x57, 0x48, 0x8b, 0xec, 0x48, 0x83, 0xec
+    };
     // The three native class-0 stat calls for stores 0x980, 0xe10 and 0xbc8.
     static const unsigned char freighter_block[127] = {
         0x8b, 0x95, 0x68, 0x3e, 0x00, 0x00, 0x4c, 0x8d, 0x46, 0x10, 0xc6, 0x44,
@@ -206,12 +277,14 @@ static int resolve_targets(void) {
     };
     update_target = (void *)(base + UPDATE_RVA);
     setup_target = (void *)(base + SETUP_RVA);
+    layout_target = (void *)(base + LAYOUT_RVA);
     stat_generator = (stat_generator_fn)(base + STAT_GENERATOR_RVA);
     give_reward = (give_reward_fn)(base + GIVE_REWARD_RVA);
     reward_manager = (void *)(base + REWARD_MANAGER_RVA);
     return memcmp(update_target, update_entry, sizeof(update_entry)) == 0 &&
            memcmp((void *)(base + GIVE_REWARD_RVA), reward_entry, sizeof(reward_entry)) == 0 &&
            memcmp(setup_target, setup_entry, sizeof(setup_entry)) == 0 &&
+           memcmp(layout_target, layout_entry, sizeof(layout_entry)) == 0 &&
            memcmp((void *)(base + STAT_GENERATOR_RVA), statgen_entry, sizeof(statgen_entry)) == 0 &&
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1);
@@ -219,13 +292,14 @@ static int resolve_targets(void) {
 }
 
 void courier_probe_after_verified(void) {
-    static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch"};
+    static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
     if (result != MH_OK) { write_status("hook_initialize_failed", result); return; }
     result = MH_CreateHook(update_target, (void *)update_detour, (void **)&original_update);
     if (result == MH_OK) result = MH_CreateHook(setup_target, (void *)setup_detour, (void **)&original_setup);
+    if (result == MH_OK) result = MH_CreateHook(layout_target, (void *)layout_detour, (void **)&original_layout);
     if (result != MH_OK) { write_status("hook_create_failed", result); return; }
     unsigned long random[4];
     if (BCryptGenRandom(NULL, (PUCHAR)random, sizeof(random), BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0 ||
@@ -253,26 +327,35 @@ void courier_probe_after_verified(void) {
         unsigned index = signaled - WAIT_OBJECT_0;
         ResetEvent(events[index]);
         if (!hooks_enabled) {
-            result = MH_EnableHook(setup_target);
-            if (result == MH_OK) result = MH_EnableHook(update_target);
+            // One thread freeze for all three hooks.
+            result = MH_EnableHook(MH_ALL_HOOKS);
             if (result != MH_OK) { write_status("hook_enable_failed", result); break; }
             hooks_enabled = 1;
         }
         if (index < CLASS_COUNT) InterlockedExchange(&requested_class, (LONG)index);
+        else if (index == CLASS_COUNT + 1) InterlockedExchange(&slots_armed, 1);
         // A consumed or uncertain dispatch is never requested again in this process.
         else InterlockedCompareExchange(&dispatch_state, 1, 0);
         write_status("armed", MH_OK);
     }
     InterlockedExchange(&requested_class, -1);
+    InterlockedExchange(&slots_armed, 0);
     for (unsigned index = 0; index < EVENT_COUNT; ++index) CloseHandle(events[index]);
     if (hooks_enabled) {
         MH_STATUS first = MH_DisableHook(setup_target), second = MH_DisableHook(update_target);
-        result = first != MH_OK ? first : second;
+        MH_STATUS third = MH_DisableHook(layout_target);
+        result = first != MH_OK ? first : second != MH_OK ? second : third;
     }
     write_status(result == MH_OK ? "window_complete" : "hook_disable_failed", result);
 }
 
 #ifdef COURIER_NATIVE_CALLBACK_FIXTURE
+__declspec(dllexport) LONG CourierFreighterSlotsSnapshot(LONG values[3]) {
+    values[0] = InterlockedCompareExchange(&slots_armed, 0, 0);
+    values[1] = InterlockedCompareExchange(&slots_applied, 0, 0);
+    values[2] = InterlockedCompareExchange(&layout_overrides, 0, 0);
+    return InterlockedCompareExchange(&grid[2], 0, 0);
+}
 __declspec(dllexport) LONG CourierFreighterClassSnapshot(LONG values[6]) {
     values[0] = InterlockedCompareExchange(&setup_calls, 0, 0);
     values[1] = InterlockedCompareExchange(&freighter_setups, 0, 0);

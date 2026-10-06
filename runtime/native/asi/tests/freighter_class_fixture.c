@@ -12,7 +12,8 @@ typedef struct {
     uint32_t argument_5, argument_6; uint8_t minimum_values;
 } stat_call;
 static stat_call stat_calls[16];
-static volatile LONG stat_count, update_calls, setup_calls, reward_calls;
+static volatile LONG stat_count, update_calls, setup_calls, reward_calls, layout_count;
+static struct { uintptr_t store, inventory_type, slot_count, use_slot_count; } layout_calls[32];
 static unsigned char *reward_item;
 static char last_reward_id[16];
 static uint64_t last_reward_scalars;
@@ -30,12 +31,28 @@ __declspec(dllexport) __declspec(noinline) void CourierTestStatGenerator(
     if (index < 16) stat_calls[index] = (stat_call){store, inventory_type, seed, item_class,
                                                     argument_5, argument_6, minimum_values};
 }
+__declspec(dllexport) __declspec(noinline) uintptr_t CourierTestLayoutInitializer(
+    uintptr_t store, uintptr_t inventory_type, uintptr_t slot_count, uintptr_t layout, uintptr_t a5,
+    uintptr_t size_type, uintptr_t a7, uintptr_t a8, uintptr_t use_slot_count) {
+    (void)layout; (void)a5; (void)a7; (void)a8;
+    LONG index = InterlockedIncrement(&layout_count) - 1;
+    if (index < 32) {
+        layout_calls[index].store = store; layout_calls[index].inventory_type = inventory_type;
+        layout_calls[index].slot_count = slot_count; layout_calls[index].use_slot_count = use_slot_count;
+    }
+    // Stand-in for the native header: width, height and count at +0x80.
+    if (store) ((int16_t *)(store + 0x80))[2] = (int16_t)slot_count;
+    return store + size_type;
+}
 __declspec(dllexport) __declspec(noinline) uintptr_t CourierTestPurchaseSetup(
     uintptr_t item, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6,
     uintptr_t kind, uintptr_t a8, uintptr_t a9, uintptr_t a10, uintptr_t a11) {
     InterlockedIncrement(&setup_calls);
     // Like the native layout initializer, setup itself leaves class 0 in every store.
     if (item && (uint32_t)kind == 3) {
+        CourierTestLayoutInitializer(item + 0x980, 7, 18, 0, 0, 0x1c, 0, 2, 0);
+        CourierTestLayoutInitializer(item + 0xe10, 8, 18, 0, 0, 0x1c, 0, 2, 0);
+        CourierTestLayoutInitializer(item + 0xbc8, 9, 4, 0, 0, 0x1c, 0, 2, 0);
         *(int32_t *)(item + 0x980 + 0x100) = 0;
         *(int32_t *)(item + 0xe10 + 0x100) = 0;
         *(int32_t *)(item + 0xbc8 + 0x100) = 0;
@@ -68,7 +85,7 @@ static int signal_event(const char *base, const char *tag) {
     if (!event) return 0;
     BOOL ok = SetEvent(event);
     CloseHandle(event);
-    Sleep(400);
+    Sleep(900);
     return ok != 0;
 }
 static int stat_matches(LONG first, const unsigned char *item, int item_class) {
@@ -136,7 +153,35 @@ int main(void) {
     if (!signal_event(base, "a")) return 16;
     CourierTestPurchaseSetup(0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
     if (stat_count != 6 || snapshot(values) != -1 || values[5] != 1) return 17;
+    // Layout arguments were native in every setup so far (slots never armed).
+    for (LONG index = 0; index < layout_count; ++index)
+        if (layout_calls[index].use_slot_count != 0 ||
+            layout_calls[index].slot_count != (layout_calls[index].inventory_type == 9 ? 4u : 18u)) return 21;
+    typedef LONG (*slots_snapshot_fn)(LONG values[3]);
+    slots_snapshot_fn slots_snapshot = (slots_snapshot_fn)(void *)GetProcAddress(proxy, "CourierFreighterSlotsSnapshot");
+    LONG slot_values[3];
+    if (!slots_snapshot || !signal_event(base, "slots") || slots_snapshot(slot_values) != -1 || slot_values[0] != 1) return 22;
+    // Armed slots: a non-freighter setup and a direct layout call stay native and do not consume it.
+    LONG before = layout_count;
+    CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0x2d);
+    CourierTestLayoutInitializer((uintptr_t)item + 0x980, 7, 18, 0, 0, 0x1c, 0, 2, 0);
+    if (layout_count != before + 1 || layout_calls[before].slot_count != 18 || slots_snapshot(slot_values) != -1 ||
+        slot_values[0] != 1 || slot_values[2] != 0) return 23;
+    before = layout_count;
+    CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
+    if (layout_count != before + 3 ||
+        layout_calls[before].store != (uintptr_t)item + 0x980 || layout_calls[before].slot_count != 120 ||
+        layout_calls[before].use_slot_count != 1 || layout_calls[before + 1].slot_count != 60 ||
+        layout_calls[before + 1].use_slot_count != 1 || layout_calls[before + 2].slot_count != 4 ||
+        layout_calls[before + 2].use_slot_count != 0 || slots_snapshot(slot_values) != 120 ||
+        slot_values[0] != 0 || slot_values[1] != 1 || slot_values[2] != 2) return 24;
+    // One request applies once.
+    before = layout_count;
+    CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
+    if (layout_calls[before].slot_count != 18 || layout_calls[before].use_slot_count != 0 ||
+        slots_snapshot(slot_values) != 120 || slot_values[2] != 2) return 25;
     printf("pre_arm_excluded=1 kind_filter=1 one_shot_class=1 stat_arguments=1 dispatch_once=1 bad_item_rejected=1\n");
+    printf("slots_scope=1 slots_one_shot=1 main_120=1 technology_60=1 third_store_native=1\n");
 
     Sleep(9000);
     log = fopen(path, "r");
@@ -146,7 +191,7 @@ int main(void) {
     fclose(log);
     if (!completed) return 19;
     if (CourierTestPurchaseSetup((uintptr_t)item, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d) != expected ||
-        stat_count != 6 || setup_calls < 6) return 20;
+        stat_count != 6 || setup_calls < 9) return 20;
     printf("timed_hook_removal_verified=1 original_function_available=1\n");
     return 0;
 }
