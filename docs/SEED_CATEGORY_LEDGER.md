@@ -26,7 +26,7 @@ and multitools, so the application can choose seeds by desired outcome.
 | Special slots | Store seed, class, size-type limits | Rule read; live all-slot marking validated for freighter offers |
 | Installed technologies | Store seed, slots, wealth row, class argument, technology tables | Selection and procedural upgrade statistics ported and instruction-compared: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md); natural caller arguments and boosted-roll percentage open |
 | Name | Not researched in this repository | Open; a public name generator was only compared for its PRNG |
-| Base stats | Store seed, class, base-stat table | Generator `4cea20` read (one draw per entry, linear between the class row's bounds); called natively at delivery; port pending |
+| Base stats | Store seed, class, ship or weapon class row | Ported and instruction-compared (71,264 cases): [inventory class](INVENTORY_CLASS_RESEARCH.md#base-stat-generation-ported-2026-10-06-offline); natural caller arguments and the range-pair byte open |
 
 Scene-specific fact, from the 180383 corpus descriptors: the pirate freighter
 scene has **one group with one option** (`_PIRATEFREIGHTER_`), while the

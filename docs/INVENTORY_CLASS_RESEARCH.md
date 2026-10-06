@@ -730,6 +730,51 @@ base stats follow it. Not covered: slot counts, technology cap by class,
 supercharged slots, model/seed selection, persistence. A crash or a missing
 offer is a possible outcome; the dispatch must not be repeated in that process.
 
+### Base-stat generation ported (2026-10-06, offline)
+
+`4cea20(store, inventory type, seed, class, ship class, weapon class, ?, minimum flag)`
+writes the base statistics of a store (vector at `+0xd0`, 0x18-byte elements:
+16-byte stat ID and a float).
+
+- Row selection `4ce9b0`: the table at `manager+0x218` (start of the loaded
+  inventory table) holds 23 rows of four `{pointer, count}` cells, one cell per
+  class C, B, A, S. Inventory types 4 to 9 use the ship-class argument as row
+  (12 means none); type 3 uses weapon class + 12 (10 means none); types 10 and
+  11 use row 22; every other type generates nothing and leaves the store
+  untouched. Row order read from the data: Freighter, Dropship, Fighter,
+  Scientific, Shuttle, PlayerFreighter, Royal, Alien, Sail, Robot, Corvette,
+  one unused row, then Pistol, Rifle, Pristine, Alien, Royal, Robot, Atlas,
+  AtlasYellow, AtlasBlue, Staff, then the vehicle row.
+- Values: the stream starts from the store seed; each entry of the cell takes
+  one draw and stores `unit(draw) * (max - min) + min` (float32 steps in that
+  order). The minimum flag stores `min` instead; the draw still advances.
+- Each 0x20-byte entry holds the ID then `Max`, `MaxFixedAdd`, `Min`,
+  `MinFixedAdd`. A runtime byte (RVA `525d35b`) selects the `Max`/`Min` pair
+  when set and the `FixedAdd` pair when clear. The `FixedAdd` values are zero
+  in every entry of the 180383 table, so the set state is assumed to be the
+  normal one; the byte's meaning and its writer were not found in code (it is
+  only read, so it is probably loaded with a settings block).
+- Example ranges (S class): fighter `SHIP_DAMAGE` 70..90, `SHIP_SHIELD`
+  24..38, `SHIP_AGILE` 35..45; hauler `SHIP_SHIELD` 95..125; scientific
+  `SHIP_HYPERDRIVE` 90..120; freighter `FREI_HYPERDRIVE` 60..80, `FREI_FLEET`
+  40..60; rifle `WEAPON_DAMAGE` 15..20; pristine and royal `WEAPON_SCAN`
+  100..100. Alien ships have only an S cell; the player-freighter row is empty.
+
+`runtime/research/evaluate-base-stats.py` is the port;
+`emulate-base-stats.py` runs `4ce9b0..4cec9f` under Unicorn on the original
+table bytes and compares float bit patterns: **71,264 cases, 0 differences**
+(every row, four classes, 512 seeds, plus disabled-seed, alternate-pair and
+minimum-flag variants). A first run reported 10,480 differences; all were the
+"no row" case, where the routine returns before resetting a stale element
+count that the harness had planted. The harness now expects the untouched
+store. Report: `E:\NMS-Courier-Research\seed-analysis-180383\base-stats-port-20261006b.json`.
+Table SHA-256: `ccb6e6858a7df981b198fb020a539be364446c703bf741ccc7ee5da88458240d`.
+
+Not established: which seed, class and class rows each natural caller passes
+(the delivery profile calls this routine natively with the stored class); how
+the stored value becomes the bonus shown in the interface; build 180836
+values.
+
 ## Not established
 
 - The natural freighter acquisition path and the seed it supplies to the draw.

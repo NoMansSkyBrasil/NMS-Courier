@@ -21,6 +21,14 @@ offline:
    (`4cea20`, read but not ported: one draw per entry of the class row,
    `value = unit * (max - min) + min`, table selected by `4ce9b0`).
 
+3. *Base stats* are ported and instruction-compared (71,264 cases):
+   [inventory class research](INVENTORY_CLASS_RESEARCH.md#base-stat-generation-ported-2026-10-06-offline).
+4. *Colored previews*: `export-scene-glb.py --palette-seed` paints materials
+   with the base palette port (flat color, most probable texture option).
+   The next real algorithm to close for colors is the seeded, model-wide
+   texture option choice (paint style) with its natural resource order and
+   seed; see [model preview research](MODEL_PREVIEW_RESEARCH.md#colored-seed-previews-2026-10-06-later).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

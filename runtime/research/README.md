@@ -3,6 +3,8 @@
 `export-scene-glb.py` converts a corpus scene (scene graph, geometry metadata
 and stream container XML) to a texture-free GLB for the desktop Model
 workshop; `--seed` keeps only the parts the descriptor traversal port selects.
+`evaluate-base-stats.py` ports base-stat generation and `emulate-base-stats.py`
+compares it with the original routine.
 `evaluate-default-technology.py` and `evaluate-procedural-technology.py` are
 the Python ports of installed-technology selection and procedural upgrade
 statistics; `emulate-default-technology.py --compare-port` and

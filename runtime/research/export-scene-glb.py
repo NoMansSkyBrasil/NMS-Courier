@@ -26,6 +26,13 @@ HALF, FLOAT = 5131, 5126
 # Import limits of the desktop model workshop (apps/desktop/src/main/model-preview-import.ts).
 MAX_BYTES, MAX_JSON, MAX_ACCESSORS, MAX_ELEMENTS, MAX_COUNT = 64 * 1024**2, 4 * 1024**2, 16384, 12_000_000, 1_000_000
 POSITION_SEMANTIC = 0
+# Palette channels that index the five generated samples of a family.
+CHANNELS = ('Primary', 'Alternative1', 'Alternative2', 'Alternative3', 'Alternative4')
+
+
+def linear(value):
+    value = min(max(value, 0.0), 1.0)
+    return value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4
 
 
 def child(node, name):
@@ -146,7 +153,9 @@ class Corpus:
 
 
 class Builder:
-    def __init__(self, corpus, max_depth, lod, exclude, included=None):
+    def __init__(self, corpus, max_depth, lod, exclude, included=None, colors=None):
+        # colors: palette family -> five RGBA samples for one palette seed, or None for placeholders.
+        self.colors, self.bindings = colors, []
         self.corpus, self.max_depth, self.lod, self.exclude = corpus, max_depth, lod, exclude
         # included(node name) -> bool: descriptor visibility of a loaded node for one evaluated seed.
         self.included, self.pruned = included, 0
@@ -164,16 +173,74 @@ class Builder:
         self.binary += data
         return len(self.views) - 1
 
+    def binding(self, game_path):
+        """Palette binding of a material's diffuse texture: (texture path, family, channel) or None.
+
+        The diffuse map's sibling procedural texture list names a palette family and channel per option.
+        Each layer contributes its most probable option; among layers with a sample channel the main
+        paint layer is preferred by name. The seeded option choice of the game is not evaluated here.
+        """
+        source = self.corpus.xml(game_path)
+        if source is None:
+            return None
+        diffuse = None
+        root = load_xml(source, 'cTkMaterialData', 4 * 1024**2)
+        samplers = child(root, 'Samplers')
+        for sampler in samplers if samplers is not None else ():
+            if text(sampler, 'Name') == 'gDiffuseMap':
+                diffuse = text(sampler, 'Map', '')
+        if not diffuse or not diffuse.upper().endswith('.DDS'):
+            return None
+        # 'DIR/NAME.DDS' and layered 'DIR/NAME.LAYER.DDS' both belong to the list 'DIR/NAME.texture.mbin'.
+        folder, _, leaf = diffuse.replace('\\', '/').lower().rpartition('/')
+        texture = folder + '/' + leaf.split('.')[0] + '.texture.mbin'
+        listing = self.corpus.xml(texture)
+        if listing is None:
+            return None
+        layers = child(load_xml(listing, 'cTkProceduralTextureList', 4 * 1024**2), 'Layers')
+        candidates = []
+        for layer in layers if layers is not None else ():
+            options = child(layer, 'Textures')
+            best = None
+            for option in options if options is not None else ():
+                palette = child(option, 'Palette')
+                chance = float(text(option, 'Probability', '0'))
+                if palette is not None and (best is None or chance > best[0]):
+                    best = (chance, text(palette, 'Palette'), text(palette, 'ColourAlt'))
+            if best and best[2] in CHANNELS:
+                candidates.append((text(layer, 'Name', ''), best[1], best[2]))
+        # One flat color cannot show stacked layers. The main paint layer is preferred by name; this
+        # ranking is a viewing heuristic, not an engine rule.
+        for wanted in ('PAINT1', 'BASE', 'PAINT'):
+            for name, family, channel in candidates:
+                if name == wanted:
+                    return texture, family, channel
+        return (texture, candidates[0][1], candidates[0][2]) if candidates else None
+
     def material(self, game_path):
-        """Untextured placeholder named after the game material, so a viewer can recolor by material."""
-        name = game_path.replace('\\', '/').rsplit('/', 1)[-1].upper().replace('.MATERIAL.MBIN', '')
-        if name not in self.material_cache:
-            glow = any(mark in name for mark in ('GLOW', 'LIGHT', 'BLINK'))
+        """Untextured material named after the game material; colored when a palette row is available."""
+        key = game_path.replace('\\', '/').lower()
+        if key not in self.material_cache:
+            name = key.rsplit('/', 1)[-1].upper().replace('.MATERIAL.MBIN', '')
+            glow = any(mark in name for mark in ('GLOW', 'BLINK')) or name.startswith(('LIGHT', 'HQLIGHT',
+                                                                                      'HQWHITELIGHT', 'HEADLIGHT'))
+            color = [0.95, 0.85, 0.6, 1.0] if glow else [0.62, 0.64, 0.68, 1.0]
+            record = {'material': key, 'name': name, 'source': 'placeholder'}
+            if self.colors is not None:
+                found = self.binding(key)
+                if found:
+                    record.update(texture=found[0], family=found[1], channel=found[2], source='unbound')
+                    row = self.colors.get(found[1])
+                    if row and found[2] in CHANNELS:
+                        sample = row[CHANNELS.index(found[2])]
+                        # Palette samples are treated as display (sRGB) values; glTF factors are linear.
+                        color = [linear(sample[0]), linear(sample[1]), linear(sample[2]), 1.0]
+                        record.update(rgba=list(sample), source='palette')
+            self.bindings.append(record)
             self.materials.append({'name': name, 'pbrMetallicRoughness': {
-                'baseColorFactor': [0.95, 0.85, 0.6, 1.0] if glow else [0.62, 0.64, 0.68, 1.0],
-                'metallicFactor': 0.1, 'roughnessFactor': 0.8}})
-            self.material_cache[name] = len(self.materials) - 1
-        return self.material_cache[name]
+                'baseColorFactor': color, 'metallicFactor': 0.1, 'roughnessFactor': 0.8}})
+            self.material_cache[key] = len(self.materials) - 1
+        return self.material_cache[key]
 
     def mesh(self, geometry_key, stream_hash, material):
         key = (geometry_key, stream_hash, material)
@@ -310,6 +377,9 @@ def main():
     parser.add_argument('--lod', type=int, default=0, choices=range(0, 5))
     parser.add_argument('--seed', type=lambda value: int(value, 0),
                         help='Keep only the descriptor alternatives the ported traversal selects for this seed')
+    parser.add_argument('--palette-seed', type=lambda value: int(value, 0),
+                        help='Color materials from the base palette port for this seed (ships and tools use the '
+                             'model seed; freighters use the home system seed)')
     parser.add_argument('--exclude', default='SHIELD|SHADOW|LOD[1-9]',
                         help='Case-insensitive pattern over mesh name and material path; matching meshes are dropped')
     args = parser.parse_args()
@@ -329,8 +399,14 @@ def main():
         loader.close()
         chosen = set(selection['selected_ids'])
         included = lambda name: port['loaded_node_included'](name, chosen)
+    colors = None
+    if args.palette_seed is not None:
+        # Base collection only; alternate branch, bank and threshold state are separate, open inputs.
+        palettes = runpy.run_path(str(Path(__file__).with_name('evaluate-base-palettes.py')))
+        rows = palettes['generate'](args.palette_seed, palettes['load_base'](args.corpus.resolve()))
+        colors = {row['family']: [sample['rgba'] for sample in row['colors']] for row in rows}
     builder = Builder(Corpus(args.corpus), args.reference_depth, args.lod, re.compile(args.exclude, re.IGNORECASE),
-                      included)
+                      included, colors)
     loaded = builder.scene(args.scene)
     if loaded is None:
         parser.error('Scene is not available as converted XML in the corpus index')
@@ -345,6 +421,8 @@ def main():
     output.write_bytes(data)
     report = {'scene': args.scene, 'seed': None if args.seed is None else '0x%X' % args.seed,
               'selected_ids': selection and selection['selected_ids'], 'pruned_nodes': builder.pruned,
+              'palette_seed': None if args.palette_seed is None else '0x%X' % args.palette_seed,
+              'material_bindings': builder.bindings[:2048],
               'classification': selection and selection['classification'],
               'output_sha256': hashlib.sha256(data).hexdigest(), 'budget': budget,
               'exceeds_workshop_limits': over, 'sources': builder.sources,
@@ -354,7 +432,8 @@ def main():
                               'no textures, normals, skinning or decals.',
                               'Euler composition order Rz*Ry*Rx is an assumption checked by rendered inspection only.',
                               'Only meshes of the selected LOD level are exported; collision nodes and --exclude matches are dropped.',
-                              'Without --seed every descriptor alternative is present. With --seed the selection is the offline traversal port with an empty caller context; it is not runtime verified.']}
+                              'Without --seed every descriptor alternative is present. With --seed the selection is the offline traversal port with an empty caller context; it is not runtime verified.',
+                              'With --palette-seed a material takes one flat color: the base palette sample bound by the most probable option of its diffuse texture list. Texture pixels, masks, the seeded option choice, the alternate palette branch and decals are not applied.']}
     output.with_suffix('.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     print(json.dumps({key: report[key] for key in ('budget', 'exceeds_workshop_limits', 'warning_count')}))
 

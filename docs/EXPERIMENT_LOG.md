@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-06 late night: base-stat generation ported; colored seed previews (offline)
+
+Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#base-stat-generation-ported-2026-10-06-offline)
+and [model preview research](MODEL_PREVIEW_RESEARCH.md#colored-seed-previews-2026-10-06-later).
+Offline only, build 180383 executable `671de226...e497a4`, inventory table
+`ccb6e685...240d`, base palette binary `3521862b...9c4e`, Unicorn 2.1.4.
+
+- Source: `evaluate-base-stats.py`, `emulate-base-stats.py`,
+  `export-scene-glb.py --palette-seed`.
+- Observed: base-stat port equals the original routine in 71,264 cases
+  (float bit patterns). The fighter render for seed `0x7` shows palette colors
+  on 22 of 53 materials.
+- Rejected: 10,480 first-run differences were a harness artifact (stale
+  element count in the untouched "no row" case), not a port error.
+- Not proven: the runtime byte selecting the range pair; natural caller
+  arguments; the seeded texture option choice that decides paint style (the
+  preview takes the most probable option); texture pixels, masks, decals.
+- Rollback: nothing to roll back; reports and renders are external.
+
 ## 2026-10-06 late night: game scenes exported to the workshop, seed-selected renders (offline)
 
 Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#native-scene-export-and-seed-selected-renders-2026-10-06).

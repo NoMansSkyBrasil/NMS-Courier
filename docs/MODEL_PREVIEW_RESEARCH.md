@@ -482,3 +482,47 @@ node runtime/scripts/capture-model-preview.cjs `
   E:/NMS-Courier-Research/preview-models/NEW/capture-fighter-0x7 "*" `
   C:/Users/louan/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright
 ```
+
+### Colored seed previews (2026-10-06, later)
+
+`export-scene-glb.py --palette-seed` colors each material from the base
+palette port (`evaluate-base-palettes.py`): the material's `gDiffuseMap`
+`NAME.DDS` (or layered `NAME.LAYER.DDS`) belongs to the procedural list
+`NAME.texture.mbin`; each layer contributes its most probable option, and among
+layers whose option has a sample channel the main paint layer is preferred by
+name (`PAINT1`, then `BASE`, then `PAINT`, else the first) — a viewing
+heuristic, since one flat color cannot show stacked layers. The option's
+`Palette` family and `ColourAlt` channel (Primary, Alternative1..4) index the
+five generated samples of that family. Materials without such a list keep the
+gray placeholder. Samples are written as sRGB-to-linear converted glTF
+factors (an interpretation, not a shader fact). Materials are now distinct per
+game path, and the JSON report lists every binding.
+
+Observed for the fighter scene with model and palette seed `0x7`: 22 of 53
+materials bound (Paint/Primary green on hull panels, Undercoat/Primary beige,
+Paint/Alternative4 orange accents, Undercoat/Alternative4 trims); the render
+reads as a plausible painted ship.
+
+Further observations: the hauler for seed `0x7` renders as a coherent painted
+ship; the pirate freighter (model seed `0x8C968767B3282F13`, palette seed
+`0x175000B001FFD`) binds `PirateBase/Alternative1` (near black) and
+`PirateAlt/Primary` (gray) through `largetilingpanels` and
+`largetilingpanelsalt`; the scientific ship first came out a single yellow
+because its one atlas list stacks `PAINTALT`, `PAINT1` and `BASE` layers and
+the first layer was taken — the layer preference above was added for that.
+A faithful result needs the layer textures themselves (masks decide where
+each layer shows); the corpus index lists the DDS members but they are not
+extracted.
+
+This is deliberately an approximation, and the reason matters for the next
+step: in the shared fighter lists the `BASE` layer offers named options
+(`COATING` 0.15, `PANELS` 0.40, `PAINTED` 0.40, three more at 0) whose palette
+bindings differ per texture (for `secondary`: Undercoat/Alternative1,
+Undercoat/Primary and Paint/Primary respectively). Which named option a seed
+selects, consistently across all textures of the model, decides whether the
+secondary surfaces take the undercoat or the paint color. The exporter does
+not evaluate that choice; the restricted selector port
+(`evaluate-texture-options.py`) exists but the natural merged resource order
+and texture seed of a whole model are still open
+([texture flow](APPEARANCE_TEXTURE_SEED_FLOW.md)). Freighters need the home
+system seed as palette seed; ships and multitools use the model seed.
