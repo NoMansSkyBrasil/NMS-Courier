@@ -25,18 +25,59 @@ Read-only look at the slot files (keys are the save file's own short keys):
 
 These are the per-slot states the save editor shows as "Redeemed in Save".
 
-## Fish and fossils are not slot data
+## Fish and fossils: where they really are (corrected 2026-10-07)
 
-The same look found **no fishing record and no fossil list in any slot**, not
-even in slot 1, which an editor filled completely. The fish and fossil IDs of
-slot 1 are entries of its known products. The fishing record (catch counts
-and sizes) and the fossil collection exist only in the account files
-(`accountdata.hg` and the user settings file).
+An earlier version of this section said that no slot holds a fishing record.
+**That was wrong.** The owner asked for a deeper look, and it shows:
 
-So "put fish and fossils into the slot" has no target: the game keeps no such
-record per slot. They can only be written at account level, which the owner
-asked to leave alone. This needs the owner's decision; nothing was built for
-them.
+### Fish: the record is in the slot
+
+- Every slot file has a fishing record (save key `bTf`): a fixed list of 256
+  product IDs (`5gB`), 256 counts (`yv6`) and the largest-catch values. In all
+  four slots of the owner it is empty, which is why a search for fish IDs
+  found nothing. The fish IDs that slot 1 does contain are known products.
+- The game fills it through one routine, found from the catch message and
+  statistic it uses: `4678d0` (fishing object at manager `+0x307788`, pointer
+  to the fish's entry in the fish table, catch size as a float). The object
+  keeps a record list at `+0x18` (capacity, count, pointer) with entries of
+  `0x18` bytes: product ID, catch count, largest size. For a fish already
+  recorded the routine adds one to the count and keeps the larger size; for a
+  new fish it appends an entry with count 1.
+- The fish table is at `*(manager + 0xe0)` with entries of `0x68` bytes; the
+  product ID is at `+0x20` of an entry. The converted table gives each fish a
+  quality and a size class, not a number of its own.
+
+So fish **can** be delivered into the slot through the game's own routine.
+What that routine does besides the record, each time it is called:
+
+- adds one to the statistic `FISH_CAUGHT`, and to a per-fish statistic when
+  the entry names one;
+- adds to two counters of the fishing object;
+- for a new fish, runs a check that mentions `FISH_LEGEND`, read as a
+  milestone or achievement test.
+
+Recording 220 fish this way therefore also says "220 fish caught" in the
+statistics and may complete milestones. The catch size has to be supplied by
+the caller, so any value is invented; which value to use is the owner's
+decision. Nothing was built for fish yet.
+
+### Fossils: the slot has statistics, the collection is account data
+
+- A slot holds six fossil statistics (`FOS_MADE`, `FOS_BI_MADE`,
+  `FOS_QUAD_MADE`, `FOS_BIRD_MADE`, `FOS_GRUN_MADE`, `FOS_WORM_MADE`), all
+  empty in slot 3, and, in slot 1, the craftable fossil display pieces among
+  the known products. It holds no list of the individual bones.
+- The individual bones (`FOS_HEAD_*`, `FOS_LIMBS_*`, `FOS_BI_BODY_*`,
+  `FOS_BI_TAIL_*`) appear only in the account's seen-products list. That is
+  what a save editor's fossil page shows as complete.
+- The game has a single-entry routine for that list too: "mark product as
+  seen" (`60a720` on build 180836), which the catch routine above also calls
+  for a new fish. It writes the account object and sets its changed flag.
+
+So fossils can be marked through a game routine as well, but the place the
+game keeps them is the account, not the slot. Whether the wonder records of
+a slot (`WonderTreasureRecords` and the others named in the executable) play
+a part was not examined.
 
 ## Why the account data is left alone
 

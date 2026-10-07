@@ -7,8 +7,11 @@ Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md) and
 No game process was involved.
 
 - Read-only look at the slot files: known specials, redeemed season, Twitch
-  and platform rewards and known recipes are per slot; **no fishing record
-  and no fossil list exists in any slot**, only in the account files.
+  and platform rewards and known recipes are per slot. First reading: no
+  fishing record in any slot. **Corrected the same day:** every slot has a
+  fishing record of 256 fixed entries, empty in all four slots; the game
+  fills it with routine `4678d0`. Individual fossil bones are only in the
+  account's seen-products list; a slot has six fossil statistics.
 - The slot-side routine `5ab380` (player state, ID) is what the season reward
   handler calls after the account unlock; it also has Twitch and platform
   branches.

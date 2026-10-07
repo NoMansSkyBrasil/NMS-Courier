@@ -146,8 +146,8 @@ offline:
     [reward redemption notes](REWARD_REDEMPTION_NOTES.md). The owner wants
     the active slot changed and the account data left alone. Installed DLL is
     now `0983a24e...2106` (recipes and redeem requests, neither run live).
-    Fish and fossils have no per-slot record, which is an open decision for
-    the owner. Next, with the game open on slot 3:
+    Fish do have a per-slot record and a game routine (not built);
+    fossil bones are account-level seen products. Next, with the game open on slot 3:
     `runtime/research/identify-loaded-slot.py`, then the recipe test, then
     one decoration-type season reward.
 
