@@ -100,13 +100,13 @@ changes there.
 | Item | Value |
 | --- | --- |
 | Profile DLL | SHA-256 `a6c01dbc21ea0323ccac219691902b9f6b900bc3a42b63468dd14d7cbef9ecda`, built with `-Mode Profile180836` |
-| Installed | **No.** The game was running with unsaved deliveries; `2bd83437...ca78` stays installed until the game is closed |
+| Installed | **Yes**, 2026-10-07 after the owner saved and closed the game (no `NMS.exe` process; executable still `13d5060d...`). Replaces `2bd83437...ca78`; undo by copying that build back from the external native-builds directory. No request has been sent to it |
 | Checks run | Profile, technology and recipe fixtures pass. No fixture covers the product request |
 
 ## First live test (proposed, not done)
 
-1. The owner saves in the game and closes it; install the DLL; start the
-   game on slot 3; identify the slot; preflight.
+1. Done: saved, closed, DLL installed. Still to do: start the game on
+   slot 3; identify the slot; preflight.
 2. One product (`ALLOY1`, Aronium); compare the result file with the
    catalogue entry.
 3. `-AllOfClass catalogue_item`; the dark entries of the screenshots should

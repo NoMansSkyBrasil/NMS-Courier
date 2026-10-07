@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-07: recipes and fishing record persisted in slot 3; product build installed
+
+The owner saved in the game (process 24704, DLL `2bd83437...ca78`) and closed
+it. Read-only check of both slot 3 files (`save5.hg` 20:56, `save6.hg` 20:58):
+
+| List | Saved size |
+| --- | --- |
+| Known technologies | 205 |
+| Known products | 601 (not delivered by us) |
+| Known recipes | 1,684 |
+| Fishing record | 220 of 256 entries filled, 220 non-zero counts |
+| Redeemed season / Twitch / platform | 10 / 0 / 1 (untouched) |
+
+So the recipe and fish deliveries of the same day survive a save. Not checked:
+how the game shows the fishing record in its interface.
+
+Then, with no game process, profile DLL `a6c01dbc...ecda` (product request)
+was installed over `2bd83437...ca78`; executable hash unchanged
+(`13d5060d...`). No request sent yet. Undo: copy the previous build back.
+
 ## 2026-10-07: product recipes — classification and request built; fossil request withdrawn (offline)
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md). The game was
