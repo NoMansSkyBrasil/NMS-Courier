@@ -77,6 +77,11 @@ export type TechnologyDeliveryRequest =
   | { readonly mode: 'several'; readonly ids: readonly string[] }
   | { readonly mode: 'all' }
 
+// Silent by default (owner decision, 2026-10-07). When showAlerts is on, the game shows its own
+// new-technology alert for each entry, in every mode.
+export type TechnologyDeliveryOptions = { readonly showAlerts: boolean }
+export const defaultTechnologyDeliveryOptions: TechnologyDeliveryOptions = { showAlerts: false }
+
 export type TechnologyDeliverySelection = {
   readonly ids: readonly string[]
   readonly refused: readonly { readonly id: string; readonly reason: TechnologyDeliveryClass | 'unknown_id' }[]

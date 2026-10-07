@@ -223,6 +223,17 @@ The three modes of the product map to these: one = `-Id X`, several =
 `-Id X,Y,Z`, all = `-All`. The application-side selection function is
 `selectTechnologiesForDelivery`.
 
+### Alerts (owner decision, 2026-10-07)
+
+Delivery is silent by default. The user can turn on the game's own
+new-technology alert, in any of the three modes, to watch the technologies
+being learned. In the profile this is the request line `silent=0` (script
+switch `-ShowAlert`); in the application it is
+`TechnologyDeliveryOptions.showAlerts`, default `false`. The owner saw the
+alert for the single-technology request of the first live run. How the game
+presents alerts for a large request (for example 177 at once) has not been
+tried.
+
 ## Build and installation (2026-10-07)
 
 | Item | Value |
@@ -264,8 +275,9 @@ Proven by this run: the two routines can be called from the update hook in
 gameplay without stopping the game, and the game's own counter grows by the
 number reported as learned.
 
-Not proven: what the player sees (alert for the first request, catalogue and
-build menus), behaviour after saving and reloading, effects on missions or
+Confirmed by the owner: the game's alert appeared for the first request.
+
+Not proven: what the player sees in the catalogue and build menus, behaviour after saving and reloading, effects on missions or
 tutorials that expect a technology to be unknown, multiplayer, and a save
 that already knows a blocked entry.
 

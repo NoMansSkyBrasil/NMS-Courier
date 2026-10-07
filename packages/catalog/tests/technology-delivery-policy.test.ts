@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   classifyTechnologyForDelivery,
+  defaultTechnologyDeliveryOptions,
   isPermanentlyBlockedTechnologyId,
   selectTechnologiesForDelivery,
   type TechnologyDefinitionFlags
@@ -53,6 +54,10 @@ describe('technology delivery policy', () => {
     expect(classifyTechnologyForDelivery(entry('UT_JET', { teach: null }))).toBe('blocked_layout')
     expect(classifyTechnologyForDelivery(entry('UT_JET', { category: null }))).toBe('blocked_layout')
     expect(classifyTechnologyForDelivery(entry('bad id'))).toBe('blocked_layout')
+  })
+
+  it('is silent unless the user asks for the game alerts', () => {
+    expect(defaultTechnologyDeliveryOptions.showAlerts).toBe(false)
   })
 
   it('resolves the three delivery modes and never selects a blocked or unknown entry', () => {
