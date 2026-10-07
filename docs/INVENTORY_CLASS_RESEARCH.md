@@ -201,8 +201,9 @@ equal to 10 and the minimum-value byte set to 1.
 
 ### Research profile (fixture-tested; first live run recorded below)
 
-[freighter_class_180836.c](../runtime/native/asi/freighter_class_180836.c),
-build mode `FreighterClass180836`:
+`freighter_class_180836.c`, build mode `FreighterClass180836` (split on
+2026-10-07 into [profile_180836/](../runtime/native/asi/profile_180836/README.md),
+build mode `Profile180836`):
 
 - Starts only when the running executable hashes to the 180836 fingerprint and
   the in-memory bytes of the update entry, reward entry, setup entry, stat
@@ -229,7 +230,7 @@ build mode `FreighterClass180836`:
   checks the process, executable and DLL hashes, log freshness, profile state
   and unused dispatch state before signaling; `-PreflightOnly` signals nothing.
 
-Fixture ([run-freighter-class-fixture.ps1](../runtime/native/asi/tests/run-freighter-class-fixture.ps1),
+Fixture ([run-profile-fixture.ps1](../runtime/native/asi/tests/run-profile-fixture.ps1),
 fake host, never installed): unarmed exclusion, kind filter, exact generator
 arguments and store order, one-shot consumption, class B via the dispatch
 path, single dispatch, unwritable-item rejection, timed hook removal and

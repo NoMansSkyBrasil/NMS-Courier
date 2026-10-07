@@ -146,7 +146,7 @@ Three layers, each enough to refuse on its own:
 The rules exist in three places that must stay identical:
 
 - runtime, on the running game's own definitions:
-  `runtime/native/asi/technology_learn_180836.h`
+  `runtime/native/asi/profile_180836/technology_learn.h`
   (fixture `tests/run-technology-guard-fixture.ps1`);
 - application: `packages/catalog/src/technology-delivery-policy.ts`
   (tests in `packages/catalog/tests/technology-delivery-policy.test.ts`);
@@ -239,7 +239,7 @@ tried.
 | Item | Value |
 | --- | --- |
 | Game build | 180836, executable SHA-256 `13d5060d...3499` |
-| Profile DLL | `build-probe.ps1 -Mode FreighterClass180836`, SHA-256 `4cea02b77691c2cd27e3f63685ee5116dec8798bfeedf7010030a58bac62f6b3` (second build of the day, after the owner review; the first, `53b01c14...542d`, still refused the hidden entries and was never started by the game) |
+| Profile DLL | `build-probe.ps1 -Mode Profile180836`, SHA-256 `4cea02b77691c2cd27e3f63685ee5116dec8798bfeedf7010030a58bac62f6b3` (second build of the day, after the owner review; the first, `53b01c14...542d`, still refused the hidden entries and was never started by the game) |
 | Installed | Yes, with the game closed, replacing `53b01c14...542d`, which had replaced `37eecaaf...f1fa` (copy of the latter kept outside the repository in `native-builds/installed-backup-20261007-before-technology`) |
 | Checks run | Technology guard fixture passed; freighter class fixture passed; classification generated (205 deliverable, 188 blocked); catalog and desktop tests passed |
 | Checks not run | Any live request. The new DLL has not been started by the game yet, so even its startup verification on this build is unobserved |

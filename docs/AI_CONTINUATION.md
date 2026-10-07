@@ -152,6 +152,13 @@ offline:
     `runtime/research/identify-loaded-slot.py`, then the recipe test, then
     one decoration-type season reward.
 
+21. *Profile source split (2026-10-07).* The research profile is now one file
+    per domain in `runtime/native/asi/profile_180836/`
+    ([file map](../runtime/native/asi/profile_180836/README.md)), built with
+    `-Mode Profile180836`. Installed DLL: `2bd83437...ca78`. Older notes that
+    name `freighter_class_180836.c` or `FreighterClass180836` describe the
+    earlier single file. The status file is `native-profile-180836-<PID>.log`.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

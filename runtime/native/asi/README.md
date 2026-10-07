@@ -12,7 +12,7 @@ The prior [Ultimate ASI Loader v9.7.4](https://github.com/ThirteenAG/Ultimate-AS
 
 ## Request-scoped freighter class profile (180836; built, not installed)
 
-`build-probe.ps1 -Mode FreighterClass180836` builds `freighter_class_180836.c`
+`build-probe.ps1 -Mode Profile180836` builds the sources in [`profile_180836/`](profile_180836/README.md)
 for executable SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
 It verifies five in-memory byte windows, then waits for process-specific events.
 A class event (`c`, `b`, `a`, `s`) arms one application: after the native
@@ -20,8 +20,8 @@ purchase setup returns for item kind 3, the detour writes that class into the
 three temporary offer stores and regenerates their base stats with the native
 generator. The `dispatch` event requests one call of the generic reward entry
 with the shipped ID `RS_S13_S4M6`; it is one-shot per process. Status is written
-to `native-freighter-class-180836-<PID>.log`. Send requests with the per-domain scripts in
-[`signal/`](signal/README.md); `tests/run-freighter-class-fixture.ps1`
+to `native-profile-180836-<PID>.log`. Send requests with the per-domain scripts in
+[`signal/`](signal/README.md); `tests/run-profile-fixture.ps1`
 runs the isolated fixture. Hashes, evidence, the unverified dispatch ABI and the
 proposed live procedure are in
 [inventory class research](../../../docs/INVENTORY_CLASS_RESEARCH.md). This

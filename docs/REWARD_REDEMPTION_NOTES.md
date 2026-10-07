@@ -213,6 +213,7 @@ Twitch or platform reward. None does today.
 | Installed | Yes, with the game closed |
 | Backup | `E:/NMS-Courier-Research/save-backups/20261007-before-slot-lists` (whole save folder, with `accountdata.hg`, and the settings file; 28 files, taken before any of these requests) |
 | Checks run | Recipe, technology and freighter fixtures pass. There is no fixture for the redeem, fish and fossil requests yet |
+| Later build | The source was split per domain the same day; the installed DLL is `2bd83437...ca78` with the same requests |
 | Checks not run | Any live request |
 
 ## First live test (proposed, not done)

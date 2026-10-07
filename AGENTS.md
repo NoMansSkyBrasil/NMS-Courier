@@ -74,9 +74,12 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   unrelated helpers in it.
 - Name files for what they contain. If a file has outgrown its name, split or rename it in the
   same change and update every reference.
-- Existing exception to remove: `runtime/native/asi/freighter_class_180836.c` serves every domain
-  under a freighter name. Split it per domain the next time the profile is rebuilt; a split
-  changes the DLL hash, so record the new hash and repeat the live checks before relying on it.
+- The research profile follows this layout in `runtime/native/asi/profile_180836/`
+  ([file map](runtime/native/asi/profile_180836/README.md)): one file per domain, shared plumbing
+  in files named for what it is, and a core that only wires them together. Add to the domain's
+  own file; never put domain code in `profile_core.c` or in another domain's file.
+- Within a domain, keep class, inventory and technology apart as they grow (for example
+  `ship_class.h` beside `ship_inventory.h`).
 - Tidy as you go: remove superseded scripts instead of leaving two ways to do one thing, and say
   in the owning note what replaced them.
 
@@ -102,7 +105,7 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Refuse by structure first, then by the permanent ID rules, and refuse anything unreadable. Never
   build "all" from the raw table; build it from the classification.
 - The rules live in three places that must change together, each with its test:
-  `runtime/native/asi/technology_learn_180836.h`,
+  `runtime/native/asi/profile_180836/technology_learn.h`,
   `packages/catalog/src/technology-delivery-policy.ts` and
   `runtime/research/classify-technology-delivery.py`.
 - Removing an entry or a rule from the blocked set requires an explicit decision by the project

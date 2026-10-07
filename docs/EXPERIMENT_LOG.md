@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-07: profile source split into one file per domain (build only)
+
+Owner: [profile file map](../runtime/native/asi/profile_180836/README.md).
+Requested again by the project owner after domain code kept being added to
+the single freighter-named file. No game process was involved.
+
+- `runtime/native/asi/freighter_class_180836.c` was replaced by sixteen files
+  in `runtime/native/asi/profile_180836/`; function bodies moved unchanged,
+  glue rewritten. Build mode `Profile180836`; status file, mode string and
+  event base renamed.
+- Checks: profile fixture (offer hooks), technology and recipe guard fixtures
+  pass. Not covered by a fixture: corvette, shipped reward, owned inventory,
+  redeem, fish and fossil branches.
+- Built and installed with the game closed: `2bd83437...ca78`, replacing
+  `3c7a6fcc...4269`.
+- Not proven: any live request on the split build. Earlier live results were
+  obtained with earlier builds.
+
 ## 2026-10-07: fish and fossil requests built (offline)
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md). No game process

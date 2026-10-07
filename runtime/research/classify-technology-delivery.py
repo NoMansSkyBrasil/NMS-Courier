@@ -3,7 +3,7 @@
 Reads the converted technology table of the existing corpus, read-only, and
 applies the permanent refusal rules of the technology domain (the same rules
 the research profile enforces on the running game's own definitions, see
-runtime/native/asi/technology_learn_180836.h). Writes one Markdown data table
+runtime/native/asi/profile_180836/technology_learn.h). Writes one Markdown data table
 with the class of each entry; `deliverable` rows are what "deliver all" sends.
 
 The rules are structural first, so an entry added by a later game version is

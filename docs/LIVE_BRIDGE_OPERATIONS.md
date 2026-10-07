@@ -11,11 +11,11 @@ capability. Results are in the owning notes linked at the end.
 
 | Piece | Where | Role |
 | --- | --- | --- |
-| Profile DLL | `runtime/native/asi/freighter_class_180836.c`, built with `build-probe.ps1 -Mode FreighterClass180836`, installed as `Binaries/xinput9_1_0.dll` | Loaded by the game at start in place of the system input library (it forwards the real input calls). Checks the executable hash and the bytes of every routine it will touch; if anything differs it does nothing. |
+| Profile DLL | [`runtime/native/asi/profile_180836/`](../runtime/native/asi/profile_180836/README.md) (one file per domain), built with `build-probe.ps1 -Mode Profile180836`, installed as `Binaries/xinput9_1_0.dll` | Loaded by the game at start in place of the system input library (it forwards the real input calls). Checks the executable hash and the bytes of every routine it will touch; if anything differs it does nothing. |
 | Signal scripts | [`runtime/native/asi/signal/`](../runtime/native/asi/signal/README.md): one script per domain (freighter, corvette, ship, multitool, exosuit) over a shared `profile-180836.ps1` | Run from outside the game for each request. Checks the process, the installed DLL hash and the profile status, writes a small request file when needed, and sets named events. |
 | Named events | One set per game process, names published in the status file | The only channel into the DLL: one event per kind of request. Setting an event carries no data. |
 | Request files | `%LOCALAPPDATA%/NMSCourier/diagnostics/native-*-request-180836-<PID>.txt` | Carry the few parameters a request needs (scene and seeds, a reward ID, an owned target). The DLL validates every line and rejects the whole request on anything unexpected. |
-| Status file | `%LOCALAPPDATA%/NMSCourier/diagnostics/native-freighter-class-180836-<PID>.log` | Written by the DLL when it handles an event: hook state, counters and what was applied. Rewritten on events, so read it again a few seconds after a request. |
+| Status file | `%LOCALAPPDATA%/NMSCourier/diagnostics/native-profile-180836-<PID>.log` | Written by the DLL when it handles an event: hook state, counters and what was applied. Rewritten on events, so read it again a few seconds after a request. |
 | Research mod | `GAMEDATA/MODS/NMSCourierCorvetteLayoutResearch` | Static data replacement used only for the corvette proof: the initial ship-base layout and the debug option that disables corvette validation. Loaded at game start. |
 
 Nothing writes to save files. The game itself saves the results.
@@ -175,7 +175,7 @@ of each list:
 - Save copies before a new kind of in-place change (kept outside the
   repository, for example
   `E:/NMS-Courier-Research/save-backups/20261007-before-owned-upgrade`).
-- A fixture (`tests/run-freighter-class-fixture.ps1`) exercises the offer
+- A fixture (`tests/run-profile-fixture.ps1`) exercises the offer
   hooks against stand-in routines. It does **not** cover the corvette, listed
   reward or owned branches.
 
@@ -184,11 +184,15 @@ of each list:
 The single combined signal script used for every run recorded up to this date
 was replaced by one script per domain; the mapping from old parameters is in
 the [signal script guide](../runtime/native/asi/signal/README.md). The new
-scripts are parse-checked only: **no live request has been sent with them
-yet**. The profile DLL source is still one file
-(`freighter_class_180836.c`) that serves all domains; splitting it changes
-the binary and therefore requires a new build, hash and live retest, so it is
-tracked as pending work rather than done silently.
+scripts were parse-checked first and have since carried the technology
+requests of 2026-10-07.
+
+The profile DLL source was split the same day: one file per domain in
+`runtime/native/asi/profile_180836/`, with the file map in that folder's
+README. Function bodies were moved unchanged. The split build is
+`2bd83437...ca78`; the fixtures pass on it, and **no live request has been
+sent with it yet**, so the earlier live results belong to the earlier builds
+until they are repeated.
 
 ## What this is not
 

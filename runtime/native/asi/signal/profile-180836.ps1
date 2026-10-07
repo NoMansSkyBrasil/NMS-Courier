@@ -20,7 +20,7 @@ function Open-ProfileSession([int]$GameProcessId, [string]$ExpectedDllSha256, [s
     if ((Get-FileHash -LiteralPath $dllPath -Algorithm SHA256).Hash -ne $ExpectedDllSha256) {
         throw 'Installed bridge DLL does not match the intended tested build'
     }
-    $logPath = Join-Path $script:ProfileDiagnostics "native-freighter-class-180836-$GameProcessId.log"
+    $logPath = Join-Path $script:ProfileDiagnostics "native-profile-180836-$GameProcessId.log"
     if ((Get-Item -LiteralPath $logPath).LastWriteTimeUtc -lt $processInfo.CreationDate.ToUniversalTime()) {
         throw 'Profile log predates the selected process; PID reuse is not a valid session'
     }
@@ -31,14 +31,14 @@ function Open-ProfileSession([int]$GameProcessId, [string]$ExpectedDllSha256, [s
     }
     if ($fields.status -notin @('awaiting_request', 'armed') -or
         $fields.pid -ne [string]$GameProcessId -or $fields.hook_status -ne '0' -or
-        $fields.mode -ne 'request_scoped_class_research') {
+        $fields.mode -ne 'research_profile') {
         throw 'Profile is not accepting requests'
     }
     # A new dispatch is allowed only when none is in flight: unused (0) or returned (3).
     if ($Dispatch -and $fields.dispatch_state -notin @('0', '3')) {
         throw 'A previous dispatch did not return in this process; its outcome is uncertain'
     }
-    $basePattern = '^Local\\NMSCourier-FreighterClass180836-' + $GameProcessId + '-[a-f0-9]{32}$'
+    $basePattern = '^Local\\NMSCourier-Profile180836-' + $GameProcessId + '-[a-f0-9]{32}$'
     if (!$fields.event_base -or $fields.event_base -cnotmatch $basePattern) {
         throw 'Invalid process-specific event base'
     }

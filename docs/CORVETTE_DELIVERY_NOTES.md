@@ -123,7 +123,7 @@ warning thresholds are 100 and 40); multiplayer visibility.
 The research profile gained one event, `corvette`, which requests a single
 dispatch of `R_BIGGS_NEW` (constant in the source; no arbitrary reward ID is
 accepted). `signal-freighter-class-180836.ps1 -DispatchCorvetteBuild` (replaced on 2026-10-07 by the per-domain scripts in [`signal/`](../runtime/native/asi/signal/README.md))
-sends it. DLL built 2026-10-07 with `build-probe.ps1 -Mode FreighterClass180836`,
+sends it. DLL built 2026-10-07 with `build-probe.ps1 -Mode Profile180836`,
 SHA-256 `8c2c901c4cea8b20b054d1a201b9dccfe1feb574f0e1eea55efb9e16509f17e2`,
 under `E:/NMS-Courier-Research/native-builds/freighter-class-180836-corvette-20261007`.
 The existing fixture passes; it has no check specific to the new event. Not

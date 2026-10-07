@@ -100,6 +100,7 @@ reader can start from Markdown and reach every data file.
 | [fauna-role-description-180383.md](../runtime/research/fauna-role-description-180383.md) | Markdown table | 1 rows, 2 columns | GcCreatureRoleDescription field processor reached through 228d7a0 | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
 | [fauna-seed-fields-180383.md](../runtime/research/fauna-seed-fields-180383.md) | Markdown table | 4 rows, 2 columns | GcCreatureRoleData XML allocation wrapper; calls 22a0600 | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
 | [fauna-seed-links-180383.md](../runtime/research/fauna-seed-links-180383.md) | Markdown table | 6 rows, 2 columns | GcCreatureRoleData serializer candidate reached from 2297850; identity unverified | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
+| [fossil-products.md](../runtime/research/fossil-products.md) | Markdown table | 165 rows, 3 columns | columns: ID, Type, Craftable | [REWARD_REDEMPTION_NOTES.md](../docs/REWARD_REDEMPTION_NOTES.md) |
 | [freighter-accept-180383.md](../runtime/research/freighter-accept-180383.md) | Markdown table | 4 rows, 2 columns | Ownership routine called after the reward-acceptance home seed write | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [name-generation-180383.md](../runtime/research/name-generation-180383.md) | Markdown table | 8 rows, 2 columns | Freighter name routine referencing FREIGHTER_NAME_%i; ABI unverified | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NAME_GENERATION_RESEARCH.md](../docs/NAME_GENERATION_RESEARCH.md) |
 | [npc-input-fixtures-180383.json](../runtime/research/npc-input-fixtures-180383.json) | JSON array | 11 items |  | [ENTITY_INPUT_PIPELINE.md](../docs/ENTITY_INPUT_PIPELINE.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
@@ -202,4 +203,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 126 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 127 data files in 4 folders; 42 not mentioned outside this catalog.

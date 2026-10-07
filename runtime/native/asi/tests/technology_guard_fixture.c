@@ -8,7 +8,7 @@
 
 #define MANAGER_POINTER_RVA 0u
 static int writable_range(uintptr_t address, size_t length) { (void)address; (void)length; return 0; }
-#include "../technology_learn_180836.h"
+#include "../profile_180836/technology_learn.h"
 
 static uint8_t definition[TECHNOLOGY_DEFINITION_SIZE];
 

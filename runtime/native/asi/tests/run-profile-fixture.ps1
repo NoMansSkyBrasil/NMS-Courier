@@ -15,7 +15,7 @@ $arguments = $common + @('-shared', '-DCOURIER_XINPUT_PROXY_BUILD',
     '-DCOURIER_NATIVE_CALLBACK_PROBE', '-DCOURIER_BUILD_180836',
     '-DCOURIER_NATIVE_CALLBACK_FIXTURE', '-I', (Join-Path $vendor 'include'),
     '-o', $dll)
-foreach ($file in @('startup_probe.c', 'xinput_proxy.c', 'freighter_class_180836.c', 'xinput_proxy.def')) {
+foreach ($file in @('startup_probe.c', 'xinput_proxy.c', 'profile_180836\profile_core.c', 'xinput_proxy.def')) {
     $arguments += Join-Path $source $file
 }
 foreach ($file in @('src\buffer.c', 'src\hook.c', 'src\trampoline.c', 'src\hde\hde64.c')) {
@@ -23,13 +23,13 @@ foreach ($file in @('src\buffer.c', 'src\hook.c', 'src\trampoline.c', 'src\hde\h
 }
 $arguments += '-lbcrypt'
 & $compilerPath @arguments
-if ($LASTEXITCODE -ne 0) { throw 'Freighter class fixture DLL compilation failed' }
-& $compilerPath @common '-Wl,--export-all-symbols' '-o' (Join-Path $outputPath 'NMS.exe') (Join-Path $PSScriptRoot 'freighter_class_fixture.c')
-if ($LASTEXITCODE -ne 0) { throw 'Freighter class fixture host compilation failed' }
+if ($LASTEXITCODE -ne 0) { throw 'Profile fixture DLL compilation failed' }
+& $compilerPath @common '-Wl,--export-all-symbols' '-o' (Join-Path $outputPath 'NMS.exe') (Join-Path $PSScriptRoot 'profile_fixture.c')
+if ($LASTEXITCODE -ne 0) { throw 'Profile fixture host compilation failed' }
 Push-Location -LiteralPath $outputPath
 try {
     & (Join-Path $outputPath 'NMS.exe')
-    if ($LASTEXITCODE -ne 0) { throw "Freighter class fixture failed: $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "Profile fixture failed: $LASTEXITCODE" }
 } finally { Pop-Location }
 # This bypasses executable verification deliberately; never install this fixture DLL.
 Get-FileHash -LiteralPath $dll -Algorithm SHA256

@@ -112,9 +112,10 @@ This file is the operational source of truth for implementation order. Update it
 
 - [x] Split the research signal script into one script per domain over a shared module
   ([signal scripts](runtime/native/asi/signal/README.md)). Parse-checked only; first live use pending.
-- [ ] Split `runtime/native/asi/freighter_class_180836.c` into per-domain sources (freighter offer,
-  corvette, owned ship, multitool, exosuit, shared profile core), rebuild, record the new DLL hash
-  and repeat the live checks. The fixture must gain coverage of the corvette, reward and owned branches.
+- [x] Split the profile source into one file per domain under
+  `runtime/native/asi/profile_180836/` (done 2026-10-07; DLL `2bd83437...ca78`).
+- [ ] Repeat the live checks of the freighter, corvette and owned-inventory requests on the split
+  build, and extend the fixture to the corvette, reward and owned branches.
 - [x] Reduce the language selector to the game's 14 interface languages.
 - [ ] Translate the interface copy into the eleven languages that still fall back to English:
   `pt-PT`, `ja-JP`, `fr-FR`, `it-IT`, `de-DE`, `nl-NL`, `ko-KR`, `pl-PL`, `ru-RU`, `zh-CN`, `zh-TW`.

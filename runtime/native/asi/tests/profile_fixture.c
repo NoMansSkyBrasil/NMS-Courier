@@ -180,7 +180,7 @@ int main(void) {
 
     char root[MAX_PATH], path[MAX_PATH], line[512], base[128] = {0};
     if (!GetEnvironmentVariableA("LOCALAPPDATA", root, MAX_PATH)) return 6;
-    snprintf(path, sizeof(path), "%s\\NMSCourier\\diagnostics\\native-freighter-class-180836-%lu.log",
+    snprintf(path, sizeof(path), "%s\\NMSCourier\\diagnostics\\native-profile-180836-%lu.log",
              root, (unsigned long)GetCurrentProcessId());
     FILE *log = fopen(path, "r");
     if (!log) return 7;
