@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: fishing record and fossil seen list (live, slot 3)
+
+Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md). Build 180836
+`13d5060d...3499`, profile DLL `2bd83437...ca78`, process 24704, slot 3.
+
+- Fish: 220 recorded, 6 mission-bound skipped, none refused; record list 220.
+- Fossils: 165 requested, all already in the account's seen list.
+- The owner's catalogue screen after the recipe run: recipes 432 / 432,
+  technology 358 / 358, build parts 37 / 925 (products not delivered yet).
+- Process responding, no request error.
+- Not proven: fishing catalogue as seen by the player, statistics and
+  milestones touched, save and reload, the fossil routine actually adding.
+
 ## 2026-10-07: recipe delivery — one, then all 1,684 recipes (live, slot 3)
 
 Owner: [recipe delivery notes](RECIPE_DELIVERY_NOTES.md#first-live-run-2026-10-07).

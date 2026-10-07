@@ -125,7 +125,12 @@ forget a recipe is known; use the save copy.
 Proven by this run: the merge routine can be called from the update hook
 with a source that holds only recipes, and it adds exactly the recipes.
 
-Not proven: what the catalogue shows, behaviour after saving and reloading,
+Seen by the owner afterwards: the game's catalogue shows "Recipes known: 432 / 432"
+(the catalogue counts fewer entries than the table's 1,684; why was not
+examined) and technology 358 / 358. Build parts show 37 / 925, which is
+expected: products have not been delivered to this slot.
+
+Not proven: behaviour after saving and reloading,
 the single-recipe mode with several IDs. Scope: slot 3 only.
 
 Rollback: quit without saving, or restore the backup.

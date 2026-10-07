@@ -134,6 +134,30 @@ Fossil request, as built:
 On the owner's account all 165 are already in the list (an editor wrote them
 earlier), so the first test can only show `not_added` for every ID.
 
+### First live run of the fish and fossil requests (2026-10-07)
+
+Build 180836, executable `13d5060d...3499`, profile DLL `2bd83437...ca78`,
+process 24704, **slot 3** (identified automatically earlier in the same
+process), backup `20261007-before-slot-lists`.
+
+| Request | Result reported by the profile |
+| --- | --- |
+| `signal-fish-180836.ps1 -All` | `table_fish=226`, `recorded=220`, `already_recorded=0`, `mission_only_skipped=6`, `refused_table_entries=0`, `records_after=220` |
+| `signal-fossil-180836.ps1 -All` | 165 requested, 165 `not_added` |
+
+After both the process was alive and responding and `request_errors=0`.
+
+- Fish: the catch routine ran 220 times from the update hook without
+  stopping the game, and the record list of the fishing object holds 220
+  entries. The six mission-bound fish were skipped as intended.
+- Fossils: every ID was already in the account's seen list, as expected on
+  this account, so the routine returned without adding. This shows only that
+  the call is safe here; **it does not show that it adds.**
+
+Not proven: what the fishing catalogue shows; the statistics and milestones
+the catch routine touched; the fishing record written to the save and read
+back after a restart; the fossil routine on an account that lacks the IDs.
+
 ## Why the account data is left alone
 
 Besides the owner's direction: the executable contains requests named
