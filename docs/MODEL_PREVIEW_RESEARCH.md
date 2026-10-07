@@ -618,3 +618,17 @@ averaging between groups, and per-pixel accuracy.
 Reproduce by adding `--imaging-tools <that folder>` to the export command of
 the previous sections, for example with scene
 `models/common/weapons/multitool/staffmultitoolatlas.scene.mbin`.
+
+### All categories re-rendered after the level-suffix fix (2026-10-07)
+
+The seventeen scenes were exported and captured again with part selection,
+palette colors and seeded texture options (seed `0x7`; pirate freighter with
+model seed `0x8C968767B3282F13` and palette seed `0x175000B001FFD`): all
+seventeen load in the workshop without page errors and inside the import
+limits. These exports predate texture baking and use flat material colors.
+
+The fix changed several results. `freightersmall_proc` now exports 10 meshes
+(166,984 elements) instead of 2 meshes (28 elements), which closes the "exports
+almost nothing" item recorded earlier: its parts carry the level suffix. The
+standard freighter went from 61 to 70 meshes and the capital freighter from
+140 to 156. Evidence: `E:/NMS-Courier-Research/preview-models/categories-20261007`.
