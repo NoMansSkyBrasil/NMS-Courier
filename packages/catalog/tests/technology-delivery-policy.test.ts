@@ -34,11 +34,16 @@ describe('technology delivery policy', () => {
     expect(classifyTechnologyForDelivery(entry('NEWTHING3', { isTemplate: true }))).toBe('blocked_template')
     expect(classifyTechnologyForDelivery(entry('NEWTHING4', { procedural: true }))).toBe('blocked_template')
     expect(classifyTechnologyForDelivery(entry('NEWTHING5', { repairTech: true }))).toBe('blocked_repair')
-    expect(classifyTechnologyForDelivery(entry('NEWTHING6', { wikiEnabled: false }))).toBe('blocked_hidden')
+  })
+
+  it('does not refuse an entry only because the game hides it from its catalogue', () => {
+    for (const id of ['FLAME', 'BOLT_SM', 'LASER_XO', 'PHOTONIX_CORE', 'DUMMY_SCAN', 'LAUNCHER_SPEC', 'F_LIFESUPP']) {
+      expect(classifyTechnologyForDelivery(entry(id, { wikiEnabled: false }))).toBe('deliverable')
+    }
   })
 
   it('keeps reviewed IDs blocked even if a later table presents them as ordinary', () => {
-    for (const id of ['SHIPSLOT_DMG1', 'WEAPSENT_DMG4', 'MAINT_TECH1', 'EXOPOD_TECH2', 'OBSOLETE', 'DUMMY_SCAN', 'SPIDERBRAIN', 'FLAME', 'BOLT_SM']) {
+    for (const id of ['SHIPSLOT_DMG1', 'WEAPSENT_DMG4', 'MAINT_TECH1', 'EXOPOD_TECH2', 'OBSOLETE', 'SPIDERBRAIN']) {
       expect(isPermanentlyBlockedTechnologyId(id)).toBe(true)
       expect(classifyTechnologyForDelivery(entry(id))).toBe('blocked_id')
     }

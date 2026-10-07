@@ -45,7 +45,8 @@ int main(void) {
     expect("template", technology_blocked(make("NEWTHING3", 1, 0, 1, 0, 0, 0, 0), "NEWTHING3"), TECHNOLOGY_BLOCKED_TEMPLATE);
     expect("procedural", technology_blocked(make("NEWTHING4", 1, 0, 0, 1, 0, 0, 0), "NEWTHING4"), TECHNOLOGY_BLOCKED_TEMPLATE);
     expect("repair", technology_blocked(make("NEWTHING5", 1, 0, 0, 0, 1, 1, 1), "NEWTHING5"), TECHNOLOGY_BLOCKED_REPAIR);
-    expect("hidden", technology_blocked(make("NEWTHING6", 1, 0, 0, 0, 0, 1, 0), "NEWTHING6"), TECHNOLOGY_BLOCKED_HIDDEN);
+    // Absent from the game catalogue is not a reason to refuse (owner decision, 2026-10-07).
+    expect("hidden", technology_blocked(make("FLAME", 1, 0, 0, 0, 0, 1, 0), "FLAME"), TECHNOLOGY_PENDING);
     // A definition that does not look like one is never passed to the game.
     expect("wrong id", technology_blocked(make("UT_JET", 2, 0, 0, 0, 0, 1, 1), "UT_JUMP"), TECHNOLOGY_BLOCKED_LAYOUT);
     expect("bad category", technology_blocked(make("UT_JET", 99, 0, 0, 0, 0, 1, 1), "UT_JET"), TECHNOLOGY_BLOCKED_LAYOUT);
@@ -53,11 +54,12 @@ int main(void) {
     // Permanent ID rules.
     static const char *const blocked[] = {"SHIPSLOT_DMG1", "SHIPEASY_DMG4", "WEAPSLOT_DMG12", "WEAPSENT_DMG2",
                                           "WEAPEASY_DMG1", "MAINT_TECH25", "MAINT_NEWTHING", "EXOPOD_TECH3",
-                                          "SUIT_DMG9", "OBSOLETE", "DUMMY_SCAN", "SPIDERBRAIN", "PHOTONIX_CORE",
-                                          "F_LIFESUPP", "LAUNCHER_SPEC", "SHIPJUMP_SPEC", "HYPERDRIVE_SPEC",
-                                          "SHIP_LIFESUP", "BOLT_SM", "LASER_XO", "FLAME", "X_BROKEN_Y"};
+                                          "SUIT_DMG9", "OBSOLETE", "SPIDERBRAIN", "X_BROKEN_Y"};
     static const char *const allowed[] = {"UT_JET", "HYPERDRIVE", "LAUNCHER", "SHIPJUMP1", "BOLT", "LASER",
-                                          "F_HYPERDRIVE", "T_BOBBLE_ATLAS", "MECH_ENGINE", "STRONGLASER"};
+                                          "F_HYPERDRIVE", "T_BOBBLE_ATLAS", "MECH_ENGINE", "STRONGLASER",
+                                          "DUMMY_SCAN", "PHOTONIX_CORE", "F_LIFESUPP", "LAUNCHER_SPEC",
+                                          "SHIPJUMP_SPEC", "HYPERDRIVE_SPEC", "SHIP_LIFESUP", "BOLT_SM",
+                                          "LASER_XO", "FLAME"};
     for (unsigned index = 0; index < sizeof(blocked) / sizeof(blocked[0]); ++index)
         expect(blocked[index], technology_blocked_id(blocked[index]), 1);
     for (unsigned index = 0; index < sizeof(allowed) / sizeof(allowed[0]); ++index)

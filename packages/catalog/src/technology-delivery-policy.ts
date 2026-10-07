@@ -8,7 +8,6 @@ export type TechnologyDeliveryClass =
   | 'blocked_maintenance'
   | 'blocked_template'
   | 'blocked_repair'
-  | 'blocked_hidden'
   | 'blocked_id'
   | 'blocked_layout'
 
@@ -24,7 +23,8 @@ export type TechnologyDefinitionFlags = {
   readonly wikiEnabled: boolean | null
 }
 
-// Permanent ID rules: they hold whatever a later game table says about the entry.
+// Permanent ID rules: they hold whatever a later game table says about the entry. Entries the game
+// hides from its catalogue are not refused (owner decision, 2026-10-07); only OBSOLETE is.
 const blockedPrefixes = [
   'MAINT_',
   'EXOPOD_TECH',
@@ -34,19 +34,8 @@ const blockedPrefixes = [
   'WEAPSENT_DMG',
   'WEAPEASY_DMG'
 ] as const
-const blockedFragments = ['_DMG', 'DAMAGE', 'BROKEN', 'OBSOLETE', 'DUMMY'] as const
-const blockedExact: ReadonlySet<string> = new Set([
-  'SPIDERBRAIN',
-  'PHOTONIX_CORE',
-  'F_LIFESUPP',
-  'LAUNCHER_SPEC',
-  'SHIPJUMP_SPEC',
-  'HYPERDRIVE_SPEC',
-  'SHIP_LIFESUP',
-  'BOLT_SM',
-  'LASER_XO',
-  'FLAME'
-])
+const blockedFragments = ['_DMG', 'DAMAGE', 'BROKEN', 'OBSOLETE'] as const
+const blockedExact: ReadonlySet<string> = new Set(['SPIDERBRAIN'])
 
 export function isPermanentlyBlockedTechnologyId(id: string): boolean {
   return (
@@ -62,6 +51,7 @@ export function classifyTechnologyForDelivery(
   definition: TechnologyDefinitionFlags
 ): TechnologyDeliveryClass {
   const { brokenSlotTech, isTemplate, procedural, repairTech, teach, wikiEnabled } = definition
+  // teach and wikiEnabled must be readable but do not decide the class.
   if (
     !/^[A-Z0-9_]{1,15}$/.test(definition.id) ||
     definition.category === null ||
@@ -78,7 +68,6 @@ export function classifyTechnologyForDelivery(
   if (definition.category === 'Maintenance') return 'blocked_maintenance'
   if (isTemplate || procedural) return 'blocked_template'
   if (repairTech) return 'blocked_repair'
-  if (teach && !wikiEnabled) return 'blocked_hidden'
   if (isPermanentlyBlockedTechnologyId(definition.id)) return 'blocked_id'
   return 'deliverable'
 }

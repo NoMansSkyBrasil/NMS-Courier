@@ -130,7 +130,8 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] First live test on a copied save: preflight, one technology, several, all; then save and reload.
 - [ ] Interface for the three modes (one, several, all) with the technology list in the 14
   languages, using `selectTechnologiesForDelivery`. Needs the local catalogue (M3).
-- [ ] Decide with the project owner whether any `blocked_hidden` entry should ever be offered.
+- [x] Owner review of the hidden entries: ten are valid and deliverable, only `OBSOLETE` stays blocked.
+- [ ] Ask the project owner about `SPIDERBRAIN` (no display name; blocked).
 - [ ] Other delivery domains after technology (products, recipes, parts), each with its own
   classification and permanent block list first.
 

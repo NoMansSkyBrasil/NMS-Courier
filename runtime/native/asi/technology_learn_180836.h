@@ -36,12 +36,11 @@ enum {
     TECHNOLOGY_BLOCKED_MAINTENANCE,
     TECHNOLOGY_BLOCKED_TEMPLATE, // IsTemplate or Procedural
     TECHNOLOGY_BLOCKED_REPAIR,
-    TECHNOLOGY_BLOCKED_HIDDEN,   // taught by the game but absent from its catalogue
     TECHNOLOGY_BLOCKED_LAYOUT    // the definition did not look like one; nothing was called
 };
 static const char *const technology_result_names[] = {
     "pending", "learned", "not_added", "unknown_id", "blocked_id", "blocked_damaged",
-    "blocked_maintenance", "blocked_template", "blocked_repair", "blocked_hidden", "blocked_layout"
+    "blocked_maintenance", "blocked_template", "blocked_repair", "blocked_layout"
 };
 
 typedef void *(*technology_lookup_fn)(void *table, const char *id, uint8_t report_missing);
@@ -59,14 +58,13 @@ static volatile LONG technology_known_after = -1;
 
 // Permanent ID rules. They hold whatever a later table says about the entry, so a game update cannot
 // turn one of these into a deliverable technology. Prefixes cover entries added later in the same
-// families; the exact names are the hidden or unnamed entries reviewed on 2026-10-07.
+// families. Entries the game hides from its catalogue are not refused: the project owner reviewed
+// them on 2026-10-07 and kept only "OBSOLETE" blocked. "SPIDERBRAIN" has no display name.
 static int technology_blocked_id(const char *id) {
     static const char *const prefixes[] = {"MAINT_", "EXOPOD_TECH", "SHIPSLOT_DMG", "SHIPEASY_DMG",
                                            "WEAPSLOT_DMG", "WEAPSENT_DMG", "WEAPEASY_DMG"};
-    static const char *const fragments[] = {"_DMG", "DAMAGE", "BROKEN", "OBSOLETE", "DUMMY"};
-    static const char *const exact[] = {"SPIDERBRAIN", "PHOTONIX_CORE", "F_LIFESUPP", "LAUNCHER_SPEC",
-                                        "SHIPJUMP_SPEC", "HYPERDRIVE_SPEC", "SHIP_LIFESUP", "BOLT_SM",
-                                        "LASER_XO", "FLAME"};
+    static const char *const fragments[] = {"_DMG", "DAMAGE", "BROKEN", "OBSOLETE"};
+    static const char *const exact[] = {"SPIDERBRAIN"};
     for (unsigned index = 0; index < sizeof(prefixes) / sizeof(prefixes[0]); ++index)
         if (strncmp(id, prefixes[index], strlen(prefixes[index])) == 0) return 1;
     for (unsigned index = 0; index < sizeof(fragments) / sizeof(fragments[0]); ++index)
@@ -97,7 +95,6 @@ static LONG technology_blocked(const uint8_t *definition, const char *id) {
     if (definition[TECHNOLOGY_TEMPLATE_OFFSET] || definition[TECHNOLOGY_PROCEDURAL_OFFSET])
         return TECHNOLOGY_BLOCKED_TEMPLATE;
     if (definition[TECHNOLOGY_REPAIR_OFFSET]) return TECHNOLOGY_BLOCKED_REPAIR;
-    if (definition[TECHNOLOGY_TEACH_OFFSET] && !definition[TECHNOLOGY_WIKI_OFFSET]) return TECHNOLOGY_BLOCKED_HIDDEN;
     return TECHNOLOGY_PENDING;
 }
 

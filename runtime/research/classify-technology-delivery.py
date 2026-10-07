@@ -24,17 +24,15 @@ TABLE = 'metadata/reality/tables/nms_reality_gctechnologytable.mbin'
 FLAGS = ('BrokenSlotTech', 'IsTemplate', 'Procedural', 'RepairTech', 'Teach', 'WikiEnabled')
 BLOCKED_PREFIXES = ('MAINT_', 'EXOPOD_TECH', 'SHIPSLOT_DMG', 'SHIPEASY_DMG', 'WEAPSLOT_DMG', 'WEAPSENT_DMG',
                     'WEAPEASY_DMG')
-BLOCKED_FRAGMENTS = ('_DMG', 'DAMAGE', 'BROKEN', 'OBSOLETE', 'DUMMY')
-BLOCKED_EXACT = ('SPIDERBRAIN', 'PHOTONIX_CORE', 'F_LIFESUPP', 'LAUNCHER_SPEC', 'SHIPJUMP_SPEC',
-                 'HYPERDRIVE_SPEC', 'SHIP_LIFESUP', 'BOLT_SM', 'LASER_XO', 'FLAME')
+BLOCKED_FRAGMENTS = ('_DMG', 'DAMAGE', 'BROKEN', 'OBSOLETE')
+BLOCKED_EXACT = ('SPIDERBRAIN',)
 CLASSES = {
     'deliverable': 'May be taught.',
     'blocked_damaged': 'Defective: a damaged-slot entry (BrokenSlotTech).',
     'blocked_maintenance': 'Defective for a player: internal part of a machine, container or repair task.',
     'blocked_template': 'Not a technology to learn: upgrade-module template (IsTemplate or Procedural).',
     'blocked_repair': 'Repair entry (RepairTech).',
-    'blocked_hidden': 'Taught by flag but absent from the game catalogue: starter, cut or placeholder entry.',
-    'blocked_id': 'Refused by the permanent ID rules only.',
+    'blocked_id': 'Refused by the permanent ID rules: the obsolete placeholder and the unnamed entry.',
     'blocked_layout': 'A field is missing or not a boolean; refused until reviewed.',
 }
 
@@ -67,8 +65,6 @@ def classify(identifier, category, flags):
         return 'blocked_template'
     if 'RepairTech' in on:
         return 'blocked_repair'
-    if 'Teach' in on and 'WikiEnabled' not in on:
-        return 'blocked_hidden'
     if blocked_id(identifier):
         return 'blocked_id'
     return 'deliverable'
@@ -93,10 +89,6 @@ def main():
         identifier, category = field(entry, 'ID'), field(entry, 'Category')
         flags = {name: field(entry, name) for name in FLAGS}
         result = classify(identifier, category, flags)
-        # Every structurally refused family must also be caught by an ID rule or a structural flag
-        # that the running game exposes; a hidden entry without an ID rule would be a gap.
-        if result == 'blocked_hidden' and not blocked_id(identifier):
-            parser.error('Hidden entry without a permanent ID rule: ' + identifier)
         counts[result] = counts.get(result, 0) + 1
         out.append([identifier or '', category or '', result] +
                    ['yes' if flags[name] == 'true' else 'no' if flags[name] == 'false' else '?' for name in FLAGS])

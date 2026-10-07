@@ -97,7 +97,7 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Defective and internal technology entries must never be taught, installed or offered, in any
   mode, including "deliver all" and including entries a later game version adds: damaged-slot
   entries (`BrokenSlotTech`), `Maintenance` category entries, procedural templates, repair entries,
-  entries hidden from the game catalogue, and the permanent ID rules in
+  `OBSOLETE`, and the permanent ID rules in
   [technology delivery notes](docs/TECHNOLOGY_DELIVERY_NOTES.md).
 - Refuse by structure first, then by the permanent ID rules, and refuse anything unreadable. Never
   build "all" from the raw table; build it from the classification.
@@ -106,7 +106,8 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   `packages/catalog/src/technology-delivery-policy.ts` and
   `runtime/research/classify-technology-delivery.py`.
 - Removing an entry or a rule from the blocked set requires an explicit decision by the project
-  owner, recorded in the notes. Adding one does not.
+  owner, recorded in the notes. Adding one does not. Do not block an entry only because the game
+  hides it from its catalogue; the owner ruled those valid on 2026-10-07.
 - Apply the same approach to every later delivery domain (products, recipes, parts): classify the
   whole table, identify defective or internal entries, and block them permanently before building
   any "deliver all" option.

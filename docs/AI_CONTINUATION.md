@@ -113,7 +113,8 @@ offline:
 16. *Technology delivery (2026-10-07).* Three modes (one, several, all) and a
     permanent never-deliver list for defective and internal entries. Read
     [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). Offline work is
-    complete; installed DLL is now `53b01c14...542d`. Next bounded step: with
+    complete; installed DLL is now `4cea02b7...f6b3` (after the owner's review of
+    the block list). Next bounded step: with
     the game open on a copied save, run
     `runtime/native/asi/signal/signal-technology-180836.ps1 -PreflightOnly`,
     then one ID with `-ShowAlert`. Nothing has been taught live yet.

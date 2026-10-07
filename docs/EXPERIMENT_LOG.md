@@ -19,6 +19,10 @@ process was involved; nothing was taught.
 - Built: profile DLL `53b01c14...542d` with a `technology` event; installed
   with the game closed in place of `37eecaaf...f1fa` (backup kept outside the
   repository). Technology guard fixture and freighter class fixture pass.
+- Owner review the same day: ten entries first refused only for being hidden
+  from the game catalogue are valid; that rule was removed and the profile
+  rebuilt as `4cea02b7...f6b3` (installed, game closed; fixtures pass again;
+  205 deliverable, 188 blocked). `53b01c14...542d` was never started.
 - Rejected: dispatching shipped rewards per technology — only 54 entries have
   a reward that teaches exactly one technology.
 - Not proven: everything live — startup verification of the new DLL, the

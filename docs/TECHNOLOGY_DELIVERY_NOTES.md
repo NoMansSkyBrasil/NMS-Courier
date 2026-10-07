@@ -34,17 +34,34 @@ Classification of all 393 entries:
 | `blocked_maintenance` | 91 | `Category` is `Maintenance` | Internal parts of machines, containers and repair tasks, including the faulty ones: `MAINT_*` (locks, glyph slots, refinery output, frigate repairs, sentinel ship repairs), `EXOPOD_TECH1`–`3` (Faulty Hologram, Damaged Electrode, Shattered Power Core) |
 | `blocked_template` | 59 | `IsTemplate` or `Procedural` is true | Templates of procedural upgrade modules (`T_*`, `A_*`), all named "Upgrade Module" |
 | `blocked_repair` | 0 | `RepairTech` is true | No entry today; the game refuses these itself |
-| `blocked_hidden` | 11 | `Teach` is true and `WikiEnabled` is false | Not in the game catalogue: `OBSOLETE` (Obsolete Technology), `DUMMY_SCAN`, cut or unreleased `FLAME` (Incinerator), `BOLT_SM`, `LASER_XO`, `PHOTONIX_CORE`, and starter or special-ship core parts `LAUNCHER_SPEC`, `SHIPJUMP_SPEC`, `HYPERDRIVE_SPEC`, `SHIP_LIFESUP`, `F_LIFESUPP` |
-| `blocked_id` | 1 | Permanent ID rule only | `SPIDERBRAIN`: flagged like an ordinary suit technology but has no English name in the corpus |
+| `blocked_id` | 2 | Permanent ID rule only | `OBSOLETE` (Obsolete Technology), confirmed defective by the project owner; `SPIDERBRAIN`, flagged like an ordinary suit technology but without an English name in the corpus |
 | `blocked_layout` | 0 | A field is missing or not a boolean | Refused until reviewed |
-| `deliverable` | 195 | None of the above | What "deliver all" sends |
+| `deliverable` | 205 | None of the above | What "deliver all" sends |
 
-The strictly *defective* group asked for by the project owner is the first
-row plus the faulty maintenance entries. The other blocked rows are not
-technologies a player learns; they are withheld for the same reason. The
-`blocked_hidden` row is a cautious default: if the project owner wants one of
-those (for example a starter-ship part) it must be an explicit, recorded
-decision, not a side effect.
+### Owner review (2026-10-07)
+
+The project owner supplied their own list of defective entries: the damaged
+multitool and starship slots and `OBSOLETE`. Compared with the table:
+
+- Every entry of that list is blocked.
+- Blocked here and missing from that list, found by the structural rule:
+  `WEAPSLOT_DMG2` (Blown Transistor), `SHIPEASY_DMG1`-`4` (Hull Fracture,
+  Rusted Circuits, Hydraulics Damage, Corroded Tanks) and the faulty
+  maintenance entries `EXOPOD_TECH1`-`3`.
+- The first version of these rules also refused ten entries only because the
+  game hides them from its catalogue (`Teach` true, `WikiEnabled` false):
+  `PHOTONIX_CORE`, `LAUNCHER_SPEC`, `SHIPJUMP_SPEC`, `HYPERDRIVE_SPEC`,
+  `SHIP_LIFESUP`, `DUMMY_SCAN`, `F_LIFESUPP`, `BOLT_SM`, `LASER_XO`, `FLAME`.
+  **The owner decided these are valid and must be deliverable; only
+  `OBSOLETE` of that group stays blocked.** The hidden-entry rule and the ten
+  names were removed from all three rule copies; "hidden from the catalogue"
+  is not a reason to refuse.
+- `SPIDERBRAIN` stays blocked because it has no display name; the owner has
+  not ruled on it.
+
+Maintenance entries and procedural templates are not on the owner's list
+because they are not technologies a player learns; they stay blocked for
+that reason.
 
 ### Why this holds after a game update
 
@@ -56,8 +73,8 @@ Three layers, each enough to refuse on its own:
 2. **Permanent ID rules** refuse the families and names reviewed today
    whatever a later table says about them: prefixes `MAINT_`, `EXOPOD_TECH`,
    `SHIPSLOT_DMG`, `SHIPEASY_DMG`, `WEAPSLOT_DMG`, `WEAPSENT_DMG`,
-   `WEAPEASY_DMG`; any ID containing `_DMG`, `DAMAGE`, `BROKEN`, `OBSOLETE` or
-   `DUMMY`; and the exact hidden names above.
+   `WEAPEASY_DMG`; any ID containing `_DMG`, `DAMAGE`, `BROKEN` or `OBSOLETE`;
+   and the exact name `SPIDERBRAIN`.
 3. **Unreadable means refused**: a missing field, a flag that is not 0 or 1,
    an out-of-range category or an ID that does not match is never sent.
 
@@ -69,7 +86,7 @@ The rules exist in three places that must stay identical:
 - application: `packages/catalog/src/technology-delivery-policy.ts`
   (tests in `packages/catalog/tests/technology-delivery-policy.test.ts`);
 - research table generator: `runtime/research/classify-technology-delivery.py`
-  (it stops if a hidden entry has no permanent ID rule).
+  .
 
 A new game build still needs the addresses below revalidated before anything
 is sent; the rules decide *what* may be taught, not whether the build is
@@ -146,9 +163,9 @@ The three modes of the product map to these: one = `-Id X`, several =
 | Item | Value |
 | --- | --- |
 | Game build | 180836, executable SHA-256 `13d5060d...3499` |
-| Profile DLL | `build-probe.ps1 -Mode FreighterClass180836`, SHA-256 `53b01c14d3f5fe7db2780f589aa2c9a3130a4b8dc45c1b2a07dd1103bcff542d` |
-| Installed | Yes, with the game closed, replacing `37eecaaf...f1fa` (copy kept outside the repository in `native-builds/installed-backup-20261007-before-technology`) |
-| Checks run | Technology guard fixture passed; freighter class fixture passed; classification generated (195 deliverable, 198 blocked); catalog and desktop tests passed |
+| Profile DLL | `build-probe.ps1 -Mode FreighterClass180836`, SHA-256 `4cea02b77691c2cd27e3f63685ee5116dec8798bfeedf7010030a58bac62f6b3` (second build of the day, after the owner review; the first, `53b01c14...542d`, still refused the hidden entries and was never started by the game) |
+| Installed | Yes, with the game closed, replacing `53b01c14...542d`, which had replaced `37eecaaf...f1fa` (copy of the latter kept outside the repository in `native-builds/installed-backup-20261007-before-technology`) |
+| Checks run | Technology guard fixture passed; freighter class fixture passed; classification generated (205 deliverable, 188 blocked); catalog and desktop tests passed |
 | Checks not run | Any live request. The new DLL has not been started by the game yet, so even its startup verification on this build is unobserved |
 
 Rollback: copy the backed-up DLL back into `Binaries` with the game closed.
@@ -159,7 +176,7 @@ copy for the first tests.
 ## First live test (proposed, not done)
 
 1. Copy the save folder. Start the game and load a save.
-2. `signal-technology-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 53b01c14... -PreflightOnly`.
+2. `signal-technology-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 4cea02b7... -PreflightOnly`.
 3. One technology the save does not know, with `-ShowAlert`; compare the
    result file, the known count and the game catalogue.
 4. Several, then `-All`; confirm that no damaged, maintenance or template
