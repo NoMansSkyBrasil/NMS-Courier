@@ -212,9 +212,8 @@ Completed later the same night, all with 0 differences: ship class arguments
 6, 7, 8 and 9 (2,000 cases each), fighter with size argument 9 (1,600),
 multitool store (type 3, class argument 12; 4,800), exosuit store (1,200),
 multitool with an empty known list (800), fighter with progress 0 (800) and
-fighter without the special ID (400). Total for this matrix: **35,600 cases,
-0 differences** in 17 groups. One last group (sail without the special ID) was
-still running when this line was written.
+fighter without the special ID (400) and sail without the special ID (400).
+Total for this matrix: **36,000 cases, 0 differences** in 18 groups.
 
 ### Procedural upgrade instances
 

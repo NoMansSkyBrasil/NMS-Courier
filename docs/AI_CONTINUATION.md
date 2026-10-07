@@ -14,7 +14,7 @@ offline:
 2. *Installed technologies.* The selection routine and the procedural upgrade
    generator are ported and compared with the original code. Read
    [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#selection-port-compared-with-the-original-2026-10-06-later).
-   Final counts: 35,600 selection cases and 14,640 instance-aware cases
+   Final counts: 36,000 selection cases and 14,640 instance-aware cases
    (`instances-v2-*`), 0 differences, across freighter stores, every ship
    class argument, the multitool and the exosuit; reports are in
    `default-technology-port-matrix-20261006`. Next: natural caller
