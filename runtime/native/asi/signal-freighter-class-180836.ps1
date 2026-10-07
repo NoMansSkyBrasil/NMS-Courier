@@ -23,6 +23,8 @@ param(
     [string]$HomeSeed,
     # Also request one dispatch of the shipped freighter reward.
     [switch]$DispatchTestReward,
+    # Request one dispatch of the shipped reward that starts corvette build mode (observation only).
+    [switch]$DispatchCorvetteBuild,
     [switch]$PreflightOnly
 )
 
@@ -55,7 +57,7 @@ if ($fields.status -notin @('awaiting_request', 'armed') -or
     throw 'Profile is not accepting requests'
 }
 # A new dispatch is allowed only when none is in flight: unused (0) or returned (3).
-if ($DispatchTestReward -and $fields.dispatch_state -notin @('0', '3')) {
+if (($DispatchTestReward -or $DispatchCorvetteBuild) -and $fields.dispatch_state -notin @('0', '3')) {
     throw 'A previous dispatch did not return in this process; its outcome is uncertain'
 }
 $basePattern = '^Local\\NMSCourier-FreighterClass180836-' + $GameProcessId + '-[a-f0-9]{32}$'
@@ -93,7 +95,11 @@ if ($Scene -or $ModelSeed -or $HomeSeed) {
     [IO.File]::WriteAllLines($requestPath, $lines, [Text.Encoding]::ASCII)
     Send-ProfileEvent 'model'
 }
-if ($DispatchTestReward) {
+if ($DispatchCorvetteBuild) {
+    Start-Sleep -Milliseconds 2500
+    Send-ProfileEvent 'corvette'
+    Write-Output 'One dispatch of the corvette build reward requested.'
+} elseif ($DispatchTestReward) {
     # Let the worker enable its hooks and store the class before the dispatch request.
     Start-Sleep -Milliseconds 2500
     Send-ProfileEvent 'dispatch'
