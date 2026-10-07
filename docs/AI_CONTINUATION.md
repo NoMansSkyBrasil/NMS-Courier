@@ -117,7 +117,9 @@ offline:
     the block list). Next bounded step: with
     the game open on a copied save, run
     `runtime/native/asi/signal/signal-technology-180836.ps1 -PreflightOnly`,
-    then one ID with `-ShowAlert`. Nothing has been taught live yet.
+    then one ID with `-ShowAlert`. *Done later the same day:* one, then all 205,
+    taught live by the profile's counters; the owner's confirmation of the
+    catalogue and the save-and-reload check are still open.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

@@ -6,8 +6,10 @@ modes requested by the project owner — one, several, all — and the permanent
 list of entries that must never be taught.
 
 Status in one line: the rules, the classification, the native routine and the
-research profile request are **implemented and checked offline; no technology
-has been taught in a running game yet.**
+research profile request are implemented; **one live run on 2026-10-07 taught
+all 205 deliverable technologies according to the profile's own counters. What
+the player sees in the catalogue, and persistence after save and reload, are
+not confirmed yet.**
 
 ## What "technology" means here
 
@@ -236,7 +238,40 @@ Taught technologies are saved by the game with the player's progress; there
 is no native "unlearn" route identified, so use a disposable save or a save
 copy for the first tests.
 
-## First live test (proposed, not done)
+## First live run (2026-10-07)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...3499`, process 11584 started 15:42, the owner's save loaded in ordinary gameplay |
+| Profile DLL | `4cea02b7...f6b3`, checked by the script before each request |
+| Save copy | `E:/NMS-Courier-Research/save-backups/20261007-before-technology` (27 files, taken with the game closed) |
+| Preflight | Passed: status `awaiting_request`, hooks created, so the startup byte checks of the lookup and learn routines matched in the running game |
+| Request 1 | `signal-technology-180836.ps1 -Id UT_JET -ShowAlert`: `learned`, known count 27 to 28 |
+| Request 2 | `signal-technology-180836.ps1 -All`: 205 requested, 177 `learned`, 28 `not_added`, known count 28 to 205 |
+| After | Process alive and responding, `request_errors=0`, no blocked or unknown result |
+
+The 28 `not_added` are exactly the 28 known before the request (27 at the
+start plus `UT_JET`), so every refusal was "already known": `PROTECT`,
+`ENERGY`, `UT_ENERGY`, `JET1`, `UT_JET`, `SHIPJUMP1`, `LAUNCHER`,
+`HYPERDRIVE`, `SHIPSHIELD`, `SHIPROCKETS`, `SHIPGUN1`, `F_HYPERDRIVE`,
+`T_SHIP_ATLAS`, `SCANBINOC1`, `SCAN1`, `TERRAINEDITOR`, `GROUND_SHIELD`,
+`LASER`, `STRONGLASER`, `BOLT`, `VEHICLE_ENGINE`, `VEHICLE_GRIP1`-`3`,
+`SUB_ENGINE`, `MECH_ENGINE`, `MECH_BOOST`, `MECH_PROT`. The final count
+equals the number of deliverable entries, which also means the save knew no
+blocked entry beforehand.
+
+Proven by this run: the two routines can be called from the update hook in
+gameplay without stopping the game, and the game's own counter grows by the
+number reported as learned.
+
+Not proven: what the player sees (alert for the first request, catalogue and
+build menus), behaviour after saving and reloading, effects on missions or
+tutorials that expect a technology to be unknown, multiplayer, and a save
+that already knows a blocked entry.
+
+Rollback: close the game without saving, or restore the save copy.
+
+## Original test plan (steps 1 to 3 done above)
 
 1. Copy the save folder. Start the game and load a save.
 2. `signal-technology-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 4cea02b7... -PreflightOnly`.

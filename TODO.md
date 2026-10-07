@@ -127,7 +127,8 @@ This file is the operational source of truth for implementation order. Update it
   and by ID ([technology delivery notes](docs/TECHNOLOGY_DELIVERY_NOTES.md)).
 - [x] Find the game's own learn routine and add a research profile request for one, several or all
   technologies. Built and installed; fixtures pass.
-- [ ] First live test on a copied save: preflight, one technology, several, all; then save and reload.
+- [~] First live test: preflight, one technology and all 205 done on 2026-10-07 (counters only).
+  Open: the owner's confirmation in the catalogue, the several-IDs mode, save and reload.
 - [ ] Interface for the three modes (one, several, all) with the technology list in the 14
   languages, using `selectTechnologiesForDelivery`. Needs the local catalogue (M3).
 - [x] Owner review of the hidden entries: ten are valid and deliverable, only `OBSOLETE` stays blocked.

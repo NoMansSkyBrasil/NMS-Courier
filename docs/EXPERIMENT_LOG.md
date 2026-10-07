@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-07: technology delivery — one, then all 205 deliverable technologies (live)
+
+Owner: [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md#first-live-run-2026-10-07).
+Build 180836 `13d5060d...3499`, profile DLL `4cea02b7...f6b3`, process 11584,
+the owner's save in ordinary gameplay; save folder copied beforehand to
+`E:/NMS-Courier-Research/save-backups/20261007-before-technology`.
+
+- Preflight passed. `-Id UT_JET -ShowAlert`: learned, known count 27 to 28.
+  `-All`: 177 learned, 28 not added (the 28 already known), known count 28
+  to 205. Process alive and responding, no request errors, no blocked or
+  unknown result.
+- Not proven: what the player sees, save and reload, mission side effects,
+  multiplayer.
+- Rollback: quit without saving or restore the save copy.
+
 ## 2026-10-07: technology delivery — refusal rules, native learn routine and profile request (offline)
 
 Owner: [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). No game
