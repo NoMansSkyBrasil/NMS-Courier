@@ -223,7 +223,9 @@ build mode `FreighterClass180836`:
   180383 corpus). It can be requested once per process and is never retried.
   The ten-argument call shape is the one live-verified on build 179666; the
   24-byte entry prologue is identical, but the ABI is **unverified on 180836**.
-- [signal-freighter-class-180836.ps1](../runtime/native/asi/signal-freighter-class-180836.ps1)
+- `signal-freighter-class-180836.ps1`, replaced on 2026-10-07 by
+  [signal-freighter-180836.ps1](../runtime/native/asi/signal/signal-freighter-180836.ps1)
+  and the other per-domain scripts over the same checks. The script
   checks the process, executable and DLL hashes, log freshness, profile state
   and unused dispatch state before signaling; `-PreflightOnly` signals nothing.
 
@@ -716,8 +718,9 @@ needs its own static research and live validation.
    current `xinput9_1_0.dll` externally with its hash, and copy the production
    DLL above into `Binaries`; verify the copied hash.
 2. Start the game, load a **disposable** save into ordinary gameplay.
-3. `signal-freighter-class-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 b3fcecf7... -Class S -PreflightOnly`,
-   then the same command with `-DispatchTestReward` instead of `-PreflightOnly`.
+3. `signal/signal-freighter-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 <installed DLL hash> -Class S -PreflightOnly`,
+   then the same command with `-DispatchOffer` instead of `-PreflightOnly`
+   (the runs recorded above used the earlier combined script and `-DispatchTestReward`).
 4. Record what appears: whether an offer opens, its class badge, slots and
    price; then the log `native-freighter-class-180836-<pid>.log`
    (`applied_count`, `class_before`, `class_after`, `dispatch_state`).

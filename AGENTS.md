@@ -63,6 +63,35 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - If you find documentation in another format, convert it to Markdown and update the references in
   the same change.
 
+## Organization: one domain per file
+
+- Keep game domains apart. Freighter, corvette, starship, multitool and exosuit are separate
+  things, and so is each domain added later (vehicles, companions, bases). Each gets its own
+  scripts, runtime adapters, request handlers, tests and owning note. Do not grow a file named for
+  one domain to serve another.
+- Shared plumbing (preflight, signaling, store layout helpers) lives in one small, specifically
+  named module that the domain files load. Never duplicate it per domain and never collect
+  unrelated helpers in it.
+- Name files for what they contain. If a file has outgrown its name, split or rename it in the
+  same change and update every reference.
+- Existing exception to remove: `runtime/native/asi/freighter_class_180836.c` serves every domain
+  under a freighter name. Split it per domain the next time the profile is rebuilt; a split
+  changes the DLL hash, so record the new hash and repeat the live checks before relying on it.
+- Tidy as you go: remove superseded scripts instead of leaving two ways to do one thing, and say
+  in the owning note what replaced them.
+
+## Interface languages
+
+- The application supports exactly the 14 interface languages of No Man's Sky's store listing:
+  `pt-BR`, `pt-PT`, `ja-JP`, `en-US`, `fr-FR`, `it-IT`, `de-DE`, `es-ES`, `nl-NL`, `ko-KR`,
+  `pl-PL`, `ru-RU`, `zh-CN`, `zh-TW`. Do not add or drop a language without the project owner.
+- Every user-facing string must exist in all 14. When adding or changing interface text, update
+  every locale in the same change; English is the fallback only for a string that is still
+  untranslated, and such gaps must be listed in `TODO.md`.
+- Keep translations in dedicated locale resources, one per language, never inline in components.
+- Details and the mapping to game language identifiers:
+  [product and UI](docs/PRODUCT_AND_UI.md#2-language).
+
 ## Product boundaries
 
 - Delivery uses live game functions through verified runtime integration. Never fall back to save editing.

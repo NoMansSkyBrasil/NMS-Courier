@@ -21,7 +21,7 @@ The fingerprint is evidence for this local observation only. A future importer m
 
 ## Observed language parity
 
-The local language archives expose 17 distinct game language identifiers. The application language selector must offer this exact set, and catalog extraction must retain the matching source identifier instead of treating the UI locale code as game data.
+The local language archives expose 17 distinct game language identifiers. **Superseded on 2026-10-07 by the project owner:** the application offers the 14 interface languages of the game's store listing (see [product and UI](PRODUCT_AND_UI.md#2-language)); `en-GB`, `es-419` and `zh-CN-tencent` below are game data identifiers only and are not application locales. Catalog extraction must retain the matching source identifier instead of treating the UI locale code as game data.
 
 | Application locale | Game language identifier |
 | --- | --- |
@@ -43,7 +43,7 @@ The local language archives expose 17 distinct game language identifiers. The ap
 | `zh-CN-tencent` | `tencentchinese` |
 | `zh-TW` | `traditionalchinese` |
 
-The application selector preserves all 17 game languages. The application shell currently has authored copy for `pt-BR`, `en-US`, and `es-ES`; remaining shell-copy translations are a separate localization task and must not block catalog resolution. The generated local catalogue now resolves the corresponding game-language values for every supported locale.
+The application selector offered all 17 until 2026-10-07 and now offers 14. The application shell currently has authored copy for `pt-BR`, `en-US`, and `es-ES`; remaining shell-copy translations are a separate localization task and must not block catalog resolution. The generated local catalogue now resolves the corresponding game-language values for every supported locale.
 
 ## Extracted catalog candidates
 

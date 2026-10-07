@@ -20,8 +20,8 @@ purchase setup returns for item kind 3, the detour writes that class into the
 three temporary offer stores and regenerates their base stats with the native
 generator. The `dispatch` event requests one call of the generic reward entry
 with the shipped ID `RS_S13_S4M6`; it is one-shot per process. Status is written
-to `native-freighter-class-180836-<PID>.log`. Arm with
-`signal-freighter-class-180836.ps1`; `tests/run-freighter-class-fixture.ps1`
+to `native-freighter-class-180836-<PID>.log`. Send requests with the per-domain scripts in
+[`signal/`](signal/README.md); `tests/run-freighter-class-fixture.ps1`
 runs the isolated fixture. Hashes, evidence, the unverified dispatch ABI and the
 proposed live procedure are in
 [inventory class research](../../../docs/INVENTORY_CLASS_RESEARCH.md). This

@@ -103,6 +103,13 @@ offline:
     and exosuit, per-request corvette layout without the mod, ordinary ship
     delivery.
 
+15. *Organization rules (2026-10-07).* One domain per file and exactly 14
+    interface languages are now rules in `AGENTS.md`. Requests to the
+    research profile go through the per-domain scripts in
+    [`runtime/native/asi/signal/`](../runtime/native/asi/signal/README.md)
+    (not yet used live; the combined script was removed). Pending: split the
+    profile DLL source per domain, translate eleven languages (`TODO.md`).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

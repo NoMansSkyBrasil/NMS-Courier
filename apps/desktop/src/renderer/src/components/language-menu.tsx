@@ -10,8 +10,7 @@ import {
 } from '@renderer/components/ui/dropdown-menu'
 
 const languages: { code: Locale; label: string }[] = [
-  { code: 'en-US', label: 'English (United States)' },
-  { code: 'en-GB', label: 'English' },
+  { code: 'en-US', label: 'English' },
   { code: 'pt-BR', label: 'Português (Brasil)' },
   { code: 'nl-NL', label: 'Nederlands' },
   { code: 'fr-FR', label: 'Français' },
@@ -19,13 +18,11 @@ const languages: { code: Locale; label: string }[] = [
   { code: 'it-IT', label: 'Italiano' },
   { code: 'ja-JP', label: '日本語' },
   { code: 'ko-KR', label: '한국어' },
-  { code: 'es-419', label: 'Español (Latinoamérica)' },
   { code: 'pl-PL', label: 'Polski' },
-  { code: 'pt-PT', label: 'Português' },
+  { code: 'pt-PT', label: 'Português (Portugal)' },
   { code: 'ru-RU', label: 'Русский' },
   { code: 'zh-CN', label: '简体中文' },
   { code: 'es-ES', label: 'Español' },
-  { code: 'zh-CN-tencent', label: '腾讯中文' },
   { code: 'zh-TW', label: '繁體中文' }
 ]
 

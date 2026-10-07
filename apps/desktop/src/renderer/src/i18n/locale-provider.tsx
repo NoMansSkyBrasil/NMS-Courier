@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
+// The fourteen interface languages No Man's Sky lists on its store page; keep this set exact.
 export const locales = [
   'en-US',
-  'en-GB',
   'pt-BR',
   'nl-NL',
   'fr-FR',
@@ -10,20 +10,17 @@ export const locales = [
   'it-IT',
   'ja-JP',
   'ko-KR',
-  'es-419',
   'pl-PL',
   'pt-PT',
   'ru-RU',
   'zh-CN',
   'es-ES',
-  'zh-CN-tencent',
   'zh-TW'
 ] as const
 export type Locale = (typeof locales)[number]
 
 export const gameLanguageSources: Readonly<Record<Locale, string>> = {
   'en-US': 'usenglish',
-  'en-GB': 'english',
   'pt-BR': 'brazilianportuguese',
   'nl-NL': 'dutch',
   'fr-FR': 'french',
@@ -31,13 +28,11 @@ export const gameLanguageSources: Readonly<Record<Locale, string>> = {
   'it-IT': 'italian',
   'ja-JP': 'japanese',
   'ko-KR': 'korean',
-  'es-419': 'latinamericanspanish',
   'pl-PL': 'polish',
   'pt-PT': 'portuguese',
   'ru-RU': 'russian',
   'zh-CN': 'simplifiedchinese',
   'es-ES': 'spanish',
-  'zh-CN-tencent': 'tencentchinese',
   'zh-TW': 'traditionalchinese'
 }
 

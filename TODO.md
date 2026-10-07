@@ -108,6 +108,19 @@ This file is the operational source of truth for implementation order. Update it
   [owned inventory upgrade notes](docs/OWNED_INVENTORY_UPGRADE_NOTES.md).
 - [ ] Deliver ordinary ships from plain `.nmsship` exports (format described in the same notes).
 
+## Organization requested by the user (2026-10-07)
+
+- [x] Split the research signal script into one script per domain over a shared module
+  ([signal scripts](runtime/native/asi/signal/README.md)). Parse-checked only; first live use pending.
+- [ ] Split `runtime/native/asi/freighter_class_180836.c` into per-domain sources (freighter offer,
+  corvette, owned ship, multitool, exosuit, shared profile core), rebuild, record the new DLL hash
+  and repeat the live checks. The fixture must gain coverage of the corvette, reward and owned branches.
+- [x] Reduce the language selector to the game's 14 interface languages.
+- [ ] Translate the interface copy into the eleven languages that still fall back to English:
+  `pt-PT`, `ja-JP`, `fr-FR`, `it-IT`, `de-DE`, `nl-NL`, `ko-KR`, `pl-PL`, `ru-RU`, `zh-CN`, `zh-TW`.
+- [ ] Move interface copy out of `locale-provider.tsx`, `appearance-copy.ts` and `preview-copy.ts`
+  into one resource per language, and add a test that fails when a locale lacks a key.
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is

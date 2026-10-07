@@ -34,6 +34,27 @@ Respect full compositions: item groups, Card sections, TabsList, dialog/sheet ti
 
 Documentation, identifiers, comments, technical diagnostics, and developer logs are English. User-facing strings are keyed locale resources. Proposed first product locale: pt-BR, with en-US as source/fallback. This is separate from the mandatory English documentation policy.
 
+The application supports exactly the 14 interface languages No Man's Sky lists on its store page (decided by the project owner on 2026-10-07):
+
+| Application locale | Language | Game language identifier |
+| --- | --- | --- |
+| `pt-BR` | Portuguese (Brazil) | `brazilianportuguese` |
+| `pt-PT` | Portuguese (Portugal) | `portuguese` |
+| `ja-JP` | Japanese | `japanese` |
+| `en-US` | English | `usenglish` |
+| `fr-FR` | French | `french` |
+| `it-IT` | Italian | `italian` |
+| `de-DE` | German | `german` |
+| `es-ES` | Spanish (Spain) | `spanish` |
+| `nl-NL` | Dutch | `dutch` |
+| `ko-KR` | Korean | `korean` |
+| `pl-PL` | Polish | `polish` |
+| `ru-RU` | Russian | `russian` |
+| `zh-CN` | Simplified Chinese | `simplifiedchinese` |
+| `zh-TW` | Traditional Chinese | `traditionalchinese` |
+
+Status: the selector lists these 14. Authored interface copy exists only for `pt-BR`, `en-US` and `es-ES`; the other eleven fall back to English until translated (tracked in the [delivery tracker](../TODO.md)). The game archives also contain `english`, `latinamericanspanish` and `tencentchinese`; these are not application locales. Which English archive the store's single "English" entry corresponds to has not been checked; the mapping to `usenglish` is the existing one.
+
 Game item names/descriptions come from local game localization with an explicit fallback. Internal IDs, schema keys, and enum identifiers are not translated. Avoid building sentences by concatenating translated fragments; use parameterized messages and locale-aware numbers/plurals.
 
 ## 3. Navigation

@@ -84,7 +84,8 @@ The research profile gained a `reward` event. It reads one reward ID from
 `%LOCALAPPDATA%/NMSCourier/diagnostics/native-reward-request-180836-<PID>.txt`
 and dispatches it once only if it is one of the eleven IDs in the table above
 (the list is compiled in). `signal-freighter-class-180836.ps1
--DispatchListedReward <ID>` writes the file and sends the event. DLL SHA-256
+-DispatchListedReward <ID>` (replaced on 2026-10-07 by the per-domain scripts in [`signal/`](../runtime/native/asi/signal/README.md))
+writes the file and sends the event. DLL SHA-256
 `b408f09077fe47e2fa6ef288410e9362598603ddba1308d7d219930998474c5b`,
 installed 2026-10-07 in place of `5887b8ea...5b0d`. The existing fixture
 passes; it has no check for the new event. The script still arms the class
@@ -163,7 +164,8 @@ store for self-consistency, and then
 
 It does not touch class or base stats (class goes through the game's own
 rewards). `signal-freighter-class-180836.ps1 -OwnedTarget ship|weapon
--OwnedIndex N -OwnedSlots -OwnedSupercharge`. DLL SHA-256
+-OwnedIndex N -OwnedSlots -OwnedSupercharge` (replaced on 2026-10-07 by the per-domain scripts in [`signal/`](../runtime/native/asi/signal/README.md)).
+DLL SHA-256
 `a380fc1a84e2ca814cd7f5f1548c9f3030dfd59df6fa3da3ad523d735602abfd`,
 installed in place of `b408f090...4c5b`. The fixture passes; the owned branch
 is compiled out of it and untested. Before the run the two newest save files

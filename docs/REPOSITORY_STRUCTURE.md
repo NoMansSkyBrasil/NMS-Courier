@@ -283,6 +283,7 @@ Build scripts are introduced with B0, not created speculatively during planning.
 - Configuration belongs to its owner. Do not place Python settings in renderer files or UI preferences in runtime hook code.
 - Comments explain invariants and non-obvious reasons, not a line-by-line restatement of code.
 - Translations are content resources. English remains the source language for technical errors and documentation.
+- One game domain per file. Freighter, corvette, starship, multitool, exosuit and each later domain (vehicles, companions, bases) get their own scripts, adapters, tests and notes; shared plumbing lives in one small named module that the domain files load. Do not add a second domain to an existing domain file.
 - No empty folders merely to match this tree. Stage additions with their first useful behavior and tests.
 
 ## 7. Future Save Editor paths
