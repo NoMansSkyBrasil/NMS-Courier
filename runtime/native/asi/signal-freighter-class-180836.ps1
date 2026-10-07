@@ -100,8 +100,7 @@ if ($Scene -or $ModelSeed -or $HomeSeed) {
     Send-ProfileEvent 'model'
 }
 if ($DispatchListedReward) {
-    $rewardPath = Join-Path $env:LOCALAPPDATA "NMSCourier\diagnostics
-ative-reward-request-180836-$GameProcessId.txt"
+    $rewardPath = Join-Path $env:LOCALAPPDATA "NMSCourier\diagnostics\native-reward-request-180836-$GameProcessId.txt"
     [IO.File]::WriteAllLines($rewardPath, @($DispatchListedReward), [Text.Encoding]::ASCII)
     Start-Sleep -Milliseconds 2500
     Send-ProfileEvent 'reward'

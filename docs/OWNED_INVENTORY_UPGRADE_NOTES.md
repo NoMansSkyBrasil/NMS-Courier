@@ -91,6 +91,33 @@ passes; it has no check for the new event. The script still arms the class
 argument for the next freighter or corvette setup as before; that request is
 unrelated to these rewards.
 
+### First live results: class rewards (2026-10-07, one process)
+
+Build 180836 (`13d5060d...3499`), DLL `b408f090...4c5b`, user in a space
+station. Each line is one `reward` event after a passing preflight; every
+call returned (`dispatch_state=3`, no request errors).
+
+| Reward | Item state before | Observed by the user |
+| --- | --- | --- |
+| `R_WEAP_UPGRADE` | current multitool class A | game message shown; class became S; no cost noticed |
+| `R_SHIPUPGRADE` | current ship already class S | no message, no change |
+| `R_WEAP_UPGRADE` | another multitool, class C, made current | class became B (one step) |
+| `R_WEAP_UPGRADE` twice more | the same multitool | result not yet reported (expected A, then S) |
+
+So the weapon class reward acts on the current multitool, raises it by one
+class per dispatch through the game's own message, and the ship class reward
+does nothing at the maximum. A first attempt of the first line did not reach
+the game: the signal script failed to write the request file (a path escape
+lost in an edit); it was corrected and only one dispatch was sent.
+
+User requirement recorded: upgrades only. The interface may raise a class
+(including straight from C to S, by repeating the step) but must not offer a
+downgrade, since the game has none.
+
+Not proven: `R_SHIPUPGRADE` on a ship below S and the meaning of its
+`InventoryClass` parameter; the slot rewards; costs (the user noticed none);
+persistence after save and restart.
+
 ## Proposed order (not started)
 
 1. Read-only: locate the player's ship, multitool and exosuit stores in the
