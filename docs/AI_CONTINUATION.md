@@ -126,8 +126,9 @@ offline:
     [known lists triage](KNOWN_LISTS_TRIAGE.md): what is useful, what the
     game's own routine refuses, and the 14 repeatable specials that must
     never be marked known. Nothing delivered. Upgrade-module products are not
-    learnable (technology notes). Next: owner decisions listed there, then
-    glyphs.
+    learnable (technology notes). The owner put expedition, Twitch and
+    platform rewards in scope and added fossils and raw materials; all are
+    triaged, none built. Next: glyphs.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

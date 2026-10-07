@@ -103,10 +103,55 @@ more than one):
 The purchasable table has 228 further entries the file does not contain.
 
 Verdict: the Quicksilver part is deliverable in principle with the consumable
-rule above. Expedition, Twitch and platform rewards are a product decision
-for the owner, not a technical one: they are items the publisher hands out
-through events and accounts. No recommendation is made here; nothing is
-delivered until the owner decides.
+rule above.
+
+**Owner decision (2026-10-07): expedition, Twitch and platform rewards are to
+be delivered too, and completing an expedition season is a later goal.** See
+the next section for what that involves.
+
+## Expedition, Twitch and platform rewards
+
+The owner supplied the editor's three reward pages (personal data, not
+committed). They match the game tables in size:
+
+| Table | Entries | Fields worth noting |
+| --- | --- | --- |
+| `UNLOCKABLESEASONREWARDS.MBIN` | 293, expeditions 1 to 23 | `MustBeUnlocked` true for 7; `SwitchExclusive` true for `EXPD_ODD_EGG`; `UniqueInventoryItem` true for `MYSTERY_TRACKER` |
+| `UNLOCKABLETWITCHREWARDS.MBIN` | 435 | Each maps a Twitch ID to one product; products are build parts 212, curiosities 135, customisation parts 75, emotes 13 |
+| `UNLOCKABLEPLATFORMREWARDS.MBIN` | 3 in the corpus (`TGA_SHIP1`, `SW_PREORDER`, `SW_PREORDER2`) | The editor lists 6: also `ENT_BOLTCASTER`, `ENT_PHOCORE`, `ENT_XO_HELMET`, which the corpus table does not contain |
+
+None of the 14 repeatable specials is a season or Twitch reward.
+
+The editor shows **two separate states** for each reward, and they are
+different things to deliver:
+
+- *Unlocked on account*: the account knows the reward. For platform rewards
+  the editor says this lives in a user settings file in the game's install
+  directory; where the season and Twitch flags live was not examined.
+- *Redeemed in save*: this save has claimed it (for a ship or multitool that
+  is the moment the item is given).
+
+Constraints that follow from the project rules, stated so the scope is clear:
+
+- No file is edited as a delivery shortcut: not the save, not the account
+  data, not the user settings file. Each state needs a route through the
+  running game.
+- A route exists at least for season rewards: the shipped reward
+  `GcRewardUnlockSeasonReward`, whose handler was already located on build
+  180383 (`f42160`, see [native acquisition research](NATIVE_ACQUISITION_RESEARCH.md)).
+  It has not been relocated to 180836, called, or checked for which of the
+  two states it sets. Twitch and platform routes are not identified.
+- The three `ENT_*` rewards explain three technology entries reviewed
+  earlier: Boltcaster SM (`BOLT_SM`), Photonix Core (`PHOTONIX_CORE`) and the
+  X.O. suit items are entitlement rewards.
+- "Completing an expedition season" (milestones, phases, the season's own
+  progress) is another domain again and has not been looked at.
+
+Things the owner should know before this is built, without changing the
+decision: these rewards are tied to the publisher's events, Twitch campaigns
+and, for `SW_PREORDER*`, a platform pre-order; an account-level unlock is
+visible to the game's online services in a way a known technology is not.
+What the services do with it is unknown here.
 
 ## Glyphs
 
@@ -144,6 +189,37 @@ deliver as part of "learn everything". If the owner wants the fishing
 catalogue filled, it needs a separate decision and a way that does not invent
 counts.
 
+## Fossils
+
+The owner listed the editor's fossil page: skull, limb, ribcage and tail
+entries (`FOS_HEAD_*`, `FOS_LIMBS_*`, `FOS_BI_BODY_*`, `FOS_BI_TAIL_*`), each
+with a status "Complete". The product tables hold 165 `FOS_` entries: 143 of
+type ExhibitBone, not craftable, and 22 craftable build parts (display
+pieces). The learn-product routine therefore refuses the 143 bones; the
+"Complete" status is some other record, probably the collection catalogue
+(`METADATA/REALITY/CATALOGUEWONDERS.MBIN` is a candidate) and, like the
+fishing record, it describes what the player found. Where it is stored and
+whether the game has a routine that sets it are unknown. Verdict: plausible,
+needs study; same caution as fish about inventing a record.
+
+## Raw materials
+
+The editor's "raw materials" page is the substance table, 114 entries. It is
+not all materials:
+
+| Group | Entries | Examples |
+| --- | --- | --- |
+| Real substances shown in the game catalogue (`WikiEnabled` true) | 71 | Carbon, Ferrite Dust, Sodium, Gold, Chromatic Metal |
+| Real substances hidden from the catalogue | 8 | `TECHFRAG`, `SCRAP_RAD`, `SCRAP_TOX`, `SCRAP_EXP`, `SQUIDFRAG`, `TIMEDUST`, `TIMEMILK`, `SWARMDUST` |
+| Pseudo-substances: icons the interface uses for things that are not items | 35 | Currencies (`UNITS`, `QUICKSILVER`, `TECHFRAG_R`), faction and guild standing (`TRA_STANDING_UP`, `EGUILD_STAND_DN`, ...), settlement statistics (`SET_COST_NEG`, `SET_MOOD_POS`, ...), expedition teams (`TEAM_RED`, ...), `NEW_PERK` |
+
+The owner's list contains the pseudo-substances (for example "AUTOPHAGE" for
+`BUI_STANDING_UP`, "Maintenance Cost", "Units"). Proposed rule: the 35
+pseudo-substances are never marked known; they are all category Special with
+`WikiEnabled` false and belong to the ID families above. Whether marking one
+known has any visible effect is unknown. The route by which the game records
+a known substance is not identified.
+
 ## What is not known
 
 - Whether the game reads a known entry that only an editor could have
@@ -155,8 +231,15 @@ counts.
 
 ## Proposed order
 
+Owner decisions so far: expedition, Twitch and platform rewards are in scope;
+fish is still open.
+
 1. Glyphs (smallest, one flag).
 2. Product recipes, after classifying the three product tables.
 3. Quicksilver specials with the consumable rule, after the owner decides on
    expedition, Twitch and platform rewards.
 4. Words and recipes, each after its own study.
+5. Season rewards through the game's unlock-season-reward route, then Twitch
+   and platform rewards once their routes are found.
+6. Fossils and raw materials after finding where the game records them.
+7. Expedition season completion as its own domain.
