@@ -281,6 +281,19 @@ Not proven: what the player sees in the catalogue and build menus, behaviour aft
 tutorials that expect a technology to be unknown, multiplayer, and a save
 that already knows a blocked entry.
 
+Read-back after the run (read-only look at the game's known list in process
+memory): 205 distinct IDs, identical to the deliverable set; none missing and
+none outside it.
+
+The owner then opened the save in a third-party save editor, which showed
+"Known: 204 / 392" and looked as if many technologies were missing. The
+editor counts every table entry it knows, including the entries that are
+never delivered: 392 - 204 = 188, the number of blocked entries. The editor's
+totals are one lower than ours on both sides (392 against 393 entries, 204
+against 205 known), which is consistent with one entry it does not list;
+which one was not determined. A full count in such an editor is therefore not
+the target: "all" means the 205 deliverable entries.
+
 Rollback: close the game without saving, or restore the save copy.
 
 ## Original test plan (steps 1 to 3 done above)
