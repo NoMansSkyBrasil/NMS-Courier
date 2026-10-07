@@ -189,6 +189,36 @@ deliver as part of "learn everything". If the owner wants the fishing
 catalogue filled, it needs a separate decision and a way that does not invent
 counts.
 
+### Where the account state lives on this installation (2026-10-07)
+
+Asked by the owner: can platform rewards be forced to appear? Read-only look
+at the installed game and the executable:
+
+- The executable's metadata names three adjacent fields,
+  `UnlockedSeasonRewards`, `UnlockedTwitchRewards` and
+  `UnlockedPlatformRewards`. They are lists in the user settings object
+  (`GcUserSettingsData`).
+- On this Steam installation that object is the plain file
+  `Binaries/SETTINGS/GCUSERSETTINGSDATA.MXML`, which the game itself reads at
+  start and writes (its timestamp is the last game start). The owner's file
+  currently lists 293 season rewards, 435 Twitch rewards and 1 platform
+  reward (`TGA_SHIP1`); the first two were filled by the editor earlier.
+- So the "unlocked on account" state of these three kinds is local data the
+  running game holds in memory and saves by itself. Forcing a platform reward
+  to appear is therefore possible in principle without editing a file: add
+  its ID to the in-memory list through the routine the game uses for that and
+  let the game write its own settings.
+- Not done and not known: the routine that adds to the platform list has not
+  been located; whether the game re-checks the platform and removes an entry
+  it does not recognise; what the shop or the claim screen then requires.
+- `ENT_BOLTCASTER`, `ENT_PHOCORE` and the other `ENT_*` entries are a
+  different mechanism: the reward table's `EntitlementTable` maps a reward to
+  an entitlement ID (`BOLTCASTER`, `PHOTONIXCORE`, `ALPHAVSHIP`, `HORIZOSHIP`,
+  ...) that the platform answers for, and to an ordinary reward. For the two
+  technology ones that reward is `GcRewardSpecificTech` for `BOLT_SM` and
+  `PHOTONIX_CORE`, which the technology delivery of 2026-10-07 already
+  taught. The ship ones are ship rewards and belong to ship delivery.
+
 ## Fossils
 
 The owner listed the editor's fossil page: skull, limb, ribcage and tail
