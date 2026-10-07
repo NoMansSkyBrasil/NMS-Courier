@@ -190,6 +190,35 @@ Next: the 976-object layout is installed for a restart test; then finalize
 once on a save state the user accepts to change; then replace the static mod
 by supplying the layout in memory per request.
 
+### Third observation: finalize leads to a ship offer, class C (2026-10-07, user action)
+
+In the same process as the second result the user pressed "Finalizar". The
+game showed the usual ship offer screen for the built corvette: a generated
+name, class **C**, the installed technologies, the same four statistics as in
+build mode, and "Comparar" / "Recusar". Whether the offer was then accepted
+is not recorded here. The profile log still showed one setup call of kind 0
+and no class applied, as expected: the profile so far only handled freighter
+setups (kind 3).
+
+Class C is the shipped default (`DefaultCorvette` carries no class request and
+the purchase setup draws no class for it). The user wants the class to be
+selectable, with S as the default.
+
+### Class on the corvette build (built, **not yet run**)
+
+The `corvette` event now also arms the requested class for the next ship
+setup (kind 0). After the original setup returns, the profile writes the
+class into the ship item's three stores (main `+0x980`, technology `+0xe10`,
+cargo `+0xbc8`; the user's owned S ships carry S in all three) and calls the
+native base-stat routine for each with ship class row 10 (Corvette). One
+shot, consumed with the class request. DLL SHA-256
+`9baba721a7c2d56a3f1dd82ef8b6910696d7fe98e21124543bc12db2eafc5c7e`, under
+`E:/NMS-Courier-Research/native-builds/freighter-class-180836-corvette-class-20261007`.
+The existing fixture passes; it has no check for the ship branch. Unknown
+until run: that the kind-0 setup at build start is the corvette's item, that
+the class survives finalize and acceptance, and how the displayed statistics
+react.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is

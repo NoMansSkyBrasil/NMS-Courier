@@ -109,6 +109,14 @@ typedef uint8_t (*give_reward_fn)(void *manager, const char *reward_id, const ch
 static const struct { uint32_t offset; uint32_t inventory_type; } stores[3] = {
     {0x980u, 7u}, {0xe10u, 5u}, {0xbc8u, 9u}
 };
+// Ship item (setup kind 0): main, technology and cargo stores. Owned S ships carry the class in all three.
+// The base-stat row is the Corvette ship class (10), the row the size-type mapping gives a corvette.
+#define SHIP_ITEM_KIND 0
+#define CORVETTE_SHIP_CLASS 10
+static const struct { uint32_t offset; uint32_t inventory_type; } ship_stores[3] = {
+    {0x980u, 4u}, {0xe10u, 5u}, {0xbc8u, 6u}
+};
+static volatile LONG ship_class_armed;     // the corvette event asks for the class on the next ship setup
 
 static update_fn original_update;
 static setup_fn original_setup;
@@ -227,6 +235,24 @@ static void write_status(const char *status, MH_STATUS result) {
         WriteFile(file, text, (DWORD)size, &written, NULL);
     }
     CloseHandle(file);
+}
+
+static void apply_ship_class(uintptr_t item, int32_t item_class) {
+    if (!writable_range(item, ITEM_READ_SPAN)) {
+        InterlockedIncrement(&rejected_item);
+        return;
+    }
+    for (unsigned index = 0; index < 3; ++index) {
+        uint8_t *store = (uint8_t *)item + ship_stores[index].offset;
+        int32_t *header = (int32_t *)(store + STORE_CLASS_OFFSET);
+        InterlockedExchange(&class_before[index], *header);
+        *header = item_class;
+        stat_generator(store, ship_stores[index].inventory_type, (void *)(item + ITEM_SEED_OFFSET),
+                       item_class, CORVETTE_SHIP_CLASS, 10, 0, 0);
+        InterlockedExchange(&class_after[index], *header);
+    }
+    InterlockedExchange(&applied_class, item_class);
+    InterlockedIncrement(&applied_count);
 }
 
 static void apply_class(uintptr_t item, int32_t item_class) {
@@ -453,6 +479,13 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     }
     InterlockedIncrement(&setup_calls);
     InterlockedExchange(&last_kind, (LONG)(uint32_t)kind);
+    if ((uint32_t)kind == SHIP_ITEM_KIND && item && InterlockedCompareExchange(&ship_class_armed, 0, 1) == 1) {
+        // Corvette build start: apply the armed class once to the ship item the game just set up.
+        LONG ship_class = InterlockedCompareExchange(&requested_class, 0, 0);
+        if (ship_class >= 0 && ship_class < CLASS_COUNT &&
+            InterlockedCompareExchange(&requested_class, -1, ship_class) == ship_class)
+            apply_ship_class(item, (int32_t)ship_class);
+    }
     if ((uint32_t)kind != FREIGHTER_ITEM_KIND) return result;
     InterlockedIncrement(&freighter_setups);
     LONG item_class = InterlockedCompareExchange(&requested_class, 0, 0);
@@ -661,6 +694,7 @@ void courier_probe_after_verified(void) {
         // Events "dispatch" and "corvette" both arrive here and differ only in the reward chosen.
         else {
             InterlockedExchange(&dispatch_choice, index == CLASS_COUNT + 5 ? 1 : 0);
+            InterlockedExchange(&ship_class_armed, index == CLASS_COUNT + 5 ? 1 : 0);
             if (InterlockedCompareExchange(&dispatch_state, 1, 0) != 0)
                 InterlockedCompareExchange(&dispatch_state, 1, 3);
         }
