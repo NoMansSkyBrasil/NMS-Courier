@@ -289,20 +289,65 @@ learn-technology and learn-product routines notify. The flag at `+0x2b0` is
 read as "settings changed, save them"; that reading is an inference from all
 four writers setting it.
 
+#### Step 1 result: which set is which (still build 180383, offline)
+
+The settings object's list fields are named, in order, `SeenSubstances`,
+`SeenTechnologies`, `SeenProducts`, `SeenWikiTopics`, `UnlockedWikiTopics`,
+`UnlockedTitles`, `UnlockedSpecials`, `UnlockedSeasonRewards`,
+`UnlockedTwitchRewards`, `UnlockedPlatformRewards`. In the account object:
+
+| Set offset | Evidence | Reading |
+| --- | --- | --- |
+| `+0x80` | Writer `6096a0` uses the substance lookup | Seen substances |
+| `+0xc0` | Writer `6098a0` uses the technology lookup | Seen technologies |
+| `+0x100` | Writer `609780` uses the product lookup | Seen products |
+| `+0x140` | Writer `609bb0` (table at `*(manager + 0x308)`, entries with product lists) | Probably unlocked titles; not confirmed. **Not** Twitch or platform, correcting the first guess above |
+| `+0x180` | Writer `609dd0` uses the specials map (manager `+0x8a0`) | Unlocked specials |
+| `+0x1c0` | Writer `609ed0` uses the season map (manager `+0x8e0`) | Unlocked season rewards |
+| `+0x200` | No single-entry writer. A large routine starting at `342ec0` clears it and refills it from a list, keeping each ID found in a map at manager `+0x920` | Unlocked Twitch rewards |
+| `+0x240` | Same routine, next block | Unlocked platform rewards |
+
+A scan of the whole executable for writers of the changed flag found only the
+single-entry writers up to `+0x1c0` and that large routine. So:
+
+- **Season rewards have a route in the game** (`609ed0`, reached through the
+  shipped reward). That is the preferred path.
+- **Twitch and platform rewards have no "add one" routine that was found.**
+  Their sets are filled in bulk by the routine at `342ec0`, read as "apply
+  loaded settings"; two more places that use these sets (`8880a0`, `888ec0`)
+  were not examined and may be the online refresh or the claim screen.
+- In that bulk routine an ID is kept when it exists in the game's own Twitch
+  or platform table. No check against a platform service appears in the part
+  read. This agrees with the owner's installation, where `TGA_SHIP1` and 435
+  Twitch IDs written by an editor are still in the file the game rewrites.
+  It is not proof that nothing else removes them.
+
+What this means for forcing a platform reward: without a single-entry routine
+the only way inside the running game is to insert the ID into the in-memory
+set with the game's own container routine (`3df6c0`, the one every writer
+above uses), after checking that the ID exists in the platform table, and set
+the changed flag as the writers do. That is a direct change of game data
+through a native helper, the same category as the special-slot lists of the
+inventory work, and must be labelled so. It has not been built.
+
+**Owner decision (2026-10-07): Switch-exclusive and every other platform or
+event reward is in scope; nothing is left out for being exclusive.** Whether
+the PC build accepts `SW_PREORDER`, `SW_PREORDER2` and `EXPD_ODD_EGG` is
+unknown.
+
 Plan from here, in order, each step recorded before the next:
 
-1. Decide which sibling is Twitch and which is platform, from the tables they
-   consult and from their callers.
-2. Relocate the routines to build 180836 by masked byte search and take
-   entry-byte checks, as for technology.
-3. Read-only check in the running game: read the three sets from memory and
-   compare their sizes with the settings file (293, 435 and 1 today). This
-   confirms the offsets without changing anything.
-4. Add a reward-unlock request to the research profile in its own domain file
-   and try **one** platform reward on a copied save and a copied settings
-   file; observe the game's own settings file after it writes, the claim
-   screen, and whether the entry survives a restart.
-5. Only then the save-side step and the larger lists.
+1. Done above (set identities), with `+0x140` still to confirm.
+2. Relocate `609ed0`, `5aa550`, `3df6c0` and the set offsets to build 180836
+   by masked byte search and take entry-byte checks, as for technology.
+3. Read-only check in the running game: read the season, Twitch and platform
+   sets from memory and compare their sizes with the settings file (293, 435
+   and 1 today). This confirms the offsets without changing anything.
+4. Add a reward-unlock request to the research profile in its own domain
+   file. First live test: **one** platform reward on a copied save and a
+   copied settings file; observe the game's own settings file after it
+   writes, the claim screen, and whether the entry survives a restart.
+5. Only then the save-side step (`5aa550`) and the larger lists.
 
 ## Fossils
 
