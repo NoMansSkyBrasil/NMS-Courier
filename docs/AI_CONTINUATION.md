@@ -136,6 +136,12 @@ offline:
     [live bridge operations](LIVE_BRIDGE_OPERATIONS.md#saves-slots-and-account-data)
     before any live action; name the slot in every record.
 
+19. *Recipe delivery (2026-10-07).* Built and installed, not run live. Read
+    [recipe delivery notes](RECIPE_DELIVERY_NOTES.md). Installed DLL is now
+    `22cf6a82...f545`. Next bounded step, with the game open on slot 3:
+    `runtime/native/asi/signal/signal-recipe-180836.ps1 -PreflightOnly`, then
+    one ID, then `-All`.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

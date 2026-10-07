@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-07: recipe delivery — routine found and request built (offline)
+
+Owner: [recipe delivery notes](RECIPE_DELIVERY_NOTES.md). No game process was
+involved; nothing was taught.
+
+- Source: recipe table of the corpus (1,684 entries, no defective entry
+  found), executable 180836 `13d5060d...3499`.
+- Observed: known recipes are a set at player state `+0x18750`; the save-load
+  merge routine `5a1670` takes a source with a recipe list at `+0x10` and
+  inserts the recipes the table contains.
+- Rejected: copying the inline insert of the single-recipe site; calling the
+  merge routine without a guard, because it also adds entries of two manager
+  lists to the known technologies and products.
+- Built and installed with the game closed: profile DLL `22cf6a82...f545`
+  with a `recipes` event, replacing `4cea02b7...f6b3`. Three fixtures pass.
+  Save folder and settings file copied to
+  `E:/NMS-Courier-Research/save-backups/20261007-before-recipes`.
+- Not proven: everything live.
+
 ## 2026-10-07: account reward sets — relocation and read-only live check
 
 Owner: [known lists triage](KNOWN_LISTS_TRIAGE.md). Build 180836

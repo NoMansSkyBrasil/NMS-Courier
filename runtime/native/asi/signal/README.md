@@ -51,6 +51,14 @@ per-ID result. Rules and status:
 [technology delivery notes](../../../../docs/TECHNOLOGY_DELIVERY_NOTES.md). Not yet
 used for a live request.
 
+## Recipes
+
+`signal-recipe-180836.ps1` teaches refiner and cooking recipes to the loaded slot:
+`-All` for every recipe of the running game's table, or `-Id A[,B...]`. It prints the
+profile's counters. Rules and status:
+[recipe delivery notes](../../../../docs/RECIPE_DELIVERY_NOTES.md). Not yet used for
+a live request.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

@@ -155,6 +155,13 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Other delivery domains after technology (products, recipes, parts), each with its own
   classification and permanent block list first.
 
+## Recipe delivery requested by the user (2026-10-07)
+
+- [x] Check the recipe table for defective entries (none) and find the game's route.
+- [x] Add a `recipes` request to the research profile; built, installed, fixtures pass
+  ([recipe delivery notes](docs/RECIPE_DELIVERY_NOTES.md)).
+- [ ] First live test on slot 3: preflight, one recipe, all; then save and reload.
+
 ## Slots and account scope (2026-10-07)
 
 - [ ] Identify in the running game which slot is loaded, and show it in every result.

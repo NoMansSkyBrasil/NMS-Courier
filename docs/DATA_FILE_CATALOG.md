@@ -148,6 +148,7 @@ reader can start from Markdown and reach every data file.
 | [reward-fields-180383.md](../runtime/research/reward-fields-180383.md) | Markdown table | 2 rows, 2 columns | SpecificShip field serializer candidate called by 24ed8d0 | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md) |
 | [reward-flags-180383.md](../runtime/research/reward-flags-180383.md) | Markdown table | 3 rows, 2 columns | SpecificShip serializer candidate reached by tagged metadata getter | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md) |
 | [sentinel-parts-example.json](../runtime/research/sentinel-parts-example.json) | JSON object | 5 top-level keys | keys: source, resource, required_descriptor_ids, seed, seed_reachability_verified | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [PROCEDURAL_SEED_RESEARCH.md](../docs/PROCEDURAL_SEED_RESEARCH.md) |
+| [technology-delivery-classification.md](../runtime/research/technology-delivery-classification.md) | Markdown table | 393 rows, 9 columns | columns: ID, Category, Class, BrokenSlotTech, IsTemplate, Procedural, RepairTech, Teach, WikiEnabled | [TECHNOLOGY_DELIVERY_NOTES.md](../docs/TECHNOLOGY_DELIVERY_NOTES.md) |
 | [tool-palette-callers-180383.md](../runtime/research/tool-palette-callers-180383.md) | Markdown table | 2 rows, 2 columns | Direct owned-tool initializer caller fragment; argument 7 reads context byte; identity and ABI unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
 | [tool-palette-flag-180383.md](../runtime/research/tool-palette-flag-180383.md) | Markdown table | 5 rows, 2 columns | Candidate 2b0 range writer near owned tool selection; record ownership unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [weapon-fields-180383.md](../runtime/research/weapon-fields-180383.md) | Markdown table | 1 rows, 2 columns | SpecificWeapon field serializer called by 24d8c70 | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
@@ -200,4 +201,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 124 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 125 data files in 4 folders; 42 not mentioned outside this catalog.

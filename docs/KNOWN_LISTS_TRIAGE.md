@@ -175,9 +175,9 @@ yet. Verdict: useful; needs its own study before anything is promised.
 
 The file equals the recipe table exactly: 1,684 entries, 361 refiner recipes
 and 1,323 cooking recipes. No shipped reward type that teaches these was
-found by name in the reward table, so how the game records a discovered
-recipe is not identified. Verdict: useful (it fills the catalogue pages);
-route unknown.
+found by name in the reward table. Verdict: useful (it fills the catalogue
+pages). **Route found later the same day** in the save-load merge routine;
+see [recipe delivery notes](RECIPE_DELIVERY_NOTES.md).
 
 ## Fish
 
