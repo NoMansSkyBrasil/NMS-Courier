@@ -14,9 +14,10 @@ offline:
 2. *Installed technologies.* The selection routine and the procedural upgrade
    generator are ported and compared with the original code. Read
    [default technology research](DEFAULT_TECHNOLOGY_RESEARCH.md#selection-port-compared-with-the-original-2026-10-06-later).
-   Two comparison jobs were still running when this was written; their
-   reports are in `default-technology-port-matrix-20261006` (files
-   `instances-v2-*` are the instance-aware ones). Next: natural caller
+   Final counts: 35,600 selection cases and 14,640 instance-aware cases
+   (`instances-v2-*`), 0 differences, across freighter stores, every ship
+   class argument, the multitool and the exosuit; reports are in
+   `default-technology-port-matrix-20261006`. Next: natural caller
    arguments, the boosted-roll percentage, then the base-stat generator
    (`4cea20`, read but not ported: one draw per entry of the class row,
    `value = unit * (max - min) + min`, table selected by `4ce9b0`).

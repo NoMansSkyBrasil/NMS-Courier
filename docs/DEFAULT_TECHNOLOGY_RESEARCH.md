@@ -208,9 +208,13 @@ the port on the same inputs and counts differences.
 | Ship type 5, class argument 3 (scientific) | same shape | 2,000 | 0 |
 | Ship type 5, class argument 4 (shuttle) | same shape | 2,000 | 0 |
 
-The remaining ship class arguments (6 to 10), the multitool store and the
-other variants of that matrix were still running at this checkpoint; read the
-reports before citing them.
+Completed later the same night, all with 0 differences: ship class arguments
+6, 7, 8 and 9 (2,000 cases each), fighter with size argument 9 (1,600),
+multitool store (type 3, class argument 12; 4,800), exosuit store (1,200),
+multitool with an empty known list (800), fighter with progress 0 (800) and
+fighter without the special ID (400). Total for this matrix: **35,600 cases,
+0 differences** in 17 groups. One last group (sail without the special ID) was
+still running when this line was written.
 
 ### Procedural upgrade instances
 
@@ -251,10 +255,10 @@ emulator's stand-ins for `ec1a10`/`ec1e60` give the original routine a
 template copy with the ported ID and statistics, and the port receives the
 same model. This checks how selection consumes instances (the stat-class
 penalty of later picks); the generator itself is checked by the window
-comparison above, not end to end. First results with boosted percentage 0 and
-100: ship class argument 1, 732 + 732 cases, 0 differences; a 204-case fighter
-smoke run, 0 differences. The other classes and the multitool store were still
-running at this checkpoint.
+comparison above, not end to end. Final instance-aware matrix, boosted percentage 0 and 100:
+ship class arguments 1, 2, 3, 4, 6, 7, 8, 9 and 10 and the multitool store,
+732 cases per group, **14,640 cases, 0 differences** (reports
+`instances-v2-*`), plus a 204-case fighter smoke run.
 
 Two tool defects were found and fixed while doing this, neither in the port:
 the report stored each case's installed list in a list that the next case
