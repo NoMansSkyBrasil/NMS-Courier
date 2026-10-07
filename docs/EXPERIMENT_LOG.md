@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-07: corvette creation route read from data; observation build prepared (offline, not run)
+
+Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#the-games-own-creation-route-read-from-shipped-data-2026-10-07).
+Offline. Corpus data (identical in installed build 180836); three user
+exports read; the user's newest save read in memory, not modified.
+
+- Observed: exports share one ship record equal to the shipped
+  `DefaultCorvette`; parts live in a `PlayerShipBase` entry linked by ship
+  slot index; `R_BIGGS_NEW` starts build mode from `InitialLayouts`
+  (`DEFAULTSHIPBASE`).
+- Built, not run: profile DLL `8c2c901c...17e2` with a `corvette` event that
+  dispatches `R_BIGGS_NEW` once.
+- Not proven: anything about runtime behaviour of that reward; how the
+  initial layout is read; validation, cost and limits.
+- Rollback: the installed DLL is still `f36ba9d6...adf0`; nothing was
+  installed or signaled.
+
 ## 2026-10-07: slot layout ported; build 180836 code and data compared; names by language (offline)
 
 Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#natural-slot-count-and-grid-ported-2026-10-07-offline)

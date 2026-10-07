@@ -75,6 +75,62 @@ study and not yet located in code: `CorvetteDraftShipSeed`,
 `AllowOnlyCorvetteShipPurchases`, and the routine name
 `cGcPlayer::UpdateExitCorvetteRecovery`.
 
+## The game's own creation route, read from shipped data (2026-10-07)
+
+Three exports supplied by the user (160, 976 and 1,934 objects) were compared.
+Their ship records are **identical**: same resource, seed, class C, slot
+layout, base stats and technologies. Only the object lists differ. The JSON
+variant of an export is exactly one persistent base entry of type
+`PlayerShipBase` with its object list.
+
+That shared ship record is the game's own default. In the corpus (build
+180383 data, byte-identical in 180836):
+
+- `gcbuildableshipglobals.global` has `DefaultCorvette`, a
+  `GcRewardSpecificShip` with the `BIGGS` scene, ship class and size type
+  `Corvette`, flagged as gift and reward ship. The low 32 bits of its seed
+  are the seed found in every export and in the user's save.
+- The same file has `InitialLayouts`, a list with one entry:
+  `METADATA/SIMULATION/SHIPBASES/DEFAULTSHIPBASE.MXML`. That file is a
+  `cGcPersistentBase` with 170 object entries — a shipped part list in the
+  same structure as the exports. `EMERGENCYSHIPBASE` (10 entries) sits beside
+  it.
+- The reward table has `R_BIGGS_NEW`: `GcRewardStartShipBuildMode` with
+  `ShipBuildType = CreateFromDefault`. `R_BIGGS_EDIT` uses
+  `CreateFromDockedShip` and `R_BIGGS_RESUME` uses `ResumeBuild`.
+
+Reading: the native way to obtain a corvette from nothing is the reward
+`R_BIGGS_NEW`, which starts ship build mode from the default ship plus an
+initial layout file. An export is a replacement for that layout.
+
+### Proposed route (not implemented, not verified)
+
+1. Dispatch `R_BIGGS_NEW` through the reward manager the profile already
+   uses, and observe what the game does away from a corvette workshop.
+2. Locate where build mode reads the initial layout, and supply the chosen
+   export's object list there for one request (in memory, restored
+   afterwards), so the build starts as the requested corvette.
+3. Let the player confirm the build in the game's own interface, so the ship
+   record and the linked ship base are created by the game.
+
+Unknown and decisive: whether step 1 works outside a workshop; whether build
+mode charges or requires the parts; how part validation and the complexity
+limits react to large layouts (one export has 1,934 objects; the shipped
+warning thresholds are 100 and 40); multiplayer visibility.
+
+### First observation build (built, **not yet run**)
+
+The research profile gained one event, `corvette`, which requests a single
+dispatch of `R_BIGGS_NEW` (constant in the source; no arbitrary reward ID is
+accepted). `signal-freighter-class-180836.ps1 -DispatchCorvetteBuild` sends
+it. DLL built 2026-10-07 with `build-probe.ps1 -Mode FreighterClass180836`,
+SHA-256 `8c2c901c4cea8b20b054d1a201b9dccfe1feb574f0e1eea55efb9e16509f17e2`,
+under `E:/NMS-Courier-Research/native-builds/freighter-class-180836-corvette-20261007`.
+The existing fixture passes; it has no check specific to the new event. Not
+installed. Before a run: game closed, install, compare hashes, start the game,
+load the save, then signal once. The outcome of a dispatch that does not
+return is unknown and must not be retried in the same process.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is
