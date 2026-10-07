@@ -132,6 +132,8 @@ This file is the operational source of truth for implementation order. Update it
   languages, using `selectTechnologiesForDelivery`. Needs the local catalogue (M3).
 - [x] Owner review of the hidden entries: ten are valid and deliverable, only `OBSOLETE` stays blocked.
 - [ ] Ask the project owner about `SPIDERBRAIN` (no display name; blocked).
+- [ ] Portal glyph delivery as its own operation (the game's discover-rune reward and the known
+  runes field), separate from technology. Only identified, not investigated.
 - [ ] Other delivery domains after technology (products, recipes, parts), each with its own
   classification and permanent block list first.
 

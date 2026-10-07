@@ -73,9 +73,58 @@ names of the table: every one resolves only to entries already classed
 multitool, crashed freighter, sea chest and starship components). The wiki
 confirms that the maintenance entries belong to the defective group; it is
 older than the table, which blocks 62 further entries the page does not list
-(sentinel multitool and ship repairs, later multitool damage, portal glyph
-slots, base machine internals, expedition parts). The classification stays
+(sentinel multitool damage, later multitool damage, damaged autophage and
+swarmer components, portal glyph slots, base machine internals). The classification stays
 derived from the game table, not from the page.
+
+### Review by localized text (2026-10-07)
+
+At the project owner's request every entry was read by its English and
+Brazilian Portuguese name, subtitle and description instead of its raw ID.
+All 393 have both except `SPIDERBRAIN`, which has neither.
+
+Maintenance entries (91), by subtitle:
+
+| Entries | Subtitle (English / Brazilian Portuguese) | What the text says |
+| --- | --- | --- |
+| `MAINT_TECH1`-`25`, `MAINT_FRIG1`-`10`, `EXOPOD_TECH1`-`3` | Damaged Component / Componente danificado | Broken parts of containers, frigates and drop pods, each described as damaged |
+| `MAINT_ROBO1`-`10` | Damaged Autophage Component / Componente de autofago danificado | Parts of an autophage awaiting repair |
+| `MAINT_S22_PART1`-`3` | Damaged Neural Component / Componente neural danificado | Parts inside a fallen swarmer |
+| `MAINT_PORTAL1`-`16`, `MAINT_MONONUB1`-`3` | Ancient Technology / Tecnologia antiga | The glyph carvings on a portal or monolith (see below) |
+| `MAINT_S13` | Mind Ark Notch | A groove in the portal that takes a Mind Arc |
+| `MAINT_ARTIFACT`, `MAINT_SEALOCK1`-`2` | Heavy Locking Mechanism; Offering to the Sea | Locks of treasure crates and sea chests |
+| `MAINT_FARM1`-`5`, `MAINT_FUEL1`-`5` | Autonomous Agriculture Unit; Chargeable Power Unit | Internal units of base machines |
+| `MAINT_REFINER`, `MAINT_COOKER`, `MAINT_BURNER`, `MAINT_HOOVER`, `MAINT_BAIT`, `MAINT_FISHTRAP`, `MAINT_FOOD` | Storage Hopper and similar | Input and output slots of refiners, cookers, extractors, fish traps and the ingestor; two descriptions contain live placeholders such as `%BAIT%` |
+
+None of these reads as something a player learns and builds. An earlier
+version of these notes called the `MAINT_ROBO` group "sentinel ship repairs";
+the text says autophage components.
+
+Deliverable entries (205): none has a subtitle or description that presents
+it as damaged, faulty, corrupted or obsolete; the word "damage" appears only
+as a weapon or hazard effect. Every one has a name, subtitle and description.
+One, `DUMMY_SCAN`, has the same placeholder-like text in all three fields
+("Starship Scanner"); it stays deliverable by the owner's decision above.
+
+#### Portal glyph entries are not the glyphs a player learns
+
+Checked because a mistake here would matter:
+
+- `MAINT_PORTAL1`-`16` are the sixteen chargeable carvings of a portal. They
+  are installed in the portal's own button entity
+  (`MODELS/PLANETS/BIOMES/COMMON/BUILDINGS/PORTAL/PORTAL/ENTITIES/BUTTON.ENTITY.MBIN`,
+  as `PreInstalledTech` of its maintenance component) and listed in the
+  maintenance group `Runes`. Each is chargeable with a substance type. No
+  reward references them.
+- The glyphs a player *knows* are a different thing: the reward type
+  `GcRewardDiscoverRune` (40 uses in the reward table; one field, `AllRunes`)
+  and a player-state field named `KnownPortalRunes` in the executable's
+  metadata. Neither involves a technology ID.
+
+So blocking the `MAINT_PORTAL` entries from technology delivery removes
+nothing a player would want, and teaching them would not give glyphs.
+Delivering portal glyphs is a separate, future operation through the
+discover-rune route; it has not been investigated beyond these two facts.
 
 ### Why this holds after a game update
 
