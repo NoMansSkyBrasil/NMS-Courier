@@ -76,7 +76,9 @@ export function ModelPreviewCanvas({
       observer.observe(container)
       resize()
       const manager = new THREE.LoadingManager()
-      manager.setURLModifier(() => {
+      manager.setURLModifier((url) => {
+        // Embedded images reach the loader as object URLs it creates itself; nothing else may resolve.
+        if (url.startsWith('blob:')) return url
         throw new Error('External preview resources are disabled.')
       })
       const bytes = new Uint8Array(model.bytes).buffer

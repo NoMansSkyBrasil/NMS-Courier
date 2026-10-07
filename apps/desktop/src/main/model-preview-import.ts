@@ -70,14 +70,7 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
     }
   }
   scan(document)
-  for (const key of [
-    'images',
-    'textures',
-    'skins',
-    'animations',
-    'extensionsRequired',
-    'extensionsUsed'
-  ]) {
+  for (const key of ['skins', 'animations', 'extensionsRequired', 'extensionsUsed']) {
     if (document[key] !== undefined && (!Array.isArray(document[key]) || document[key].length))
       unsupported()
   }
@@ -96,6 +89,29 @@ export function validatePreviewGlb(bytes: Uint8Array): void {
       if (stride < 4 || stride % 4) invalid()
     }
   }
+  // Embedded PNG base-color textures only: a buffer view with the PNG signature, never a URI.
+  const images = document.images === undefined ? [] : array(document.images, 256)
+  for (const image of images) {
+    if (
+      image.mimeType !== 'image/png' ||
+      Object.keys(image).some((k) => !['bufferView', 'mimeType', 'name'].includes(k))
+    )
+      unsupported()
+    const source = views[integer(image.bufferView, views.length - 1)]
+    const start = binaryOffset + 8 + Number(source.byteOffset ?? 0)
+    if (
+      Number(source.byteLength) < 8 ||
+      view.getUint32(start) !== 0x89504e47 ||
+      view.getUint32(start + 4) !== 0x0d0a1a0a
+    )
+      unsupported()
+  }
+  const textures = document.textures === undefined ? [] : array(document.textures, 256)
+  for (const texture of textures) {
+    if (!images.length) unsupported()
+    integer(texture.source, images.length - 1)
+  }
+  if (document.samplers !== undefined) array(document.samplers, 16)
   const accessors = array(document.accessors, 16384)
   let elements = 0
   for (const item of accessors) {

@@ -20,12 +20,13 @@ import runpy
 from pathlib import Path
 import sqlite3
 import struct
+import sys
 import xml.etree.ElementTree as ET
 
 HALF, FLOAT = 5131, 5126
 # Import limits of the desktop model workshop (apps/desktop/src/main/model-preview-import.ts).
 MAX_BYTES, MAX_JSON, MAX_ACCESSORS, MAX_ELEMENTS, MAX_COUNT = 64 * 1024**2, 4 * 1024**2, 16384, 12_000_000, 1_000_000
-POSITION_SEMANTIC = 0
+POSITION_SEMANTIC, COORDINATE_SEMANTIC = 0, 1
 # Palette channels that index the five generated samples of a family.
 CHANNELS = ('Primary', 'Alternative1', 'Alternative2', 'Alternative3', 'Alternative4')
 
@@ -58,19 +59,25 @@ def load_xml(path, template, limit):
 
 
 def position_layout(geometry):
-    """(from position stream, offset, component type, stride) of the position element.
+    """(from position stream, offset, component type, stride, texture coordinate element) of positions.
 
     Models normally keep positions in the separate position stream; some keep them in the main vertex layout.
+    The texture coordinate element is (offset, component type) of semantic 1 in the same layout, or None.
     """
     for name, separate in (('PositionVertexLayout', True), ('VertexLayout', False)):
         layout = child(geometry, name)
         elements = child(layout, 'VertexElements') if layout is not None else None
+        found = coordinates = None
         for element in elements if elements is not None else ():
-            if int(text(element, 'SemanticID')) == POSITION_SEMANTIC:
-                kind, size = int(text(element, 'Type')), int(text(element, 'Size'))
+            semantic, kind, size = (int(text(element, key)) for key in ('SemanticID', 'Type', 'Size'))
+            if semantic == POSITION_SEMANTIC:
                 if kind not in (HALF, FLOAT) or size < 3:
                     raise ValueError('Unsupported position element type %d size %d' % (kind, size))
-                return separate, int(text(element, 'Offset')), kind, int(text(layout, 'Stride'))
+                found = (int(text(element, 'Offset')), kind)
+            elif semantic == COORDINATE_SEMANTIC and kind in (HALF, FLOAT) and size >= 2:
+                coordinates = (int(text(element, 'Offset')), kind)
+        if found:
+            return separate, found[0], found[1], int(text(layout, 'Stride')), coordinates
     raise ValueError('Geometry has no position element')
 
 
@@ -79,7 +86,7 @@ def load_streams(geometry_path, data_path):
     geometry = load_xml(geometry_path, 'cTkGeometryData', 256 * 1024**2)
     if int(text(geometry, 'VertexCount', '0')) == 0:
         return {}          # container scenes carry an empty geometry file
-    separate, offset, kind, stride = position_layout(geometry)
+    separate, offset, kind, stride, coordinates = position_layout(geometry)
     narrow = int(text(geometry, 'Indices16Bit', '0')) != 0
     data = load_xml(data_path, 'cTkGeometryStreamData', 512 * 1024**2)
     streams = {}
@@ -104,6 +111,14 @@ def load_streams(geometry_path, data_path):
             struct.pack_into('<3f', out, index * 12, *point)
             for axis in range(3):
                 low[axis], high[axis] = min(low[axis], point[axis]), max(high[axis], point[axis])
+        mapped = None
+        if coordinates:
+            mapped = bytearray(count * 8)
+            pair = '<2' + ('e' if coordinates[1] == HALF else 'f')
+            for index in range(count):
+                u, v = struct.unpack_from(pair, positions, index * stride + coordinates[0])
+                struct.pack_into('<2f', mapped, index * 8, u if math.isfinite(u) else 0.0,
+                                 v if math.isfinite(v) else 0.0)
         # A set file-level flag means sixteen-bit streams. A clear flag does not describe every stream
         # (observed: clear with sixteen-bit streams), so such a stream is read as thirty-two-bit only when
         # it has more vertices than sixteen bits address or every odd sixteen-bit word is zero.
@@ -118,7 +133,8 @@ def load_streams(geometry_path, data_path):
         short = count < 0xffff
         streams[int(text(item, 'Hash'))] = (bytes(out), count,
                                            struct.pack('<%d%s' % (len(indices), 'H' if short else 'I'), *indices),
-                                           len(indices), low, high, 5123 if short else 5125)
+                                           len(indices), low, high, 5123 if short else 5125,
+                                           bytes(mapped) if mapped else None)
     return streams
 
 
@@ -153,6 +169,52 @@ class Corpus:
         return None
 
 
+    def file(self, game_path):
+        """Extracted non-converted member (for example a DDS texture) on disk, or None."""
+        row = self.connection.execute(
+            "select archive, archive_hash from files where path = ? and extracted = 'ok'",
+            (game_path.replace('\\', '/').lower(),)).fetchone()
+        if not row:
+            return None
+        stem = row[0][:-4] if row[0].lower().endswith('.pak') else row[0]
+        path = self.root / 'archives' / ('%s-%s' % (stem, row[1][:12])) / game_path.replace('\\', '/').lower()
+        return path if path.is_file() else None
+
+
+def recolour(pixels, average, tint, numpy):
+    """Tint an RGB float array (0..1) toward a palette sample in hue/saturation/value space.
+
+    Hue is shifted by the difference between the tint and the layer's average hue, saturation is capped by
+    the tint's, and value is moved by the tint-minus-average difference weighted toward mid tones. This
+    follows the community description of the game's layer recolouring; it is not read from game shaders.
+    """
+    def to_hsv(rgb):
+        high, low = rgb.max(axis=-1), rgb.min(axis=-1)
+        spread = high - low
+        safe = numpy.where(spread == 0, 1.0, spread)
+        red, green, blue = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        hue = numpy.where(high == red, (green - blue) / safe % 6.0,
+                          numpy.where(high == green, (blue - red) / safe + 2.0, (red - green) / safe + 4.0)) / 6.0
+        hue = numpy.where(spread == 0, 0.0, hue)
+        return hue, numpy.where(high == 0, 0.0, spread / numpy.where(high == 0, 1.0, high)), high
+
+    hue, saturation, value = to_hsv(pixels)
+    average_hue, _, average_value = (float(part) for part in to_hsv(numpy.array(average, dtype=numpy.float32)))
+    tint_hue, tint_saturation, tint_value = (float(part) for part in to_hsv(numpy.array(tint, dtype=numpy.float32)))
+    hue = (hue - average_hue + tint_hue) % 1.0
+    saturation = numpy.minimum(saturation, tint_saturation)
+    value = numpy.clip(value + numpy.sin(math.pi * value) * (tint_value - average_value), 0.0, 1.0)
+    sector = numpy.floor(hue * 6.0)
+    fraction = hue * 6.0 - sector
+    low = value * (1.0 - saturation)
+    falling = value * (1.0 - saturation * fraction)
+    rising = value * (1.0 - saturation * (1.0 - fraction))
+    sector = sector.astype(numpy.int32) % 6
+    choices = ((value, rising, low), (falling, value, low), (low, value, rising),
+               (low, falling, value), (rising, low, value), (value, low, falling))
+    return numpy.stack([numpy.choose(sector, [choice[axis] for choice in choices]) for axis in range(3)], axis=-1)
+
+
 class Builder:
     def __init__(self, corpus, max_depth, lod, exclude, included=None, colors=None):
         # colors: palette family -> five RGBA samples for one palette seed, or None for placeholders.
@@ -166,11 +228,15 @@ class Builder:
         self.stream_cache, self.scene_cache, self.mesh_cache, self.accessor_cache = {}, {}, {}, {}
         self.warnings, self.sources = [], {}
         self.elements = 0
+        # Baked textures: PNG payloads referenced by materials; filled by bake().
+        self.images, self.image_cache, self.baked = [], {}, 0
 
     def view(self, data, target):
         while len(self.binary) % 4:
             self.binary.append(0)
-        self.views.append({'buffer': 0, 'byteOffset': len(self.binary), 'byteLength': len(data), 'target': target})
+        self.views.append({'buffer': 0, 'byteOffset': len(self.binary), 'byteLength': len(data)})
+        if target:
+            self.views[-1]['target'] = target
         self.binary += data
         return len(self.views) - 1
 
@@ -181,6 +247,7 @@ class Builder:
         Each layer contributes its most probable option; among layers with a sample channel the main
         paint layer is preferred by name. The seeded option choice of the game is not evaluated here.
         """
+        self.diffuse = None
         source = self.corpus.xml(game_path)
         if source is None:
             return None
@@ -190,7 +257,8 @@ class Builder:
         for sampler in samplers if samplers is not None else ():
             if text(sampler, 'Name') == 'gDiffuseMap':
                 diffuse = text(sampler, 'Map', '')
-        if not diffuse or not diffuse.upper().endswith('.DDS'):
+        self.diffuse = diffuse if diffuse and diffuse.upper().endswith('.DDS') else None
+        if not self.diffuse:
             return None
         # 'DIR/NAME.DDS' and layered 'DIR/NAME.LAYER.DDS' both belong to the list 'DIR/NAME.texture.mbin'.
         folder, _, leaf = diffuse.replace('\\', '/').lower().rpartition('/')
@@ -245,7 +313,10 @@ class Builder:
             return None
         chosen = {}
         for row in result['final_rows']:
-            chosen.setdefault((row['layer'], row['group']), row['name'])
+            # A group left unselected in the first pass keeps an empty name; the selector's later fallback
+            # row for the same layer and group then supplies the option that is actually used.
+            if not chosen.get((row['layer'], row['group'])):
+                chosen[(row['layer'], row['group'])] = row['name']
         by_resource = {source['resource']: source for source in sources}
         for index, record in enumerate(self.bindings):
             source = by_resource.get(record.get('texture'))
@@ -268,7 +339,78 @@ class Builder:
                           source='palette_selected_option')
             self.materials[index]['pbrMetallicRoughness']['baseColorFactor'] = [
                 linear(sample[0]), linear(sample[1]), linear(sample[2]), 1.0]
+        self.selection = (chosen, by_resource)
         return {'%s|%s' % key: name for key, name in chosen.items()}
+
+    def bake(self, imaging, size):
+        """Composite each bound material's selected layer textures into one embedded base-color texture.
+
+        Layers are blended from the last list position to the first, the last used layer opaque, each
+        option tinted by its palette sample when it names one. Masks, normal maps, the engine's own
+        recolour arithmetic, colour averaging between groups and decals drawn on separate meshes are not
+        reproduced. Requires Pillow and NumPy from the private imaging tools folder.
+        """
+        sys.path.insert(0, str(imaging))
+        import io
+        import numpy
+        from PIL import Image
+        chosen, by_resource = getattr(self, 'selection', ({}, {}))
+
+        def load(game_path):
+            path = self.corpus.file(game_path)
+            if path is None:
+                return None
+            with Image.open(path) as picture:
+                picture = picture.convert('RGBA').resize((size, size), Image.BILINEAR)
+                return numpy.asarray(picture, dtype=numpy.float32) / 255.0
+
+        def store(pixels):
+            picture = Image.fromarray((numpy.clip(pixels, 0.0, 1.0) * 255.0 + 0.5).astype(numpy.uint8), 'RGB')
+            payload = io.BytesIO()
+            picture.save(payload, 'PNG', optimize=True)
+            self.images.append(self.view(payload.getvalue(), None))
+            return len(self.images) - 1
+
+        for index, record in enumerate(self.bindings):
+            source = by_resource.get(record.get('texture'))
+            plan = []
+            if source is not None:
+                for layer in source['layers']:
+                    wanted = chosen.get((layer['fields']['Name'], layer['fields']['Group']))
+                    option = next((item for item in layer['options'] if item['fields'].get('Name') == wanted), None)
+                    if option is not None:
+                        binding = option['palette']
+                        tint = None
+                        if binding['ColourAlt'] in CHANNELS and binding['Palette'] in self.colors:
+                            # The selector port reads sample 3 for channels above 3.
+                            tint = tuple(self.colors[binding['Palette']][min(CHANNELS.index(binding['ColourAlt']), 3)][:3])
+                        plan.append((option['fields']['TextureName'].replace('\\', '/').lower(), tint))
+            elif record.get('diffuse'):
+                plan.append((record['diffuse'], None))
+            if not plan:
+                continue
+            key = tuple(plan)
+            if key not in self.image_cache:
+                result = None
+                for position, (path, tint) in enumerate(reversed(plan)):
+                    layer = load(path)
+                    if layer is None:
+                        self.warnings.append('texture unavailable: ' + path)
+                        continue
+                    colour, alpha = layer[..., :3], layer[..., 3:4]
+                    if tint is not None:
+                        weights = alpha.sum()
+                        average = (colour * alpha).sum(axis=(0, 1)) / weights if weights > 0 else colour.mean(axis=(0, 1))
+                        colour = recolour(colour, average, tint, numpy)
+                    result = colour if result is None else result * (1.0 - alpha) + colour * alpha
+                self.image_cache[key] = None if result is None else store(result)
+            image = self.image_cache[key]
+            if image is None:
+                continue
+            record.update(source='baked_texture', layers=[{'texture': path, 'tint': tint} for path, tint in plan])
+            self.materials[index]['pbrMetallicRoughness'].update(
+                baseColorFactor=[1.0, 1.0, 1.0, 1.0], baseColorTexture={'index': image})
+            self.baked += 1
 
     def material(self, game_path):
         """Untextured material named after the game material; colored when a palette row is available."""
@@ -281,6 +423,8 @@ class Builder:
             record = {'material': key, 'name': name, 'source': 'placeholder'}
             if self.colors is not None:
                 found = self.binding(key)
+                if self.diffuse:
+                    record['diffuse'] = self.diffuse.replace('\\', '/').lower()
                 if found:
                     record.update(texture=found[0], family=found[1], channel=found[2], source='unbound')
                     row = self.colors.get(found[1])
@@ -298,7 +442,8 @@ class Builder:
     def mesh(self, geometry_key, stream_hash, material):
         key = (geometry_key, stream_hash, material)
         if key not in self.mesh_cache:
-            positions, count, indices, index_count, low, high, index_type = self.stream_cache[geometry_key][stream_hash]
+            (positions, count, indices, index_count, low, high, index_type,
+             mapped) = self.stream_cache[geometry_key][stream_hash]
             if not count or not index_count or max(count, index_count) > MAX_COUNT:
                 return None
             shared = self.accessor_cache.get(key[:2])
@@ -308,8 +453,16 @@ class Builder:
                 self.accessors.append({'bufferView': self.view(indices, 34963), 'componentType': index_type,
                                        'count': index_count, 'type': 'SCALAR'})
                 self.elements += count + index_count
-                shared = self.accessor_cache[key[:2]] = len(self.accessors) - 2
-            self.meshes.append({'primitives': [{'attributes': {'POSITION': shared}, 'indices': shared + 1,
+                shared = len(self.accessors) - 2
+                if mapped:
+                    self.accessors.append({'bufferView': self.view(mapped, 34962), 'componentType': 5126,
+                                           'count': count, 'type': 'VEC2'})
+                    self.elements += count
+                shared = self.accessor_cache[key[:2]] = (shared, bool(mapped))
+            attributes = {'POSITION': shared[0]}
+            if shared[1]:
+                attributes['TEXCOORD_0'] = shared[0] + 2
+            self.meshes.append({'primitives': [{'attributes': attributes, 'indices': shared[0] + 1,
                                                 'material': material}]})
             self.mesh_cache[key] = len(self.meshes) - 1
         return self.mesh_cache[key]
@@ -413,6 +566,10 @@ class Builder:
                     'materials': self.materials,
                     'accessors': self.accessors, 'bufferViews': self.views,
                     'buffers': [{'byteLength': len(self.binary)}]}
+        if self.images:
+            document['images'] = [{'bufferView': view, 'mimeType': 'image/png'} for view in self.images]
+            document['samplers'] = [{'magFilter': 9729, 'minFilter': 9987, 'wrapS': 10497, 'wrapT': 10497}]
+            document['textures'] = [{'source': image, 'sampler': 0} for image in range(len(self.images))]
         body = json.dumps(document, separators=(',', ':')).encode('utf-8')
         body += b' ' * (-len(body) % 4)
         binary = bytes(self.binary) + bytes(-len(self.binary) % 4)
@@ -436,6 +593,10 @@ def main():
     parser.add_argument('--texture-seed', type=lambda value: int(value, 0),
                         help='With --palette-seed: choose texture options with the merged selector port for this '
                              'seed (candidate; the natural texture seed and resource order are open)')
+    parser.add_argument('--imaging-tools', type=Path,
+                        help='Folder holding Pillow and NumPy; with --texture-seed, bakes layer textures into '
+                             'embedded base-color textures')
+    parser.add_argument('--texture-size', type=int, default=256, choices=(128, 256, 512, 1024))
     parser.add_argument('--exclude', default='SHIELD|SHADOW|LOD[1-9]',
                         help='Case-insensitive pattern over mesh name and material path; matching meshes are dropped')
     args = parser.parse_args()
@@ -478,6 +639,8 @@ def main():
         if colors is None:
             parser.error('--texture-seed requires --palette-seed')
         texture_choice = builder.apply_texture_choice(args.texture_seed, args.palette_seed)
+        if args.imaging_tools:
+            builder.bake(args.imaging_tools.resolve(), args.texture_size)
     data, json_size = builder.glb(root)
     budget = {'bytes': len(data), 'json_bytes': json_size, 'accessors': len(builder.accessors),
               'elements': builder.elements, 'nodes': len(builder.nodes), 'meshes': len(builder.meshes)}
@@ -490,7 +653,8 @@ def main():
               'selected_ids': selection and selection['selected_ids'], 'pruned_nodes': builder.pruned,
               'palette_seed': None if args.palette_seed is None else '0x%X' % args.palette_seed,
               'texture_seed': None if args.texture_seed is None else '0x%X' % args.texture_seed,
-              'texture_choice': texture_choice, 'material_bindings': builder.bindings[:2048],
+              'texture_choice': texture_choice, 'baked_materials': builder.baked,
+              'embedded_images': len(builder.images), 'material_bindings': builder.bindings[:2048],
               'classification': selection and selection['classification'],
               'output_sha256': hashlib.sha256(data).hexdigest(), 'budget': budget,
               'exceeds_workshop_limits': over, 'sources': builder.sources,

@@ -8,7 +8,7 @@ export const previewCopy = {
     empty: 'Choose a local model to begin',
     hint: 'Drag to rotate, scroll to zoom, and right-drag to pan.',
     limits:
-      'This version accepts static GLB files up to 64 MiB without textures or external resources. Native NMS asset conversion is not connected yet.',
+      'This version accepts static GLB files up to 64 MiB with embedded PNG textures only and no external resources. Native NMS asset conversion is not connected yet.',
     warning:
       'Part selections and tint affect this preview only. They do not calculate a seed or deliver a ship.',
     parts: 'Visible parts',
@@ -51,7 +51,7 @@ export const previewCopy = {
     empty: 'Escolha um modelo local para começar',
     hint: 'Arraste para girar, use a roda para aproximar e arraste com o botão direito para mover.',
     limits:
-      'Esta versão aceita GLB estático de até 64 MiB sem texturas ou recursos externos. A conversão dos arquivos nativos do NMS ainda não está conectada.',
+      'Esta versão aceita GLB estático de até 64 MiB apenas com texturas PNG embutidas e sem recursos externos. A conversão dos arquivos nativos do NMS ainda não está conectada.',
     warning:
       'A seleção de peças e a cor alteram apenas este preview. Não calculam uma seed nem entregam uma nave.',
     parts: 'Peças visíveis',
@@ -94,7 +94,7 @@ export const previewCopy = {
     empty: 'Elige un modelo local para empezar',
     hint: 'Arrastra para girar, usa la rueda para acercar y el botón derecho para desplazar.',
     limits:
-      'Esta versión admite GLB estático de hasta 64 MiB sin texturas ni recursos externos. La conversión de archivos nativos de NMS aún no está conectada.',
+      'Esta versión admite GLB estático de hasta 64 MiB solo con texturas PNG incrustadas y sin recursos externos. La conversión de archivos nativos de NMS aún no está conectada.',
     warning:
       'Las piezas y el color solo cambian esta vista. No calculan una seed ni entregan una nave.',
     parts: 'Piezas visibles',

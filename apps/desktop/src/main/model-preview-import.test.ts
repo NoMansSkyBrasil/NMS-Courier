@@ -75,9 +75,10 @@ describe('local preview model import boundary', () => {
       expect(() => validatePreviewGlb(glb(document))).toThrow('INVALID_MODEL')
     }
   })
-  it('rejects textures and unknown executable loader extensions', () => {
+  it('rejects images that are not embedded PNG data and unknown loader extensions', () => {
     for (const addition of [
       { images: [{ bufferView: 0, mimeType: 'image/png' }] },
+      { images: [{ uri: 'https://example.invalid/a.png' }] },
       { extensions: { Unknown: {} } }
     ]) {
       expect(() => validatePreviewGlb(glb({ ...triangleDocument(), ...addition }))).toThrow(
