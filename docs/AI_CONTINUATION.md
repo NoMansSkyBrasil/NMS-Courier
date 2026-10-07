@@ -121,6 +121,14 @@ offline:
     taught live by the profile's counters; the owner's confirmation of the
     catalogue and the save-and-reload check are still open.
 
+17. *Other known lists (2026-10-07).* Glyphs, words, recipes, products,
+    specials and fish were triaged offline in
+    [known lists triage](KNOWN_LISTS_TRIAGE.md): what is useful, what the
+    game's own routine refuses, and the 14 repeatable specials that must
+    never be marked known. Nothing delivered. Upgrade-module products are not
+    learnable (technology notes). Next: owner decisions listed there, then
+    glyphs.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

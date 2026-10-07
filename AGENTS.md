@@ -108,6 +108,11 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Removing an entry or a rule from the blocked set requires an explicit decision by the project
   owner, recorded in the notes. Adding one does not. Do not block an entry only because the game
   hides it from its catalogue; the owner ruled those valid on 2026-10-07.
+- Repeatable purchases must never be marked known: a special whose `IsConsumable` is true in the
+  purchasable specials table (fireworks, Myth Beacon, Void Egg and any later one) stops being
+  sold once known. See [known lists triage](docs/KNOWN_LISTS_TRIAGE.md).
+- Prefer the game's own learn routine for each list and keep its refusals; do not write a known
+  entry the game itself would refuse.
 - Apply the same approach to every later delivery domain (products, recipes, parts): classify the
   whole table, identify defective or internal entries, and block them permanently before building
   any "deliver all" option.

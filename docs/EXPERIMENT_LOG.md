@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-07: triage of the other known lists and of the upgrade modules (offline)
+
+Owner: [known lists triage](KNOWN_LISTS_TRIAGE.md) and
+[technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). Read-only: corpus
+tables, reward table, executables 180383 and 180836, the owner's saves and
+exported lists. No request was sent to the game.
+
+- The learn-product routine (`5aa1a0` / `5aafd0`) accepts a product only when
+  it is craftable or a customisation part; the 187 upgrade modules are
+  neither, and no owner save has them as known technologies.
+- The purchasable specials table marks 14 entries as consumable: the 8 the
+  owner reported as unbuyable once known, plus 6 more.
+- Of 3,583 exported products the routine would accept 1,779; of 284 exported
+  specials 126 are expedition, Twitch or platform rewards.
+- Not proven: any of the handlers for specials, glyphs, words and recipes;
+  the behaviour of the 6 additional consumables in the shop.
+
 ## 2026-10-07: technology delivery — one, then all 205 deliverable technologies (live)
 
 Owner: [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md#first-live-run-2026-10-07).

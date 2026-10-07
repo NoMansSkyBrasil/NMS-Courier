@@ -136,6 +136,9 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Checked whether the 187 upgrade-module products (`U_*`) of a save editor's technology list can
   be learned: the game's own routines refuse them, so they are not delivered
   ([technology delivery notes](docs/TECHNOLOGY_DELIVERY_NOTES.md)).
+- [ ] Owner decisions from the [known lists triage](docs/KNOWN_LISTS_TRIAGE.md): expedition, Twitch
+  and platform specials; whether the fishing record is ever written.
+- [ ] Never mark a consumable special as known (14 entries today, by the table's own flag).
 - [ ] Product recipes as the next domain: the learn-product routine is identified; classify the
   product table and block defective entries before any "all products" option.
 - [ ] Portal glyph delivery as its own operation (the game's discover-rune reward and the known
