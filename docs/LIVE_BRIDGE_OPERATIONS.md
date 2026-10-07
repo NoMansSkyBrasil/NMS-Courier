@@ -88,6 +88,26 @@ Consequences:
 - Backups before a live change copy the whole folder, and the settings file
   when an account-level change is planned.
 
+**Owner direction (2026-10-07): deliver into the slot, not only into the
+account data.** A delivery is complete when the loaded slot itself holds the
+result (known, owned or redeemed there). An account-level unlock alone is not
+a delivery. Where a reward has both states, set both and report each.
+
+Reason given by the owner: the current focus is localhost, the player's own
+game, but the later goal is to deliver to a friend who has nothing installed,
+as the reference services do. What follows from that, as a constraint to keep
+in mind and not as work started:
+
+- The routines used so far act on the player state of the process they run
+  in. They change the sender's own slot. They cannot reach another player's
+  slot or account data.
+- A recipient without the tool can only receive what the game's own
+  multiplayer lets one player hand to another. Which deliveries can take
+  that form (items, ships, things that teach on use) has not been studied.
+- So every delivery is recorded with its target: the local slot today; a
+  network player later, as a separate route with its own evidence. A local
+  result is never taken as proof for the network case.
+
 Not yet done: the profile does not identify which slot the running game has
 loaded. Until it does, the slot is taken from the owner's statement and from
 which pair of files the game writes, and is recorded as such. Finding the

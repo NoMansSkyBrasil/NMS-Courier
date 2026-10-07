@@ -160,6 +160,9 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Identify in the running game which slot is loaded, and show it in every result.
 - [ ] Examine `accountdata.hg` (read-only): what it holds and whether the Twitch rewards are there.
 - [ ] State per delivery whether it is per-slot or account-wide; the test slot is slot 3.
+- [ ] Owner direction: every delivery lands in the slot, not only in account data.
+- [ ] Later goal: delivery to a friend with nothing installed. Study what the game's multiplayer
+  lets one player hand to another before promising any list or unlock for that case.
 
 ## Current next action
 

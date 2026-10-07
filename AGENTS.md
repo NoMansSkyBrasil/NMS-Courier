@@ -125,6 +125,11 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   one slot or the whole account, and the interface must tell the user the same.
 - Never assume which slot is loaded: identify it, or record that it was taken from the user's
   statement.
+- Deliver into the loaded slot. An account-level unlock by itself is not a delivery; where both
+  states exist, set and report both.
+- The current target is the local player. Delivery to another player who has nothing installed is
+  a later goal with its own route through the game's multiplayer; never present a local result as
+  working for a network player.
 - Back up the whole save folder before a live change, and the user settings file and account data
   as well before an account-level change.
 
