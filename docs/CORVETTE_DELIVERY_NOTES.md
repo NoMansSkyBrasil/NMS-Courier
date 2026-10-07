@@ -219,6 +219,44 @@ until run: that the kind-0 setup at build start is the corvette's item, that
 the class survives finalize and acceptance, and how the displayed statistics
 react.
 
+### Fourth live result: class S applied; a larger export blocked by validation (2026-10-07, one run)
+
+Conditions: build 180836, DLL `9baba721...5c7e`, research mod layout
+`62792cfe...5e96` (169 connectors plus the 976 objects of the second export),
+user in a space station. Preflight passed; class S armed, one `corvette`
+event.
+
+- Observed (log): `dispatch_state=3`, `setup_calls=1`, `last_kind=0`,
+  `applied_count=1`, `applied_class=3`, `class_before=0,0,0`,
+  `class_after=3,3,3`, no rejected item. The kind-0 setup at build start is
+  therefore a writable ship item with the expected three stores.
+- Observed (user screenshot): the 976-object corvette is assembled in build
+  mode, but the panel shows "AVISO: nenhum trem de pouso foi instalado" and
+  the user cannot finalize.
+- Cause in the data: this export has no landing-gear part (`B_LND_*`); the
+  third export has neither landing gear nor a habitation module. Such ships
+  exist because they were built outside the game's validation. The first
+  export has one `B_LND_B`, which is why it finalized.
+- Not proven: that class S reaches the offer screen and the owned ship (the
+  run could not be finalized).
+
+The shipped debug options (`gcdebugoptions.global`, identical in the
+installed build) contain `DisableCorvetteValidation` (false),
+`EnforceCorvetteComplexityLimit` (false) and `DisableCorvetteSwapParts`
+(true).
+
+### Validation switch as a research mod (installed, **not yet run**)
+
+`GCDEBUGOPTIONS.GLOBAL.MBIN` recompiled from the converted original with only
+`DisableCorvetteValidation` set to true (one data byte plus compiler header
+bytes differ, seven bytes in total), SHA-256
+`817e5a653ea16155ae6f5c2066275ccc73b51755de7b26d48f916cdbcc439e4a`, placed
+in the research mod folder beside the layout. Takes effect after a restart.
+Unknown: whether the release build honours this option at all. If it does,
+the per-request version would set the same in-memory flag for one build
+only; if it does not, the alternatives are locating the validation routine
+or refusing exports the game itself would reject.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is

@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-07: corvette class S applied at build start; validation blocks a gear-less export (live, one run)
+
+Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#fourth-live-result-class-s-applied-a-larger-export-blocked-by-validation-2026-10-07-one-run).
+Build 180836 `13d5060d...3499`; DLL `9baba721...5c7e`; mod layout
+`62792cfe...5e96`; user in a space station.
+
+- Trigger: class S plus one `corvette` event after a passing preflight.
+- Observed: class written to three ship stores (0,0,0 to 3,3,3); the
+  976-object corvette shown assembled; finalize refused for a missing landing
+  gear, which the export does not contain.
+- Earlier in the day (user action, previous process): finalizing the
+  160-object build produced a ship offer of class C with a generated name.
+- Not proven: class on the offer and on the owned ship; validation switch.
+- State: `GCDEBUGOPTIONS.GLOBAL.MBIN` with validation disabled
+  (`817e5a65...9e4a`) added to the research mod for the next restart.
+- Rollback: delete `GAMEDATA/MODS/NMSCourierCorvetteLayoutResearch`.
+
 ## 2026-10-07: export shown assembled in corvette build mode (live, one run)
 
 Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#second-live-result-the-export-appears-assembled-in-build-mode-2026-10-07-one-run).
