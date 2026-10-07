@@ -41,6 +41,40 @@ list of positioned building parts, stored like a base attached to the ship.
 Its shape is therefore not a function of a seed in the way procedural ships
 are; it is the part list.
 
+## How an owned corvette is stored in a save (read-only look, 2026-10-07)
+
+The user added a corvette to their own save with a third-party save editor
+(their action, outside Courier) and left the game running. The newest save
+file was decompressed in memory and read; nothing was written and the file
+was not copied. Key names in the file are obfuscated, so field names below are
+inferred from values and from the export format above.
+
+- **Ship record.** The corvette occupies one entry of the ship ownership
+  list (index 5 in this save) with a name, the resource
+  `MODELS/COMMON/SPACECRAFT/BIGGS/BIGGS.SCENE.MBIN`, a seed and the usual
+  inventories. The seed equals the one in the export examined earlier, so it
+  is carried over by the export or is not what distinguishes one corvette
+  from another.
+- **Part list.** The parts are **not** inside the ship record. They are one
+  entry of the persistent base list, next to the player's planetary bases:
+  base type `PlayerShipBase`, name `Default`, 160 objects in the same shape
+  as base-building objects (object ID, position, up, at, timestamp, user
+  data).
+- **Link.** That base entry carries the value 5 in the field that the export
+  format calls user data — the corvette's index in the ship ownership list.
+  The link between ship and part list is therefore the ship slot index.
+- A second base entry with 45 objects and another base type sits beside it
+  (the freighter base); planetary bases have their own entries.
+
+Corvette-related names present in the 180383 executable, noted for the later
+study and not yet located in code: `CorvetteDraftShipSeed`,
+`CorvetteEditAssociatedShipIndex`, `CorvetteEditShipName`,
+`AllowSaveContextCorvetteTransfer`, `DisableCorvetteValidation`,
+`DisableCorvetteSwapParts`, `CorvetteComplexityLimit`, `CorvetteBaseLimit`,
+`CorvetteMaxBoundsLimit`, `CorvetteRewardFrequency`, `DefaultCorvette`,
+`AllowOnlyCorvetteShipPurchases`, and the routine name
+`cGcPlayer::UpdateExitCorvetteRecovery`.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is
@@ -57,8 +91,10 @@ are; it is the part list.
 
 ## Open questions for when this is taken up
 
-1. Where the running game keeps the part list of an owned corvette and which
-   routine builds the ship from it.
+1. Which routine builds the ship from the `PlayerShipBase` entry linked by
+   ship slot index, and which routine creates that entry when the player
+   builds a corvette in game (the `CorvetteDraft*` and `CorvetteEdit*` names
+   above are the first leads).
 2. Whether the specific-ship reward path can produce a corvette resource at
    all, and what it does without a part list.
 3. Which build-part IDs are legal for corvettes and how limits are enforced.
