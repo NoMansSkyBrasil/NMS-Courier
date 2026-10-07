@@ -131,6 +131,43 @@ installed. Before a run: game closed, install, compare hashes, start the game,
 load the save, then signal once. The outcome of a dispatch that does not
 return is unknown and must not be retried in the same process.
 
+### First live observation: the reward opens build mode, empty (2026-10-07, one run)
+
+Conditions: installed build 180836 (`13d5060d...3499`), profile DLL
+`8c2c901c...17e2` (replacing `f36ba9d6...adf0`), no research mod active for
+ship bases, user on foot inside a space station, an editor-added corvette as
+primary ship. Preflight passed; one `corvette` event sent.
+
+- Observed (log): `dispatch_state=3` (the call returned), one ship setup call
+  afterwards (`setup_calls=1`, `last_kind=0`), no errors.
+- Observed (user screenshot): the corvette workshop interface opened in the
+  station — module menu, colours, "Finalizar", and four validation warnings
+  (no landing gear, no habitation module, no cockpit, no reactor). The build
+  started **empty**.
+- So `R_BIGGS_NEW` works away from a corvette workshop terminal and does not
+  touch the existing corvette.
+- The emptiness agrees with the shipped data: `DEFAULTSHIPBASE` holds 169
+  `BIGGSCONNECTOR` entries (the snap points) and one `U_PARAGON`, no hull
+  parts. `EMERGENCYSHIPBASE` is a nine-part minimal corvette (two landing
+  gears, two wings, turret, habitation, generator, cockpit, access).
+- Not proven: what finalizing does (the user was asked to cancel); whether
+  parts are charged; behaviour without any existing corvette.
+
+### Second experiment prepared: export as the initial layout (installed, **not yet run**)
+
+`runtime/research/build-ship-base-layout.py` converts an export's object list
+to a `cGcPersistentBase` document shaped like `DEFAULTSHIPBASE`, optionally
+keeping the shipped connector entries first. For the 160-object export:
+169 connectors kept + 160 objects = 329 entries; compiled with MBINCompiler
+7.04.1-pre3 to `DEFAULTSHIPBASE.MBIN`, SHA-256
+`cc3763b5e1f714db858ed043199bae6c1285d85bb8e3003436d6d6d1787f6130`.
+Installed as a loose-file research mod at
+`GAMEDATA/MODS/NMSCourierCorvetteLayoutResearch/METADATA/SIMULATION/SHIPBASES/`.
+It takes effect only after a game restart. Question for the run: does build
+mode from `R_BIGGS_NEW` now start with the export's ship? Rollback: delete
+that mod folder. A static mod cannot serve per-request delivery; if this
+works, the per-request version must supply the layout in memory.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is

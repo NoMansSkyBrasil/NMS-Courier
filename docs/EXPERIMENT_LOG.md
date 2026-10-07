@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-07: corvette build reward dispatched live; layout mod prepared (live, one run)
+
+Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#first-live-observation-the-reward-opens-build-mode-empty-2026-10-07-one-run).
+Build 180836 `13d5060d...3499`; DLL `8c2c901c...17e2`; no ship-base mod
+active during the run; user in a space station with an editor-added corvette.
+
+- Trigger: `signal-freighter-class-180836.ps1 -Class C -DispatchCorvetteBuild`
+  after a passing preflight; one dispatch.
+- Observed: call returned (`dispatch_state=3`); corvette build mode opened
+  empty with four missing-part warnings.
+- Not proven: finalizing, costs, behaviour with no corvette owned.
+- Prepared, not run: research mod replacing `DEFAULTSHIPBASE.MBIN` with a
+  layout built from a 160-object export (`cc3763b5...6130`); needs a restart.
+- Rollback: restore the earlier DLL from the native-builds folder if wanted;
+  delete `GAMEDATA/MODS/NMSCourierCorvetteLayoutResearch` to remove the mod.
+  The class request armed by the script for the next freighter offer is
+  one-shot and was not used.
+
 ## 2026-10-07: corvette creation route read from data; observation build prepared (offline, not run)
 
 Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#the-games-own-creation-route-read-from-shipped-data-2026-10-07).
