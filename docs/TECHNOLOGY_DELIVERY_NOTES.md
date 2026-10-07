@@ -318,14 +318,34 @@ Read-only check of the save files the game itself wrote:
   `SPIDERBRAIN`. That is the damage this domain's rules exist to prevent, and
   it matches the list of defective entries the owner collected.
 
-Consequence: "all technologies" in the sense of that editor needs a second
-operation, teaching the upgrade-module **products**. It belongs to the
-product domain, not here. Offline finding for it, not built: the shipped
-reward `GcRewardSpecificProductRecipe` (handler RVA `f362a0` on build 180383)
-looks the product up with routine `ec7cf0` (table, 16-byte ID) and calls
-routine `5aa1a0` (player state, pointer to the product's ID at definition
-`+0x150`, silent flag), which returns 1 when the recipe was added. Not
-relocated to 180836 and not called by us.
+### Can the upgrade modules (`U_*`) be learned at all? (game code, 2026-10-07)
+
+Asked by the owner, who confirmed that the editor lists them on its "Known
+Technologies" page. Answer from the game's own routines and tables: **no
+routine of the game learns them, as a technology or as a product.**
+
+| Check | Finding |
+| --- | --- |
+| Are they technologies? | No. None of the 187 IDs is in the technology table; all are entries of the product table |
+| Product fields | All 187: `Type` Consumable, `IsCraftable` false, no recipe ingredients, `WikiCategory` NotEnabled, `DeploysInto` a procedural technology (`UP_*`). They are items that are bought or found and then installed |
+| Learn-technology routine (`5a95a0` on 180836) | Takes a technology definition. It also refuses procedural definitions, which is what a module becomes once installed |
+| Learn-product routine (`5aa1a0` on 180383, `5aafd0` on 180836) | Looks the product up and returns without adding unless `IsCraftable` is true (byte at definition `+0x2f5`) or `Type` is CustomisationPart (value 7 at `+0x1e8`). The modules are neither, so the game refuses them. 841 of 2,199 products pass this test |
+| Shipped rewards | None of the 275 single product-recipe rewards names a module |
+| Saves | Known technologies are save key `4kj`, known products key `eZ<`. No save of the owner has a module in `4kj`. The test save, played normally, has none in `eZ<` either. Three other saves have 201 to 226 modules in `eZ<`; the same saves show other signs of an editor's "add all" (defective technologies in one, more known products than the product table has entries in another) |
+
+Field offsets come from correlating the compiled product table with the
+converted one (entry size `0x300`, ID at `+0x150`, all 2,199 entries agree).
+
+Reading: the "392" of that editor is the size of its own list, not something
+the game tracks. Writing module IDs into a known list is something only an
+editor does; the game has no path that produces it and no recipe to unlock by
+it. Not verified: whether anything in the game reads such an entry once an
+editor has written it.
+
+Decision recorded: Courier does not deliver the `U_*` entries. "All
+technologies" is the 205 deliverable entries. An earlier draft of these notes
+planned a second operation for the modules through the product-recipe route;
+that plan is withdrawn because the game's routine refuses them.
 
 Rollback: close the game without saving, or restore the save copy.
 
