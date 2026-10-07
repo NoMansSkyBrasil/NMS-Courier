@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-07: slot layout ported; build 180836 code and data compared; names by language (offline)
+
+Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#natural-slot-count-and-grid-ported-2026-10-07-offline)
+and [name generation research](NAME_GENERATION_RESEARCH.md). Offline only.
+Executables: 180383 `671de226...e497a4`, installed 180836 `13d5060d...3499`
+(copied unchanged to `E:\NMS-Courier-Executables\180836`). Installed archives
+were read in memory, nothing extracted or modified. The newest local save was
+decompressed in memory, read only, to list model seeds; nothing was written.
+
+- Source: `evaluate-inventory-layout.py`, `compare-native-routines.py`,
+  `compare-installed-data.py`, `emulate-name-generation.py --build/--language`.
+- Observed: layout port equals original code in 121,836 cases; 28 routines
+  (11,329 instructions) are identical between the builds; 8,289 data members
+  are byte-identical; `Hayasenn CV-5` is reproduced exactly with the Brazilian
+  Portuguese format string; 54 names agree between the two executables.
+- Failures: the first routine comparison reported six differences that were
+  tool artifacts (image-relative table displacements, jump-table data decoded
+  as code, leaf routines without unwind entries); the tool was corrected and
+  all 28 compare identical. The first data comparison used one index query
+  per member and was stopped for being slow; hashes are now loaded once.
+- Not proven: valid grid positions; routines outside the 28; color placement
+  on ships (a seed-0 hauler from the user's save was rendered for a visual
+  comparison the user has not made yet).
+- Rollback: nothing to roll back.
+
 ## 2026-10-07: wrapper seed at purchase setup; primary paint colors against references (offline)
 
 Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline)

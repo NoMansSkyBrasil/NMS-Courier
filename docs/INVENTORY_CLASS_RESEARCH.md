@@ -780,6 +780,59 @@ routine directly and passes class 0, as recorded above.
 
 Not established: the unread call sites and the build 180836 equivalents.
 
+### Natural slot count and grid ported (2026-10-07, offline)
+
+The layout step `4ce460(store, inventory type, seed, size type)` takes the
+size type's 0x54-byte generation entry (inventory table start + `5e0`, one per
+size type) and calls two small routines:
+
+- `4ce530`: one draw of the store seed scaled into an inclusive range and
+  stored as the slot count. Technology grids (inventory types 1, 3, 5, 8, 11)
+  use the fields at `+0x50`..`+0x44`; types 6 and 9 use `+0x48`..`+0x38`;
+  every other type uses `+0x4c`..`+0x40` (minimum..maximum).
+- `4ce630`: chooses width and height from the entry's bounds block
+  (technology grids use the block at `+0x18`, others the block at `+0`):
+  the smallest of three sizes whose width x height holds the count.
+
+`runtime/research/evaluate-inventory-layout.py` ports both and, with the
+emulator folders, compares them with the original instructions: **121,836
+cases, 0 differences** (44 size types, 13 inventory types, 210 seeds plus
+disabled-seed variants). Which individual grid positions are valid (routine
+`4cfe20`, 479 instructions) is not ported. `evaluate-seed-profile.py` now
+uses this draw when `--slots` is omitted; example: fighter `FgtMedium`, seed
+`0xA547AB958C97E439` — main store 25 slots in a 7x5 grid, technology store
+16 slots in a 7x3 grid with `SHIPJUMP1`, `LAUNCHER`, `HYPERDRIVE`,
+`SHIPSHIELD`, `SHIPGUN1` and one generated shield upgrade.
+
+### Build 180836: same code, same data (2026-10-07, offline)
+
+- **Code.** `runtime/research/compare-native-routines.py` compares whole
+  routines between the two executables after masking relocated operands and
+  cutting jump-table data. 28 routines, 11,329 instructions, **all identical**:
+  class draw, generation wrapper, layout, slot count, grid, valid positions,
+  special slots, base-stat row and generator, technology selection and
+  filter, size-type mapping, procedural instance ID and statistics, the ship,
+  weird-ship, robot-ship, weapon, place and both fleet-code name routines,
+  the word generator and its two fix-up routines, the base palette generator,
+  descriptor recursion and chooser, and the texture option selector.
+  Addresses were found with `relocate-native-signatures.py` (unique matches,
+  except the stream-state initializer with two candidates).
+- **Data.** `runtime/research/compare-installed-data.py` reads members
+  directly from the installed archives and compares their SHA-256 with the
+  corpus index: 8,289 members — everything under `metadata/reality`, the
+  palette folder, English and Brazilian Portuguese language files, spacecraft
+  and weapon descriptors, texture lists and materials — **all identical, none
+  changed**. A second run over every spacecraft and weapon scene and geometry
+  member (4,558 members, 1.78 GB read) is also identical throughout.
+- **Names.** The name emulator accepts `--build 180836`; 54 names (ship types
+  0, 7 and 9, weapon classes 0, 7 and 9, fleet code) are the same from both
+  executables.
+
+So the ports and emulations checked on build 180383 apply to the installed
+build 180836 for these routines and these files. Runtime addresses still have
+to come from the relocation table, and a later game update needs the two
+comparison tools run again.
+
 ### Combined seed profile tool (2026-10-07, offline)
 
 `runtime/research/evaluate-seed-profile.py` applies the ports in the wrapper's
@@ -796,9 +849,8 @@ rifle (`WeaponMedium`, weapon class 1, 24 slots), seed `0x178B99DB843CB6E0` —
 class C, technologies `SCAN1`, `SCANBINOC1`, `LASER`, `BOLT`. These are
 outputs of compared ports under stated inputs, not observations of the game.
 
-Inputs the tool cannot derive: the slot count (layout routine `4ce460` is not
-ported), the wealth row of the solar system, the weapon class, progress and
-known technologies. Names come from `emulate-name-generation.py`.
+Inputs the tool cannot derive: the wealth row of the solar system, the weapon
+class, progress and known technologies. Names come from `emulate-name-generation.py`.
 
 ### Base-stat generation ported (2026-10-06, offline)
 

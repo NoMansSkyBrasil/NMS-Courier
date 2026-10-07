@@ -62,6 +62,16 @@ offline:
     (the ports exist separately; now `evaluate-seed-profile.py`; still unported: the layout routine
     `4ce460` and `4d5690`), and color placement.
 
+11. *2026-10-07, last.* Slot count and grid are ported (121,836 cases);
+    builds 180383 and 180836 have identical code for 28 routines and
+    identical data for 8,289 members; the freighter name matches exactly in
+    Brazilian Portuguese. See
+    [inventory class research](INVENTORY_CLASS_RESEARCH.md#build-180836-same-code-same-data-2026-10-07-offline).
+    Still open: color placement on ships (waiting for an in-game picture of
+    the user's seed-0 hauler; render in
+    `E:/NMS-Courier-Research/preview-models/owned-20261007`), valid grid
+    positions (`4cfe20`), unread wrapper call sites.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

@@ -70,12 +70,20 @@ language files, and calls the routine. Kinds: `ship`, `weapon`, `code-a`
 | weapon, class 9, `0x7` | Greek-prefix staff form with `Vosoko` | not compared |
 
 The second row matches in all three components (code `CV`, number 5, word
-`Hayasenn`) but not in word order. The emulation uses the 180383 English
-format string; the game that showed the name was build 180836. The order
-difference is therefore attributed to the format string of the newer build or
-of the display, not verified. It does establish that the freighter name comes
-from `e8da90` with the **model seed**, not the home system seed (the home
-seed gives `EV-5 Apporozawa`).
+`Hayasenn`); the word order depends on the language. `e8da90` uses the fixed
+format `FRIGATE_NAME_FORMAT_1`, which is `%CODE%-%NUMBER% %PROCNAME%` in
+English and `%PROCNAME% %CODE%-%NUMBER%` in Brazilian Portuguese. With
+`--language brazilianportuguese` the emulator prints **`Hayasenn CV-5`**,
+exactly the name the user saw. The freighter name therefore comes from
+`e8da90` with the **model seed**, not the home system seed (which gives
+`EV-5 Apporozawa`). In Brazilian Portuguese the ship seed
+`0xA547AB958C97E439` gives `Radiante Pilar BC1`.
+
+Build 180836: the emulator's `--build 180836` profile runs the relocated
+routines of the installed executable; 54 names over ship, weapon and
+fleet-code routines equal the 180383 results, the routines compare identical
+instruction by instruction, and the language files are byte-identical (see
+[the build comparison](INVENTORY_CLASS_RESEARCH.md#build-180836-same-code-same-data-2026-10-07-offline)).
 
 Reports (disposable): `E:/NMS-Courier-Research/seed-analysis-180383/names-20261007`.
 
@@ -84,8 +92,7 @@ Reports (disposable): `E:/NMS-Courier-Research/seed-analysis-180383/names-202610
 - Which type or class value each natural caller passes (ship types other
   than 0, 7 and 9 gave the same name for seed `0x7`, so the routine only
   distinguishes those two), and the callers themselves.
-- Names on build 180836 and in other languages; the language strings and the
-  letter tables may differ between builds.
+- Languages other than English and Brazilian Portuguese were not run.
 - A data-only port of the word generator.
 
 ## Reproduction

@@ -4,8 +4,8 @@ Combines the separately compared ports (class draw, installed-technology
 selection with procedural instances, base stats) in the order the game's
 generation wrapper (RVA 4ccfa0) uses them, every step restarting from the same
 seed. The size type decides the class row through the jump table of RVA
-4d47f0, which is decoded from the pinned executable. Slot counts come from the
-caller because the layout routine is not ported. No game process is accessed.
+4d47f0, which is decoded from the pinned executable. The slot count is the
+natural layout draw unless overridden. No game process is accessed.
 """
 import argparse
 import hashlib
@@ -58,7 +58,7 @@ def main():
                         help='Store type: 3 multitool, 4 ship main, 5 ship technology, 7/8/9 freighter stores')
     parser.add_argument('--size-type', required=True, help='Size type name such as FgtMedium or WeaponSmall')
     parser.add_argument('--weapon-class', type=int, default=0, help='Weapon class row for multitools (9 is staff)')
-    parser.add_argument('--slots', type=int, required=True, help='Slot count of the store (layout is not ported)')
+    parser.add_argument('--slots', type=int, help='Override the slot count; default is the natural layout draw')
     parser.add_argument('--wealth-row', type=int, required=True, choices=range(4))
     parser.add_argument('--requested-class', type=int, default=REQUEST_NATURAL, choices=range(5),
                         help='0..3 forces C/B/A/S; 4 asks for the natural draw')
@@ -70,6 +70,7 @@ def main():
     technology = runpy.run_path(str(HERE / 'evaluate-default-technology.py'))
     procedural = runpy.run_path(str(HERE / 'evaluate-procedural-technology.py'))
     stats = runpy.run_path(str(HERE / 'evaluate-base-stats.py'))
+    grids = runpy.run_path(str(HERE / 'evaluate-inventory-layout.py'))
     raw = args.executable.read_bytes()
     if len(raw) > 128 * 1024**2 or hashlib.sha256(raw).hexdigest() != HASH:
         parser.error('Executable fingerprint mismatch')
@@ -93,24 +94,29 @@ def main():
     curves = list(reality[first:first + 7])
     rows = stats['load_table'](args.inventory_table, args.inventory_table_sha256)
     rarity = [10.0, 50.0, 25.0, 2.0, 1.0, 0.0, 9999999.0]
+    shapes, _ = grids['load_entries'](args.inventory_table, args.inventory_table_sha256)
 
     records = []
     for text in args.seed[:64]:
         seed = int(text, 16)
         class_index = classes['wrapper_class'](args.inventory_type, args.requested_class, seed, weights)
+        slots, width, height = grids['layout'](shapes[size_index], args.inventory_type, seed)
+        if args.slots is not None:
+            slots = args.slots
         model = technology['instance_model'](procedural, generated, curves, seed, args.boost_chance)
         installed = technology['select'](literals, entries, templates, args.inventory_type, class_argument,
-                                         args.weapon_class, args.slots, args.wealth_row, seed, rarity,
+                                         args.weapon_class, slots, args.wealth_row, seed, rarity,
                                          instance=model)
         base = stats['base_stats'](rows, args.inventory_type, class_index, class_argument, args.weapon_class, seed)
         records.append({'seed': '0x%X' % seed, 'class': classes['CLASSES'][class_index],
+                        'slots': slots, 'grid': [width, height],
                         'technologies': [name.split(bytes(1))[0].decode() for name, _ in installed],
                         'base_stats': {name: value for name, value in base}})
     print(json.dumps({'runtime_verified': False, 'size_type': args.size_type, 'size_type_index': size_index,
                       'class_argument': class_argument,
                       'size_type_class_arguments': dict(zip(names, mapping)), 'records': records,
-                      'limitations': ['Slot count, wealth row, weapon class, progress and known technologies are '
-                                      'caller inputs; the layout routine and special slots are not evaluated.',
+                      'limitations': ['Wealth row, weapon class, progress and known technologies are caller inputs; valid grid '
+                                      'positions and special slots are not evaluated.',
                                       'Rarity weights are the table values recorded in the technology note.',
                                       'Agreement is with emulated original routines, not with a running game.']},
                      indent=2))

@@ -1,4 +1,4 @@
-"""Run the original build 180383 name routines under emulation.
+"""Run the original name routines of build 180383 or 180836 under emulation.
 
 Ship (RVA e8ce30), weapon/staff (e8ebf0), place (e85aa0) and the two
 fleet-code routines (e8da90, e8e150) are
@@ -18,35 +18,52 @@ import re
 import struct
 import sys
 
-HASH = '671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4'
 BASE = 0x140000000
 # 'code-a' and 'code-b' are the two routines that use the NAMEGEN_FRIGATE_CODE strings; 'place' is the
-# multi-purpose routine that also holds the FREIGHTER_NAME formats.
-ROUTINES = {'ship': 0xe8ce30, 'weapon': 0xe8ebf0, 'place': 0xe85aa0, 'code-a': 0xe8da90, 'code-b': 0xe8e150}
-STATE_INIT, STACK_PROBE = 0x2d6b670, 0x33df370
-LANGUAGE_OBJECT, TRANSLATE = 0x1cb3b0, 0x2be1190
-FORMAT_ROUTINES = (0x89edd0, 0x1c8bf0)
-MANAGER_POINTER = 0x6e89688
+# multi-purpose routine that also holds the FREIGHTER_NAME formats. Build 180836 addresses were found by
+# relocate-native-signatures.py (unique matches of each routine's first instructions; the state initializer
+# had two candidates and the one at the common displacement is used).
+BUILDS = {
+    '180383': {'sha256': '671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4',
+               'routines': {'ship': 0xe8ce30, 'weapon': 0xe8ebf0, 'place': 0xe85aa0, 'code-a': 0xe8da90,
+                            'code-b': 0xe8e150},
+               'state_init': 0x2d6b670, 'stack_probe': 0x33df370, 'language_object': 0x1cb3b0,
+               'translate': 0x2be1190, 'format': (0x89edd0, 0x1c8bf0), 'manager_pointer': 0x6e89688},
+    '180836': {'sha256': '13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499',
+               'routines': {'ship': 0xe8ed50, 'weapon': 0xe90b10, 'place': 0xe879c0, 'code-a': 0xe8f9b0,
+                            'code-b': 0xe90070},
+               'state_init': 0x2d6f410, 'stack_probe': 0x33e2ed0, 'language_object': 0x1cb3b0,
+               'translate': 0x2be4e20, 'format': (0x8a0ca0, 0x1c8bf0), 'manager_pointer': 0x6e8d708},
+}
+KINDS = ('ship', 'weapon', 'place', 'code-a', 'code-b')
 STUBS, MANAGER, OBJECTS, OUTPUT, HEAP, STACK, RETURN = (0x200000000, 0x210000000, 0x220000000, 0x221000000,
                                                          0x222000000, 0x230000000, 0x240000000)
 
 
-def load_language(corpus):
-    """English strings by ID from the converted language files (not the US variant)."""
+LANGUAGES = {'english': 'English', 'brazilianportuguese': 'BrazilianPortuguese', 'portuguese': 'Portuguese',
+             'spanish': 'Spanish', 'french': 'French', 'german': 'German', 'italian': 'Italian'}
+
+
+def load_language(corpus, language='english'):
+    """Strings of one language by ID from the converted language files of the corpus."""
     folder = next((Path(corpus) / 'archives').glob('NMSARC.MetadataEtc-*/language'), None)
     if folder is None:
         raise ValueError('Converted language files are not in the corpus')
     table, sources = {}, {}
-    pattern = re.compile(r'name="Id" value="([^"]*)" />\s*<Property name="English" value="([^"]*)"')
-    for path in sorted(folder.glob('*_english.MXML')):
+    entry = re.compile(r'<Property name="Table" value="TkLocalisationEntry"[^>]*>(.*?)\s</Property>', re.DOTALL)
+    key = re.compile(r'name="Id" value="([^"]*)"')
+    text = re.compile(r'name="%s" value="([^"]*)"' % LANGUAGES[language])
+    for path in sorted(folder.glob('*_%s.MXML' % language)):
         data = path.read_bytes()
         if len(data) > 64 * 1024**2:
             raise ValueError('Language file byte budget exceeded')
         sources[path.name] = hashlib.sha256(data).hexdigest()
-        for key, value in pattern.findall(data.decode('utf-8')):
-            value = (value.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
-                     .replace('&quot;', '"').replace('&apos;', "'"))
-            table.setdefault(key, value)
+        for block in entry.findall(data.decode('utf-8')):
+            name, value = key.search(block), text.search(block)
+            if name and value:
+                value = (value.group(1).replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
+                         .replace('&quot;', '"').replace('&apos;', "'"))
+                table.setdefault(name.group(1), value)
     return table, sources
 
 
@@ -54,19 +71,25 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ('executable', 'corpus', 'python-tools', 'emulator-tools', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
-    parser.add_argument('--kind', choices=sorted(ROUTINES), required=True)
+    parser.add_argument('--kind', choices=KINDS, required=True)
+    parser.add_argument('--build', choices=sorted(BUILDS), default='180383')
     parser.add_argument('--type', type=int, action='append', required=True,
                         help='Type argument (ship type, place name type or weapon class; ignored by code-a/code-b); repeatable')
     parser.add_argument('--seed', action='append', required=True, help='Hex seed; maximum 256')
+    parser.add_argument('--language', choices=sorted(LANGUAGES), default='english')
     args = parser.parse_args()
     exe, output = args.executable.resolve(), args.output.resolve()
     here = Path(__file__).resolve()
     if output.exists() or any(output.is_relative_to(p) for p in (exe.parent.parent, here.parents[2], args.corpus.resolve())):
         parser.error('Require a new external output')
     raw = exe.read_bytes()
+    build = BUILDS[args.build]
+    HASH, ROUTINES = build['sha256'], build['routines']
+    STATE_INIT, STACK_PROBE, LANGUAGE_OBJECT = build['state_init'], build['stack_probe'], build['language_object']
+    TRANSLATE, FORMAT_ROUTINES, MANAGER_POINTER = build['translate'], build['format'], build['manager_pointer']
     if len(raw) > 128 * 1024**2 or hashlib.sha256(raw).hexdigest() != HASH:
         parser.error('Executable fingerprint mismatch')
-    language, language_sources = load_language(args.corpus)
+    language, language_sources = load_language(args.corpus, args.language)
     sys.path[:0] = [str(args.python_tools), str(args.emulator_tools)]
     import unicorn
     from unicorn import x86_const as regs
@@ -260,15 +283,16 @@ def main():
             name, error = run(args.kind, type_argument, seed)
             records.append({'kind': args.kind, 'type': type_argument, 'seed': '0x%X' % seed, 'name': name,
                             'error': error})
-    report = {'executable_sha256': HASH, 'tool_sha256': hashlib.sha256(here.read_bytes()).hexdigest(),
-              'routine_rva': hex(ROUTINES[args.kind]), 'language_sources': language_sources,
+    report = {'build': args.build, 'executable_sha256': HASH, 'tool_sha256': hashlib.sha256(here.read_bytes()).hexdigest(),
+              'routine_rva': hex(ROUTINES[args.kind]), 'language': args.language,
+              'language_sources': language_sources,
               'records': records, 'errors': sum(bool(r['error']) for r in records),
               'missing_language_ids': sorted(state['missing'])[:64], 'runtime_verified': False,
               'limitations': ['Language lookup, two formatting helpers, C runtime imports and the stack probe are '
                               'private stand-ins; everything else is original code.',
                               'Generator, language and manager objects are zeroed private memory.',
                               'Seed and type passed by natural callers are not established here.',
-                              'English strings come from the corpus build, not from the running game.']}
+                              'Language strings come from the corpus build, not from the running game.']}
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open('x', encoding='utf-8') as stream:
         json.dump(report, stream, indent=2)

@@ -6,6 +6,9 @@ workshop; `--seed` keeps only the parts the descriptor traversal port selects.
 `emulate-name-generation.py` runs the game's ship, multitool and fleet-code
 name routines under emulation with English strings from the corpus
 ([name generation research](../../docs/NAME_GENERATION_RESEARCH.md)).
+`evaluate-inventory-layout.py` ports the natural slot count and grid size.
+`compare-native-routines.py` and `compare-installed-data.py` check whether
+routines and data files are unchanged between two builds.
 `evaluate-seed-profile.py` prints class, technologies and base stats of one
 entity seed by combining the compared ports in the game's order.
 `evaluate-base-stats.py` ports base-stat generation and `emulate-base-stats.py`

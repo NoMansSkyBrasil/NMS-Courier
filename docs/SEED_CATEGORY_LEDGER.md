@@ -22,7 +22,7 @@ and multitools, so the application can choose seeds by desired outcome.
 | Colors | Palette seed (home-system seed for freighters), palette bank, flags | Base and alternate generators ported; bank and threshold state open |
 | Textures and decals | Model seed streams, material bindings | Restricted selector compared; full composition open |
 | Class C/B/A/S | Seed, solar-system wealth row | Ported and instruction-compared: [inventory class](INVENTORY_CLASS_RESEARCH.md) |
-| Slot grids | Size-type table, class, requested count | Rule read; live override validated for freighter offers |
+| Slot grids | Store seed, size type, inventory type | Count and grid size ported and instruction-compared (121,836 cases): [inventory class](INVENTORY_CLASS_RESEARCH.md#natural-slot-count-and-grid-ported-2026-10-07-offline); valid positions not ported; live override validated for freighter offers |
 | Special slots | Store seed, class, size-type limits | Rule read; live all-slot marking validated for freighter offers |
 | Installed technologies | Store seed, slots, wealth row, class argument, technology tables | Selection and procedural upgrade statistics ported and instruction-compared: [default technology](DEFAULT_TECHNOLOGY_RESEARCH.md); natural caller arguments and boosted-roll percentage open |
 | Name | Entity seed (ship seed; freighter model seed), ship type or weapon class | Original routines run under emulation and reproduce two names known from the game: [name generation](NAME_GENERATION_RESEARCH.md); caller arguments and build 180836 strings open |
