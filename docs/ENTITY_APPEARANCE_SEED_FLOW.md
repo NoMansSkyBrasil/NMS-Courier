@@ -266,10 +266,10 @@ their copy from serialized `GcFreighterSaveData`. Do not substitute a similarly
 named field from an old build.
 
 Selections:
-[caller fragment](../runtime/research/priority-freighter-source-180383.tsv),
-[caller root](../runtime/research/priority-freighter-source-root-180383.tsv),
-[upstream callers](../runtime/research/priority-freighter-upstream-180383.tsv),
-[copy/equality helpers](../runtime/research/priority-freighter-resource-copy-180383.tsv).
+[caller fragment](../runtime/research/priority-freighter-source-180383.md),
+[caller root](../runtime/research/priority-freighter-source-root-180383.md),
+[upstream callers](../runtime/research/priority-freighter-upstream-180383.md),
+[copy/equality helpers](../runtime/research/priority-freighter-resource-copy-180383.md).
 External stage names are `freightersource20261004`, `freightersourceroot20261004`,
 `freighterupstream20261004`, and `freighterresourcecopy20261004`, all under
 `acquisition-180383`. Seven selections exported successfully, with no export
@@ -450,19 +450,19 @@ Windows checkout conversion does not invalidate those byte hashes.
 
 | Stage | Repository selection | Rows |
 | --- | --- | --- |
-| priorityentityentries20261004 | [entries](../runtime/research/priority-entity-entries-180383.tsv) | 8 |
-| priorityentitymetadata20261004 | [metadata](../runtime/research/priority-entity-metadata-180383.tsv) | 9 |
-| priorityentityfields20261004 | [fields](../runtime/research/priority-entity-fields-180383.tsv) | 9 |
-| priorityentityfieldbodies20261004 | [field bodies](../runtime/research/priority-entity-field-bodies-180383.tsv) | 8 |
-| priorityentitylinks20261004 | [links](../runtime/research/priority-entity-links-180383.tsv) | 8 |
-| priorityentitymodels20261004 | [models](../runtime/research/priority-entity-models-180383.tsv) | 5 |
-| priorityentityinputfields20261004 | [input fields](../runtime/research/priority-entity-input-fields-180383.tsv) | 5 |
-| priorityentityinputbodies20261004 | [input bodies](../runtime/research/priority-entity-input-bodies-180383.tsv) | 3 |
-| priorityentitysplitroots20261004 | [split roots](../runtime/research/priority-entity-split-roots-180383.tsv) | 3 |
-| priorityentitynamedbodies20261004 | [named bodies](../runtime/research/priority-entity-named-bodies-180383.tsv) | 2 |
-| prioritynpccolourloader20261004 | [NPC table path](../runtime/research/priority-npc-colour-loader-180383.tsv) | 1 |
-| prioritynpccomponentfactory20261004 | [NPC component factory](../runtime/research/priority-npc-component-factory-180383.tsv) | 3 |
-| prioritycustomisationsources20261004 | [customisation source writers](../runtime/research/priority-customisation-sources-180383.tsv) | 5 |
+| priorityentityentries20261004 | [entries](../runtime/research/priority-entity-entries-180383.md) | 8 |
+| priorityentitymetadata20261004 | [metadata](../runtime/research/priority-entity-metadata-180383.md) | 9 |
+| priorityentityfields20261004 | [fields](../runtime/research/priority-entity-fields-180383.md) | 9 |
+| priorityentityfieldbodies20261004 | [field bodies](../runtime/research/priority-entity-field-bodies-180383.md) | 8 |
+| priorityentitylinks20261004 | [links](../runtime/research/priority-entity-links-180383.md) | 8 |
+| priorityentitymodels20261004 | [models](../runtime/research/priority-entity-models-180383.md) | 5 |
+| priorityentityinputfields20261004 | [input fields](../runtime/research/priority-entity-input-fields-180383.md) | 5 |
+| priorityentityinputbodies20261004 | [input bodies](../runtime/research/priority-entity-input-bodies-180383.md) | 3 |
+| priorityentitysplitroots20261004 | [split roots](../runtime/research/priority-entity-split-roots-180383.md) | 3 |
+| priorityentitynamedbodies20261004 | [named bodies](../runtime/research/priority-entity-named-bodies-180383.md) | 2 |
+| prioritynpccolourloader20261004 | [NPC table path](../runtime/research/priority-npc-colour-loader-180383.md) | 1 |
+| prioritynpccomponentfactory20261004 | [NPC component factory](../runtime/research/priority-npc-component-factory-180383.md) | 3 |
+| prioritycustomisationsources20261004 | [customisation source writers](../runtime/research/priority-customisation-sources-180383.md) | 5 |
 
 Export commands reuse Acquisition180383 with `-noanalysis`, two CPUs, 4 GiB
 heap, 20 GiB reserve, 180/360-second outer limits and 30 seconds per candidate.

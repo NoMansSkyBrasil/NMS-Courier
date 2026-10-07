@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import time
 
 
@@ -33,6 +34,15 @@ def main():
     fingerprint = hashlib.sha256(exe.read_bytes()).hexdigest()
     if fingerprint != args.sha256.lower():
         parser.error('Executable fingerprint mismatch')
+    seeds_sha256 = hashlib.sha256(args.seeds.read_bytes()).hexdigest()
+    if args.seeds.suffix.lower() == '.md':
+        # Selections are Markdown data tables; the export script reads tab-separated rows.
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import markdown_data
+        converted = args.output.resolve() / ('seeds-' + args.stage + '.tsv')
+        converted.parent.mkdir(parents=True, exist_ok=True)
+        converted.write_bytes(markdown_data.rows_as_tab_separated(args.seeds).encode('utf-8'))
+        args.seeds = converted
     rows = [row for row in args.seeds.read_text().splitlines() if row.strip()]
     if not 1 <= len(rows) <= 48:
         parser.error('Expected 1..48 seeds')
@@ -51,7 +61,7 @@ def main():
                '-noanalysis', '-max-cpu', '2', '-scriptPath', str(Path(__file__).parent.resolve()),
                '-postScript', args.script, str(args.seeds.resolve()), str(root / export_name)]
     env = dict(os.environ, JAVA_HOME=str(java), GHIDRA_JAVA_HOME=str(java), JAVA_TOOL_OPTIONS='-XX:ActiveProcessorCount=2 -Xmx4g')
-    report = {'mode': 'offline_only', 'exe_sha256': fingerprint, 'seeds_sha256': hashlib.sha256(args.seeds.read_bytes()).hexdigest(), 'command': command, 'status': 'running'}
+    report = {'mode': 'offline_only', 'exe_sha256': fingerprint, 'seeds_sha256': seeds_sha256, 'command': command, 'status': 'running'}
     started = time.monotonic()
     with (root / ('headless-' + args.stage + '.log')).open('w', encoding='utf-8') as log:
         process = subprocess.Popen(command, env=env, stdout=log, stderr=subprocess.STDOUT)

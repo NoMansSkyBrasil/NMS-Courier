@@ -128,7 +128,7 @@ natural freighter purchase path, which was **not located** in this pass.
 - Nine unit tests in [test_inventory_class.py](../runtime/research/test_inventory_class.py)
   use synthetic rows only.
 - Ghidra stage `classgeneration20261006`, selection
-  [class-generation-180383.tsv](../runtime/research/class-generation-180383.tsv)
+  [class-generation-180383.md](../runtime/research/class-generation-180383.md)
   (SHA-256 `4ad9792b...474b99`): nine exports succeeded; `572c40` timed out at
   the 30-second per-function limit and is unread.
 - External reports under `E:\NMS-Courier-Research\seed-analysis-180383`:
@@ -946,7 +946,7 @@ $table = 'E:\NMS-Courier-Research\corpus\archives\NMSARC.Precache-a6371a8b2f06\m
   --output E:\NMS-Courier-Research\seed-analysis-180383\inventory-class-emulation-NEW.json
 & $py -m unittest discover -s runtime/research -p test_inventory_class.py
 & $py runtime/research/analyze-acquisition-offline.py --executable $exe --sha256 $hash `
-  --tools "$cx\native" --seeds runtime/research/class-generation-180383.tsv `
+  --tools "$cx\native" --seeds runtime/research/class-generation-180383.md `
   --output E:\NMS-Courier-Research\acquisition-180383 `
   --project-name Acquisition180383 --stage classgenerationNEW --timeout 600
 ```

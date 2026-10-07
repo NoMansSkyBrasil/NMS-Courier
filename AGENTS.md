@@ -30,6 +30,25 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Communicate with the user in their preferred conversational language unless they request otherwise.
 - Preserve third-party license notices verbatim; do not rewrite legal notices to enforce language style.
 
+## Documentation format
+
+- Write all documentation in Markdown (`.md`). Do not add documentation, notes, findings, tables or
+  lists in another format (plain text, CSV, TSV, spreadsheets, HTML, PDF or word-processor files).
+  This applies to every model and external AI collaborator; Markdown is what both people and
+  language models read best.
+- Keep research data as Markdown too: one table per file with the marker line of
+  `runtime/research/markdown_data.py`, which tools use to parse it. Do not commit new `.tsv`,
+  `.csv` or `.txt` data files. When a tool needs tab-separated input, generate it from the Markdown
+  table at run time, outside the repository.
+- The only data allowed in another format is what a program must load in that format: JSON
+  configuration and test fixtures, dependency lists, build files and third-party license notices.
+  Every such JSON data file must be reachable from Markdown through
+  [the data file catalog](docs/DATA_FILE_CATALOG.md).
+- After adding, renaming or removing a data file, regenerate the catalog with
+  `python runtime/research/build-data-file-catalog.py` and link the file from the owning document.
+- If you find documentation in another format, convert it to Markdown and update the references in
+  the same change.
+
 ## Product boundaries
 
 - Delivery uses live game functions through verified runtime integration. Never fall back to save editing.

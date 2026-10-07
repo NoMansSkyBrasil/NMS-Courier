@@ -10,7 +10,7 @@ names known from the game**. Not a Python port, not runtime verified on build
 
 Located through code references to the `NAMEGEN_*` language IDs; decompiled
 with the offline Ghidra stage (selection file
-`runtime/research/name-generation-180383.tsv`, stages
+`runtime/research/name-generation-180383.md`, stages
 `namegeneration20261007`, `nameword20261007`, `namefrigate20261007`).
 
 | RVA | Arguments as read | Produces |

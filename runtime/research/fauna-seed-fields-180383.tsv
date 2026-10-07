@@ -1,4 +1,0 @@
-229ee20	GcCreatureRoleData XML allocation wrapper; calls 22a0600
-22a0600	GcCreatureRoleData field processor candidate reached through XML wrapper
-22a2330	GcCreatureSpawnData field processor candidate reached through XML wrapper
-22fee30	GcCreatureData field processor candidate reached through XML wrapper

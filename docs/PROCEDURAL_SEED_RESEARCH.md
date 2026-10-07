@@ -49,7 +49,7 @@ Zero Chance values are retained without treating options as impossible.
 
 `scan-native-acquisition.py --metadata-only --type-name <exact-Tk/Gc-type>`
 locates bounded metadata-name reference candidates in a fingerprint-checked PE.
-`descriptor-metadata-180383.tsv` reproduces eight native exports via the existing
+`descriptor-metadata-180383.md` reproduces eight native exports via the existing
 Ghidra launcher, using stage `descriptors` and project `Acquisition180383`.
 The stage completed all eight exports in 46.1 seconds with no failures.
 GcSeed had no matching metadata string in this scan; that is not proof that the
@@ -261,7 +261,7 @@ Public signatures located texture Load and LoadFromDds candidates at `1893960`
 and `1894020`; both exported successfully in 30 seconds. The inspected Load path
 handles DDS/header/pixel loading, not a demonstrated seed-to-palette evaluator.
 Record this rejected route rather than porting DDS decode as the color algorithm.
-`procedural-texture-180383.tsv` reproduces stage `proceduraltexture`.
+`procedural-texture-180383.md` reproduces stage `proceduraltexture`.
 
 Different seeds are not guaranteed distinct appearances. The recovered descriptor
 initializer maps both `0` and `0x1000100000001` to `(1,0)`, producing the same
@@ -399,7 +399,7 @@ does not itself verify native behavior or a complete seed-to-appearance algorith
 
 Reproducible export seeds are the `procedural-generation-arithmetic`,
 `procedural-palette`, `procedural-palette-lookup` and `procedural-palette-callers`
-`-180383.tsv` files. External evidence under `seed-analysis-180383` includes
+`-180383.md` files. External evidence under `seed-analysis-180383` includes
 `reward-seed-presets-v2.json`, `appearance-graph-phoenix.json`,
 `appearance-graph-pirate.json`, `generation-arithmetic.json`,
 `palette-row-assembly.json` and `palette-generation-callers/`. The four new native
@@ -550,7 +550,7 @@ The texture callback/loader follow-up exported 6308a0 and 63ae70 successfully in
 loading/locking; neither establishes seed-to-RGBA or final shader binding.
 Keep this additional rejected route in the index rather than interpreting cache
 record copies as an appearance algorithm. Stage `proceduraltexturecallback`
-uses `procedural-texture-callback-180383.tsv`.
+uses `procedural-texture-callback-180383.md`.
 
 ### Public viewer comparison
 

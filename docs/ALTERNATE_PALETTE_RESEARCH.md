@@ -127,7 +127,7 @@ Reports in external `seed-analysis-180383`: `alternate-palette-windows-20261005.
 `alternate-palette-body-20261005.json`, `alternate-palette-comparison-final-20261005.json`,
 `alternate-search-final-20261005/report.json`, `base-search-regression-20261005.json`.
 Global reference evidence is in `acquisition-180383/alternatepaletteglobals20261005-export`;
-selection source: `alternate-palette-data-180383.tsv`. Earlier reports are preserved.
+selection source: `alternate-palette-data-180383.md`. Earlier reports are preserved.
 
 ## Corrections and next targets
 

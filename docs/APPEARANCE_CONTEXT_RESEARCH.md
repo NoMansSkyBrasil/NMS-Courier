@@ -236,15 +236,15 @@ instructions/one second per call, maximum 1,024 stub calls, 32 nodes and depth 1
 Unapproved execution addresses abort. The script does not execute the original
 Windows binary or make host OS/import calls. Reports use new external filenames.
 
-Portable selections are `appearance-material-*-180383.tsv`,
-`appearance-freighter-source-writers-180383.tsv`,
-`appearance-freighter-input-callers-180383.tsv`,
-`appearance-context-loaders-180383.tsv`, `appearance-child-writers-180383.tsv`
-and `appearance-child-methods-180383.tsv` in `runtime/research`.
+Portable selections are `appearance-material-*-180383.md`,
+`appearance-freighter-source-writers-180383.md`,
+`appearance-freighter-input-callers-180383.md`,
+`appearance-context-loaders-180383.md`, `appearance-child-writers-180383.md`
+and `appearance-child-methods-180383.md` in `runtime/research`.
 The initial ten bounded function stages produced 26 rows; three resumed stages
 added ten rows, all decompiled successfully. Additional selections are
-`appearance-scene-population-180383.tsv`, `appearance-scene-child-population-180383.tsv`
-and `appearance-scene-filter-180383.tsv`.
+`appearance-scene-population-180383.md`, `appearance-scene-child-population-180383.md`
+and `appearance-scene-filter-180383.md`.
 `scan-scene-child-fields.py` reproduces bounded offset leads: 2,592 fragments,
 64 candidates and 14 explicit coverage skips. These are neither type identities
 nor file/storage failures.

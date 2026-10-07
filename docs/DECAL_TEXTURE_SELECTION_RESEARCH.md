@@ -24,7 +24,7 @@ native decal masks. No renderer change or gameplay test occurred in this pass.
 
 ## Selected data
 
-`appearance-decal-assets-180383.txt` selects eight exact corpus resources.
+`appearance-decal-assets-180383.md` selects eight exact corpus resources.
 `inspect-texture-palettes.py` read 64,924 bytes, inspected all eight, and retained
 binary/XML hashes. They contain ten nonempty layers and 33 alternatives.
 Paths below are relative to `textures/common/spacecraft/`.
@@ -51,10 +51,10 @@ Four new sequential export stages completed six manifest rows, zero failures:
 
 | Stage | Committed selection | Roots |
 | --- | --- | --- |
-| appearancecontext20261004 | appearance-texture-context-180383.tsv | 63f290 |
-| appearanceselectwriter20261004 | appearance-texture-selection-writer-180383.tsv | 62ebd0 |
-| appearanceselectcallees20261004 | appearance-texture-selection-callees-180383.tsv | 62f940, 631310, 631f80 |
-| appearancelayercollection20261004 | appearance-texture-layer-collection-180383.tsv | 62fba0 |
+| appearancecontext20261004 | appearance-texture-context-180383.md | 63f290 |
+| appearanceselectwriter20261004 | appearance-texture-selection-writer-180383.md | 62ebd0 |
+| appearanceselectcallees20261004 | appearance-texture-selection-callees-180383.md | 62f940, 631310, 631f80 |
+| appearancelayercollection20261004 | appearance-texture-layer-collection-180383.md | 62fba0 |
 
 Worker `6388a0`, state 5, calls `62ebd0` with the prepared palette pointer,
 selected seed pair and context flags. It can choose task seed 0x138/0x140 or

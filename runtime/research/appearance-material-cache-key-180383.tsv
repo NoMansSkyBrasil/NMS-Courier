@@ -1,3 +1,0 @@
-2d627a0	Resource cache lookup used by 2d60100; filename and context key construction unverified
-2d646f0	Resource selector-context resolver forwarded to by material wrapper thunk; fallback identity unverified
-2d60720	Resource cache insertion after acquisition; key ownership unverified

@@ -38,7 +38,7 @@ Six bounded configurations, five profiles and thirteen seeds each produced
 
 | Configuration | Resources in supplied order | Payload | Cases |
 | --- | --- | --- | --- |
-| Forward decals | Eight entries in `appearance-decal-assets-180383.txt` | 0 | 65 |
+| Forward decals | Eight entries in `appearance-decal-assets-180383.md` | 0 | 65 |
 | Reverse decals | Same entries reversed | 0 | 65 |
 | Tool/freighter | First four priority weapon textures, then freighter paint | 0 | 65 |
 | Repeated paint | Freighter paint twice, then logo | 0 | 65 |

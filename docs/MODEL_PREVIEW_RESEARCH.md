@@ -238,7 +238,7 @@ set. Several recent posts are requests rather than published seed examples.
 The web cache omitted newer 2026 posts visible in the browser. Publication date
 is kept separately from collection date; none has a verified executable hash.
 
-The committed [observation table](../runtime/research/reddit-seed-observations.tsv)
+The committed [observation table](../runtime/research/reddit-seed-observations.md)
 records each public post ID, date, category, seed text, review status and notes:
 **34 images visually inspected**, seven unavailable images, 23 metadata-only
 posts. This does not mean 64 images were viewed. No remote media downloaded or
@@ -530,7 +530,7 @@ system seed as palette seed; ships and multitools use the model seed.
 ### Comparison with public reference seeds and two corrections (2026-10-06, night)
 
 Renders were compared with the visual notes already committed in
-`runtime/research/reddit-seed-observations.tsv` (notes written on 2026-10-03
+`runtime/research/reddit-seed-observations.md` (notes written on 2026-10-03
 from public posts; the images themselves are not stored). This is a coarse,
 qualitative comparison of shape and dominant colors, not a pixel or RGB test.
 
@@ -637,7 +637,7 @@ standard freighter went from 61 to 70 meshes and the capital freighter from
 
 To separate "is the palette right" from "is the color placed right", the
 first `Paint` sample of the base palette port (palette seed = ship seed) was
-compared with the hull color recorded in `reddit-seed-observations.tsv`:
+compared with the hull color recorded in `reddit-seed-observations.md`:
 
 | Seed | Recorded hull | `Paint` primary (sRGB) | Other samples that match the note |
 | --- | --- | --- | --- |

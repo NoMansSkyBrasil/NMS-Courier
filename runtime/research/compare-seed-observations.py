@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import re
 import runpy
+import sys
 
 HERE = Path(__file__).resolve().parent
 DESCRIPTORS = runpy.run_path(str(HERE / 'evaluate-descriptor-seed.py'))
@@ -32,8 +33,15 @@ def read_observations(path):
     """Reject malformed metadata; preserve invalid seed text and duplicate conflicts."""
     if path.stat().st_size > 128 * 1024:
         raise ValueError('Observation input exceeds byte budget')
-    with path.open(encoding='utf-8', newline='') as stream:
-        rows = list(csv.DictReader(stream, delimiter='\t'))
+    if path.suffix.lower() == '.md':
+        # The committed observations are a Markdown data table.
+        sys.path.insert(0, str(HERE))
+        import markdown_data
+        header, table = markdown_data.read_table(path)
+        rows = [dict(zip(header, cells)) for cells in table]
+    else:
+        with path.open(encoding='utf-8', newline='') as stream:
+            rows = list(csv.DictReader(stream, delimiter='\t'))
     if not 1 <= len(rows) <= 128:
         raise ValueError('Expected 1..128 observations')
     ids, by_seed = set(), {}
@@ -103,7 +111,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--corpus', type=Path, required=True)
     parser.add_argument('--executable', type=Path, required=True)
-    parser.add_argument('--observations', type=Path, default=HERE / 'reddit-seed-observations.tsv')
+    parser.add_argument('--observations', type=Path, default=HERE / 'reddit-seed-observations.md')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     corpus, output = args.corpus.resolve(), args.output.resolve()

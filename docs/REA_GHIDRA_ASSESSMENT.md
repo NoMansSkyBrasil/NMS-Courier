@@ -45,7 +45,7 @@ Exact offline NMS executable: build 180383, SHA-256
 The [merged selection note](MERGED_TEXTURE_SELECTION_RESEARCH.md) places the
 unresolved producer at virtual slot `+0xd8`, after resource-proxy resolution.
 
-Targeted `appearance-resource-producer-180383.tsv` exported two routines with
+Targeted `appearance-resource-producer-180383.md` exported two routines with
 the existing Ghidra project and `-noanalysis`, two CPUs, 4 GiB Java heap request,
 300-second outer limit, 20 GiB free-space reserve and 30 seconds per decompile.
 Both completed in sixteen seconds; no game process or proprietary export is
@@ -77,7 +77,7 @@ python runtime/research/analyze-acquisition-offline.py `
   --executable "E:\SteamLibrary\steamapps\common\No Man's Sky\Binaries\NMS.exe" `
   --sha256 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 `
   --tools "$env:LOCALAPPDATA\NMSCourier\research-tools\native" `
-  --seeds runtime/research/appearance-resource-producer-180383.tsv `
+  --seeds runtime/research/appearance-resource-producer-180383.md `
   --output E:\NMS-Courier-Research\acquisition-180383 `
   --project-name Acquisition180383 --stage appearanceresourceproducerNEW --timeout 300
 ```

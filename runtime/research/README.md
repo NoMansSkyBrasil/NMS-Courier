@@ -1,5 +1,11 @@
 # Bulk game-data research
 
+Data files in this folder are Markdown tables (see
+[the data file catalog](../../docs/DATA_FILE_CATALOG.md)); `markdown_data.py`
+reads them, and `analyze-acquisition-offline.py --seeds <file>.md` converts a
+selection to tab-separated rows in its external output folder at run time.
+Regenerate the catalog with `build-data-file-catalog.py` after changing them.
+
 `export-scene-glb.py` converts a corpus scene (scene graph, geometry metadata
 and stream container XML) to a texture-free GLB for the desktop Model
 workshop; `--seed` keeps only the parts the descriptor traversal port selects.
@@ -393,7 +399,7 @@ It does not generate a seed or assign probabilities.
 
 The native metadata scan accepts `--metadata-only --type-name
 TkModelDescriptorList --type-name TkResourceDescriptorList --type-name
-TkResourceDescriptorData`. Feed `descriptor-metadata-180383.tsv` to the existing
+TkResourceDescriptorData`. Feed `descriptor-metadata-180383.md` to the existing
 bounded Ghidra launcher with `--stage descriptors`. `scan-native-callers.py`
 accepts a pinned executable/hash, up to 16 `--target <hex-rva>` arguments,
 `--python-tools <external-capstone>` and a new external `--output` directory.
@@ -401,7 +407,7 @@ It checks direct E8/E9 instruction boundaries and exports caller seed candidates
 indirect calls and split unwind fragments remain incomplete. No process/save API
 is used. Do not interpret metadata hashing as the appearance PRNG.
 
-The six `procedural-*-180383.tsv` seed lists trace task preparation through
+The six `procedural-*-180383.md` seed lists trace task preparation through
 automatic descriptor selection; owning evidence is in the seed research document.
 Use stages `proceduraltask`, `proceduraltaskcallees`, `proceduraltaskconstructor`,
 `proceduralselection`, `proceduralselector`, and `proceduralchoice` respectively.
@@ -430,7 +436,7 @@ frigate and multitool roots. Manifest and repeated `--model` inputs are mutually
 exclusive. `inspect-appearance-fields.py --corpus <existing-corpus> --asset
 <exact-logical-path> --output <new-external-json>` reports bounded palette/seed
 field samples from up to sixteen assets. Neither tool evaluates a full seed.
-Feed `procedural-texture-180383.tsv` to stage `proceduraltexture` for the two
+Feed `procedural-texture-180383.md` to stage `proceduraltexture` for the two
 current texture-loading candidates; pixel loading is not verified color selection.
 
 `inspect-seed-presets.py --corpus <existing-corpus> --output <new-external-json>`
@@ -555,7 +561,7 @@ it is not an inverse of chosen whole-model parts/colors.
 
 See [preview research](../../docs/MODEL_PREVIEW_RESEARCH.md) for image review,
 category mapping, conflicting input exclusions and NMSMV source findings.
-The committed `reddit-seed-observations.tsv` contains public metadata and written
+The committed `reddit-seed-observations.md` contains public metadata and written
 observations only, no image assets. Do not infer an algorithm accuracy score
 from completed traces or any convenient color in an unbound palette family.
 
@@ -578,7 +584,7 @@ Reproduce its bounded texture inspection without another archive extraction:
 
 ```powershell
 $assetArguments = @()
-Get-Content runtime/research/appearance-texture-assets-180383.txt | ForEach-Object {
+python runtime/research/markdown_data.py runtime/research/appearance-texture-assets-180383.md | ForEach-Object {
   $assetArguments += @('--asset', $_)
 }
 python runtime/research/inspect-texture-palettes.py `
@@ -590,7 +596,7 @@ For AI onboarding and the latest exact continuation point, read
 [AI continuation](../../docs/AI_CONTINUATION.md). The current
 [decal selection note](../../docs/DECAL_TEXTURE_SELECTION_RESEARCH.md) separates
 the recovered first-pass selector from cache keys and later compatibility.
-Inspect `appearance-decal-assets-180383.txt` using the same asset-list pattern.
+Inspect `appearance-decal-assets-180383.md` using the same asset-list pattern.
 Evaluate a single resource with explicit caller inputs:
 
 ```powershell
@@ -619,7 +625,7 @@ single-occurrence fixtures and explicit container stubs:
 
 ```powershell
 $assetArguments = @()
-Get-Content runtime/research/appearance-decal-assets-180383.txt | ForEach-Object {
+python runtime/research/markdown_data.py runtime/research/appearance-decal-assets-180383.md | ForEach-Object {
   $assetArguments += @('--asset', $_)
 }
 python runtime/research/emulate-texture-selection.py `
@@ -658,8 +664,8 @@ same eight decal resources, first four tool resources and freighter texture:
 
 ```powershell
 $assetArguments = @()
-$selectedAssets = @(Get-Content runtime/research/appearance-decal-assets-180383.txt)
-$selectedAssets += @(Get-Content runtime/research/appearance-texture-assets-180383.txt | Select-Object -First 4)
+$selectedAssets = @(python runtime/research/markdown_data.py runtime/research/appearance-decal-assets-180383.md)
+$selectedAssets += @(python runtime/research/markdown_data.py runtime/research/appearance-texture-assets-180383.md | Select-Object -First 4)
 $selectedAssets += 'textures/common/spacecraft/industrial/shared/freighter_proc.texture.mbin'
 foreach ($asset in $selectedAssets) { $assetArguments += @('--asset', $asset) }
 python runtime/research/emulate-texture-collection.py `
@@ -680,7 +686,7 @@ Each invocation treats all supplied assets as one ordered synthetic bundle:
 
 ```powershell
 $assetArguments = @()
-foreach ($asset in Get-Content runtime/research/appearance-decal-assets-180383.txt) {
+foreach ($asset in python runtime/research/markdown_data.py runtime/research/appearance-decal-assets-180383.md) {
   $assetArguments += @('--asset', $asset)
 }
 python runtime/research/emulate-texture-selection.py `

@@ -246,16 +246,16 @@ Inspect manifests rather than equating process exit with successful decompilatio
 
 | Stage | Exported / failed | Selected configuration |
 | --- | --- | --- |
-| faunalayout20261004 | 3 / 0 | [fauna-layout-180383.tsv](../runtime/research/fauna-layout-180383.tsv): `2297850`, `2298950`, `22f60e0` |
-| faunaseedlinks20261004 | 5 / 1 | [fauna-seed-links-180383.tsv](../runtime/research/fauna-seed-links-180383.tsv) |
-| faunaseedfields20261004 | 4 / 0 | [fauna-seed-fields-180383.tsv](../runtime/research/fauna-seed-fields-180383.tsv) |
-| faunaresourcelinks20261004 | 5 / 0 | [fauna-resource-links-180383.tsv](../runtime/research/fauna-resource-links-180383.tsv) |
-| faunaresourcefields20261004 | 2 / 0 | [fauna-resource-fields-180383.tsv](../runtime/research/fauna-resource-fields-180383.tsv) |
-| faunacomponentfields20261004 | 3 / 0 | [fauna-component-fields-180383.tsv](../runtime/research/fauna-component-fields-180383.tsv) |
-| faunarolefields20261004 | 1 / 0 | [fauna-role-description-180383.tsv](../runtime/research/fauna-role-description-180383.tsv) |
-| planetseedentry20261004 | 2 / 0 | [planet-seed-entry-180383.tsv](../runtime/research/planet-seed-entry-180383.tsv) |
-| planetseedconsumers20261004 | 4 / 0 | [planet-seed-consumers-180383.tsv](../runtime/research/planet-seed-consumers-180383.tsv) |
-| planetresourceseeds20261004 | 2 / 0 | [planet-resource-seed-flow-180383.tsv](../runtime/research/planet-resource-seed-flow-180383.tsv) |
+| faunalayout20261004 | 3 / 0 | [fauna-layout-180383.md](../runtime/research/fauna-layout-180383.md): `2297850`, `2298950`, `22f60e0` |
+| faunaseedlinks20261004 | 5 / 1 | [fauna-seed-links-180383.md](../runtime/research/fauna-seed-links-180383.md) |
+| faunaseedfields20261004 | 4 / 0 | [fauna-seed-fields-180383.md](../runtime/research/fauna-seed-fields-180383.md) |
+| faunaresourcelinks20261004 | 5 / 0 | [fauna-resource-links-180383.md](../runtime/research/fauna-resource-links-180383.md) |
+| faunaresourcefields20261004 | 2 / 0 | [fauna-resource-fields-180383.md](../runtime/research/fauna-resource-fields-180383.md) |
+| faunacomponentfields20261004 | 3 / 0 | [fauna-component-fields-180383.md](../runtime/research/fauna-component-fields-180383.md) |
+| faunarolefields20261004 | 1 / 0 | [fauna-role-description-180383.md](../runtime/research/fauna-role-description-180383.md) |
+| planetseedentry20261004 | 2 / 0 | [planet-seed-entry-180383.md](../runtime/research/planet-seed-entry-180383.md) |
+| planetseedconsumers20261004 | 4 / 0 | [planet-seed-consumers-180383.md](../runtime/research/planet-seed-consumers-180383.md) |
+| planetresourceseeds20261004 | 2 / 0 | [planet-resource-seed-flow-180383.md](../runtime/research/planet-resource-seed-flow-180383.md) |
 
 That is 31 successful export rows and one failed row; `229ee20` was exported in
 two stages, leaving 30 distinct successful RVAs. Earlier stage results are
@@ -290,7 +290,7 @@ candidates; use a new stage name to preserve earlier artifacts:
   --executable 'E:\SteamLibrary\steamapps\common\No Man''s Sky\Binaries\NMS.exe' `
   --sha256 671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4 `
   --tools "$env:LOCALAPPDATA\NMSCourier\research-tools\native" `
-  --seeds runtime/research/planet-resource-seed-flow-180383.tsv `
+  --seeds runtime/research/planet-resource-seed-flow-180383.md `
   --output E:\NMS-Courier-Research\acquisition-180383 `
   --project-name Acquisition180383 --stage planetresourceseeds-reproduction --timeout 180
 ```

@@ -1,3 +1,0 @@
-62f940	Collects available texture layers before 631310; semantics under investigation
-631310	Seed/palette-driven option writer called by 62ebd0; exact branch under investigation
-631f80	Existing texture-option refresh branch called by 62ebd0; no fresh-seed equivalence claimed

@@ -240,8 +240,8 @@ dimensions and size override; it does not attach to the game or edit saves.
 ### Exact-build metadata flags and argument forwarding
 
 Two bounded Ghidra passes added five exports through the existing project, without
-whole-program analysis. Repository seed lists `reward-flags-180383.tsv` and
-`reward-fields-180383.tsv` preserve the exact targets. The named stages are
+whole-program analysis. Repository seed lists `reward-flags-180383.md` and
+`reward-fields-180383.md` preserve the exact targets. The named stages are
 `rewardflags` and `rewardfields`; manifests and pseudocode remain external.
 
 `0x24ed8d0` is a construction/serialization wrapper, not the field decoder itself.
@@ -305,7 +305,7 @@ Repeatable `scan-native-acquisition.py --metadata-name GcReward...` selects up
 to 16 exact names, retains the executable/database hashes and reports missing
 strings. The capability metadata pass selected ten names, all present, then
 exported ten metadata candidates and nine dispatcher-selected handlers. Seeds
-are in `capability-metadata-180383.tsv` and `capability-handlers-180383.tsv`.
+are in `capability-metadata-180383.md` and `capability-handlers-180383.md`.
 External stages are `capabilitymetadata` and `capabilityhandlers`.
 
 Each row below connects a metadata tag, the exact getter-entry comparison and

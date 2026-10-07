@@ -46,7 +46,7 @@ Offline only, build 180383 executable `671de226...e497a4`, Unicorn 2.1.4,
 Ghidra 12.1.4 stages `namegeneration20261007`, `nameword20261007`,
 `namefrigate20261007`; English language files of the corpus.
 
-- Source: `emulate-name-generation.py`, `name-generation-180383.tsv`.
+- Source: `emulate-name-generation.py`, `name-generation-180383.md`.
 - Observed: ship seed `0xA547AB958C97E439` gives `Radiant Pillar BC1`;
   routine `e8da90` with seed `0x8C968767B3282F13` gives `CV-5 Hayasenn`, the
   components of the name the user saw in game (`Hayasenn CV-5`) for the
@@ -82,7 +82,7 @@ Offline only; corpus data of build 180383; Pillow 12.3.0 and NumPy 2.5.3 in
 
 Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#comparison-with-public-reference-seeds-and-two-corrections-2026-10-06-night).
 Offline only; corpus data of build 180383; reference notes from
-`reddit-seed-observations.tsv` (publication builds unknown).
+`reddit-seed-observations.md` (publication builds unknown).
 
 - Source: `export-scene-glb.py --seed --palette-seed --texture-seed`,
   `evaluate-texture-options.py` (optional budgets), capture harness.
@@ -214,7 +214,7 @@ by Claude Code. Offline only; no game process, save, mod or bridge change.
 - Build fingerprint: executable 180383 `671de226...e497a4` (recovered copy);
   corpus tables with the hashes listed in the owner note.
 - Configuration: Ghidra 12.1.4, existing project, no autoanalysis, stage
-  `defaulttechnology20261006`, selection `default-technology-180383.tsv`, three
+  `defaulttechnology20261006`, selection `default-technology-180383.md`, three
   exports in 46 seconds; `inspect-default-technology.py` over the read-only
   corpus index.
 - Observed: `F_HDRIVEBOOST2` is "Plasmatic Warp Injector" (Freighter,
@@ -245,7 +245,7 @@ Performed by Claude Code with the user at the game.
 - Failures: one offer declined by mistake; the user perceived both acceptances
   as failed because the model did not change in that session.
 - Offline follow-up: Ghidra stage `freighteraccept20261006`, selection
-  `freighter-accept-180383.tsv`, four exports succeeded (265 s). Cause of the
+  `freighter-accept-180383.md`, four exports succeeded (265 s). Cause of the
   missing in-session refresh not identified.
 - Not proven: in-session model refresh, base-transfer consequences, natural
   technology loadout, palette correctness, long-term stability.
@@ -412,7 +412,7 @@ game process, save, mod, bridge or corpus change. Performed by Claude Code.
 - Configuration: Ghidra 12.1.4 / Temurin 25 and Unicorn 2.1.4 from the physical
   Codex package directory; existing Acquisition180383 project, no autoanalysis,
   two CPUs, 4 GiB heap, 600-second process guard, 30-second per-function limit.
-  Selection `class-generation-180383.tsv`, stage `classgeneration20261006`.
+  Selection `class-generation-180383.md`, stage `classgeneration20261006`.
 - Observed: `4cfd10` draws once from the seed and compares against cumulative
   `ClassProbabilityData` weights (table `+0x1a54`, row from
   `*(manager+0x72afb0)+0x2524`). Wrapper `4ccfa0` stores an explicit class, or
@@ -523,8 +523,8 @@ External evidence under `seed-analysis-180383`: `priority-catalog-intervals-2026
 `tool-legacy-caller-windows-20261005.json`,
 `npc-tables-20261005.json`, `npc-input-traces-20261005.json`,
 `npc-search-20261005.json`, `priority-search-regression-20261005/report.json`.
-Ghidra manifests/exports: `customisation-palette-lookup-180383.tsv`,
-`tool-palette-flag-180383.tsv`, `tool-palette-callers-180383.tsv`; `custompalette20261005-export`,
+Ghidra manifests/exports: `customisation-palette-lookup-180383.md`,
+`tool-palette-flag-180383.md`, `tool-palette-callers-180383.md`; `custompalette20261005-export`,
 `custompalettefallback20261005-export`, `toolpaletteflag20261005-export`.
 Native comparison reports contain source, table and code-window hashes.
 The final explicit-color port only clarifies the unmatched-ID diagnostic to
@@ -551,7 +551,7 @@ Pinned offline build 180383 executable SHA-256:
 Exact sources, input configuration, instruction sites, byte bounds, reproduction
 and unresolved targets: [palette task routing](PALETTE_TASK_ROUTING.md).
 Sources: `resolve-palette-task.py`, `emulate-palette-task-route.py`,
-`scan-rip-data-references.py`, `palette-task-data-180383.tsv`, updated alternate
+`scan-rip-data-references.py`, `palette-task-data-180383.md`, updated alternate
 port/emulator/search/integration and three focused test files.
 
 No game/save trigger. Reused existing Ghidra exports and hash-pinned corpus;
@@ -609,7 +609,7 @@ Exact implementation, windows, configurations, commands, evidence and remaining
 targets: [alternate palette research](ALTERNATE_PALETTE_RESEARCH.md).
 Sources: `evaluate-alternate-palettes.py`, `emulate-alternate-palettes.py`,
 `validate-alternate-search.py`, updated `search-appearance-seeds.py` and
-`alternate-palette-data-180383.tsv`. No game/save trigger; private offline
+`alternate-palette-data-180383.md`. No game/save trigger; private offline
 Unicorn 2.1.4 execution only, no host imports. Explicit corpus base bank;
 threshold fixtures 0/float32(0.1), null fallback `(0.25,0.5,0.75,1)`.
 
@@ -872,7 +872,7 @@ Offline build 180383, SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 Owning note: [appearance context](APPEARANCE_CONTEXT_RESEARCH.md), with exact
 selections, stages, reproduction, bounds and unresolved boundaries.
-Sources: `appearance-material-*-180383.tsv`, freighter source-writer/input-caller
+Sources: `appearance-material-*-180383.md`, freighter source-writer/input-caller
 selections, context-loader/child-writer/child-method selections,
 `scan-resource-material-tables.py`, `emulate-appearance-context.py`, updated
 `evaluate-descriptor-seed.py`, bounded Ghidra runner and reference exporter.
@@ -961,7 +961,7 @@ REA source cloned externally for read-only reference; no installer, dependencies
 skill or MCP setup run. Its JDK 21 requirement and fresh auto-analysis launch
 do not match reuse of our existing portable JDK 25/Ghidra project.
 
-Exact experiment: `appearance-resource-producer-180383.tsv`, existing
+Exact experiment: `appearance-resource-producer-180383.md`, existing
 `analyze-acquisition-offline.py`/`ExportAcquisitionSeeds.java`, stage
 `appearanceresourceproducer20261004`, project `Acquisition180383`, `-noanalysis`,
 two CPUs, 4 GiB heap request, 300-second outer timeout, 30 seconds per function.
@@ -1295,7 +1295,7 @@ This is the short entry point for resuming exact-build research. Detailed reason
 ### 2026-10-02: offline flag mapping and expanded capability inventory
 
 - Build/source: pinned 180383 executable above; repository seed lists
-  `reward-flags-180383.tsv` and `reward-fields-180383.tsv`, existing bounded Ghidra
+  `reward-flags-180383.md` and `reward-fields-180383.md`, existing bounded Ghidra
   launcher, Ghidra 12.1.4 and JDK 25.0.4.1+1. The three-function rewardflags pass
   completed in 28 seconds; the two-function rewardfields pass in 17 seconds, all
   five manifest rows successful. No whole-program analysis or fresh extraction.
@@ -1322,9 +1322,9 @@ This is the short entry point for resuming exact-build research. Detailed reason
 ### 2026-10-02: offline multitool reward chain and serializer mapping
 
 - Fingerprint/tools: same pinned 180383 executable, Ghidra/JDK and bounded launcher
-  above. Exact source lists are `weapon-metadata-180383.tsv`,
-  `weapon-handler-180383.tsv`, `weapon-serializer-180383.tsv` and
-  `weapon-fields-180383.tsv`. Passes completed in 17/16/16/17 seconds respectively;
+  above. Exact source lists are `weapon-metadata-180383.md`,
+  `weapon-handler-180383.md`, `weapon-serializer-180383.md` and
+  `weapon-fields-180383.md`. Passes completed in 17/16/16/17 seconds respectively;
   six new functions exported successfully without a whole-program scan.
 - Trigger/conditions: user requested study of future multitool delivery; offline
   metadata, existing dispatcher pseudocode, bounded exact PE disassembly and
@@ -1921,7 +1921,7 @@ The [offer-class probe](../runtime/native/asi/probe-freighter-offer-class.ps1) a
 Build 180383 / executable SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 Sources: `inspect-procedural-descriptors.py`, extended metadata scanner,
-`descriptor-metadata-180383.tsv`, `scan-native-callers.py`; existing corpus and
+`descriptor-metadata-180383.md`, `scan-native-callers.py`; existing corpus and
 Ghidra 12.1.4 / JDK 25.0.4.1. Offline trigger only; no save/process prerequisite.
 
 Five descriptor assets yielded 109 conditional groups and 398 option nodes.
@@ -1957,7 +1957,7 @@ Offline only; no loaded save, live trigger or runtime mutation required.
 Sources/configuration: bounded public signature terms CreateGenerationTask,
 AddResource and ParseData; pinned NMS.py database and supplied nms.center HTML
 hashes in [procedural seed research](PROCEDURAL_SEED_RESEARCH.md).
-Committed `procedural-*-180383.tsv` lists reproduce six Ghidra stages on the
+Committed `procedural-*-180383.md` lists reproduce six Ghidra stages on the
 existing Acquisition180383 project using Ghidra 12.1.4/JDK 25.0.4.1, max CPU 2.
 
 CreateGenerationTask produced a unique candidate at 1149fe0; AddResource and
@@ -1999,7 +1999,7 @@ Build 180383 / executable SHA-256
 Offline trigger only, no save prerequisites. Configuration: committed fourteen-root
 `procedural-categories-180383.json`, existing descriptor inspector's new bounded
 manifest input, `inspect-appearance-fields.py`, texture signature terms and
-`procedural-texture-180383.tsv`. Ghidra 12.1.4/JDK 25.0.4.1; no native execution.
+`procedural-texture-180383.md`. Ghidra 12.1.4/JDK 25.0.4.1; no native execution.
 
 Fourteen additional cTkModelDescriptorList assets yielded 340 groups/986 option
 nodes. Reproduction through the CLI retained the same asset contents. Pirate root
@@ -2309,7 +2309,7 @@ Offline baseline: installed 180383 executable rehashed by the candidate batch,
 SHA-256 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 Base palette input matched
 `3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`.
-Sources/configuration: committed `reddit-seed-observations.tsv`,
+Sources/configuration: committed `reddit-seed-observations.md`,
 `compare-seed-observations.py`, existing descriptor/palette evaluators; NMSMV
 external reference at `ee2ed17e79ff82ec4cfd069f33fcd2234e443e03`.
 Public collection on 2026-10-03; source dates range 2022-08-02 to 2026-09-26.
@@ -2595,7 +2595,7 @@ not verified current-build callable interfaces.
 Exact configurations and evidence: [planet/fauna seed flow](PLANET_FAUNA_SEED_FLOW.md)
 links all ten stage TSVs, RVAs, fragment hashes and external report names.
 `faunalayout20261004` used the external selected-layout TSV, now preserved
-byte-for-byte as `runtime/research/fauna-layout-180383.tsv`.
+byte-for-byte as `runtime/research/fauna-layout-180383.md`.
 External root: `E:\NMS-Courier-Research\acquisition-180383`; each
 `run-<stage>.json` records the executable/configuration hashes, command and
 elapsed time. All runs reused Acquisition180383 with `-noanalysis`, two CPUs,
@@ -2812,15 +2812,15 @@ Owning findings: [appearance texture seed flow](APPEARANCE_TEXTURE_SEED_FLOW.md)
 Configuration: Ghidra 12.1.4/JDK 25.0.4.1+1 existing Acquisition180383 project,
 no reanalysis/import, two CPUs/4 GiB, 30 seconds per candidate, 180 seconds per
 serial stage and 20 GiB free-space reserve. Exact committed selections:
-`appearance-worker-root-180383.tsv`, `appearance-texture-selection-180383.tsv`,
-`appearance-binding-callees-180383.tsv`,
-`appearance-texture-preparation-180383.tsv`, `appearance-texture-loader-180383.tsv`.
+`appearance-worker-root-180383.md`, `appearance-texture-selection-180383.md`,
+`appearance-binding-callees-180383.md`,
+`appearance-texture-preparation-180383.md`, `appearance-texture-loader-180383.md`.
 Five stages recorded in the owning note completed; nine rows decompiled, zero
 failures. The final loader repeated an existing candidate and added no new seed
 consumer. Navigation deduplicates those candidate RVAs.
 
 The existing read-only texture inspector examined ten resources (80,451 bytes)
-from `appearance-texture-assets-180383.txt`; no missing/ambiguous sources.
+from `appearance-texture-assets-180383.md`; no missing/ambiguous sources.
 Repeating the documented command produced an identical JSON report, including
 binary/XML hashes. Selected material channels differ among Paint, Metal,
 Undercoat, BioShip_Body, Custom_Head, Rock and Freighter; alternatives and group
@@ -2873,7 +2873,7 @@ Report: external `seed-analysis-180383/appearance-texture-verification-20261004.
 Offline only. Build 180383 executable SHA-256
 `671de22649274b49fa07f5a246bc7252c4e08bb9ab623d2e65722fbab4e497a4`.
 Source/configuration: four committed appearance-texture context/writer/callee/
-collection TSVs and `appearance-decal-assets-180383.txt`; owning method/results:
+collection TSVs and `appearance-decal-assets-180383.md`; owning method/results:
 [decal selection](DECAL_TEXTURE_SELECTION_RESEARCH.md). Root AGENTS.md now routes
 other AIs to [AI continuation](AI_CONTINUATION.md), with branch-specific sources,
 statuses, bounded commands, failed leads and exact next target. No global skill

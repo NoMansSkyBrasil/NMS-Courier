@@ -62,7 +62,7 @@ catalog of what *can* be drawn, not a predictor.
 `4cef50(store, inventory_type, seed, class_argument, size_argument, overrides)`
 is called by the ordinary inventory wrapper `4ccfa0` right after layout. Ghidra
 stage `defaulttechnology20261006`, selection
-[default-technology-180383.tsv](../runtime/research/default-technology-180383.tsv)
+[default-technology-180383.md](../runtime/research/default-technology-180383.md)
 (SHA-256 `02654970...f85761`), three exports. What the pseudocode shows:
 
 1. It empties the store's element vector, then builds a candidate list. Every

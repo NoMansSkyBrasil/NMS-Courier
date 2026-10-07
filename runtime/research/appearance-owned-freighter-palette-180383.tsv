@@ -1,3 +1,0 @@
-542910	Instruction-checked read of serialized CurrentFreighterHomeSystemSeed at 83c20; destination unverified
-5d6cd0	Instruction-checked copy of serialized CurrentFreighterHomeSystemSeed; ownership path unverified
-2a05230	CurrentFreighterHomeSystemSeed named serialization candidate; field association unverified

@@ -1,3 +1,0 @@
-1833780	Internal scene node method; inspect child population order without assuming schema
-184d8d0	Mesh material resource wrapper constructor; trace material handle provenance
-2d641c0	Descriptor root caller; trace context construction and filter record lookup

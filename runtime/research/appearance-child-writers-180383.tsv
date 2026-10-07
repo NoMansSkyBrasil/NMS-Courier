@@ -1,3 +1,0 @@
-1833130	Instruction-checked scene child pointer writer; inspect append order
-1838460	Instruction-checked object80 writer; verify whether scene child list
-1838a70	Instruction-checked object80 writer; reject unrelated layout if applicable

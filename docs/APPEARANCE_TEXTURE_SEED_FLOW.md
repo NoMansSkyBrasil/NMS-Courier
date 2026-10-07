@@ -12,7 +12,7 @@ the full parts/colors-to-seed inverse. Read
 Ten exact indexed texture resources were inspected with the existing bounded
 `inspect-texture-palettes.py`, preserving binary/XML hashes. Total input:
 80,451 bytes; ten inspected, zero missing/ambiguous sources. The reproducible
-resource list is `runtime/research/appearance-texture-assets-180383.txt`.
+resource list is `runtime/research/appearance-texture-assets-180383.md`.
 These are selected materials, not an exhaustive category catalog.
 
 | Resource suffix | Layer -> family/channel | Alternatives and implications |
@@ -97,7 +97,7 @@ Multitool, frigate and NPC geometry was **not** rendered in this pass.
 
 ## Reproduction and remaining work
 
-Use the five `appearance-*-180383.tsv` selections with
+Use the five `appearance-*-180383.md` selections with
 `analyze-acquisition-offline.py`, the exact fingerprint above and the existing
 Acquisition180383 project. Stages are appearanceworker20261004,
 appearancetexture20261004, appearancebinding20261004, appearanceprepare20261004

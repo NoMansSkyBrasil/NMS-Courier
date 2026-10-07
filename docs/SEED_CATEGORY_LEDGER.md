@@ -134,7 +134,7 @@ Do not infer current colors or head/body selection from old screenshots.
    identify `8ebad1` (argument from frame byte `+2b78`) and `13f8340` (literal 1).
    Read `tool-legacy-caller-windows-20261005.json` before another scan/export;
    identify their object/context semantics and the frame-byte producer using
-   `tool-palette-callers-180383.tsv`. Preserve split-fragment ownership and do
+   `tool-palette-callers-180383.md`. Preserve split-fragment ownership and do
    not assign a universal default. The color note gives the exact evidence
    chain and bounded command; whole caller/bank state remains unresolved.
 2. **Ship/freighter working palette:** preserve source flag `+70`, edit marker

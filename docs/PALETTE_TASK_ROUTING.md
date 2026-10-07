@@ -57,7 +57,7 @@ remain offline navigation labels, not callable public ABIs.
 Stack provenance is checked against Windows x64 calling layout: submitter
 argument 13 at entry `rsp+68` becomes `rsp+400` after its `398` frame adjustment;
 the constructor argument 7 at entry `rsp+38` becomes `rsp+90` after `58` adjustment.
-Source instruction sites are indexed in `palette-task-data-180383.tsv`.
+Source instruction sites are indexed in `palette-task-data-180383.md`.
 
 `resolve-palette-task.py` accepts explicit uint8 `alternate_flag`, uint32
 `global_mode` and boolean `precomputed`, returning the decision and bank offset.

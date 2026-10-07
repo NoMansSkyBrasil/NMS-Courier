@@ -73,6 +73,14 @@ offline:
     `E:/NMS-Courier-Research/preview-models/owned-20261007`), valid grid
     positions (`4cfe20`), unread wrapper call sites.
 
+12. *Documentation format (2026-10-07, user rule).* Everything is Markdown.
+    The 108 former `.tsv` selections and tables and the two `.txt` asset
+    lists under `runtime/research` are now Markdown data tables with the same
+    base names; `markdown_data.py` parses them, and
+    [the data file catalog](DATA_FILE_CATALOG.md) links every data file,
+    including the JSON fixtures that keep their format. The rule is in
+    `AGENTS.md`.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

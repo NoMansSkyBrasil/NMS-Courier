@@ -99,7 +99,7 @@ indirect/split edges may be missed). Windows-x64 call-site inspection shows:
 
 Evidence: `tool-legacy-callers-20261005.json/callers.json` (the scanner output
 is a directory despite its suffix), `tool-legacy-caller-windows-20261005.json`
-(two windows, 964 decoded instructions) and `tool-palette-callers-180383.tsv`.
+(two windows, 964 decoded instructions) and `tool-palette-callers-180383.md`.
 These fragments do not establish universal natural multitool flag values.
 
 Research input `use_legacy_colours` is optional, strictly boolean, and allowed
@@ -133,7 +133,7 @@ it. Ghidra decompiled the selected leaf; do not fabricate an unwind owner.
 - `emulate-customisation-colors.py`: original instruction windows in Unicorn
   2.1.4, private 1 MiB heap/64 KiB stack, at most 50,000 instructions/one second
   per case; rejects unapproved execution. No host imports or game access.
-- `customisation-palette-lookup-180383.tsv`: bounded Ghidra selection, including
+- `customisation-palette-lookup-180383.md`: bounded Ghidra selection, including
   the independently exported fallback initializer.
 - `test_customisation_colors.py`: boundary, alpha, tie, duplicate-write,
   fallback-conflict and invalid-input checks.
@@ -174,7 +174,7 @@ Integration requests for categories 2/3/15/23 select NULL/SHIP/FREIGHTER/
 PIRATEFREIGHTER respectively. Explicit colors cannot be called seed inverses.
 
 Tool source exports: `toolpaletteflag20261005-export/{551de0,552730,553af0}.c`,
-manifest `tool-palette-flag-180383.tsv`, run `run-toolpaletteflag20261005.json`.
+manifest `tool-palette-flag-180383.md`, run `run-toolpaletteflag20261005.json`.
 Bounded scanner evidence: `tool-alternate-field-20261005.json` (285 fragments,
 10 candidates, one skipped fragment) and `tool-legacy-name-20261005.json`
 (four checked references, zero skipped owners). `tool-legacy-search-20261005/`
