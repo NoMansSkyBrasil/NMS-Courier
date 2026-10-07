@@ -68,6 +68,14 @@ optional `-Expedition N`. It only sends IDs listed as deliverable in
 [reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). Not yet used
 for a live request.
 
+## Fish and fossils
+
+`signal-fish-180836.ps1 -All` fills the loaded slot's fishing record with one catch per
+fish. `signal-fossil-180836.ps1` marks fossil products as seen (`-Id`, or `-All` with an
+optional `-BonesOnly`); that list belongs to the account, not the slot. Status and side
+effects: [reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). Not
+yet used for a live request.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

@@ -170,11 +170,9 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Slot-side redemption of season, Twitch and platform rewards: built, not run
   ([reward redemption notes](docs/REWARD_REDEMPTION_NOTES.md)). Decide with the owner how ships,
   multitools, frigates and eggs are handled before redeeming them.
-- [ ] Fish: the slot has a fishing record and the game routine is found; decide the catch size and
-  accept the statistics it adds, then build the request
+- [~] Fish and fossil requests built and installed after the owner's decisions; not run live
   ([reward redemption notes](docs/REWARD_REDEMPTION_NOTES.md)).
-- [ ] Fossils: individual bones live in the account's seen-products list (game routine found);
-  owner decision whether that account-level write is wanted.
+- [ ] Fixtures for the redeem, fish and fossil requests.
 - [ ] Examine `accountdata.hg` (read-only): what it holds and whether the Twitch rewards are there.
 - [ ] State per delivery whether it is per-slot or account-wide; the test slot is slot 3.
 - [ ] Owner direction: every delivery lands in the slot, not only in account data.

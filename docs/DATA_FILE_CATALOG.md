@@ -151,6 +151,7 @@ reader can start from Markdown and reach every data file.
 | [technology-delivery-classification.md](../runtime/research/technology-delivery-classification.md) | Markdown table | 393 rows, 9 columns | columns: ID, Category, Class, BrokenSlotTech, IsTemplate, Procedural, RepairTech, Teach, WikiEnabled | [TECHNOLOGY_DELIVERY_NOTES.md](../docs/TECHNOLOGY_DELIVERY_NOTES.md) |
 | [tool-palette-callers-180383.md](../runtime/research/tool-palette-callers-180383.md) | Markdown table | 2 rows, 2 columns | Direct owned-tool initializer caller fragment; argument 7 reads context byte; identity and ABI unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
 | [tool-palette-flag-180383.md](../runtime/research/tool-palette-flag-180383.md) | Markdown table | 5 rows, 2 columns | Candidate 2b0 range writer near owned tool selection; record ownership unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
+| [unlockable-rewards.md](../runtime/research/unlockable-rewards.md) | Markdown table | 731 rows, 6 columns | columns: ID, Kind, Expedition, Product, Flags, Deliverable | [REWARD_REDEMPTION_NOTES.md](../docs/REWARD_REDEMPTION_NOTES.md), [README.md](../runtime/native/asi/signal/README.md) |
 | [weapon-fields-180383.md](../runtime/research/weapon-fields-180383.md) | Markdown table | 1 rows, 2 columns | SpecificWeapon field serializer called by 24d8c70 | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [weapon-handler-180383.md](../runtime/research/weapon-handler-180383.md) | Markdown table | 2 rows, 2 columns | SpecificWeapon tagged getter with immediate 5f82ff34 at its entry | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [weapon-metadata-180383.md](../runtime/research/weapon-metadata-180383.md) | Markdown table | 2 rows, 2 columns | SpecificWeapon metadata-name reference candidate from pinned PE scan | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
@@ -201,4 +202,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 125 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 126 data files in 4 folders; 42 not mentioned outside this catalog.

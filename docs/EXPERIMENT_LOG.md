@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-07: fish and fossil requests built (offline)
+
+Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md). No game process
+was involved.
+
+- Fish table: 226 entries, 6 mission-bound and skipped by structure; entry
+  layout confirmed against the compiled table (product ID `+0x20`, mission ID
+  `+0x30`, quality `+0x44`).
+- Built and installed with the game closed: profile DLL `3c7a6fcc...4269`
+  with `fish` and `fossil` events added, replacing `0983a24e...2106` before
+  it was ever started. Fixtures pass; none covers the new requests.
+- Save folder and settings file copied to
+  `E:/NMS-Courier-Research/save-backups/20261007-before-slot-lists`.
+- Owner decisions recorded: random fish sizes, statistics accepted,
+  account-level seen list accepted for fossils only.
+- Not proven: everything live.
+
 ## 2026-10-07: slot-side reward redemption and slot identification (offline)
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md) and

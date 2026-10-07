@@ -145,7 +145,8 @@ offline:
 20. *Slot-side rewards and slot identification (2026-10-07).* Read
     [reward redemption notes](REWARD_REDEMPTION_NOTES.md). The owner wants
     the active slot changed and the account data left alone. Installed DLL is
-    now `0983a24e...2106` (recipes and redeem requests, neither run live).
+    now `3c7a6fcc...4269` (recipe, redeem, fish and fossil requests, none run
+    live).
     Fish do have a per-slot record and a game routine (not built);
     fossil bones are account-level seen products. Next, with the game open on slot 3:
     `runtime/research/identify-loaded-slot.py`, then the recipe test, then
