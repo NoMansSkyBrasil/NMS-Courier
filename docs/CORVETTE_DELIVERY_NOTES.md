@@ -339,8 +339,10 @@ So one request produced, through the game's own build and offer flow, an
 owned corvette from an export file with the requested class, grids and
 special slots, and the result is in the save the game wrote.
 
-Not proven: the same after a game restart; flight, landing and boarding of a
-ship without landing gear; a save with no corvette (this run replaced one);
+User report after the run (same process): flying and landing the delivered
+corvette, which has no landing gear, worked normally.
+
+Not proven: the same after a game restart; a save with no corvette (this run replaced one);
 adding as a new ship instead of replacing; the 1,934-object export;
 multiplayer visibility; class and grid choices other than the maximum.
 
