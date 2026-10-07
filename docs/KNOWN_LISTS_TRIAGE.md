@@ -189,6 +189,59 @@ deliver as part of "learn everything". If the owner wants the fishing
 catalogue filled, it needs a separate decision and a way that does not invent
 counts.
 
+### Season rewards per expedition (2026-10-07)
+
+The owner pointed to the community list of expeditions
+(<https://nomanssky.fandom.com/wiki/List_of_Expeditions>, marked up to date
+as of February 2026 and listing 23 expeditions through "Our Journey
+Continues"). The season reward table agrees on the set of expeditions: every
+one of its 293 entries belongs to exactly one season, 1 to 23.
+
+| No | Expedition (wiki title) | Rewards in the table | Notes from the table |
+| --- | --- | --- | --- |
+| 1 | The Pioneers | 8 | |
+| 2 | Beachhead | 6 | 5 marked `MustBeUnlocked`, among them `EXPD_SPEC02` (the crossover ship) |
+| 3 | Cartographers | 12 | |
+| 4 | Emergence | 8 | |
+| 5 | Exobiology | 10 | |
+| 6 | The Blighted | 15 | `EXPD_ODD_EGG` is `SwitchExclusive` |
+| 7 | Leviathan | 10 | |
+| 8 | Polestar | 12 | |
+| 9 | Utopia | 10 | |
+| 10 | Singularity | 16 | |
+| 11 | Voyagers | 12 | |
+| 12 | Omega | 10 | |
+| 13 | Adrift | 16 | |
+| 14 | Liquidators | 17 | `EXPD_EGG_14` marked `MustBeUnlocked` |
+| 15 | Aquarius | 13 | |
+| 16 | The Cursed | 11 | |
+| 17 | Titan | 10 | |
+| 18 | Relics | 15 | |
+| 19 | Corvette | 10 | |
+| 20 | Breach | 16 | |
+| 21 | Remnant | 15 | Stages 1 to 4 only |
+| 22 | The Swarm | 24 | Stages 1 to 3 only; `SWARM_TROPHY_B` marked `MustBeUnlocked` |
+| 23 | Our Journey Continues | 17 | |
+
+The counts for expeditions 22 and 23 were checked against the owner's
+editor listing and match (24 and 17).
+
+How far the wiki comparison goes: the individual expedition pages list the
+rewards of every milestone (mostly items handed out during the expedition,
+such as nanites and modules) and describe the lasting rewards in free text
+("Poster set", "Stealth Paint customization"). Where a page was readable by
+script (expeditions 5, 6, 9, 10, 16, 19 and 20), its phase rewards are the
+same items as the table's entries for that season; the table has a few more
+per season that the pages list under single milestones. Pages for 17, 18, 21
+and 22 were not found under the expected title, and several pages have
+layouts the script could not read. So the wiki confirms the list of
+expeditions and, by sample, the kind of rewards; it is not an item-by-item
+check, and the table remains the source.
+
+For the later "complete an expedition season" goal the pages are useful for
+another reason: they show the structure, five phases of about eight
+milestones each (31 to 48 milestones per expedition on the pages read).
+
 ### Where the account state lives on this installation (2026-10-07)
 
 Asked by the owner: can platform rewards be forced to appear? Read-only look
