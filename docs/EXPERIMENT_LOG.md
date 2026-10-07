@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-07: baked layer textures in the workshop; Atlas staff colors (offline)
+
+Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#baked-layer-textures-in-the-workshop-2026-10-07).
+Offline only; corpus data of build 180383; Pillow 12.3.0 and NumPy 2.5.3 in
+`%LOCALAPPDATA%\NMSCourier\research-tools\python-imaging`.
+
+- Source: `export-scene-glb.py --imaging-tools`, workshop importer, loader and
+  content policy.
+- Observed: textured renders of fighter `0xA547AB958C97E439`, the Atlas staff
+  and the Atlas multitool. The Atlas staff is black with a red orb and has no
+  palette-bound texture list, so its colors do not depend on the seed.
+- Rejected: taking the first selector row per layer and group left unselected
+  groups without an option (untextured primary surfaces); the fallback row is
+  used now.
+- Not proven: fighter colors against the public note (yellow accents rendered,
+  red recorded); game recolour arithmetic; masks, emissive and transparency.
+- Rollback: nothing to roll back; outputs are external.
+
 ## 2026-10-06 night: seed previews compared with public reference seeds (offline)
 
 Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#comparison-with-public-reference-seeds-and-two-corrections-2026-10-06-night).

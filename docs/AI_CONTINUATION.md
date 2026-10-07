@@ -37,6 +37,13 @@ offline:
    Next bounded step: extract the layer DDS files of the fighter and hauler
    texture lists, composite by selected option and palette sample, export UVs.
 
+6. *Textures (2026-10-07).* The exporter bakes selected layer textures into
+   embedded PNGs and the workshop accepts them. Imaging tools live in
+   `%LOCALAPPDATA%\NMSCourier\research-tools\python-imaging`. Open for colors: why fighter `0xA547AB958C97E439` renders yellow
+   accents where the public note records red (alternate palette branch,
+   texture seed, order). See
+   [baked textures](MODEL_PREVIEW_RESEARCH.md#baked-layer-textures-in-the-workshop-2026-10-07).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

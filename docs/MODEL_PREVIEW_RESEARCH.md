@@ -565,3 +565,56 @@ where paint, undercoat and trim appear, and the game additionally averages
 colors per group. The next step for colors is therefore to extract the
 layer textures of one ship family, composite them with the selected options
 and palette samples, and export UVs — then repeat this table.
+
+### Baked layer textures in the workshop (2026-10-07)
+
+Status: implemented research tool, rendered and inspected; not runtime
+verified. The spacecraft and weapon DDS members are already extracted in the
+corpus (`NMSARC.TexSpacecraft` and others), so no new extraction was needed.
+
+- Tools: Pillow 12.3.0 and NumPy 2.5.3 installed with `pip --target` into
+  `%LOCALAPPDATA%\NMSCourier\research-tools\python-imaging` (outside the repository; pass the folder with `--imaging-tools`).
+  Pillow reads the observed `DXT1` and `ATI2` files.
+- Exporter: `--imaging-tools` (with `--palette-seed` and `--texture-seed`)
+  writes texture coordinates (semantic 1 of the position layout) and, per
+  material, one embedded PNG composited from the selected option of every
+  layer of its texture list: last list position first, the last used layer
+  opaque, each option tinted toward its palette sample (hue shifted by
+  tint minus layer average, saturation capped by the tint, value moved by the
+  tint-minus-average difference). Materials without a list use their plain
+  diffuse map. `--texture-size` defaults to 256. A group the selector leaves
+  unselected in its first pass now takes the selector's later fallback row.
+- Workshop: the importer accepts embedded PNG images (buffer view with the
+  PNG signature, at most 256, never a URI), textures and samplers; the loader
+  resolves only its own `blob:` URLs; the renderer content policy adds
+  `blob:` for `img-src` and `connect-src`. Tests (37) and build pass.
+
+Observed:
+
+- Fighter `0xA547AB958C97E439`: panel lines, cockpit glass, decals and trim
+  textures appear in place, so texture coordinates and orientation are right.
+  Colors are white primary, olive-gray secondary (`COATING` selects
+  Undercoat/Alternative1) and yellow accents; the public note says red and
+  white. The geometry and texturing agree; **the palette values or the
+  option choice for this seed still do not** — the open inputs are the
+  alternate palette branch, the natural texture seed and resource order.
+- Atlas staff (`weapons/multitool/staffmultitoolatlas`, seed `0x7`): black
+  shards and shaft with a red orb, as in two reference pictures supplied by
+  the user on 2026-10-07 (the user identifies it as the Atlas Sceptre/Staff
+  multitool). None of its materials has a palette-bound texture list: every
+  texture is a plain diffuse map, so its black and red are fixed in the
+  textures and do not depend on the seed; the seed selects parts only
+  (`_MULTITOOL_NORMAL`, `_BARREL_2` and two empty accessory slots for `0x7`).
+  The red glow lines of the reference are glow materials, which the exporter
+  leaves as placeholders.
+- Atlas multitool (`weapons/multitool/atlasmultitool`, seed `0x7`): dark gray
+  body with small red details, likewise without palette-bound lists.
+
+Not reproduced: mask and normal maps, emissive and transparent materials
+(engine glow planes render as opaque quads), the game's own recolour
+arithmetic (the tint rule above follows a community description), colour
+averaging between groups, and per-pixel accuracy.
+
+Reproduce by adding `--imaging-tools <that folder>` to the export command of
+the previous sections, for example with scene
+`models/common/weapons/multitool/staffmultitoolatlas.scene.mbin`.
