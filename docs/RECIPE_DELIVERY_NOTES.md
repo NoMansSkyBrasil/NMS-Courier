@@ -98,7 +98,7 @@ are revalidated for that build.
 | --- | --- |
 | Game build | 180836, executable SHA-256 `13d5060d...3499` |
 | Profile DLL | `build-probe.ps1 -Mode FreighterClass180836`, SHA-256 `22cf6a823202a113cb9d92f27faaf72c359cd7da1e2765242dcf1edf1b6bf545` |
-| Installed | Yes, with the game closed, replacing `4cea02b7...f6b3` |
+| Installed | Yes, with the game closed, replacing `4cea02b7...f6b3`. Replaced later the same day, before any game start, by `0983a24e...2106`, which contains the same recipe request plus the redeem request; use that hash for the first test |
 | Backup | Whole save folder and the user settings file copied unchanged to `E:/NMS-Courier-Research/save-backups/20261007-before-recipes` |
 | Checks run | Recipe guard fixture, technology guard fixture and freighter class fixture pass |
 | Checks not run | Any live request; the new DLL has not been started by the game |
@@ -109,7 +109,7 @@ forget a recipe is known; use the save copy.
 ## First live test (proposed, not done)
 
 1. Start the game, load slot 3.
-2. `signal-recipe-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 22cf6a82... -PreflightOnly`.
+2. `signal-recipe-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 0983a24e... -PreflightOnly`.
 3. One recipe by ID; read the result file and look at the catalogue.
 4. `-All`; expect `known_after` equal to `table_recipes`.
 5. Save, close, start again; check the list and that the technologies and

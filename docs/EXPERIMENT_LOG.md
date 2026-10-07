@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-07: slot-side reward redemption and slot identification (offline)
+
+Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md) and
+[live bridge operations](LIVE_BRIDGE_OPERATIONS.md#saves-slots-and-account-data).
+No game process was involved.
+
+- Read-only look at the slot files: known specials, redeemed season, Twitch
+  and platform rewards and known recipes are per slot; **no fishing record
+  and no fossil list exists in any slot**, only in the account files.
+- The slot-side routine `5ab380` (player state, ID) is what the season reward
+  handler calls after the account unlock; it also has Twitch and platform
+  branches.
+- The executable names requests that upload and submit the account data.
+- Built and installed with the game closed: profile DLL `0983a24e...2106`
+  with a `redeem` event (and the recipe request), replacing `22cf6a82...f545`
+  before it was ever started. Fixtures pass; none covers the redeem request.
+- Added `identify-loaded-slot.py` (content match; syntax-checked only).
+- Not proven: everything live, and whether redeeming a ship or similar reward
+  this way blocks claiming the item.
+
 ## 2026-10-07: recipe delivery — routine found and request built (offline)
 
 Owner: [recipe delivery notes](RECIPE_DELIVERY_NOTES.md). No game process was

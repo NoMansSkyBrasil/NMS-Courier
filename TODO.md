@@ -164,7 +164,13 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Slots and account scope (2026-10-07)
 
-- [ ] Identify in the running game which slot is loaded, and show it in every result.
+- [~] Identify which slot is loaded: `runtime/research/identify-loaded-slot.py` does it by content
+  match (not run live yet). Still to do: the game's own slot variable, and the slot in every
+  profile result.
+- [ ] Slot-side redemption of season, Twitch and platform rewards: built, not run
+  ([reward redemption notes](docs/REWARD_REDEMPTION_NOTES.md)). Decide with the owner how ships,
+  multitools, frigates and eggs are handled before redeeming them.
+- [ ] Owner decision: fish and fossils exist only in account data, which is to be left alone.
 - [ ] Examine `accountdata.hg` (read-only): what it holds and whether the Twitch rewards are there.
 - [ ] State per delivery whether it is per-slot or account-wide; the test slot is slot 3.
 - [ ] Owner direction: every delivery lands in the slot, not only in account data.

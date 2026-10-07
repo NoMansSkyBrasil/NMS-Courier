@@ -59,6 +59,15 @@ profile's counters. Rules and status:
 [recipe delivery notes](../../../../docs/RECIPE_DELIVERY_NOTES.md). Not yet used for
 a live request.
 
+## Rewards
+
+`signal-reward-180836.ps1` marks season, Twitch and platform rewards as redeemed in
+the loaded slot: `-Id A[,B...]`, or `-AllOfKind season|twitch|platform` with an
+optional `-Expedition N`. It only sends IDs listed as deliverable in
+`runtime/research/unlockable-rewards.md`. Status and open risks:
+[reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). Not yet used
+for a live request.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

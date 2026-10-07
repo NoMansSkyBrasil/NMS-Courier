@@ -142,6 +142,15 @@ offline:
     `runtime/native/asi/signal/signal-recipe-180836.ps1 -PreflightOnly`, then
     one ID, then `-All`.
 
+20. *Slot-side rewards and slot identification (2026-10-07).* Read
+    [reward redemption notes](REWARD_REDEMPTION_NOTES.md). The owner wants
+    the active slot changed and the account data left alone. Installed DLL is
+    now `0983a24e...2106` (recipes and redeem requests, neither run live).
+    Fish and fossils have no per-slot record, which is an open decision for
+    the owner. Next, with the game open on slot 3:
+    `runtime/research/identify-loaded-slot.py`, then the recipe test, then
+    one decoration-type season reward.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

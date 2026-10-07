@@ -63,7 +63,7 @@
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 10)
+#define EVENT_COUNT (CLASS_COUNT + 11)
 // Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
 #define MAX_MAIN_SLOTS 120u
 #define MAX_TECHNOLOGY_SLOTS 60u
@@ -692,10 +692,12 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
 
 #include "technology_learn_180836.h"
 #include "recipe_learn_180836.h"
+#include "reward_redeem_180836.h"
 
 static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&technology_state, 0, 0) == 1) technology_apply_request();
     if (InterlockedCompareExchange(&recipe_state, 0, 0) == 1) recipe_apply_request();
+    if (InterlockedCompareExchange(&reward_state, 0, 0) == 1) reward_apply_request();
     if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) {
         char reward_id[16] = {0}, mission_id[16] = {0};
@@ -830,14 +832,15 @@ static int resolve_targets(void) {
            writable_range(base + MANAGER_POINTER_RVA, sizeof(uintptr_t)) &&
            memcmp((void *)(base + STAT_GENERATOR_RVA), statgen_entry, sizeof(statgen_entry)) == 0 &&
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
-           writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base);
+           writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
+           reward_resolve(base);
 #endif
 }
 
 void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
                                                      L"techrows", L"super", L"model", L"corvette",
-                                                     L"reward", L"owned", L"technology", L"recipes"};
+                                                     L"reward", L"owned", L"technology", L"recipes", L"redeem"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -871,6 +874,7 @@ void courier_probe_after_verified(void) {
         DWORD signaled = WaitForMultipleObjects(EVENT_COUNT, events, FALSE, 2000);
         technology_write_result();
         recipe_write_result();
+        reward_write_result();
         if (signaled == WAIT_TIMEOUT) { waited += 2; write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK); continue; }
         if (signaled >= WAIT_OBJECT_0 + EVENT_COUNT) { write_status("event_wait_failed", MH_ERROR_UNSUPPORTED_FUNCTION); break; }
         unsigned index = signaled - WAIT_OBJECT_0;
@@ -903,6 +907,10 @@ void courier_probe_after_verified(void) {
         }
         else if (index == CLASS_COUNT + 9) {
             if (recipe_read_request()) InterlockedExchange(&recipe_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 10) {
+            if (reward_read_request()) InterlockedExchange(&reward_state, 1);
             else InterlockedIncrement(&request_errors);
         }
         else {

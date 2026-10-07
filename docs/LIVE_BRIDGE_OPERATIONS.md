@@ -50,6 +50,7 @@ Nothing writes to save files. The game itself saves the results.
 | Corvette from an export | `R_BIGGS_NEW` opens the game's build mode; the mod makes the initial layout the export's part list and disables validation; class, grids and special slots are applied to the ship setup as for offers; the player finalizes and accepts in the game's interface | Native flow plus static mod |
 | Teach known technologies (`technology` event; one, several or all) | On the update thread, for each requested ID: permanent ID rules, the game's definition lookup, structural refusal rules on that definition, then the game's own learn routine. Written and built on 2026-10-07, **not yet run live** ([technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md)) | Native call |
 | Teach known recipes (`recipes` event; all or by ID) | On the update thread: read the game's recipe table, refuse unless the merge routine can add nothing but recipes, then call the game's own save-load merge routine once with a source that holds only the recipe list. Built on 2026-10-07, **not yet run live** ([recipe delivery notes](RECIPE_DELIVERY_NOTES.md)) | Native call |
+| Redeem season, Twitch and platform rewards in the slot (`redeem` event) | On the update thread, for each requested ID: the game's own slot-side routine with the player state and the ID. The account lists are not touched. Built on 2026-10-07, **not yet run live** ([reward redemption notes](REWARD_REDEMPTION_NOTES.md)) | Native call |
 | Silent in-place change of an owned ship, equipped multitool or exosuit (`owned` event) | On the update thread the DLL finds the store at a fixed offset inside the game manager object, checks that its header is self-consistent, then writes the row masks, width, height and count of a full 10 x 12 grid and appends special slots | **Direct write** of the grid header (the native layout step is not called because its arguments for an owned store are unknown); native helper for special slots |
 
 The last row is the only one that changes game data without going through a
@@ -109,7 +110,22 @@ in mind and not as work started:
   network player later, as a separate route with its own evidence. A local
   result is never taken as proof for the network case.
 
-Not yet done: the profile does not identify which slot the running game has
+**Slot identification (2026-10-07).** `runtime/research/identify-loaded-slot.py`
+identifies the loaded slot without being told: it reads the known technology
+and known product lists from the running game, read-only, and finds the slot
+file whose saved lists are a prefix of them. It reports `identified`,
+`ambiguous` or `no_slot_matches` and never guesses. It is identification by
+content; the game's own slot variable has not been located (the executable
+builds the file names from the wide strings `save.hg` and `save%d.hg`, which
+is where that search would start). Written and syntax-checked only; **not yet
+run against a game.**
+
+**Owner direction (2026-10-07): work on the active slot and leave
+`accountdata.hg` alone.** The account data is also synchronised with the
+publisher's servers (requests named `uploadaccountdata` and
+`SubmitAccountData` in the executable), which a slot change is not.
+
+Still open: the profile itself does not identify which slot the running game has
 loaded. Until it does, the slot is taken from the owner's statement and from
 which pair of files the game writes, and is recorded as such. Finding the
 loaded slot in the running game is required before any product use.
