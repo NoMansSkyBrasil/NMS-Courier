@@ -54,6 +54,43 @@ From the offer work on build 180836 (see
   applying a class to an owned weapon store is the same pair of writes as on
   ships, once the store is found.
 
+## The game's own in-place rewards (read from data, 2026-10-07)
+
+The user asked whether the change could be called from the game itself, with
+the game's own message. The executable defines reward types for it, and the
+shipped reward table (identical in build 180836) has entries that use them:
+
+| Reward ID | Type | Parameters as shipped |
+| --- | --- | --- |
+| `R_WEAP_UPGRADE` | `GcRewardUpgradeWeaponClass` | not silent |
+| `R_SHIPUPGRADE` | `GcRewardUpgradeShipClass` | not silent, `InventoryClass = C` |
+| `R_ROGUE_CLASS` | both class types in one entry | not silent |
+| `R_SHIPSLOT_CASH`, `R_SHIPSLOT_PROD` | `GcRewardShipSlot` | one token, cost entries, no window |
+| `R_WEAPSLOT_CASH`, `R_WEAPSLOT_PROD` | `GcRewardWeaponSlot` | one token, cost entries, no window |
+| `RS_INV_SLOT` | `GcRewardInventorySlots` | amount 1 |
+| `R_INVBOX` | ship slot, weapon slot and inventory slot together | awards the cost and opens the window |
+| `R_ROGUE_INV` | the same three | five tokens / amount 5 |
+| `R_FREIGHTSLOT` | `GcRewardFreighterSlot` | cost entry |
+
+What each does at runtime (which item it targets, one class step or a jump,
+whether it charges, what it shows, natural caps) is **not known** from the
+data and is the purpose of the first test. These rewards respect the game's
+own limits, so they cannot by themselves give 120 special technology slots;
+that part still needs the in-memory approach described above.
+
+### Observation build (built and installed, **not yet run**)
+
+The research profile gained a `reward` event. It reads one reward ID from
+`%LOCALAPPDATA%/NMSCourier/diagnostics/native-reward-request-180836-<PID>.txt`
+and dispatches it once only if it is one of the eleven IDs in the table above
+(the list is compiled in). `signal-freighter-class-180836.ps1
+-DispatchListedReward <ID>` writes the file and sends the event. DLL SHA-256
+`b408f09077fe47e2fa6ef288410e9362598603ddba1308d7d219930998474c5b`,
+installed 2026-10-07 in place of `5887b8ea...5b0d`. The existing fixture
+passes; it has no check for the new event. The script still arms the class
+argument for the next freighter or corvette setup as before; that request is
+unrelated to these rewards.
+
 ## Proposed order (not started)
 
 1. Read-only: locate the player's ship, multitool and exosuit stores in the

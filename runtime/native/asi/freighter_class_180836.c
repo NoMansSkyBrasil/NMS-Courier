@@ -63,7 +63,7 @@
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 6)
+#define EVENT_COUNT (CLASS_COUNT + 7)
 // Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
 #define MAX_MAIN_SLOTS 120u
 #define MAX_TECHNOLOGY_SLOTS 60u
@@ -170,7 +170,14 @@ static volatile LONG grid[6] = {-1, -1, -1, -1, -1, -1};  // main w,h,count then
 static volatile LONG scope_thread;
 static volatile uintptr_t scope_item;
 static volatile LONG requested_class = -1;
-static volatile LONG dispatch_choice;     // 0 freighter test reward, 1 corvette build reward
+static volatile LONG dispatch_choice;     // 0 freighter test reward, 1 corvette build reward, 2 listed reward
+// Shipped rewards that change an owned item in place through the game's own flow (class step, added
+// slots). Only these IDs can be requested by the "reward" event; the ID comes from a per-process file.
+static const char *const listed_rewards[] = {
+    "R_WEAP_UPGRADE", "R_SHIPUPGRADE", "R_ROGUE_CLASS", "R_SHIPSLOT_CASH", "R_SHIPSLOT_PROD",
+    "R_WEAPSLOT_CASH", "R_WEAPSLOT_PROD", "RS_INV_SLOT", "R_INVBOX", "R_ROGUE_INV", "R_FREIGHTSLOT"
+};
+static volatile LONG listed_reward_index = -1;
 static volatile LONG dispatch_state;      // 0 unused, 1 requested, 2 calling, 3 returned
 static volatile LONG setup_calls;
 static volatile LONG freighter_setups;
@@ -438,6 +445,28 @@ static int read_model_request(void) {
     return 1;
 }
 
+// Read the requested reward ID from the per-process file and accept it only when it is on the list.
+static int read_reward_request(void) {
+    wchar_t root[MAX_PATH], path[MAX_PATH];
+    DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, MAX_PATH);
+    if (!length || length >= MAX_PATH ||
+        swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-reward-request-180836-%lu.txt",
+                 root, (unsigned long)GetCurrentProcessId()) < 0) return 0;
+    FILE *file = _wfopen(path, L"r");
+    if (!file) return 0;
+    char line[64] = {0};
+    char *read = fgets(line, sizeof(line), file);
+    fclose(file);
+    if (!read) return 0;
+    line[strcspn(line, "\r\n")] = 0;
+    for (LONG index = 0; index < (LONG)(sizeof(listed_rewards) / sizeof(listed_rewards[0])); ++index)
+        if (strcmp(line, listed_rewards[index]) == 0) {
+            InterlockedExchange(&listed_reward_index, index);
+            return 1;
+        }
+    return 0;
+}
+
 static void record_grid(uintptr_t item) {
     static const uint32_t offsets[2] = {MAIN_STORE_OFFSET, TECHNOLOGY_STORE_OFFSET};
     if (!writable_range(item, ITEM_READ_SPAN)) return;
@@ -515,7 +544,11 @@ static void WINAPI update_detour(void *application) {
         char reward_id[16] = {0}, mission_id[16] = {0};
         unsigned char seed[16] = {0};
         uint64_t multi_product_count = 0;
-        if (InterlockedCompareExchange(&dispatch_choice, 0, 0) == 1)
+        LONG choice = InterlockedCompareExchange(&dispatch_choice, 0, 0);
+        LONG listed = InterlockedCompareExchange(&listed_reward_index, 0, 0);
+        if (choice == 2 && listed >= 0 && listed < (LONG)(sizeof(listed_rewards) / sizeof(listed_rewards[0])))
+            memcpy(reward_id, listed_rewards[listed], strlen(listed_rewards[listed]));
+        else if (choice == 1)
             memcpy(reward_id, CORVETTE_BUILD_REWARD_ID, sizeof(CORVETTE_BUILD_REWARD_ID) - 1);
         else
             memcpy(reward_id, TEST_REWARD_ID, sizeof(TEST_REWARD_ID) - 1);
@@ -646,7 +679,8 @@ static int resolve_targets(void) {
 
 void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
-                                                     L"techrows", L"super", L"model", L"corvette"};
+                                                     L"techrows", L"super", L"model", L"corvette",
+                                                     L"reward"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -699,8 +733,9 @@ void courier_probe_after_verified(void) {
         // A dispatch may be requested again only after the previous call returned (state 3);
         // a call that never returned leaves state 2 and blocks further requests in this process.
         // Events "dispatch" and "corvette" both arrive here and differ only in the reward chosen.
+        else if (index == CLASS_COUNT + 6 && !read_reward_request()) InterlockedIncrement(&request_errors);
         else {
-            InterlockedExchange(&dispatch_choice, index == CLASS_COUNT + 5 ? 1 : 0);
+            InterlockedExchange(&dispatch_choice, index == CLASS_COUNT + 6 ? 2 : index == CLASS_COUNT + 5 ? 1 : 0);
             InterlockedExchange(&ship_class_armed, index == CLASS_COUNT + 5 ? 1 : 0);
             if (InterlockedCompareExchange(&dispatch_state, 1, 0) != 0)
                 InterlockedCompareExchange(&dispatch_state, 1, 3);

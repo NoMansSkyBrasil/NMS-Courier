@@ -25,6 +25,10 @@ param(
     [switch]$DispatchTestReward,
     # Request one dispatch of the shipped reward that starts corvette build mode (observation only).
     [switch]$DispatchCorvetteBuild,
+    # Request one dispatch of a shipped in-place upgrade reward (the profile accepts only its own list).
+    [ValidateSet('R_WEAP_UPGRADE', 'R_SHIPUPGRADE', 'R_ROGUE_CLASS', 'R_SHIPSLOT_CASH', 'R_SHIPSLOT_PROD',
+        'R_WEAPSLOT_CASH', 'R_WEAPSLOT_PROD', 'RS_INV_SLOT', 'R_INVBOX', 'R_ROGUE_INV', 'R_FREIGHTSLOT')]
+    [string]$DispatchListedReward,
     [switch]$PreflightOnly
 )
 
@@ -57,7 +61,7 @@ if ($fields.status -notin @('awaiting_request', 'armed') -or
     throw 'Profile is not accepting requests'
 }
 # A new dispatch is allowed only when none is in flight: unused (0) or returned (3).
-if (($DispatchTestReward -or $DispatchCorvetteBuild) -and $fields.dispatch_state -notin @('0', '3')) {
+if (($DispatchTestReward -or $DispatchCorvetteBuild -or $DispatchListedReward) -and $fields.dispatch_state -notin @('0', '3')) {
     throw 'A previous dispatch did not return in this process; its outcome is uncertain'
 }
 $basePattern = '^Local\\NMSCourier-FreighterClass180836-' + $GameProcessId + '-[a-f0-9]{32}$'
@@ -95,7 +99,14 @@ if ($Scene -or $ModelSeed -or $HomeSeed) {
     [IO.File]::WriteAllLines($requestPath, $lines, [Text.Encoding]::ASCII)
     Send-ProfileEvent 'model'
 }
-if ($DispatchCorvetteBuild) {
+if ($DispatchListedReward) {
+    $rewardPath = Join-Path $env:LOCALAPPDATA "NMSCourier\diagnostics
+ative-reward-request-180836-$GameProcessId.txt"
+    [IO.File]::WriteAllLines($rewardPath, @($DispatchListedReward), [Text.Encoding]::ASCII)
+    Start-Sleep -Milliseconds 2500
+    Send-ProfileEvent 'reward'
+    Write-Output "One dispatch of $DispatchListedReward requested."
+} elseif ($DispatchCorvetteBuild) {
     Start-Sleep -Milliseconds 2500
     Send-ProfileEvent 'corvette'
     Write-Output 'One dispatch of the corvette build reward requested.'
