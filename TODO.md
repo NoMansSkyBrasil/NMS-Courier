@@ -161,7 +161,8 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Check the recipe table for defective entries (none) and find the game's route.
 - [x] Add a `recipes` request to the research profile; built, installed, fixtures pass
   ([recipe delivery notes](docs/RECIPE_DELIVERY_NOTES.md)).
-- [ ] First live test on slot 3: preflight, one recipe, all; then save and reload.
+- [~] First live test on slot 3 done on 2026-10-07 (counters only): one recipe, then all 1,684.
+  Open: the owner's check of the catalogue, save and reload.
 
 ## Slots and account scope (2026-10-07)
 

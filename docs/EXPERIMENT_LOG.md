@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: recipe delivery — one, then all 1,684 recipes (live, slot 3)
+
+Owner: [recipe delivery notes](RECIPE_DELIVERY_NOTES.md#first-live-run-2026-10-07).
+Build 180836 `13d5060d...3499`, profile DLL `2bd83437...ca78` (first start
+of the split build), process 24704, **slot 3** identified automatically by
+content match. Backup: `20261007-before-slot-lists`.
+
+- Preflight passed. `-Id RECIPE_1`: known 7 to 8. `-All`: 1,676 sent, known
+  8 to 1,684. No refusal, no side-effect refusal, no request error; known
+  technologies (205) and products (601) unchanged; process responding.
+- Not proven: the catalogue as seen by the player, save and reload.
+- Rollback: quit without saving or restore the backup.
+
 ## 2026-10-07: profile source split into one file per domain (build only)
 
 Owner: [profile file map](../runtime/native/asi/profile_180836/README.md).

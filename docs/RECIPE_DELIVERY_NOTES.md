@@ -3,9 +3,10 @@
 Checkpoint: 2026-10-07. Owner of the recipe domain: teaching the loaded save
 slot the refiner and cooking recipes the game lists under known recipes.
 
-Status in one line: the game routine is identified, a request is built into
-the research profile and installed; **nothing has been taught in a running
-game yet.** Scope of a delivery: one slot (see
+Status in one line: **one live run on 2026-10-07 taught all 1,684 recipes to
+slot 3 according to the game's own "is this recipe known" routine; the
+catalogue as the player sees it and persistence after save and reload are
+not confirmed yet.** Scope of a delivery: one slot (see
 [live bridge operations](LIVE_BRIDGE_OPERATIONS.md#saves-slots-and-account-data)).
 
 ## What a known recipe is
@@ -107,7 +108,29 @@ are revalidated for that build.
 Rollback: restore the previous DLL with the game closed. No native route to
 forget a recipe is known; use the save copy.
 
-## First live test (proposed, not done)
+## First live run (2026-10-07)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...3499`, process 24704 started 20:36 |
+| Slot | **Slot 3**, identified by `identify-loaded-slot.py` (status `identified`; both slot 3 files matched 806 entries, no other slot matched). First live use of that tool |
+| Profile DLL | `2bd83437...ca78` (the split build); the preflight passed, which also means every domain's entry-byte check matched in the running game |
+| Backup | `E:/NMS-Courier-Research/save-backups/20261007-before-slot-lists` |
+| Request 1 | `signal-recipe-180836.ps1 -Id RECIPE_1`: `sent=1`, known 7 to 8 |
+| Request 2 | `signal-recipe-180836.ps1 -All`: `table_recipes=1684`, `sent=1676`, known 8 to 1,684 |
+| Guards | `refused_table_entries=0`, `refused_for_side_effect=0`, `unknown_ids=0`, `request_errors=0` |
+| Side effects checked | Known technologies 205 and known products 601 before and after: unchanged |
+| After | Process alive and responding |
+
+Proven by this run: the merge routine can be called from the update hook
+with a source that holds only recipes, and it adds exactly the recipes.
+
+Not proven: what the catalogue shows, behaviour after saving and reloading,
+the single-recipe mode with several IDs. Scope: slot 3 only.
+
+Rollback: quit without saving, or restore the backup.
+
+## Original test plan (steps 1 to 4 done above)
 
 1. Start the game, load slot 3.
 2. `signal-recipe-180836.ps1 -GameProcessId <pid> -ExpectedDllSha256 2bd83437... -PreflightOnly`.
