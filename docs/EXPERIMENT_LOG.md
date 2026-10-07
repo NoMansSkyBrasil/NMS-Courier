@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: wrapper seed at purchase setup; primary paint colors against references (offline)
+
+Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline)
+and [model preview research](MODEL_PREVIEW_RESEARCH.md#primary-paint-color-against-seven-public-references-2026-10-07).
+Offline only, build 180383 executable `671de226...e497a4`.
+
+- Observed: in setup functions `8e5710`, `8e6590` and `8e6880` the seed passed
+  to the generation wrapper is the function's second argument (the entity
+  seed) for main and technology stores. The first `Paint` sample for seven
+  public seeds agrees with the hull color recorded for each.
+- Not proven: the unread wrapper call sites; color placement; RGB accuracy.
+- Rollback: nothing to roll back.
+
 ## 2026-10-07: name routines under emulation; natural generation wrapper read (offline)
 
 Owners: [name generation research](NAME_GENERATION_RESEARCH.md) and

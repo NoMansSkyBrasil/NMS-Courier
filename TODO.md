@@ -94,6 +94,12 @@ This file is the operational source of truth for implementation order. Update it
   (`LOKI X6 Tractor Beam Edition.nmsship` on their desktop); it is a personal
   file and must not be committed. Never implement this by editing saves.
 
+- [ ] Read the installed game's files directly (archives, binary metadata,
+  geometry and textures) instead of depending on a pre-converted external
+  research corpus. Requested by the user on 2026-10-07 as a later item. This
+  is also the prerequisite for scene conversion inside the application
+  (seed previews without research tooling); both are deferred together.
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is

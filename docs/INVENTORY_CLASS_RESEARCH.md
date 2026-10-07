@@ -759,8 +759,26 @@ direct call site in the code section:
   sites near `8e59..8e79`, `55a498`, `4c20d9`, `1713xxx`, `1751cf6`) decide
   which seed and size type reach them; those sites were listed, not read.
 
-Not established: the seed each caller passes (ship seed, a derived seed or a
-separate inventory seed) and the build 180836 equivalents.
+Read on 2026-10-07 for the purchase-setup family (bounded disassembly of
+`8e5710`, `8e6590` and `8e6880`): in each, the seed pointer handed to the
+wrapper is the setup function's own second argument, unchanged — the same
+seed the function stores as the item seed.
+
+| Setup function | Stores generated | Seed | Requested class |
+| --- | --- | --- | --- |
+| `8e5710` | item `+0x980`, inventory type 3 (multitool), size type from item `+8` | second argument | constant 4 (always the natural draw) |
+| `8e6590` | item `+0x980`, type 3 | second argument | caller's stack argument |
+| `8e6880` | item `+0x980` (type 4 or a caller value) and item `+0xe10` (type 5, technology) | second argument, for both stores | caller's stack argument |
+
+So for an offered ship or multitool, class, slots, installed technologies and
+base stats all derive from the entity seed, together with the size type, the
+weapon class and the solar-system wealth row. This is the argument the
+delivery profile replaces with the requested model seed. The remaining call
+sites (`55a498`, `8e79a3`, `4c20d9`, `1712f50`, `17519a0`, `572c40`) were not
+read; `8e3a10` (the reward setup used for freighters) calls the base-stat
+routine directly and passes class 0, as recorded above.
+
+Not established: the unread call sites and the build 180836 equivalents.
 
 ### Base-stat generation ported (2026-10-06, offline)
 

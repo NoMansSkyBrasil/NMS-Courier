@@ -632,3 +632,31 @@ The fix changed several results. `freightersmall_proc` now exports 10 meshes
 almost nothing" item recorded earlier: its parts carry the level suffix. The
 standard freighter went from 61 to 70 meshes and the capital freighter from
 140 to 156. Evidence: `E:/NMS-Courier-Research/preview-models/categories-20261007`.
+
+### Primary paint color against seven public references (2026-10-07)
+
+To separate "is the palette right" from "is the color placed right", the
+first `Paint` sample of the base palette port (palette seed = ship seed) was
+compared with the hull color recorded in `reddit-seed-observations.tsv`:
+
+| Seed | Recorded hull | `Paint` primary (sRGB) | Other samples that match the note |
+| --- | --- | --- | --- |
+| `0xA547AB958C97E439` | red/white | 0.90, 0.90, 0.90 (white) | second sample 0.98, 0.42, 0.34 (red) |
+| `0xD440D42921FFFF7A` | blue/yellow | 0.25, 0.43, 0.71 (blue) | fourth sample 0.97, 0.82, 0.42 (yellow) |
+| `0xAB5A7EA8EB43A808` | white/light blue, cyan decal | 0.84, 0.89, 0.95 | third sample 0.57, 0.77, 0.78 (cyan) |
+| `0x4ED85EFBECDBD141` | yellow/green | 0.96, 0.73, 0.16 (yellow) | green second to fourth samples |
+| `0x3D0451D7500D46D2` | light blue/cream | 0.39, 0.61, 0.79 | second sample 0.94, 0.96, 0.98 |
+| `0xC4113F655F1A13C6` | yellow | 0.97, 0.82, 0.42 | — |
+| `0x10534F56ECEF61BF` | yellow/red | 1.00, 0.95, 0.10 (yellow) | red third and fourth samples |
+
+All seven hull colors agree with the first sample, and the second color of
+each note is present among the other samples. For an eighth seed
+(`0x987C06BA90DF38ED`, recorded white/gold) the primary is white but no gold
+sample exists in `Paint`; a muted olive is in `Undercoat`.
+
+Reading: the base palette schedule with the ship seed as palette seed is
+supported at the level of coarse hue for these ships (posts from 2022 and
+2023). What remains wrong in the renders is **where** the secondary colors
+appear, which depends on layer masks and the option choice, not on the
+palette values. This is evidence from shaded photographs described in words,
+not an RGB measurement.

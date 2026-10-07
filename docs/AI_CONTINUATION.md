@@ -52,7 +52,15 @@ offline:
    [inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline).
    Next: read the wrapper's callers for the seed they pass; resolve the ship
    palette question; move scene conversion into the application.
-9. Deferred by the user: corvette delivery (see `TODO.md`).
+9. Deferred by the user: corvette delivery, and reading the installed game's
+   files directly (which also covers in-application scene conversion); see
+   `TODO.md`.
+10. *2026-10-07, later.* Purchase setup passes the entity seed to the
+    generation wrapper, and the palette's primary paint sample agrees with
+    seven public references. Open in "seed profile" terms: a single tool that
+    prints class, slots, technologies, base stats and name for one seed
+    (the ports exist separately; the size-type tables `4d47f0` and `4d5690`
+    and the layout routine `4ce460` are not ported), and color placement.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
