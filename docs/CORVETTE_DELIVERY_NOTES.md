@@ -245,6 +245,25 @@ installed build) contain `DisableCorvetteValidation` (false),
 `EnforceCorvetteComplexityLimit` (false) and `DisableCorvetteSwapParts`
 (true).
 
+### Fifth live result: class S on the corvette offer; second dispatch in one process (2026-10-07)
+
+Same process as the fourth result (so the validation mod was not loaded yet).
+The user left build mode to buy a landing gear, a second `corvette` event was
+sent with class S (`applied_count=2`, `class_after=3,3,3`, `setup_calls=3`),
+the user added the landing gear to the 976-object build and finalized.
+
+- Observed (user screenshot): the ship offer shows class **S**, a generated
+  name, damage 210.5, shield 369.3, hyperdrive 1041.2, manoeuvrability 369.3.
+  The user declined the offer.
+- So the class written at build start reaches the offer, and the dispatch is
+  repeatable inside one game process.
+- Not proven: the class on an accepted, owned corvette and after a restart;
+  whether accepting adds a ship or replaces one.
+
+Requirement stated by the user: validation must be bypassed for everything,
+because many shared corvettes are made with external tools and glitch
+techniques and would never pass the game's checks.
+
 ### Validation switch as a research mod (installed, **not yet run**)
 
 `GCDEBUGOPTIONS.GLOBAL.MBIN` recompiled from the converted original with only
