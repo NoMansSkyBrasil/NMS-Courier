@@ -31,7 +31,7 @@ param(
     [string]$DispatchListedReward,
     # In-place change of an owned ship's or weapon's stores (no reward, no offer): full grids and/or
     # every technology slot special. The index is the ship or weapon slot number, starting at 0.
-    [ValidateSet('ship', 'weapon')]
+    [ValidateSet('ship', 'weapon', 'equipped-weapon', 'suit', 'primary-ship')]
     [string]$OwnedTarget,
     [ValidateRange(0, 11)]
     [int]$OwnedIndex = -1,
@@ -108,6 +108,7 @@ if ($Scene -or $ModelSeed -or $HomeSeed) {
     Send-ProfileEvent 'model'
 }
 if ($OwnedTarget) {
+    if ($OwnedTarget -in @('equipped-weapon', 'suit', 'primary-ship')) { $OwnedIndex = 0 }
     if ($OwnedIndex -lt 0 -or !($OwnedSlots -or $OwnedSupercharge)) { throw 'Owned request needs an index and at least one change' }
     $lines = @("target=$OwnedTarget", "index=$OwnedIndex")
     if ($OwnedSlots) { $lines += 'slots=1' }

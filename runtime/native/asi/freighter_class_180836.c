@@ -188,10 +188,22 @@ static volatile LONG listed_reward_index = -1;
 #define OWNED_WEAPON_OFFSET 0x2b2fe0u
 #define OWNED_WEAPON_STRIDE 0x320u
 #define OWNED_WEAPON_SLOTS 6u
+// Active player stores, also inside the manager: the exosuit cargo and technology stores and the store of
+// the equipped multitool. The game copies the equipped multitool's active store over its record in the
+// weapon array, so a change made only in the array is lost; the exosuit cargo store keeps a slot count
+// that differs from its set bits, so only its rows are checked.
+#define ACTIVE_SUIT_CARGO_OFFSET 0xc250u
+#define ACTIVE_SUIT_TECHNOLOGY_OFFSET 0xc498u
+#define ACTIVE_WEAPON_OFFSET 0xc928u
+// Primary ship slot: the ship setup code indexes the ship store array with the 32-bit value at
+// +0x182a0 of the object whose pointer is at manager+0xc240 (read-only check: value 1 with ship slot 1
+// as the user's current ship).
+#define PLAYER_STATE_POINTER_OFFSET 0xc240u
+#define PRIMARY_SHIP_INDEX_OFFSET 0x182a0u
 #define OWNED_GRID_WIDTH 10
 #define OWNED_GRID_HEIGHT 12
 static volatile LONG owned_state;          // 0 idle, 1 requested
-static volatile LONG owned_target;         // 0 ship, 1 weapon
+static volatile LONG owned_target;         // 0 ship, 1 weapon record, 2 equipped weapon, 3 exosuit, 4 primary ship
 static volatile LONG owned_index;
 static volatile LONG owned_slots;
 static volatile LONG owned_super;
@@ -242,7 +254,7 @@ static void write_status(const char *status, MH_STATUS result) {
         "carry_pending=%d\ncarry_applied=%ld\ncarry_candidates=%ld\ncarry_seed_equal=%ld\n"
         "carry_exact_site=%ld\ncarry_callers=%lx,%lx,%lx,%lx,%lx,%lx\n"
         "model_armed=%ld\nmodel_applied=%ld\nhome_pending=%ld\nhome_applied=%ld\nrequest_errors=%ld\n"
-        "owned_applied=%ld\nowned_rejected=%ld\n",
+        "owned_index=%ld\nowned_applied=%ld\nowned_rejected=%ld\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
@@ -256,7 +268,7 @@ static void write_status(const char *status, MH_STATUS result) {
         (unsigned long)READ(carry_trace[2]), (unsigned long)READ(carry_trace[3]),
         (unsigned long)READ(carry_trace[4]), (unsigned long)READ(carry_trace[5]),
         READ(model_armed), READ(model_applied), READ(home_pending), READ(home_applied), READ(request_errors),
-        READ(owned_applied), READ(owned_rejected));
+        READ(owned_index), READ(owned_applied), READ(owned_rejected));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -383,7 +395,7 @@ static void add_special_slots(uint8_t *store) {
 
 // A store is accepted for an in-place change only when its header is self-consistent: grid inside
 // sixteen by sixteen, rows inside the width, no rows past the height, slot count equal to the set bits.
-__attribute__((unused)) static int consistent_store(const uint8_t *store) {
+__attribute__((unused)) static int consistent_store(const uint8_t *store, int any_count) {
     if (!writable_range((uintptr_t)store, OWNED_STORE_STRIDE)) return 0;
     const uint64_t *rows = (const uint64_t *)store;
     int16_t width = *(const int16_t *)(store + 0x80), height = *(const int16_t *)(store + 0x82);
@@ -395,7 +407,7 @@ __attribute__((unused)) static int consistent_store(const uint8_t *store) {
         if (y >= height ? rows[y] != 0 : (rows[y] >> width) != 0) return 0;
         bits += __builtin_popcountll(rows[y]);
     }
-    return bits == count;
+    return any_count || bits == count;
 }
 
 // Make every position of a ten by twelve grid valid. Existing elements keep their positions; this writes
@@ -417,13 +429,31 @@ static void apply_owned_request(void) {
     uintptr_t manager = *(const uintptr_t *)(base + MANAGER_POINTER_RVA);
     LONG index = InterlockedCompareExchange(&owned_index, 0, 0);
     uint8_t *main_store = NULL, *technology = NULL;
+    if (InterlockedCompareExchange(&owned_target, 0, 0) == 4) {
+        // Resolve the primary ship slot the way the game does, then continue as an ordinary ship request.
+        index = -1;
+        if (manager && writable_range(manager + PLAYER_STATE_POINTER_OFFSET, sizeof(uintptr_t))) {
+            uintptr_t state = *(const uintptr_t *)(manager + PLAYER_STATE_POINTER_OFFSET);
+            if (writable_range(state + PRIMARY_SHIP_INDEX_OFFSET, sizeof(int32_t)))
+                index = *(const int32_t *)(state + PRIMARY_SHIP_INDEX_OFFSET);
+        }
+        InterlockedExchange(&owned_index, index);
+        InterlockedExchange(&owned_target, 0);
+    }
     if (InterlockedCompareExchange(&owned_target, 0, 0) == 0 && index >= 0 && index < (LONG)OWNED_SHIP_SLOTS) {
         main_store = (uint8_t *)(manager + OWNED_SHIP_MAIN_OFFSET + (uintptr_t)index * OWNED_STORE_STRIDE);
         technology = (uint8_t *)(manager + OWNED_SHIP_TECHNOLOGY_OFFSET + (uintptr_t)index * OWNED_STORE_STRIDE);
     } else if (InterlockedCompareExchange(&owned_target, 0, 0) == 1 && index >= 0 && index < (LONG)OWNED_WEAPON_SLOTS) {
         technology = (uint8_t *)(manager + OWNED_WEAPON_OFFSET + (uintptr_t)index * OWNED_WEAPON_STRIDE);
+    } else if (InterlockedCompareExchange(&owned_target, 0, 0) == 2) {
+        technology = (uint8_t *)(manager + ACTIVE_WEAPON_OFFSET);
+    } else if (InterlockedCompareExchange(&owned_target, 0, 0) == 3) {
+        main_store = (uint8_t *)(manager + ACTIVE_SUIT_CARGO_OFFSET);
+        technology = (uint8_t *)(manager + ACTIVE_SUIT_TECHNOLOGY_OFFSET);
     }
-    if (!manager || !technology || !consistent_store(technology) || (main_store && !consistent_store(main_store))) {
+    int suit = InterlockedCompareExchange(&owned_target, 0, 0) == 3;
+    if (!manager || !technology || !consistent_store(technology, 0) ||
+        (main_store && !consistent_store(main_store, suit))) {
         InterlockedIncrement(&owned_rejected);
         return;
     }
@@ -463,6 +493,9 @@ static int read_owned_request(void) {
         if (!line[0]) continue;
         if (strcmp(line, "target=ship") == 0) target = 0;
         else if (strcmp(line, "target=weapon") == 0) target = 1;
+        else if (strcmp(line, "target=equipped-weapon") == 0) { target = 2; if (index < 0) index = 0; }
+        else if (strcmp(line, "target=suit") == 0) { target = 3; if (index < 0) index = 0; }
+        else if (strcmp(line, "target=primary-ship") == 0) { target = 4; if (index < 0) index = 0; }
         else if (strncmp(line, "index=", 6) == 0 && line[6] >= '0' && line[6] <= '9' && (!line[7] || (line[7] >= '0' && line[7] <= '9' && !line[8])))
             index = atoi(line + 6);
         else if (strcmp(line, "slots=1") == 0) slots = 1;

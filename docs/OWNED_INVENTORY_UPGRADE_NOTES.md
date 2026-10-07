@@ -175,6 +175,50 @@ or multitool whose size type allows fewer rows; whether the game rewrites the
 grid on reload; whether a multitool accepts more special slots than its
 type's limit; anything odd with items already in the store.
 
+### First live results of the silent change (2026-10-07, one process)
+
+Build 180836, DLL `a380fc1a...abfd`. Store offsets were confirmed read-only
+in this second process before any change (same offsets, same grids as the
+user's five ships and three multitools).
+
+| Request | Read back from memory | Seen by the user |
+| --- | --- | --- |
+| ship slot 4, slots and special | main 10 x 12 / 120; technology 10 x 12 / 120 with 120 special; 20 elements kept | not looked at (not the current ship) |
+| ship slot 1 (current ship), slots and special | main 10 x 12 / 120 with 21 elements; technology 10 x 12 / 120 with 120 special, 16 elements | **worked** in the inventory screen |
+| weapon record 0, slots and special | 10 x 12 / 120 with 120 special right after the write; a later read showed the record back at 7 x 3 / 8 with 4 special | **no change** in the game |
+| exosuit | not requested (not supported by that build) | no change |
+
+Explanation of the multitool failure, from further read-only reads: the
+equipped multitool has an **active store** in the player area of the manager
+(`+c928`), and the game copies it over the record in the weapon array, which
+undid the write. Next to it are the exosuit technology store (`+c498`, 10 x 6
+with 10 slots and 3 special) and the exosuit cargo store (`+c250`, a 10 x 12
+grid whose count field, 24, does not equal its set bits — which is why the
+scan had not listed it).
+
+The current ship is identified by the value the ship setup code uses as index
+into the ship store array: the 32-bit value at `+182a0` of the object whose
+pointer is at manager `+c240`. Read-only check: 1, with ship slot 1 as the
+user's current ship.
+
+User requirement recorded: the program must itself identify the current ship
+and the equipped multitool.
+
+### Second build (built, **not yet installed or run**)
+
+Targets added to the `owned` event: `primary-ship` (resolves the slot as
+above), `equipped-weapon` (the active store at `+c928`) and `suit` (cargo
+`+c250` checked by rows only, technology `+c498`). The status file reports
+the resolved index. DLL SHA-256
+`37eecaaf8c51ffc7da5ae1aa1ee2b61365d0915fc76414f364cec9a1986df1fa` under
+`E:/NMS-Courier-Research/native-builds/freighter-class-180836-owned-e-20261007`.
+The fixture passes with the owned branch compiled out.
+
+Not proven: persistence of the ship change after save and restart; the
+equipped multitool and exosuit through their active stores; the meaning of
+the exosuit cargo count field; whether the active ship also has an active
+copy that matters in other situations.
+
 ## Proposed order (not started)
 
 1. Read-only: locate the player's ship, multitool and exosuit stores in the
