@@ -130,6 +130,12 @@ offline:
     platform rewards in scope and added fossils and raw materials; all are
     triaged, none built. Next: glyphs.
 
+18. *Slots and account scope (2026-10-07).* One save folder, several slots,
+    account data shared by all; the test save is **slot 3** (`save5.hg`,
+    `save6.hg`). Read
+    [live bridge operations](LIVE_BRIDGE_OPERATIONS.md#saves-slots-and-account-data)
+    before any live action; name the slot in every record.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

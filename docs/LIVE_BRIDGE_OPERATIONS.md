@@ -55,6 +55,47 @@ The last row is the only one that changes game data without going through a
 game routine for the grid. It is recorded as such wherever its results are
 described.
 
+## Saves, slots and account data
+
+Explained by the project owner on 2026-10-07 and checked against the files.
+Every live action must say which slot it touched, and every delivery must say
+whether it changes one slot or the whole account.
+
+There is **one** save folder per platform account
+(`%APPDATA%/HelloGames/NMS/st_<account>`). Inside it:
+
+| Data | Files | Scope |
+| --- | --- | --- |
+| Slot N (1 to 15) | Two files: automatic save `save<2N-1>.hg` (slot 1 uses `save.hg`) and manual save `save<2N>.hg`, each with an `mf_` companion | One slot: inventories, ships, known technologies and products, known specials, what has been redeemed |
+| Account data | `accountdata.hg` and its `mf_` companion, rewritten when the game starts | The whole account, every slot |
+| User settings | `Binaries/SETTINGS/GCUSERSETTINGSDATA.MXML` in the game's install folder | The whole installation, every slot: seen substances, technologies and products, titles, unlocked specials and unlocked season, Twitch and platform rewards |
+
+On the owner's installation the slots in use are 1 (`save.hg`, `save2.hg`),
+2 (`save3.hg`, `save4.hg`), 3 (`save5.hg`, `save6.hg`) and 9 (`save17.hg`,
+`save18.hg`). **The test save is slot 3.** Earlier notes that speak of "other
+saves of the owner" mean the other slots of this one folder.
+
+Consequences:
+
+- A per-slot change (technologies taught on 2026-10-07, inventory grids,
+  delivered ships) exists only in the slot that was loaded. The other slots
+  are untouched.
+- An account-level change (an unlocked season or platform reward) is seen by
+  every slot. It cannot be undone by restoring one slot's files; a copy of
+  the settings file and of `accountdata.hg` is needed as well.
+- The account-level lists mix what every slot ever did. That is why the test
+  slot shows thousands of seen products while it knows only a few hundred.
+- Backups before a live change copy the whole folder, and the settings file
+  when an account-level change is planned.
+
+Not yet done: the profile does not identify which slot the running game has
+loaded. Until it does, the slot is taken from the owner's statement and from
+which pair of files the game writes, and is recorded as such. Finding the
+loaded slot in the running game is required before any product use.
+
+What `accountdata.hg` holds has not been examined; it is a candidate for the
+Twitch rewards that were not found in memory where expected.
+
 ## What protects against mistakes
 
 - Build pinning: the DLL arms nothing unless the executable hash and the

@@ -117,6 +117,17 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   whole table, identify defective or internal entries, and block them permanently before building
   any "deliver all" option.
 
+## Saves, slots and account scope
+
+- One save folder holds several slots (two files each) plus account-level data shared by all of
+  them; see [live bridge operations](docs/LIVE_BRIDGE_OPERATIONS.md#saves-slots-and-account-data).
+- Every experiment record names the slot that was loaded. Every delivery states whether it changes
+  one slot or the whole account, and the interface must tell the user the same.
+- Never assume which slot is loaded: identify it, or record that it was taken from the user's
+  statement.
+- Back up the whole save folder before a live change, and the user settings file and account data
+  as well before an account-level change.
+
 ## Product boundaries
 
 - Delivery uses live game functions through verified runtime integration. Never fall back to save editing.

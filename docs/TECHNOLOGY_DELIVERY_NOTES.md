@@ -253,7 +253,7 @@ copy for the first tests.
 
 | Item | Value |
 | --- | --- |
-| Game | Build 180836, executable `13d5060d...3499`, process 11584 started 15:42, the owner's save loaded in ordinary gameplay |
+| Game | Build 180836, executable `13d5060d...3499`, process 11584 started 15:42, the owner's test save (**slot 3**, files `save5.hg` and `save6.hg`) loaded in ordinary gameplay. The change is per slot: slots 1, 2 and 9 were not touched |
 | Profile DLL | `4cea02b7...f6b3`, checked by the script before each request |
 | Save copy | `E:/NMS-Courier-Research/save-backups/20261007-before-technology` (27 files, taken with the game closed) |
 | Preflight | Passed: status `awaiting_request`, hooks created, so the startup byte checks of the lookup and learn routines matched in the running game |
@@ -313,7 +313,7 @@ Read-only check of the save files the game itself wrote:
   list. They appear in a different, much larger list (the known products), 200
   to 226 of them in the played saves. The game stores upgrade modules as
   known products, not as known technologies.
-- Another save of the owner (not the test save) holds 242 known technologies:
+- Slot 1 of the same save folder (not the test slot) holds 242 known technologies:
   the deliverable ones plus all 36 damaged-slot entries, `OBSOLETE` and
   `SPIDERBRAIN`. That is the damage this domain's rules exist to prevent, and
   it matches the list of defective entries the owner collected.

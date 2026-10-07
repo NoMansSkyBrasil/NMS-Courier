@@ -155,6 +155,12 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Other delivery domains after technology (products, recipes, parts), each with its own
   classification and permanent block list first.
 
+## Slots and account scope (2026-10-07)
+
+- [ ] Identify in the running game which slot is loaded, and show it in every result.
+- [ ] Examine `accountdata.hg` (read-only): what it holds and whether the Twitch rewards are there.
+- [ ] State per delivery whether it is per-slot or account-wide; the test slot is slot 3.
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is
