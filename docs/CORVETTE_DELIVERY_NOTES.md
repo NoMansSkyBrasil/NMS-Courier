@@ -168,6 +168,28 @@ mode from `R_BIGGS_NEW` now start with the export's ship? Rollback: delete
 that mod folder. A static mod cannot serve per-request delivery; if this
 works, the per-request version must supply the layout in memory.
 
+### Second live result: the export appears assembled in build mode (2026-10-07, one run)
+
+Conditions as in the first observation, in a new game process, with the
+research mod active (`DEFAULTSHIPBASE.MBIN` `cc3763b5...6130`, 169 connectors
+plus the 160 objects of one export). Preflight passed; one `corvette` event.
+
+- Observed (log): `dispatch_state=3`, `setup_calls=1`, no errors.
+- Observed (user screenshot): build mode opened with the export's corvette
+  fully assembled; the panel reads "Finalização de nave" and shows damage
+  158.5, shield 207.0, hyperdrive 671.4 and manoeuvrability 352.7; none of
+  the four missing-part warnings of the empty run is shown.
+- So the layout file named by `InitialLayouts` is what `CreateFromDefault`
+  loads, and an export's object list is accepted there as written.
+- Not proven: finalizing (not pressed yet); cost or part requirements at
+  finalize; the two larger exports (976 and 1,934 objects, layouts built:
+  `62792cfe...5e96` and `7c980657...a8e5`); behaviour with no corvette owned;
+  class and slot choices; multiplayer.
+
+Next: the 976-object layout is installed for a restart test; then finalize
+once on a save state the user accepts to change; then replace the static mod
+by supplying the layout in memory per request.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is

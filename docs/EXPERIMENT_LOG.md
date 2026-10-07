@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: export shown assembled in corvette build mode (live, one run)
+
+Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#second-live-result-the-export-appears-assembled-in-build-mode-2026-10-07-one-run).
+Build 180836 `13d5060d...3499`; DLL `8c2c901c...17e2`; research mod
+`DEFAULTSHIPBASE.MBIN` `cc3763b5...6130`; user in a space station.
+
+- Trigger: one `corvette` event after a passing preflight.
+- Observed: build mode opened with the 160-object export assembled and ship
+  statistics shown; no missing-part warnings.
+- Not proven: finalize, costs, larger exports, no-corvette saves.
+- State: mod file replaced afterwards by the 976-object layout
+  (`62792cfe...5e96`) for the next restart; nothing was finalized.
+
 ## 2026-10-07: corvette build reward dispatched live; layout mod prepared (live, one run)
 
 Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#first-live-observation-the-reward-opens-build-mode-empty-2026-10-07-one-run).
