@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-07: name routines under emulation; natural generation wrapper read (offline)
+
+Owners: [name generation research](NAME_GENERATION_RESEARCH.md) and
+[inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline).
+Offline only, build 180383 executable `671de226...e497a4`, Unicorn 2.1.4,
+Ghidra 12.1.4 stages `namegeneration20261007`, `nameword20261007`,
+`namefrigate20261007`; English language files of the corpus.
+
+- Source: `emulate-name-generation.py`, `name-generation-180383.tsv`.
+- Observed: ship seed `0xA547AB958C97E439` gives `Radiant Pillar BC1`;
+  routine `e8da90` with seed `0x8C968767B3282F13` gives `CV-5 Hayasenn`, the
+  components of the name the user saw in game (`Hayasenn CV-5`) for the
+  freighter delivered with that model seed. The technology routine has one
+  direct caller; class, layout, technologies and base stats restart from one
+  seed inside wrapper `4ccfa0`.
+- Failures: two formatted-print imports were missing from the first runs; the
+  routine first assumed for freighters (`e85aa0`) is a general place-name
+  routine and did not produce the known name.
+- Not proven: word order of the freighter name on build 180836; caller-side
+  type and seed arguments; other languages; the seed passed to the wrapper.
+- Rollback: nothing to roll back; reports are external.
+
 ## 2026-10-07: baked layer textures in the workshop; Atlas staff colors (offline)
 
 Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#baked-layer-textures-in-the-workshop-2026-10-07).

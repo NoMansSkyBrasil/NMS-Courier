@@ -44,6 +44,16 @@ offline:
    texture seed, order). See
    [baked textures](MODEL_PREVIEW_RESEARCH.md#baked-layer-textures-in-the-workshop-2026-10-07).
 
+7. *Names (2026-10-07).* The game's own name routines run under emulation
+   and reproduce two names known from the game:
+   [name generation research](NAME_GENERATION_RESEARCH.md).
+8. *Natural generation order (2026-10-07).* One wrapper (`4ccfa0`) draws
+   class, layout, technologies and base stats from the same seed:
+   [inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline).
+   Next: read the wrapper's callers for the seed they pass; resolve the ship
+   palette question; move scene conversion into the application.
+9. Deferred by the user: corvette delivery (see `TODO.md`).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

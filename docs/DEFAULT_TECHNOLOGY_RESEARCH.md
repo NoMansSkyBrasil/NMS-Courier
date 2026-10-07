@@ -284,7 +284,10 @@ differences until the last row's mask followed the slot count.
 
 1. Done 2026-10-06: port, procedural instances and comparison (section
    above). Finish reading the remaining matrix reports.
-2. Read the three natural callers' arguments from bounded disassembly.
+2. Done 2026-10-07 for the wrapper: the routine has one direct caller and
+   takes the same seed as class, layout and base stats; see
+   [the natural generation order](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline).
+   Still open: which seed the wrapper's own callers pass.
 3. Decide delivery: calling this native routine on the offer's technology
    store before the screen opens would give the natural loadout for the
    requested seed; the alternative is an explicit, user-chosen list. Either

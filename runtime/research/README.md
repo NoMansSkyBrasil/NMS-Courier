@@ -3,6 +3,9 @@
 `export-scene-glb.py` converts a corpus scene (scene graph, geometry metadata
 and stream container XML) to a texture-free GLB for the desktop Model
 workshop; `--seed` keeps only the parts the descriptor traversal port selects.
+`emulate-name-generation.py` runs the game's ship, multitool and fleet-code
+name routines under emulation with English strings from the corpus
+([name generation research](../../docs/NAME_GENERATION_RESEARCH.md)).
 `evaluate-base-stats.py` ports base-stat generation and `emulate-base-stats.py`
 compares it with the original routine.
 `evaluate-default-technology.py` and `evaluate-procedural-technology.py` are

@@ -730,6 +730,38 @@ base stats follow it. Not covered: slot counts, technology cap by class,
 supercharged slots, model/seed selection, persistence. A crash or a missing
 offer is a possible outcome; the dispatch must not be repeated in that process.
 
+### One wrapper, one seed: natural generation order (2026-10-07, offline)
+
+Read from the disassembly of `4ccfa0` (build 180383) and a scan of every
+direct call site in the code section:
+
+- The technology routine `4cef50` has exactly **one** direct caller, inside
+  `4ccfa0` (`4cd043`). The three earlier "natural callers" are callers of the
+  wrapper. The base-stat routine `4cea20` is reached from the wrapper by a
+  tail jump and directly from the purchase setup `8e3a10` (eleven sites), the
+  reward path `f3c8b0`/`f3d070` and `17519a0`.
+- `4ccfa0(store, inventory type, seed, ?, size type, weapon class, ...,
+  requested class at the ninth position, tenth argument)` runs, in order and
+  each restarting from **the same seed**: the class draw `4cfd10` (only when
+  the requested class is 4), the layout `4ce460(store, type, seed, size
+  type)`, then `class argument = 4d47f0(size type)`, the technology routine
+  `4cef50(store, type, seed, class argument, weapon class, tenth argument)`,
+  a type-specific step (`4ce710` for type 7; for type 8 a mode-dependent
+  extra element), and finally base stats `4cea20(store, type, seed, class
+  stored at +0x100, class argument, weapon class, ..., minimum flag 0)`.
+- So for one inventory the natural class, slots, technologies and base stats
+  are all functions of one seed plus the size type, the weapon class and the
+  solar-system wealth row. The technology routine's "size argument" is the
+  weapon class: value 9, which forces five to nine picks, is the staff.
+- The wrapper has two thin callers that derive the remaining arguments from
+  the size type: `4cced0` (weapon class from `4d5690(size type)`) and
+  `4cd160` (through `4dfcd0` and `4e02c0`). Their own callers (purchase setup
+  sites near `8e59..8e79`, `55a498`, `4c20d9`, `1713xxx`, `1751cf6`) decide
+  which seed and size type reach them; those sites were listed, not read.
+
+Not established: the seed each caller passes (ship seed, a derived seed or a
+separate inventory seed) and the build 180836 equivalents.
+
 ### Base-stat generation ported (2026-10-06, offline)
 
 `4cea20(store, inventory type, seed, class, ship class, weapon class, ?, minimum flag)`
