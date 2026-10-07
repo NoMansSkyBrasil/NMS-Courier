@@ -83,6 +83,17 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Add the isolated Save Editor area only after its dedicated design and validation gates are approved.
 - [ ] Add CI, release signing, and clean-machine distribution validation.
 
+## Deferred by the user (2026-10-07)
+
+- [ ] Corvette delivery (ships assembled from parts). Requested as a later
+  feature; not started and not researched. The reference service replaces the
+  player's current corvette and requires the player to own a minimal corvette
+  (fewer than ten parts, set as primary ship, then save and restart) before
+  delivery. Goal for Courier: deliver directly without that precondition if a
+  verified native route allows it. The user has a local example export
+  (`LOKI X6 Tractor Beam Edition.nmsship` on their desktop); it is a personal
+  file and must not be committed. Never implement this by editing saves.
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is

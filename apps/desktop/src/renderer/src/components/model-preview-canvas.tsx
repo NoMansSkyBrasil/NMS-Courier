@@ -129,7 +129,7 @@ export function ModelPreviewCanvas({
             if (visibleBounds.isEmpty()) return
             const sphere = visibleBounds.getBoundingSphere(new THREE.Sphere())
             const distance =
-              (sphere.radius * 0.85) /
+              (sphere.radius * 1.0) /
               Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) /
               Math.min(camera.aspect, 1)
             camera.position
