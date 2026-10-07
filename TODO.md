@@ -93,6 +93,7 @@ This file is the operational source of truth for implementation order. Update it
   verified native route allows it. The user has a local example export
   (`LOKI X6 Tractor Beam Edition.nmsship` on their desktop); it is a personal
   file and must not be committed. Never implement this by editing saves.
+  First look at the export format: [corvette delivery notes](docs/CORVETTE_DELIVERY_NOTES.md).
 
 - [ ] Read the installed game's files directly (archives, binary metadata,
   geometry and textures) instead of depending on a pre-converted external
