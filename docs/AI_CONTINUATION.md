@@ -88,6 +88,11 @@ offline:
     including the JSON fixtures that keep their format. The rule is in
     `AGENTS.md`.
 
+13. *New user requests (2026-10-07), planned only:* in-place upgrades of
+    owned ships, the exosuit and multitools, and delivery of ordinary ships
+    from plain exports. See
+    [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

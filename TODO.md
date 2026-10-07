@@ -102,6 +102,12 @@ This file is the operational source of truth for implementation order. Update it
   is also the prerequisite for scene conversion inside the application
   (seed previews without research tooling); both are deferred together.
 
+- [ ] In-place upgrades requested by the user on 2026-10-07: unlock 120 + 120 slots with every
+  technology slot special on an owned ship and on the exosuit without replacing them, and convert
+  an owned multitool to class S with 120 special technology slots. Plan and open questions:
+  [owned inventory upgrade notes](docs/OWNED_INVENTORY_UPGRADE_NOTES.md).
+- [ ] Deliver ordinary ships from plain `.nmsship` exports (format described in the same notes).
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is
