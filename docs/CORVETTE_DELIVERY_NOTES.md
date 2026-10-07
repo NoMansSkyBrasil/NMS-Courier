@@ -346,6 +346,31 @@ Not proven: the same after a game restart; a save with no corvette (this run rep
 adding as a new ship instead of replacing; the 1,934-object export;
 multiplayer visibility; class and grid choices other than the maximum.
 
+### Eighth live result: added as a new ship with no usable corvette owned (2026-10-07, one run)
+
+Before this run the user confirmed after a restart that the delivered
+corvette was still there, then removed it with their save editor. That left
+a remnant in the save (slot 5 still named and pointing at the `BIGGS` scene
+with empty inventories; the linked ship base with 0 objects), and, by the
+user's report, a leftover entry in the game's corvette project list. So this
+is "no usable corvette", not a save that never had one.
+
+Same DLL (`5887b8ea...5b0d`) and mod (976-object layout, validation off), new
+process; class S, `slots`, `techrows`, `super`, one `corvette` event. Log:
+`applied_class=3`, `main_grid=10,12,120`, `technology_grid=10,12,120`,
+`super_added=119`, no errors.
+
+- Observed (user report and screenshot): build mode opened with the export
+  assembled; after finalizing, the comparison screen listed the new ship as
+  "Corveta (120, 120)" with class S, a 10-wide technology grid with every
+  slot marked special, and three choices: obtain for free and add to the
+  collection, trade the current ship, or decline. The screen shows a cost
+  figure, but the obtain option is labelled free. The user chose to add it to
+  the collection.
+- The leftover project did not interfere in this run.
+- Not proven: a save that never had a corvette; the state of the save after
+  this acceptance (not read yet); the 1,934-object export.
+
 ### From proof to product: what the mod does that the bridge must do
 
 The research mod is static: one layout, fixed at game start. For delivery
