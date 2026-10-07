@@ -11,8 +11,13 @@ the owner's save in ordinary gameplay; save folder copied beforehand to
   `-All`: 177 learned, 28 not added (the 28 already known), known count 28
   to 205. Process alive and responding, no request errors, no blocked or
   unknown result.
-- Not proven: what the player sees, save and reload, mission side effects,
-  multiplayer.
+- Read-back: the known list in process memory and in the save the game
+  wrote afterwards is exactly the 205 deliverable IDs.
+- Corrected the same day: a save editor showing "204 / 392" is not counting
+  blocked entries, as first written; its other 187 entries are upgrade-module
+  products (`U_*`), which the game keeps in the known products list.
+- Not proven: catalogue and build menus as seen by the player, loading the
+  save in a new process, mission side effects, multiplayer.
 - Rollback: quit without saving or restore the save copy.
 
 ## 2026-10-07: technology delivery — refusal rules, native learn routine and profile request (offline)

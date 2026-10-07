@@ -286,13 +286,46 @@ memory): 205 distinct IDs, identical to the deliverable set; none missing and
 none outside it.
 
 The owner then opened the save in a third-party save editor, which showed
-"Known: 204 / 392" and looked as if many technologies were missing. The
-editor counts every table entry it knows, including the entries that are
-never delivered: 392 - 204 = 188, the number of blocked entries. The editor's
-totals are one lower than ours on both sides (392 against 393 entries, 204
-against 205 known), which is consistent with one entry it does not list;
-which one was not determined. A full count in such an editor is therefore not
-the target: "all" means the 205 deliverable entries.
+"Known: 204 / 392" and looked as if many technologies were missing.
+
+**Correction.** These notes first explained that gap as "the editor counts
+the 188 blocked entries" because 392 - 204 = 188. That was a coincidence of
+numbers and it was wrong. The owner supplied the editor's exported list
+(`Technologies.nmsdiscover`, a personal file, not committed), and it shows
+what the editor's "technologies" are:
+
+| Part of the editor's list | Entries | What they are |
+| --- | --- | --- |
+| Technology table entries classed `deliverable` | 205 | Exactly our deliverable set; none missing, none extra |
+| `SPIDERBRAIN` | 1 | Technology table entry that we block (no display name) |
+| IDs starting with `U_` | 187 | **Not in the technology table.** All 187 are in the product table: the upgrade-module items (`U_ENERGY1`, `U_SHIPGUNX`, `U_FR_HYP4`, ...) |
+
+So the entries the editor still shows as unknown are the 187 upgrade-module
+products (and `SPIDERBRAIN`), not the defective entries. The editor does not
+list damaged, maintenance or template entries at all in that export.
+
+Read-only check of the save files the game itself wrote:
+
+- The test save, written by the game after the run, holds a known-technology
+  list of exactly the 205 deliverable IDs. This confirms the list reached the
+  save file; loading it again in a new process is still unobserved.
+- In every save of the owner, `U_` IDs never appear in the known-technology
+  list. They appear in a different, much larger list (the known products), 200
+  to 226 of them in the played saves. The game stores upgrade modules as
+  known products, not as known technologies.
+- Another save of the owner (not the test save) holds 242 known technologies:
+  the deliverable ones plus all 36 damaged-slot entries, `OBSOLETE` and
+  `SPIDERBRAIN`. That is the damage this domain's rules exist to prevent, and
+  it matches the list of defective entries the owner collected.
+
+Consequence: "all technologies" in the sense of that editor needs a second
+operation, teaching the upgrade-module **products**. It belongs to the
+product domain, not here. Offline finding for it, not built: the shipped
+reward `GcRewardSpecificProductRecipe` (handler RVA `f362a0` on build 180383)
+looks the product up with routine `ec7cf0` (table, 16-byte ID) and calls
+routine `5aa1a0` (player state, pointer to the product's ID at definition
+`+0x150`, silent flag), which returns 1 when the recipe was added. Not
+relocated to 180836 and not called by us.
 
 Rollback: close the game without saving, or restore the save copy.
 
