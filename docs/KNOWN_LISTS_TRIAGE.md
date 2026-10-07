@@ -219,6 +219,38 @@ at the installed game and the executable:
   `PHOTONIX_CORE`, which the technology delivery of 2026-10-07 already
   taught. The ship ones are ship rewards and belong to ship delivery.
 
+### Routines that write the account lists (build 180383, offline, 2026-10-07)
+
+First step of the search, by disassembly only. Addresses are build 180383
+RVAs; none is relocated to 180836 or called yet.
+
+| Routine | What the code does | Reading |
+| --- | --- | --- |
+| `609ed0` (account object, reward ID) | Requires the ID in a table map at manager `+0x8e0`, inserts it into a set at account `+0x1c0`, sets a flag at account `+0x2b0`, returns 1 | Season unlock on the account. Called by the `GcRewardUnlockSeasonReward` handler (`f42160`) and from three other places |
+| `5aa550` (player state, ID) | Called by that handler afterwards unless a payload flag says otherwise; looks the ID up in a map at manager `+0x8a0` or as a product and adds a known special through `5aa830` | The save-side step ("redeemed in save") |
+| `609bb0` (account object, ID) | Finds the ID in a table at `*(manager + 0x308)` whose entries carry a list of products, calls a check (`6093e0`), inserts into the set at account `+0x140`, sets the same flag, then runs `5aa550` for each product | A sibling unlock that also redeems. Twitch or platform: **not determined** |
+| `609dd0` (account object, ID) | Uses the map at manager `+0x8a0`, inserts into the set at account `+0x180`, sets the same flag | The other sibling: **not determined** |
+
+The account object is at manager `+0x315748`, the same object the
+learn-technology and learn-product routines notify. The flag at `+0x2b0` is
+read as "settings changed, save them"; that reading is an inference from all
+four writers setting it.
+
+Plan from here, in order, each step recorded before the next:
+
+1. Decide which sibling is Twitch and which is platform, from the tables they
+   consult and from their callers.
+2. Relocate the routines to build 180836 by masked byte search and take
+   entry-byte checks, as for technology.
+3. Read-only check in the running game: read the three sets from memory and
+   compare their sizes with the settings file (293, 435 and 1 today). This
+   confirms the offsets without changing anything.
+4. Add a reward-unlock request to the research profile in its own domain file
+   and try **one** platform reward on a copied save and a copied settings
+   file; observe the game's own settings file after it writes, the claim
+   screen, and whether the entry survives a restart.
+5. Only then the save-side step and the larger lists.
+
 ## Fossils
 
 The owner listed the editor's fossil page: skull, limb, ribcage and tail
