@@ -29,6 +29,13 @@ offline:
    texture option choice (paint style) with its natural resource order and
    seed; see [model preview research](MODEL_PREVIEW_RESEARCH.md#colored-seed-previews-2026-10-06-later).
 
+5. *Reference check.* Three public seeds reproduce their recorded shapes in
+   the workshop after a level-suffix fix; colors need real layer textures.
+   Renders made before that fix must be redone. See
+   [the comparison table](MODEL_PREVIEW_RESEARCH.md#comparison-with-public-reference-seeds-and-two-corrections-2026-10-06-night).
+   Next bounded step: extract the layer DDS files of the fighter and hauler
+   texture lists, composite by selected option and palette sample, export UVs.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

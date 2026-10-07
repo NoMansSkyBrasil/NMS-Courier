@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-06 night: seed previews compared with public reference seeds (offline)
+
+Owner: [model preview research](MODEL_PREVIEW_RESEARCH.md#comparison-with-public-reference-seeds-and-two-corrections-2026-10-06-night).
+Offline only; corpus data of build 180383; reference notes from
+`reddit-seed-observations.tsv` (publication builds unknown).
+
+- Source: `export-scene-glb.py --seed --palette-seed --texture-seed`,
+  `evaluate-texture-options.py` (optional budgets), capture harness.
+- Observed: three reference seeds reproduce the recorded shape (fighter
+  `0xA547AB958C97E439`, haulers `0xD440D42921FFFF7A` and
+  `0xAB5A7EA8EB43A808`); dominant colors agree for the two haulers and not for
+  the fighter's color placement.
+- Failure found and fixed: parts whose mesh name ends in `LODn` were dropped
+  (missing wings). Earlier seed-selected renders of this date predate the fix.
+- Not proven: pixel or RGB agreement; natural texture seed and resource
+  order; anything about builds other than the corpus build.
+- Rollback: nothing to roll back; renders are external and disposable.
+
 ## 2026-10-06 late night: base-stat generation ported; colored seed previews (offline)
 
 Owners: [inventory class research](INVENTORY_CLASS_RESEARCH.md#base-stat-generation-ported-2026-10-06-offline)

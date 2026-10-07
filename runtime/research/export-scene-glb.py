@@ -139,6 +139,7 @@ class Corpus:
     """Read-only path resolver over the research corpus index."""
 
     def __init__(self, root):
+        self.root = Path(root)
         self.connection = sqlite3.connect('file:%s?mode=ro' % (Path(root) / 'index.sqlite').as_posix(), uri=True)
 
     def xml(self, game_path, suffixes=('',)):
@@ -216,6 +217,58 @@ class Builder:
                 if name == wanted:
                     return texture, family, channel
         return (texture, candidates[0][1], candidates[0][2]) if candidates else None
+
+    def apply_texture_choice(self, texture_seed, palette_seed):
+        """Recolor bound materials from the merged texture option selector port (candidate inputs).
+
+        Resource order is the first occurrence of each texture list in this export's preorder traversal and
+        the texture seed is supplied by the caller; neither is established as the game's natural input.
+        Returns the chosen option name per (layer, group), or None when the selector rejects the inputs.
+        """
+        ordered = []
+        for record in self.bindings:
+            if record.get('texture') and record['texture'] not in ordered:
+                ordered.append(record['texture'])
+        if not ordered:
+            return None
+        if len(ordered) > 32:
+            self.warnings.append('texture choice: more than 32 texture lists, selector not applied')
+            return None
+        selector = runpy.run_path(str(Path(__file__).with_name('evaluate-texture-options.py')))
+        corpus = self.corpus.root.resolve()
+        sources = selector['T']['inspect'](corpus, ordered)['sources']
+        rows = selector['B']['generate'](palette_seed, selector['B']['load_base'](corpus))
+        try:
+            result = selector['evaluate_fresh_resources'](sources, texture_seed, rows, max_sources=32, max_groups=64)
+        except (ValueError, KeyError) as error:
+            self.warnings.append('texture choice rejected: %s' % error)
+            return None
+        chosen = {}
+        for row in result['final_rows']:
+            chosen.setdefault((row['layer'], row['group']), row['name'])
+        by_resource = {source['resource']: source for source in sources}
+        for index, record in enumerate(self.bindings):
+            source = by_resource.get(record.get('texture'))
+            if source is None:
+                continue
+            candidates = []
+            for layer in source['layers']:
+                wanted = chosen.get((layer['fields']['Name'], layer['fields']['Group']))
+                for option in layer['options']:
+                    if option['fields'].get('Name') == wanted and option['palette']['ColourAlt'] in CHANNELS:
+                        candidates.append((layer['fields']['Name'], wanted, option['palette']['Palette'],
+                                           option['palette']['ColourAlt']))
+                        break
+            pick = next((item for name in ('PAINT1', 'BASE', 'PAINT') for item in candidates if item[0] == name),
+                        candidates[0] if candidates else None)
+            if pick is None or pick[2] not in self.colors:
+                continue
+            sample = self.colors[pick[2]][CHANNELS.index(pick[3])]
+            record.update(layer=pick[0], option=pick[1], family=pick[2], channel=pick[3], rgba=list(sample),
+                          source='palette_selected_option')
+            self.materials[index]['pbrMetallicRoughness']['baseColorFactor'] = [
+                linear(sample[0]), linear(sample[1]), linear(sample[2]), 1.0]
+        return {'%s|%s' % key: name for key, name in chosen.items()}
 
     def material(self, game_path):
         """Untextured material named after the game material; colored when a palette row is available."""
@@ -380,6 +433,9 @@ def main():
     parser.add_argument('--palette-seed', type=lambda value: int(value, 0),
                         help='Color materials from the base palette port for this seed (ships and tools use the '
                              'model seed; freighters use the home system seed)')
+    parser.add_argument('--texture-seed', type=lambda value: int(value, 0),
+                        help='With --palette-seed: choose texture options with the merged selector port for this '
+                             'seed (candidate; the natural texture seed and resource order are open)')
     parser.add_argument('--exclude', default='SHIELD|SHADOW|LOD[1-9]',
                         help='Case-insensitive pattern over mesh name and material path; matching meshes are dropped')
     args = parser.parse_args()
@@ -398,7 +454,13 @@ def main():
         selection = port['evaluate'](args.seed, tree, loader.load)
         loader.close()
         chosen = set(selection['selected_ids'])
-        included = lambda name: port['loaded_node_included'](name, chosen)
+
+        def included(name):
+            # Mesh names such as '_Wings_GLOD0' carry a level suffix that the traversal port removes from
+            # descriptor IDs; the same normalization is applied before the membership test.
+            if name.startswith('_') and name.isascii() and len(name) <= 31:
+                name = port['normalized_id'](name.upper())
+            return port['loaded_node_included'](name, chosen)
     colors = None
     if args.palette_seed is not None:
         # Base collection only; alternate branch, bank and threshold state are separate, open inputs.
@@ -411,6 +473,11 @@ def main():
     if loaded is None:
         parser.error('Scene is not available as converted XML in the corpus index')
     root = builder.emit(loaded[0], loaded[1], 0, top=True)
+    texture_choice = None
+    if args.texture_seed is not None:
+        if colors is None:
+            parser.error('--texture-seed requires --palette-seed')
+        texture_choice = builder.apply_texture_choice(args.texture_seed, args.palette_seed)
     data, json_size = builder.glb(root)
     budget = {'bytes': len(data), 'json_bytes': json_size, 'accessors': len(builder.accessors),
               'elements': builder.elements, 'nodes': len(builder.nodes), 'meshes': len(builder.meshes)}
@@ -422,7 +489,8 @@ def main():
     report = {'scene': args.scene, 'seed': None if args.seed is None else '0x%X' % args.seed,
               'selected_ids': selection and selection['selected_ids'], 'pruned_nodes': builder.pruned,
               'palette_seed': None if args.palette_seed is None else '0x%X' % args.palette_seed,
-              'material_bindings': builder.bindings[:2048],
+              'texture_seed': None if args.texture_seed is None else '0x%X' % args.texture_seed,
+              'texture_choice': texture_choice, 'material_bindings': builder.bindings[:2048],
               'classification': selection and selection['classification'],
               'output_sha256': hashlib.sha256(data).hexdigest(), 'budget': budget,
               'exceeds_workshop_limits': over, 'sources': builder.sources,

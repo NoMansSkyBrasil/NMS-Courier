@@ -526,3 +526,42 @@ not evaluate that choice; the restricted selector port
 and texture seed of a whole model are still open
 ([texture flow](APPEARANCE_TEXTURE_SEED_FLOW.md)). Freighters need the home
 system seed as palette seed; ships and multitools use the model seed.
+
+### Comparison with public reference seeds and two corrections (2026-10-06, night)
+
+Renders were compared with the visual notes already committed in
+`runtime/research/reddit-seed-observations.tsv` (notes written on 2026-10-03
+from public posts; the images themselves are not stored). This is a coarse,
+qualitative comparison of shape and dominant colors, not a pixel or RGB test.
+
+| Seed (category) | Recorded observation | Render |
+| --- | --- | --- |
+| `0xA547AB958C97E439` (fighter) | Red/white, short rounded nose, broad upright outer wings | Same silhouette: short rounded nose, broad upright outer wings; Paint/Primary is white and Paint/Alternative1 red in the palette, but the flat material colors show gray-mauve panels and yellow accents — **shape agrees, color placement does not** |
+| `0xD440D42921FFFF7A` (hauler) | Blue/yellow hull, four blue spherical containers, short cab | Blue hull, four spherical containers, short cab; red accents instead of yellow |
+| `0xAB5A7EA8EB43A808` (hauler) | White/light-blue hull, broad wing with large cyan triangle decal, two fans | Light hull, broad wing with cyan triangular decals, two fans |
+
+Corrections made because of these comparisons:
+
+- **Level suffix.** The first reference render had no wings: mesh nodes such
+  as `_Wings_GLOD0` were tested against selected IDs without removing the
+  `LODn` suffix, which the traversal port removes from descriptor IDs. The
+  exporter now applies the same normalization before the membership test.
+  Every seed-selected render made before this fix (the `seeded-20261006`
+  batch and the first colored batch) can miss such parts and must be redone
+  before being used as evidence.
+- **Seeded texture options.** `--texture-seed` feeds the texture lists of the
+  exported model, in first-occurrence preorder, to the existing merged
+  selector port (`evaluate_fresh_resources`, budgets raised by explicit
+  arguments to 32 resources and 64 groups, outside its compared scope) and
+  colors each material from the option that selector names for its layer.
+  Example, fighter seed `0x7`: `BASE` selects `PAINTED`, so secondary surfaces
+  take the paint color instead of the undercoat. The texture seed (here equal
+  to the model seed) and the resource order are candidates, not established
+  natural inputs.
+
+What the mismatch on the first row shows: a flat color per material cannot
+reproduce a painted ship. The layer textures carry the masks that decide
+where paint, undercoat and trim appear, and the game additionally averages
+colors per group. The next step for colors is therefore to extract the
+layer textures of one ship family, composite them with the selected options
+and palette samples, and export UVs — then repeat this table.

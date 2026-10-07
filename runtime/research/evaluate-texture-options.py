@@ -172,15 +172,16 @@ def evaluate_fresh_single(source, texture_seed, palette_rows, enabled=True):
             'scope': 'Restricted fresh single resource; default context only'}
 
 
-def evaluate_fresh_resources(sources, texture_seed, palette_rows, enabled=True):
+def evaluate_fresh_resources(sources, texture_seed, palette_rows, enabled=True, max_sources=8, max_groups=16):
     """Merged unlinked IgnoreName candidate with explicit resource order.
 
     Source/caller order must be supplied; this does not discover material order.
     Default indices and no caller ground color only. Returns complete row/state
     traces for isolated native comparison, not a whole entity appearance claim.
     """
-    if not 1 <= len(sources) <= 8 or any(s.get('status') != 'inspected' or len(s['layers']) > 8 for s in sources):
-        raise ValueError('Expected 1..8 inspected eight-layer resources')
+    # The default budgets are the compared scope; callers that raise them leave that scope knowingly.
+    if not 1 <= len(sources) <= max_sources or any(s.get('status') != 'inspected' or len(s['layers']) > 8 for s in sources):
+        raise ValueError('Expected 1..%d inspected eight-layer resources' % max_sources)
     layers = []
     for source in sources:
         flag = source.get('declaration_fields', {}).get('AlwaysEnableUnnamedTextureLayers', 'false')
@@ -196,7 +197,7 @@ def evaluate_fresh_resources(sources, texture_seed, palette_rows, enabled=True):
     families = {row['family']: i for i, row in enumerate(palette_rows)}
     collector = runpy.run_path(str(Path(__file__).with_name('emulate-texture-collection.py')))
     groups = collector['collect'](layers, families)
-    if not 1 <= len(groups) <= 16 or any(len(g['options']) > 256 for g in groups):
+    if not 1 <= len(groups) <= max_groups or any(len(g['options']) > 256 for g in groups):
         raise ValueError('Merged group/option budget exceeded')
     family_names = {i: name for name, i in families.items()}
 
