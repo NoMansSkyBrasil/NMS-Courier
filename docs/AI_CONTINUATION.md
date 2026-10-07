@@ -52,8 +52,15 @@ offline:
    [inventory class research](INVENTORY_CLASS_RESEARCH.md#one-wrapper-one-seed-natural-generation-order-2026-10-07-offline).
    Next: read the wrapper's callers for the seed they pass; resolve the ship
    palette question; move scene conversion into the application.
-9. Deferred by the user: corvette delivery (format notes in
-   [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md)), and reading the installed game's
+9. **Corvette delivery is no longer deferred (2026-10-07).** A live run
+   produced an owned S corvette with 120 + 120 slots, all technology slots
+   special, from a user export, through the game's own build reward
+   `R_BIGGS_NEW`, with a static research mod supplying the layout and the
+   validation switch. Read
+   [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md) from "The game's
+   own creation route" onward. Next: replace the mod by per-request memory
+   steps, test restart persistence and a save without a corvette. Still
+   deferred: reading the installed game's
    files directly (which also covers in-application scene conversion); see
    `TODO.md`.
 10. *2026-10-07, later.* Purchase setup passes the entity seed to the

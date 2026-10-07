@@ -85,8 +85,9 @@ This file is the operational source of truth for implementation order. Update it
 
 ## Deferred by the user (2026-10-07)
 
-- [ ] Corvette delivery (ships assembled from parts). Requested as a later
-  feature; not started and not researched. The reference service replaces the
+- [ ] Corvette delivery (ships assembled from parts). Proven live on 2026-10-07 with a static
+  research mod (see the notes linked below); the per-request bridge steps are still to be built.
+  Original request: The reference service replaces the
   player's current corvette and requires the player to own a minimal corvette
   (fewer than ten parts, set as primary ship, then save and restart) before
   delivery. Goal for Courier: deliver directly without that precondition if a

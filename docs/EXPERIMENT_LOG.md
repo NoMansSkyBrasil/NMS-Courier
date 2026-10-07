@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-07: owned S corvette from an export, 120 + 120 slots, validation bypassed (live)
+
+Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#seventh-live-result-owned-s-corvette-120--120-slots-all-technology-slots-special-2026-10-07-one-run).
+Build 180836 `13d5060d...3499`. Research mod
+`NMSCourierCorvetteLayoutResearch`: layout `62792cfe...5e96` (976 objects),
+debug options `817e5a65...9e4a` (`DisableCorvetteValidation`).
+
+- Run A (DLL `9baba721...5c7e`): validation switch honoured — the warning is
+  shown but finalize proceeds; class S on the offer; offer declined.
+- Run B (DLL `5887b8ea...5b0d`): class S, 10 x 12 main and technology grids,
+  119 special slots added at build start; user finalized, accepted, replaced
+  their corvette and saved. The saved ship has class S in three inventories,
+  120 + 120 valid slots, 120 special entries; its ship base has 976 objects.
+- Not proven: persistence after restart, flight without landing gear, no
+  prior corvette, add-as-new, the largest export, multiplayer.
+- Rollback: the user's previous corvette was replaced by their choice; the
+  research mod and DLL remain installed (delete the mod folder and restore an
+  earlier DLL from the native-builds folder to revert the tooling).
+
 ## 2026-10-07: corvette class S applied at build start; validation blocks a gear-less export (live, one run)
 
 Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#fourth-live-result-class-s-applied-a-larger-export-blocked-by-validation-2026-10-07-one-run).

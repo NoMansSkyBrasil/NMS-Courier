@@ -310,6 +310,53 @@ the log will tell), and whether grids and special slots survive finalize and
 acceptance, since ship acceptance copies stores by a different path than the
 freighter reward.
 
+### Seventh live result: owned S corvette, 120 + 120 slots, all technology slots special (2026-10-07, one run)
+
+Conditions: build 180836 (`13d5060d...3499`), DLL `5887b8ea...5b0d`, research
+mod with the 976-object layout (`62792cfe...5e96`) and validation disabled
+(`817e5a65...9e4a`), user in a space station. Preflight passed; class S,
+`slots`, `techrows`, `super` and one `corvette` event.
+
+- Observed (log, at build start): `applied_class=3`, `class_after=3,3,3`,
+  `slots_applied=1`, `layout_overrides=2`, `main_grid=10,12,120`,
+  `technology_grid=10,12,120`, `table_patches=1`, `table_rejected=0`,
+  `super_added=119`, `super_errors=0`. The corvette ship setup therefore goes
+  through the hooked layout routine, like the freighter.
+- Observed (user screenshot): the offer shows class S, a full-width
+  technology grid with every visible slot marked special, a ten-wide cargo
+  grid, and statistics 198.4 / 435.5 / 1311.3 / 2045.1. The missing-gear
+  message did not block finalizing.
+- The user **accepted**, chose to replace their existing corvette, and saved.
+- Observed (newest save, read in memory, not modified): ship slot 5 holds a
+  `BIGGS` ship with the generated name, class S in all three inventories,
+  120 valid slots in a 10 x 12 main grid, 120 valid slots in a 10 x 12
+  technology grid with 120 special-slot entries and 27 installed
+  technologies. The `PlayerShipBase` entry linked to slot 5 now has 976
+  objects — the export's count; the connector entries of the layout were not
+  stored.
+
+So one request produced, through the game's own build and offer flow, an
+owned corvette from an export file with the requested class, grids and
+special slots, and the result is in the save the game wrote.
+
+Not proven: the same after a game restart; flight, landing and boarding of a
+ship without landing gear; a save with no corvette (this run replaced one);
+adding as a new ship instead of replacing; the 1,934-object export;
+multiplayer visibility; class and grid choices other than the maximum.
+
+### From proof to product: what the mod does that the bridge must do
+
+The research mod is static: one layout, fixed at game start. For delivery
+the bridge has to do the same two things per request, in memory:
+
+1. Make build mode start from the requested export's objects instead of the
+   shipped layout (find where `CreateFromDefault` reads `InitialLayouts`, or
+   fill the draft base through the game's own add-object routine).
+2. Set the validation switch for that one build and restore it afterwards.
+
+Then the frontend can accept a `.nmsship` (or its JSON form) and class and
+slot options, with S and 120 + 120 special as the user's stated defaults.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is
