@@ -29,6 +29,14 @@ param(
     [ValidateSet('R_WEAP_UPGRADE', 'R_SHIPUPGRADE', 'R_ROGUE_CLASS', 'R_SHIPSLOT_CASH', 'R_SHIPSLOT_PROD',
         'R_WEAPSLOT_CASH', 'R_WEAPSLOT_PROD', 'RS_INV_SLOT', 'R_INVBOX', 'R_ROGUE_INV', 'R_FREIGHTSLOT')]
     [string]$DispatchListedReward,
+    # In-place change of an owned ship's or weapon's stores (no reward, no offer): full grids and/or
+    # every technology slot special. The index is the ship or weapon slot number, starting at 0.
+    [ValidateSet('ship', 'weapon')]
+    [string]$OwnedTarget,
+    [ValidateRange(0, 11)]
+    [int]$OwnedIndex = -1,
+    [switch]$OwnedSlots,
+    [switch]$OwnedSupercharge,
     [switch]$PreflightOnly
 )
 
@@ -99,7 +107,16 @@ if ($Scene -or $ModelSeed -or $HomeSeed) {
     [IO.File]::WriteAllLines($requestPath, $lines, [Text.Encoding]::ASCII)
     Send-ProfileEvent 'model'
 }
-if ($DispatchListedReward) {
+if ($OwnedTarget) {
+    if ($OwnedIndex -lt 0 -or !($OwnedSlots -or $OwnedSupercharge)) { throw 'Owned request needs an index and at least one change' }
+    $lines = @("target=$OwnedTarget", "index=$OwnedIndex")
+    if ($OwnedSlots) { $lines += 'slots=1' }
+    if ($OwnedSupercharge) { $lines += 'super=1' }
+    $ownedPath = Join-Path $env:LOCALAPPDATA ('NMSCourier' + [IO.Path]::DirectorySeparatorChar + 'diagnostics' + [IO.Path]::DirectorySeparatorChar + "native-owned-request-180836-$GameProcessId.txt")
+    [IO.File]::WriteAllLines($ownedPath, $lines, [Text.Encoding]::ASCII)
+    Send-ProfileEvent 'owned'
+    Write-Output "Owned $OwnedTarget $OwnedIndex change requested."
+} elseif ($DispatchListedReward) {
     $rewardPath = Join-Path $env:LOCALAPPDATA "NMSCourier\diagnostics\native-reward-request-180836-$GameProcessId.txt"
     [IO.File]::WriteAllLines($rewardPath, @($DispatchListedReward), [Text.Encoding]::ASCII)
     Start-Sleep -Milliseconds 2500

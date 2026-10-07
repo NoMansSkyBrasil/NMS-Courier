@@ -63,7 +63,7 @@
 #define STORE_CLASS_OFFSET 0x100u
 #define ITEM_READ_SPAN 0x1070u
 #define CLASS_COUNT 4
-#define EVENT_COUNT (CLASS_COUNT + 7)
+#define EVENT_COUNT (CLASS_COUNT + 8)
 // Largest FreighterLarge bounds in the inventory table: 10 x 12 and 10 x 6.
 #define MAX_MAIN_SLOTS 120u
 #define MAX_TECHNOLOGY_SLOTS 60u
@@ -178,6 +178,25 @@ static const char *const listed_rewards[] = {
     "R_WEAPSLOT_CASH", "R_WEAPSLOT_PROD", "RS_INV_SLOT", "R_INVBOX", "R_ROGUE_INV", "R_FREIGHTSLOT"
 };
 static volatile LONG listed_reward_index = -1;
+// Owned inventory stores sit at fixed offsets inside the game manager object on this build. Observed
+// read-only on 2026-10-07 (scan-owned-inventory-stores.py): ship main and technology stores in two arrays
+// with one 0x248-byte store per ship slot, weapon records 0x320 bytes apart with the store first.
+#define OWNED_SHIP_MAIN_OFFSET 0x12d98u
+#define OWNED_SHIP_TECHNOLOGY_OFFSET 0x16468u
+#define OWNED_STORE_STRIDE 0x248u
+#define OWNED_SHIP_SLOTS 12u
+#define OWNED_WEAPON_OFFSET 0x2b2fe0u
+#define OWNED_WEAPON_STRIDE 0x320u
+#define OWNED_WEAPON_SLOTS 6u
+#define OWNED_GRID_WIDTH 10
+#define OWNED_GRID_HEIGHT 12
+static volatile LONG owned_state;          // 0 idle, 1 requested
+static volatile LONG owned_target;         // 0 ship, 1 weapon
+static volatile LONG owned_index;
+static volatile LONG owned_slots;
+static volatile LONG owned_super;
+static volatile LONG owned_applied;
+static volatile LONG owned_rejected;
 static volatile LONG dispatch_state;      // 0 unused, 1 requested, 2 calling, 3 returned
 static volatile LONG setup_calls;
 static volatile LONG freighter_setups;
@@ -222,7 +241,8 @@ static void write_status(const char *status, MH_STATUS result) {
         "super_added=%ld\nsuper_errors=%ld\ntable_patches=%ld\ntable_rejected=%ld\n"
         "carry_pending=%d\ncarry_applied=%ld\ncarry_candidates=%ld\ncarry_seed_equal=%ld\n"
         "carry_exact_site=%ld\ncarry_callers=%lx,%lx,%lx,%lx,%lx,%lx\n"
-        "model_armed=%ld\nmodel_applied=%ld\nhome_pending=%ld\nhome_applied=%ld\nrequest_errors=%ld\n",
+        "model_armed=%ld\nmodel_applied=%ld\nhome_pending=%ld\nhome_applied=%ld\nrequest_errors=%ld\n"
+        "owned_applied=%ld\nowned_rejected=%ld\n",
         status, (unsigned long)GetCurrentProcessId(), result, event_base,
         READ(requested_class), READ(dispatch_state), READ(setup_calls), READ(freighter_setups), READ(last_kind),
         READ(applied_count), READ(applied_class), READ(rejected_item),
@@ -235,7 +255,8 @@ static void write_status(const char *status, MH_STATUS result) {
         READ(carry_exact_site), (unsigned long)READ(carry_trace[0]), (unsigned long)READ(carry_trace[1]),
         (unsigned long)READ(carry_trace[2]), (unsigned long)READ(carry_trace[3]),
         (unsigned long)READ(carry_trace[4]), (unsigned long)READ(carry_trace[5]),
-        READ(model_armed), READ(model_applied), READ(home_pending), READ(home_applied), READ(request_errors));
+        READ(model_armed), READ(model_applied), READ(home_pending), READ(home_applied), READ(request_errors),
+        READ(owned_applied), READ(owned_rejected));
 #undef READ
     if (size > 0 && size < (int)sizeof(text)) {
         DWORD written;
@@ -358,6 +379,103 @@ static void add_special_slots(uint8_t *store) {
         ++added;
     }
     InterlockedExchange(&super_added, added);
+}
+
+// A store is accepted for an in-place change only when its header is self-consistent: grid inside
+// sixteen by sixteen, rows inside the width, no rows past the height, slot count equal to the set bits.
+__attribute__((unused)) static int consistent_store(const uint8_t *store) {
+    if (!writable_range((uintptr_t)store, OWNED_STORE_STRIDE)) return 0;
+    const uint64_t *rows = (const uint64_t *)store;
+    int16_t width = *(const int16_t *)(store + 0x80), height = *(const int16_t *)(store + 0x82);
+    int16_t count = *(const int16_t *)(store + 0x84);
+    if (width < 1 || width > 16 || height < 1 || height > 16 || *(const uint32_t *)(store + STORE_CLASS_OFFSET) > 3)
+        return 0;
+    int bits = 0;
+    for (int y = 0; y < 16; ++y) {
+        if (y >= height ? rows[y] != 0 : (rows[y] >> width) != 0) return 0;
+        bits += __builtin_popcountll(rows[y]);
+    }
+    return bits == count;
+}
+
+// Make every position of a ten by twelve grid valid. Existing elements keep their positions; this writes
+// the same header fields the native layout step produces for a full grid, without calling it.
+__attribute__((unused)) static void fill_owned_grid(uint8_t *store) {
+    uint64_t *rows = (uint64_t *)store;
+    for (int y = 0; y < 16; ++y) rows[y] = y < OWNED_GRID_HEIGHT ? (1ull << OWNED_GRID_WIDTH) - 1 : 0;
+    *(int16_t *)(store + 0x80) = OWNED_GRID_WIDTH;
+    *(int16_t *)(store + 0x82) = OWNED_GRID_HEIGHT;
+    *(int16_t *)(store + 0x84) = OWNED_GRID_WIDTH * OWNED_GRID_HEIGHT;
+}
+
+static void add_special_slots(uint8_t *store);
+
+// Runs on the game's update thread: one in-place change of an owned ship's or weapon's stores.
+static void apply_owned_request(void) {
+#ifndef COURIER_NATIVE_CALLBACK_FIXTURE
+    uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    uintptr_t manager = *(const uintptr_t *)(base + MANAGER_POINTER_RVA);
+    LONG index = InterlockedCompareExchange(&owned_index, 0, 0);
+    uint8_t *main_store = NULL, *technology = NULL;
+    if (InterlockedCompareExchange(&owned_target, 0, 0) == 0 && index >= 0 && index < (LONG)OWNED_SHIP_SLOTS) {
+        main_store = (uint8_t *)(manager + OWNED_SHIP_MAIN_OFFSET + (uintptr_t)index * OWNED_STORE_STRIDE);
+        technology = (uint8_t *)(manager + OWNED_SHIP_TECHNOLOGY_OFFSET + (uintptr_t)index * OWNED_STORE_STRIDE);
+    } else if (InterlockedCompareExchange(&owned_target, 0, 0) == 1 && index >= 0 && index < (LONG)OWNED_WEAPON_SLOTS) {
+        technology = (uint8_t *)(manager + OWNED_WEAPON_OFFSET + (uintptr_t)index * OWNED_WEAPON_STRIDE);
+    }
+    if (!manager || !technology || !consistent_store(technology) || (main_store && !consistent_store(main_store))) {
+        InterlockedIncrement(&owned_rejected);
+        return;
+    }
+    if (InterlockedCompareExchange(&owned_slots, 0, 0)) {
+        if (main_store) fill_owned_grid(main_store);
+        fill_owned_grid(technology);
+    }
+    if (InterlockedCompareExchange(&owned_super, 0, 0)) add_special_slots(technology);
+    if (main_store) {
+        const int16_t *header = (const int16_t *)(main_store + 0x80);
+        InterlockedExchange(&grid[0], header[0]);
+        InterlockedExchange(&grid[1], header[1]);
+        InterlockedExchange(&grid[2], header[2]);
+    }
+    const int16_t *header = (const int16_t *)(technology + 0x80);
+    InterlockedExchange(&grid[3], header[0]);
+    InterlockedExchange(&grid[4], header[1]);
+    InterlockedExchange(&grid[5], header[2]);
+    InterlockedIncrement(&owned_applied);
+#endif
+}
+
+// Parse the per-process owned request: "target=ship|weapon", "index=N", optional "slots=1", "super=1".
+static int read_owned_request(void) {
+    wchar_t root[MAX_PATH], path[MAX_PATH];
+    DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, MAX_PATH);
+    if (!length || length >= MAX_PATH ||
+        swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-owned-request-180836-%lu.txt",
+                 root, (unsigned long)GetCurrentProcessId()) < 0) return 0;
+    FILE *file = _wfopen(path, L"r");
+    if (!file) return 0;
+    char line[64];
+    LONG target = -1, index = -1, slots = 0, super = 0;
+    int ok = 1;
+    while (ok && fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\r\n")] = 0;
+        if (!line[0]) continue;
+        if (strcmp(line, "target=ship") == 0) target = 0;
+        else if (strcmp(line, "target=weapon") == 0) target = 1;
+        else if (strncmp(line, "index=", 6) == 0 && line[6] >= '0' && line[6] <= '9' && (!line[7] || (line[7] >= '0' && line[7] <= '9' && !line[8])))
+            index = atoi(line + 6);
+        else if (strcmp(line, "slots=1") == 0) slots = 1;
+        else if (strcmp(line, "super=1") == 0) super = 1;
+        else ok = 0;
+    }
+    fclose(file);
+    if (!ok || target < 0 || index < 0 || !(slots || super)) return 0;
+    InterlockedExchange(&owned_target, target);
+    InterlockedExchange(&owned_index, index);
+    InterlockedExchange(&owned_slots, slots);
+    InterlockedExchange(&owned_super, super);
+    return 1;
 }
 
 static void special_detour(void *store, uint32_t inventory_type, void *seed) {
@@ -540,6 +658,7 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
 }
 
 static void WINAPI update_detour(void *application) {
+    if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) {
         char reward_id[16] = {0}, mission_id[16] = {0};
         unsigned char seed[16] = {0};
@@ -680,7 +799,7 @@ static int resolve_targets(void) {
 void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
                                                      L"techrows", L"super", L"model", L"corvette",
-                                                     L"reward"};
+                                                     L"reward", L"owned"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -734,6 +853,10 @@ void courier_probe_after_verified(void) {
         // a call that never returned leaves state 2 and blocks further requests in this process.
         // Events "dispatch" and "corvette" both arrive here and differ only in the reward chosen.
         else if (index == CLASS_COUNT + 6 && !read_reward_request()) InterlockedIncrement(&request_errors);
+        else if (index == CLASS_COUNT + 7) {
+            if (read_owned_request()) InterlockedExchange(&owned_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
         else {
             InterlockedExchange(&dispatch_choice, index == CLASS_COUNT + 6 ? 2 : index == CLASS_COUNT + 5 ? 1 : 0);
             InterlockedExchange(&ship_class_armed, index == CLASS_COUNT + 5 ? 1 : 0);

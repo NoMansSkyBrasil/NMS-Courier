@@ -118,6 +118,63 @@ Not proven: `R_SHIPUPGRADE` on a ship below S and the meaning of its
 `InventoryClass` parameter; the slot rewards; costs (the user noticed none);
 persistence after save and restart.
 
+### Slot reward opens a window (2026-10-07, same process)
+
+`RS_INV_SLOT` dispatched once: the game opened "Atualize o inventário do
+exotraje" with one slot available and waits for the player to pick a
+position. The user wants every slot at once and silently, so the slot
+rewards are not the route for that; they stay useful for single, visible
+upgrades. The class rewards remain the route for class.
+
+### Owned stores located read-only (2026-10-07, same process)
+
+`runtime/research/scan-owned-inventory-stores.py` opens the game process with
+query and read rights only and searches private read-write memory for the
+store layout (rows, grid header, class) with consistency checks. 45
+candidates, 35 inside the game manager object. Offsets from the manager
+(observation of one process on build 180836, to be confirmed in another):
+
+| Offset | Stride | Count seen | Reading |
+| --- | --- | --- | --- |
+| `12d98` | `248` | 5 | Ship main stores by ship slot (37, 21, 21, 37, 37 slots, class S — the user's five ships; the same base and stride appear in the ship setup code) |
+| `16468` | `248` | 5 | Ship technology stores by ship slot (27, 25, 27, 27, 24 slots, four special each) |
+| `2b2fe0` | `320` | 3 | Multitool records by slot, store first (8, 20, 20 slots) |
+| `d248`, `d490` | — | 2 | Freighter main and technology (120 slots each, 120 special on the second) |
+| `c498` | — | 1 | A 10 x 6 store with 10 slots and 3 special — taken to be the exosuit technology store |
+| `ddb0` onward | `248` | 10 | Ten 50-slot stores — the storage containers |
+
+Not found by the scan: the exosuit cargo store and the sixth ship slot (the
+corvette added earlier); the reason was not investigated.
+
+### Silent in-place change (built and installed, **not yet run**)
+
+New profile event `owned`: reads `target=ship|weapon`, `index=N` and
+`slots=1` and/or `super=1` from a per-process request file and, on the game's
+update thread, takes the store addresses from the offsets above, checks each
+store for self-consistency, and then
+
+- with `slots`, makes every position of a 10 x 12 grid valid by writing the
+  row masks, width, height and count (ship: main and technology; weapon: its
+  one store). This is a **direct write of the header fields the native layout
+  step produces**, not a call of that step, because its arguments for an
+  owned store are not known;
+- with `super`, appends a special-slot entry for every valid technology slot
+  through the game's own vector growth helper, as on offers.
+
+It does not touch class or base stats (class goes through the game's own
+rewards). `signal-freighter-class-180836.ps1 -OwnedTarget ship|weapon
+-OwnedIndex N -OwnedSlots -OwnedSupercharge`. DLL SHA-256
+`a380fc1a84e2ca814cd7f5f1548c9f3030dfd59df6fa3da3ad523d735602abfd`,
+installed in place of `b408f090...4c5b`. The fixture passes; the owned branch
+is compiled out of it and untested. Before the run the two newest save files
+were copied unchanged to
+`E:/NMS-Courier-Research/save-backups/20261007-before-owned-upgrade`.
+
+Risks to watch on the first run: the interface with a 12-row grid on a ship
+or multitool whose size type allows fewer rows; whether the game rewrites the
+grid on reload; whether a multitool accepts more special slots than its
+type's limit; anything odd with items already in the store.
+
 ## Proposed order (not started)
 
 1. Read-only: locate the player's ship, multitool and exosuit stores in the
