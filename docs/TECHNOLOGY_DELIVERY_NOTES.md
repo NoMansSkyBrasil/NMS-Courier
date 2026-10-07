@@ -63,6 +63,20 @@ Maintenance entries and procedural templates are not on the owner's list
 because they are not technologies a player learns; they stay blocked for
 that reason.
 
+### Cross-check with the public wiki list (2026-10-07)
+
+The project owner pointed to the community list of damaged components
+(<https://nomanssky.fandom.com/wiki/Damaged_Component>, marked up to date as
+of February 2022). Its 49 component names were matched against the English
+names of the table: every one resolves only to entries already classed
+`blocked_damaged` or `blocked_maintenance` (drop pod, ancient lock, frigate,
+multitool, crashed freighter, sea chest and starship components). The wiki
+confirms that the maintenance entries belong to the defective group; it is
+older than the table, which blocks 62 further entries the page does not list
+(sentinel multitool and ship repairs, later multitool damage, portal glyph
+slots, base machine internals, expedition parts). The classification stays
+derived from the game table, not from the page.
+
 ### Why this holds after a game update
 
 Three layers, each enough to refuse on its own:
