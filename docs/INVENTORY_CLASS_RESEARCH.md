@@ -780,6 +780,26 @@ routine directly and passes class 0, as recorded above.
 
 Not established: the unread call sites and the build 180836 equivalents.
 
+### Combined seed profile tool (2026-10-07, offline)
+
+`runtime/research/evaluate-seed-profile.py` applies the ports in the wrapper's
+order for one entity seed and prints the natural class (or a requested one),
+the installed technologies and the base stats. It decodes the size-type jump
+table of `4d47f0` from the pinned executable and prints it: Sci 3, Fgt 2,
+Shu/Sht 4, Drp 1, Roy 6, Alien 7, Sail 8, Robot 9, Freighter 0, Corvette 10,
+every other size type 12 (multitools, vehicles, chests, suit).
+
+Example outputs (wealth row 2, natural class): fighter main store, seed
+`0xA547AB958C97E439` — class C, `SHIP_DAMAGE` 9.48, `SHIP_AGILE` 10.12; seed
+`0x7` — class B, `SHIP_DAMAGE` 33.95, `SHIP_SHIELD` 9.06, `SHIP_AGILE` 19.97;
+rifle (`WeaponMedium`, weapon class 1, 24 slots), seed `0x178B99DB843CB6E0` —
+class C, technologies `SCAN1`, `SCANBINOC1`, `LASER`, `BOLT`. These are
+outputs of compared ports under stated inputs, not observations of the game.
+
+Inputs the tool cannot derive: the slot count (layout routine `4ce460` is not
+ported), the wealth row of the solar system, the weapon class, progress and
+known technologies. Names come from `emulate-name-generation.py`.
+
 ### Base-stat generation ported (2026-10-06, offline)
 
 `4cea20(store, inventory type, seed, class, ship class, weapon class, ?, minimum flag)`

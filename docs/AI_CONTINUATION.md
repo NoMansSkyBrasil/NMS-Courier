@@ -59,8 +59,8 @@ offline:
     generation wrapper, and the palette's primary paint sample agrees with
     seven public references. Open in "seed profile" terms: a single tool that
     prints class, slots, technologies, base stats and name for one seed
-    (the ports exist separately; the size-type tables `4d47f0` and `4d5690`
-    and the layout routine `4ce460` are not ported), and color placement.
+    (the ports exist separately; now `evaluate-seed-profile.py`; still unported: the layout routine
+    `4ce460` and `4d5690`), and color placement.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
