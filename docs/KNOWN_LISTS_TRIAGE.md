@@ -181,6 +181,9 @@ route unknown.
 
 ## Fish
 
+**Owner decision (2026-10-07): keep fish as its own separate operation, as
+the save editor does; it is not part of "learn everything".**
+
 The file is a fishing record: 220 fish, a catch count for each (1 to 100 in
 the file) and a largest-catch size. It is statistics, not knowledge, and the
 numbers in the file are made up. Writing them would falsify the player's
@@ -335,14 +338,45 @@ event reward is in scope; nothing is left out for being exclusive.** Whether
 the PC build accepts `SW_PREORDER`, `SW_PREORDER2` and `EXPD_ODD_EGG` is
 unknown.
 
+#### Steps 2 and 3 result: build 180836 and a read-only look at the running game
+
+Relocation by masked byte search, one match each: reward handler `f44010`,
+season unlock `60ae70`, specials unlock `60ad70`, save-side step `5ab380`,
+container insert `3df740` (four candidates by bytes; this one is the target
+of the relocated callers). The account object offset (`manager + 0x315748`)
+and the set offsets are unchanged from 180383.
+
+Read-only look at process 24688 (started 2026-10-07 16:50, the owner's test
+save loaded), comparing each set with the settings file the game wrote at
+16:50:42. Each set is a slot array (pointer at `+0x10`, end at `+0x18`,
+16-byte IDs, empty slots zero):
+
+| Set | Offset | Entries in memory | Entries in the file | Same IDs |
+| --- | --- | --- | --- | --- |
+| Seen substances | `+0x80` | 105 | 105 | yes |
+| Seen technologies | `+0xc0` | 318 | 318 | yes |
+| Seen products | `+0x100` | 4,383 | 4,383 | yes |
+| Unlocked titles | `+0x140` | 346 | 346 | yes |
+| Unlocked specials | `+0x180` | 741 | 741 | yes |
+| Unlocked season rewards | `+0x1c0` | 293 | 293 | yes |
+| Unlocked Twitch rewards (expected) | `+0x200` | **0** | 435 | **no** |
+| Unlocked platform rewards | `+0x240` | 1 (`TGA_SHIP1`) | 1 | yes |
+
+Seven of eight agree exactly, which confirms the offsets on this build and
+that `+0x140` is the titles set. **The Twitch list does not: the set at
+`+0x200` is empty while the file the game had just written holds 435 IDs.**
+The two small lists beside the sets (`+0x290`, `+0x2a0`) are empty as well.
+So either the Twitch rewards are held somewhere else, or `+0x200` is not what
+it was taken for. Unresolved; nothing is built on the Twitch reading until it
+is.
+
+Nothing was written to the game in this step.
+
 Plan from here, in order, each step recorded before the next:
 
-1. Done above (set identities), with `+0x140` still to confirm.
-2. Relocate `609ed0`, `5aa550`, `3df6c0` and the set offsets to build 180836
-   by masked byte search and take entry-byte checks, as for technology.
-3. Read-only check in the running game: read the season, Twitch and platform
-   sets from memory and compare their sizes with the settings file (293, 435
-   and 1 today). This confirms the offsets without changing anything.
+1. Done (set identities; `+0x140` confirmed as titles by the live read).
+2. Done (relocation). Entry-byte checks are taken when the request is built.
+3. Done, with the Twitch set unresolved (see above).
 4. Add a reward-unlock request to the research profile in its own domain
    file. First live test: **one** platform reward on a copied save and a
    copied settings file; observe the game's own settings file after it

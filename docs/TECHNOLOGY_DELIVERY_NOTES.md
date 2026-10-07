@@ -347,6 +347,13 @@ technologies" is the 205 deliverable entries. An earlier draft of these notes
 planned a second operation for the modules through the product-recipe route;
 that plan is withdrawn because the game's routine refuses them.
 
+Confirmed later the same day, after the game was closed and started again
+(process 24688): the owner reported the technologies still known and present
+in the install menus, and a read-only look at the new process found the same
+205 IDs in the known list, none blocked. The owner's answer did not say in
+so many words whether a defective entry showed anywhere; the memory read
+shows none known.
+
 Rollback: close the game without saving, or restore the save copy.
 
 ## Original test plan (steps 1 to 3 done above)

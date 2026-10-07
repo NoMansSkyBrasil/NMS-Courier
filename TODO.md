@@ -138,7 +138,8 @@ This file is the operational source of truth for implementation order. Update it
   ([technology delivery notes](docs/TECHNOLOGY_DELIVERY_NOTES.md)).
 - [x] Owner decision (2026-10-07): expedition, Twitch and platform rewards are to be delivered;
   completing an expedition season is a later goal ([known lists triage](docs/KNOWN_LISTS_TRIAGE.md)).
-- [ ] Owner decision still open: whether the fishing record is ever written.
+- [x] Owner decision (2026-10-07): fish is a separate operation, not part of "learn everything".
+- [ ] Find where the game keeps unlocked Twitch rewards (the expected set is empty in memory).
 - [~] Routes for season, Twitch and platform rewards: season has a game routine; Twitch and
   platform have no single-entry routine found, so they need an insert through the game's
   container helper ([known lists triage](docs/KNOWN_LISTS_TRIAGE.md)). Next: relocate to 180836

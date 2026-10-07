@@ -1,5 +1,19 @@
 # Runtime experiment log
 
+## 2026-10-07: account reward sets — relocation and read-only live check
+
+Owner: [known lists triage](KNOWN_LISTS_TRIAGE.md). Build 180836
+`13d5060d...3499`, process 24688, profile DLL `4cea02b7...f6b3` installed but
+not signaled. Reads only; nothing was written to the game.
+
+- Seven account sets read from memory equal the game's own settings file
+  (seen substances, technologies and products; titles; specials; season
+  rewards 293; platform rewards 1).
+- The set expected to hold Twitch rewards is empty while the file has 435.
+  Unresolved.
+- The known technology list after a restart is still the 205 deliverable
+  IDs; the owner confirmed them in the game's menus.
+
 ## 2026-10-07: triage of the other known lists and of the upgrade modules (offline)
 
 Owner: [known lists triage](KNOWN_LISTS_TRIAGE.md) and
