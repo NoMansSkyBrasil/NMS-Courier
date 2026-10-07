@@ -159,6 +159,14 @@ offline:
     name `freighter_class_180836.c` or `FreighterClass180836` describe the
     earlier single file. The status file is `native-profile-180836-<PID>.log`.
 
+22. *Live deliveries to slot 3 and product recipes (2026-10-07).* Recipes
+    (1,684) and the fishing record (220) were delivered live; the fossil
+    account request was withdrawn. Product recipes are classified and built
+    but not installed: read [product delivery notes](PRODUCT_DELIVERY_NOTES.md).
+    Built DLL `a6c01dbc...ecda`; installed DLL is still `2bd83437...ca78`
+    until the game is closed. Next: install, then `signal-product-180836.ps1`
+    with one ID.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

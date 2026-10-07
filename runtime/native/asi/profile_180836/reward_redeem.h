@@ -30,7 +30,7 @@ static volatile LONG reward_season_after = -1;
 // Repeatable purchases must never be marked known or redeemed: the shop stops selling them. The table
 // flag is IsConsumable; until that flag is read from the running game these are refused by ID.
 static int reward_blocked_id(const char *id) {
-    return strncmp(id, "SPEC_FIREWORK", 13) == 0 || strstr(id, "FIREWORK") != NULL ||
+    return strncmp(id, "SPEC_FIREWORK", 13) == 0 || strncmp(id, "EXPD_FIREWORK", 13) == 0 ||
            strcmp(id, "MYSTERY_BEACON") == 0 || strcmp(id, "ODD_EGG") == 0;
 }
 

@@ -23,7 +23,7 @@ nothing that belongs to one of them. Built with
 | `recipe_learn.h` | recipes | Learn refiner and cooking recipes |
 | `reward_redeem.h` | rewards | Redeem season, Twitch and platform rewards in the slot |
 | `fish_record.h` | fish | Fill the slot's fishing record |
-| `fossil_seen.h` | fossils | Mark fossil products as seen (account-level) |
+| `product_learn.h` | products | Learn product recipes in the slot, with the refusal rules |
 
 Rules for this folder:
 

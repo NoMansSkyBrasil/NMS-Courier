@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-07: product recipes — classification and request built; fossil request withdrawn (offline)
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md). The game was
+running (process 24704, slot 3) and was only read.
+
+- Read-only: every catalogue product is already in the account's seen list;
+  the dark catalogue entries the owner showed are craftable products whose
+  recipe slot 3 does not know.
+- Classified 4,446 products: 108 catalogue items, 91 technology, 1,067 build
+  parts, 2,092 not learnable, 1,070 not in the catalogue, 18 repeatable.
+- Built, **not installed** (game running): profile DLL `a6c01dbc...ecda` with
+  a `product` event. Fixtures pass; none covers the product request.
+- The account-level fossil request was removed at the owner's direction; its
+  one run had added nothing.
+- Not proven: everything live for products.
+
 ## 2026-10-07: fishing record and fossil seen list (live, slot 3)
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md). Build 180836

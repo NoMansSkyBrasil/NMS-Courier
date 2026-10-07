@@ -68,13 +68,19 @@ optional `-Expedition N`. It only sends IDs listed as deliverable in
 [reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). Not yet used
 for a live request.
 
-## Fish and fossils
+## Fish
 
 `signal-fish-180836.ps1 -All` fills the loaded slot's fishing record with one catch per
-fish. `signal-fossil-180836.ps1` marks fossil products as seen (`-Id`, or `-All` with an
-optional `-BonesOnly`); that list belongs to the account, not the slot. Status and side
-effects: [reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). Not
-yet used for a live request.
+fish. Status and side effects:
+[reward redemption notes](../../../../docs/REWARD_REDEMPTION_NOTES.md). First used live
+on 2026-10-07.
+
+## Products
+
+`signal-product-180836.ps1` teaches product recipes to the loaded slot: `-Id A[,B...]`, or
+`-AllOfClass catalogue_item|catalogue_technology|catalogue_construction`. Rules and
+status: [product delivery notes](../../../../docs/PRODUCT_DELIVERY_NOTES.md). Not yet
+used for a live request.
 
 ## Rule
 

@@ -158,6 +158,26 @@ Not proven: what the fishing catalogue shows; the statistics and milestones
 the catch routine touched; the fishing record written to the save and read
 back after a restart; the fossil routine on an account that lacks the IDs.
 
+### Fossil request withdrawn (2026-10-07)
+
+After the run above the owner made clear that fossils were wanted **in the
+save, not in the account**; the earlier "yes" to the account-level question
+was not meant that way. The account-level fossil request was therefore
+removed from the profile the same day (`fossil_seen.h` and
+`signal-fossil-180836.ps1` deleted, replaced in the event table by the
+product request).
+
+What the single run did: nothing. All 165 IDs were already in the account's
+seen list, written by a save editor before, and the routine returned without
+adding. If the owner wants them out of the account, that is a change to the
+account files with whatever tool wrote them; the profile has no routine that
+removes a seen entry.
+
+What a slot can hold for fossils: the 22 fossil display pieces as known
+products (through the product request, class `catalogue_construction`, see
+[product delivery notes](PRODUCT_DELIVERY_NOTES.md)) and six statistics. The
+individual bones have no per-slot list in the game; that finding stands.
+
 ## Why the account data is left alone
 
 Besides the owner's direction: the executable contains requests named

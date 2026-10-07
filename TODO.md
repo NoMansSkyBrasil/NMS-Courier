@@ -149,7 +149,10 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Fossil catalogue and known substances: find where the game records them; never mark the 35
   pseudo-substances.
 - [ ] Never mark a consumable special as known (14 entries today, by the table's own flag).
-- [ ] Product recipes as the next domain: the learn-product routine is identified; classify the
+- [~] Product recipes: classified and built on 2026-10-07 ([product delivery notes](docs/PRODUCT_DELIVERY_NOTES.md));
+  install and first live test pending. Review the 1,067 build parts before "all build parts".
+- [x] Withdraw the account-level fossil request (owner direction: the save, not the account).
+- [ ] (superseded) Product recipes as the next domain: the learn-product routine is identified; classify the
   product table and block defective entries before any "all products" option.
 - [ ] Portal glyph delivery as its own operation (the game's discover-rune reward and the known
   runes field), separate from technology. Only identified, not investigated.
