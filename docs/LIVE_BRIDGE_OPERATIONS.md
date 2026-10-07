@@ -93,8 +93,33 @@ loaded. Until it does, the slot is taken from the owner's statement and from
 which pair of files the game writes, and is recorded as such. Finding the
 loaded slot in the running game is required before any product use.
 
-What `accountdata.hg` holds has not been examined; it is a candidate for the
-Twitch rewards that were not found in memory where expected.
+State of the test slot (owner, 2026-10-07): slot 3 has learned only the
+technologies delivered that day. Known products, specials, words, glyphs,
+fish and recipes are still as the slot was.
+
+Read-only count of distinct IDs per file on 2026-10-07, which shows the scope
+of each list:
+
+| File | Fossil | Fish | Twitch | Recipe | Season reward (`EXPD_`) |
+| --- | --- | --- | --- | --- | --- |
+| Slot 1 (`save.hg`) | 4 | 210 | 435 | 1,684 | 197 |
+| Slot 2 (`save4.hg`) | 0 | 0 | 149 | 0 | 94 |
+| Slot 3 (`save5.hg`, `save6.hg`) | 1 | 0 | 0 | 7 | 9 |
+| Slot 9 (`save18.hg`) | 1 | 0 | 61 | 2 | 135 |
+| `accountdata.hg` | 146 | 210 | 435 | 0 | 197 |
+| User settings file | 146 | 210 | 435 | 0 | 197 |
+
+- `accountdata.hg` and the user settings file carry the same account lists
+  (identical counts for every marker); which one the game treats as the
+  source was not determined.
+- The fossil IDs are in the account-wide seen-products list, not in slot 3
+  (its single match is a statistic name). That is why a save editor's fossil
+  page looks complete while slot 3 has found no fossil: the page reads
+  account data shared by all slots. The owner will test this separately.
+- Slot 1 holds complete fish, recipe and Twitch lists, consistent with an
+  editor's "add all" on that slot.
+- Twitch IDs are in both account files, so they are loaded from one of them;
+  where they sit in memory is still not found.
 
 ## What protects against mistakes
 
