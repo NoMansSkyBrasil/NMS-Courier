@@ -276,6 +276,40 @@ the per-request version would set the same in-memory flag for one build
 only; if it does not, the alternatives are locating the validation routine
 or refusing exports the game itself would reject.
 
+### Sixth live result: validation switch honoured (2026-10-07, one run)
+
+New process with the research mod carrying both the 976-object layout and the
+debug options with `DisableCorvetteValidation = true` (`817e5a65...9e4a`);
+DLL `9baba721...5c7e`; class S armed, one `corvette` event
+(`applied_class=3`, `class_after=3,3,3`).
+
+- Observed (user report): the missing-landing-gear message is still shown,
+  but finalizing now proceeds to the ship offer. The user declined the offer.
+- So the release build honours this debug option: the warning remains as
+  text and no longer blocks.
+- Not proven: the third export (no landing gear and no habitation module);
+  an accepted corvette without those parts in flight, landing and after a
+  restart; the per-request form (setting the flag in memory instead of a mod).
+
+Note on the status file: it is rewritten when an event is handled, so a read
+within a few seconds of the signal can predate the setup call; read it again
+before concluding.
+
+### Slots and special slots on the corvette build (built and installed, **not yet run**)
+
+User default requested: 120 cargo and 120 technology slots, every technology
+slot special, as for freighters. The corvette size type has the same large
+bounds as the freighter entry (main 10 x 12, technology 10 x 6), so the
+profile's existing slot scope, technology-row table patch and special-slot
+marking now also apply to the corvette ship setup when the `slots`,
+`techrows` and `super` events are armed together with `corvette`. DLL SHA-256
+`5887b8ea119deb71f09af2bb588f9ad93547096b593c5b156cbf011235665b0d`
+(installed, replacing `9baba721...5c7e`). Unknown until run: whether the ship
+setup goes through the hooked layout routine at all (`layout_overrides` in
+the log will tell), and whether grids and special slots survive finalize and
+acceptance, since ship acceptance copies stores by a different path than the
+freighter reward.
+
 ## What this suggests, unverified
 
 - The reference service's precondition (own a minimal corvette first) is

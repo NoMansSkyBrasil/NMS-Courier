@@ -452,7 +452,11 @@ static void record_grid(uintptr_t item) {
 static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5,
                               uintptr_t a6, uintptr_t kind, uintptr_t a8, uintptr_t a9, uintptr_t a10,
                               uintptr_t a11) {
-    int scoped = (uint32_t)kind == FREIGHTER_ITEM_KIND && item &&
+    // A corvette build start is the ship setup that follows the corvette event. Its size type has the same
+    // large bounds as the freighter entry (10 x 12 main, 10 x 6 technology), so the slot scope is shared.
+    int corvette = (uint32_t)kind == SHIP_ITEM_KIND && item &&
+                   InterlockedCompareExchange(&ship_class_armed, 0, 0) == 1;
+    int scoped = ((uint32_t)kind == FREIGHTER_ITEM_KIND || corvette) && item &&
                  InterlockedCompareExchange(&slots_armed, 0, 1) == 1;
     if ((uint32_t)kind == FREIGHTER_ITEM_KIND) {
         carry_item = 0;   // a new offer supersedes any pending carry
@@ -485,6 +489,9 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
         if (ship_class >= 0 && ship_class < CLASS_COUNT &&
             InterlockedCompareExchange(&requested_class, -1, ship_class) == ship_class)
             apply_ship_class(item, (int32_t)ship_class);
+        int ship_marked = InterlockedCompareExchange(&super_armed, 0, 1) == 1 && writable_range(item, ITEM_READ_SPAN);
+        if (ship_marked) add_special_slots((uint8_t *)item + TECHNOLOGY_STORE_OFFSET);
+        if ((scoped || ship_marked) && writable_range(item, ITEM_READ_SPAN)) record_grid(item);
     }
     if ((uint32_t)kind != FREIGHTER_ITEM_KIND) return result;
     InterlockedIncrement(&freighter_setups);
