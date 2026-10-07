@@ -42,6 +42,15 @@ Differences in behaviour:
 - The rewards that span domains (`R_ROGUE_CLASS`, `R_INVBOX`, `R_ROGUE_INV`)
   are not exposed; they remain in the profile's compiled-in list.
 
+## Technology
+
+`signal-technology-180836.ps1` teaches known technologies: `-Id A[,B...]` for one or
+several, `-All` for every entry classed `deliverable`, `-ShowAlert` for the game's own
+alert. It refuses blocked and unknown IDs before sending and prints the profile's
+per-ID result. Rules and status:
+[technology delivery notes](../../../../docs/TECHNOLOGY_DELIVERY_NOTES.md). Not yet
+used for a live request.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

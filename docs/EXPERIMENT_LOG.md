@@ -1,5 +1,32 @@
 # Runtime experiment log
 
+## 2026-10-07: technology delivery — refusal rules, native learn routine and profile request (offline)
+
+Owner: [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). No game
+process was involved; nothing was taught.
+
+- Source: converted technology table of the corpus (`NMSARC.Precache.pak`,
+  converted table SHA-256 `29b1f803...5d65`), compiled table bytes of the same
+  corpus, reward table, executables 180383 `671de226...97a4` and 180836
+  `13d5060d...3499`.
+- Observed: 393 entries; 36 damaged-slot, 91 maintenance, 59 template, 11
+  hidden and 1 unnamed entry are classed as never delivered, 195 as
+  deliverable. The reward handler for `GcRewardSpecificTech` calls a
+  definition lookup and a learn routine; both and the handler relocate to
+  180836 with one masked-byte match each (`f394a0`, `ec8dc0`, `5a95a0`). The
+  learn routine itself refuses only `OBSOLETE`, procedural, repair and
+  already known entries.
+- Built: profile DLL `53b01c14...542d` with a `technology` event; installed
+  with the game closed in place of `37eecaaf...f1fa` (backup kept outside the
+  repository). Technology guard fixture and freighter class fixture pass.
+- Rejected: dispatching shipped rewards per technology — only 54 entries have
+  a reward that teaches exactly one technology.
+- Not proven: everything live — startup verification of the new DLL, the
+  call from the update hook, the result in the game catalogue, save and
+  reload, and the in-memory offsets of the fields the game's routine does not
+  read itself.
+- Rollback: restore the backed-up DLL with the game closed.
+
 ## 2026-10-07: in-place upgrades of owned items — class rewards, silent grids and special slots (live)
 
 Owner: [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md);

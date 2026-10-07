@@ -110,6 +110,14 @@ offline:
     (not yet used live; the combined script was removed). Pending: split the
     profile DLL source per domain, translate eleven languages (`TODO.md`).
 
+16. *Technology delivery (2026-10-07).* Three modes (one, several, all) and a
+    permanent never-deliver list for defective and internal entries. Read
+    [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). Offline work is
+    complete; installed DLL is now `53b01c14...542d`. Next bounded step: with
+    the game open on a copied save, run
+    `runtime/native/asi/signal/signal-technology-180836.ps1 -PreflightOnly`,
+    then one ID with `-ShowAlert`. Nothing has been taught live yet.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

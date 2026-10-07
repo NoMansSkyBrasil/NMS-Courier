@@ -121,6 +121,19 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Move interface copy out of `locale-provider.tsx`, `appearance-copy.ts` and `preview-copy.ts`
   into one resource per language, and add a test that fails when a locale lacks a key.
 
+## Technology delivery requested by the user (2026-10-07)
+
+- [x] Identify defective and internal technology entries and block them permanently, by structure
+  and by ID ([technology delivery notes](docs/TECHNOLOGY_DELIVERY_NOTES.md)).
+- [x] Find the game's own learn routine and add a research profile request for one, several or all
+  technologies. Built and installed; fixtures pass.
+- [ ] First live test on a copied save: preflight, one technology, several, all; then save and reload.
+- [ ] Interface for the three modes (one, several, all) with the technology list in the 14
+  languages, using `selectTechnologiesForDelivery`. Needs the local catalogue (M3).
+- [ ] Decide with the project owner whether any `blocked_hidden` entry should ever be offered.
+- [ ] Other delivery domains after technology (products, recipes, parts), each with its own
+  classification and permanent block list first.
+
 ## Current next action
 
 As of 2026-10-02, delivery migration targets build 180383. The installed bridge is

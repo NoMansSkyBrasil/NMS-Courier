@@ -1,0 +1,115 @@
+"""Classify every entry of the game's technology table for delivery.
+
+Reads the converted technology table of the existing corpus, read-only, and
+applies the permanent refusal rules of the technology domain (the same rules
+the research profile enforces on the running game's own definitions, see
+runtime/native/asi/technology_learn_180836.h). Writes one Markdown data table
+with the class of each entry; `deliverable` rows are what "deliver all" sends.
+
+The rules are structural first, so an entry added by a later game version is
+refused by what it is; the ID rules then pin the families and names reviewed
+on 2026-10-07 whatever a later table says about them.
+"""
+import argparse
+import hashlib
+from pathlib import Path
+import sqlite3
+import sys
+import xml.etree.ElementTree as ElementTree
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import markdown_data  # noqa: E402
+
+TABLE = 'metadata/reality/tables/nms_reality_gctechnologytable.mbin'
+FLAGS = ('BrokenSlotTech', 'IsTemplate', 'Procedural', 'RepairTech', 'Teach', 'WikiEnabled')
+BLOCKED_PREFIXES = ('MAINT_', 'EXOPOD_TECH', 'SHIPSLOT_DMG', 'SHIPEASY_DMG', 'WEAPSLOT_DMG', 'WEAPSENT_DMG',
+                    'WEAPEASY_DMG')
+BLOCKED_FRAGMENTS = ('_DMG', 'DAMAGE', 'BROKEN', 'OBSOLETE', 'DUMMY')
+BLOCKED_EXACT = ('SPIDERBRAIN', 'PHOTONIX_CORE', 'F_LIFESUPP', 'LAUNCHER_SPEC', 'SHIPJUMP_SPEC',
+                 'HYPERDRIVE_SPEC', 'SHIP_LIFESUP', 'BOLT_SM', 'LASER_XO', 'FLAME')
+CLASSES = {
+    'deliverable': 'May be taught.',
+    'blocked_damaged': 'Defective: a damaged-slot entry (BrokenSlotTech).',
+    'blocked_maintenance': 'Defective for a player: internal part of a machine, container or repair task.',
+    'blocked_template': 'Not a technology to learn: upgrade-module template (IsTemplate or Procedural).',
+    'blocked_repair': 'Repair entry (RepairTech).',
+    'blocked_hidden': 'Taught by flag but absent from the game catalogue: starter, cut or placeholder entry.',
+    'blocked_id': 'Refused by the permanent ID rules only.',
+    'blocked_layout': 'A field is missing or not a boolean; refused until reviewed.',
+}
+
+
+def field(entry, name):
+    for child in entry:
+        if child.get('name') == name:
+            nested = list(child)
+            if nested and (child.get('value') or '').startswith('Gc'):
+                return nested[0].get('value')
+            return child.get('value')
+    return None
+
+
+def blocked_id(identifier):
+    return (identifier.startswith(BLOCKED_PREFIXES) or any(part in identifier for part in BLOCKED_FRAGMENTS)
+            or identifier in BLOCKED_EXACT)
+
+
+def classify(identifier, category, flags):
+    """Class of one entry; the structural reason wins over the ID rule so the table explains itself."""
+    if not identifier or category is None or any(flags.get(name) not in ('true', 'false') for name in FLAGS):
+        return 'blocked_layout'
+    on = {name for name in FLAGS if flags[name] == 'true'}
+    if 'BrokenSlotTech' in on:
+        return 'blocked_damaged'
+    if category == 'Maintenance':
+        return 'blocked_maintenance'
+    if on & {'IsTemplate', 'Procedural'}:
+        return 'blocked_template'
+    if 'RepairTech' in on:
+        return 'blocked_repair'
+    if 'Teach' in on and 'WikiEnabled' not in on:
+        return 'blocked_hidden'
+    if blocked_id(identifier):
+        return 'blocked_id'
+    return 'deliverable'
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--corpus', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True, help='Markdown data table to write')
+    args = parser.parse_args()
+    index = sqlite3.connect((args.corpus / 'index.sqlite').resolve().as_uri() + '?mode=ro', uri=True)
+    rows = index.execute('SELECT archive, xml_path FROM files WHERE path = ?', (TABLE,)).fetchall()
+    if len(rows) != 1:
+        parser.error('Expected exactly one technology table source')
+    archive, xml_path = rows[0]
+    data = Path(xml_path).read_bytes()
+    if len(data) > 32 * 1024**2:
+        parser.error('Technology table byte budget exceeded')
+    table = next(node for node in ElementTree.fromstring(data).iter('Property') if node.get('name') == 'Table')
+    out, counts = [], {}
+    for entry in table:
+        identifier, category = field(entry, 'ID'), field(entry, 'Category')
+        flags = {name: field(entry, name) for name in FLAGS}
+        result = classify(identifier, category, flags)
+        # Every structurally refused family must also be caught by an ID rule or a structural flag
+        # that the running game exposes; a hidden entry without an ID rule would be a gap.
+        if result == 'blocked_hidden' and not blocked_id(identifier):
+            parser.error('Hidden entry without a permanent ID rule: ' + identifier)
+        counts[result] = counts.get(result, 0) + 1
+        out.append([identifier or '', category or '', result] +
+                   ['yes' if flags[name] == 'true' else 'no' if flags[name] == 'false' else '?' for name in FLAGS])
+    description = (
+        'Class of every entry of the technology table for delivery. Source: `%s` in `%s`, converted table '
+        'SHA-256 `%s`. Generated by `classify-technology-delivery.py`; do not edit by hand. Counts: %s. '
+        'Meaning of the classes and the rules: [technology delivery notes](../../docs/TECHNOLOGY_DELIVERY_NOTES.md).'
+        % (TABLE, archive, hashlib.sha256(data).hexdigest(),
+           ', '.join('%s %d' % item for item in sorted(counts.items()))))
+    markdown_data.write_table(args.output, 'Technology delivery classification', description,
+                              ['ID', 'Category', 'Class'] + list(FLAGS), out)
+    print(counts)
+
+
+if __name__ == '__main__':
+    main()

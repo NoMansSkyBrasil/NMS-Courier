@@ -136,3 +136,5 @@ export function validateCatalogGeneration(generation: CatalogGeneration): readon
 
   return issues
 }
+
+export * from './technology-delivery-policy.js'
