@@ -1,5 +1,31 @@
 # Runtime experiment log
 
+## 2026-10-07: in-place upgrades of owned items — class rewards, silent grids and special slots (live)
+
+Owner: [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md);
+mechanism: [live bridge operations](LIVE_BRIDGE_OPERATIONS.md). Build 180836
+`13d5060d...3499`. Saves copied unchanged beforehand to
+`E:/NMS-Courier-Research/save-backups/20261007-before-owned-upgrade`.
+
+- DLL `b408f090...4c5b`: `R_WEAP_UPGRADE` raised the equipped multitool one
+  class per dispatch with the game's message (A to S; another from C to B);
+  `R_SHIPUPGRADE` did nothing on an S ship; `RS_INV_SLOT` opened the game's
+  slot window for one slot.
+- DLL `a380fc1a...abfd`: `owned` event on ship slots 4 and 1 — 10 x 12 grids
+  and 120 special technology slots, seen by the user on the current ship and
+  present in the save the game wrote; on weapon record 0 the write was undone
+  by the game.
+- DLL `37eecaaf...f1fa`: equipped multitool through its active store and the
+  exosuit through its two stores — both read back as 10 x 12 / 120 with 120
+  special technology slots and confirmed on screen by the user.
+- Read-only tools: `scan-owned-inventory-stores.py` (one full scan; a second
+  attempt ran out of memory on a large region and a small fixed-offset reader
+  was used instead).
+- Not proven: restart persistence of multitool and exosuit; the game's own
+  slot purchase afterwards; multiplayer.
+- Rollback: restore the copied saves; reinstall an earlier DLL from the
+  native-builds folder.
+
 ## 2026-10-07: owned S corvette from an export, 120 + 120 slots, validation bypassed (live)
 
 Owner: [corvette delivery notes](CORVETTE_DELIVERY_NOTES.md#seventh-live-result-owned-s-corvette-120--120-slots-all-technology-slots-special-2026-10-07-one-run).

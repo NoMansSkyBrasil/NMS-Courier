@@ -30,6 +30,20 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Communicate with the user in their preferred conversational language unless they request otherwise.
 - Preserve third-party license notices verbatim; do not rewrite legal notices to enforce language style.
 
+## Document everything, always
+
+- Record **every** experiment, live request, build, installation, finding, failure and decision in
+  the repository's Markdown documentation during the same working session, before stopping or
+  handing off. This is a standing rule from the project owner and applies to every model.
+- For each live action write down: date, game build and executable hash, DLL and mod hashes, the
+  exact request, what the tools reported, what the user saw, what is still unproven, and how to
+  undo it. Update the owning note first, then `docs/EXPERIMENT_LOG.md` and
+  `docs/AI_CONTINUATION.md`.
+- Keep [live bridge operations](docs/LIVE_BRIDGE_OPERATIONS.md) current whenever the way requests
+  reach the game changes, and state plainly which changes are native calls and which are direct
+  writes.
+- Commit and push documentation together with the change it describes.
+
 ## Documentation format
 
 - Write all documentation in Markdown (`.md`). Do not add documentation, notes, findings, tables or

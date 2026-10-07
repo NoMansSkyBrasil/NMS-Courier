@@ -219,6 +219,32 @@ equipped multitool and exosuit through their active stores; the meaning of
 the exosuit cargo count field; whether the active ship also has an active
 copy that matters in other situations.
 
+### Third round: equipped multitool, exosuit and persistence of the ships (2026-10-07)
+
+Build 180836, DLL `37eecaaf...f1fa` (installed with the game closed).
+
+- **Ships persisted.** Before this process started, the save the game wrote
+  at 11:26 was read (not modified): ship slot 1 has 120 valid main slots in a
+  10 x 12 grid with its 21 items and 120 technology slots; ship slot 4 has
+  120 + 120 with 120 special entries. The user had seen slot 1 correct in the
+  inventory screen in the previous process.
+- **Equipped multitool** (`-OwnedTarget equipped-weapon`): active store
+  `+c928` went from 7 x 3 / 8 slots / 4 special to 10 x 12 / 120 / 120 with
+  its 7 elements; `owned_applied=1`, no errors. The user confirmed 120
+  special slots in the multitool screen.
+- **Exosuit** (`-OwnedTarget suit`): cargo `+c250` now reads 10 x 12 / 120
+  with its 28 elements and a count field of 120; technology `+c498` went
+  from 10 x 6 / 10 / 3 special to 10 x 12 / 120 / 120 with its 4 elements;
+  `super_added=117`, no errors. The user reported that it looks right.
+- Not proven: multitool and exosuit after save and restart; behaviour of the
+  game's own slot purchase on a store changed this way; the weapon array
+  record of the equipped multitool (still 7 x 3 / 8 right after the change —
+  the game is expected to copy the active store over it); non-equipped
+  multitools; the corvette slot; freighter and vehicles.
+
+How these requests reach the game is explained in
+[live bridge operations](LIVE_BRIDGE_OPERATIONS.md).
+
 ## Proposed order (not started)
 
 1. Read-only: locate the player's ship, multitool and exosuit stores in the

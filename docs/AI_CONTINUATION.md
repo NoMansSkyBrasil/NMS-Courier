@@ -93,6 +93,16 @@ offline:
     from plain exports. See
     [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md).
 
+14. *In-place upgrades work live (2026-10-07).* Class by the game's own
+    rewards; full 10 x 12 grids and all-special technology slots written to
+    the current ship, the equipped multitool and the exosuit. Read
+    [live bridge operations](LIVE_BRIDGE_OPERATIONS.md) first (how requests
+    are sent and what is a native call versus a direct write), then
+    [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md).
+    Installed DLL: `37eecaaf...f1fa`. Open: restart persistence of multitool
+    and exosuit, per-request corvette layout without the mod, ordinary ship
+    delivery.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.
