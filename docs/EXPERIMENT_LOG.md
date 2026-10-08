@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: pre-order, platform and entitlement rewards mapped (offline)
+
+Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md#pre-order-platform-and-entitlement-rewards-what-they-are-offline-2026-10-08).
+Tables of build 180836 only. Three platform rewards map to products (one
+names the shipped reward `R_TGA_SHIP01`); twelve entitlement entries carry
+inline rewards (two pre-order ships, two technologies already taught,
+products, money, weapons, a special). No request sent; nothing installed can
+deliver them. Open: how a ship reward treats owned ships, whether the
+dispatch reaches `ENT_*` entries, the Switch products' route.
+
 ## 2026-10-08: titles, specials and season rewards unlocked on the account through the game's routines
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#first-live-requests-2026-10-08-account-slot-3-loaded).

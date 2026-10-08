@@ -251,6 +251,40 @@ Consequences:
   the running game is a direct insert with the game's container routine,
   which is a direct write and has to be labelled so.
 
+### Pre-order, platform and entitlement rewards: what they are (offline, 2026-10-08)
+
+The owner asked whether the pre-order items can be unlocked. Read from the
+build 180836 tables only; nothing was sent.
+
+Two different mechanisms carry them:
+
+| Group | Where it is defined | Entries | What the entry gives |
+| --- | --- | --- | --- |
+| Platform rewards | `unlockableplatformrewards` (reward ID to product) | `TGA_SHIP1` -> `TGA_SHIP01`, `SW_PREORDER` -> `SWITCH_SHIP01`, `SW_PREORDER2` -> `SWITCH_GUN01` | A product; for `TGA_SHIP01` the product's `GiveRewardOnSpecialPurchase` names the shipped reward `R_TGA_SHIP01` (a `GcRewardSpecificShip`). The two Switch products have no reward named in the reward table |
+| Entitlements | `EntitlementTable` at the end of `rewardtable` (reward ID, entitlement ID, inline reward) | `ENT_SHIP` / `ALPHAVSHIP` (ship), `ENT_SHIP_PC` / `HORIZOSHIP` (ship), `ENT_BOLTCASTER`, `ENT_PHOCORE` (technologies), `ENT_CHARISMA` (products), `ENT_UNITS` (money), `ENT_REZOSUZ` (weapon), and five `ENT_XO_*` entries without an entitlement ID (a special, two weapons, two money rewards) | The reward is written inside the entry, not as a named reward-table entry |
+
+State and routes:
+
+- The two technologies (`BOLT_SM`, `PHOTONIX_CORE`) were taught with the
+  technology delivery of 2026-10-07.
+- Account list of platform rewards: no single-entry routine is known; the
+  account request does not cover it. The owner's account holds `TGA_SHIP1`.
+- Receiving a ship or a weapon is not an unlock: the game hands the item over
+  through a reward. `R_TGA_SHIP01` is a named reward and could be sent
+  through the profile's shipped-reward dispatch, which only accepts reward
+  IDs compiled into the DLL, so it needs a build. What a ship reward does to
+  the ships the player owns (adds one, or replaces the active one, as the
+  reference service warns for its own ship delivery) has not been observed.
+- The entitlement rewards are inline; whether the dispatch routine can reach
+  an entitlement entry by its `ENT_*` ID is not known. The routine that
+  grants entitlements when the platform reports ownership has not been
+  located.
+- The Switch products: no reward found; route unknown.
+
+So nothing here can be sent with what is installed today. These belong to
+ship and multitool delivery, with the entitlement lookup as the first thing
+to read in the executable.
+
 ## How the game redeems a reward in a slot (offline, build 180836)
 
 The shipped reward `GcRewardUnlockSeasonReward` (306 uses; fields `ProductID`,
