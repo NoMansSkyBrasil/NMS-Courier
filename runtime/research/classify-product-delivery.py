@@ -14,7 +14,9 @@ Classes:
                           construction (build parts)
   not_learnable           the game's own routine refuses it (not craftable and
                           not a customisation part)
-  not_in_catalogue        learnable, but the game's catalogue does not list it
+  research_tree           learnable, hidden from the catalogue, but offered by one of
+                          the game's own research trees (unlockable item trees)
+  not_in_catalogue        learnable, in neither the catalogue nor a research tree
   blocked_repeatable      a repeatable purchase that must never become known
 """
 import argparse
@@ -27,16 +29,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import markdown_data  # noqa: E402
 
 SPECIALS = 'metadata/reality/tables/purchaseablespecials.mbin'
+TREES = 'metadata/reality/tables/unlockableitemtrees.mbin'
 ITEM_CATEGORIES = ('Crafting', 'Trade', 'Curio', 'Cooking')
 
 
-def classify(identifier, product_type, craftable, wiki, repeatable):
+def classify(identifier, product_type, craftable, wiki, repeatable, in_tree):
     if identifier in repeatable or identifier.startswith(('SPEC_FIREWORK', 'EXPD_FIREWORK')):
         return 'blocked_repeatable'
     if not craftable and product_type != 'CustomisationPart':
         return 'not_learnable'
     if wiki == 'NotEnabled':
-        return 'not_in_catalogue'
+        return 'research_tree' if identifier in in_tree else 'not_in_catalogue'
     if wiki in ITEM_CATEGORIES:
         return 'catalogue_item'
     if wiki == 'Tech':
@@ -67,6 +70,11 @@ def main():
         fields = {child.get('name'): child.get('value') for child in entry}
         if fields.get('IsConsumable') == 'true':
             repeatable.add(fields['ID'])
+    rows = index.execute('SELECT xml_path FROM files WHERE path = ?', (TREES,)).fetchall()
+    if len(rows) != 1:
+        parser.error('Expected exactly one unlockable item trees source')
+    in_tree = {node.get('value') for node in ElementTree.fromstring(Path(rows[0][0]).read_bytes()).iter('Property')
+               if node.get('name') == 'Unlockable' and node.get('value')}
     out, counts, seen, sources = [], {}, set(), []
     for path, xml_path in index.execute(
             "SELECT path, xml_path FROM files WHERE path LIKE 'metadata/reality/tables/%' AND xml_path IS NOT NULL "
@@ -85,7 +93,7 @@ def main():
             craftable = fields['IsCraftable'].get('value') == 'true'
             nested = list(fields['WikiCategory'])
             wiki = nested[0].get('value') if nested else fields['WikiCategory'].get('value')
-            result = classify(identifier, product_type, craftable, wiki, repeatable)
+            result = classify(identifier, product_type, craftable, wiki, repeatable, in_tree)
             counts[result] = counts.get(result, 0) + 1
             out.append([identifier, result, product_type, 'yes' if craftable else 'no', wiki,
                         str(len(list(fields['Requirements'])))])

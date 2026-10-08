@@ -43,15 +43,21 @@ All three product tables, 4,446 entries:
 | `catalogue_technology` | 91 | Craftable, listed under technology | yes, on request |
 | `catalogue_construction` | 1,067 | Craftable or a customisation part, listed under construction (build parts) | yes, on request; reviewed structurally on 2026-10-07 |
 | `not_learnable` | 2,092 | Not craftable and not a customisation part: the game's own routine refuses it | no |
-| `not_in_catalogue` | 1,070 | Learnable, but the catalogue does not list it (`WikiCategory` NotEnabled) | no |
+| `research_tree` | 106 | Learnable, hidden from the catalogue, but offered by one of the game's research trees (`unlockableitemtrees`): 84 station decorations `STA_*`, `CONTAINER1` to `CONTAINER9`, 11 freighter paints `FREIGHT_*`, `BUILDTABLE3`, `FRIGATE_FUEL_1` | yes, on request (added 2026-10-07) |
+| `not_in_catalogue` | 964 | Learnable, in neither the catalogue nor a research tree | no |
 | `blocked_repeatable` | 18 | A repeatable purchase: the 14 consumable specials, the other `SPEC_FIREWORK` and `EXPD_FIREWORK` items | never |
 
-The catalogue rule is structural: a product the game hides from its own
-catalogue is internal, cut or reward-only, and is refused whatever a later
-table adds. This is the opposite of the technology decision of the same day,
-where the owner ruled hidden technologies valid; for products nobody has
-reviewed the 1,070 hidden learnable entries, so they stay out until someone
-does. Upgrade modules (`U_*`) are `not_learnable`, as found earlier.
+Hidden products, as first built: every product the catalogue hides was
+refused, in the classification and in the profile. That was too strict, see
+"What stayed locked" below. Since the second build of 2026-10-07 the
+classification decides: hidden products a research tree offers are
+`research_tree` and delivered; the other 964 hidden learnable entries have
+not been reviewed and stay out of every "all" request. **The profile no
+longer refuses a hidden product by itself**; it keeps the game's own
+refusal, the layout checks and the repeatable-purchase ID rule. This follows
+the owner's request to release everything the research terminals show and
+matches the technology ruling of the same day (hidden is not a reason to
+block). Upgrade modules (`U_*`) are `not_learnable`, as found earlier.
 
 The 1,067 build parts include expedition and event decorations, which the
 owner wants, and have not been checked for defective or internal entries.
@@ -91,12 +97,11 @@ changes there.
   per line, at most 2,048.
 - On the game's update thread, for each ID: permanent ID rule (repeatable
   purchases), lookup, structural rules on the returned definition (learnable,
-  listed by the catalogue, plausible layout), then the game's learn routine
-  with the silent flag set.
+  plausible layout), then the game's learn routine with the silent flag set.
 - Result file `native-product-result-180836-<PID>.txt`: known count before
   and after and one line per ID.
 - Script `runtime/native/asi/signal/signal-product-180836.ps1` with
-  `-Id A[,B...]` or `-AllOfClass catalogue_item|catalogue_technology|catalogue_construction`.
+  `-Id A[,B...]` or `-AllOfClass catalogue_item|catalogue_technology|catalogue_construction|research_tree`.
 
 ## Build (2026-10-07)
 
@@ -176,17 +181,51 @@ unexplained case.
 The game kept running after all four. Scope: slot 3; the routine's
 account "seen" call found every product already seen.
 
-Not proven yet: that the three Atlas Pass entries are lit on screen after the
-third request, and what the research terminals and the build menu show after
-the fourth (awaiting the owner); persistence of the build parts, which needs
-a save. Undo: restore a backup with the game closed.
+Seen by the owner after the fourth request: decorative modules unlocked.
+Persistence: the 21:19 autosave holds 1,802 known products. Not proven: the
+Atlas Pass entries on screen. Undo: restore a backup with the game closed.
+
+### What stayed locked, and a game crash
+
+After the build part request the owner reported, with screenshots: the
+decorative modules tree fully unlocked, but all three pages of "station
+decorations" and storage containers 1 to 9 still locked.
+
+Cause, found offline by comparing every `Unlockable` of
+`unlockableitemtrees` with the saved slot: 103 tree products were unknown
+and all were class `not_in_catalogue`, which no request sends and the
+profile refused: 82 station decorations, 9 containers, 10 freighter paints,
+`BUILDTABLE3`, `FRIGATE_FUEL_1`. A further 62 tree entries, all in the
+corvette trees (`BIG_*`), are not product IDs at all; the product table
+knows those parts under other IDs (`B_WNG_A` ...), classed `not_learnable`.
+How the game unlocks corvette parts is not known; it belongs to the corvette
+domain.
+
+Then **the game crashed** (owner's report; the game's dialog gave crash ID
+`180836M_nvoglv64@0x2DD59F4`, that is, inside the graphics driver module, and
+offered to disable modifications). Facts: the build part request was applied
+around 21:13 and the game kept running; the owner browsed the research
+terminals for several minutes; the profile log was last written at 21:19
+with `dispatch_state=0`; the autosave `save5.hg` of 21:19 holds 1,802 known
+products, 205 technologies, 1,684 recipes. **Whether the deliveries caused
+the crash is unknown.** Nothing was being applied at that moment. To find
+out: load slot 3 again and browse the same terminals; if it repeats, restore
+`20261007-before-build-parts` and deliver the build parts in smaller groups.
+
+### Second build (2026-10-07)
+
+| Item | Value |
+| --- | --- |
+| Change | `research_tree` class in the classifier and the script; the profile's "not in catalogue" refusal removed |
+| Profile DLL | SHA-256 `68fd60bc51977404ef444f975d9a3073b8f937c5a06711fbaba7e271ec46d5a7` |
+| Checks | Profile, technology and recipe fixtures pass. No fixture covers the product request |
+| Installed | Yes, with the game closed after the crash; replaces `a6c01dbc...ecda`. No request sent to it |
 
 ## Remaining steps (proposed, not done)
 
-1. Done: saved, closed, DLL installed. Still to do: start the game on
-   slot 3; identify the slot; preflight.
-2. One product (`ALLOY1`, Aronium); compare the result file with the
-   catalogue entry.
-3. `-AllOfClass catalogue_item`; the dark entries of the screenshots should
-   light up.
-4. Technology and build parts after the owner's go-ahead.
+1. Start the game on slot 3 and check that the save loads and the research
+   terminals can be browsed without a crash, before any new request.
+2. Identify the slot, back up, preflight with `68fd60bc...d5a7`, then
+   `-AllOfClass research_tree` (106).
+3. Corvette part unlocks (`BIG_*` tree entries): find the mechanism.
+4. Review the 964 remaining hidden learnable products.

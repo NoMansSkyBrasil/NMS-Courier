@@ -12,8 +12,9 @@ param(
     # One or several product IDs, for example -Id ALLOY1 or -Id ALLOY1,COMPOUND2.
     [ValidatePattern('^[A-Z0-9_]{1,15}$')]
     [string[]]$Id,
-    # Every product of one deliverable class: the catalogue's items, technology or build parts.
-    [ValidateSet('catalogue_item', 'catalogue_technology', 'catalogue_construction')]
+    # Every product of one deliverable class: the catalogue's items, technology or build parts, or the
+    # products the catalogue hides but a research tree of the game offers.
+    [ValidateSet('catalogue_item', 'catalogue_technology', 'catalogue_construction', 'research_tree')]
     [string]$AllOfClass,
     [switch]$PreflightOnly
 )
@@ -28,7 +29,7 @@ if ([bool]$Id -eq [bool]$AllOfClass) { throw 'Give either -Id or -AllOfClass' }
 
 # Rows of the generated Markdown data table: ID, Class, Type, Craftable, WikiCategory, Ingredients.
 $tablePath = Join-Path $PSScriptRoot '..\..\..\research\product-delivery-classification.md'
-$deliverable = @('catalogue_item', 'catalogue_technology', 'catalogue_construction')
+$deliverable = @('catalogue_item', 'catalogue_technology', 'catalogue_construction', 'research_tree')
 $classes = [ordered]@{}
 foreach ($line in Get-Content -LiteralPath $tablePath) {
     if ($line -match '^\| ([A-Z0-9_]{1,15}) \| (\w+) \|') { $classes[$Matches[1]] = $Matches[2] }

@@ -5,7 +5,7 @@
 // product recipe looks the product up and calls one routine with the player state, the product ID and
 // a silent flag. That routine adds the ID to the slot's known products when the product is craftable
 // or a customisation part, and also marks the product as seen on the account. This file calls it for
-// requested IDs and refuses more than the game does: see product_blocked().
+// requested IDs and refuses more than the game does: see product_blocked_id() and product_blocked().
 
 #define PRODUCT_LOOKUP_RVA 0xec9ba0u
 #define PRODUCT_LEARN_RVA 0x5aafd0u
@@ -19,7 +19,6 @@
 #define PRODUCT_DEFINITION_SIZE 0x300u
 #define PRODUCT_TYPE_CUSTOMISATION_PART 7
 #define PRODUCT_TYPE_COUNT 12
-#define PRODUCT_WIKI_NOT_ENABLED 0
 #define PRODUCT_WIKI_CATEGORY_COUNT 7
 #define PRODUCT_REQUEST_CAPACITY 2048
 
@@ -30,12 +29,10 @@ enum {
     PRODUCT_UNKNOWN_ID,         // no definition with this ID in the running game
     PRODUCT_BLOCKED_ID,         // refused by the permanent ID rules below, before any lookup
     PRODUCT_BLOCKED_NOT_LEARNABLE,  // neither craftable nor a customisation part: the game refuses it too
-    PRODUCT_BLOCKED_NOT_IN_CATALOGUE,  // the game's catalogue does not list it
     PRODUCT_BLOCKED_LAYOUT      // the definition did not look like one; nothing was called
 };
 static const char *const product_result_names[] = {
-    "pending", "learned", "not_added", "unknown_id", "blocked_id", "blocked_not_learnable",
-    "blocked_not_in_catalogue", "blocked_layout"
+    "pending", "learned", "not_added", "unknown_id", "blocked_id", "blocked_not_learnable", "blocked_layout"
 };
 
 typedef void *(*product_lookup_fn)(void *table, const char *id);
@@ -71,8 +68,9 @@ static LONG product_blocked(const uint8_t *definition, const char *id) {
     if (strncmp((const char *)definition + PRODUCT_ID_OFFSET, id, 16) != 0 || type < 0 || type >= PRODUCT_TYPE_COUNT ||
         wiki < 0 || wiki >= PRODUCT_WIKI_CATEGORY_COUNT || craftable > 1) return PRODUCT_BLOCKED_LAYOUT;
     if (!craftable && type != PRODUCT_TYPE_CUSTOMISATION_PART) return PRODUCT_BLOCKED_NOT_LEARNABLE;
-    // Only what the game's own catalogue lists is taught; hidden products are internal, cut or reward-only.
-    if (wiki == PRODUCT_WIKI_NOT_ENABLED) return PRODUCT_BLOCKED_NOT_IN_CATALOGUE;
+    // A product the catalogue hides is not refused here: the game's own research terminals sell such
+    // products (station decorations, storage containers). Which hidden products are requested is decided
+    // by the classification, see docs/PRODUCT_DELIVERY_NOTES.md.
     return PRODUCT_PENDING;
 }
 

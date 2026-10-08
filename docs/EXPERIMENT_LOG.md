@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-07: game crash after the build part delivery; hidden research-tree products; second product build
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#what-stayed-locked-and-a-game-crash).
+
+- Observed by the owner: decorative modules unlocked; station decorations and
+  containers 1 to 9 still locked. Cause: 103 research-tree products the
+  catalogue hides, which the first build refused.
+- **Crash**, process 20536, slot 3, DLL `a6c01dbc...ecda`: crash ID
+  `180836M_nvoglv64@0x2DD59F4` (graphics driver module), minutes after the
+  last request, no request in progress. Cause unknown; not shown to be ours,
+  not ruled out. The 21:19 autosave holds all deliveries (1,802 products).
+- Offline: class `research_tree` (106 products) added; the profile no longer
+  refuses a product only because the catalogue hides it.
+- Built and installed with the game closed: `68fd60bc...d5a7`. Fixtures pass.
+  No request sent.
+- Open: 62 corvette tree entries are not product IDs; mechanism unknown.
+- Rollback for the save: `save-backups/20261007-before-build-parts` or
+  `20261007-before-products`.
+
 ## 2026-10-07: all build parts taught to slot 3
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#build-parts-same-day-same-process).

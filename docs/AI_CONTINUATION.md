@@ -167,8 +167,12 @@ offline:
     the saved slot 3 files hold 1,684 recipes and 220 fish. The 108
     catalogue items and 91 craftable technology products were then taught
     live to slot 3, then all 1,067 build parts (known products 601 -> 1,802;
-    build parts awaiting the owner's confirmation and save). Open: five
-    freighter rooms became known unrequested during the technology request.
+    saved by the 21:19 autosave). The game then crashed in the graphics
+    driver module, cause unknown: first check that slot 3 loads and the
+    research terminals are stable. Installed DLL is now `68fd60bc...d5a7`
+    (adds class `research_tree`, 106 hidden products the terminals offer; not
+    sent yet). Open: five freighter rooms became known unrequested; corvette
+    part unlocks are not products.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
