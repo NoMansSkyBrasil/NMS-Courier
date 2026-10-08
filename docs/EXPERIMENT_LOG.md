@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-08: full-resolution interface image export
+
+Offline export only; no game process, save slot, bridge, DLL, mod or data patch
+was accessed or changed. The installed game executable was build 180836,
+SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`.
+The installed TexUI and TexMisc PAK hashes matched the already extracted corpus
+(`5641e065...d9773827f` and `9594ea42...715798963`). The original corpus
+report was created against build 180383. The exact request was all available
+icons and 2D interface images at source resolution, separated outside the
+repository. The owner initially requested no commit, then authorized committing
+and pushing this documentation. The owning record is
+[data and catalog, personal UI export](DATA_AND_CATALOG.md#personal-full-resolution-ui-image-export-2026-10-08).
+
+The external script `E:\NMS-Courier-Research\extract-ui-images-20261008.py`
+selected every `.dds` under `textures/ui/` and `textures/hud/` from the indexed
+corpus, checked each copied DDS against its stored content hash, and converted
+the first image to lossless PNG with Pillow 12.3.0 at native pixel dimensions.
+Output: 9,642 DDS and 9,642 PNG files in separate trees under
+`E:\NMS-Courier-Research\game-ui-images-20261008`; zero failures. Thirty sampled
+PNGs reopened successfully. The tool reported a maximum decoded width and
+height of 4,096 pixels. No image was upscaled. The external README records the
+result. It does not prove that dynamically rendered images or model material
+textures are included. Undo: remove only the output directory; the corpus,
+installed game, saves, bridge and repository assets are unchanged.
+
 ## 2026-10-08: bridge 1.1.0, currency data file and six wired pages
 
 Build and installation only; the game was not running and nothing was sent.

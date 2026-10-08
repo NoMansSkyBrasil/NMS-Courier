@@ -186,6 +186,32 @@ Initial extraction scope is vanilla data. Installed mods may change tables, limi
 
 ## 5. Search and images
 
+### Personal full-resolution UI image export (2026-10-08)
+
+At the owner's request, an offline research export was made outside the repository
+at `E:\NMS-Courier-Research\game-ui-images-20261008`. It contains every indexed
+DDS below `textures/ui/` and `textures/hud/`: 9,642 exact source DDS files in
+`DDS/` and 9,642 native-size lossless PNG conversions in `PNG/`, with their
+logical game paths preserved. This includes item/technology icons, HUD graphics,
+loading art and other 2D interface images. It excludes model/planet material
+textures and does not imply that every graphic visible in the game has a
+standalone DDS asset. The largest decoded dimension is 4,096 pixels on each
+axis (across different files); no scaling was applied.
+
+The source is the pre-existing `E:\NMS-Courier-Research\corpus`, not a new PAK
+extraction. Its `NMSARC.TexUI.pak` and `NMSARC.TexMisc.pak` SHA-256 values
+(`5641e06517e2dddfccb49cd0f4369963e24deecec3a28108158c160d9773827f`
+and `9594ea420a04c6db078e5ad93d6e78dc415ecfad610f73132052909615798963`)
+were compared with the installed PAKs and matched. The installed executable was
+build 180836, SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`;
+the older corpus report records the original extraction against build 180383.
+The source content hashes were checked while copying the DDS files. Pillow
+12.3.0 decoded them to first-frame PNGs without resize; 30 sampled PNGs were
+reopened and verified. The external `README.md` records counts and failures,
+and `E:\NMS-Courier-Research\extract-ui-images-20261008.py` reproduces the export.
+No game process, save, bridge, mod, or repository asset was changed. To undo the
+export, remove only the external `game-ui-images-20261008` directory.
+
 Search localized names and internal IDs, with exact-ID and prefix matches prioritized. Normalize case/diacritics where appropriate while retaining original display values. Add fuzzy matching only after real need and measurement.
 
 Start with indexed SQLite queries and paged results. Adopt FTS only after checking availability/tokenization in the packaged driver and real multilingual data. Avoid a duplicate in-memory search engine without evidence.
