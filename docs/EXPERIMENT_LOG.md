@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-08: settings file unlock lists emptied as test preparation (direct file change, owner-authorised)
+
+**This is a direct edit of an account file, not a delivery and not a game
+routine.** The owner authorised it, with a backup, so that account-level
+routes can be tested on an account without unlocks. It is the only such
+edit made by this project and it is not a delivery method.
+
+- Game closed (no `NMS.exe` process); executable `13d5060d...` unchanged.
+- Backup first, to the external
+  `save-backups/20261008-before-settings-list-reset`: the settings file
+  (547,511 bytes, SHA-256 `a658d403a4e6df85f4607a392ce3259db2d1b6cfb3f411bf5d3432aaa0aeae72`)
+  and the whole save folder (which holds the editor's emptied
+  `accountdata.hg` of 00:02).
+- Change to `Binaries/SETTINGS/GCUSERSETTINGSDATA.MXML`: ten list blocks
+  replaced by empty elements, everything else byte-identical (checked by line
+  accounting; the result parses). Entries removed: `SeenSubstances` 105,
+  `SeenTechnologies` 318, `SeenProducts` 4,383, `SeenWikiTopics` 58,
+  `UnlockedWikiTopics` 58, `UnlockedTitles` 346, `UnlockedSpecials` 794,
+  `UnlockedSeasonRewards` 293, `UnlockedTwitchRewards` 435,
+  `UnlockedPlatformRewards` 1. New file: 60,398 bytes, SHA-256
+  `523611902a15b2a7295d46cde36244d060ba98c54634664c01ef4f7d08675a62`.
+- Done with a one-off script kept outside the repository on purpose.
+- Not known yet: what the game loads at the next start (the publisher's
+  servers may restore the lists), and how the game treats slots whose own
+  lists still hold what the account now lacks.
+- Undo: with the game closed, copy the backed-up settings file back; for the
+  account data file use `save-backups/20261007-before-account-cleanup`.
+
 ## 2026-10-08: game files repaired by the owner through the store client; installation unchanged (read-only)
 
 The owner ran the store client's file repair with the game closed. Checked

@@ -195,6 +195,13 @@ offline:
     each account list needs is tabulated in
     [reward redemption notes](REWARD_REDEMPTION_NOTES.md#what-can-be-done-on-the-account-state-on-2026-10-07).
 
+26. *Account emptied for testing (2026-10-08).* The owner emptied
+    `accountdata.hg` with an editor and authorised emptying the unlock lists
+    of the settings file (backup `20261008-before-settings-list-reset`). This
+    is test preparation only. Next: start the game on slot 3, read the
+    account sets in memory, then test account routes one ID at a time. See
+    the experiment log entry of that date.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.
