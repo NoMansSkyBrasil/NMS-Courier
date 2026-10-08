@@ -26,6 +26,7 @@ nothing that belongs to one of them. Built with
 | `reward_redeem.h` | rewards | Redeem season, Twitch and platform rewards in the slot |
 | `fish_record.h` | fish | Fill the slot's fishing record |
 | `product_learn.h` | products | Learn product recipes in the slot, with the refusal rules |
+| `reward_carrier.h` | shared | Find this project's own reward table entry and call the game's reward routine with it (currencies, items with notification) |
 | `currency_reward.h` | currencies | Units, nanites or quicksilver of any amount through the game's reward routine, with the data file's entries as carriers |
 | `item_give.h` | items | Put substances and products into the exosuit cargo through the game's store routines; report the cargo's stack sizes |
 | `account_unlock.h` | account | Unlock titles, specials and season rewards on the account through the game's routines |

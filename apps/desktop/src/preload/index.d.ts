@@ -144,7 +144,10 @@ declare global {
         appVersion: string
       }>
       deliver: (feature: string, chosen?: string[], notify?: boolean) => Promise<DeliveryResult>
-      deliverItems: (items: Array<{ id: string; amount: number }>) => Promise<DeliveryResult>
+      deliverItems: (
+        items: Array<{ id: string; amount: number }>,
+        notify?: boolean
+      ) => Promise<DeliveryResult>
       deliverEquipment: (request: {
         area: 'exosuit' | 'starships' | 'multitools' | 'freighters' | 'corvettes'
         action: 'grid' | 'classStep' | 'offer' | 'build'

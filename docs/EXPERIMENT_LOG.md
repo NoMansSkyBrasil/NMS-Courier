@@ -1,5 +1,36 @@
 # Runtime experiment log
 
+## 2026-10-08: first deliveries from the application (bridge 1.3.0): item added, currency refused
+
+Slot taken from the owner's habit (slot 3), not identified by the tools. Build
+180836 (`13d5060d...3499`), bridge 1.3.0 (`dc735e76...02f0`), application
+1.4.0, data file `cdf9552a...6062` in the mod folder, game process 5012. Both
+requests were sent from the application's pages; no script was run.
+
+- Items, `FUEL1` x9999: the bridge answered `FUEL1:9999/9999 stack 9999=added`
+  and the owner confirmed the Carbon arrived. **First delivery made from the
+  application.** No notification appeared in the game, as on build 179666: the
+  store routine has none. The stack sizes file was written
+  (`native-item-limits-180836-5012.txt`).
+- Currencies, units x1,000,000: `calls=0`, `result=bad_layout`. The carrier
+  was found in the game's reward table, which proves the game loads the sparse
+  `.EXML` data file on this build; the layout check then refused, so nothing
+  was written and no money was given.
+- Cause, found offline in the game's reward routine (`0xf19e90`): it reads the
+  choice flags of the entry at +0x24 and +0x25, so an entry is stat identifier
+  (+0), item list (+0x10, count at +0x18), choice mode (+0x20), own identifier
+  (+0x28). The bridge had assumed the list at +0 and the identifier at +0x18.
+- Bridge 1.4.0 (`520fd043...5300`) corrects the offsets and gives items
+  through the reward routine when a notification is wanted. The profile
+  fixture passes. Not installed while the game was running. Not proven: both
+  changes live.
+- History checked on the owner's request (commits `317ee23`, `dff306e`,
+  `26ae773` of 2026-09-23): Carbon went through the inventory routine and
+  showed no notification; the three currencies went through the reward routine
+  with custom table entries and showed the game's right-side notification.
+  The current design is the same two routes, with a free amount.
+- Undo for the item: the save backup the application made before the request.
+
 ## 2026-10-08: first send from the application failed; requests made native (bridge 1.3.0)
 
 Slot not recorded. Build 180836, bridge 1.2.0, game running. The owner sent

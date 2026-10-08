@@ -13,6 +13,26 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.5.0 and bridge 1.4.0 (2026-10-08)
+
+Bridge 1.4.0, file SHA-256
+`520fd043a67c0bb42ae456f912a95c84564c292b31b84cc48a8b180adf035300`:
+
+- Fix: currencies were refused with `bad_layout`. The reward table entry
+  starts 16 bytes earlier than assumed; it is now read where the game's own
+  reward routine reads it.
+- Items are given through the game's reward routine when a notification is
+  wanted, so the game shows its "received" message; the silent route through
+  the store routine remains for silent delivery and as a fallback.
+
+Data file `runtime/mods/currency_rewards`: two more entries, `CR_ITEM_SUB`
+and `CR_ITEM_PROD`, the carriers for items. Table SHA-256
+`654e4f6ee459c992833cc4350148a66f737bc6943de94fb666fb93aae5a87b17`. It must
+be copied to the game's mod folder again and needs a game restart.
+
+Application 1.5.0: sends items with or without notification according to the
+setting; accepts only bridge 1.4.0.
+
 ## Application 1.4.0 and bridge 1.3.0 (2026-10-08)
 
 Bridge 1.3.0, file SHA-256

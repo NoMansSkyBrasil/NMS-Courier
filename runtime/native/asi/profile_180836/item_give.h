@@ -6,6 +6,10 @@
 // the stack limit of that item, builds a default element with the ID, the amount, the limit and the
 // item type, and calls the store's add routine. This file does the same for requested IDs, one stack
 // at a time, and stops when the store reports no room. Nothing is written to the store directly.
+// That route shows nothing in the game. When the request asks for the game's notification, the item
+// is given through the game's reward routine instead (reward_carrier.h), which places it and shows
+// the usual "received" message; without the data file that route is not available and the silent
+// one is used.
 
 #define ITEM_STORE_ADD_RVA 0x4d0780u
 #define ITEM_SUBSTANCE_LIMIT_RVA 0x4d43c0u
@@ -38,7 +42,8 @@ _Static_assert(sizeof(item_element) == 48, "inventory element size");
 
 enum {
     ITEM_PENDING = 0,
-    ITEM_ADDED,          // the whole amount went in
+    ITEM_ADDED,          // the whole amount went in, silently, through the store routine
+    ITEM_REWARDED,       // given through the game's reward routine, which shows its notification
     ITEM_PARTIAL,        // the store ran out of room; "added" says how much went in
     ITEM_NO_ROOM,        // nothing went in
     ITEM_UNKNOWN_ID,     // neither a substance nor a product of the running game
@@ -46,7 +51,7 @@ enum {
     ITEM_NOT_READY       // no game manager or store
 };
 static const char *const item_result_names[] = {
-    "pending", "added", "partial", "no_room", "unknown_id", "bad_limit", "not_ready"
+    "pending", "added", "rewarded", "partial", "no_room", "unknown_id", "bad_limit", "not_ready"
 };
 
 typedef void *(*item_lookup_fn)(void *table, const char *id);
@@ -64,6 +69,8 @@ static volatile LONG item_added[ITEM_REQUEST_CAPACITY];
 static volatile LONG item_limits[ITEM_REQUEST_CAPACITY];   // stack limit the game gave for each item
 static volatile LONG item_results[ITEM_REQUEST_CAPACITY];
 static volatile LONG item_count;
+// 1: nothing is shown (store routine). 0: the game shows its own notification (reward routine).
+static volatile LONG item_silent = 1;
 static volatile LONG item_state;        // 0 idle, 1 requested, 2 applied and waiting for the result file
 
 __attribute__((unused)) static int item_resolve(uintptr_t base) {
@@ -110,6 +117,57 @@ static int item_readable(uintptr_t address, size_t length) {
            address + length <= (uintptr_t)memory.BaseAddress + memory.RegionSize;
 }
 
+// The two carriers of the data file for items, see reward_carrier.h: one substance reward and one
+// product reward, each of amount 1 with the identifier below.
+#define ITEM_SUBSTANCE_REWARD_HASH 0x4551b575u
+#define ITEM_PRODUCT_REWARD_HASH 0x21b90b77u
+#define ITEM_SUBSTANCE_CARRIER "CR_ITEM_SUB"
+#define ITEM_PRODUCT_CARRIER "CR_ITEM_PROD"
+#define ITEM_SUBSTANCE_CARRIER_ID "FUEL1"
+#define ITEM_PRODUCT_CARRIER_ID "CASING"
+typedef struct { char id[16]; int32_t amount_max, amount_min; } item_substance_reward;
+typedef struct { char unused[32]; char id[16]; char unused_2[16]; int32_t amount_max, amount_min; } item_product_reward;
+_Static_assert(offsetof(item_product_reward, amount_max) == 0x40, "product reward layout");
+
+static int item_is_carrier(const void *reward, int type) {
+    char expected[16] = {0};
+    if (type == ITEM_TYPE_SUBSTANCE) {
+        const item_substance_reward *carrier = reward;
+        memcpy(expected, ITEM_SUBSTANCE_CARRIER_ID, sizeof(ITEM_SUBSTANCE_CARRIER_ID));
+        return memcmp(carrier->id, expected, 16) == 0 && carrier->amount_max == 1 && carrier->amount_min == 1;
+    }
+    const item_product_reward *carrier = reward;
+    memcpy(expected, ITEM_PRODUCT_CARRIER_ID, sizeof(ITEM_PRODUCT_CARRIER_ID));
+    return memcmp(carrier->id, expected, 16) == 0 && carrier->amount_max == 1 && carrier->amount_min == 1;
+}
+
+// Give through the game's reward routine: the game places the item and shows its notification.
+// Returns 0 when the carrier is not available, so the caller can use the silent route instead.
+static int item_reward(uintptr_t manager, const char definition_id[16], int32_t type, LONG amount) {
+    LONG found;
+    if (!give_reward || !reward_manager) return 0;
+    if (type == ITEM_TYPE_SUBSTANCE) {
+        item_substance_reward *carrier = reward_carrier_find(manager, ITEM_SUBSTANCE_CARRIER, ITEM_SUBSTANCE_REWARD_HASH,
+                                                             sizeof(*carrier), item_is_carrier, type, &found);
+        if (!carrier) return 0;
+        item_substance_reward original = *carrier;
+        memcpy(carrier->id, definition_id, 16);
+        carrier->amount_max = carrier->amount_min = amount;
+        reward_carrier_give(ITEM_SUBSTANCE_CARRIER, 0);
+        *carrier = original;
+        return 1;
+    }
+    item_product_reward *carrier = reward_carrier_find(manager, ITEM_PRODUCT_CARRIER, ITEM_PRODUCT_REWARD_HASH,
+                                                       sizeof(*carrier), item_is_carrier, type, &found);
+    if (!carrier) return 0;
+    item_product_reward original = *carrier;
+    memcpy(carrier->id, definition_id, 16);
+    carrier->amount_max = carrier->amount_min = amount;
+    reward_carrier_give(ITEM_PRODUCT_CARRIER, 0);
+    *carrier = original;
+    return 1;
+}
+
 // One requested item: stacks of at most the game's limit until the amount is in or the store is full.
 static LONG item_give(uintptr_t manager, void *store, const char *id, LONG amount, volatile LONG *added,
                       volatile LONG *used_limit) {
@@ -128,6 +186,11 @@ static LONG item_give(uintptr_t manager, void *store, const char *id, LONG amoun
     int32_t limit = type == ITEM_TYPE_SUBSTANCE ? item_substance_limit(store, id) : item_product_limit(store, id);
     InterlockedExchange(used_limit, limit);
     if (limit < 1 || limit > ITEM_MAX_AMOUNT) return ITEM_BAD_LIMIT;
+    if (!InterlockedCompareExchange(&item_silent, 0, 0) &&
+        item_reward(manager, (const char *)definition + id_offset, type, amount)) {
+        InterlockedExchange(added, amount);
+        return ITEM_REWARDED;
+    }
 
     LONG remaining = amount;
     for (int stack = 0; remaining > 0 && stack < ITEM_MAX_STACKS; ++stack) {
@@ -170,7 +233,8 @@ static int item_path(wchar_t *path, const wchar_t *kind) {
                     root, kind, (unsigned long)GetCurrentProcessId()) > 0;
 }
 
-// Parse the per-process request: one "<ID>=<amount>" per line. Any other content, a malformed ID, an
+// Parse the per-process request: optional "silent=0" (show the game's notification) or "silent=1"
+// (the default), then one "<ID>=<amount>" per line. Any other content, a malformed ID, an
 // amount outside 1..999999, a duplicate or more than the capacity rejects the whole request.
 static int item_read_request(void) {
     wchar_t path[MAX_PATH];
@@ -178,11 +242,13 @@ static int item_read_request(void) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     char line[64];
-    LONG count = 0;
+    LONG count = 0, silent = 1;
     int ok = 1;
     while (ok && fgets(line, sizeof(line), file)) {
         line[strcspn(line, "\r\n")] = 0;
         if (!line[0]) continue;
+        if (strcmp(line, "silent=1") == 0) { silent = 1; continue; }
+        if (strcmp(line, "silent=0") == 0) { silent = 0; continue; }
         char *separator = strchr(line, '=');
         size_t length = separator ? (size_t)(separator - line) : 0;
         if (!separator || length < 1 || length > 15 || count >= ITEM_REQUEST_CAPACITY) { ok = 0; break; }
@@ -210,6 +276,7 @@ static int item_read_request(void) {
     fclose(file);
     if (!ok || count == 0) return 0;
     InterlockedExchange(&item_count, count);
+    InterlockedExchange(&item_silent, silent);
     return 1;
 }
 

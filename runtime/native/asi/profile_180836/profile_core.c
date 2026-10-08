@@ -78,6 +78,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "fish_record.h"
 #include "product_learn.h"
 #include "account_unlock.h"
+#include "reward_carrier.h"
 #include "item_give.h"
 #include "currency_reward.h"
 
@@ -263,7 +264,7 @@ static int resolve_targets(void) {
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
            reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base) &&
-           item_resolve(base) && currency_resolve(base);
+           item_resolve(base) && reward_carrier_resolve(base);
 #endif
 }
 

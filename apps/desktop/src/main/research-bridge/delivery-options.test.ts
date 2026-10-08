@@ -51,23 +51,33 @@ describe('delivery options', () => {
 
 describe('item, currency and equipment requests', () => {
   it('builds one item request and refuses malformed ones', () => {
-    const plan = getItemPlan([
-      { id: 'FUEL1', amount: 500 },
-      { id: 'CASING', amount: 10 }
-    ])
-    expect(plan?.steps[0].request?.lines).toEqual(['FUEL1=500', 'CASING=10'])
+    const plan = getItemPlan(
+      [
+        { id: 'FUEL1', amount: 500 },
+        { id: 'CASING', amount: 10 }
+      ],
+      true
+    )
+    expect(plan?.steps[0].request?.lines).toEqual(['silent=0', 'FUEL1=500', 'CASING=10'])
+    expect(getItemPlan([{ id: 'FUEL1', amount: 5 }], false)?.steps[0].request?.lines[0]).toBe(
+      'silent=1'
+    )
+    expect(plan?.steps[0].accept?.(['requested=1', 'FUEL1:5/5 stack 9999=rewarded'])).toBe(true)
     expect(plan?.steps[0].signals).toEqual(['item'])
     expect(plan?.steps[0].accept?.(['requested=1', 'FUEL1:0/5 stack 0=no_room'])).toBe(false)
-    expect(getItemPlan([])).toBeNull()
-    expect(getItemPlan([{ id: 'FUEL1', amount: 0 }])).toBeNull()
-    expect(getItemPlan([{ id: 'FUEL1', amount: 1.5 }])).toBeNull()
-    expect(getItemPlan([{ id: 'FUEL1', amount: 1000000 }])).toBeNull()
-    expect(getItemPlan([{ id: 'fuel1; x', amount: 1 }])).toBeNull()
+    expect(getItemPlan([], true)).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 0 }], true)).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 1.5 }], true)).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 1000000 }], true)).toBeNull()
+    expect(getItemPlan([{ id: 'fuel1; x', amount: 1 }], true)).toBeNull()
     expect(
-      getItemPlan([
-        { id: 'FUEL1', amount: 1 },
-        { id: 'FUEL1', amount: 2 }
-      ])
+      getItemPlan(
+        [
+          { id: 'FUEL1', amount: 1 },
+          { id: 'FUEL1', amount: 2 }
+        ],
+        true
+      )
     ).toBeNull()
   })
 

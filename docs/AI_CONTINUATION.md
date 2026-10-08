@@ -1,5 +1,13 @@
 # AI continuation guide
 
+> Checkpoint 2026-10-08 (late night): the first delivery from the application
+> worked (`FUEL1` x9999, bridge 1.3.0). Currencies were refused with
+> `bad_layout`; bridge 1.4.0 (`520fd043...5300`) corrects the entry offsets and
+> adds items with the game's notification. **1.4.0 and the new data file
+> (`654e4f6e...7b17`) must be installed with the game closed** (bridge into
+> `Binaries`, `runtime/mods/currency_rewards/NMSCourierCurrencyRewards` into
+> `GAMEDATA/MODS`), then retest units and an item from the application.
+
 > Checkpoint 2026-10-08 (night): application 1.4.0, bridge 1.3.0
 > (`dc735e76...02f0`). Requests go from the application to the bridge through
 > files, with no script (rule in `AGENTS.md`, protocol at the top of

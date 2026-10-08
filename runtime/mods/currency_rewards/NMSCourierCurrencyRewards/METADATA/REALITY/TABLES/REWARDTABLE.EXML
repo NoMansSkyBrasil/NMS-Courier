@@ -301,5 +301,66 @@
         </Property>
       </Property>
     </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="CR_ITEM_SUB">
+      <Property name="Id" value="CR_ITEM_SUB" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificSubstance">
+              <Property name="GcRewardSpecificSubstance">
+                <Property name="Default" value="GcDefaultMissionSubstanceEnum">
+                  <Property name="DefaultSubstanceType" value="None" />
+                </Property>
+                <Property name="ID" value="FUEL1" />
+                <Property name="AmountMin" value="1" />
+                <Property name="AmountMax" value="1" />
+                <Property name="DisableMultiplier" value="true" />
+                <Property name="RewardAsBlobs" value="false" />
+                <Property name="UseFuelMultiplier" value="false" />
+                <Property name="Silent" value="false" />
+                <Property name="UseMissionBoardDifficultyScale" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="CR_ITEM_PROD">
+      <Property name="Id" value="CR_ITEM_PROD" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificProduct">
+              <Property name="GcRewardSpecificProduct">
+                <Property name="Default" value="GcDefaultMissionProductEnum">
+                  <Property name="DefaultProductType" value="None" />
+                </Property>
+                <Property name="ID" value="CASING" />
+                <Property name="AmountMin" value="1" />
+                <Property name="AmountMax" value="1" />
+                <Property name="HideAmountInMessage" value="false" />
+                <Property name="ForceSpecialMessage" value="false" />
+                <Property name="HideInSeasonRewards" value="false" />
+                <Property name="Silent" value="false" />
+                <Property name="SeasonRewardListFormat" value="" />
+                <Property name="RequiresTech" value="" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
   </Property>
 </Data>

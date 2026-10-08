@@ -241,7 +241,9 @@ export async function getDeliveryPlan(
 export type ItemRequest = { id: string; amount: number }
 
 // Items for the exosuit cargo of the loaded slot, or null when the request is not well formed.
-export function getItemPlan(items: readonly ItemRequest[]): DeliveryPlan | null {
+// With `notify` the game gives the items through its reward routine and shows its notification;
+// without it they go straight into the cargo and nothing is shown.
+export function getItemPlan(items: readonly ItemRequest[], notify: boolean): DeliveryPlan | null {
   const ids = new Set(items.map((item) => item.id))
   if (items.length < 1 || items.length > 32 || ids.size !== items.length) return null
   const valid = items.every(
@@ -257,14 +259,14 @@ export function getItemPlan(items: readonly ItemRequest[]): DeliveryPlan | null 
     steps: [
       {
         label: 'item',
-        request: request(
-          'item',
-          items.map((item) => `${item.id}=${item.amount}`)
-        ),
+        request: request('item', [
+          `silent=${notify ? 0 : 1}`,
+          ...items.map((item) => `${item.id}=${item.amount}`)
+        ]),
         signals: ['item'],
         result: { name: 'item-result', seconds: 12 },
         // Nothing went in when every line ends in a refusal.
-        accept: (lines) => lines.some((line) => /=(added|partial)$/.test(line))
+        accept: (lines) => lines.some((line) => /=(added|rewarded|partial)$/.test(line))
       }
     ]
   }

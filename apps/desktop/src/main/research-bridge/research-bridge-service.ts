@@ -169,9 +169,10 @@ export class ResearchBridgeService {
   deliverItems(
     items: readonly ItemRequest[],
     installationRoot: string | null,
-    game: GameProcessStatus
+    game: GameProcessStatus,
+    notify = true
   ): Promise<DeliveryResult> {
-    return this.run('items', getItemPlan(items), installationRoot, game)
+    return this.run('items', getItemPlan(items, notify), installationRoot, game)
   }
 
   // Inventory grids, class steps, a freighter offer or a corvette build, with the chosen options.

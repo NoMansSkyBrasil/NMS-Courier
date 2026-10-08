@@ -314,7 +314,7 @@ app.whenReady().then(() => {
     const game = await gameStatusService.observe(root)
     return getResearchBridgeService().getStackLimits(game.processId)
   })
-  ipcMain.handle('nms:deliver-items', async (_, items: unknown) => {
+  ipcMain.handle('nms:deliver-items', async (_, items: unknown, notify: unknown) => {
     const valid =
       Array.isArray(items) &&
       items.every(
@@ -329,7 +329,8 @@ app.whenReady().then(() => {
     return getResearchBridgeService().deliverItems(
       (items as Array<{ id: string; amount: number }>).map(({ id, amount }) => ({ id, amount })),
       root,
-      await gameStatusService.observe(root)
+      await gameStatusService.observe(root),
+      notify !== false
     )
   })
   // Entries of an area that can be sent one by one, named by the local catalogue when it can.

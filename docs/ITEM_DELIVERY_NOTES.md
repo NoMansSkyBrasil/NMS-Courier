@@ -55,6 +55,27 @@ recorded first 32 bytes before the profile accepts the build.
   (`apps/desktop/src/renderer/src/components/items-card.tsx`,
   `getItemPlan` in `delivery-plan.ts`).
 
+## First live result and the notification (2026-10-08)
+
+`FUEL1` x9999 sent from the application with bridge 1.3.0 arrived in the
+exosuit cargo (`FUEL1:9999/9999 stack 9999=added`, confirmed by the owner). No
+notification appeared; the owner wants the game's usual "received" message.
+
+Bridge 1.4.0 therefore has two routes. With the notification wanted (the
+default), the item is given through the game's reward routine: the data file
+has two more entries, `CR_ITEM_SUB` (one specific-substance reward, `FUEL1`
+x1, multiplier disabled) and `CR_ITEM_PROD` (one specific-product reward,
+`CASING` x1), used as carriers exactly like the currency carriers: checked,
+filled with the requested identifier and amount, given, restored
+(`reward_carrier.h`, `item_give.h`). Reward layouts, each verified against
+every single-reward entry of the table: substance (class hash `0x4551b575`)
+identifier at +0, maximum +0x10, minimum +0x14; product (`0x21b90b77`)
+identifier at +0x20, maximum +0x40, minimum +0x44. The result line then ends
+in `rewarded`. Where the game puts an amount that does not fit the exosuit is
+the game's decision and is not known yet. With silent delivery, or when the
+carrier is not available, the store routine is used as before (`added`).
+Not proven live.
+
 ## Stack sizes
 
 Owner request of 2026-10-08. The stack of an item in a store is what the

@@ -33,7 +33,8 @@ For one request, on the game's update thread
    routine (`0xf140f0`) does: map at manager + `0x7a0`, lookup `0x567610`,
    entries of 24 bytes at map + `0x10`, the entry pointer at + `0x10`.
 2. Check that it is exactly the data file's entry: identifier at entry +
-   `0x18`, one item in the list at entry + 0, the item's reward reference at
+   `0x28`, one item in the list at entry + `0x10` (corrected on 2026-10-08,
+   see "First live result" below), the item's reward reference at
    item + `0x10` with the money class hash `0xac3b9854`, and a money structure
    whose maximum and minimum both equal the file's amount, whose currency is
    the expected one (0 units, 1 nanites, 2 quicksilver) and which is not
@@ -56,11 +57,24 @@ round flag. Whether a loaded reference is a pointer or still a file offset is
 not known; the bridge tries both and accepts only what passes the checks in
 step 2.
 
+## First live result (2026-10-08, bridge 1.3.0)
+
+Units x1,000,000 from the application: `result=bad_layout`, nothing written.
+The carrier was found, so the game loads the sparse `.EXML` data file on build
+180836. The check failed because a table entry begins with the stat
+identifier: the game's reward routine `0xf19e90` reads the entry's choice
+flags at +0x24 and +0x25, which puts the item list at +0x10, the choice mode at
++0x20 and the entry's identifier at +0x28. In the file the same bytes had been
+read as "list at +0, identifier at +0x18" of an entry that starts 16 bytes
+later. Bridge 1.4.0 uses the corrected offsets
+(`runtime/native/asi/profile_180836/reward_carrier.h`). Not yet run again.
+
 ## Files and requests
 
 - Data file: `runtime/mods/currency_rewards/NMSCourierCurrencyRewards`, copied
   to the game's `GAMEDATA\MODS`. Table SHA-256
-  `cdf9552a4a64fd54b95aa0a2fcd9f25b61a9ceb8f872e8443518701352e26062`. The
+  `654e4f6ee459c992833cc4350148a66f737bc6943de94fb666fb93aae5a87b17` since the
+  item carriers were added. The
   application refuses a currency request when the file is absent or differs.
   The nine entries that are not carriers are unused.
 - Request `native-currency-request-180836-<PID>.txt`: `currency=`, `amount=`,

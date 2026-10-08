@@ -28,8 +28,8 @@ const nms = {
     ipcRenderer.invoke('nms:deliver-currency', request),
   getStackLimits: () => ipcRenderer.invoke('nms:get-stack-limits'),
   getGameIcon: (locator: string) => ipcRenderer.invoke('nms:get-game-icon', locator),
-  deliverItems: (items: Array<{ id: string; amount: number }>) =>
-    ipcRenderer.invoke('nms:deliver-items', items),
+  deliverItems: (items: Array<{ id: string; amount: number }>, notify?: boolean) =>
+    ipcRenderer.invoke('nms:deliver-items', items, notify ?? true),
   getDeliveryOptions: (feature: string, locale: string) =>
     ipcRenderer.invoke('nms:get-delivery-options', feature, locale),
   getDeliveryActivity: () => ipcRenderer.invoke('nms:get-delivery-activity'),

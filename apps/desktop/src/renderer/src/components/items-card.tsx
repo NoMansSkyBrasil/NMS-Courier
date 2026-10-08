@@ -35,6 +35,7 @@ import { Spinner } from '@renderer/components/ui/spinner'
 import { Table, TableBody, TableCell, TableRow } from '@renderer/components/ui/table'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
+import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverItems>>
@@ -151,7 +152,12 @@ export function ItemsCard(): React.JSX.Element {
     setConfirming(false)
     setSending(true)
     try {
-      setResult(await window.nms.deliverItems(chosen.map(({ id, amount }) => ({ id, amount }))))
+      setResult(
+        await window.nms.deliverItems(
+          chosen.map(({ id, amount }) => ({ id, amount })),
+          readNotifyPreference()
+        )
+      )
     } finally {
       setSending(false)
     }
