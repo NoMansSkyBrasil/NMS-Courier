@@ -150,6 +150,8 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    currencyAmountHint: string
+    itemsStack: string
     equipActionLabel: string
     equipTarget: string
     equipTargetCurrent: string

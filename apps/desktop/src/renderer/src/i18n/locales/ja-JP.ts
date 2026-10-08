@@ -193,6 +193,8 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    currencyAmountHint: '1 から {max}（ゲームが保持できる最大残高）までの任意の金額。',
+    itemsStack: 'スタック {count}',
     equipActionLabel: '操作',
     equipTarget: '宇宙船',
     equipTargetCurrent: '現在の宇宙船',
@@ -207,7 +209,7 @@ export const jaJP: Messages = {
     equipExtendedHint:
       'テクノロジーのグリッドを 12 行に拡張します。すべてのインベントリスロットが必要です。',
     currencyHint:
-      'ゲーム自身の報酬が金額を追加し、通知を表示します。金額は固定です。さらに必要な場合はもう一度送信してください。',
+      'ゲーム自身の報酬が金額を追加し、通知を表示します。残高がゲームの上限を超えることはありません。',
     currencyLabel: '通貨',
     equipAction: {
       grid: 'インベントリに適用',

@@ -21,8 +21,9 @@ async function queryNmsProcesses(): Promise<string> {
       '-NoProfile',
       '-NonInteractive',
       '-Command',
-      // The start time is written as text here: Windows PowerShell turns a date into "/Date(n)/".
-      "Get-Process -Name NMS -ErrorAction SilentlyContinue | Select-Object Id,Path,@{n='StartTime';e={$_.StartTime.ToUniversalTime().ToString('o')}} | ConvertTo-Json -Compress"
+      // No process must not count as a failed query, hence the explicit exit code. The start time
+      // is written as text here: Windows PowerShell turns a date into "/Date(n)/".
+      "Get-Process -Name NMS -ErrorAction SilentlyContinue | Select-Object Id,Path,@{n='StartTime';e={$_.StartTime.ToUniversalTime().ToString('o')}} | ConvertTo-Json -Compress; exit 0"
     ],
     { windowsHide: true, timeout: 10_000, maxBuffer: 64 * 1024 }
   )

@@ -188,6 +188,8 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    currencyAmountHint: '1부터 {max}(게임이 보관하는 최대 잔액)까지 원하는 금액.',
+    itemsStack: '{count}개 묶음',
     equipActionLabel: '동작',
     equipTarget: '우주선',
     equipTargetCurrent: '현재 우주선',
@@ -200,7 +202,7 @@ export const koKR: Messages = {
     equipExtended: '추가 기술 줄',
     equipExtendedHint: '기술 격자를 12줄로 늘립니다. 모든 인벤토리 슬롯이 필요합니다.',
     currencyHint:
-      '게임 자체 보상이 금액을 추가하고 알림을 표시합니다. 금액은 고정되어 있으며, 더 받으려면 다시 보내세요.',
+      '게임 자체 보상이 금액을 추가하고 알림을 표시합니다. 잔액은 게임의 최대치를 넘지 않습니다.',
     currencyLabel: '화폐',
     equipAction: {
       grid: '인벤토리에 적용',

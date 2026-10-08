@@ -11,6 +11,12 @@ when it was chosen in the second. The remaining entries are JSON files that prog
 configuration or test fixtures and that therefore keep their format; they are linked here so a
 reader can start from Markdown and reach every data file.
 
+## `apps/desktop/src/main/game-data`
+
+| File | Kind | Size | First entry or columns | Explained in |
+| --- | --- | --- | --- | --- |
+| [core-table-layouts.json](../apps/desktop/src/main/game-data/core-table-layouts.json) | JSON object | 3 top-level keys | keys: substance, product, technology | [DATA_AND_CATALOG.md](../docs/DATA_AND_CATALOG.md) |
+
 ## `runtime`
 
 | File | Kind | Size | First entry or columns | Explained in |
@@ -199,4 +205,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 128 data files in 3 folders; 42 not mentioned outside this catalog.
+Total: 129 data files in 4 folders; 42 not mentioned outside this catalog.

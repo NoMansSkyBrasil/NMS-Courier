@@ -1,5 +1,29 @@
 # Runtime experiment log
 
+## 2026-10-08: bridge 1.2.0, free currency amounts and stack sizes (not sent)
+
+Offline analysis, build and installation; the game was closed. Build 180836,
+bridge 1.2.0 (`e28e6279...ff0c`) installed over 1.1.0. Owning notes:
+[currency delivery](CURRENCY_DELIVERY_NOTES.md) and
+[item delivery](ITEM_DELIVERY_NOTES.md).
+
+- Owner requirements of the day: no fixed amounts; currencies up to
+  4,294,967,295; find the stack of each item.
+- Reward table: the game's reward routine finds an entry through the map at
+  manager + `0x7a0`. All 41 single-money rewards of `rewardtable.mbin` share
+  one layout, which the bridge checks before it writes the requested amount
+  into its own carrier entry.
+- Stack: the multiplier offsets the game's limit routines read (substance +
+  `0x12c`, product + `0x1e0`) reproduce the converter's `StackMultiplier` for
+  all 114 substances and 2,199 products; they are now in the derived table
+  layouts and in the catalogue. The base stack and cap for the save are read
+  where those routines read them and written to a file every 300 frames.
+- Rejected: the NMS.py patterns for the money award routines (no match in
+  180836 or 180383).
+- Technology and recipe guard fixtures pass; 74 unit tests pass.
+- Not proven: everything live for 1.2.0. Undo: copy an earlier bridge from
+  `E:\NMS-Courier-Research\native-builds` back.
+
 ## 2026-10-08: first start of bridge 1.1.0; the application could not see the game
 
 Slot not recorded (owner had the game open and reported that nothing could be

@@ -135,7 +135,10 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Currencies (2026-10-08): fixed amounts through the game's reward routine and the data file in `runtime/mods/currency_rewards`; bridge 1.1.0.
 - [ ] Currencies: first live test from the application; the application should install the data file itself; free amounts need the routine behind the money reward.
 - [x] Pages for exosuit, starships, multi-tools, freighters and corvettes wired to the existing bridge requests (2026-10-08). First live use from the application is open.
-- [ ] Items: show each item's stack size. The tables hold `StackMultiplier` per substance and product; the real stack is the game's base for the save's difficulty times that, capped. Add the multiplier to the catalogue layouts and let the bridge report the limit it used (owner request 2026-10-08).
+- [x] Items: stack size of each item shown (2026-10-08, bridge 1.2.0). Not seen live yet.
+- [x] Currencies of any amount up to 4,294,967,295 (2026-10-08, bridge 1.2.0). Not exercised live yet.
+- [ ] Game icons beside item names in the catalogue and the item lists, read from the game's archives through each entry's icon locator (owner request 2026-10-08). Needs a DDS decoder.
+- [ ] Start page: a hero and a more refined layout with original shadcn components (owner request 2026-10-08).
 - [ ] Frigates and companions: no research yet.
 - [x] Game notifications on by default with a setting to deliver silently (2026-10-08): technologies, product recipes, build parts.
 - [ ] Observe live how the game queues notifications when a whole area is sent; other areas have no notification in their routine.

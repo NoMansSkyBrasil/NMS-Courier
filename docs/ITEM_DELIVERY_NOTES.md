@@ -55,6 +55,19 @@ recorded first 32 bytes before the profile accepts the build.
   (`apps/desktop/src/renderer/src/components/items-card.tsx`,
   `getItemPlan` in `delivery-plan.ts`).
 
+## Stack sizes
+
+Owner request of 2026-10-08. The stack of an item in a store is what the
+game's two limit routines compute: the base stack of the store's size group
+under the save's difficulty settings, times the item's own multiplier, at most
+a cap; products of type 5 or 8 (creature eggs) and products with multiplier 0
+are one per slot. The multiplier is in the tables (substance + `0x12c`,
+product + `0x1e0`), verified for every entry, and is stored in the catalogue.
+Bridge 1.2.0 reads the base and the cap for the exosuit cargo of the loaded
+save and reports them; the Items page multiplies. Until a save is loaded the
+page shows no stack. The bridge still asks the game for the limit of each item
+when it sends, and an item result now names the stack it used.
+
 ## Not proven, and what to check in the first live test
 
 - Nothing of this has run in the game. First test: slot 3, one substance

@@ -1,5 +1,14 @@
 # How the research bridge applies changes to the running game
 
+> **Bridge 1.2.0 (2026-10-08),**
+> `e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c`. New
+> request `currency`: a direct write of the requested amount into this
+> project's own reward table entry, then a native call of the game's reward
+> routine, then the entry is restored; the balance is changed by the game.
+> See [currency delivery notes](CURRENCY_DELIVERY_NOTES.md). The bridge also
+> writes the cargo stack sizes it reads to `native-item-limits-180836-<PID>.txt`
+> (reads only).
+
 > **Bridge 1.0.0 (2026-10-08).** The bridge is versioned from now on (see
 > [the changelog](../CHANGELOG.md)); its status file carries `bridge_version`.
 > Installed: bridge 1.0.0,

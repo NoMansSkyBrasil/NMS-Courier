@@ -205,6 +205,8 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    currencyAmountHint: 'Qualsiasi importo da 1 a {max}, il saldo massimo che il gioco conserva.',
+    itemsStack: 'Pila da {count}',
     equipActionLabel: 'Azione',
     equipTarget: 'Astronave',
     equipTargetCurrent: 'Astronave attuale',
@@ -219,7 +221,7 @@ export const itIT: Messages = {
     equipExtendedHint:
       'Porta la griglia di tecnologia a dodici righe. Richiede tutti gli slot dell’inventario.',
     currencyHint:
-      'La ricompensa del gioco aggiunge l’importo e mostra la sua notifica. Gli importi sono fissi; invia di nuovo per riceverne altri.',
+      'La ricompensa del gioco aggiunge l’importo e mostra la sua notifica. Il saldo non supera mai il massimo del gioco.',
     currencyLabel: 'Valuta',
     equipAction: {
       grid: 'Applica all’inventario',

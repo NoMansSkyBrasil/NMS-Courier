@@ -1,5 +1,15 @@
 # AI continuation guide
 
+> Checkpoint 2026-10-08 (late): bridge 1.2.0 (`e28e6279...ff0c`) and
+> application 1.2.0. The application could not see the running game until
+> 1.1.1, so **no delivery has gone from the application to the game yet**.
+> Next, all from the application with the game on slot 3: Currencies (units,
+> a small amount; a result of `unknown_reward` means the `.EXML` data file is
+> not loaded, see [currency notes](CURRENCY_DELIVERY_NOTES.md)), Items
+> (`FUEL1`), then the exosuit page. Open owner requests: game icons beside
+> item names (read the DDS named by each catalogue entry's icon locator from
+> the game's archives) and a better start page with a hero.
+
 > Checkpoint 2026-10-08 (personal UI images): 9,642 DDS source images from the
 > installed game's unchanged TexUI/TexMisc archives and 9,642 native-size PNGs
 > were exported to `E:\NMS-Courier-Research\game-ui-images-20261008`, outside

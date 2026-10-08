@@ -154,7 +154,17 @@ declare global {
         itemClass: string
         shipIndex: number
       }) => Promise<DeliveryResult>
-      deliverCurrency: (request: { currency: string; amount: string }) => Promise<DeliveryResult>
+      deliverCurrency: (request: {
+        currency: string
+        amount: number
+        notify: boolean
+      }) => Promise<DeliveryResult>
+      getStackLimits: () => Promise<{
+        substanceBase: number
+        substanceCap: number
+        productBase: number
+        productCap: number
+      } | null>
       getDeliveryOptions: (
         feature: string,
         locale: string
@@ -174,6 +184,9 @@ declare global {
           name: string
           subtitle: string
           description: string
+          icon: string | null
+          stackMultiplier: number | null
+          stackSingle: boolean
         }>
         total: number
       }>

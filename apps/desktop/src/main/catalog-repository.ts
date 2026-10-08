@@ -29,6 +29,10 @@ export type CatalogSearchResult = {
     name: string
     subtitle: string
     description: string
+    // Game-relative icon locator and stack facts; absent in catalogues read by an older version.
+    icon: string | null
+    stackMultiplier: number | null
+    stackSingle: boolean
   }>
   total: number
 }
@@ -125,7 +129,10 @@ export class CatalogRepository {
           category: entry.category,
           name: plainText(localized.name),
           subtitle: plainText(localized.subtitle),
-          description: plainText(localized.description)
+          description: plainText(localized.description),
+          icon: entry.icon ?? null,
+          stackMultiplier: entry.stackMultiplier ?? null,
+          stackSingle: entry.stackSingle ?? false
         }
       })
     }

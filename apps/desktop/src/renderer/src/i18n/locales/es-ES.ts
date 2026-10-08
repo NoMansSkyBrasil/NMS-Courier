@@ -198,6 +198,8 @@ export const esES: Messages = {
       'NMS Courier es una herramienta no oficial en desarrollo. Funciona con una versión exacta del juego cada vez.'
   },
   delivery: {
+    currencyAmountHint: 'Cualquier cantidad de 1 a {max}, el mayor saldo que conserva el juego.',
+    itemsStack: 'Pila de {count}',
     equipActionLabel: 'Acción',
     equipTarget: 'Nave',
     equipTargetCurrent: 'Nave actual',
@@ -213,7 +215,7 @@ export const esES: Messages = {
     equipExtendedHint:
       'Amplía la cuadrícula de tecnología a doce filas. Requiere todos los espacios del inventario.',
     currencyHint:
-      'La recompensa del propio juego añade la cantidad y muestra su notificación. Las cantidades son fijas; envía de nuevo para recibir más.',
+      'La recompensa del propio juego añade la cantidad y muestra su notificación. El saldo nunca supera el máximo del juego.',
     currencyLabel: 'Moneda',
     equipAction: {
       grid: 'Aplicar al inventario',

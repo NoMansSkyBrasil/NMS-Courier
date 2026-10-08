@@ -16,6 +16,8 @@ type Layout = {
   entrySize: number
   fields: Record<'gameId' | 'name' | 'nameLower' | 'subtitle' | 'description' | 'icon', Field>
   category: { offset: number; names: Record<string, string> }
+  // Where the item's own stack multiplier is; null for a table without stacks.
+  stackMultiplier: number | null
 }
 
 export type CoreTableEntry = {
@@ -27,6 +29,10 @@ export type CoreTableEntry = {
   subtitleKey: string
   descriptionKey: string
   icon: string
+  // The game multiplies the inventory's base stack by this; null where stacks do not apply.
+  stackMultiplier: number | null
+  // The game keeps these to one per slot whatever the multiplier says.
+  stackSingle: boolean
 }
 
 export class GameTableError extends Error {
@@ -37,6 +43,9 @@ export class GameTableError extends Error {
 
 const tableLayouts = layouts as Record<CoreTableDomain, Layout>
 const tableMagic = 0xcccccccc
+// Product types the game's stack limit routine never stacks (creature eggs and one unused type),
+// as that routine tests them.
+const unstackedProductTypes = [5, 8]
 
 export function coreTablePath(domain: CoreTableDomain): string {
   return tableLayouts[domain].path
@@ -87,9 +96,15 @@ export function readCoreTable(domain: CoreTableDomain, data: Buffer): CoreTableE
   const entries: CoreTableEntry[] = []
   for (let index = 0; index < list.count; index += 1) {
     const entry = list.start + index * layout.entrySize
+    const type = data.readInt32LE(entry + layout.category.offset)
+    const stackMultiplier =
+      layout.stackMultiplier === null ? null : data.readInt32LE(entry + layout.stackMultiplier)
     entries.push({
+      stackMultiplier,
+      stackSingle:
+        domain === 'product' && (stackMultiplier === 0 || unstackedProductTypes.includes(type)),
       gameId: text(entry, layout.fields.gameId),
-      category: layout.category.names[data.readInt32LE(entry + layout.category.offset)] ?? null,
+      category: layout.category.names[type] ?? null,
       nameKey: text(entry, layout.fields.name),
       nameLowerKey: text(entry, layout.fields.nameLower),
       subtitleKey: text(entry, layout.fields.subtitle),

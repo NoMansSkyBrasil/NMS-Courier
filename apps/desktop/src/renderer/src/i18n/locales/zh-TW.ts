@@ -183,6 +183,8 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    currencyAmountHint: '1 到 {max}（遊戲能保存的最大餘額）之間的任意數額。',
+    itemsStack: '每疊 {count}',
     equipActionLabel: '操作',
     equipTarget: '星艦',
     equipTargetCurrent: '目前的星艦',
@@ -194,7 +196,7 @@ export const zhTW: Messages = {
     equipSuperchargeHint: '將每個可用的科技格子變為超載格子。',
     equipExtended: '額外科技列',
     equipExtendedHint: '將科技網格擴充到十二列。需要啟用全部物品欄格子。',
-    currencyHint: '由遊戲自身的獎勵增加數額並顯示通知。數額是固定的；需要更多時請再次傳送。',
+    currencyHint: '由遊戲自身的獎勵增加數額並顯示通知。餘額不會超過遊戲的上限。',
     currencyLabel: '貨幣',
     equipAction: {
       grid: '套用到物品欄',

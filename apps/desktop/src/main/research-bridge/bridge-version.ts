@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.1.0'
+export const bridgeVersion = '1.2.0'
 
 // null: a build from before versions existed. It still works for the requests it has.
 export const bridgeReleases: Readonly<Record<string, string | null>> = {
@@ -13,5 +13,7 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // notification option of product recipes; the item request is not exercised live yet).
   '70bbe51466c5bf31441f0af07d8740c5f1a479ea835eb4e866f387f2b30aba79': '1.0.0',
   // 1.1.0 (2026-10-08): currency rewards may be requested (CR_UNITS_*, CR_NANITE_*, CR_QS_*).
-  '0a51fbd01bbafb5f4fe921ab5dcdc8f47e5423a9589384aaa4d45e600607a03d': '1.1.0'
+  '0a51fbd01bbafb5f4fe921ab5dcdc8f47e5423a9589384aaa4d45e600607a03d': '1.1.0',
+  // 1.2.0 (2026-10-08): currencies of any amount (request "currency"), stack sizes reported.
+  e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c: '1.2.0'
 }

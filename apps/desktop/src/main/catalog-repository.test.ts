@@ -71,7 +71,10 @@ describe('catalog repository', () => {
           category: null,
           name: 'Carbono',
           subtitle: 'Substância',
-          description: 'Combustível.'
+          description: 'Combustível.',
+          icon: null,
+          stackMultiplier: null,
+          stackSingle: false
         }
       ]
     })

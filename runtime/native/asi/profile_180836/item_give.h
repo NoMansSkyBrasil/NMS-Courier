@@ -61,6 +61,7 @@ static item_store_add_fn item_store_add;
 static char item_ids[ITEM_REQUEST_CAPACITY][16];
 static LONG item_amounts[ITEM_REQUEST_CAPACITY];
 static volatile LONG item_added[ITEM_REQUEST_CAPACITY];
+static volatile LONG item_limits[ITEM_REQUEST_CAPACITY];   // stack limit the game gave for each item
 static volatile LONG item_results[ITEM_REQUEST_CAPACITY];
 static volatile LONG item_count;
 static volatile LONG item_state;        // 0 idle, 1 requested, 2 applied and waiting for the result file
@@ -110,7 +111,8 @@ static int item_readable(uintptr_t address, size_t length) {
 }
 
 // One requested item: stacks of at most the game's limit until the amount is in or the store is full.
-static LONG item_give(uintptr_t manager, void *store, const char *id, LONG amount, volatile LONG *added) {
+static LONG item_give(uintptr_t manager, void *store, const char *id, LONG amount, volatile LONG *added,
+                      volatile LONG *used_limit) {
     void *table = (void *)(manager + ITEM_TABLE_OFFSET);
     const uint8_t *definition = item_substance_lookup(table, id);
     int32_t type = ITEM_TYPE_SUBSTANCE;
@@ -124,6 +126,7 @@ static LONG item_give(uintptr_t manager, void *store, const char *id, LONG amoun
     if (!definition || !item_readable((uintptr_t)definition + id_offset, 16) ||
         strncmp((const char *)definition + id_offset, id, 16) != 0) return ITEM_UNKNOWN_ID;
     int32_t limit = type == ITEM_TYPE_SUBSTANCE ? item_substance_limit(store, id) : item_product_limit(store, id);
+    InterlockedExchange(used_limit, limit);
     if (limit < 1 || limit > ITEM_MAX_AMOUNT) return ITEM_BAD_LIMIT;
 
     LONG remaining = amount;
@@ -153,7 +156,8 @@ static void item_apply_request(void) {
     LONG count = InterlockedCompareExchange(&item_count, 0, 0);
     for (LONG index = 0; index < count && index < ITEM_REQUEST_CAPACITY; ++index)
         InterlockedExchange(&item_results[index],
-                            ready ? item_give(manager, store, item_ids[index], item_amounts[index], &item_added[index])
+                            ready ? item_give(manager, store, item_ids[index], item_amounts[index], &item_added[index],
+                                              &item_limits[index])
                                   : ITEM_NOT_READY);
     InterlockedExchange(&item_state, 2);
 }
@@ -199,6 +203,7 @@ static int item_read_request(void) {
         memcpy(item_ids[count], line, length);
         item_amounts[count] = amount;
         InterlockedExchange(&item_added[count], 0);
+        InterlockedExchange(&item_limits[count], 0);
         InterlockedExchange(&item_results[count], ITEM_PENDING);
         ++count;
     }
@@ -217,10 +222,73 @@ static void item_write_result(void) {
         LONG count = InterlockedCompareExchange(&item_count, 0, 0);
         fprintf(file, "requested=%ld\n", (long)count);
         for (LONG index = 0; index < count; ++index)
-            fprintf(file, "%.16s:%ld/%ld=%s\n", item_ids[index],
+            fprintf(file, "%.16s:%ld/%ld stack %ld=%s\n", item_ids[index],
                     (long)InterlockedCompareExchange(&item_added[index], 0, 0), (long)item_amounts[index],
+                    (long)InterlockedCompareExchange(&item_limits[index], 0, 0),
                     item_result_names[InterlockedCompareExchange(&item_results[index], 0, 0)]);
         fclose(file);
     }
     InterlockedExchange(&item_state, 0);
+}
+
+// Stack sizes of the exosuit cargo for the loaded save, read where the game's two stack limit
+// routines read them: the base stack of a substance and of a product for the store's size group
+// under the current difficulty settings, and the two caps. An item's stack is its own multiplier
+// times the base, at most the cap. Refreshed on the game's update thread, reported by the worker.
+#define ITEM_LIMITS_POINTER_RVA 0x7033650u
+#define ITEM_DIFFICULTY_INDEX_OFFSET 0x315a34u  // from the manager object
+#define ITEM_LIMITS_ENTRY_SIZE 0x70u
+#define ITEM_STORE_GROUP_OFFSET 0xfcu
+#define ITEM_GROUP_COUNT 13
+#define ITEM_PRODUCT_BASE_OFFSET 0x25b0u
+#define ITEM_SUBSTANCE_BASE_OFFSET 0x25e4u
+#define ITEM_PRODUCT_CAP_OFFSET 0x2618u
+#define ITEM_SUBSTANCE_CAP_OFFSET 0x261cu
+#define ITEM_LIMITS_REFRESH_FRAMES 300
+
+static volatile LONG item_stack_values[4] = {-1, -1, -1, -1};  // substance base, substance cap, product base, product cap
+static volatile LONG item_stack_reported[4] = {-2, -2, -2, -2};
+static LONG item_stack_frames;
+
+// Runs on the game's update thread.
+static void item_limits_tick(void) {
+    if (++item_stack_frames < ITEM_LIMITS_REFRESH_FRAMES) return;
+    item_stack_frames = 0;
+    uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    uintptr_t manager = item_store_add ? *(const uintptr_t *)(base + MANAGER_POINTER_RVA) : 0;
+    LONG values[4] = {-1, -1, -1, -1};
+    if (manager && item_readable(manager + ITEM_DIFFICULTY_INDEX_OFFSET, 4) &&
+        item_readable(manager + ITEM_SUIT_CARGO_OFFSET, STORE_SIZE) && item_readable(base + ITEM_LIMITS_POINTER_RVA, 8)) {
+        int32_t difficulty = *(const int32_t *)(manager + ITEM_DIFFICULTY_INDEX_OFFSET);
+        int32_t group = *(const int32_t *)(manager + ITEM_SUIT_CARGO_OFFSET + ITEM_STORE_GROUP_OFFSET);
+        uintptr_t table = *(const uintptr_t *)(base + ITEM_LIMITS_POINTER_RVA);
+        if (table && difficulty >= 0 && difficulty < 64 && group >= 0 && group < ITEM_GROUP_COUNT) {
+            uintptr_t limits = table + (uintptr_t)difficulty * ITEM_LIMITS_ENTRY_SIZE;
+            if (item_readable(limits + ITEM_PRODUCT_BASE_OFFSET, ITEM_SUBSTANCE_CAP_OFFSET + 4 - ITEM_PRODUCT_BASE_OFFSET)) {
+                values[0] = *(const int32_t *)(limits + ITEM_SUBSTANCE_BASE_OFFSET + (uintptr_t)group * 4);
+                values[1] = *(const int32_t *)(limits + ITEM_SUBSTANCE_CAP_OFFSET);
+                values[2] = *(const int32_t *)(limits + ITEM_PRODUCT_BASE_OFFSET + (uintptr_t)group * 4);
+                values[3] = *(const int32_t *)(limits + ITEM_PRODUCT_CAP_OFFSET);
+            }
+        }
+    }
+    for (int index = 0; index < 4; ++index) InterlockedExchange(&item_stack_values[index], values[index]);
+}
+
+// Called from the worker thread: rewrite the file only when a value changed.
+static void item_limits_write(void) {
+    LONG values[4];
+    int changed = 0;
+    for (int index = 0; index < 4; ++index) {
+        values[index] = InterlockedCompareExchange(&item_stack_values[index], 0, 0);
+        if (values[index] != InterlockedCompareExchange(&item_stack_reported[index], 0, 0)) changed = 1;
+    }
+    wchar_t path[MAX_PATH];
+    if (!changed || !item_path(path, L"limits")) return;
+    FILE *file = _wfopen(path, L"w");
+    if (!file) return;
+    fprintf(file, "substance_base=%ld\nsubstance_cap=%ld\nproduct_base=%ld\nproduct_cap=%ld\n",
+            (long)values[0], (long)values[1], (long)values[2], (long)values[3]);
+    fclose(file);
+    for (int index = 0; index < 4; ++index) InterlockedExchange(&item_stack_reported[index], values[index]);
 }

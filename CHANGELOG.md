@@ -13,6 +13,28 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.2.0 and bridge 1.2.0 (2026-10-08)
+
+Bridge 1.2.0, file SHA-256
+`e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c`:
+
+- Currencies of any amount from 1 to 4,294,967,295 (request `currency`); the
+  fixed-amount rewards of 1.1.0 can no longer be requested. See
+  `docs/CURRENCY_DELIVERY_NOTES.md`.
+- Reports the stack sizes of the exosuit cargo for the loaded save
+  (`native-item-limits-180836-<PID>.txt`) and, in an item result, the stack
+  the game gave each item.
+- Not exercised live yet.
+
+Application 1.2.0:
+
+- Currencies page takes a free amount.
+- Items page shows the stack of each item: the game's base stack for the save
+  times the item's own multiplier, at most the game's cap. The catalogue must
+  be read from the game again once to learn the multipliers.
+- Fix: the game process query no longer fails when the game is closed (the
+  dashboard showed "Unknown").
+
 ## Application 1.1.1 (2026-10-08)
 
 - Fix: the application never saw the running game. Windows PowerShell writes

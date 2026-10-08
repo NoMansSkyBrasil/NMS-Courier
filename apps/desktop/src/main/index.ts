@@ -35,6 +35,7 @@ function getResearchBridgeService(): ResearchBridgeService {
   researchBridgeService ??= new ResearchBridgeService({
     enabled: is.dev,
     signalDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'native', 'asi', 'signal'),
+    diagnosticsDirectory: join(process.env.LOCALAPPDATA ?? '', 'NMSCourier', 'diagnostics'),
     backupDirectory: join(app.getPath('userData'), 'save-backups'),
     saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS')
   })
@@ -284,16 +285,22 @@ app.whenReady().then(() => {
     )
   })
   ipcMain.handle('nms:deliver-currency', async (_, request: unknown) => {
-    const value = request as { currency?: unknown; amount?: unknown } | null
-    if (!value || typeof value.currency !== 'string' || typeof value.amount !== 'string') {
+    const value = request as { currency?: unknown; amount?: unknown; notify?: unknown } | null
+    if (!value || typeof value.currency !== 'string' || typeof value.amount !== 'number') {
       throw new Error('Invalid request.')
     }
     const root = getInstallationService().getSelectedRootPath()
     return getResearchBridgeService().deliverCurrency(
       { currency: value.currency, amount: value.amount },
       root,
-      await gameStatusService.observe(root)
+      await gameStatusService.observe(root),
+      value.notify !== false
     )
+  })
+  ipcMain.handle('nms:get-stack-limits', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    const game = await gameStatusService.observe(root)
+    return getResearchBridgeService().getStackLimits(game.processId)
   })
   ipcMain.handle('nms:deliver-items', async (_, items: unknown) => {
     const valid =

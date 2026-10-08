@@ -197,6 +197,9 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    currencyAmountHint:
+      'Dowolna kwota od 1 do {max}, czyli największego salda, jakie przechowuje gra.',
+    itemsStack: 'Stos po {count}',
     equipActionLabel: 'Działanie',
     equipTarget: 'Statek',
     equipTargetCurrent: 'Obecny statek',
@@ -210,7 +213,7 @@ export const plPL: Messages = {
     equipExtendedHint:
       'Powiększa siatkę technologii do dwunastu rzędów. Wymaga wszystkich miejsc w ekwipunku.',
     currencyHint:
-      'Nagroda samej gry dodaje kwotę i pokazuje własne powiadomienie. Kwoty są stałe; wyślij ponownie, aby otrzymać więcej.',
+      'Nagroda samej gry dodaje kwotę i pokazuje własne powiadomienie. Saldo nigdy nie przekracza maksimum gry.',
     currencyLabel: 'Waluta',
     equipAction: {
       grid: 'Zastosuj do ekwipunku',

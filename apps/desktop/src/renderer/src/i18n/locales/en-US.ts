@@ -192,6 +192,8 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    currencyAmountHint: 'Any amount from 1 to {max}, the largest balance the game keeps.',
+    itemsStack: 'Stack of {count}',
     equipActionLabel: 'Action',
     equipTarget: 'Starship',
     equipTargetCurrent: 'Current starship',
@@ -204,7 +206,7 @@ export const enUS: Messages = {
     equipExtended: 'Extra technology rows',
     equipExtendedHint: 'Raises the technology grid to twelve rows. Needs all inventory slots.',
     currencyHint:
-      'The game’s own reward adds the amount and shows its notification. The amounts are fixed; send again for more.',
+      'The game’s own reward adds the amount and shows its notification. The balance never passes the game’s maximum.',
     currencyLabel: 'Currency',
     equipAction: {
       grid: 'Apply to inventory',

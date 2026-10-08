@@ -207,6 +207,8 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    currencyAmountHint: 'Elk bedrag van 1 tot {max}, het grootste saldo dat het spel bijhoudt.',
+    itemsStack: 'Stapel van {count}',
     equipActionLabel: 'Actie',
     equipTarget: 'Sterrenschip',
     equipTargetCurrent: 'Huidig sterrenschip',
@@ -220,7 +222,7 @@ export const nlNL: Messages = {
     equipExtendedHint:
       'Breidt het technologieraster uit naar twaalf rijen. Vereist alle inventarisvakken.',
     currencyHint:
-      'De beloning van het spel zelf voegt het bedrag toe en toont de melding. De bedragen zijn vast; verzend opnieuw voor meer.',
+      'De beloning van het spel zelf voegt het bedrag toe en toont de melding. Het saldo komt nooit boven het maximum van het spel.',
     currencyLabel: 'Valuta',
     equipAction: {
       grid: 'Toepassen op inventaris',

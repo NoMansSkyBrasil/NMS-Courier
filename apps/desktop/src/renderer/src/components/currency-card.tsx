@@ -21,7 +21,14 @@ import {
   CardHeader,
   CardTitle
 } from '@renderer/components/ui/card'
-import { Field, FieldContent, FieldGroup, FieldLabel } from '@renderer/components/ui/field'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel
+} from '@renderer/components/ui/field'
+import { Input } from '@renderer/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -33,32 +40,15 @@ import {
 import { Spinner } from '@renderer/components/ui/spinner'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
+import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverCurrency>>
 type Currency = 'units' | 'nanites' | 'quicksilver'
 
-// The fixed amounts of the currency rewards data file, as figures for display.
-const amounts: Record<Currency, ReadonlyArray<{ value: string; figure: number }>> = {
-  units: [
-    { value: '1M', figure: 1_000_000 },
-    { value: '10M', figure: 10_000_000 },
-    { value: '100M', figure: 100_000_000 },
-    { value: '1B', figure: 1_000_000_000 }
-  ],
-  nanites: [
-    { value: '1K', figure: 1_000 },
-    { value: '10K', figure: 10_000 },
-    { value: '100K', figure: 100_000 },
-    { value: '1M', figure: 1_000_000 }
-  ],
-  quicksilver: [
-    { value: '1K', figure: 1_000 },
-    { value: '10K', figure: 10_000 },
-    { value: '100K', figure: 100_000 },
-    { value: '1M', figure: 1_000_000 }
-  ]
-}
+const currencies: readonly Currency[] = ['units', 'nanites', 'quicksilver']
+// The largest balance the game keeps.
+const maximum = 4294967295
 const outcomeIcons = {
   completed: CircleCheckIcon,
   unknown: CircleHelpIcon,
@@ -67,13 +57,13 @@ const outcomeIcons = {
 } as const
 
 // Adds units, nanites or quicksilver to the loaded slot through the game's own reward routine:
-// choose the currency and one of the fixed amounts, confirm, one request.
+// choose the currency and any amount up to the game's maximum, confirm, one request.
 export function CurrencyCard(): React.JSX.Element {
   const { copy, locale } = useLocale()
   const text = copy.delivery
   const [status, setStatus] = useState<BridgeStatus | null>(null)
   const [currency, setCurrency] = useState<Currency>('units')
-  const [amount, setAmount] = useState('1M')
+  const [amount, setAmount] = useState(1000000)
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)
@@ -98,20 +88,16 @@ export function CurrencyCard(): React.JSX.Element {
     setConfirming(false)
     setSending(true)
     try {
-      setResult(await window.nms.deliverCurrency({ currency, amount }))
+      setResult(
+        await window.nms.deliverCurrency({ currency, amount, notify: readNotifyPreference() })
+      )
     } finally {
       setSending(false)
     }
   }
 
-  const currencies = (Object.keys(amounts) as Currency[]).map((value) => ({
-    value,
-    label: text.currencyName[value]
-  }))
-  const amountItems = amounts[currency].map((entry) => ({
-    value: entry.value,
-    label: entry.figure.toLocaleString(locale)
-  }))
+  const currencyItems = currencies.map((value) => ({ value, label: text.currencyName[value] }))
+  const valid = Number.isInteger(amount) && amount >= 1 && amount <= maximum
   const ready = status?.state === 'ready'
   const stateText = status
     ? formatMessage(text.state[status.state], { id: status.processId ?? '' })
@@ -133,19 +119,16 @@ export function CurrencyCard(): React.JSX.Element {
               <FieldLabel htmlFor="currency-kind">{text.currencyLabel}</FieldLabel>
             </FieldContent>
             <Select
-              items={currencies}
+              items={currencyItems}
               value={currency}
-              onValueChange={(value) => {
-                setCurrency(value as Currency)
-                setAmount(amounts[value as Currency][0].value)
-              }}
+              onValueChange={(value) => setCurrency(value as Currency)}
             >
               <SelectTrigger id="currency-kind">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {currencies.map((entry) => (
+                  {currencyItems.map((entry) => (
                     <SelectItem key={entry.value} value={entry.value}>
                       {entry.label}
                     </SelectItem>
@@ -157,25 +140,19 @@ export function CurrencyCard(): React.JSX.Element {
           <Field orientation="responsive">
             <FieldContent>
               <FieldLabel htmlFor="currency-amount">{text.itemsAmount}</FieldLabel>
+              <FieldDescription>
+                {formatMessage(text.currencyAmountHint, { max: maximum.toLocaleString(locale) })}
+              </FieldDescription>
             </FieldContent>
-            <Select
-              items={amountItems}
+            <Input
+              id="currency-amount"
+              type="number"
+              min={1}
+              max={maximum}
+              step={1}
               value={amount}
-              onValueChange={(value) => setAmount(value as string)}
-            >
-              <SelectTrigger id="currency-amount">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {amountItems.map((entry) => (
-                    <SelectItem key={entry.value} value={entry.value}>
-                      {entry.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+              onChange={(event) => setAmount(Math.trunc(Number(event.target.value)) || 0)}
+            />
           </Field>
         </FieldGroup>
         {result && OutcomeIcon && (
@@ -205,7 +182,7 @@ export function CurrencyCard(): React.JSX.Element {
       </CardContent>
       <CardFooter>
         <AlertDialog open={confirming} onOpenChange={setConfirming}>
-          <AlertDialogTrigger render={<Button disabled={!ready || sending} />}>
+          <AlertDialogTrigger render={<Button disabled={!ready || sending || !valid} />}>
             {sending ? <Spinner data-icon="inline-start" /> : <SendIcon data-icon="inline-start" />}
             {sending ? text.sending : text.action}
           </AlertDialogTrigger>

@@ -38,7 +38,8 @@ import type { DeliveryStateId } from '@renderer/i18n/messages'
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverItems>>
 type Entry = Awaited<ReturnType<typeof window.nms.searchCatalog>>['entries'][number]
-type Chosen = { id: string; name: string; amount: number }
+type StackLimits = Awaited<ReturnType<typeof window.nms.getStackLimits>>
+type Chosen = { id: string; name: string; amount: number; stack: number | null }
 
 const outcomeIcons = {
   completed: CircleCheckIcon,
@@ -46,6 +47,16 @@ const outcomeIcons = {
   failed: CircleAlertIcon,
   refused: CircleAlertIcon
 } as const
+// Stack of one item in the exosuit cargo: the game's base for the save times the item's own
+// multiplier, at most the game's cap. Unknown until the bridge has reported the save's sizes.
+function stackOf(entry: Entry, limits: StackLimits): number | null {
+  if (!limits || entry.stackMultiplier === null || entry.domain === 'technology') return null
+  if (entry.stackSingle) return 1
+  return entry.domain === 'substance'
+    ? Math.min(limits.substanceBase * entry.stackMultiplier, limits.substanceCap)
+    : Math.min(limits.productBase * entry.stackMultiplier, limits.productCap)
+}
+
 // One request of the bridge carries this many different items.
 const requestLimit = 32
 const amountLimit = 999999
@@ -60,6 +71,7 @@ export function ItemsCard(): React.JSX.Element {
   const [found, setFound] = useState<Entry[]>([])
   const [catalog, setCatalog] = useState<boolean | null>(null)
   const [chosen, setChosen] = useState<Chosen[]>([])
+  const [limits, setLimits] = useState<StackLimits>(null)
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)
@@ -71,6 +83,10 @@ export function ItemsCard(): React.JSX.Element {
         .getResearchBridgeStatus()
         .then((next) => active && setStatus(next))
         .catch(() => active && setStatus(null))
+      void window.nms
+        .getStackLimits()
+        .then((next) => active && setLimits(next))
+        .catch(() => active && setLimits(null))
     }
     refresh()
     void window.nms
@@ -107,7 +123,15 @@ export function ItemsCard(): React.JSX.Element {
     setChosen((current) =>
       current.length >= requestLimit || current.some((item) => item.id === entry.gameId)
         ? current
-        : [...current, { id: entry.gameId, name: entry.name || entry.gameId, amount: 1 }]
+        : [
+            ...current,
+            {
+              id: entry.gameId,
+              name: entry.name || entry.gameId,
+              amount: stackOf(entry, limits) ?? 1,
+              stack: stackOf(entry, limits)
+            }
+          ]
     )
   }
   const setAmount = (id: string, value: string): void => {
@@ -164,6 +188,12 @@ export function ItemsCard(): React.JSX.Element {
                     <TableCell>
                       <Badge variant="outline">{copy.catalogPage[entry.domain]}</Badge>
                     </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {stackOf(entry, limits) !== null &&
+                        formatMessage(text.itemsStack, {
+                          count: (stackOf(entry, limits) as number).toLocaleString(locale)
+                        })}
+                    </TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="outline"
@@ -194,6 +224,12 @@ export function ItemsCard(): React.JSX.Element {
                   <TableRow key={item.id}>
                     <TableCell className="font-medium">{item.name}</TableCell>
                     <TableCell className="text-muted-foreground">{item.id}</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {item.stack !== null &&
+                        formatMessage(text.itemsStack, {
+                          count: item.stack.toLocaleString(locale)
+                        })}
+                    </TableCell>
                     <TableCell className="w-36">
                       <Input
                         aria-label={text.itemsAmount}

@@ -206,6 +206,9 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    currencyAmountHint:
+      'N’importe quel montant de 1 à {max}, le plus grand solde que le jeu conserve.',
+    itemsStack: 'Pile de {count}',
     equipActionLabel: 'Action',
     equipTarget: 'Vaisseau',
     equipTargetCurrent: 'Vaisseau actuel',
@@ -220,7 +223,7 @@ export const frFR: Messages = {
     equipExtendedHint:
       'Porte la grille de technologie à douze rangées. Nécessite tous les emplacements d’inventaire.',
     currencyHint:
-      'La récompense du jeu ajoute le montant et affiche sa notification. Les montants sont fixes ; envoyez à nouveau pour en recevoir davantage.',
+      'La récompense du jeu ajoute le montant et affiche sa notification. Le solde ne dépasse jamais le maximum du jeu.',
     currencyLabel: 'Monnaie',
     equipAction: {
       grid: 'Appliquer à l’inventaire',

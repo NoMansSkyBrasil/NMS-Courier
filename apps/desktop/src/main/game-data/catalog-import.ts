@@ -124,6 +124,8 @@ export class CatalogImporter {
             domain,
             category: entry.category,
             icon: entry.icon,
+            stackMultiplier: entry.stackMultiplier,
+            stackSingle: entry.stackSingle,
             localizations
           })
         }
@@ -146,7 +148,7 @@ export class CatalogImporter {
               productVersion: source.productVersion,
               executableSha256: source.executableSha256
             },
-            source: { archives: sourceArchives, reader: 'native-1' },
+            source: { archives: sourceArchives, reader: 'native-2' },
             domains,
             entries
           })

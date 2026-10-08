@@ -1,15 +1,12 @@
 import type { DeliveryPlan } from './delivery-plan'
 
-// Currency requests: one dispatch of a currency reward of the data file in
-// runtime/mods/currency_rewards through the game's own reward routine. The amounts are the fixed
-// ones that file defines; the renderer names a currency and one of them.
+// Currency requests: units, nanites or quicksilver of any amount through the game's own reward
+// routine. The bridge needs the data file of runtime/mods/currency_rewards in the game's mod folder.
 
-export const currencyAmounts = {
-  units: ['1M', '10M', '100M', '1B'],
-  nanites: ['1K', '10K', '100K', '1M'],
-  quicksilver: ['1K', '10K', '100K', '1M']
-} as const
-export type Currency = keyof typeof currencyAmounts
+export const currencies = ['units', 'nanites', 'quicksilver'] as const
+export type Currency = (typeof currencies)[number]
+// The largest balance the game keeps.
+export const currencyMaximum = 4294967295
 
 // Where the data file must be, below the installation root, and what it must contain.
 export const currencyDataFile = [
@@ -23,20 +20,27 @@ export const currencyDataFile = [
 ] as const
 export const currencyDataSha256 = 'cdf9552a4a64fd54b95aa0a2fcd9f25b61a9ceb8f872e8443518701352e26062'
 
-export type CurrencyRequest = { currency: string; amount: string }
+export type CurrencyRequest = { currency: string; amount: number }
 
-export function getCurrencyPlan(request: CurrencyRequest): DeliveryPlan | null {
-  const amounts: readonly string[] | undefined =
-    currencyAmounts[request.currency as Currency] ?? undefined
-  if (!Object.hasOwn(currencyAmounts, request.currency) || !amounts?.includes(request.amount)) {
-    return null
-  }
+export function getCurrencyPlan(request: CurrencyRequest, notify: boolean): DeliveryPlan | null {
+  const valid =
+    (currencies as readonly string[]).includes(request.currency) &&
+    Number.isInteger(request.amount) &&
+    request.amount >= 1 &&
+    request.amount <= currencyMaximum
+  if (!valid) return null
   return {
     changesAccount: false,
     steps: [
       {
         script: 'signal-currency-180836.ps1',
-        args: ['-Currency', request.currency, '-Amount', request.amount]
+        args: [
+          '-Currency',
+          request.currency,
+          '-Amount',
+          String(request.amount),
+          ...(notify ? ['-ShowAlert'] : [])
+        ]
       }
     ]
   }

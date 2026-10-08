@@ -1,5 +1,6 @@
 {
   "substance": {
+    "stackMultiplier": 300,
     "path": "metadata/reality/tables/nms_reality_gcsubstancetable.mbin",
     "structure": "e40c0000c1bc9f7a4477222f65841b13",
     "listPosition": 48,
@@ -47,6 +48,7 @@
     }
   },
   "product": {
+    "stackMultiplier": 480,
     "path": "metadata/reality/tables/nms_reality_gcproducttable.mbin",
     "structure": "e40c000032c3ed06778ed48dae18bb54",
     "listPosition": 32,
@@ -97,6 +99,7 @@
     }
   },
   "technology": {
+    "stackMultiplier": null,
     "path": "metadata/reality/tables/nms_reality_gctechnologytable.mbin",
     "structure": "e40c0000debffd1459e8ee2fdcb17393",
     "listPosition": 32,

@@ -41,6 +41,13 @@ export type ResearchBridgeStatus = {
   bridgeVersion: string
 }
 
+export type StackLimits = {
+  substanceBase: number
+  substanceCap: number
+  productBase: number
+  productCap: number
+}
+
 export type DeliveryStepResult = {
   script: string
   outcome: 'completed' | 'unknown' | 'failed'
@@ -88,6 +95,8 @@ export type ResearchBridgeContext = {
   // False in a packaged application: the research bridge is a development capability.
   enabled: boolean
   signalDirectory: string
+  // Where the bridge writes its status and result files.
+  diagnosticsDirectory: string
   backupDirectory: string
   saveDirectory: string
 }
@@ -140,6 +149,25 @@ export class ResearchBridgeService {
     )
   }
 
+  // Stack sizes of the exosuit cargo, as the running bridge last reported them; null before the
+  // game has a save loaded or with an older bridge.
+  async getStackLimits(processId: number | null): Promise<StackLimits | null> {
+    if (processId === null) return null
+    const text = await readFile(
+      join(this.context.diagnosticsDirectory, `native-item-limits-180836-${processId}.txt`),
+      'utf8'
+    ).catch(() => '')
+    const value = (name: string): number =>
+      Number(new RegExp(`^${name}=(-?\\d+)$`, 'm').exec(text)?.[1] ?? -1)
+    const limits = {
+      substanceBase: value('substance_base'),
+      substanceCap: value('substance_cap'),
+      productBase: value('product_base'),
+      productCap: value('product_cap')
+    }
+    return Object.values(limits).every((entry) => entry > 0) ? limits : null
+  }
+
   getActivity(): DeliveryResult[] {
     return [...this.activity].reverse()
   }
@@ -182,7 +210,8 @@ export class ResearchBridgeService {
   async deliverCurrency(
     request: CurrencyRequest,
     installationRoot: string | null,
-    game: GameProcessStatus
+    game: GameProcessStatus,
+    notify = true
   ): Promise<DeliveryResult> {
     const data = installationRoot
       ? await sha256OfFile(join(installationRoot, ...currencyDataFile))
@@ -197,7 +226,7 @@ export class ResearchBridgeService {
         steps: []
       })
     }
-    return this.run('currencies', getCurrencyPlan(request), installationRoot, game)
+    return this.run('currencies', getCurrencyPlan(request, notify), installationRoot, game)
   }
 
   private async run(

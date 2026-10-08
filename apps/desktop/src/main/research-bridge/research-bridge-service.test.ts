@@ -21,6 +21,7 @@ async function fixture(bridgeBytes: string | null): Promise<{
   context: {
     enabled: boolean
     signalDirectory: string
+    diagnosticsDirectory: string
     backupDirectory: string
     saveDirectory: string
   }
@@ -40,6 +41,7 @@ async function fixture(bridgeBytes: string | null): Promise<{
     context: {
       enabled: true,
       signalDirectory,
+      diagnosticsDirectory: base,
       backupDirectory: join(base, 'backups'),
       saveDirectory
     }

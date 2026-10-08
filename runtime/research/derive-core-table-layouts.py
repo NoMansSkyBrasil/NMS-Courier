@@ -28,6 +28,7 @@ TABLES = {
         "strings": {"gameId": "ID", "name": "Name", "nameLower": "NameLower",
                     "subtitle": "Subtitle", "description": "Description", "icon": "Icon/Filename"},
         "category": "Category/SubstanceCategory",
+        "stackMultiplier": 0x12c,
     },
     "product": {
         "path": "metadata/reality/tables/nms_reality_gcproducttable",
@@ -35,6 +36,7 @@ TABLES = {
         "strings": {"gameId": "ID", "name": "Name", "nameLower": "NameLower",
                     "subtitle": "Subtitle", "description": "Description", "icon": "Icon/Filename"},
         "category": "Type/ProductCategory",
+        "stackMultiplier": 0x1e0,
     },
     "technology": {
         "path": "metadata/reality/tables/nms_reality_gctechnologytable",
@@ -134,7 +136,17 @@ def derive(corpus: Path, domain: str, spec: dict) -> dict:
     if category is None:
         raise SystemExit("no category offset: " + domain)
 
+    # The stack multiplier is read where the game's stack limit routines read it; the offset is
+    # kept only when it reproduces the converter's value for every entry.
+    stack = spec.get("stackMultiplier")
+    if stack is not None:
+        for index, entry in enumerate(entries):
+            number = struct.unpack_from("<i", data, first + index * size + stack)[0]
+            if number != int(child_value(entry, "StackMultiplier")):
+                raise SystemExit("stack multiplier offset does not hold: " + domain)
+
     return {
+        "stackMultiplier": stack,
         "path": spec["path"] + ".mbin",
         "structure": data[8:24].hex(),
         "listPosition": list_position,

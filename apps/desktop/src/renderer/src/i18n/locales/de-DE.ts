@@ -209,6 +209,9 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    currencyAmountHint:
+      'Jeder Betrag von 1 bis {max}, dem größten Guthaben, das das Spiel speichert.',
+    itemsStack: 'Stapel von {count}',
     equipActionLabel: 'Aktion',
     equipTarget: 'Raumschiff',
     equipTargetCurrent: 'Aktuelles Raumschiff',
@@ -222,7 +225,7 @@ export const deDE: Messages = {
     equipExtendedHint:
       'Erweitert das Technologieraster auf zwölf Reihen. Erfordert alle Inventarplätze.',
     currencyHint:
-      'Die Belohnung des Spiels fügt den Betrag hinzu und zeigt die eigene Benachrichtigung. Die Beträge sind fest; sende erneut, um mehr zu erhalten.',
+      'Die Belohnung des Spiels fügt den Betrag hinzu und zeigt die eigene Benachrichtigung. Das Guthaben übersteigt nie das Maximum des Spiels.',
     currencyLabel: 'Währung',
     equipAction: {
       grid: 'Auf Inventar anwenden',
