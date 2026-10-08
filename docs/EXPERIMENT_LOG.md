@@ -13,8 +13,10 @@ preflight passed.
 - Slot, game routine: 234 Twitch rewards (build parts, customisation,
   emotes; no fireworks): 173 changed, 61 already redeemed. 201 item-type
   rewards deliberately not redeemed in the slot.
-- Game kept running. Not proven: saved files, survival of the two sets at
-  the next start or online, claiming in the shop.
+- Game kept running. Afterwards the owner saw the game's own notification
+  that Twitch rewards are available at the Quicksilver companion.
+- Not proven: saved files, survival of the two sets at the next start or
+  online, the claim itself.
 
 ## 2026-10-08: Twitch and platform account kinds built (direct write); owner decision
 

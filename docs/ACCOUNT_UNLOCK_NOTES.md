@@ -264,6 +264,12 @@ item. They are unlocked on the account only.
 The game kept running after every request. Read back from memory: all 435
 Twitch IDs and all 3 platform IDs are in the account sets.
 
+Seen by the owner in the same session (screenshot): the game itself raised
+its notification "Collect the reward! Twitch rewards available - find the
+rewards obtained at the Quicksilver Synthesis Companion". So the game reads
+the inserted Twitch set as real unlocks and offers them for claiming. The
+claim itself was not tried.
+
 Not proven: that the game writes these two sets to the account files when it
 saves; that it keeps them when it next applies settings or when the store
 client is online again (the remote copy has none of them); that an unlocked
