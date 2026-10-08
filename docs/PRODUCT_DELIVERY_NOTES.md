@@ -219,13 +219,31 @@ out: load slot 3 again and browse the same terminals; if it repeats, restore
 | Change | `research_tree` class in the classifier and the script; the profile's "not in catalogue" refusal removed |
 | Profile DLL | SHA-256 `68fd60bc51977404ef444f975d9a3073b8f937c5a06711fbaba7e271ec46d5a7` |
 | Checks | Profile, technology and recipe fixtures pass. No fixture covers the product request |
-| Installed | Yes, with the game closed after the crash; replaces `a6c01dbc...ecda`. No request sent to it |
+| Installed | Yes, with the game closed after the crash; replaces `a6c01dbc...ecda` |
+
+### Research-tree products sent (2026-10-07, slot 3)
+
+The owner restarted the game (process 17548, DLL `68fd60bc...d5a7`,
+executable `13d5060d...`) and asked for everything to be sent again,
+believing the crash had lost the deliveries. Read first: the game had loaded
+the 21:19 autosave; slot identified as 3 with 205 technologies and 1,802
+products in memory, so nothing was lost and the earlier classes were not
+sent again. Save folder copied to `save-backups/20261007-before-research-tree`;
+preflight passed.
+
+| Request | Result file |
+| --- | --- |
+| `-AllOfClass research_tree` (106) | known 1,802 -> 1,905: 103 `learned`, 3 `not_added` (already known) |
+
+The 103 equal the tree products found missing offline. The game kept
+running. Not proven: the terminals on screen (station decorations,
+containers), persistence after the owner's save, and whether the crash
+repeats.
 
 ## Remaining steps (proposed, not done)
 
-1. Start the game on slot 3 and check that the save loads and the research
-   terminals can be browsed without a crash, before any new request.
-2. Identify the slot, back up, preflight with `68fd60bc...d5a7`, then
-   `-AllOfClass research_tree` (106).
+1. Owner saves and checks the station decoration and storage trees; watch
+   for a repeat of the crash.
+2. Read the slot file after the save (expect 1,905 known products).
 3. Corvette part unlocks (`BIG_*` tree entries): find the mechanism.
 4. Review the 964 remaining hidden learnable products.

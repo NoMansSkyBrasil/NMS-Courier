@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-07: research-tree products taught to slot 3 after the crash
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#research-tree-products-sent-2026-10-07-slot-3).
+Process 17548, DLL `68fd60bc...d5a7`, slot 3 identified; the game had loaded
+the 21:19 autosave with every earlier delivery (1,802 products), so only the
+new class was sent. Backup taken, preflight passed.
+
+- `-AllOfClass research_tree` (106): 103 learned, 3 already known; known
+  products 1,802 -> 1,905. Game kept running.
+- Not proven: terminals on screen, persistence, crash recurrence.
+- Rollback: `save-backups/20261007-before-research-tree`.
+
 ## 2026-10-07: game crash after the build part delivery; hidden research-tree products; second product build
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#what-stayed-locked-and-a-game-crash).

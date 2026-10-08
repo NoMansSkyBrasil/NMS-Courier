@@ -170,8 +170,9 @@ offline:
     saved by the 21:19 autosave). The game then crashed in the graphics
     driver module, cause unknown: first check that slot 3 loads and the
     research terminals are stable. Installed DLL is now `68fd60bc...d5a7`
-    (adds class `research_tree`, 106 hidden products the terminals offer; not
-    sent yet). Open: five freighter rooms became known unrequested; corvette
+    (adds class `research_tree`, 106 hidden products the terminals offer; sent
+    to slot 3 in process 17548: 1,905 known products, awaiting the owner's
+    save and confirmation). Open: five freighter rooms became known unrequested; corvette
     part unlocks are not products.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,

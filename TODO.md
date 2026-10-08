@@ -152,7 +152,8 @@ This file is the operational source of truth for implementation order. Update it
 - [~] Product recipes: classified and built on 2026-10-07 ([product delivery notes](docs/PRODUCT_DELIVERY_NOTES.md));
   items, technology and all build parts delivered live to slot 3; confirm on screen and after a save.
 - [ ] Find the cause of the 2026-10-07 crash (`nvoglv64`) after the build part delivery, or show it does not repeat.
-- [ ] Send `research_tree` (106) to slot 3; find how corvette parts (`BIG_*` tree entries) are unlocked.
+- [x] Send `research_tree` (106) to slot 3 (2026-10-07; confirmation on screen pending).
+- [ ] Find how corvette parts (`BIG_*` tree entries) are unlocked.
 - [ ] Explain the five `FRE_ROOM_NPC*` products that became known without a request (2026-10-07).
 - [x] Withdraw the account-level fossil request (owner direction: the save, not the account).
 - [ ] (superseded) Product recipes as the next domain: the learn-product routine is identified; classify the
