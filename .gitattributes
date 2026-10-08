@@ -1,3 +1,5 @@
 # Preserve byte hashes of the priority research selections across Windows checkouts.
 runtime/research/priority-*.tsv text eol=lf
 runtime/research/appearance-*.tsv text eol=lf
+# The application checks this data file by its SHA-256, so its bytes must not change on checkout.
+runtime/mods/currency_rewards/**/*.EXML -text
