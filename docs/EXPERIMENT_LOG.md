@@ -16,7 +16,8 @@ preflight passed.
 - Game kept running. Afterwards the owner saw the game's own notification
   that Twitch rewards are available at the Quicksilver companion.
 - The owner then opened the Quicksilver companion: the Twitch page lists
-  the item-type rewards as available.
+  the item-type rewards as available, and the special rewards page lists
+  the two Switch pre-order rewards as available and `TGA_SHIP1` as owned.
 - Not proven: saved files, survival of the two sets at the next start or
   online, the claim itself.
 

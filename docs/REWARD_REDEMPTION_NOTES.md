@@ -279,7 +279,11 @@ State and routes:
   an entitlement entry by its `ENT_*` ID is not known. The routine that
   grants entitlements when the platform reports ownership has not been
   located.
-- The Switch products: no reward found; route unknown.
+- The Switch products: no reward found in the reward table. **Update
+  2026-10-08:** after `SW_PREORDER` and `SW_PREORDER2` were inserted into
+  the account's platform set, the game's shop listed both as available to
+  claim (see [account unlock notes](ACCOUNT_UNLOCK_NOTES.md)); the game
+  resolves the item itself at claim time. The claim was not tried.
 
 Added after a corpus-wide search finished: the game also ships per-platform
 entitlement tables under `metadata/entitlements/`. The PC ones list a single

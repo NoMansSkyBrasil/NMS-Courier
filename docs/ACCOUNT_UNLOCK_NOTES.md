@@ -277,6 +277,14 @@ Improvised Ion Generator, companion eggs, and the Atlas firework pack as
 request, so leaving them unredeemed in the slot keeps them claimable through
 the game's own shop. The claim itself was not tried.
 
+A third screenshot, same session: the companion's "Collect special rewards"
+page lists the platform rewards. Horizon Vector NX (`SW_PREORDER`, exclusive
+ship) and Infinite Neon Mark XXII (`SW_PREORDER2`, exclusive multitool) are
+"Available"; Starborn Phoenix (`TGA_SHIP1`) shows "Already owned", which
+matches its redeemed state in slot 3. So the PC build accepts the two
+Switch pre-order rewards once they are in the account's platform set, which
+answers the question left open on 2026-10-07. Claiming them was not tried.
+
 Not proven: that the game writes these two sets to the account files when it
 saves; that it keeps them when it next applies settings or when the store
 client is online again (the remote copy has none of them); that an unlocked
