@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-08: account files emptied again for an offline start (direct file change, owner-authorised test preparation)
+
+The owner put the store client in offline mode and asked for the files to be
+emptied again. Game closed (no `NMS.exe` process). Not a delivery.
+
+- Backup to the external `save-backups/20261008-before-offline-reset`: the
+  full settings file (547,511 bytes, SHA-256 `a658d403...ae72`) and the whole
+  save folder with the game's 00:13 `accountdata.hg` (114,431 bytes).
+- Settings file: the same ten lists emptied as at 00:10; result 60,398
+  bytes, SHA-256 `523611902a15...5a62`, identical to the earlier reset.
+- `accountdata.hg` and `mf_accountdata.hg`: replaced by the copies the
+  owner's editor had written at 00:02 (44,435 and 432 bytes, SHA-256 of the
+  data file `410e3d7f...`), taken from
+  `save-backups/20261008-before-settings-list-reset`. This project did not
+  compose an account data file itself.
+- Caveat recorded before the start: only the store client is offline; the
+  machine still reaches the internet (a ping to the store's host answered).
+  If the lists come back anyway, the source is the publisher's service
+  rather than the store client's cloud.
+- Undo: with the game closed, copy the settings file and the two account
+  files back from `20261008-before-offline-reset`.
+
 ## 2026-10-08: with both account files emptied, the game still starts with the full account
 
 Read-only. Before the start both local files were empty of unlocks: the
