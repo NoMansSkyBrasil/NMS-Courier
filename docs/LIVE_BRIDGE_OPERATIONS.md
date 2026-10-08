@@ -1,5 +1,34 @@
 # How the research bridge applies changes to the running game
 
+> **How requests reach the bridge since bridge 1.3.0 (2026-10-08).** No
+> script and no helper program. Everything is a file in
+> `%LOCALAPPDATA%\NMSCourier\diagnostics`, written by the desktop
+> application (`apps/desktop/src/main/research-bridge/bridge-client.ts`):
+>
+> 1. The application reads `native-profile-180836-<PID>.log`. It sends only
+>    when the status is `awaiting_request` or `armed`, the process number
+>    matches, the hook status is 0 and the file is not older than the game. A
+>    request that starts a reward call also needs `dispatch_state` 0 or 3.
+> 2. It deletes the old result file and writes the request details, for
+>    example `native-item-request-180836-<PID>.txt` with `FUEL1=500`.
+> 3. It writes `native-signal-180836-<PID>.txt` with the name of the request
+>    (`item`, `currency`, `technology`, `product`, `recipes`, `redeem`, `fish`,
+>    `account`, `keep`, `owned`, `reward`, `dispatch`, `corvette`, the class
+>    letters, `slots`, `techrows`, `super`, `model`). The bridge's worker looks
+>    for this file four times a second, deletes it and handles the request as
+>    it handles the event of the same name. The deletion is the
+>    acknowledgement: a file that is still there after five seconds is removed
+>    by the application and the request counts as not sent. Several names are
+>    written one after another, each after the previous was taken.
+> 4. It waits for the result file (`native-item-result-180836-<PID>.txt` and
+>    so on). No result in time is an unknown outcome and is never sent again.
+>
+> Installed bridge: 1.3.0,
+> `dc735e762740b7c32c79ce9d5b86112dbe046ff40ce90ed83e235effaa5002f0`. The
+> `signal-*.ps1` scripts described further down no longer exist; their request
+> lines are built in `delivery-plan.ts`, `delivery-options.ts`,
+> `equipment-plan.ts` and `currency-plan.ts`.
+
 > **Bridge 1.2.0 (2026-10-08),**
 > `e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c`. New
 > request `currency`: a direct write of the requested amount into this

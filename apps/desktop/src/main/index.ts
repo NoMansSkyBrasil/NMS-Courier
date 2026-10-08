@@ -26,18 +26,19 @@ let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 let catalogImporter: CatalogImporter | null = null
 const iconSource = new IconSource()
-const gameStatusService = new GameStatusService()
+const diagnosticsDirectory = join(process.env.LOCALAPPDATA ?? '', 'NMSCourier', 'diagnostics')
+const gameStatusService = new GameStatusService(diagnosticsDirectory)
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 const palettePreview = new BasePalettePreviewAdapter()
 let researchBridgeService: ResearchBridgeService | null = null
 
-// The research bridge exists only in a development checkout: it drives the signal scripts of the
-// repository and is not a packaged capability.
+// The research bridge exists only in a development checkout so far: the classification tables it
+// reads are those of the repository and the packaged application does not carry the bridge yet.
 function getResearchBridgeService(): ResearchBridgeService {
   researchBridgeService ??= new ResearchBridgeService({
     enabled: is.dev,
-    signalDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'native', 'asi', 'signal'),
-    diagnosticsDirectory: join(process.env.LOCALAPPDATA ?? '', 'NMSCourier', 'diagnostics'),
+    researchDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'research'),
+    diagnosticsDirectory,
     backupDirectory: join(app.getPath('userData'), 'save-backups'),
     saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS')
   })

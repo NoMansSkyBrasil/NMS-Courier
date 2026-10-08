@@ -53,50 +53,93 @@ export function isEquipmentRequest(value: unknown): value is EquipmentRequest {
   )
 }
 
+// In place: every position of the grids usable and/or every technology slot supercharged.
+function owned(
+  label: string,
+  target: string,
+  index: number,
+  request: EquipmentRequest
+): DeliveryPlan | null {
+  if (!request.slots && !request.supercharge) return null
+  return {
+    changesAccount: false,
+    steps: [
+      {
+        label,
+        request: {
+          name: 'owned-request',
+          perProcess: true,
+          lines: [
+            `target=${target}`,
+            `index=${index}`,
+            ...(request.slots ? ['slots=1'] : []),
+            ...(request.supercharge ? ['super=1'] : [])
+          ]
+        },
+        signals: ['owned']
+      }
+    ]
+  }
+}
+
+// One call of a reward the game ships; only identifiers compiled into the bridge are accepted.
+function shippedReward(label: string, rewardId: string): DeliveryPlan {
+  return {
+    changesAccount: false,
+    steps: [
+      {
+        label,
+        request: { name: 'reward-request', perProcess: true, lines: [rewardId] },
+        signals: ['reward'],
+        dispatch: true
+      }
+    ]
+  }
+}
+
+// Class and grid options for the next offer or build, then the request that starts it.
+function offer(label: string, start: string, request: EquipmentRequest): DeliveryPlan | null {
+  if (!classes.includes(request.itemClass)) return null
+  return {
+    changesAccount: false,
+    steps: [
+      {
+        label,
+        signals: [
+          request.itemClass.toLowerCase(),
+          ...(request.slots ? ['slots'] : []),
+          ...(request.slots && request.extendedTechnology ? ['techrows'] : []),
+          ...(request.supercharge ? ['super'] : []),
+          start
+        ],
+        dispatch: true
+      }
+    ]
+  }
+}
+
 export function getEquipmentPlan(request: EquipmentRequest): DeliveryPlan | null {
   if (!equipmentActions[request.area].includes(request.action)) return null
-  const grid = [
-    ...(request.slots ? ['-Slots'] : []),
-    ...(request.supercharge ? ['-Supercharge'] : [])
-  ]
-  const offer = (): string[] | null =>
-    classes.includes(request.itemClass)
-      ? [
-          '-Class',
-          request.itemClass,
-          ...(request.slots ? ['-MaxSlots'] : []),
-          ...(request.slots && request.extendedTechnology ? ['-ExtendedTechnology'] : []),
-          ...(request.supercharge ? ['-Supercharge'] : [])
-        ]
-      : null
-  const plan = (script: string, args: readonly string[] | null): DeliveryPlan | null =>
-    args ? { changesAccount: false, steps: [{ script, args }] } : null
-
   switch (`${request.area}:${request.action}`) {
     case 'exosuit:grid':
-      return plan('signal-exosuit-180836.ps1', grid.length ? grid : null)
+      return owned('exosuit', 'suit', 0, request)
     case 'starships:grid': {
       const index = request.shipIndex
       if (!Number.isInteger(index) || index < -1 || index > 11) return null
-      return plan(
-        'signal-ship-180836.ps1',
-        grid.length ? [...(index >= 0 ? ['-Index', String(index)] : []), ...grid] : null
-      )
+      return index >= 0
+        ? owned('starship', 'ship', index, request)
+        : owned('starship', 'primary-ship', 0, request)
     }
     case 'starships:classStep':
-      return plan('signal-ship-180836.ps1', ['-DispatchReward', 'R_SHIPUPGRADE'])
+      return shippedReward('starship', 'R_SHIPUPGRADE')
     case 'multitools:grid':
-      return plan('signal-multitool-180836.ps1', grid.length ? grid : null)
+      return owned('multitool', 'equipped-weapon', 0, request)
     case 'multitools:classStep':
-      return plan('signal-multitool-180836.ps1', ['-DispatchReward', 'R_WEAP_UPGRADE'])
-    case 'freighters:offer': {
-      const args = offer()
-      return plan('signal-freighter-180836.ps1', args && [...args, '-DispatchOffer'])
-    }
-    case 'corvettes:build': {
-      const args = offer()
-      return plan('signal-corvette-180836.ps1', args && [...args, '-DispatchBuild'])
-    }
+      return shippedReward('multitool', 'R_WEAP_UPGRADE')
+    case 'freighters:offer':
+      return offer('freighter', 'dispatch', request)
+    case 'corvettes:build':
+      return offer('corvette', 'corvette', request)
     default:
       return null
   }

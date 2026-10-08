@@ -113,6 +113,19 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Details and the mapping to game language identifiers:
   [product and UI](docs/PRODUCT_AND_UI.md#2-language).
 
+## No scripts between the application and the game
+
+- Owner decision of 2026-10-08: the application must work on Windows, macOS and Linux, so nothing
+  on the path from the interface to the game may be a PowerShell script, a shell command or any
+  other operating system tool. The application talks to the bridge itself, with files in the
+  bridge's diagnostics folder (`apps/desktop/src/main/research-bridge/bridge-client.ts`, protocol
+  in [live bridge operations](docs/LIVE_BRIDGE_OPERATIONS.md)).
+- A new bridge request is added as a request builder in the application, never as a script. Do not
+  bring the `signal-*.ps1` scripts back; they were removed on that date.
+- The same applies to everything else the application does at run time: read files and use the
+  platform's own programming interfaces. Where a Windows-only tool is still used, it is listed in
+  `TODO.md` as work to replace.
+
 ## Versions
 
 - The application and the bridge each have a version, `major.minor.patch`, starting at 1.0.0 on

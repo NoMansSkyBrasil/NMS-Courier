@@ -3,7 +3,11 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.2.0'
+export const bridgeVersion = '1.3.0'
+
+// Versions this application can talk to: those that take requests from a file (1.3.0 onwards).
+// An older bridge is recognised and named, and the application asks for it to be updated.
+export const compatibleBridgeVersions: readonly string[] = ['1.3.0']
 
 // null: a build from before versions existed. It still works for the requests it has.
 export const bridgeReleases: Readonly<Record<string, string | null>> = {
@@ -15,5 +19,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // 1.1.0 (2026-10-08): currency rewards may be requested (CR_UNITS_*, CR_NANITE_*, CR_QS_*).
   '0a51fbd01bbafb5f4fe921ab5dcdc8f47e5423a9589384aaa4d45e600607a03d': '1.1.0',
   // 1.2.0 (2026-10-08): currencies of any amount (request "currency"), stack sizes reported.
-  e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c: '1.2.0'
+  e28e6279c17da7d65d7bd96a14eec0bf266998818a7941ff001fd3fc567bff0c: '1.2.0',
+  // 1.3.0 (2026-10-08): takes requests from a file, so the application needs no helper program;
+  // listens for as long as the game runs instead of thirty minutes.
+  dc735e762740b7c32c79ce9d5b86112dbe046ff40ce90ed83e235effaa5002f0: '1.3.0'
 }

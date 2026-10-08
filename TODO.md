@@ -128,6 +128,9 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Read colour palettes from the game's archives for the model workshop (step 2), then models and textures (step 3).
 - [x] Per-entry selection in the delivery card (2026-10-08) for technologies, crafting recipes, build parts, appearance, titles, expedition rewards and Quicksilver items.
 - [ ] Per-entry selection still missing: fishing, refiner recipes, Twitch and platform rewards (needs a per-entry keep list). First live "send selected" from the application is not done.
+- [x] Requests reach the bridge without any script (2026-10-08, application 1.4.0, bridge 1.3.0).
+- [ ] Cross-platform: installation detection still uses the Windows registry and a PowerShell process query; the diagnostics folder is taken from `LOCALAPPDATA`. Replace both, and decide how the bridge is loaded on macOS and Linux (Proton).
+- [ ] The classification tables the requests are built from are read from the repository; a packaged application must carry them.
 - [x] Versions (2026-10-08): application 1.0.0 and bridge 1.0.0, shown on the game and bridge page; rules in `AGENTS.md`, history in `CHANGELOG.md`.
 - [ ] Versions: the application should offer to install or update the bridge itself instead of only reporting that it is out of date.
 - [x] Items on build 180836 (2026-10-08): request, script and Items page implemented from the game's own store routines; see `docs/ITEM_DELIVERY_NOTES.md`.

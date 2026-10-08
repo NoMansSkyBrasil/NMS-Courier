@@ -1,5 +1,15 @@
 # AI continuation guide
 
+> Checkpoint 2026-10-08 (night): application 1.4.0, bridge 1.3.0
+> (`dc735e76...02f0`). Requests go from the application to the bridge through
+> files, with no script (rule in `AGENTS.md`, protocol at the top of
+> [live bridge operations](LIVE_BRIDGE_OPERATIONS.md)). **Still no delivery has
+> gone from the application to the game.** Next: with the game on slot 3, send
+> `FUEL1` from the Items page, then a small amount of units, then the exosuit
+> grid. In progress and not wired: corvette delivery from a `.nmsship` file
+> (`apps/desktop/src/main/corvette/`, reader and layout writer checked against
+> the layout that delivered a corvette on 2026-10-07).
+
 > Checkpoint 2026-10-08 (late): bridge 1.2.0 (`e28e6279...ff0c`) and
 > application 1.2.0. The application could not see the running game until
 > 1.1.1, so **no delivery has gone from the application to the game yet**.

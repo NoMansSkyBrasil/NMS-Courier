@@ -1,80 +1,55 @@
-import { describe, expect, it, vi } from 'vitest'
-import { GameStatusService, parseNmsProcessOutput } from './game-status-service'
+import { mkdtemp, utimes, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { describe, expect, it } from 'vitest'
+import { GameStatusService } from './game-status-service'
+
+const root = 'C:/Games/No Man’s Sky'
+
+async function diagnostics(): Promise<string> {
+  return mkdtemp(join(tmpdir(), 'courier-status-'))
+}
 
 describe('game process observation', () => {
-  const installationRoot = 'C:/Games/No Man’s Sky'
-
-  it('accepts only an NMS process from the selected installation', () => {
-    expect(
-      parseNmsProcessOutput(
-        JSON.stringify({
-          Id: 1234,
-          Path: 'C:/Games/No Man’s Sky/Binaries/NMS.exe',
-          StartTime: '2026-09-22T12:00:00.000Z'
-        }),
-        installationRoot
-      )
-    ).toEqual({ state: 'running', processId: 1234, startedAt: '2026-09-22T12:00:00.000Z' })
+  it('needs an installation and a diagnostics folder', async () => {
+    const directory = await diagnostics()
+    expect((await new GameStatusService(directory).observe(null)).state).toBe(
+      'installation_not_selected'
+    )
+    expect((await new GameStatusService(join(directory, 'missing')).observe(root)).state).toBe(
+      'not_running'
+    )
+    expect((await new GameStatusService(directory).observe(root)).state).toBe('not_running')
   })
 
-  it('reads the date form Windows PowerShell writes', () => {
-    expect(
-      parseNmsProcessOutput(
-        String.raw`{"Id":6136,"Path":"C:\\Games\\No Man’s Sky\\Binaries\\NMS.exe","StartTime":"\/Date(1791480739251)\/"}`,
-        installationRoot
-      )
-    ).toEqual({
+  it('reports the game whose bridge status is fresh', async () => {
+    const directory = await diagnostics()
+    await writeFile(join(directory, 'native-profile-180836-111.log'), 'status=armed\npid=111\n')
+    await writeFile(join(directory, 'native-profile-180836-222.log'), 'status=armed\npid=222\n')
+    await writeFile(join(directory, 'asi-startup-222.log'), 'status=exact_build_startup_observed\n')
+    const old = new Date(Date.now() - 3_600_000)
+    await utimes(join(directory, 'native-profile-180836-111.log'), old, old)
+    const started = new Date(Date.now() - 120_000)
+    await utimes(join(directory, 'asi-startup-222.log'), started, started)
+
+    const status = await new GameStatusService(directory).observe(root)
+    expect(status).toEqual({
       state: 'running',
-      processId: 6136,
-      startedAt: new Date(1791480739251).toISOString()
+      processId: 222,
+      startedAt: started.toISOString()
     })
   })
 
-  it('does not mistake another installation for the selected game process', () => {
-    expect(
-      parseNmsProcessOutput(
-        JSON.stringify({
-          Id: 1234,
-          Path: 'D:/Other/Binaries/NMS.exe',
-          StartTime: '2026-09-22T12:00:00.000Z'
-        }),
-        installationRoot
-      ).state
-    ).toBe('not_running')
+  it('reports a closed game once the status stops being rewritten', async () => {
+    const directory = await diagnostics()
+    await writeFile(join(directory, 'native-profile-180836-222.log'), 'status=armed\npid=222\n')
+    const later = (): number => Date.now() + 60_000
+    expect((await new GameStatusService(directory, later).observe(root)).state).toBe('not_running')
   })
 
-  it('fails closed for malformed process output', () => {
-    expect(parseNmsProcessOutput('{not-json', installationRoot).state).toBe('query_failed')
-  })
-
-  it('shares an in-flight process query for the same installation', async () => {
-    let resolveQuery: ((output: string) => void) | undefined
-    const processListQuery = vi.fn(() => new Promise<string>((resolve) => (resolveQuery = resolve)))
-    const service = new GameStatusService(processListQuery)
-    const output = JSON.stringify({
-      Id: 1234,
-      Path: 'C:/Games/No Man’s Sky/Binaries/NMS.exe',
-      StartTime: '2026-09-22T12:00:00.000Z'
-    })
-
-    const firstObservation = service.observe(installationRoot)
-    const secondObservation = service.observe(installationRoot)
-    expect(processListQuery).toHaveBeenCalledTimes(1)
-    resolveQuery?.(output)
-
-    await expect(Promise.all([firstObservation, secondObservation])).resolves.toEqual([
-      { state: 'running', processId: 1234, startedAt: '2026-09-22T12:00:00.000Z' },
-      { state: 'running', processId: 1234, startedAt: '2026-09-22T12:00:00.000Z' }
-    ])
-  })
-
-  it('reports a failed process query distinctly from a stopped game', async () => {
-    const service = new GameStatusService(vi.fn().mockRejectedValue(new Error('timeout')))
-
-    await expect(service.observe(installationRoot)).resolves.toEqual({
-      state: 'query_failed',
-      processId: null,
-      startedAt: null
-    })
+  it('does not trust a status file that names another process', async () => {
+    const directory = await diagnostics()
+    await writeFile(join(directory, 'native-profile-180836-222.log'), 'status=armed\npid=999\n')
+    expect((await new GameStatusService(directory).observe(root)).state).toBe('query_failed')
   })
 })

@@ -1,9 +1,10 @@
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
-import { resolve } from 'node:path'
-import { getGameExecutablePath } from './installation-service'
+import { readdir, readFile, stat } from 'node:fs/promises'
+import { join } from 'node:path'
 
-const execFileAsync = promisify(execFile)
+// Whether the game is running, told by the bridge itself: while the game runs, the bridge rewrites
+// its status file every two seconds. No operating system command is involved, so this works the
+// same on every platform. A game without the bridge installed is therefore reported as not
+// running, which is also all the application could do with it.
 
 export type GameProcessStatus = {
   state: 'installation_not_selected' | 'not_running' | 'running' | 'query_failed'
@@ -11,90 +12,55 @@ export type GameProcessStatus = {
   startedAt: string | null
 }
 
-type ProcessRecord = { Id?: unknown; Path?: unknown; StartTime?: unknown }
-type ProcessListQuery = () => Promise<string>
-
-async function queryNmsProcesses(): Promise<string> {
-  const { stdout } = await execFileAsync(
-    'powershell.exe',
-    [
-      '-NoProfile',
-      '-NonInteractive',
-      '-Command',
-      // No process must not count as a failed query, hence the explicit exit code. The start time
-      // is written as text here: Windows PowerShell turns a date into "/Date(n)/".
-      "Get-Process -Name NMS -ErrorAction SilentlyContinue | Select-Object Id,Path,@{n='StartTime';e={$_.StartTime.ToUniversalTime().ToString('o')}} | ConvertTo-Json -Compress; exit 0"
-    ],
-    { windowsHide: true, timeout: 10_000, maxBuffer: 64 * 1024 }
-  )
-  return stdout
-}
-
-// Start time as milliseconds: ISO text, or the "/Date(milliseconds)/" form of Windows PowerShell.
-function parseStartTime(value: unknown): number {
-  if (typeof value !== 'string') return Number.NaN
-  const legacy = /^\/Date\((\d+)\)\/$/.exec(value)
-  return legacy ? Number(legacy[1]) : Date.parse(value)
-}
-
-export function parseNmsProcessOutput(output: string, installationRoot: string): GameProcessStatus {
-  if (!output.trim()) return { state: 'not_running', processId: null, startedAt: null }
-  let parsed: unknown
-  try {
-    parsed = JSON.parse(output)
-  } catch {
-    return { state: 'query_failed', processId: null, startedAt: null }
-  }
-  const expectedPath = resolve(getGameExecutablePath(installationRoot)).toLocaleLowerCase()
-  const records = Array.isArray(parsed) ? parsed : [parsed]
-  for (const value of records) {
-    const record = value as ProcessRecord
-    if (
-      typeof record.Id === 'number' &&
-      Number.isInteger(record.Id) &&
-      record.Id > 0 &&
-      typeof record.Path === 'string' &&
-      resolve(record.Path).toLocaleLowerCase() === expectedPath &&
-      !Number.isNaN(parseStartTime(record.StartTime))
-    ) {
-      return {
-        state: 'running',
-        processId: record.Id,
-        startedAt: new Date(parseStartTime(record.StartTime)).toISOString()
-      }
-    }
-  }
-  return { state: 'not_running', processId: null, startedAt: null }
-}
+const statusFile = /^native-profile-180836-(\d+)\.log$/
+// The bridge writes every two seconds; a file older than this belongs to a game that has closed.
+const aliveMilliseconds = 8000
 
 export class GameStatusService {
-  private inFlight: { installationRoot: string; promise: Promise<GameProcessStatus> } | null = null
+  constructor(
+    private readonly diagnosticsDirectory: string,
+    private readonly now: () => number = Date.now
+  ) {}
 
-  constructor(private readonly processListQuery: ProcessListQuery = queryNmsProcesses) {}
-
-  observe(installationRoot: string | null): Promise<GameProcessStatus> {
-    if (!installationRoot)
-      return Promise.resolve({
-        state: 'installation_not_selected',
-        processId: null,
-        startedAt: null
-      })
-
-    if (this.inFlight?.installationRoot === installationRoot) return this.inFlight.promise
-
-    const promise = this.observeSelectedInstallation(installationRoot).finally(() => {
-      if (this.inFlight?.promise === promise) this.inFlight = null
-    })
-    this.inFlight = { installationRoot, promise }
-    return promise
-  }
-
-  private async observeSelectedInstallation(installationRoot: string): Promise<GameProcessStatus> {
+  async observe(installationRoot: string | null): Promise<GameProcessStatus> {
+    const none = { processId: null, startedAt: null }
+    if (!installationRoot) return { state: 'installation_not_selected', ...none }
+    let names: string[]
     try {
-      const stdout = await this.processListQuery()
-      return parseNmsProcessOutput(stdout, installationRoot)
+      names = await readdir(this.diagnosticsDirectory)
     } catch {
-      return { state: 'query_failed', processId: null, startedAt: null }
+      // The folder appears with the first start of a game that has the bridge.
+      return { state: 'not_running', ...none }
+    }
+
+    let newest: { processId: number; modified: number } | null = null
+    for (const name of names) {
+      const match = statusFile.exec(name)
+      if (!match) continue
+      const info = await stat(join(this.diagnosticsDirectory, name)).catch(() => null)
+      if (info && (!newest || info.mtimeMs > newest.modified)) {
+        newest = { processId: Number(match[1]), modified: info.mtimeMs }
+      }
+    }
+    if (!newest || this.now() - newest.modified > aliveMilliseconds) {
+      return { state: 'not_running', ...none }
+    }
+
+    // The bridge writes this file once, when the game starts.
+    const started = await stat(
+      join(this.diagnosticsDirectory, `asi-startup-${newest.processId}.log`)
+    ).catch(() => null)
+    const text = await readFile(
+      join(this.diagnosticsDirectory, `native-profile-180836-${newest.processId}.log`),
+      'utf8'
+    ).catch(() => '')
+    if (!new RegExp(`^pid=${newest.processId}$`, 'm').test(text)) {
+      return { state: 'query_failed', ...none }
+    }
+    return {
+      state: 'running',
+      processId: newest.processId,
+      startedAt: new Date(started ? started.mtimeMs : newest.modified).toISOString()
     }
   }
 }

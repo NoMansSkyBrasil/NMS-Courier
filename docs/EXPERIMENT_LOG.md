@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-08: first send from the application failed; requests made native (bridge 1.3.0)
+
+Slot not recorded. Build 180836, bridge 1.2.0, game running. The owner sent
+`FUEL1` x9999 from the Items page. The application reported "Failed": the
+PowerShell script it started could not find `Get-FileHash`, because Windows
+PowerShell did not load its own modules in the application's environment.
+Nothing reached the game; the save backup the application made is the only
+effect.
+
+Decision (owner): no scripts on the path to the game, and the application
+must run on Windows, macOS and Linux. Done the same day:
+
+- Bridge 1.3.0 (`dc735e76...02f0`) takes the request name from a file and
+  deletes it; it keeps listening as long as the game runs.
+- The application writes requests and reads results itself
+  (`bridge-client.ts`) and recognises the running game from the bridge's
+  status file. All `signal-*.ps1` scripts are removed.
+- The profile fixture passes with one request sent by file (run with its own
+  data folder; with the owner's folder it fails at its first check because the
+  real keep list enables the hooks at start). Technology and recipe guard
+  fixtures pass. 76 unit tests pass, among them the client against a stand-in
+  bridge.
+- Not proven: any request against the running game with bridge 1.3.0. Still
+  Windows-only in the application: looking for the installation (registry and
+  a process query) and the diagnostics folder location.
+- Undo: copy an earlier bridge from `E:\NMS-Courier-Research\native-builds`
+  back; an application before 1.4.0 is needed with it.
+
 ## 2026-10-08: game icons and new start page (application only)
 
 Nothing sent to the game. Read-only scan of the installation: the 1,708 icon

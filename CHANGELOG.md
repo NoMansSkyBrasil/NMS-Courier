@@ -13,6 +13,30 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.4.0 and bridge 1.3.0 (2026-10-08)
+
+Bridge 1.3.0, file SHA-256
+`dc735e762740b7c32c79ce9d5b86112dbe046ff40ce90ed83e235effaa5002f0`:
+
+- Takes requests from a file (`native-signal-180836-<PID>.txt` names the
+  request; the bridge deletes it when it takes it), so no helper program is
+  needed to reach it. The named events remain for the test fixture.
+- Listens for as long as the game runs; it used to stop thirty minutes after
+  the last request.
+
+Application 1.4.0:
+
+- Fix: nothing could be sent. Every request was a PowerShell script started by
+  the application, and in the application's environment PowerShell could not
+  load its own commands (`Get-FileHash`). The application now writes the
+  request and reads the answer itself; no script is involved, and the same
+  code works on every platform.
+- The running game is recognised from the status the bridge rewrites every two
+  seconds instead of an operating system query.
+- Only bridge 1.3.0 can be used; an older installed bridge is named and
+  reported as out of date.
+- The `signal-*.ps1` scripts are removed.
+
 ## Application 1.3.0 (2026-10-08)
 
 - Game icons beside the names in the catalogue, the item lists and the entry

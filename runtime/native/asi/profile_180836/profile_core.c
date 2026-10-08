@@ -39,7 +39,8 @@
 #ifdef COURIER_NATIVE_CALLBACK_FIXTURE
 #define ARM_WINDOW_SECONDS 6u
 #else
-#define ARM_WINDOW_SECONDS 1800u
+// The profile listens for as long as the game runs; a week is longer than any session.
+#define ARM_WINDOW_SECONDS 604800u
 #endif
 
 typedef void (WINAPI *update_fn)(void *application);
@@ -69,6 +70,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "corvette_build.h"
 #include "purchase_setup_hooks_functions.h"
 #include "bridge_version.h"
+#include "file_signal.h"
 #include "shipped_reward_dispatch.h"
 #include "technology_learn.h"
 #include "recipe_learn.h"
@@ -305,8 +307,9 @@ void courier_probe_after_verified(void) {
         hooks_enabled = 1;
     }
     write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK);
-    for (unsigned waited = 0; waited < ARM_WINDOW_SECONDS; ) {
-        DWORD signaled = WaitForMultipleObjects(EVENT_COUNT, events, FALSE, 2000);
+    // Milliseconds since the last request, and since the status file was last written.
+    for (unsigned waited = 0, since_status = 0; waited / 1000u < ARM_WINDOW_SECONDS; ) {
+        DWORD signaled = WaitForMultipleObjects(EVENT_COUNT, events, FALSE, FILE_SIGNAL_POLL_MILLISECONDS);
         technology_write_result();
         recipe_write_result();
         reward_write_result();
@@ -317,10 +320,30 @@ void courier_probe_after_verified(void) {
         item_limits_write();
         currency_write_result();
         account_keep_write_status();
-        if (signaled == WAIT_TIMEOUT) { waited += 2; write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK); continue; }
+        if (signaled == WAIT_TIMEOUT) {
+            // A request written by the application is handled as the event of the same name.
+            wchar_t tag[FILE_SIGNAL_TAG_CAPACITY];
+            if (file_signal_take(tag)) {
+                unsigned match = EVENT_COUNT;
+                for (unsigned index = 0; index < EVENT_COUNT; ++index)
+                    if (wcscmp(tag, tags[index]) == 0) match = index;
+                if (match < EVENT_COUNT) SetEvent(events[match]);
+                else InterlockedIncrement(&request_errors);
+                continue;
+            }
+            waited += FILE_SIGNAL_POLL_MILLISECONDS;
+            since_status += FILE_SIGNAL_POLL_MILLISECONDS;
+            if (since_status >= 2000u) {
+                since_status = 0;
+                write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK);
+            }
+            continue;
+        }
         if (signaled >= WAIT_OBJECT_0 + EVENT_COUNT) { write_status("event_wait_failed", MH_ERROR_UNSUPPORTED_FUNCTION); break; }
         unsigned index = signaled - WAIT_OBJECT_0;
         ResetEvent(events[index]);
+        // The window counts the time since the last request.
+        waited = 0;
         if (!hooks_enabled) {
             // One thread freeze for all three hooks.
             result = MH_EnableHook(MH_ALL_HOOKS);

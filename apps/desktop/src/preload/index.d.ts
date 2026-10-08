@@ -7,7 +7,7 @@ type DeliveryResult = {
   startedAt: string
   backupPath: string | null
   steps: Array<{
-    script: string
+    label: string
     outcome: 'completed' | 'unknown' | 'failed'
     lines: string[]
   }>

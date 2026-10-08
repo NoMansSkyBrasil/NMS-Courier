@@ -1,5 +1,4 @@
 import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
-import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { cp, mkdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
@@ -13,21 +12,23 @@ import {
 } from './currency-plan'
 import { getEquipmentPlan, type EquipmentArea, type EquipmentRequest } from './equipment-plan'
 import {
-  classifyStepOutput,
+  BridgeClient,
+  type BridgeGame,
+  type BridgeStep,
+  type BridgeStepResult
+} from './bridge-client'
+import {
   getDeliveryPlan,
   getItemPlan,
-  withNotifications,
-  type DeliveryPlan,
-  type ItemRequest,
-  summariseStepOutput,
   testedBridgeSha256,
   type DeliveryFeatureId,
-  type DeliveryStep
+  type DeliveryPlan,
+  type ItemRequest
 } from './delivery-plan'
 
 export type ResearchBridgeStatus = {
   state:
-    | 'unavailable' // packaged build, or the signal scripts are not present
+    | 'unavailable' // packaged build, or the classification tables are not present
     | 'installation_not_selected'
     | 'game_not_running'
     | 'bridge_missing'
@@ -48,11 +49,7 @@ export type StackLimits = {
   productCap: number
 }
 
-export type DeliveryStepResult = {
-  script: string
-  outcome: 'completed' | 'unknown' | 'failed'
-  lines: string[]
-}
+export type DeliveryStepResult = BridgeStepResult
 
 export type DeliveryResult = {
   feature: DeliveryFeatureId | 'items' | 'currencies' | EquipmentArea
@@ -70,31 +67,14 @@ export type DeliveryResult = {
   steps: DeliveryStepResult[]
 }
 
-export type StepRunner = (
-  scriptPath: string,
-  args: readonly string[]
-) => Promise<{ exitCode: number; stdout: string }>
-
-// Run one signal script with constant arguments. The command line is built from values this module
-// owns (a script path under the signal directory, a process id, a hash and plan constants).
-const runSignalScript: StepRunner = (scriptPath, args) =>
-  new Promise((resolve) => {
-    const quoted = [`& '${scriptPath.replace(/'/g, "''")}'`, ...args].join(' ')
-    execFile(
-      'powershell.exe',
-      ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-Command', quoted],
-      { windowsHide: true, timeout: 120_000, maxBuffer: 1024 * 1024 },
-      (error, stdout, stderr) => {
-        const exitCode = error ? (typeof error.code === 'number' ? error.code : 1) : 0
-        resolve({ exitCode, stdout: exitCode === 0 ? stdout : `${stdout}\n${stderr}` })
-      }
-    )
-  })
+// Sends one request to the bridge of a running game; replaced in tests.
+export type StepSender = (game: BridgeGame, step: BridgeStep) => Promise<BridgeStepResult>
 
 export type ResearchBridgeContext = {
   // False in a packaged application: the research bridge is a development capability.
   enabled: boolean
-  signalDirectory: string
+  // The generated classification tables of runtime/research, which say what each area holds.
+  researchDirectory: string
   // Where the bridge writes its status and result files.
   diagnosticsDirectory: string
   backupDirectory: string
@@ -109,7 +89,8 @@ export class ResearchBridgeService {
 
   constructor(
     private readonly context: ResearchBridgeContext,
-    private readonly runStep: StepRunner = runSignalScript
+    private readonly sendStep: StepSender = (game, step) =>
+      new BridgeClient(context.diagnosticsDirectory).send(game, step)
   ) {}
 
   async getStatus(
@@ -122,7 +103,7 @@ export class ResearchBridgeService {
       installedBridgeVersion: null,
       bridgeVersion
     }
-    if (!this.context.enabled || !(await exists(this.context.signalDirectory))) {
+    if (!this.context.enabled || !(await exists(this.context.researchDirectory))) {
       return { state: 'unavailable', ...none }
     }
     if (!installationRoot) return { state: 'installation_not_selected', ...none }
@@ -143,10 +124,7 @@ export class ResearchBridgeService {
   }
 
   getOptions(feature: DeliveryFeatureId): Promise<DeliveryOption[]> {
-    return listDeliveryOptions(
-      join(this.context.signalDirectory, '..', '..', '..', 'research'),
-      feature
-    )
+    return listDeliveryOptions(this.context.researchDirectory, feature)
   }
 
   // Stack sizes of the exosuit cargo, as the running bridge last reported them; null before the
@@ -182,9 +160,9 @@ export class ResearchBridgeService {
     notify = true
   ): Promise<DeliveryResult> {
     const plan = chosen
-      ? getSelectionPlan(feature, chosen, await this.getOptions(feature))
-      : getDeliveryPlan(feature)
-    return this.run(feature, plan && withNotifications(plan, notify), installationRoot, game)
+      ? getSelectionPlan(feature, chosen, await this.getOptions(feature), notify)
+      : await getDeliveryPlan(feature, this.context.researchDirectory, notify)
+    return this.run(feature, plan, installationRoot, game)
   }
 
   // Substances and products for the exosuit cargo of the loaded slot.
@@ -255,8 +233,9 @@ export class ResearchBridgeService {
       if (!result.backupPath) return this.record({ ...result, reason: 'backup_failed' })
 
       result.outcome = 'completed'
+      const running = { processId: status.processId as number, startedAt: game.startedAt ?? '' }
       for (const step of plan.steps) {
-        const stepResult = await this.send(step, status.processId as number, status.bridgeSha256)
+        const stepResult = await this.sendStep(running, step)
         result.steps.push(stepResult)
         if (stepResult.outcome !== 'completed') {
           result.outcome = stepResult.outcome
@@ -266,22 +245,6 @@ export class ResearchBridgeService {
       return this.record(result)
     } finally {
       this.busy = false
-    }
-  }
-
-  private async send(
-    step: DeliveryStep,
-    processId: number,
-    bridgeSha256: string
-  ): Promise<DeliveryStepResult> {
-    const { exitCode, stdout } = await this.runStep(
-      join(this.context.signalDirectory, step.script),
-      ['-GameProcessId', String(processId), '-ExpectedDllSha256', bridgeSha256, ...step.args]
-    )
-    return {
-      script: step.script,
-      outcome: classifyStepOutput(exitCode, stdout),
-      lines: summariseStepOutput(stdout)
     }
   }
 

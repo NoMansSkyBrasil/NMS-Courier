@@ -147,6 +147,23 @@ static int signal_event(const char *base, const char *tag) {
     Sleep(900);
     return ok != 0;
 }
+// The way the desktop application sends a request: a file that names it, which the profile takes
+// and deletes. Returns 1 when the profile took it.
+static int signal_file(const char *tag) {
+    char root[MAX_PATH], path[MAX_PATH];
+    if (!GetEnvironmentVariableA("LOCALAPPDATA", root, MAX_PATH)) return 0;
+    snprintf(path, sizeof(path), "%s\\NMSCourier\\diagnostics\\native-signal-180836-%lu.txt",
+             root, (unsigned long)GetCurrentProcessId());
+    FILE *file = fopen(path, "w");
+    if (!file) return 0;
+    fprintf(file, "%s\r\n", tag);
+    fclose(file);
+    for (int waited = 0; waited < 40; ++waited) {
+        Sleep(100);
+        if (GetFileAttributesA(path) == INVALID_FILE_ATTRIBUTES) { Sleep(900); return 1; }
+    }
+    return 0;
+}
 static int stat_matches(LONG first, const unsigned char *item, int item_class) {
     static const uint32_t offsets[3] = {0x980, 0xe10, 0xbc8}, types[3] = {7, 5, 9};
     for (int index = 0; index < 3; ++index) {
@@ -207,7 +224,8 @@ int main(void) {
     if (update_calls != 5) return 15;
 
     // An unwritable item pointer is rejected without calling the generator.
-    if (!signal_event(base, "a")) return 16;
+    // This request arrives by file, as the application sends it.
+    if (!signal_file("a")) return 16;
     CourierTestPurchaseSetup(0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0x2d);
     if (stat_count != 6 || snapshot(values) != -1 || values[5] != 1) return 17;
     // Layout arguments were native in every setup so far (slots never armed).

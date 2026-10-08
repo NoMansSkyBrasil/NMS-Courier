@@ -1,10 +1,9 @@
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
-import type { DeliveryFeatureId, DeliveryPlan } from './delivery-plan'
+import { readClassification, steps } from './delivery-plan'
+import type { DeliveryFeatureId, DeliveryPlan, DeliveryStep } from './delivery-plan'
 
-// The entries of an area that may be sent one by one. The list is the same generated Markdown
-// table the signal script reads for "all", so nothing can be chosen here that "all" would not
-// send, and the blocked entries of the classification never appear.
+// The entries of an area that may be sent one by one. The list is the same generated table the
+// whole-area request is built from, so nothing can be chosen here that "all" would not send, and
+// the blocked entries of the classification never appear.
 
 export type DeliveryOption = {
   id: string
@@ -21,31 +20,32 @@ type Source = {
   groupColumn: number
   accept: (cells: readonly string[]) => boolean
   domain: DeliveryOption['domain']
-  script: string
-  flag: string
   changesAccount: boolean
+  step: (ids: readonly string[], notify: boolean) => DeliveryStep | null
 }
 
-const product = (classes: readonly string[], script: string, changesAccount: boolean): Source => ({
+const product = (
+  classes: readonly string[],
+  changesAccount: boolean,
+  step: Source['step']
+): Source => ({
   table: 'product-delivery-classification.md',
   idColumn: 0,
   groupColumn: 1,
   accept: (cells) => classes.includes(cells[1]),
   domain: 'product',
-  script,
-  flag: '-Id',
-  changesAccount
+  changesAccount,
+  step
 })
 
-const account = (kind: string, flag: string): Source => ({
+const account = (kind: string): Source => ({
   table: 'account-unlocks.md',
   idColumn: 1,
   groupColumn: 2,
   accept: (cells) => cells[0] === kind && cells[3] === 'yes',
   domain: null,
-  script: 'signal-account-180836.ps1',
-  flag,
-  changesAccount: true
+  changesAccount: true,
+  step: (ids) => steps.account(ids.map((id) => `${kind}=${id}`))
 })
 
 // Areas without an entry here are sent whole only: fishing and refiner recipes have no request
@@ -57,43 +57,18 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     groupColumn: 1,
     accept: (cells) => cells[2] === 'deliverable',
     domain: 'technology',
-    script: 'signal-technology-180836.ps1',
-    flag: '-Id',
-    changesAccount: false
+    changesAccount: false,
+    step: steps.technology
   },
-  productRecipes: product(
-    ['catalogue_item', 'catalogue_technology'],
-    'signal-product-180836.ps1',
-    false
-  ),
-  buildParts: product(
-    ['catalogue_construction', 'research_tree'],
-    'signal-product-180836.ps1',
-    false
-  ),
-  customisation: product(['customisation'], 'signal-customisation-180836.ps1', true),
-  titles: account('title', '-Title'),
-  expeditions: account('season', '-Season'),
-  quicksilver: account('special', '-Special')
+  productRecipes: product(['catalogue_item', 'catalogue_technology'], false, steps.product),
+  buildParts: product(['catalogue_construction', 'research_tree'], false, steps.product),
+  customisation: product(['customisation'], true, (ids) => steps.redeem(ids)),
+  titles: account('title'),
+  expeditions: account('season'),
+  quicksilver: account('special')
 }
 
 const identifier = /^[A-Z0-9_]{1,15}$/
-// A request of the profile carries at most this many entries.
-const requestLimit = 4096
-
-// Data rows of a generated Markdown table: the header and the separator are dropped.
-export function parseMarkdownRows(text: string): string[][] {
-  return text
-    .split(/\r?\n/)
-    .filter((line) => line.startsWith('| '))
-    .slice(2)
-    .map((line) =>
-      line
-        .slice(1, line.lastIndexOf('|'))
-        .split('|')
-        .map((cell) => cell.trim())
-    )
-}
 
 export function supportsSelection(feature: DeliveryFeatureId): boolean {
   return feature in sources
@@ -105,8 +80,8 @@ export async function listDeliveryOptions(
 ): Promise<DeliveryOption[]> {
   const source = sources[feature]
   if (!source) return []
-  const text = await readFile(join(researchDirectory, source.table), 'utf8').catch(() => '')
-  return parseMarkdownRows(text)
+  const rows = await readClassification(researchDirectory, source.table)
+  return rows
     .filter((cells) => source.accept(cells) && identifier.test(cells[source.idColumn]))
     .map((cells) => ({
       id: cells[source.idColumn],
@@ -119,15 +94,14 @@ export async function listDeliveryOptions(
 export function getSelectionPlan(
   feature: DeliveryFeatureId,
   chosen: readonly string[],
-  options: readonly DeliveryOption[]
+  options: readonly DeliveryOption[],
+  notify: boolean
 ): DeliveryPlan | null {
   const source = sources[feature]
   const allowed = new Set(options.map((option) => option.id))
   const ids = [...new Set(chosen)]
-  if (!source || ids.length < 1 || ids.length > requestLimit) return null
+  if (!source || ids.length < 1) return null
   if (!ids.every((id) => identifier.test(id) && allowed.has(id))) return null
-  return {
-    changesAccount: source.changesAccount,
-    steps: [{ script: source.script, args: [source.flag, ids.join(',')] }]
-  }
+  const step = source.step(ids, notify)
+  return step ? { changesAccount: source.changesAccount, steps: [step] } : null
 }

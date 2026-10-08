@@ -33,14 +33,20 @@ export function getCurrencyPlan(request: CurrencyRequest, notify: boolean): Deli
     changesAccount: false,
     steps: [
       {
-        script: 'signal-currency-180836.ps1',
-        args: [
-          '-Currency',
-          request.currency,
-          '-Amount',
-          String(request.amount),
-          ...(notify ? ['-ShowAlert'] : [])
-        ]
+        label: 'currency',
+        request: {
+          name: 'currency-request',
+          perProcess: true,
+          lines: [
+            `currency=${request.currency}`,
+            `amount=${request.amount}`,
+            `silent=${notify ? 0 : 1}`
+          ]
+        },
+        signals: ['currency'],
+        result: { name: 'currency-result', seconds: 12 },
+        // unknown_reward: the game has not loaded the data file. bad_layout: nothing was written.
+        accept: (lines) => lines.includes('result=given')
       }
     ]
   }
