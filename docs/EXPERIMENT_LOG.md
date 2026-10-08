@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-07: owner will clear account unlocks with a save editor (backup taken)
+
+The owner announced removing unlocks from the account with a third-party
+save editor, outside this project's tools, so that account-level routes can
+be tested on an account that lacks entries. Before that, the whole save
+folder and `GCUSERSETTINGSDATA.MXML` were copied to the external
+`save-backups/20261007-before-account-cleanup` (game process 8256 still
+running at the time). Nothing was changed by this project. To record when
+the owner returns: what was removed, with the game closed or not, and what
+the account sets hold in memory after the next start (the account data is
+synchronised with the publisher's servers and may come back).
+
 ## 2026-10-07: the redeem routine also changes the account (read-only finding); owner accepts account results
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md#correction-the-slot-side-routine-also-writes-the-account-found-2026-10-07).
