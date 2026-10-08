@@ -8,9 +8,9 @@ loaded save slot**.
 Status in one line: the link between each option and what unlocks it is
 mapped offline and a product class exists for it; one product
 was tested on slot 3: as a known product it did not open the option; the
-game's slot-side special routine did (confirmed on screen). All 263 IDs
-were then sent through that routine; the result on screen and after a save
-is awaited.
+game's slot-side special routine did. All 263 IDs were then sent through
+that routine; the owner confirmed every appearance option open and the
+automatic save holds them. Titles are a separate, open question.
 
 ## What the owner asked (2026-10-07)
 
@@ -109,9 +109,33 @@ All of them are appearance parts, banners, trails or titles, for which
 known and redeemed is the whole reward. Scope: slot 3 only; the account
 lists were not touched. Game kept running.
 
-Not proven: what the customiser shows for every category (awaiting the
-owner), which list holds the specials (read the slot file after a save),
-persistence. Undo: reload without saving, or restore the backup.
+**Confirmed by the owner: every appearance option is open.** The automatic
+save of slot 3 (`save5.hg`, 23:24) holds 274 known specials (11 before, plus
+263) and 122 redeemed season rewards (10 before); the manual save
+(`save6.hg`, 23:19) is older and still has 11 and 10. So the list written is
+the slot's known specials (`24<`), and it persists.
+
+## Titles
+
+`playertitledata` has 346 titles. By unlock condition: 159 by a statistic,
+63 by a statistic rank, 14 by a statistic that also grants specials, 61 by a
+known product, 27 by a mission, 16 by an interaction, 2 by a trophy, 4 with
+no condition.
+
+The only list of unlocked titles found so far is on the account (the set at
+account `+0x140`, 346 of 346 on the owner's account, see
+[known lists triage](KNOWN_LISTS_TRIAGE.md)). No per-slot list of titles has
+been found: a slot holds the statistics, missions and known products from
+which the game decides to unlock a title, and the result is written to the
+account. Not verified: whether the title picker in a slot shows every
+account title regardless of that slot's own statistics (ask the owner to
+open the picker in slot 3), and whether the 61 product-linked titles react
+to the known specials now in the slot.
+
+Consequence for the project: "titles in the save" would mean giving the slot
+the statistics, missions and products behind each title so the game unlocks
+it itself. That is a statistics domain, not started. The owner said on
+2026-10-07 that an account-level result is acceptable for titles.
 
 Open questions:
 

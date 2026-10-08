@@ -8,7 +8,9 @@ Process 8256, DLL `68fd60bc...d5a7`, slot 3 re-identified, backup taken.
 - The owner confirmed banner emblem 55 open after the single-ID test.
 - `signal-customisation-180836.ps1 -All` (263): 262 changed, 1 no change;
   redeemed season set 10 -> 122. Game kept running. Account lists untouched.
-- Not proven: every category on screen, persistence after a save.
+- Confirmed: the owner saw every appearance option open; `save5.hg` (23:24)
+  holds 274 known specials and 122 redeemed season rewards.
+- Titles: only an account list is known; see the notes.
 - Rollback: `save-backups/20261007-before-customisation-all`.
 
 ## 2026-10-07: known product does not open a customisation option; special route tried

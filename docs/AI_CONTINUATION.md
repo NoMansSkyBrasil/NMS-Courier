@@ -179,9 +179,9 @@ offline:
     [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md): 263 products
     of class `customisation` are mapped. A known product does not open an
     option; the slot-side special routine does. All 263 were sent with
-    `signal-customisation-180836.ps1 -All` (262 changed); confirmation on
-    screen and after a save is pending. Titles unlocked by statistics or
-    missions are not covered.
+    `signal-customisation-180836.ps1 -All` (262 changed), confirmed on screen
+    and in the automatic save (274 known specials). Titles: only an account
+    list is known; a slot route would go through statistics.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
