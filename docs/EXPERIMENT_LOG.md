@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: second account cleanup checked on disk before starting the game (read-only)
+
+The owner locked everything again in the editor and closed the game (no
+`NMS.exe` process). Files on disk:
+
+| File | Written | State |
+| --- | --- | --- |
+| `accountdata.hg` | 00:02, 44,435 bytes, stored by the editor as plain JSON | Emptied by the editor |
+| `GCUSERSETTINGSDATA.MXML` | 2026-10-07 23:56, 547,511 bytes | **Unchanged and full**: titles 346, specials 794, season 293, Twitch 435, platform 1, seen products 4,383, seen technologies 318, seen substances 105, wiki topics 58 |
+
+Same situation as the first attempt, so the same outcome is expected at the
+next start (the game refills the account from the settings file). Also
+noted: the settings file lists 435 Twitch rewards while the set read at
+account `+0x200` is empty in memory, the open question of the triage notes.
+Nothing was changed by this project.
+
 ## 2026-10-07: the account cleanup did not hold; the game restored the account from the settings file
 
 Read-only. Game restarted by the owner at about 23:56: process 20732, slot 3
