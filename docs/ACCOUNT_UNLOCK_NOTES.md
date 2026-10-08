@@ -482,10 +482,29 @@ hooking the handler because it leaves the game's sign-in path untouched.
 | Profile DLL | SHA-256 `6ad12b1caa2bfa94f6b4ca1bdcce0628b8d1b383cd03afa5e4056fe8324027fc` |
 | Checks | Profile, technology and recipe fixtures pass (run without a keep list); none covers the keeper |
 | Installed | Yes, 2026-10-08 morning, game closed; replaces `09a816de...6813` |
-| Keep list | Written: 435 Twitch and 3 platform IDs |
+| Keep list | Written: 435 Twitch and 3 platform IDs; proven live the same morning, see below |
 
-Not proven: everything live. Test: start online on slot 3 without sending
-anything, wait, read the Twitch set and the status file, check the shop.
+**First live result (2026-10-08, process 22564, store client online, slot 3
+identified, DLL `6ad12b1c...27fc`, executable `13d5060d...`).** The owner
+started the game and loaded slot 3; nothing was sent. Read-only afterwards:
+
+| Item | Value |
+| --- | --- |
+| Profile status at start | `armed` (hooks enabled by the keep list) |
+| Keeper status file | `kept=438`, `kept_twitch=435`, `kept_platform=3`, `insert_passes=1`, `last_inserted=435`, `last_unknown=0` |
+| Account sets in memory | Titles 346, specials 796, season 293, **Twitch 435**, platform 3 |
+
+So after an online start the Twitch set was short, the keeper inserted all
+435 in one pass by itself, and the platform set needed nothing. The keep
+list works across an online restart.
+
+Also seen in the same read: 204 known technologies in the slot, one fewer
+than the 205 of every earlier read. Not explained and not caused by a
+request of this session; check which ID is missing.
+
+Not proven: the shop on screen in this session (awaiting the owner); the
+behaviour after the 30-minute window; a later re-sign-in within one
+session.
 
 ### Boundary: no change to the publisher's records (2026-10-08)
 

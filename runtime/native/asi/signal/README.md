@@ -104,8 +104,8 @@ kinds through `powershell -Command`, not `-File`.
 `signal-account-keep-180836.ps1 -AllOfKind twitch,platform` writes the list of Twitch and platform
 rewards the profile re-inserts in every session; `-Clear` empties it. With `-GameProcessId` and
 `-ExpectedDllSha256` a running game loads it at once. Call it through `powershell -Command` when
-giving several kinds. Status: [account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). Not yet
-proven live.
+giving several kinds. Status: [account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). Proven
+across an online start on 2026-10-08.
 
 ## Rule
 

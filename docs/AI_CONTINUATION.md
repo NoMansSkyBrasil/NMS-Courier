@@ -215,9 +215,10 @@ offline:
     online the accounts merged, but the game empties the Twitch set at
     start; it was inserted again in process 23800. Found on 2026-10-08: the
     service's sign-in reply rebuilds the set. DLL `6ad12b1c...27fc` adds a
-    keep list that re-inserts by itself (installed, list written, not proven
-    live). Next: online start on slot 3, read the set and the keeper's
-    status file; then the entitlement technologies.
+    keep list that re-inserts by itself; proven across an online start
+    (process 22564: 435 inserted in one pass, nothing sent). Next: the Twitch
+    claim feature, the 14 technology-carrying rewards, one missing known
+    technology (204 of 205), the entitlement technologies.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

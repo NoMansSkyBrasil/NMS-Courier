@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-08: keep list proven across an online start
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#why-the-twitch-set-does-not-survive-an-online-start-and-the-keep-list-2026-10-08-morning).
+Process 22564, DLL `6ad12b1c...27fc`, executable `13d5060d...`, slot 3
+identified, store client online. No request sent.
+
+- Keeper status: one insert pass, 435 inserted, none unknown. Account in
+  memory: Twitch 435, platform 3, titles 346, specials 796, season 293.
+- Unexplained side observation: 204 known technologies in the slot instead
+  of 205.
+- Not proven: the shop on screen, the state after the 30-minute window.
+
 ## 2026-10-08: Twitch claim mapped from the tables; owner decisions (offline)
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#owner-decisions-for-the-product-2026-10-08-keep-list-with-a-warning-and-a-claim-feature).
