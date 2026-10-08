@@ -11,6 +11,7 @@ const nms = {
     runtimeVersion: string | null
   }> => ipcRenderer.invoke('nms:get-foundation-status'),
   getCatalogStatus: () => ipcRenderer.invoke('nms:get-catalog-status'),
+  importCatalog: () => ipcRenderer.invoke('nms:import-catalog'),
   getInstallationStatus: () => ipcRenderer.invoke('nms:get-installation-status'),
   getGameStatus: () => ipcRenderer.invoke('nms:get-game-status'),
   getBuildSupport: () => ipcRenderer.invoke('nms:get-build-support'),

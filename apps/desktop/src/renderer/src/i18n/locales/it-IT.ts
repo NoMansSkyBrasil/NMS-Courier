@@ -268,6 +268,17 @@ export const itIT: Messages = {
     diagEnded: 'La sessione di diagnostica è terminata con il gioco.'
   },
   catalogPage: {
+    generate: 'Leggi dal gioco',
+    refresh: 'Leggi di nuovo',
+    generating: 'Lettura dei file del gioco…',
+    generateHint:
+      'Il catalogo viene letto dalla tua installazione. Nulla viene modificato nella cartella del gioco e nessun salvataggio viene aperto.',
+    imported: '{count} voci lette dal gioco.',
+    failInstallation: 'Seleziona prima l’installazione del gioco.',
+    failArchives: 'I file di dati del gioco non sono stati trovati nell’installazione selezionata.',
+    failStructure:
+      'Il gioco è stato aggiornato e le sue tabelle sono cambiate. Questa versione dell’applicazione non può ancora leggerle.',
+    failUnreadable: 'Impossibile leggere i file di dati del gioco.',
     unavailableTitle: 'Il catalogo locale non è disponibile',
     unavailableBody:
       'In questo profilo dell’applicazione non è ancora stato generato alcun catalogo.',

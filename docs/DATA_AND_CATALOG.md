@@ -1,6 +1,6 @@
 # Local data, catalog, assets, and library
 
-Status: planned storage model and catalog identity contract. The desktop has a read-only, private-generation browser for the staged core catalogue; database storage, selected-installation extraction, asset decoding, and catalog publication are not implemented.
+Status: planned storage model and catalog identity contract. Implemented on 2026-10-08: the desktop reads the core catalogue (substances, products, technologies, 14 languages) straight from the selected installation with its own readers, see [section 4a](#4a-implemented-native-import-of-the-core-catalogue). Database storage, the other table domains, relations, asset decoding and thumbnails are not implemented.
 
 ## 1. Storage ownership
 
@@ -115,6 +115,54 @@ The selected game installation is the only production catalog source. Websites, 
 13. Retain the prior working generation if conversion, validation, cancellation, or publication fails.
 
 MBIN tooling is version-sensitive. A newer converter is not guaranteed to read every older structure. [MBINCompiler](https://github.com/monkeyman192/MBINCompiler).
+
+### 4a. Implemented: native import of the core catalogue
+
+Implemented and verified on 2026-10-08 for build 180836 (executable
+`13d5060d...3499`, Steam). The user presses "Read from the game" on the
+catalogue page; nothing has to be extracted by hand and no external tool is
+used, so the package needs no Python, no .NET and no converter for this step.
+
+| Part | File (`apps/desktop/src/main/game-data/`) | What it does |
+| --- | --- | --- |
+| Archive reader | `pak-archive.ts` | Reads HGPAK revision 2 archives (Windows: 64 KiB chunks, Zstandard through Node's own `zlib`). Read-only. Refuses uncompressed archives and other revisions because none was ever read by this project. Format knowledge from the HGPAKtool project (MIT); the code is our own. |
+| Core tables | `core-tables.ts`, `core-table-layouts.json` | Reads the substance, product and technology tables as the game stores them. Offsets come from the layout file; a table whose 16 structure bytes (header bytes 8 to 23) differ is refused with `unknown_structure`. |
+| Language tables | `localisation-table.ts` | Reads `language/*_<language>.mbin`: 32-byte key, 17 text references, entry size 0x130; a file fills only its own language column. Structure `e40c000064ebdbf8697b7ae105e895de`. |
+| Import | `catalog-import.ts` | Opens `NMSARC.Precache.pak` and `NMSARC.MetadataEtc.pak` under `GAMEDATA/PCBANKS`, reads the three tables and the language files of the 14 interface languages, writes `catalog/generations/<time>-<executable>/core-catalog.json` through a staging folder and a rename. The previous generation stays when anything fails. |
+
+The layout file is not written by hand. `runtime/research/derive-core-table-layouts.py`
+compares each binary table of the research corpus with the text the pinned
+MBINCompiler 7.04.1-pre3 produced for the same file and keeps a field offset
+only when it reproduces the converter's value for every entry of the table
+(114, 2,199 and 393 entries). The converter is therefore a development-time
+reference only; it is not shipped and not run on the user's machine.
+
+```powershell
+& "$env:LOCALAPPDATA\Python\pythoncore-3.14-64\python.exe" runtime\research\derive-core-table-layouts.py `
+  --corpus E:\NMS-Courier-Research\corpus `
+  --output apps\desktop\src\main\game-data\core-table-layouts.json
+```
+
+Observed on the owner's installation: 2,706 entries (114 substances, 2,199
+products, 393 technologies) with name, subtitle and description in 14
+languages in about 2.4 seconds; 21 entries have no name in any language
+because the game has no text for their key (294 empty names over 14
+languages). Each entry also keeps its category and the game-relative icon
+locator for the later icon step.
+
+After a game update: when a table's structure bytes change, the import
+reports that this version cannot read the tables and the old catalogue stays
+browseable. Rebuild the corpus for the new build, rerun the derivation and
+ship the new layout file. Keep the old layouts only if the file format is
+extended to hold several structures per table (it holds one today).
+
+Limits, all open: only the three core tables (no recipes, rewards, parts or
+relations); no SQLite; installed mods are ignored; the import runs in the main
+process with pauses between files instead of a worker and reports no progress
+or cancel; the build shown is taken from the known executable hash, not read
+from the executable; GOG and Game Pass installations were not tried (the
+archive layout is assumed to be the same). Palettes and 3D models are the
+next two steps and are not started.
 
 ### Packaged toolchain acceptance
 

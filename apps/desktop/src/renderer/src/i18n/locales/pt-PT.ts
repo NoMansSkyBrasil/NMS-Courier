@@ -265,6 +265,17 @@ export const ptPT: Messages = {
     diagEnded: 'A sessão de diagnóstico terminou com o jogo.'
   },
   catalogPage: {
+    generate: 'Ler do jogo',
+    refresh: 'Ler novamente',
+    generating: 'A ler os ficheiros do jogo…',
+    generateHint:
+      'O catálogo é lido da sua própria instalação. Nada é alterado na pasta do jogo e nenhuma gravação é aberta.',
+    imported: '{count} entradas lidas do jogo.',
+    failInstallation: 'Selecione primeiro a instalação do jogo.',
+    failArchives: 'Os ficheiros de dados do jogo não foram encontrados na instalação selecionada.',
+    failStructure:
+      'O jogo foi atualizado e as tabelas mudaram. Esta versão da aplicação ainda não as consegue ler.',
+    failUnreadable: 'Não foi possível ler os ficheiros de dados do jogo.',
     unavailableTitle: 'O catálogo local não está disponível',
     unavailableBody: 'Ainda não foi gerado nenhum catálogo neste perfil da aplicação.',
     title: 'Catálogo local',

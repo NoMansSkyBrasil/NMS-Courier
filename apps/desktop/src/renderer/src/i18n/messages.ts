@@ -189,6 +189,15 @@ export type Messages = {
     diagEnded: string
   }
   catalogPage: {
+    generate: string
+    refresh: string
+    generating: string
+    generateHint: string
+    imported: string
+    failInstallation: string
+    failArchives: string
+    failStructure: string
+    failUnreadable: string
     unavailableTitle: string
     unavailableBody: string
     title: string

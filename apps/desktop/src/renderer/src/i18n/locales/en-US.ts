@@ -254,6 +254,17 @@ export const enUS: Messages = {
     diagEnded: 'The diagnostic session ended with the game.'
   },
   catalogPage: {
+    generate: 'Read from the game',
+    refresh: 'Read again',
+    generating: 'Reading the game files…',
+    generateHint:
+      'The catalogue is read from your own installation. Nothing is changed in the game folder and no save is opened.',
+    imported: '{count} entries read from the game.',
+    failInstallation: 'Select the game installation first.',
+    failArchives: 'The game data files were not found in the selected installation.',
+    failStructure:
+      'The game was updated and its tables changed. This version of the application cannot read them yet.',
+    failUnreadable: 'The game data files could not be read.',
     unavailableTitle: 'The local catalogue is not available',
     unavailableBody: 'No catalogue has been generated in this application profile yet.',
     title: 'Local catalogue',

@@ -1,5 +1,29 @@
 # Runtime experiment log
 
+## 2026-10-08: core catalogue read from the installation by the application itself
+
+Offline only; the game was not running and nothing was sent to it. Build
+180836, executable `13d5060d...3499`. Source:
+`apps/desktop/src/main/game-data/` and
+`runtime/research/derive-core-table-layouts.py`; details in
+[data and catalog, section 4a](DATA_AND_CATALOG.md#4a-implemented-native-import-of-the-core-catalogue).
+
+- Scan of the 97 archives: every reality table and all language files are in
+  `NMSARC.Precache.pak` (5 MB) and `NMSARC.MetadataEtc.pak` (46 MB); 9
+  language files per language, 17 languages.
+- Layout derivation against the converter's text matched every entry of the
+  three tables: substance entry 0x1a0 bytes, product 0x300, technology 0x2e0.
+  Identifier and name keys are stored inside the entry, subtitle, description
+  and icon outside it.
+- A started application with an empty profile detected the installation,
+  and the button on the catalogue page produced generation
+  `20261008T133705Z-13d5060d4efb`: 2,706 entries, 14 languages.
+- 66 unit tests pass; the new ones use synthetic archives and tables only.
+- Rejected: shipping MBINCompiler. Its release executable (2.3 MB) needs an
+  installed .NET 8 runtime, which end users must not have to install.
+- Not proven: any other build, GOG or Game Pass installations, uncompressed
+  archives (refused), a packaged build of the application.
+
 ## 2026-10-08: automatic detection of the game installation
 
 Application only; nothing sent to the game. With no installation selected,

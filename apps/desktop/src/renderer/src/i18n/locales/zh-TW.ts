@@ -243,6 +243,16 @@ export const zhTW: Messages = {
     diagEnded: '診斷工作階段已隨遊戲結束。'
   },
   catalogPage: {
+    generate: '從遊戲讀取',
+    refresh: '重新讀取',
+    generating: '正在讀取遊戲檔案…',
+    generateHint:
+      '目錄會從你自己的遊戲安裝中讀取。不會變更遊戲資料夾中的任何內容，也不會開啟任何存檔。',
+    imported: '已從遊戲讀取 {count} 個項目。',
+    failInstallation: '請先選擇遊戲安裝位置。',
+    failArchives: '在所選的安裝位置中找不到遊戲資料檔案。',
+    failStructure: '遊戲已更新，資料表有所變動。此版本的應用程式暫時無法讀取。',
+    failUnreadable: '無法讀取遊戲資料檔案。',
     unavailableTitle: '本機目錄無法使用',
     unavailableBody: '此應用程式設定檔中尚未產生目錄。',
     title: '本機目錄',

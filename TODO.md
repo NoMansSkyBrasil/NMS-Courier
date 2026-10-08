@@ -123,6 +123,9 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Every renderer screen in all 14 languages (2026-10-08): catalogue page, game and bridge page
   (rewritten as `bridge-page.tsx`), model workshop; `preview-copy.ts`, `appearance-copy.ts` and
   `delivery-page.tsx` removed; `locales.test.ts` checks keys, empty strings and placeholders.
+- [x] Read the core catalogue from the user's installation without external tools (2026-10-08): archive, table and language readers in `apps/desktop/src/main/game-data/`.
+- [ ] Catalogue import: other tables (recipes, rewards, parts, titles), relations, icons from the stored locators, progress and cancel, a worker, several layouts per table for older builds.
+- [ ] Read colour palettes from the game's archives for the model workshop (step 2), then models and textures (step 3).
 - [x] Detect the game installation automatically (2026-10-08): running game, Steam libraries, GOG registry.
 - [ ] Installation detection: verify on a GOG installation; decide about the Microsoft Store and Game Pass versions.
 - [ ] Translate the two native dialogs of the main process (installation folder picker, close

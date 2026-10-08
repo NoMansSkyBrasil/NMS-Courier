@@ -2,6 +2,9 @@
 // module turns it into fixed steps. No argument of a step ever comes from the renderer.
 
 export const researchBridgeBuild = '180836'
+// Executable of that build, as distributed by Steam.
+export const researchBridgeGameSha256 =
+  '13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499'
 
 // Profile DLLs the steps below were exercised against. Anything else installed is refused.
 export const testedBridgeSha256: readonly string[] = [

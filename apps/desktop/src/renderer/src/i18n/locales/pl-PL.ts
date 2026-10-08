@@ -259,6 +259,17 @@ export const plPL: Messages = {
     diagEnded: 'Sesja diagnostyczna zakończyła się wraz z grą.'
   },
   catalogPage: {
+    generate: 'Odczytaj z gry',
+    refresh: 'Odczytaj ponownie',
+    generating: 'Odczytywanie plików gry…',
+    generateHint:
+      'Katalog jest odczytywany z twojej własnej instalacji. Nic nie jest zmieniane w folderze gry i żaden zapis nie jest otwierany.',
+    imported: 'Odczytano z gry wpisy: {count}.',
+    failInstallation: 'Najpierw wybierz instalację gry.',
+    failArchives: 'Nie znaleziono plików danych gry w wybranej instalacji.',
+    failStructure:
+      'Gra została zaktualizowana i jej tabele się zmieniły. Ta wersja aplikacji nie potrafi ich jeszcze odczytać.',
+    failUnreadable: 'Nie udało się odczytać plików danych gry.',
     unavailableTitle: 'Lokalny katalog jest niedostępny',
     unavailableBody: 'W tym profilu aplikacji nie wygenerowano jeszcze katalogu.',
     title: 'Lokalny katalog',

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SearchIcon, DatabaseIcon } from 'lucide-react'
+import { SearchIcon, DatabaseIcon, RefreshCwIcon } from 'lucide-react'
 import { Badge } from '@renderer/components/ui/badge'
 import { Button } from '@renderer/components/ui/button'
 import {
@@ -11,6 +11,7 @@ import {
 } from '@renderer/components/ui/card'
 import {
   Empty,
+  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -18,11 +19,13 @@ import {
 } from '@renderer/components/ui/empty'
 import { Input } from '@renderer/components/ui/input'
 import { Skeleton } from '@renderer/components/ui/skeleton'
+import { Spinner } from '@renderer/components/ui/spinner'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 
 type Domain = 'substance' | 'product' | 'technology'
 type Status = Awaited<ReturnType<typeof window.nms.getCatalogStatus>>
 type SearchResult = Awaited<ReturnType<typeof window.nms.searchCatalog>>
+type ImportResult = Awaited<ReturnType<typeof window.nms.importCatalog>>
 
 const domains: Array<Domain | undefined> = [undefined, 'substance', 'product', 'technology']
 
@@ -33,6 +36,43 @@ export function CatalogPage(): React.JSX.Element {
   const [query, setQuery] = useState('')
   const [domain, setDomain] = useState<Domain | undefined>()
   const [result, setResult] = useState<SearchResult | null>(null)
+  const [importing, setImporting] = useState(false)
+  const [imported, setImported] = useState<ImportResult | null>(null)
+
+  // Read the catalogue from the selected installation; the previous one stays when this fails.
+  const importCatalog = async (): Promise<void> => {
+    setImporting(true)
+    try {
+      setImported(await window.nms.importCatalog())
+      setStatus(await window.nms.getCatalogStatus())
+    } finally {
+      setImporting(false)
+    }
+  }
+
+  const importText = !imported
+    ? text.generateHint
+    : imported.state === 'imported'
+      ? formatMessage(text.imported, { count: imported.entryCount.toLocaleString(locale) })
+      : imported.reason === 'installation_not_selected'
+        ? text.failInstallation
+        : imported.reason === 'archives_missing'
+          ? text.failArchives
+          : imported.reason === 'unknown_structure'
+            ? text.failStructure
+            : imported.reason === 'busy'
+              ? text.generating
+              : text.failUnreadable
+  const importButton = (
+    <Button variant="outline" onClick={() => void importCatalog()} disabled={importing}>
+      {importing ? (
+        <Spinner data-icon="inline-start" />
+      ) : (
+        <RefreshCwIcon data-icon="inline-start" />
+      )}
+      {importing ? text.generating : status?.state === 'available' ? text.refresh : text.generate}
+    </Button>
+  )
 
   useEffect(() => {
     void window.nms.getCatalogStatus().then(setStatus)
@@ -65,6 +105,12 @@ export function CatalogPage(): React.JSX.Element {
             <EmptyTitle>{text.unavailableTitle}</EmptyTitle>
             <EmptyDescription>{text.unavailableBody}</EmptyDescription>
           </EmptyHeader>
+          <EmptyContent>
+            {importButton}
+            <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+              {importText}
+            </p>
+          </EmptyContent>
         </Empty>
       </div>
     )
@@ -114,6 +160,12 @@ export function CatalogPage(): React.JSX.Element {
           </div>
         </CardContent>
       </Card>
+      <div className="flex flex-wrap items-center gap-3">
+        {importButton}
+        <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+          {importText}
+        </p>
+      </div>
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span>
           {result

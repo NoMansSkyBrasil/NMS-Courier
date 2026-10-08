@@ -1,0 +1,153 @@
+{
+  "substance": {
+    "path": "metadata/reality/tables/nms_reality_gcsubstancetable.mbin",
+    "structure": "e40c0000c1bc9f7a4477222f65841b13",
+    "listPosition": 48,
+    "entrySize": 416,
+    "entryCount": 114,
+    "sourceSha256": "4560bc726de334668b7727927503bf2e283ba5e93d3e24634ae584021773bb2b",
+    "fields": {
+      "gameId": {
+        "offset": 200,
+        "kind": "inline"
+      },
+      "name": {
+        "offset": 308,
+        "kind": "inline"
+      },
+      "nameLower": {
+        "offset": 340,
+        "kind": "inline"
+      },
+      "subtitle": {
+        "offset": 216,
+        "kind": "variable"
+      },
+      "description": {
+        "offset": 184,
+        "kind": "variable"
+      },
+      "icon": {
+        "offset": 160,
+        "kind": "variable"
+      }
+    },
+    "category": {
+      "offset": 272,
+      "names": {
+        "0": "Fuel",
+        "1": "Metal",
+        "2": "Catalyst",
+        "3": "Stellar",
+        "4": "Flora",
+        "5": "Earth",
+        "6": "Exotic",
+        "7": "Special"
+      }
+    }
+  },
+  "product": {
+    "path": "metadata/reality/tables/nms_reality_gcproducttable.mbin",
+    "structure": "e40c000032c3ed06778ed48dae18bb54",
+    "listPosition": 32,
+    "entrySize": 768,
+    "entryCount": 2199,
+    "sourceSha256": "2fbb428750153441d62be77cb4eb89e3bf1191b87d52be4641413f0e3759119f",
+    "fields": {
+      "gameId": {
+        "offset": 336,
+        "kind": "inline"
+      },
+      "name": {
+        "offset": 496,
+        "kind": "inline"
+      },
+      "nameLower": {
+        "offset": 624,
+        "kind": "inline"
+      },
+      "subtitle": {
+        "offset": 368,
+        "kind": "variable"
+      },
+      "description": {
+        "offset": 288,
+        "kind": "variable"
+      },
+      "icon": {
+        "offset": 200,
+        "kind": "variable"
+      }
+    },
+    "category": {
+      "offset": 488,
+      "names": {
+        "0": "Component",
+        "1": "Consumable",
+        "2": "Tradeable",
+        "3": "Curiosity",
+        "4": "BuildingPart",
+        "6": "Emote",
+        "7": "CustomisationPart",
+        "8": "CreatureEgg",
+        "9": "Fish",
+        "10": "ExhibitBone",
+        "11": "SpaceSalvage"
+      }
+    }
+  },
+  "technology": {
+    "path": "metadata/reality/tables/nms_reality_gctechnologytable.mbin",
+    "structure": "e40c0000debffd1459e8ee2fdcb17393",
+    "listPosition": 32,
+    "entrySize": 736,
+    "entryCount": 393,
+    "sourceSha256": "b8f35e5eec6bef07700e106d93359ae9a01e6ff10ef991fdc334c4ad64bacf8b",
+    "fields": {
+      "gameId": {
+        "offset": 264,
+        "kind": "inline"
+      },
+      "name": {
+        "offset": 452,
+        "kind": "inline"
+      },
+      "nameLower": {
+        "offset": 580,
+        "kind": "inline"
+      },
+      "subtitle": {
+        "offset": 360,
+        "kind": "variable"
+      },
+      "description": {
+        "offset": 248,
+        "kind": "variable"
+      },
+      "icon": {
+        "offset": 176,
+        "kind": "variable"
+      }
+    },
+    "category": {
+      "offset": 404,
+      "names": {
+        "0": "Ship",
+        "1": "Weapon",
+        "2": "Suit",
+        "6": "Freighter",
+        "7": "Maintenance",
+        "8": "Exocraft",
+        "9": "Colossus",
+        "10": "Submarine",
+        "11": "Mech",
+        "12": "AllVehicles",
+        "13": "AlienShip",
+        "14": "AllShips",
+        "15": "RobotShip",
+        "16": "AllShipsExceptAlien",
+        "17": "Corvette"
+      }
+    }
+  }
+}

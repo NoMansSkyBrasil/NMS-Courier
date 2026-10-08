@@ -273,6 +273,18 @@ export const deDE: Messages = {
     diagEnded: 'Die Diagnosesitzung wurde mit dem Spiel beendet.'
   },
   catalogPage: {
+    generate: 'Aus dem Spiel lesen',
+    refresh: 'Erneut lesen',
+    generating: 'Spieldateien werden gelesen…',
+    generateHint:
+      'Der Katalog wird aus deiner eigenen Installation gelesen. Im Spielordner wird nichts geändert und kein Spielstand geöffnet.',
+    imported: '{count} Einträge aus dem Spiel gelesen.',
+    failInstallation: 'Wähle zuerst die Installation des Spiels aus.',
+    failArchives:
+      'Die Datendateien des Spiels wurden in der ausgewählten Installation nicht gefunden.',
+    failStructure:
+      'Das Spiel wurde aktualisiert und seine Tabellen haben sich geändert. Diese Version der Anwendung kann sie noch nicht lesen.',
+    failUnreadable: 'Die Datendateien des Spiels konnten nicht gelesen werden.',
     unavailableTitle: 'Der lokale Katalog ist nicht verfügbar',
     unavailableBody: 'In diesem Anwendungsprofil wurde noch kein Katalog erzeugt.',
     title: 'Lokaler Katalog',

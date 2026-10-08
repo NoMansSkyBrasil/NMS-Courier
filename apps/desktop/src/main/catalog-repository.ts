@@ -43,6 +43,11 @@ type CoreCatalog = {
   entries?: CatalogEntry[]
 }
 
+// The game marks coloured words in its texts as <NAME>word<>; the catalogue shows the words only.
+function plainText(value: string | undefined): string {
+  return (value ?? '').replace(/<[A-Za-z_0-9]*>/g, '')
+}
+
 function emptyStatus(): CatalogStatus {
   return {
     state: 'unavailable',
@@ -118,9 +123,9 @@ export class CatalogRepository {
           gameId: entry.gameId,
           domain: entry.domain,
           category: entry.category,
-          name: localized.name ?? '',
-          subtitle: localized.subtitle ?? '',
-          description: localized.description ?? ''
+          name: plainText(localized.name),
+          subtitle: plainText(localized.subtitle),
+          description: plainText(localized.description)
         }
       })
     }

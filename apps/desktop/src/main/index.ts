@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
+import { CatalogImporter } from './game-data/catalog-import'
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
 import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
@@ -12,11 +13,16 @@ import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 import { importPreviewModel } from './model-preview-import'
 import { BasePalettePreviewAdapter } from './nms-adapters/base-palette-preview'
 import { importAppearanceRecipe } from './nms-adapters/appearance-recipe'
-import { isDeliveryFeatureId } from './research-bridge/delivery-plan'
+import {
+  isDeliveryFeatureId,
+  researchBridgeBuild,
+  researchBridgeGameSha256
+} from './research-bridge/delivery-plan'
 import { ResearchBridgeService } from './research-bridge/research-bridge-service'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
+let catalogImporter: CatalogImporter | null = null
 const gameStatusService = new GameStatusService()
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 const palettePreview = new BasePalettePreviewAdapter()
@@ -37,6 +43,11 @@ function getResearchBridgeService(): ResearchBridgeService {
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
   return catalogRepository
+}
+
+function getCatalogImporter(): CatalogImporter {
+  catalogImporter ??= new CatalogImporter(app.getPath('userData'))
+  return catalogImporter
 }
 
 function getInstallationService(): InstallationService {
@@ -243,6 +254,16 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())
   ipcMain.handle('nms:detect-installation', () => getInstallationService().detect())
   ipcMain.handle('nms:get-catalog-status', () => getCatalogRepository().getStatus())
+  ipcMain.handle('nms:import-catalog', () => {
+    const installation = getInstallationService().getStatus()
+    return getCatalogImporter().run({
+      rootPath: getInstallationService().getSelectedRootPath(),
+      executableSha256: installation.executableSha256,
+      productVersion:
+        resolveBuildSupport(installation, getRuntimeResourceContext()).buildLabel ??
+        (installation.executableSha256 === researchBridgeGameSha256 ? researchBridgeBuild : null)
+    })
+  })
   ipcMain.handle('nms:search-catalog', (_, request: unknown) =>
     getCatalogRepository().search(parseCatalogSearchRequest(request))
   )

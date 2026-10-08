@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Checkpoint 2026-10-08 (catalogue): the application reads the core catalogue
+> from the user's own installation with its own archive and table readers; see
+> [data and catalog, section 4a](DATA_AND_CATALOG.md#4a-implemented-native-import-of-the-core-catalogue).
+> Next for this branch: per-entry selection in the delivery pages using this
+> catalogue, then palettes, then models. Do not add a converter to the
+> package; derive layouts with `runtime/research/derive-core-table-layouts.py`.
+
 **Checkpoint 2026-10-06 late night (Claude Code).** Two increments, both
 offline:
 

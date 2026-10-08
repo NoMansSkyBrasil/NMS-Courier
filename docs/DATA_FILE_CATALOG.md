@@ -11,12 +11,6 @@ when it was chosen in the second. The remaining entries are JSON files that prog
 configuration or test fixtures and that therefore keep their format; they are linked here so a
 reader can start from Markdown and reach every data file.
 
-## `apps/desktop/src/app/dashboard`
-
-| File | Kind | Size | First entry or columns | Explained in |
-| --- | --- | --- | --- | --- |
-| [data.json](../apps/desktop/src/app/dashboard/data.json) | JSON array | 68 items |  | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md), [PROCEDURAL_SEED_RESEARCH.md](../docs/PROCEDURAL_SEED_RESEARCH.md), [SEED_RESEARCH_HANDOFF.md](../docs/SEED_RESEARCH_HANDOFF.md) |
-
 ## `runtime`
 
 | File | Kind | Size | First entry or columns | Explained in |
@@ -205,4 +199,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 129 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 128 data files in 3 folders; 42 not mentioned outside this catalog.

@@ -243,6 +243,16 @@ export const zhCN: Messages = {
     diagEnded: '诊断会话已随游戏结束。'
   },
   catalogPage: {
+    generate: '从游戏读取',
+    refresh: '重新读取',
+    generating: '正在读取游戏文件…',
+    generateHint:
+      '目录从你自己的游戏安装中读取。不会更改游戏文件夹中的任何内容，也不会打开任何存档。',
+    imported: '已从游戏读取 {count} 个条目。',
+    failInstallation: '请先选择游戏安装位置。',
+    failArchives: '在所选安装位置中未找到游戏数据文件。',
+    failStructure: '游戏已更新，数据表发生了变化。此版本的应用暂时无法读取。',
+    failUnreadable: '无法读取游戏数据文件。',
     unavailableTitle: '本地目录不可用',
     unavailableBody: '此应用配置文件中尚未生成目录。',
     title: '本地目录',

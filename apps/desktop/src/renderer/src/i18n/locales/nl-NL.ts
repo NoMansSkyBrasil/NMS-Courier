@@ -270,6 +270,18 @@ export const nlNL: Messages = {
     diagEnded: 'De diagnosesessie is met het spel beëindigd.'
   },
   catalogPage: {
+    generate: 'Uit het spel lezen',
+    refresh: 'Opnieuw lezen',
+    generating: 'Spelbestanden worden gelezen…',
+    generateHint:
+      'De catalogus wordt uit je eigen installatie gelezen. Er wordt niets gewijzigd in de spelmap en er wordt geen opgeslagen spel geopend.',
+    imported: '{count} items uit het spel gelezen.',
+    failInstallation: 'Selecteer eerst de installatie van het spel.',
+    failArchives:
+      'De gegevensbestanden van het spel zijn niet gevonden in de geselecteerde installatie.',
+    failStructure:
+      'Het spel is bijgewerkt en de tabellen zijn veranderd. Deze versie van de applicatie kan ze nog niet lezen.',
+    failUnreadable: 'De gegevensbestanden van het spel konden niet worden gelezen.',
     unavailableTitle: 'De lokale catalogus is niet beschikbaar',
     unavailableBody: 'In dit applicatieprofiel is nog geen catalogus gegenereerd.',
     title: 'Lokale catalogus',

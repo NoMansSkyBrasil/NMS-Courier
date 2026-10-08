@@ -257,6 +257,17 @@ export const jaJP: Messages = {
     diagEnded: '診断セッションはゲームとともに終了しました。'
   },
   catalogPage: {
+    generate: 'ゲームから読み込む',
+    refresh: '再読み込み',
+    generating: 'ゲームのファイルを読み込み中…',
+    generateHint:
+      'カタログはお使いのインストール先から読み込まれます。ゲームのフォルダーは変更されず、セーブデータも開かれません。',
+    imported: 'ゲームから {count} 件を読み込みました。',
+    failInstallation: '先にゲームのインストール先を選択してください。',
+    failArchives: '選択したインストール先にゲームのデータファイルが見つかりませんでした。',
+    failStructure:
+      'ゲームが更新され、テーブルが変更されました。このバージョンのアプリではまだ読み込めません。',
+    failUnreadable: 'ゲームのデータファイルを読み込めませんでした。',
     unavailableTitle: 'ローカルカタログは利用できません',
     unavailableBody: 'このアプリケーションプロファイルでは、まだカタログが生成されていません。',
     title: 'ローカルカタログ',

@@ -271,6 +271,18 @@ export const frFR: Messages = {
     diagEnded: 'La session de diagnostic s’est terminée avec le jeu.'
   },
   catalogPage: {
+    generate: 'Lire depuis le jeu',
+    refresh: 'Relire',
+    generating: 'Lecture des fichiers du jeu…',
+    generateHint:
+      'Le catalogue est lu depuis votre propre installation. Rien n’est modifié dans le dossier du jeu et aucune sauvegarde n’est ouverte.',
+    imported: '{count} entrées lues depuis le jeu.',
+    failInstallation: 'Sélectionnez d’abord l’installation du jeu.',
+    failArchives:
+      'Les fichiers de données du jeu sont introuvables dans l’installation sélectionnée.',
+    failStructure:
+      'Le jeu a été mis à jour et ses tables ont changé. Cette version de l’application ne peut pas encore les lire.',
+    failUnreadable: 'Impossible de lire les fichiers de données du jeu.',
     unavailableTitle: 'Le catalogue local n’est pas disponible',
     unavailableBody: 'Aucun catalogue n’a encore été généré dans ce profil de l’application.',
     title: 'Catalogue local',

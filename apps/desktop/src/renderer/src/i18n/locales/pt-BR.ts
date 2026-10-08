@@ -260,6 +260,17 @@ export const ptBR: Messages = {
     diagEnded: 'A sessão de diagnóstico terminou junto com o jogo.'
   },
   catalogPage: {
+    generate: 'Ler do jogo',
+    refresh: 'Ler novamente',
+    generating: 'Lendo os arquivos do jogo…',
+    generateHint:
+      'O catálogo é lido da sua própria instalação. Nada é alterado na pasta do jogo e nenhum save é aberto.',
+    imported: '{count} entradas lidas do jogo.',
+    failInstallation: 'Selecione primeiro a instalação do jogo.',
+    failArchives: 'Os arquivos de dados do jogo não foram encontrados na instalação selecionada.',
+    failStructure:
+      'O jogo foi atualizado e as tabelas mudaram. Esta versão do aplicativo ainda não consegue lê-las.',
+    failUnreadable: 'Não foi possível ler os arquivos de dados do jogo.',
     unavailableTitle: 'O catálogo local não está disponível',
     unavailableBody: 'Nenhum catálogo foi gerado neste perfil do aplicativo ainda.',
     title: 'Catálogo local',

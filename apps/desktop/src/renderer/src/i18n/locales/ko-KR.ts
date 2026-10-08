@@ -249,6 +249,17 @@ export const koKR: Messages = {
     diagEnded: '진단 세션이 게임과 함께 종료되었습니다.'
   },
   catalogPage: {
+    generate: '게임에서 읽기',
+    refresh: '다시 읽기',
+    generating: '게임 파일을 읽는 중…',
+    generateHint:
+      '카탈로그는 사용자의 설치 위치에서 읽습니다. 게임 폴더는 변경되지 않으며 저장 데이터도 열지 않습니다.',
+    imported: '게임에서 {count}개 항목을 읽었습니다.',
+    failInstallation: '먼저 게임 설치 위치를 선택하세요.',
+    failArchives: '선택한 설치 위치에서 게임 데이터 파일을 찾지 못했습니다.',
+    failStructure:
+      '게임이 업데이트되어 테이블이 변경되었습니다. 이 버전의 앱은 아직 읽을 수 없습니다.',
+    failUnreadable: '게임 데이터 파일을 읽을 수 없습니다.',
     unavailableTitle: '로컬 카탈로그를 사용할 수 없습니다',
     unavailableBody: '이 애플리케이션 프로필에는 아직 생성된 카탈로그가 없습니다.',
     title: '로컬 카탈로그',

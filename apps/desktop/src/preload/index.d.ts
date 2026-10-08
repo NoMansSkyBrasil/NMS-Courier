@@ -37,6 +37,19 @@ declare global {
         domains: { substance: number; product: number; technology: number }
         locales: string[]
       }>
+      importCatalog: () => Promise<
+        | { state: 'imported'; generationId: string; entryCount: number; untranslated: number }
+        | {
+            state: 'failed'
+            reason:
+              | 'installation_not_selected'
+              | 'archives_missing'
+              | 'unknown_structure'
+              | 'unreadable'
+              | 'busy'
+            detail: string | null
+          }
+      >
       getInstallationStatus: () => Promise<{
         state: 'not_selected' | 'available' | 'invalid'
         displayName: string | null
