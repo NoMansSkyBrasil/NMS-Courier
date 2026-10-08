@@ -517,6 +517,56 @@ observed. As read so far, the Twitch list travels one way, from the service
 to the game in the sign-in reply; no client report of Twitch rewards was
 found, and none was looked for further.
 
+### Owner decisions for the product (2026-10-08): keep list with a warning, and a claim feature
+
+1. **The keep list is the persistence mechanism**, and the interface must
+   tell the user plainly: Twitch rewards stay available to claim only while
+   the bridge is installed; removing it makes the unclaimed ones disappear
+   at the next sign-in; claim what you want to keep. This text is
+   user-facing and has to exist in all 14 interface languages when the
+   interface is built.
+2. **A claim feature**: deliver the item of a Twitch reward directly, so the
+   player owns it and no longer depends on the keep list. Everything happens
+   in the local running game.
+
+What a claim is, read from the tables of build 180836 (nothing sent): the
+Twitch table maps each reward to a product, and for item rewards the
+product's `GiveRewardOnSpecialPurchase` names a shipped reward, which is
+what the shop gives when the player claims.
+
+| Twitch rewards | Product type | Shipped reward on claim | Count |
+| --- | --- | --- | --- |
+| Decorations | BuildingPart | none: known product and special are the whole reward | 147 |
+| Appearance | CustomisationPart | none | 61 |
+| Emotes | Emote | none | 13 |
+| Appearance with a technology | CustomisationPart | `GcRewardSpecificTech` (for example `R_S14_MECH_ARMR`, `RS_S7_TRAIL`) | 14 |
+| Firework packs | BuildingPart | `GcRewardMultiSpecificProducts` (for example `RS_S1_FIREWORKS`) | 65 |
+| Ships | Curiosity | `GcRewardSpecificShip` (`R_TWIT_SHIP<n>`) | 65 |
+| Multitools | Curiosity | `GcRewardSpecificWeapon` (`R_TWIT_GUN<n>`) | 33 |
+| Companion eggs | Curiosity | `GcRewardSpecificPetEgg` (`R_TWIT_PET<n>`) | 32 |
+| Multitool upgrade packs | Curiosity | `GcRewardMultiSpecificItems` (`R_TWIT_GUNUP<n>`) | 5 |
+
+Consequences and open points:
+
+- A claim is "give the shipped reward, then record the redemption in the
+  slot". The profile already has both pieces: the shipped-reward dispatch
+  (today limited to reward IDs compiled into the DLL) and the slot-side
+  redeem. The claim feature needs the Twitch reward IDs added to what the
+  dispatch accepts, generated from the tables.
+- **Correction to the slot-side request of 2026-10-08:** the 14 "appearance
+  with a technology" rewards were in the 234 redeemed in slot 3 as if
+  redeemed were the whole reward. Their technology was not given by that
+  request. Check whether slot 3 knows those technologies (the technology
+  delivery of 2026-10-07 may cover them) and give the missing ones.
+- Ships and multitools cannot all be owned at once: the game limits the
+  fleet and the multitool slots, and there are 65 ships and 33 multitools.
+  The feature has to let the user choose, not "claim all", for those two.
+  What a ship reward does when the fleet is full, and whether it replaces
+  the active ship, is not known; the owner's claim of the Switch ship in
+  the shop on 2026-10-08 is the first evidence to collect.
+- Firework packs, eggs and upgrade packs are inventory items: they need
+  free slots.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;

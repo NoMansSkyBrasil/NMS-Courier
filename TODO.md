@@ -154,6 +154,10 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Character customisation in the slot: 263 specials delivered and confirmed on 2026-10-07.
 - [ ] Network-player delivery (later goal): find the multiplayer messages that make a peer run a reward and how the
   synchronised container hands over items ([reference feature catalog](docs/REFERENCE_FEATURE_CATALOG.md)).
+- [ ] Twitch claim feature (owner decision 2026-10-08): add the Twitch shipped rewards to the dispatch, claim = give the
+  reward + redeem in the slot; user chooses ships and multitools; check the 14 technology-carrying appearance rewards
+  already redeemed in slot 3 ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
+- [ ] Interface text, all 14 languages: Twitch rewards stay claimable only while the bridge is installed.
 - [ ] `ENT_BOLTCASTER` and `ENT_PHOCORE` are not "unlocked on account" in the owner's editor: diff `accountdata.hg` after
   the owner enables them there, then find the game's route ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
 - [ ] Pre-order and entitlement rewards (ships `ENT_SHIP`, `ENT_SHIP_PC`, `R_TGA_SHIP01`, Switch ship and multitool):

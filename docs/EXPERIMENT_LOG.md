@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: Twitch claim mapped from the tables; owner decisions (offline)
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#owner-decisions-for-the-product-2026-10-08-keep-list-with-a-warning-and-a-claim-feature).
+Tables of build 180836 only; nothing sent. Of 435 Twitch rewards, 221 are
+complete once known and redeemed; 214 give a shipped reward on claim (65
+ships, 33 multitools, 32 eggs, 65 firework packs, 5 upgrade packs, 14
+technologies attached to an appearance part). Found a gap: those 14 were
+redeemed in slot 3 on 2026-10-08 without their technology being given.
+Decisions: keep list plus a user warning; build a claim feature.
+
 ## 2026-10-08: what empties the Twitch set (offline) and the keep list build
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#why-the-twitch-set-does-not-survive-an-online-start-and-the-keep-list-2026-10-08-morning).
