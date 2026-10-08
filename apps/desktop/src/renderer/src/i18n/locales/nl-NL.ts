@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const nlNL: Messages = {
   app: { name: 'NMS Courier', tagline: 'Lokale levering voor No Man’s Sky' },
+  sections: { obtain: 'Nieuw verkrijgen', upgrade: 'Verbeteren' },
+  corvette: {
+    title: 'Korvet uit een bestand',
+    hint: 'Kies een gedeeld korvetbestand (.nmsship). De applicatie bereidt het spel voor zodat de korvetbouw begint met dat schip al in elkaar gezet; je rondt het af in het spel. Het spel moet opnieuw worden gestart nadat het bestand is voorbereid.',
+    none: 'Er is nog geen korvetbestand voorbereid.',
+    current: 'Voorbereid: {name}, {count} onderdelen.',
+    parts: '{count} onderdelen',
+    hullParts: '{count} rompdelen',
+    missing: 'Zonder: {parts}. Het spel toont een waarschuwing en bouwt het toch.',
+    partCockpit: 'cockpit',
+    partLandingGear: 'landingsgestel',
+    partHabitation: 'woonmodule',
+    partReactor: 'reactor',
+    rejectedTitle: 'Dit bestand kan niet worden gebruikt',
+    rejectedShip:
+      'Dit is een gewoon schip, geen korvet. Schepen uit een bestand zijn nog niet beschikbaar.',
+    rejectedInvalid: 'Dit is geen geldig korvetbestand.',
+    installedTitle: 'Korvet voorbereid',
+    installedBody:
+      'Sluit het spel als het open is en start het opnieuw. Gebruik daarna hieronder "Korvetbouw starten".',
+    installFailedTitle: 'De korvet kon niet worden voorbereid',
+    installFailed: 'De bestanden konden niet naar de spelmap worden geschreven.',
+    choose: 'Bestand kiezen',
+    install: 'Voorbereiden in het spel'
+  },
   groups: {
     overview: 'Overzicht',
     deliver: 'Leveren',
@@ -209,6 +234,16 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    obtainPlanned: 'Een nieuwe verkrijgen is hier nog niet mogelijk.',
+    equipSceneEmpty: 'Geen model gevonden.',
+    freighterModel: {
+      default: 'Gekozen door het spel',
+      regular: 'Vrachtschip',
+      small: 'Klein vrachtschip',
+      tiny: 'Piepklein vrachtschip',
+      capital: 'Kapitaal vrachtschip',
+      pirate: 'Piratendreadnought'
+    },
     equipScene: 'Model',
     equipSceneHint:
       'Optioneel. De spelscène van het vrachtschipmodel; leeg behoudt de keuze van het spel.',

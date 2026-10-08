@@ -2,6 +2,29 @@ import type { Messages } from '../messages'
 
 export const zhTW: Messages = {
   app: { name: 'NMS Courier', tagline: 'No Man’s Sky 本機遞送工具' },
+  sections: { obtain: '取得新的', upgrade: '升級' },
+  corvette: {
+    title: '從檔案建立護衛艦',
+    hint: '選擇一個共享的護衛艦檔案（.nmsship）。應用程式會讓遊戲的護衛艦建造從這艘已組裝好的星艦開始；你在遊戲中完成建造。準備好檔案後需要重新啟動遊戲。',
+    none: '尚未準備任何護衛艦檔案。',
+    current: '已準備：{name}，{count} 個部件。',
+    parts: '{count} 個部件',
+    hullParts: '{count} 個船體部件',
+    missing: '缺少：{parts}。遊戲會顯示警告，但仍會建造。',
+    partCockpit: '駕駛艙',
+    partLandingGear: '起落架',
+    partHabitation: '居住模組',
+    partReactor: '反應爐',
+    rejectedTitle: '無法使用此檔案',
+    rejectedShip: '這是一艘普通星艦，不是護衛艦。暫不支援從檔案建立星艦。',
+    rejectedInvalid: '這不是有效的護衛艦檔案。',
+    installedTitle: '護衛艦已準備好',
+    installedBody: '如果遊戲正在執行，請關閉後重新啟動。然後使用下方的「開始建造護衛艦」。',
+    installFailedTitle: '無法準備護衛艦',
+    installFailed: '無法將檔案寫入遊戲資料夾。',
+    choose: '選擇檔案',
+    install: '在遊戲中準備'
+  },
   groups: {
     overview: '總覽',
     deliver: '遞送',
@@ -185,6 +208,16 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    obtainPlanned: '這裡暫時無法取得新的。',
+    equipSceneEmpty: '找不到模型。',
+    freighterModel: {
+      default: '由遊戲決定',
+      regular: '貨船',
+      small: '小型貨船',
+      tiny: '微型貨船',
+      capital: '主力貨船',
+      pirate: '海盜無畏艦'
+    },
     equipScene: '模型',
     equipSceneHint: '選填。貨船模型的遊戲場景；留空則保留遊戲自己的選擇。',
     equipModelSeed: '模型種子',

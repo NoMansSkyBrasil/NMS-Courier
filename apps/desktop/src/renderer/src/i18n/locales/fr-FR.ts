@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const frFR: Messages = {
   app: { name: 'NMS Courier', tagline: 'Livraison locale pour No Man’s Sky' },
+  sections: { obtain: 'Obtenir', upgrade: 'Améliorer' },
+  corvette: {
+    title: 'Corvette à partir d’un fichier',
+    hint: 'Choisissez un fichier de corvette partagé (.nmsship). L’application prépare le jeu pour que la construction de corvette commence avec ce vaisseau déjà assemblé ; vous le terminez dans le jeu. Le jeu doit être redémarré après la préparation du fichier.',
+    none: 'Aucun fichier de corvette n’a encore été préparé.',
+    current: 'Préparé : {name}, {count} pièces.',
+    parts: '{count} pièces',
+    hullParts: '{count} pièces de coque',
+    missing: 'Sans : {parts}. Le jeu affiche un avertissement et la construit quand même.',
+    partCockpit: 'cockpit',
+    partLandingGear: 'train d’atterrissage',
+    partHabitation: 'module d’habitation',
+    partReactor: 'réacteur',
+    rejectedTitle: 'Ce fichier ne peut pas être utilisé',
+    rejectedShip:
+      'C’est un vaisseau ordinaire, pas une corvette. Les vaisseaux à partir d’un fichier ne sont pas encore disponibles.',
+    rejectedInvalid: 'Ce n’est pas un fichier de corvette valide.',
+    installedTitle: 'Corvette préparée',
+    installedBody:
+      'Fermez le jeu s’il est ouvert, puis relancez-le. Utilisez ensuite « Lancer la construction d’une corvette » ci-dessous.',
+    installFailedTitle: 'Impossible de préparer la corvette',
+    installFailed: 'Les fichiers n’ont pas pu être écrits dans le dossier du jeu.',
+    choose: 'Choisir un fichier',
+    install: 'Préparer dans le jeu'
+  },
   groups: {
     overview: 'Vue d’ensemble',
     deliver: 'Livrer',
@@ -208,6 +233,16 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    obtainPlanned: 'Il n’est pas encore possible d’en obtenir un nouveau ici.',
+    equipSceneEmpty: 'Aucun modèle trouvé.',
+    freighterModel: {
+      default: 'Choisi par le jeu',
+      regular: 'Cargo',
+      small: 'Petit cargo',
+      tiny: 'Cargo minuscule',
+      capital: 'Cargo capital',
+      pirate: 'Cuirassé pirate'
+    },
     equipScene: 'Modèle',
     equipSceneHint:
       'Facultatif. La scène du jeu du modèle de cargo ; vide, le jeu fait son propre choix.',

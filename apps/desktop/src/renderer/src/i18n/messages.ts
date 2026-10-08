@@ -4,6 +4,9 @@
 export const groupIds = ['overview', 'deliver', 'unlock', 'rewards', 'library', 'system'] as const
 export type GroupId = (typeof groupIds)[number]
 
+export const sectionIds = ['obtain', 'upgrade'] as const
+export type SectionId = (typeof sectionIds)[number]
+
 export const featureIds = [
   'dashboard',
   'activity',
@@ -91,6 +94,30 @@ export type DeliveryOutcomeId = (typeof deliveryOutcomeIds)[number]
 export type Messages = {
   app: { name: string; tagline: string }
   groups: Record<GroupId, string>
+  sections: Record<SectionId, string>
+  corvette: Record<
+    | 'title'
+    | 'hint'
+    | 'none'
+    | 'current'
+    | 'parts'
+    | 'hullParts'
+    | 'missing'
+    | 'partCockpit'
+    | 'partLandingGear'
+    | 'partHabitation'
+    | 'partReactor'
+    | 'rejectedTitle'
+    | 'rejectedShip'
+    | 'rejectedInvalid'
+    | 'installedTitle'
+    | 'installedBody'
+    | 'installFailedTitle'
+    | 'installFailed'
+    | 'choose'
+    | 'install',
+    string
+  >
   features: Record<FeatureId, { title: string; summary: string }>
   status: Record<StatusId, string>
   statusHint: Record<StatusId, string>
@@ -151,6 +178,9 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    obtainPlanned: string
+    equipSceneEmpty: string
+    freighterModel: Record<'default' | 'regular' | 'small' | 'tiny' | 'capital' | 'pirate', string>
     equipScene: string
     equipSceneHint: string
     equipModelSeed: string

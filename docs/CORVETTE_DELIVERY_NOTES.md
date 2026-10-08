@@ -371,6 +371,42 @@ process; class S, `slots`, `techrows`, `super`, one `corvette` event. Log:
 - Not proven: a save that never had a corvette; the state of the save after
   this acceptance (not read yet); the 1,934-object export.
 
+### In the application (2026-10-08, application 1.6.0)
+
+The owner supplied four exports and asked for delivery from a file. Two kinds
+exist: a corvette is a ZIP archive with `objects.json`, `so.json` and
+`ccd.json`; an ordinary ship is one JSON document with a `Ship` record and has
+no delivery route yet.
+
+The application now does by itself what was done by hand above
+(`apps/desktop/src/main/corvette/`):
+
+- `zip-archive.ts` and `nmsship-file.ts` read the export and check every part
+  (identifier, three vectors, timestamp, user data; at most 4,096 parts).
+- `ship-base-layout.ts` writes `DEFAULTSHIPBASE.MBIN` from the game's own
+  shipped file, read from `NMSARC.Precache.pak`: the base record and the 169
+  snap-point entries are kept, the export's parts are appended. A part is 0x90
+  bytes: At, Position and Up as four floats each (fourth 1), the identifier at
+  +0x30, the timestamp at +0x40, the user data at +0x48, an empty message. The
+  same module copies the game's `gcdebugoptions.global.mbin` (from
+  `NMSARC.globals.pak`) with the byte at 0x219c set, which is
+  `DisableCorvetteValidation`. Both refuse a game file of another structure.
+- `corvette-layout-service.ts` writes both into
+  `GAMEDATA/MODS/NMSCourierCorvette` and moves the research folder
+  `NMSCourierCorvetteLayoutResearch` out of the game into the application's
+  data folder, because it holds the same two files.
+
+Checked against the installation: for the 976-part export the written layout
+has the size and record of the file that delivered the corvette on
+2026-10-07; the part bytes differ only where the converter's text had rounded
+very small numbers to zero. The written debug options are identical to the
+research file after the header.
+
+The layout is still read by the game only at start, so the flow is: choose the
+file, "Prepare in the game", restart the game, "Start corvette build". Not
+exercised live from the application yet. Still open: the per-request version
+without a restart.
+
 ### From proof to product: what the mod does that the bridge must do
 
 The research mod is static: one layout, fixed at game start. For delivery

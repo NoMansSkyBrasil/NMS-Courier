@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const enUS: Messages = {
   app: { name: 'NMS Courier', tagline: 'Local delivery for No Man’s Sky' },
+  sections: { obtain: 'Get a new one', upgrade: 'Upgrade' },
+  corvette: {
+    title: 'Corvette from a file',
+    hint: 'Choose a shared corvette file (.nmsship). The application prepares the game so that corvette building starts with that ship already assembled; you finish it in the game. The game must be restarted after the file is prepared.',
+    none: 'No corvette file has been prepared yet.',
+    current: 'Prepared: {name}, {count} parts.',
+    parts: '{count} parts',
+    hullParts: '{count} hull parts',
+    missing: 'Without: {parts}. The game shows a warning and still builds it.',
+    partCockpit: 'cockpit',
+    partLandingGear: 'landing gear',
+    partHabitation: 'habitation module',
+    partReactor: 'reactor',
+    rejectedTitle: 'This file cannot be used',
+    rejectedShip:
+      'This is an ordinary ship, not a corvette. Ships from a file are not available yet.',
+    rejectedInvalid: 'This is not a valid corvette file.',
+    installedTitle: 'Corvette prepared',
+    installedBody:
+      'Close the game if it is open and start it again. Then use "Start corvette build" below.',
+    installFailedTitle: 'Could not prepare the corvette',
+    installFailed: 'The files could not be written to the game folder.',
+    choose: 'Choose file',
+    install: 'Prepare in the game'
+  },
   groups: {
     overview: 'Overview',
     deliver: 'Deliver',
@@ -194,6 +219,16 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    obtainPlanned: 'Getting a new one is not available here yet.',
+    equipSceneEmpty: 'No model found.',
+    freighterModel: {
+      default: 'Chosen by the game',
+      regular: 'Freighter',
+      small: 'Small freighter',
+      tiny: 'Tiny freighter',
+      capital: 'Capital freighter',
+      pirate: 'Pirate dreadnought'
+    },
     equipScene: 'Model',
     equipSceneHint:
       'Optional. The game scene of the freighter model; empty keeps the game’s own choice.',

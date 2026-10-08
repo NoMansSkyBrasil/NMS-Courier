@@ -1,5 +1,13 @@
 import type { LucideIcon } from 'lucide-react'
-import type { FeatureId, GroupId, RowId, RuleId, ScopeId, StatusId } from '@renderer/i18n/messages'
+import type {
+  FeatureId,
+  GroupId,
+  RowId,
+  RuleId,
+  ScopeId,
+  SectionId,
+  StatusId
+} from '@renderer/i18n/messages'
 
 // The game build the figures and statuses of the registry were established on.
 export const researchBuild = '180836'
@@ -18,4 +26,6 @@ export type Feature = {
   rules?: readonly RuleId[]
   // The application can send this area to the game through the research bridge.
   wired?: boolean
+  // Pages of the area, shown under it in the sidebar: getting a new one, upgrading the one owned.
+  sections?: readonly SectionId[]
 }

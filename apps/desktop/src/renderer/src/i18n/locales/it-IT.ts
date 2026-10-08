@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const itIT: Messages = {
   app: { name: 'NMS Courier', tagline: 'Consegna locale per No Man’s Sky' },
+  sections: { obtain: 'Ottieni', upgrade: 'Potenzia' },
+  corvette: {
+    title: 'Corvetta da file',
+    hint: 'Scegli un file di corvetta condiviso (.nmsship). L’applicazione prepara il gioco in modo che la costruzione della corvetta inizi con quella nave già assemblata; la completi nel gioco. Dopo aver preparato il file il gioco va riavviato.',
+    none: 'Non è ancora stato preparato alcun file di corvetta.',
+    current: 'Preparato: {name}, {count} parti.',
+    parts: '{count} parti',
+    hullParts: '{count} parti dello scafo',
+    missing: 'Senza: {parts}. Il gioco mostra un avviso e la costruisce comunque.',
+    partCockpit: 'cabina',
+    partLandingGear: 'carrello di atterraggio',
+    partHabitation: 'modulo abitativo',
+    partReactor: 'reattore',
+    rejectedTitle: 'Questo file non può essere usato',
+    rejectedShip:
+      'È una nave comune, non una corvetta. Le navi da file non sono ancora disponibili.',
+    rejectedInvalid: 'Non è un file di corvetta valido.',
+    installedTitle: 'Corvetta preparata',
+    installedBody:
+      'Chiudi il gioco, se è aperto, e riavvialo. Poi usa "Avvia costruzione corvetta" qui sotto.',
+    installFailedTitle: 'Impossibile preparare la corvetta',
+    installFailed: 'Non è stato possibile scrivere i file nella cartella del gioco.',
+    choose: 'Scegli file',
+    install: 'Prepara nel gioco'
+  },
   groups: {
     overview: 'Panoramica',
     deliver: 'Consegna',
@@ -207,6 +232,16 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    obtainPlanned: 'Qui non è ancora possibile ottenerne uno nuovo.',
+    equipSceneEmpty: 'Nessun modello trovato.',
+    freighterModel: {
+      default: 'Scelto dal gioco',
+      regular: 'Mercantile',
+      small: 'Mercantile piccolo',
+      tiny: 'Mercantile minuscolo',
+      capital: 'Mercantile capitale',
+      pirate: 'Corazzata pirata'
+    },
     equipScene: 'Modello',
     equipSceneHint:
       'Facoltativo. La scena di gioco del modello del mercantile; vuoto mantiene la scelta del gioco.',

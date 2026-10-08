@@ -1,5 +1,6 @@
 import { CheckIcon, InfoIcon } from 'lucide-react'
 import { DeliveryCard } from '@renderer/components/delivery-card'
+import { CorvetteFileCard } from '@renderer/components/corvette-file-card'
 import { CurrencyCard } from '@renderer/components/currency-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
@@ -30,11 +31,18 @@ import {
   TableRow
 } from '@renderer/components/ui/table'
 import { researchBuild, type Feature } from '@renderer/features'
+import type { SectionId } from '@renderer/i18n/messages'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 
 // One area of the application: what it changes, how far it is proven, what it covers and the rules
 // it always follows. Nothing is sent from here; the page states that plainly.
-export function FeaturePage({ feature }: { feature: Feature }): React.JSX.Element {
+export function FeaturePage({
+  feature,
+  section
+}: {
+  feature: Feature
+  section: SectionId | null
+}): React.JSX.Element {
   const { copy, locale } = useLocale()
   const text = copy.features[feature.id]
 
@@ -72,7 +80,14 @@ export function FeaturePage({ feature }: { feature: Feature }): React.JSX.Elemen
       ) : feature.id === 'currencies' ? (
         <CurrencyCard />
       ) : isEquipmentArea(feature.id) ? (
-        <EquipmentCard key={feature.id} area={feature.id} />
+        <>
+          {feature.id === 'corvettes' && <CorvetteFileCard />}
+          <EquipmentCard
+            key={`${feature.id}/${section ?? ''}`}
+            area={feature.id}
+            section={section}
+          />
+        </>
       ) : feature.wired ? (
         <DeliveryCard key={feature.id} feature={feature} />
       ) : (

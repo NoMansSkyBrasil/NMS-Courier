@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const ptBR: Messages = {
   app: { name: 'NMS Courier', tagline: 'Entrega local para No Man’s Sky' },
+  sections: { obtain: 'Obter', upgrade: 'Melhorar' },
+  corvette: {
+    title: 'Corveta a partir de arquivo',
+    hint: 'Escolha um arquivo de corveta compartilhado (.nmsship). O aplicativo prepara o jogo para que a construção de corveta comece com essa nave já montada; você finaliza no jogo. É preciso reiniciar o jogo depois de preparar o arquivo.',
+    none: 'Nenhum arquivo de corveta foi preparado ainda.',
+    current: 'Preparado: {name}, {count} peças.',
+    parts: '{count} peças',
+    hullParts: '{count} peças de casco',
+    missing: 'Sem: {parts}. O jogo mostra um aviso e constrói mesmo assim.',
+    partCockpit: 'cabine',
+    partLandingGear: 'trem de pouso',
+    partHabitation: 'módulo de habitação',
+    partReactor: 'reator',
+    rejectedTitle: 'Este arquivo não pode ser usado',
+    rejectedShip:
+      'Esta é uma nave comum, não uma corveta. Naves a partir de arquivo ainda não estão disponíveis.',
+    rejectedInvalid: 'Este não é um arquivo de corveta válido.',
+    installedTitle: 'Corveta preparada',
+    installedBody:
+      'Feche o jogo, se estiver aberto, e abra de novo. Depois use "Iniciar construção de corveta" abaixo.',
+    installFailedTitle: 'Não foi possível preparar a corveta',
+    installFailed: 'Os arquivos não puderam ser gravados na pasta do jogo.',
+    choose: 'Escolher arquivo',
+    install: 'Preparar no jogo'
+  },
   groups: {
     overview: 'Visão geral',
     deliver: 'Entregar',
@@ -200,6 +225,16 @@ export const ptBR: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Ele funciona com uma versão exata do jogo por vez.'
   },
   delivery: {
+    obtainPlanned: 'Ainda não é possível obter um novo por aqui.',
+    equipSceneEmpty: 'Nenhum modelo encontrado.',
+    freighterModel: {
+      default: 'Escolhido pelo jogo',
+      regular: 'Cargueiro',
+      small: 'Cargueiro pequeno',
+      tiny: 'Cargueiro minúsculo',
+      capital: 'Cargueiro capital',
+      pirate: 'Encouraçado pirata'
+    },
     equipScene: 'Modelo',
     equipSceneHint:
       'Opcional. A cena do jogo do modelo do cargueiro; vazio mantém a escolha do próprio jogo.',

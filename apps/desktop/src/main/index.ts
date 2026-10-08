@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
 import { CatalogImporter } from './game-data/catalog-import'
 import { IconSource } from './game-data/icon-source'
+import { CorvetteLayoutService } from './corvette/corvette-layout-service'
 import { isEquipmentRequest } from './research-bridge/equipment-plan'
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
@@ -26,6 +27,12 @@ let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 let catalogImporter: CatalogImporter | null = null
 const iconSource = new IconSource()
+let corvetteLayoutService: CorvetteLayoutService | null = null
+
+function getCorvetteLayoutService(): CorvetteLayoutService {
+  corvetteLayoutService ??= new CorvetteLayoutService(app.getPath('userData'))
+  return corvetteLayoutService
+}
 const diagnosticsDirectory = join(process.env.LOCALAPPDATA ?? '', 'NMSCourier', 'diagnostics')
 const gameStatusService = new GameStatusService(diagnosticsDirectory)
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
@@ -321,6 +328,21 @@ app.whenReady().then(() => {
       getCatalogRepository().iconLocators()
     )
   })
+  // A corvette export: the user picks the file, the application reads it; nothing is installed yet.
+  ipcMain.handle('nms:choose-corvette-file', async () => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'No Man’s Sky ship', extensions: ['nmsship'] }]
+    })
+    if (result.canceled || result.filePaths.length !== 1) return null
+    return getCorvetteLayoutService().choose(result.filePaths[0])
+  })
+  ipcMain.handle('nms:install-corvette-layout', () =>
+    getCorvetteLayoutService().install(getInstallationService().getSelectedRootPath())
+  )
+  ipcMain.handle('nms:get-corvette-layout', () =>
+    getCorvetteLayoutService().status(getInstallationService().getSelectedRootPath())
+  )
   ipcMain.handle('nms:get-stack-limits', async () => {
     const root = getInstallationService().getSelectedRootPath()
     const game = await gameStatusService.observe(root)

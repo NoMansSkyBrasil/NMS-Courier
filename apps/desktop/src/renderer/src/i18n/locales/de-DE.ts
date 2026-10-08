@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const deDE: Messages = {
   app: { name: 'NMS Courier', tagline: 'Lokale Lieferung für No Man’s Sky' },
+  sections: { obtain: 'Neu erhalten', upgrade: 'Verbessern' },
+  corvette: {
+    title: 'Korvette aus einer Datei',
+    hint: 'Wähle eine geteilte Korvettendatei (.nmsship). Die Anwendung bereitet das Spiel so vor, dass der Korvettenbau mit diesem Schiff bereits zusammengesetzt beginnt; du schließt ihn im Spiel ab. Nach dem Vorbereiten muss das Spiel neu gestartet werden.',
+    none: 'Es wurde noch keine Korvettendatei vorbereitet.',
+    current: 'Vorbereitet: {name}, {count} Teile.',
+    parts: '{count} Teile',
+    hullParts: '{count} Rumpfteile',
+    missing: 'Ohne: {parts}. Das Spiel zeigt eine Warnung und baut sie trotzdem.',
+    partCockpit: 'Cockpit',
+    partLandingGear: 'Landefahrwerk',
+    partHabitation: 'Wohnmodul',
+    partReactor: 'Reaktor',
+    rejectedTitle: 'Diese Datei kann nicht verwendet werden',
+    rejectedShip:
+      'Das ist ein gewöhnliches Schiff, keine Korvette. Schiffe aus einer Datei sind noch nicht verfügbar.',
+    rejectedInvalid: 'Das ist keine gültige Korvettendatei.',
+    installedTitle: 'Korvette vorbereitet',
+    installedBody:
+      'Schließe das Spiel, falls es läuft, und starte es neu. Nutze danach unten „Korvettenbau starten“.',
+    installFailedTitle: 'Die Korvette konnte nicht vorbereitet werden',
+    installFailed: 'Die Dateien konnten nicht in den Spielordner geschrieben werden.',
+    choose: 'Datei wählen',
+    install: 'Im Spiel vorbereiten'
+  },
   groups: {
     overview: 'Übersicht',
     deliver: 'Liefern',
@@ -211,6 +236,16 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    obtainPlanned: 'Hier ist es noch nicht möglich, ein neues zu erhalten.',
+    equipSceneEmpty: 'Kein Modell gefunden.',
+    freighterModel: {
+      default: 'Vom Spiel gewählt',
+      regular: 'Frachter',
+      small: 'Kleiner Frachter',
+      tiny: 'Winziger Frachter',
+      capital: 'Großfrachter',
+      pirate: 'Piraten-Dreadnought'
+    },
     equipScene: 'Modell',
     equipSceneHint:
       'Optional. Die Spielszene des Frachtermodells; leer bleibt es bei der Wahl des Spiels.',

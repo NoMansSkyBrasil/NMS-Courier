@@ -36,11 +36,19 @@ import {
   SelectTrigger,
   SelectValue
 } from '@renderer/components/ui/select'
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList
+} from '@renderer/components/ui/combobox'
 import { Input } from '@renderer/components/ui/input'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { Switch } from '@renderer/components/ui/switch'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
-import type { DeliveryStateId } from '@renderer/i18n/messages'
+import type { DeliveryStateId, SectionId } from '@renderer/i18n/messages'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverEquipment>>
@@ -56,6 +64,19 @@ const areaActions: Record<EquipmentArea, readonly Action[]> = {
   corvettes: ['build']
 }
 const classes = ['S', 'A', 'B', 'C']
+// Actions that give something new; the others change what the player already owns.
+const obtainActions: readonly Action[] = ['offer', 'build']
+// Freighter models a player can own, by the game scene of each; the first leaves the choice to the
+// game. Only the pirate model was delivered so far (2026-10-06).
+const industrial = 'MODELS/COMMON/SPACECRAFT/INDUSTRIAL/'
+const freighterModels = [
+  { id: 'default', scene: '' },
+  { id: 'regular', scene: `${industrial}FREIGHTER_PROC.SCENE.MBIN` },
+  { id: 'small', scene: `${industrial}FREIGHTERSMALL_PROC.SCENE.MBIN` },
+  { id: 'tiny', scene: `${industrial}FREIGHTERTINY_PROC.SCENE.MBIN` },
+  { id: 'capital', scene: `${industrial}CAPITALFREIGHTER_PROC.SCENE.MBIN` },
+  { id: 'pirate', scene: `${industrial}PIRATEFREIGHTER.SCENE.MBIN` }
+] as const
 const shipSlots = 12
 const outcomeIcons = {
   completed: CircleCheckIcon,
@@ -66,11 +87,21 @@ const outcomeIcons = {
 
 // Sends one request about something the player owns or is offered: inventory grid and supercharged
 // slots in place, a class step, a freighter offer or a corvette build, with the chosen options.
-export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Element {
+export function EquipmentCard({
+  area,
+  section
+}: {
+  area: EquipmentArea
+  section: SectionId | null
+}): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.delivery
   const [status, setStatus] = useState<BridgeStatus | null>(null)
-  const [action, setAction] = useState<Action>(areaActions[area][0])
+  // A section shows only its own actions: getting a new one, or upgrading the one owned.
+  const available = areaActions[area].filter(
+    (value) => section === null || obtainActions.includes(value) === (section === 'obtain')
+  )
+  const [action, setAction] = useState<Action>(available[0] ?? 'grid')
   const [slots, setSlots] = useState(true)
   const [supercharge, setSupercharge] = useState(true)
   const [extendedTechnology, setExtendedTechnology] = useState(false)
@@ -122,7 +153,11 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
     }
   }
 
-  const actions = areaActions[area].map((value) => ({ value, label: text.equipAction[value] }))
+  const actions = available.map((value) => ({ value, label: text.equipAction[value] }))
+  const models = freighterModels.map((model) => ({
+    value: model.scene,
+    label: text.freighterModel[model.id]
+  }))
   const classItems = classes.map((value) => ({ value, label: value }))
   const targets = [
     { value: '-1', label: text.equipTargetCurrent },
@@ -140,6 +175,16 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
     : text.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
+
+  if (available.length === 0) {
+    return (
+      <Alert>
+        <CircleHelpIcon />
+        <AlertTitle>{copy.page.availabilityTitle}</AlertTitle>
+        <AlertDescription>{text.obtainPlanned}</AlertDescription>
+      </Alert>
+    )
+  }
 
   return (
     <Card>
@@ -229,12 +274,23 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
             <>
               <Field>
                 <FieldLabel htmlFor="equipment-scene">{text.equipScene}</FieldLabel>
-                <Input
-                  id="equipment-scene"
-                  value={scene}
-                  placeholder="MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN"
-                  onChange={(event) => setScene(event.target.value)}
-                />
+                <Combobox
+                  items={models}
+                  value={models.find((model) => model.value === scene) ?? models[0]}
+                  onValueChange={(model) => setScene(model?.value ?? '')}
+                >
+                  <ComboboxInput id="equipment-scene" />
+                  <ComboboxContent>
+                    <ComboboxEmpty>{text.equipSceneEmpty}</ComboboxEmpty>
+                    <ComboboxList>
+                      {(model: (typeof models)[number]) => (
+                        <ComboboxItem key={model.value} value={model}>
+                          {model.label}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxList>
+                  </ComboboxContent>
+                </Combobox>
                 <FieldDescription>{text.equipSceneHint}</FieldDescription>
               </Field>
               <Field orientation="responsive">

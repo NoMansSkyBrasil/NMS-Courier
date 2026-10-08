@@ -2,6 +2,30 @@ import type { Messages } from '../messages'
 
 export const plPL: Messages = {
   app: { name: 'NMS Courier', tagline: 'Lokalne dostawy do No Man’s Sky' },
+  sections: { obtain: 'Zdobądź nowy', upgrade: 'Ulepsz' },
+  corvette: {
+    title: 'Korweta z pliku',
+    hint: 'Wybierz udostępniony plik korwety (.nmsship). Aplikacja przygotuje grę tak, aby budowa korwety zaczynała się od tego statku już złożonego; dokończysz ją w grze. Po przygotowaniu pliku grę trzeba uruchomić ponownie.',
+    none: 'Nie przygotowano jeszcze żadnego pliku korwety.',
+    current: 'Przygotowano: {name}, części: {count}.',
+    parts: 'Części: {count}',
+    hullParts: 'Części kadłuba: {count}',
+    missing: 'Bez: {parts}. Gra pokaże ostrzeżenie i mimo to ją zbuduje.',
+    partCockpit: 'kokpit',
+    partLandingGear: 'podwozie',
+    partHabitation: 'moduł mieszkalny',
+    partReactor: 'reaktor',
+    rejectedTitle: 'Tego pliku nie można użyć',
+    rejectedShip: 'To zwykły statek, a nie korweta. Statki z pliku nie są jeszcze dostępne.',
+    rejectedInvalid: 'To nie jest prawidłowy plik korwety.',
+    installedTitle: 'Korweta przygotowana',
+    installedBody:
+      'Zamknij grę, jeśli jest otwarta, i uruchom ją ponownie. Następnie użyj poniżej „Rozpocznij budowę korwety”.',
+    installFailedTitle: 'Nie udało się przygotować korwety',
+    installFailed: 'Nie udało się zapisać plików w folderze gry.',
+    choose: 'Wybierz plik',
+    install: 'Przygotuj w grze'
+  },
   groups: {
     overview: 'Przegląd',
     deliver: 'Dostarczanie',
@@ -199,6 +223,16 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    obtainPlanned: 'Zdobycie nowego nie jest tu jeszcze możliwe.',
+    equipSceneEmpty: 'Nie znaleziono modelu.',
+    freighterModel: {
+      default: 'Wybrany przez grę',
+      regular: 'Frachtowiec',
+      small: 'Mały frachtowiec',
+      tiny: 'Malutki frachtowiec',
+      capital: 'Frachtowiec kapitalny',
+      pirate: 'Piracki drednot'
+    },
     equipScene: 'Model',
     equipSceneHint:
       'Opcjonalnie. Scena gry z modelem frachtowca; puste pole pozostawia wybór grze.',

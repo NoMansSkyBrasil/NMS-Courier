@@ -10,7 +10,7 @@ import { ThemeProvider } from '@renderer/components/theme-provider'
 import { SidebarInset, SidebarProvider } from '@renderer/components/ui/sidebar'
 import { Skeleton } from '@renderer/components/ui/skeleton'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
-import { featureFromHash } from '@renderer/features'
+import { featureFromHash, sectionFromHash } from '@renderer/features'
 import { useHashRoute } from '@renderer/hooks/use-hash-route'
 import { LocaleProvider } from '@renderer/i18n/locale-provider'
 import { lazy, Suspense } from 'react'
@@ -23,7 +23,8 @@ const ModelPreviewPage = lazy(() =>
 
 // Areas with a page of their own; every other area is described by the generic feature page.
 function Workspace(): React.JSX.Element {
-  const feature = featureFromHash(useHashRoute())
+  const hash = useHashRoute()
+  const feature = featureFromHash(hash)
 
   if (feature.id === 'dashboard') return <DashboardPage />
   if (feature.id === 'activity') return <ActivityPage />
@@ -36,7 +37,7 @@ function Workspace(): React.JSX.Element {
         <ModelPreviewPage />
       </Suspense>
     )
-  return <FeaturePage feature={feature} />
+  return <FeaturePage feature={feature} section={sectionFromHash(hash, feature)} />
 }
 
 function App(): React.JSX.Element {

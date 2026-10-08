@@ -12,7 +12,7 @@ means the request was sent by hand with the research scripts that existed
 until 2026-10-08; *app* means sent from the desktop application. Since
 2026-10-08 only *app* counts as verified for the product.
 
-Current versions: application 1.5.0, bridge 1.4.0, game build 180836.
+Current versions: application 1.6.0, bridge 1.4.0, game build 180836.
 
 ## History in five steps
 
@@ -56,7 +56,7 @@ Current versions: application 1.5.0, bridge 1.4.0, game build 180836.
 | Freighter offer: chosen model and seeds | Yes, pirate freighter (2026-10-06) | Freighters page (added 2026-10-08) | No | [inventory class](INVENTORY_CLASS_RESEARCH.md) |
 | Freighter: one more slot through the game's reward | Yes (2026-10-07) | Freighters page (added 2026-10-08) | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Corvette build mode with class and slots | Yes (2026-10-07) | Corvettes page | No | [corvette](CORVETTE_DELIVERY_NOTES.md) |
-| Corvette from a `.nmsship` export | Yes, owned, with a layout file made by hand and a game restart (2026-10-07) | Reader and layout writer written (`apps/desktop/src/main/corvette/`), not wired | No | [corvette](CORVETTE_DELIVERY_NOTES.md) |
+| Corvette from a `.nmsship` export | Yes, owned, with a layout file made by hand and a game restart (2026-10-07) | Corvettes page: choose file, prepare in the game, restart, start build (2026-10-08) | No | [corvette](CORVETTE_DELIVERY_NOTES.md) |
 | Frigates | Never researched | Page says so | No | none |
 | Companions | Never researched | Page says so | No | none |
 

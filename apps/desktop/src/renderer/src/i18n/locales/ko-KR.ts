@@ -2,6 +2,30 @@ import type { Messages } from '../messages'
 
 export const koKR: Messages = {
   app: { name: 'NMS Courier', tagline: 'No Man’s Sky 로컬 전달 도구' },
+  sections: { obtain: '새로 얻기', upgrade: '업그레이드' },
+  corvette: {
+    title: '파일로 코르벳 만들기',
+    hint: '공유된 코르벳 파일(.nmsship)을 선택하세요. 코르벳 건조가 그 함선이 조립된 상태로 시작되도록 앱이 게임을 준비합니다. 마무리는 게임에서 합니다. 파일을 준비한 뒤에는 게임을 다시 시작해야 합니다.',
+    none: '아직 준비된 코르벳 파일이 없습니다.',
+    current: '준비됨: {name}, 부품 {count}개.',
+    parts: '부품 {count}개',
+    hullParts: '선체 부품 {count}개',
+    missing: '없음: {parts}. 게임이 경고를 표시하지만 건조는 됩니다.',
+    partCockpit: '조종석',
+    partLandingGear: '착륙 장치',
+    partHabitation: '거주 모듈',
+    partReactor: '반응로',
+    rejectedTitle: '이 파일은 사용할 수 없습니다',
+    rejectedShip: '일반 우주선이며 코르벳이 아닙니다. 파일로 우주선을 만드는 기능은 아직 없습니다.',
+    rejectedInvalid: '올바른 코르벳 파일이 아닙니다.',
+    installedTitle: '코르벳 준비 완료',
+    installedBody:
+      '게임이 열려 있으면 닫고 다시 시작하세요. 그런 다음 아래의 "코르벳 건조 시작"을 사용하세요.',
+    installFailedTitle: '코르벳을 준비하지 못했습니다',
+    installFailed: '게임 폴더에 파일을 쓸 수 없습니다.',
+    choose: '파일 선택',
+    install: '게임에 준비'
+  },
   groups: {
     overview: '개요',
     deliver: '전달',
@@ -190,6 +214,16 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    obtainPlanned: '여기서는 아직 새로 얻을 수 없습니다.',
+    equipSceneEmpty: '모델을 찾을 수 없습니다.',
+    freighterModel: {
+      default: '게임이 선택',
+      regular: '화물선',
+      small: '소형 화물선',
+      tiny: '초소형 화물선',
+      capital: '대형 화물선',
+      pirate: '해적 드레드노트'
+    },
     equipScene: '모델',
     equipSceneHint: '선택 사항. 화물선 모델의 게임 장면이며, 비워 두면 게임의 선택을 따릅니다.',
     equipModelSeed: '모델 시드',

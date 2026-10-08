@@ -43,6 +43,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'starships',
+    sections: ['obtain', 'upgrade'],
     group: 'deliver',
     icon: RocketIcon,
     kind: 'delivery',
@@ -52,6 +53,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'multitools',
+    sections: ['obtain', 'upgrade'],
     group: 'deliver',
     icon: CrosshairIcon,
     kind: 'delivery',
@@ -61,6 +63,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'freighters',
+    sections: ['obtain', 'upgrade'],
     group: 'deliver',
     icon: ShipIcon,
     kind: 'delivery',

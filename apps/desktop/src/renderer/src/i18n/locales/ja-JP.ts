@@ -2,6 +2,31 @@ import type { Messages } from '../messages'
 
 export const jaJP: Messages = {
   app: { name: 'NMS Courier', tagline: 'No Man’s Sky 向けローカル配送' },
+  sections: { obtain: '新しく入手', upgrade: 'アップグレード' },
+  corvette: {
+    title: 'ファイルからコルベットを作る',
+    hint: '共有されたコルベットファイル（.nmsship）を選択します。コルベットの建造がその船を組み立て済みの状態で始まるよう、アプリがゲームを準備します。仕上げはゲーム内で行います。ファイルの準備後はゲームの再起動が必要です。',
+    none: 'コルベットファイルはまだ準備されていません。',
+    current: '準備済み: {name}、パーツ {count} 個。',
+    parts: 'パーツ {count} 個',
+    hullParts: '船体パーツ {count} 個',
+    missing: '次のパーツがありません: {parts}。ゲームは警告を表示しますが、建造はできます。',
+    partCockpit: 'コックピット',
+    partLandingGear: 'ランディングギア',
+    partHabitation: '居住モジュール',
+    partReactor: 'リアクター',
+    rejectedTitle: 'このファイルは使用できません',
+    rejectedShip:
+      'これは通常の宇宙船で、コルベットではありません。ファイルからの宇宙船にはまだ対応していません。',
+    rejectedInvalid: '有効なコルベットファイルではありません。',
+    installedTitle: 'コルベットを準備しました',
+    installedBody:
+      'ゲームが起動中なら終了し、もう一度起動してください。その後、下の「コルベットの建造を開始」を使います。',
+    installFailedTitle: 'コルベットを準備できませんでした',
+    installFailed: 'ゲームのフォルダーにファイルを書き込めませんでした。',
+    choose: 'ファイルを選択',
+    install: 'ゲームに準備'
+  },
   groups: {
     overview: '概要',
     deliver: '配送',
@@ -195,6 +220,16 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    obtainPlanned: 'ここではまだ新しく入手できません。',
+    equipSceneEmpty: 'モデルが見つかりません。',
+    freighterModel: {
+      default: 'ゲームに任せる',
+      regular: '貨物船',
+      small: '小型貨物船',
+      tiny: '超小型貨物船',
+      capital: '大型貨物船',
+      pirate: '海賊ドレッドノート'
+    },
     equipScene: 'モデル',
     equipSceneHint: '任意。貨物船モデルのゲームシーン。空欄の場合はゲームの選択のままです。',
     equipModelSeed: 'モデルのシード',

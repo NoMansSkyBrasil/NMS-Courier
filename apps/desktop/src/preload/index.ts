@@ -27,6 +27,9 @@ const nms = {
   deliverCurrency: (request: { currency: string; amount: number; notify: boolean }) =>
     ipcRenderer.invoke('nms:deliver-currency', request),
   getStackLimits: () => ipcRenderer.invoke('nms:get-stack-limits'),
+  chooseCorvetteFile: () => ipcRenderer.invoke('nms:choose-corvette-file'),
+  installCorvetteLayout: () => ipcRenderer.invoke('nms:install-corvette-layout'),
+  getCorvetteLayout: () => ipcRenderer.invoke('nms:get-corvette-layout'),
   getGameIcon: (locator: string) => ipcRenderer.invoke('nms:get-game-icon', locator),
   deliverItems: (items: Array<{ id: string; amount: number }>, notify?: boolean) =>
     ipcRenderer.invoke('nms:deliver-items', items, notify ?? true),

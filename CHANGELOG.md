@@ -13,6 +13,22 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.6.0 (2026-10-08)
+
+- Corvette from a file: the Corvettes page takes a `.nmsship` export, shows
+  what it holds and writes the layout the game's corvette build mode starts
+  from, plus the validation switch, into `GAMEDATA/MODS/NMSCourierCorvette`.
+  After a game restart, "Start corvette build" opens build mode with that
+  corvette assembled. No external tool is used. Not exercised live from the
+  application yet; the same files made by hand delivered a corvette on
+  2026-10-07.
+- Starships, Multi-tools and Freighters have two pages each in the sidebar,
+  "Get a new one" and "Upgrade", as in the standard collapsible sidebar.
+  Getting a new starship or multi-tool is not available yet and the page says
+  so.
+- The freighter model is chosen from a searchable list of the five models a
+  player can own instead of a typed game path.
+
 ## Application 1.5.0 and bridge 1.4.0 (2026-10-08)
 
 Bridge 1.4.0, file SHA-256

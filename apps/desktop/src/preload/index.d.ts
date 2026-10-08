@@ -166,6 +166,28 @@ declare global {
         notify: boolean
       }) => Promise<DeliveryResult>
       getGameIcon: (locator: string) => Promise<Uint8Array | null>
+      chooseCorvetteFile: () => Promise<
+        | {
+            state: 'corvette'
+            name: string
+            partCount: number
+            hullPartCount: number
+            hasCockpit: boolean
+            hasLandingGear: boolean
+            hasHabitation: boolean
+            hasReactor: boolean
+          }
+        | { state: 'ship'; name: string }
+        | { state: 'invalid'; reason: string }
+        | null
+      >
+      installCorvetteLayout: () => Promise<
+        | { state: 'installed'; name: string; partCount: number }
+        | { state: 'failed'; reason: string }
+      >
+      getCorvetteLayout: () => Promise<{
+        installed: { name: string; partCount: number; installedAt: string } | null
+      }>
       getStackLimits: () => Promise<{
         substanceBase: number
         substanceCap: number

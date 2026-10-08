@@ -13,13 +13,16 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '@renderer/components/ui/sidebar'
-import { featureFromHash, featureGroups, featureHref } from '@renderer/features'
+import { featureFromHash, featureGroups, featureHref, sectionFromHash } from '@renderer/features'
 import { useHashRoute } from '@renderer/hooks/use-hash-route'
 import { useLocale } from '@renderer/i18n/locale-provider'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): React.JSX.Element {
   const { copy } = useLocale()
-  const activeId = featureFromHash(useHashRoute()).id
+  const hash = useHashRoute()
+  const active = featureFromHash(hash)
+  const activeId = active.id
+  const activeSection = sectionFromHash(hash, active)
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -40,7 +43,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): 
       </SidebarHeader>
       <SidebarContent>
         {featureGroups.map((group) => (
-          <NavGroup key={group.id} group={group.id} features={group.features} activeId={activeId} />
+          <NavGroup
+            key={group.id}
+            group={group.id}
+            features={group.features}
+            activeId={activeId}
+            activeSection={activeSection}
+          />
         ))}
       </SidebarContent>
       <SidebarFooter>

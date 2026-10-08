@@ -130,7 +130,9 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Per-entry selection still missing: fishing, refiner recipes, Twitch and platform rewards (needs a per-entry keep list). First live "send selected" from the application is not done.
 - [x] First delivery from the application (2026-10-08): `FUEL1` x9999.
 - [ ] Walk `docs/CAPABILITY_STATUS.md` from the application on slot 3 and fill the "worked from the app" column, area by area.
-- [ ] Finish corvette delivery from a `.nmsship` file: wire `apps/desktop/src/main/corvette/` (choose file, write the layout and the validation switch into the mod folder, restart notice, then the existing build request).
+- [x] Corvette from a `.nmsship` file in the application (2026-10-08): choose, prepare in the game, restart, start build.
+- [ ] Corvette from a file: first live run from the application; then the version without a game restart.
+- [ ] Getting a new starship or multi-tool (owner request 2026-10-08, pages exist and say it is not available): find the route, probably the game's specific-ship and specific-weapon rewards with a carrier entry, as for currencies. Ordinary ship `.nmsship` files belong here.
 - [ ] Install bridge 1.4.0 and the data file `654e4f6e...7b17`, then verify from the application: units of a free amount, and an item with the game's notification.
 - [ ] The application should install and update the bridge and the data file itself; today they are copied by hand with the game closed.
 - [x] Requests reach the bridge without any script (2026-10-08, application 1.4.0, bridge 1.3.0).
