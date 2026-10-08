@@ -281,6 +281,17 @@ State and routes:
   located.
 - The Switch products: no reward found; route unknown.
 
+Added after a corpus-wide search finished: the game also ships per-platform
+entitlement tables under `metadata/entitlements/`. The PC ones list a single
+entitlement: `HORIZOSHIP` (service ID `HORIZOSHIP000000`) redeeming reward
+`ENT_SHIP_PC`, named `PC_ENTITLEMENT_HORIZON_OMEGA_SH`, with the error text
+`REDEEM_SHIP_FAIL`. The generic and Xbox tables are longer. So on PC the
+game has one redeem flow, for the Horizon Omega ship, gated by what the
+store reports; `ALPHAVSHIP` belongs to another platform's list. The core
+mission table also tests both ship entitlements in a mission condition
+(around line 256,951 of the converted table). The redeem flow's routine is
+the place to start reading.
+
 So nothing here can be sent with what is installed today. These belong to
 ship and multitool delivery, with the entitlement lookup as the first thing
 to read in the executable.
