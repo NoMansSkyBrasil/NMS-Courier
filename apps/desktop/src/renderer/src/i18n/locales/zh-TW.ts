@@ -208,6 +208,26 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    shipModel: {
+      fighter: '戰鬥機',
+      hauler: '運輸船',
+      explorer: '探險船',
+      shuttle: '穿梭機',
+      solar: '太陽能'
+    },
+    toolModel: {
+      pistol: '手槍',
+      rifle: '步槍',
+      experimental: '實驗型',
+      alien: '外星',
+      staff: '法杖'
+    },
+    equipSeedHint: '留空則隨機抽取種子。',
+    obtainAction: '傳送報價',
+    obtainShipHint:
+      '遊戲會在自己的介面中向你提供一艘該類型、種子和等級的新星艦：加入收藏、與目前的星艦交換，或拒絕。',
+    obtainToolHint:
+      '遊戲會在自己的介面中向你提供一把該類型、種子和等級的新多功能工具：加入收藏、與目前的交換，或拒絕。',
     obtainPlanned: '這裡暫時無法取得新的。',
     equipSceneEmpty: '找不到模型。',
     freighterModel: {

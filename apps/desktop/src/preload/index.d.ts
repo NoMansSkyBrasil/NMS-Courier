@@ -156,6 +156,7 @@ declare global {
         extendedTechnology: boolean
         itemClass: string
         shipIndex: number
+        model: string
         scene: string
         modelSeed: string
         homeSeed: string

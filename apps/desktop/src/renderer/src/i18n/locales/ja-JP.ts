@@ -220,6 +220,26 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    shipModel: {
+      fighter: '戦闘機',
+      hauler: '運搬船',
+      explorer: '探検船',
+      shuttle: 'シャトル',
+      solar: 'ソーラー'
+    },
+    toolModel: {
+      pistol: 'ピストル',
+      rifle: 'ライフル',
+      experimental: '実験型',
+      alien: 'エイリアン',
+      staff: 'スタッフ'
+    },
+    equipSeedHint: '空欄の場合はランダムなシードになります。',
+    obtainAction: 'オファーを送信',
+    obtainShipHint:
+      'この種類・シード・クラスの新しい宇宙船を、ゲームが自身の画面で提示します。コレクションに追加するか、現在の船と交換するか、辞退できます。',
+    obtainToolHint:
+      'この種類・シード・クラスの新しいマルチツールを、ゲームが自身の画面で提示します。コレクションに追加するか、現在のものと交換するか、辞退できます。',
     obtainPlanned: 'ここではまだ新しく入手できません。',
     equipSceneEmpty: 'モデルが見つかりません。',
     freighterModel: {

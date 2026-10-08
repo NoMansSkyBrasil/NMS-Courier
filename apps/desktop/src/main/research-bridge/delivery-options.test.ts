@@ -101,6 +101,7 @@ describe('item, currency and equipment requests', () => {
       extendedTechnology: true,
       itemClass: 'S',
       shipIndex: -1,
+      model: '',
       scene: '',
       modelSeed: '',
       homeSeed: ''
@@ -115,6 +116,38 @@ describe('item, currency and equipment requests', () => {
       getEquipmentPlan({ ...base, area: 'starships', action: 'classStep' })?.steps[0].request?.lines
     ).toEqual(['R_SHIPUPGRADE'])
     expect(getEquipmentPlan({ ...base, area: 'exosuit', action: 'build' })).toBeNull()
+    const ship = getEquipmentPlan(
+      { ...base, area: 'starships', action: 'offer', model: 'hauler', itemClass: 'A' },
+      () => '0x00000000deadbeef'
+    )
+    expect(ship?.steps[0].request).toEqual({
+      name: 'ship-request',
+      perProcess: true,
+      lines: ['model=hauler', 'seed=0x00000000DEADBEEF', 'class=a']
+    })
+    expect(ship?.steps[0].signals).toEqual(['ship'])
+    expect(ship?.steps[0].accept?.(['model=hauler', 'result=bad_layout'])).toBe(false)
+    const tool = getEquipmentPlan({
+      ...base,
+      area: 'multitools',
+      action: 'offer',
+      model: 'staff',
+      modelSeed: '0x12'
+    })
+    expect(tool?.steps[0].request?.lines).toEqual(['model=staff', 'seed=0x12', 'class=s'])
+    expect(tool?.steps[0].signals).toEqual(['weapon'])
+    expect(
+      getEquipmentPlan({ ...base, area: 'starships', action: 'offer', model: 'freighter' })
+    ).toBeNull()
+    expect(
+      getEquipmentPlan({
+        ...base,
+        area: 'starships',
+        action: 'offer',
+        model: 'solar',
+        modelSeed: '0x0'
+      })
+    ).toBeNull()
     const pirate = getEquipmentPlan({
       ...base,
       area: 'freighters',

@@ -234,6 +234,26 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    shipModel: {
+      fighter: 'Jager',
+      hauler: 'Transportschip',
+      explorer: 'Verkenner',
+      shuttle: 'Shuttle',
+      solar: 'Zonne'
+    },
+    toolModel: {
+      pistol: 'Pistool',
+      rifle: 'Geweer',
+      experimental: 'Experimenteel',
+      alien: 'Buitenaards',
+      staff: 'Staf'
+    },
+    equipSeedHint: 'Leeg trekt een willekeurige seed.',
+    obtainAction: 'Aanbod verzenden',
+    obtainShipHint:
+      'Het spel biedt je op zijn eigen scherm een nieuw sterrenschip van dit type, deze seed en deze klasse aan: voeg het toe aan je verzameling, ruil je huidige in of weiger.',
+    obtainToolHint:
+      'Het spel biedt je op zijn eigen scherm een nieuwe multi-tool van dit type, deze seed en deze klasse aan: voeg hem toe aan je verzameling, ruil je huidige in of weiger.',
     obtainPlanned: 'Een nieuwe verkrijgen is hier nog niet mogelijk.',
     equipSceneEmpty: 'Geen model gevonden.',
     freighterModel: {

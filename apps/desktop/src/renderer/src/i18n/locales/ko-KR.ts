@@ -214,6 +214,26 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    shipModel: {
+      fighter: '전투기',
+      hauler: '수송선',
+      explorer: '탐험선',
+      shuttle: '셔틀',
+      solar: '솔라'
+    },
+    toolModel: {
+      pistol: '피스톨',
+      rifle: '라이플',
+      experimental: '실험형',
+      alien: '외계',
+      staff: '스태프'
+    },
+    equipSeedHint: '비워 두면 무작위 시드를 뽑습니다.',
+    obtainAction: '제안 보내기',
+    obtainShipHint:
+      '게임이 자체 화면에서 이 종류, 시드, 등급의 새 우주선을 제안합니다. 컬렉션에 추가하거나 현재 우주선과 교환하거나 거절할 수 있습니다.',
+    obtainToolHint:
+      '게임이 자체 화면에서 이 종류, 시드, 등급의 새 멀티툴을 제안합니다. 컬렉션에 추가하거나 현재 것과 교환하거나 거절할 수 있습니다.',
     obtainPlanned: '여기서는 아직 새로 얻을 수 없습니다.',
     equipSceneEmpty: '모델을 찾을 수 없습니다.',
     freighterModel: {

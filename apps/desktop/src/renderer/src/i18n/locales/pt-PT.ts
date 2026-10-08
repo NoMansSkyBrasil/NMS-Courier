@@ -230,6 +230,26 @@ export const ptPT: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Funciona com uma versão exata do jogo de cada vez.'
   },
   delivery: {
+    shipModel: {
+      fighter: 'Caça',
+      hauler: 'Cargueira',
+      explorer: 'Exploradora',
+      shuttle: 'Vaivém',
+      solar: 'Solar'
+    },
+    toolModel: {
+      pistol: 'Pistola',
+      rifle: 'Espingarda',
+      experimental: 'Experimental',
+      alien: 'Alienígena',
+      staff: 'Cajado'
+    },
+    equipSeedHint: 'Vazio sorteia uma semente aleatória.',
+    obtainAction: 'Enviar oferta',
+    obtainShipHint:
+      'O jogo oferece uma nave nova deste tipo, semente e classe no seu próprio ecrã: adicione à coleção, troque pela atual ou recuse.',
+    obtainToolHint:
+      'O jogo oferece uma multiferramenta nova deste tipo, semente e classe no seu próprio ecrã: adicione à coleção, troque pela atual ou recuse.',
     obtainPlanned: 'Ainda não é possível obter um novo aqui.',
     equipSceneEmpty: 'Nenhum modelo encontrado.',
     freighterModel: {

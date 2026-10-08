@@ -20,8 +20,8 @@ export type EquipmentArea = (typeof equipmentAreas)[number]
 // inventory slot, which opens the game's window to place it.
 export const equipmentActions: Readonly<Record<EquipmentArea, readonly string[]>> = {
   exosuit: ['grid', 'slotReward'],
-  starships: ['grid', 'classStep', 'slotReward'],
-  multitools: ['grid', 'classStep', 'slotReward'],
+  starships: ['offer', 'grid', 'classStep', 'slotReward'],
+  multitools: ['offer', 'grid', 'classStep', 'slotReward'],
   freighters: ['offer', 'slotReward'],
   corvettes: ['build']
 }
@@ -35,6 +35,8 @@ export type EquipmentRequest = {
   itemClass: string
   // Ship slot 0 to 11, or -1 for the ship the player is using.
   shipIndex: number
+  // A new starship or multi-tool: the kind. Its seed is `modelSeed`; empty draws a random one.
+  model: string
   // Freighter offer only, each optional: the game scene of the model and the two seeds.
   scene: string
   modelSeed: string
@@ -55,10 +57,48 @@ export function isEquipmentRequest(value: unknown): value is EquipmentRequest {
     typeof request.extendedTechnology === 'boolean' &&
     typeof request.itemClass === 'string' &&
     typeof request.shipIndex === 'number' &&
+    typeof request.model === 'string' &&
     typeof request.scene === 'string' &&
     typeof request.modelSeed === 'string' &&
     typeof request.homeSeed === 'string'
   )
+}
+
+export const shipModels = ['fighter', 'hauler', 'explorer', 'shuttle', 'solar'] as const
+export const multitoolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
+
+// A new starship or multi-tool of a kind, seed and class: the bridge writes them into its own reward
+// table entry and the game shows its offer screen. `randomSeed` supplies the seed when none is given.
+function obtain(
+  label: string,
+  kind: 'ship' | 'weapon',
+  models: readonly string[],
+  request: EquipmentRequest,
+  randomSeed: () => string
+): DeliveryPlan | null {
+  const seed = request.modelSeed || randomSeed()
+  if (!models.includes(request.model) || !classes.includes(request.itemClass)) return null
+  if (!/^0x[0-9A-Fa-f]{1,16}$/.test(seed) || /^0x0+$/.test(seed)) return null
+  return {
+    changesAccount: false,
+    steps: [
+      {
+        label,
+        request: {
+          name: `${kind}-request`,
+          perProcess: true,
+          lines: [
+            `model=${request.model}`,
+            `seed=0x${seed.slice(2).toUpperCase()}`,
+            `class=${request.itemClass.toLowerCase()}`
+          ]
+        },
+        signals: [kind],
+        result: { name: `${kind}-result`, seconds: 12 },
+        accept: (lines) => lines.includes('result=offered')
+      }
+    ]
+  }
 }
 
 // In place: every position of the grids usable and/or every technology slot supercharged.
@@ -156,7 +196,13 @@ function offer(
   }
 }
 
-export function getEquipmentPlan(request: EquipmentRequest): DeliveryPlan | null {
+const drawSeed = (): string =>
+  `0x${[...crypto.getRandomValues(new Uint8Array(8))].map((byte) => byte.toString(16).padStart(2, '0')).join('')}`
+
+export function getEquipmentPlan(
+  request: EquipmentRequest,
+  randomSeed: () => string = drawSeed
+): DeliveryPlan | null {
   if (!equipmentActions[request.area].includes(request.action)) return null
   switch (`${request.area}:${request.action}`) {
     case 'exosuit:grid':
@@ -168,6 +214,10 @@ export function getEquipmentPlan(request: EquipmentRequest): DeliveryPlan | null
         ? owned('starship', 'ship', index, request)
         : owned('starship', 'primary-ship', 0, request)
     }
+    case 'starships:offer':
+      return obtain('starship', 'ship', shipModels, request, randomSeed)
+    case 'multitools:offer':
+      return obtain('multitool', 'weapon', multitoolModels, request, randomSeed)
     case 'starships:classStep':
       return shippedReward('starship', 'R_SHIPUPGRADE')
     case 'multitools:grid':

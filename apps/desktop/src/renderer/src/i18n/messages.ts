@@ -178,6 +178,12 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    shipModel: Record<'fighter' | 'hauler' | 'explorer' | 'shuttle' | 'solar', string>
+    toolModel: Record<'pistol' | 'rifle' | 'experimental' | 'alien' | 'staff', string>
+    equipSeedHint: string
+    obtainAction: string
+    obtainShipHint: string
+    obtainToolHint: string
     obtainPlanned: string
     equipSceneEmpty: string
     freighterModel: Record<'default' | 'regular' | 'small' | 'tiny' | 'capital' | 'pirate', string>

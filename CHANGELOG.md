@@ -13,6 +13,18 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.8.0 and bridge 1.6.0 (2026-10-08)
+
+- New: "Get a new one" for starships (fighter, hauler, explorer, shuttle,
+  solar) and multi-tools (pistol, rifle, experimental, alien, staff) with a
+  seed and a class. The game shows its own offer screen. Bridge 1.6.0, file
+  SHA-256 `4bc6f7ca46d67538b5b5d4e32449dcedb018f01e7e9c39466bb4289614733935`,
+  requests `ship` and `weapon`. See `docs/SHIP_AND_MULTITOOL_OBTAIN_NOTES.md`.
+- The data file has ten more entries, one carrier per kind, and is generated
+  by `runtime/research/build-courier-reward-table.py`. Table SHA-256
+  `8c9de2ccf4a4cd84a951fcc944482a07d37f4c42d1f51f3eb547e11819a5b61c`.
+- Not exercised live yet.
+
 ## Application 1.7.0 and bridge 1.5.0 (2026-10-08)
 
 Owner request: a clear name for what the project puts into the game's mod

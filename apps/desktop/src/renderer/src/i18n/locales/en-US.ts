@@ -219,6 +219,26 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    shipModel: {
+      fighter: 'Fighter',
+      hauler: 'Hauler',
+      explorer: 'Explorer',
+      shuttle: 'Shuttle',
+      solar: 'Solar'
+    },
+    toolModel: {
+      pistol: 'Pistol',
+      rifle: 'Rifle',
+      experimental: 'Experimental',
+      alien: 'Alien',
+      staff: 'Staff'
+    },
+    equipSeedHint: 'Empty draws a random seed.',
+    obtainAction: 'Send offer',
+    obtainShipHint:
+      'The game offers you a new starship of this kind, seed and class on its own screen: add it to your collection, trade your current one or decline.',
+    obtainToolHint:
+      'The game offers you a new multi-tool of this kind, seed and class on its own screen: add it to your collection, trade your current one or decline.',
     obtainPlanned: 'Getting a new one is not available here yet.',
     equipSceneEmpty: 'No model found.',
     freighterModel: {

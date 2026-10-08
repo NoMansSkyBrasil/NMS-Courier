@@ -58,14 +58,18 @@ type Action = 'grid' | 'classStep' | 'slotReward' | 'offer' | 'build'
 // What each area can ask the bridge for; the main process checks the same table again.
 const areaActions: Record<EquipmentArea, readonly Action[]> = {
   exosuit: ['grid', 'slotReward'],
-  starships: ['grid', 'classStep', 'slotReward'],
-  multitools: ['grid', 'classStep', 'slotReward'],
+  starships: ['offer', 'grid', 'classStep', 'slotReward'],
+  multitools: ['offer', 'grid', 'classStep', 'slotReward'],
   freighters: ['offer', 'slotReward'],
   corvettes: ['build']
 }
 const classes = ['S', 'A', 'B', 'C']
 // Actions that give something new; the others change what the player already owns.
 const obtainActions: readonly Action[] = ['offer', 'build']
+// Kinds of starship and multi-tool the bridge can offer; the seed decides the look within a kind.
+const shipModels = ['fighter', 'hauler', 'explorer', 'shuttle', 'solar'] as const
+const toolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
+
 // Freighter models a player can own, by the game scene of each; the first leaves the choice to the
 // game. Only the pirate model was delivered so far (2026-10-06).
 const industrial = 'MODELS/COMMON/SPACECRAFT/INDUSTRIAL/'
@@ -108,6 +112,7 @@ export function EquipmentCard({
   const [itemClass, setItemClass] = useState('S')
   const [shipIndex, setShipIndex] = useState(-1)
   const [scene, setScene] = useState('')
+  const [model, setModel] = useState<string>(area === 'multitools' ? toolModels[0] : shipModels[0])
   const [modelSeed, setModelSeed] = useState('')
   const [homeSeed, setHomeSeed] = useState('')
   const [confirming, setConfirming] = useState(false)
@@ -143,6 +148,7 @@ export function EquipmentCard({
           extendedTechnology,
           itemClass,
           shipIndex,
+          model,
           scene: scene.trim(),
           modelSeed: modelSeed.trim(),
           homeSeed: homeSeed.trim()
@@ -166,8 +172,18 @@ export function EquipmentCard({
       label: formatMessage(text.equipTargetSlot, { number: index + 1 })
     }))
   ]
-  const hasOptions = action !== 'classStep' && action !== 'slotReward'
+  // A new starship or multi-tool is described by kind, seed and class only.
+  const isNew = action === 'offer' && area !== 'freighters'
+  const kinds = (area === 'multitools' ? toolModels : shipModels).map((value) => ({
+    value,
+    label:
+      area === 'multitools'
+        ? text.toolModel[value as (typeof toolModels)[number]]
+        : text.shipModel[value as (typeof shipModels)[number]]
+  }))
+  const hasOptions = action !== 'classStep' && action !== 'slotReward' && !isNew
   const hasClass = action === 'offer' || action === 'build'
+  const hasExtended = hasClass && !isNew
   const ready = status?.state === 'ready'
   const sendable = ready && !sending && (action !== 'grid' || slots || supercharge)
   const stateText = status
@@ -190,7 +206,13 @@ export function EquipmentCard({
     <Card>
       <CardHeader>
         <CardTitle>{text.title}</CardTitle>
-        <CardDescription>{text.equipActionHint[action]}</CardDescription>
+        <CardDescription>
+          {isNew
+            ? area === 'multitools'
+              ? text.obtainToolHint
+              : text.obtainShipHint
+            : text.equipActionHint[action]}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
@@ -270,6 +292,45 @@ export function EquipmentCard({
               </Select>
             </Field>
           )}
+          {isNew && (
+            <>
+              <Field orientation="responsive">
+                <FieldContent>
+                  <FieldLabel htmlFor="equipment-kind">{text.equipScene}</FieldLabel>
+                </FieldContent>
+                <Select
+                  items={kinds}
+                  value={model}
+                  onValueChange={(value) => setModel(value as string)}
+                >
+                  <SelectTrigger id="equipment-kind">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {kinds.map((entry) => (
+                        <SelectItem key={entry.value} value={entry.value}>
+                          {entry.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field orientation="responsive">
+                <FieldContent>
+                  <FieldLabel htmlFor="equipment-new-seed">{text.equipModelSeed}</FieldLabel>
+                  <FieldDescription>{text.equipSeedHint}</FieldDescription>
+                </FieldContent>
+                <Input
+                  id="equipment-new-seed"
+                  value={modelSeed}
+                  placeholder="0x8C968767B3282F13"
+                  onChange={(event) => setModelSeed(event.target.value)}
+                />
+              </Field>
+            </>
+          )}
           {area === 'freighters' && action === 'offer' && (
             <>
               <Field>
@@ -339,7 +400,7 @@ export function EquipmentCard({
               </Field>
             </>
           )}
-          {hasClass && (
+          {hasExtended && (
             <Field orientation="horizontal">
               <FieldContent>
                 <FieldLabel htmlFor="equipment-extended">{text.equipExtended}</FieldLabel>
@@ -383,7 +444,7 @@ export function EquipmentCard({
         <AlertDialog open={confirming} onOpenChange={setConfirming}>
           <AlertDialogTrigger render={<Button disabled={!sendable} />}>
             {sending ? <Spinner data-icon="inline-start" /> : <SendIcon data-icon="inline-start" />}
-            {sending ? text.sending : text.equipAction[action]}
+            {sending ? text.sending : isNew ? text.obtainAction : text.equipAction[action]}
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

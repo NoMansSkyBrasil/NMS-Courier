@@ -1,5 +1,16 @@
 # Runtime experiment log
 
+## 2026-10-08: new starship and multi-tool requests built (bridge 1.6.0), not sent
+
+Offline analysis and a build. Build 180836. Owning note:
+[getting a new starship or multi-tool](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md).
+The game's specific-ship and specific-weapon rewards were laid out from the
+reward table and verified against every single-reward entry (78 and 41). The
+data file gained one carrier per kind (table `8c9de2cc...b61c`), bridge 1.6.0
+(`4bc6f7ca...3935`) writes the requested seed and class into a carrier and
+calls the reward routine. The profile fixture passes; 80 unit tests pass.
+Not proven: everything live, including whether the game honours the class.
+
 ## 2026-10-08: one mod folder named NMSCourier; bridge 1.5.0 installed
 
 On the owner's request for a clear name, with the game closed. The project's

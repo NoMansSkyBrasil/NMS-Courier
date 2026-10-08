@@ -232,6 +232,26 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    shipModel: {
+      fighter: 'Caccia',
+      hauler: 'Trasporto',
+      explorer: 'Esploratrice',
+      shuttle: 'Navetta',
+      solar: 'Solare'
+    },
+    toolModel: {
+      pistol: 'Pistola',
+      rifle: 'Fucile',
+      experimental: 'Sperimentale',
+      alien: 'Alieno',
+      staff: 'Bastone'
+    },
+    equipSeedHint: 'Vuoto estrae un seme casuale.',
+    obtainAction: 'Invia offerta',
+    obtainShipHint:
+      'Il gioco ti offre una nuova astronave di questo tipo, seme e classe nella propria schermata: aggiungila alla collezione, scambiala con quella attuale o rifiuta.',
+    obtainToolHint:
+      'Il gioco ti offre un nuovo multiutensile di questo tipo, seme e classe nella propria schermata: aggiungilo alla collezione, scambialo con quello attuale o rifiuta.',
     obtainPlanned: 'Qui non è ancora possibile ottenerne uno nuovo.',
     equipSceneEmpty: 'Nessun modello trovato.',
     freighterModel: {
