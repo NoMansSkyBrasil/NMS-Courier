@@ -209,6 +209,8 @@ The source content hashes were checked while copying the DDS files. Pillow
 12.3.0 decoded them to first-frame PNGs without resize; 30 sampled PNGs were
 reopened and verified. The external `README.md` records counts and failures,
 and `E:\NMS-Courier-Research\extract-ui-images-20261008.py` reproduces the export.
+The exact PAK location, hash check, command, file selection and output layout
+are in the [research pipeline's UI export instructions](../runtime/research/README.md#export-the-games-interface-icons-and-images).
 No game process, save, bridge, mod, or repository asset was changed. To undo the
 export, remove only the external `game-ui-images-20261008` directory.
 

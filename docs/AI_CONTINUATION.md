@@ -4,7 +4,8 @@
 > installed game's unchanged TexUI/TexMisc archives and 9,642 native-size PNGs
 > were exported to `E:\NMS-Courier-Research\game-ui-images-20261008`, outside
 > the repository. See [data and catalog, personal UI export](DATA_AND_CATALOG.md#personal-full-resolution-ui-image-export-2026-10-08)
-> and the [experiment log](EXPERIMENT_LOG.md). This was an offline image export,
+> and [reproduction commands](../runtime/research/README.md#export-the-games-interface-icons-and-images).
+> The [experiment log](EXPERIMENT_LOG.md) records the result. This was an offline image export,
 > not an application icon feature; the game images and export script remain
 > outside the repository.
 

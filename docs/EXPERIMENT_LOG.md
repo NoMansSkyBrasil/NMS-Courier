@@ -17,6 +17,8 @@ The external script `E:\NMS-Courier-Research\extract-ui-images-20261008.py`
 selected every `.dds` under `textures/ui/` and `textures/hud/` from the indexed
 corpus, checked each copied DDS against its stored content hash, and converted
 the first image to lossless PNG with Pillow 12.3.0 at native pixel dimensions.
+The [research pipeline](../runtime/research/README.md#export-the-games-interface-icons-and-images)
+now records the source PAK location and repeatable commands.
 Output: 9,642 DDS and 9,642 PNG files in separate trees under
 `E:\NMS-Courier-Research\game-ui-images-20261008`; zero failures. Thirty sampled
 PNGs reopened successfully. The tool reported a maximum decoded width and
