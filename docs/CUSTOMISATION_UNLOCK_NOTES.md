@@ -7,9 +7,10 @@ loaded save slot**.
 
 Status in one line: the link between each option and what unlocks it is
 mapped offline and a product class exists for it; one product
-(`BANNER_NMSA`) was tested on slot 3: as a known product it did not open
-the option; the slot-side special routine was then called for it and the
-effect on screen is not confirmed yet.
+was tested on slot 3: as a known product it did not open the option; the
+game's slot-side special routine did (confirmed on screen). All 263 IDs
+were then sent through that routine; the result on screen and after a save
+is awaited.
 
 ## What the owner asked (2026-10-07)
 
@@ -50,7 +51,7 @@ customiser also accepts the account's unlock lists, which on this account
 were filled by a save editor; the entries still locked are those the account
 lacks too.
 
-## Plan (proposed, not done)
+## First plan (tried; the product route was rejected)
 
 The product learn routine accepts customisation parts (`Type` 7), so the
 existing product request can teach them to the slot:
@@ -92,9 +93,25 @@ DLL).
 | --- | --- |
 | `signal-customisation-180836.ps1 -Id BANNER_NMSA` | `changed`, redeemed season set 10 -> 10 (as expected: not a season reward) |
 
-Game kept running. Not proven: which list changed (read the slot's known
-specials after a save) and whether emblem 55 is now open (awaiting the
-owner). Undo: reload without saving, or restore the backup.
+**Confirmed by the owner: emblem 55 opened.** The slot-side special routine
+is the working route for customisation options.
+
+The owner then asked for everything. Save folder copied to
+`save-backups/20261007-before-customisation-all`; slot re-identified as 3.
+
+| Request | Result file |
+| --- | --- |
+| `signal-customisation-180836.ps1 -All` (263) | 262 `changed`, 1 `no_change` (`BANNER_NMSA`, already done); redeemed season set 10 -> 122 |
+
+The season set grew by 112, the number of customisation IDs that are also
+expedition rewards: for those the routine records the redemption as well.
+All of them are appearance parts, banners, trails or titles, for which
+known and redeemed is the whole reward. Scope: slot 3 only; the account
+lists were not touched. Game kept running.
+
+Not proven: what the customiser shows for every category (awaiting the
+owner), which list holds the specials (read the slot file after a save),
+persistence. Undo: reload without saving, or restore the backup.
 
 Open questions:
 

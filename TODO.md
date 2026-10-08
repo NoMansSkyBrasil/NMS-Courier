@@ -151,7 +151,8 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Never mark a consumable special as known (14 entries today, by the table's own flag).
 - [~] Product recipes: classified and built on 2026-10-07 ([product delivery notes](docs/PRODUCT_DELIVERY_NOTES.md));
   items, technology, all build parts and research-tree products delivered live to slot 3, confirmed and saved.
-- [ ] Character customisation in the slot: test `BANNER_NMSA`, then class `customisation` (263); study titles
+- [~] Character customisation in the slot: 263 specials sent on 2026-10-07 (confirm on screen and after a save); study the
+  titles not unlocked by a product and any option still locked
   ([customisation unlock notes](docs/CUSTOMISATION_UNLOCK_NOTES.md)).
 - [ ] Find the cause of the 2026-10-07 crash (`nvoglv64`) after the build part delivery, or show it does not repeat.
 - [x] Send `research_tree` (106) to slot 3 (2026-10-07; confirmed on screen and saved).
