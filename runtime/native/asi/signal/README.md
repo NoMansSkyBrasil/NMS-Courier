@@ -79,7 +79,7 @@ on 2026-10-07.
 ## Products
 
 `signal-product-180836.ps1` teaches product recipes to the loaded slot: `-Id A[,B...]`, or
-`-AllOfClass catalogue_item|catalogue_technology|catalogue_construction|research_tree`. Rules and
+`-AllOfClass catalogue_item|catalogue_technology|catalogue_construction|research_tree|customisation`. Rules and
 status: [product delivery notes](../../../../docs/PRODUCT_DELIVERY_NOTES.md). First used live
 on 2026-10-07.
 

@@ -1,5 +1,16 @@
 # Runtime experiment log
 
+## 2026-10-07: character customisation unlocks mapped (offline)
+
+Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md). Game
+closed; corpus of build 180836 and the saved slot 3 files read only.
+
+- Six customisation tables name 273 IDs as what unlocks an option; 263 are
+  hidden CustomisationPart products, now class `customisation`.
+- Slot 3 holds none of the 263 in any of its lists, although the customiser
+  shows most options open; reading: the account's lists also count.
+- Nothing sent. Proposed first test: `-Id BANNER_NMSA`, banner emblem 55.
+
 ## 2026-10-07: research-tree products taught to slot 3 after the crash
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#research-tree-products-sent-2026-10-07-slot-3).

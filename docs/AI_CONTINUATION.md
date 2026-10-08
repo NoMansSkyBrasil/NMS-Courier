@@ -175,6 +175,11 @@ offline:
     screen by the owner). Open: five freighter rooms became known unrequested; corvette
     part unlocks are not products.
 
+23. *Character customisation (2026-10-07).* Read
+    [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md): 263 products
+    of class `customisation` are mapped; the first live test
+    (`signal-product-180836.ps1 -Id BANNER_NMSA` on slot 3) is not done.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

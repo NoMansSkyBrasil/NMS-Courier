@@ -45,7 +45,8 @@ All three product tables, 4,446 entries:
 | `catalogue_construction` | 1,067 | Craftable or a customisation part, listed under construction (build parts) | yes, on request; reviewed structurally on 2026-10-07 |
 | `not_learnable` | 2,092 | Not craftable and not a customisation part: the game's own routine refuses it | no |
 | `research_tree` | 106 | Learnable, hidden from the catalogue, but offered by one of the game's research trees (`unlockableitemtrees`): 84 station decorations `STA_*`, `CONTAINER1` to `CONTAINER9`, 11 freighter paints `FREIGHT_*`, `BUILDTABLE3`, `FRIGATE_FUEL_1` | yes, on request (added 2026-10-07) |
-| `not_in_catalogue` | 964 | Learnable, in neither the catalogue nor a research tree | no |
+| `customisation` | 263 | Learnable, hidden from the catalogue, named by a customisation table as what unlocks an option, banner, trail, texture or title ([customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md)) | on request; not sent yet |
+| `not_in_catalogue` | 701 | Learnable and none of the above | no |
 | `blocked_repeatable` | 18 | A repeatable purchase: the 14 consumable specials, the other `SPEC_FIREWORK` and `EXPD_FIREWORK` items | never |
 
 Hidden products, as first built: every product the catalogue hides was
@@ -102,7 +103,7 @@ changes there.
 - Result file `native-product-result-180836-<PID>.txt`: known count before
   and after and one line per ID.
 - Script `runtime/native/asi/signal/signal-product-180836.ps1` with
-  `-Id A[,B...]` or `-AllOfClass catalogue_item|catalogue_technology|catalogue_construction|research_tree`.
+  `-Id A[,B...]` or `-AllOfClass catalogue_item|catalogue_technology|catalogue_construction|research_tree|customisation`.
 
 ## Build (2026-10-07)
 
