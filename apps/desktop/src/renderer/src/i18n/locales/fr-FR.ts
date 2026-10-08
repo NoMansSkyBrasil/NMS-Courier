@@ -176,6 +176,8 @@ export const frFR: Messages = {
       'Les modifications du compte atteignent tous les emplacements de sauvegarde et sont synchronisées par le jeu.'
   },
   page: {
+    errorTitle: 'Cette page a cessé de fonctionner',
+    errorReload: 'Recharger',
     availabilityTitle: 'Pas encore disponible depuis cette fenêtre',
     availabilityBody:
       'Ceci a été réalisé avec le pont de recherche. La connexion de cette application au jeu est encore en construction ; rien ne peut être envoyé d’ici.',

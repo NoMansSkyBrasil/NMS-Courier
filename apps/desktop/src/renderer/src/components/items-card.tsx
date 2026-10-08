@@ -33,7 +33,7 @@ import { Input } from '@renderer/components/ui/input'
 import { GameIcon } from '@renderer/components/game-icon'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { Table, TableBody, TableCell, TableRow } from '@renderer/components/ui/table'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
 import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 

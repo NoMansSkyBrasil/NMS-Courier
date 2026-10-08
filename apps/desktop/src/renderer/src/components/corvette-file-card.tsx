@@ -12,7 +12,7 @@ import {
   CardTitle
 } from '@renderer/components/ui/card'
 import { Spinner } from '@renderer/components/ui/spinner'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 type Summary = Awaited<ReturnType<typeof window.nms.chooseCorvetteFile>>
 type Status = Awaited<ReturnType<typeof window.nms.getCorvetteLayout>>

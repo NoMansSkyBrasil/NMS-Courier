@@ -13,6 +13,21 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.8.1 (2026-10-08)
+
+Development only; nothing changes for a delivery.
+
+- Fix: after a code change the running development window often went blank
+  and had to be closed. Two causes: the main process and the preload were not
+  rebuilt while the page was (the page then called a method that did not
+  exist yet), and the locale module could not be refreshed in place because
+  it exported a component together with other things. `pnpm dev` now watches
+  the main process and the preload and restarts the application when they
+  change; the provider component has a file of its own
+  (`i18n/locale-provider.tsx`, everything else in `i18n/locale.ts`).
+- A page that fails now shows the failure and a reload button instead of a
+  blank window.
+
 ## Application 1.8.0 and bridge 1.6.0 (2026-10-08)
 
 - New: "Get a new one" for starships (fighter, hauler, explorer, shuttle,

@@ -21,7 +21,7 @@ import { Input } from '@renderer/components/ui/input'
 import { Skeleton } from '@renderer/components/ui/skeleton'
 import { GameIcon } from '@renderer/components/game-icon'
 import { Spinner } from '@renderer/components/ui/spinner'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 type Domain = 'substance' | 'product' | 'technology'
 type Status = Awaited<ReturnType<typeof window.nms.getCatalogStatus>>

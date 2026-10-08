@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import { Badge } from '@renderer/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import type { ScopeId, StatusId } from '@renderer/i18n/messages'
 
 const statusIcons = {

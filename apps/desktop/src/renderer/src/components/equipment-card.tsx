@@ -47,7 +47,7 @@ import {
 import { Input } from '@renderer/components/ui/input'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { Switch } from '@renderer/components/ui/switch'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId, SectionId } from '@renderer/i18n/messages'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>

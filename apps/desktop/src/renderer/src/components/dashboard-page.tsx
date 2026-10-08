@@ -17,7 +17,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
 import { featureGroups, featureHref } from '@renderer/features'
 import { useGameState } from '@renderer/hooks/use-game-state'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 // Items whose game icons decorate the hero; any that the catalogue does not hold is skipped.
 const heroItems = ['FUEL1', 'LAND1', 'OXYGEN', 'LAUNCHSUB', 'CASING', 'NANOTUBES', 'ASTEROID1']

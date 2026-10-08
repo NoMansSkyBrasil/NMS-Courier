@@ -177,6 +177,8 @@ export const nlNL: Messages = {
       'Accountwijzigingen bereiken elk saveslot en worden door het spel gesynchroniseerd.'
   },
   page: {
+    errorTitle: 'Deze pagina werkt niet meer',
+    errorReload: 'Opnieuw laden',
     availabilityTitle: 'Nog niet beschikbaar vanuit dit venster',
     availabilityBody:
       'Dit is gedaan via de onderzoeksbrug. De verbinding van deze applicatie met het spel wordt nog gebouwd, dus vanaf hier kan niets worden verzonden.',

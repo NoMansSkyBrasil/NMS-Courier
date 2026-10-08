@@ -163,6 +163,8 @@ export const enUS: Messages = {
     accountShared: 'Account changes reach every save slot and are synchronised by the game.'
   },
   page: {
+    errorTitle: 'This page stopped working',
+    errorReload: 'Reload',
     availabilityTitle: 'Not available from this window yet',
     availabilityBody:
       'This was done through the research bridge. The connection from this application to the game is still being built, so nothing can be sent from here.',

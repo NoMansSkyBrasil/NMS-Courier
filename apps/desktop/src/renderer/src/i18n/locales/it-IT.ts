@@ -175,6 +175,8 @@ export const itIT: Messages = {
       'Le modifiche all’account raggiungono tutti gli slot di salvataggio e vengono sincronizzate dal gioco.'
   },
   page: {
+    errorTitle: 'Questa pagina ha smesso di funzionare',
+    errorReload: 'Ricarica',
     availabilityTitle: 'Non ancora disponibile da questa finestra',
     availabilityBody:
       'Questo è stato fatto tramite il ponte di ricerca. La connessione di questa applicazione al gioco è ancora in costruzione, quindi da qui non si può inviare nulla.',

@@ -30,7 +30,7 @@ import {
 import { Spinner } from '@renderer/components/ui/spinner'
 import { DeliverySelection, type DeliveryOption } from '@renderer/components/delivery-selection'
 import type { Feature } from '@renderer/features'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
 import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 

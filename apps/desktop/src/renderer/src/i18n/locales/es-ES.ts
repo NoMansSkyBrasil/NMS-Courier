@@ -168,6 +168,8 @@ export const esES: Messages = {
       'Los cambios de la cuenta llegan a todas las ranuras de guardado y el juego los sincroniza.'
   },
   page: {
+    errorTitle: 'Esta página ha dejado de funcionar',
+    errorReload: 'Recargar',
     availabilityTitle: 'Aún no disponible desde esta ventana',
     availabilityBody:
       'Esto se hizo mediante el puente de investigación. La conexión de esta aplicación con el juego todavía se está construyendo, así que desde aquí no se puede enviar nada.',

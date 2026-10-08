@@ -1,4 +1,4 @@
-import type { Locale } from './locale-provider'
+import type { Locale } from './locale'
 
 // Each language is shown in its own name, whatever the interface language is.
 export const languageNames: Readonly<Record<Locale, string>> = {

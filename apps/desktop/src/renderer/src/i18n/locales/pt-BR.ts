@@ -168,6 +168,8 @@ export const ptBR: Messages = {
       'Alterações na conta chegam a todos os slots de save e são sincronizadas pelo jogo.'
   },
   page: {
+    errorTitle: 'Esta página parou de funcionar',
+    errorReload: 'Recarregar',
     availabilityTitle: 'Ainda não disponível nesta janela',
     availabilityBody:
       'Isto foi feito pela ponte de pesquisa. A conexão deste aplicativo com o jogo ainda está em construção, então nada pode ser enviado daqui.',

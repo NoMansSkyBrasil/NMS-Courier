@@ -153,6 +153,8 @@ export const zhCN: Messages = {
     accountShared: '账号更改会作用于所有存档栏位，并由游戏同步。'
   },
   page: {
+    errorTitle: '此页面已停止工作',
+    errorReload: '重新加载',
     availabilityTitle: '暂时无法从此窗口使用',
     availabilityBody:
       '这是通过研究用桥接完成的。本应用与游戏的连接仍在构建中，因此无法从这里发送任何内容。',

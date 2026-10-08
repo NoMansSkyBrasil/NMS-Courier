@@ -11,7 +11,7 @@ import { Separator } from '@renderer/components/ui/separator'
 import { SidebarTrigger } from '@renderer/components/ui/sidebar'
 import { featureFromHash } from '@renderer/features'
 import { useHashRoute } from '@renderer/hooks/use-hash-route'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 
 export function SiteHeader(): React.JSX.Element {
   const { copy } = useLocale()

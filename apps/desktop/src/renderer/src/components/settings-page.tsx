@@ -21,7 +21,7 @@ import {
 import { Switch } from '@renderer/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
 import { useNotifyPreference } from '@renderer/hooks/use-notify-preference'
-import { locales, useLocale, type Locale } from '@renderer/i18n/locale-provider'
+import { locales, useLocale, type Locale } from '@renderer/i18n/locale'
 
 export function SettingsPage(): React.JSX.Element {
   const { copy, locale, setLocale } = useLocale()

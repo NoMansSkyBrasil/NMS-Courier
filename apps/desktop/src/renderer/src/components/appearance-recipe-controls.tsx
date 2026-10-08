@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { bindAppearanceRecipe, type AppearanceRecipe } from '../../../shared/appearance-recipe'
 import type { PreviewColor } from '../../../shared/model-preview'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'

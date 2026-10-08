@@ -166,6 +166,8 @@ export const plPL: Messages = {
     accountShared: 'Zmiany konta trafiają do każdego slotu zapisu i są synchronizowane przez grę.'
   },
   page: {
+    errorTitle: 'Ta strona przestała działać',
+    errorReload: 'Wczytaj ponownie',
     availabilityTitle: 'Jeszcze niedostępne z tego okna',
     availabilityBody:
       'Wykonano to przez most badawczy. Połączenie tej aplikacji z grą jest wciąż budowane, więc stąd nie można niczego wysłać.',

@@ -2,7 +2,7 @@ import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 import { Button } from '@renderer/components/ui/button'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import {
   DropdownMenu,
   DropdownMenuContent,

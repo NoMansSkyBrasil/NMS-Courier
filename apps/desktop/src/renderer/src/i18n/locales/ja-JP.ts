@@ -163,6 +163,8 @@ export const jaJP: Messages = {
     accountShared: 'アカウントの変更はすべてのセーブスロットに反映され、ゲームが同期します。'
   },
   page: {
+    errorTitle: 'このページは動作を停止しました',
+    errorReload: '再読み込み',
     availabilityTitle: 'このウィンドウからはまだ利用できません',
     availabilityBody:
       'これは調査用ブリッジで実行したものです。このアプリケーションとゲームの接続はまだ開発中のため、ここからは何も送信できません。',

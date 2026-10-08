@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Color, LinearSRGBColorSpace } from 'three'
 import type { PalettePreview, PreviewColor } from '../../../shared/model-preview'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import type { PreviewPart } from './model-preview-canvas'
 import { Button } from './ui/button'
 import { Alert, AlertDescription } from './ui/alert'

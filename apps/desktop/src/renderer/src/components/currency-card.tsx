@@ -38,7 +38,7 @@ import {
   SelectValue
 } from '@renderer/components/ui/select'
 import { Spinner } from '@renderer/components/ui/spinner'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
 import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 

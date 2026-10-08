@@ -15,7 +15,7 @@ import {
 } from '@renderer/components/ui/sidebar'
 import { featureFromHash, featureGroups, featureHref, sectionFromHash } from '@renderer/features'
 import { useHashRoute } from '@renderer/hooks/use-hash-route'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): React.JSX.Element {
   const { copy } = useLocale()

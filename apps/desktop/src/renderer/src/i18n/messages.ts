@@ -126,6 +126,8 @@ export type Messages = {
   rows: Record<RowId, string>
   rules: Record<RuleId, string>
   page: {
+    errorTitle: string
+    errorReload: string
     availabilityTitle: string
     availabilityBody: string
     includes: string

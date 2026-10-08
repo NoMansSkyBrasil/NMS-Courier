@@ -2,7 +2,7 @@ import { Gamepad2Icon } from 'lucide-react'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@renderer/components/ui/sidebar'
 import { featureHref } from '@renderer/features'
 import { useGameState } from '@renderer/hooks/use-game-state'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 
 // Persistent footer: whether the game is running and which build it is. "Running" does not mean
 // that a delivery is possible; the bridge page explains the rest.

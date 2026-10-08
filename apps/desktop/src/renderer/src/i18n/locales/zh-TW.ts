@@ -153,6 +153,8 @@ export const zhTW: Messages = {
     accountShared: '帳號變更會套用到所有存檔欄位，並由遊戲同步。'
   },
   page: {
+    errorTitle: '此頁面已停止運作',
+    errorReload: '重新載入',
     availabilityTitle: '暫時無法從此視窗使用',
     availabilityBody:
       '這是透過研究用橋接完成的。本應用程式與遊戲的連線仍在建置中，因此無法從這裡傳送任何內容。',

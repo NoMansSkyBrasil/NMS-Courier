@@ -174,6 +174,8 @@ export const ptPT: Messages = {
       'As alterações na conta chegam a todos os slots de gravação e são sincronizadas pelo jogo.'
   },
   page: {
+    errorTitle: 'Esta página deixou de funcionar',
+    errorReload: 'Recarregar',
     availabilityTitle: 'Ainda não disponível nesta janela',
     availabilityBody:
       'Isto foi feito através da ponte de investigação. A ligação desta aplicação ao jogo ainda está em construção, pelo que nada pode ser enviado a partir daqui.',

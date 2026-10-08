@@ -179,6 +179,8 @@ export const deDE: Messages = {
       'Kontoänderungen erreichen alle Speicherplätze und werden vom Spiel synchronisiert.'
   },
   page: {
+    errorTitle: 'Diese Seite funktioniert nicht mehr',
+    errorReload: 'Neu laden',
     availabilityTitle: 'In diesem Fenster noch nicht verfügbar',
     availabilityBody:
       'Dies wurde über die Forschungsbrücke durchgeführt. Die Verbindung dieser Anwendung zum Spiel wird noch gebaut, daher kann von hier nichts gesendet werden.',

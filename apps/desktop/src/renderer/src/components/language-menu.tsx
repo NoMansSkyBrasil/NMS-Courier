@@ -1,7 +1,7 @@
 import { CheckIcon, LanguagesIcon } from 'lucide-react'
 
 import { languageNames } from '@renderer/i18n/language-names'
-import { locales, useLocale } from '@renderer/i18n/locale-provider'
+import { locales, useLocale } from '@renderer/i18n/locale'
 import { Button } from '@renderer/components/ui/button'
 import {
   DropdownMenu,

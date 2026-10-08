@@ -12,6 +12,8 @@ import { Skeleton } from '@renderer/components/ui/skeleton'
 import { TooltipProvider } from '@renderer/components/ui/tooltip'
 import { featureFromHash, sectionFromHash } from '@renderer/features'
 import { useHashRoute } from '@renderer/hooks/use-hash-route'
+import { PageErrorBoundary } from '@renderer/components/page-error-boundary'
+import { useLocale } from '@renderer/i18n/locale'
 import { LocaleProvider } from '@renderer/i18n/locale-provider'
 import { lazy, Suspense } from 'react'
 
@@ -40,6 +42,20 @@ function Workspace(): React.JSX.Element {
   return <FeaturePage feature={feature} section={sectionFromHash(hash, feature)} />
 }
 
+// A page that fails shows the failure instead of a blank window; going to another page clears it.
+function GuardedWorkspace(): React.JSX.Element {
+  const { copy } = useLocale()
+  return (
+    <PageErrorBoundary
+      key={useHashRoute()}
+      title={copy.page.errorTitle}
+      action={copy.page.errorReload}
+    >
+      <Workspace />
+    </PageErrorBoundary>
+  )
+}
+
 function App(): React.JSX.Element {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -58,7 +74,7 @@ function App(): React.JSX.Element {
               <SiteHeader />
               <div className="flex flex-1 flex-col">
                 <div className="@container/main flex flex-1 flex-col gap-2">
-                  <Workspace />
+                  <GuardedWorkspace />
                 </div>
               </div>
             </SidebarInset>

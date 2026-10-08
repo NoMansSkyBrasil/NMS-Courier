@@ -15,7 +15,7 @@ import {
   SidebarMenuSubItem
 } from '@renderer/components/ui/sidebar'
 import { featureHref, type Feature } from '@renderer/features'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import type { GroupId } from '@renderer/i18n/messages'
 
 // One group of the sidebar. An area with sections (getting a new one, upgrading the one you own)

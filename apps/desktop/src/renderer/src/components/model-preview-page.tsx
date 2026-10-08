@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { BoxIcon, FolderOpenIcon } from 'lucide-react'
 import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
 import { AppearanceRecipeControls } from './appearance-recipe-controls'

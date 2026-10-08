@@ -32,7 +32,7 @@ import {
 } from '@renderer/components/ui/table'
 import { researchBuild, type Feature } from '@renderer/features'
 import type { SectionId } from '@renderer/i18n/messages'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 // One area of the application: what it changes, how far it is proven, what it covers and the rules
 // it always follows. Nothing is sent from here; the page states that plainly.

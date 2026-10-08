@@ -24,7 +24,7 @@ import {
   TableRow
 } from '@renderer/components/ui/table'
 import { featureHref, features } from '@renderer/features'
-import { useLocale } from '@renderer/i18n/locale-provider'
+import { useLocale } from '@renderer/i18n/locale'
 import type { FeatureId } from '@renderer/i18n/messages'
 
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.getDeliveryActivity>>[number]

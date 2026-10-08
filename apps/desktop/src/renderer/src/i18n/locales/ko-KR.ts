@@ -158,6 +158,8 @@ export const koKR: Messages = {
     accountShared: '계정 변경은 모든 세이브 슬롯에 적용되며 게임이 동기화합니다.'
   },
   page: {
+    errorTitle: '이 페이지가 작동을 멈췄습니다',
+    errorReload: '새로 고침',
     availabilityTitle: '이 창에서는 아직 사용할 수 없습니다',
     availabilityBody:
       '이 작업은 연구용 브리지로 수행했습니다. 이 애플리케이션과 게임의 연결은 아직 개발 중이므로 여기서는 아무것도 보낼 수 없습니다.',

@@ -1,6 +1,6 @@
 {
   "name": "@nms-courier/desktop",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "NMS Courier desktop application",
   "main": "./out/main/index.js",
   "author": "NMS Courier contributors",
@@ -12,7 +12,7 @@
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "pnpm run typecheck:node && pnpm run typecheck:web",
     "start": "electron-vite preview",
-    "dev": "electron-vite dev",
+    "dev": "electron-vite dev --watch",
     "build": "pnpm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "test": "vitest run",

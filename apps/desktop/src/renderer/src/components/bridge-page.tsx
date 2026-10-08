@@ -12,7 +12,7 @@ import {
 } from '@renderer/components/ui/card'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { useGameState } from '@renderer/hooks/use-game-state'
-import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 type Installation = Awaited<ReturnType<typeof window.nms.getInstallationStatus>>
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
