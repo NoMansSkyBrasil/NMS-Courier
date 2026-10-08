@@ -66,6 +66,38 @@ No row is a supported capability of the currently installed build 180836.
   [entity seed flow](ENTITY_APPEARANCE_SEED_FLOW.md).
 - Seeds are entered as up to 16 hexadecimal digits and zero is replaced by 1.
 
+## What the reference shows about delivery to another player (owner's screenshots, 2026-10-07)
+
+The owner supplied six screenshots of the reference client's service pages
+and pointed out that they settle one question: **delivery to a player who
+has nothing installed exists and is in public use.** What is unknown is how
+it is done, not whether it can be. Courier's network-player target is still
+not started and nothing below has been reproduced by us.
+
+Read from the page text only:
+
+| Service | What the page states | What it tells us |
+| --- | --- | --- |
+| Service list | "All Platforms including Consoles": location transfer, item delivery, corvette, ship, pet egg, fabricator parts, universal unlocker, packaged technology, base building, freighter and frigate, spawner, mission starter, byte beat, planet finder, sharing. "Only Switch 2 (time limited until game version 7.05)": expedition reward unlocker, multitool delivery, units, nanites and quicksilver, quick actions, scan, universal unlocker legacy | Most services work against an unmodified client on every platform; a second group depends on something a game version removes, so the game has been closing some routes |
+| Expedition reward and blueprint unlocker | Unlocks expedition rewards "accountwide in all your saves at once"; rewards then appear in the Quicksilver shop or directly in the customiser; technology and product recipes "are unlocked directly"; the bot joins the game and takes under a minute; one request per reward | The recipient's own game performs an account-level unlock when told to by the session. This is the opposite scope of a console save editor and matches the account lists we mapped |
+| Universal unlocker | Maximum standing with each race and guild; fishing helmets, tanks and floats ("changes your fishing stats", and "due to an HG game bug" available in only one save); trucking titles and Colossus modules; arena league eggs | Statistics-driven unlocks are delivered by changing the recipient's statistics, which is also how titles would be reached |
+| Packaged technology delivery | The player waits at the Egg Sequencer, the bot joins, the player puts any item into one of its four slots, the bot leaves, the player reopens the sequencer; the packaged technology is then in the inventory; procedural technology needs a save and reload | Items reach the recipient through an in-game container that is synchronised between players, not through a trade window |
+| Mission starter | Starts any of the 1,700 or more missions; multiplayer missions become active on the Nexus terminal | Mission state is something a session peer can set |
+| Location transfer | The player waits in the ship in the Anomaly; on leaving, the game offers "Service Bot's current system" | Uses the game's own join-a-traveller warp |
+
+Consequences for Courier, as readings to test and not as facts:
+
+- The recipient's game runs its own reward and unlock routines in response
+  to something sent in the session. The routines we call locally today
+  (`f44010`, `5ab380`, `5aafd0`, the learn routines) are probably the same
+  ones that end up running on the recipient's side.
+- So the study to open the network target is: which multiplayer messages
+  make a peer run a reward, and how a synchronised container hands over
+  items. Start from the game's network message handlers that lead to the
+  reward handler.
+- The "Switch 2 only until 7.05" group shows such routes get closed by
+  updates; whatever we find must be pinned to an exact build like the rest.
+
 ## Delivery defaults requested by the user
 
 Stated on 2026-10-06: an entity should arrive with the chosen class (S when not

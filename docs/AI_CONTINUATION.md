@@ -183,6 +183,12 @@ offline:
     and in the automatic save (274 known specials). Titles: only an account
     list is known; a slot route would go through statistics.
 
+24. *Network-player delivery, evidence only (2026-10-07).* The owner showed
+    that the reference service delivers to unmodified clients, account-wide;
+    see "What the reference shows about delivery to another player" in the
+    [reference feature catalog](REFERENCE_FEATURE_CATALOG.md). Not started;
+    the first study is which multiplayer messages make a peer run a reward.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.
