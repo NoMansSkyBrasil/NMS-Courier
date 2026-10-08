@@ -1,5 +1,6 @@
 import { CheckIcon, InfoIcon } from 'lucide-react'
 import { DeliveryCard } from '@renderer/components/delivery-card'
+import { ItemsCard } from '@renderer/components/items-card'
 import { ScopeBadge, StatusBadge } from '@renderer/components/feature-badges'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import { Badge } from '@renderer/components/ui/badge'
@@ -63,7 +64,9 @@ export function FeaturePage({ feature }: { feature: Feature }): React.JSX.Elemen
           <CardDescription>{text.summary}</CardDescription>
         </CardHeader>
       </Card>
-      {feature.wired ? (
+      {feature.id === 'items' ? (
+        <ItemsCard />
+      ) : feature.wired ? (
         <DeliveryCard key={feature.id} feature={feature} />
       ) : (
         feature.kind === 'delivery' && (

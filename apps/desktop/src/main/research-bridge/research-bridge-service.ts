@@ -7,6 +7,10 @@ import type { GameProcessStatus } from '../game-status-service'
 import {
   classifyStepOutput,
   getDeliveryPlan,
+  getItemPlan,
+  withNotifications,
+  type DeliveryPlan,
+  type ItemRequest,
   summariseStepOutput,
   testedBridgeSha256,
   type DeliveryFeatureId,
@@ -32,7 +36,7 @@ export type DeliveryStepResult = {
 }
 
 export type DeliveryResult = {
-  feature: DeliveryFeatureId
+  feature: DeliveryFeatureId | 'items'
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
   reason: ResearchBridgeStatus['state'] | 'busy' | 'backup_failed' | 'selection_invalid' | null
@@ -117,7 +121,30 @@ export class ResearchBridgeService {
     installationRoot: string | null,
     game: GameProcessStatus,
     // Chosen entries; without them the whole area is sent.
-    chosen: readonly string[] | null = null
+    chosen: readonly string[] | null = null,
+    // Let the game show its own notifications where the routine has them.
+    notify = true
+  ): Promise<DeliveryResult> {
+    const plan = chosen
+      ? getSelectionPlan(feature, chosen, await this.getOptions(feature))
+      : getDeliveryPlan(feature)
+    return this.run(feature, plan && withNotifications(plan, notify), installationRoot, game)
+  }
+
+  // Substances and products for the exosuit cargo of the loaded slot.
+  deliverItems(
+    items: readonly ItemRequest[],
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run('items', getItemPlan(items), installationRoot, game)
+  }
+
+  private async run(
+    feature: DeliveryResult['feature'],
+    plan: DeliveryPlan | null,
+    installationRoot: string | null,
+    game: GameProcessStatus
   ): Promise<DeliveryResult> {
     const result: DeliveryResult = {
       feature,
@@ -134,9 +161,6 @@ export class ResearchBridgeService {
       if (status.state !== 'ready' || !installationRoot || !status.bridgeSha256) {
         return this.record({ ...result, reason: status.state })
       }
-      const plan = chosen
-        ? getSelectionPlan(feature, chosen, await this.getOptions(feature))
-        : getDeliveryPlan(feature)
       if (!plan) return this.record({ ...result, reason: 'selection_invalid' })
       result.backupPath = await this.backUp(feature, installationRoot, plan.changesAccount)
       if (!result.backupPath) return this.record({ ...result, reason: 'backup_failed' })
@@ -174,7 +198,7 @@ export class ResearchBridgeService {
 
   // The whole save folder before every change; the user settings file too before an account change.
   private async backUp(
-    feature: DeliveryFeatureId,
+    feature: string,
     installationRoot: string,
     withSettings: boolean
   ): Promise<string | null> {

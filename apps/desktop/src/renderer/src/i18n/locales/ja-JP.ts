@@ -178,6 +178,9 @@ export const jaJP: Messages = {
     processId: 'プロセス {id}'
   },
   settings: {
+    notifications: 'ゲームの通知',
+    notificationsHint:
+      '配信内容について、ゲーム自身の通知がある場合は表示します。オフにすると通知なしで配信します。インベントリの拡張で確認を求められることはありません。',
     general: '一般',
     appearance: '外観',
     about: '情報',
@@ -190,6 +193,16 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    itemsTitle: 'アイテムをゲームに送信',
+    itemsHint:
+      '物質と製品は、読み込み中のセーブのエクソスーツの貨物に、ゲームが許可するスタックサイズで入ります。入りきらない分は送信されません。',
+    itemsAdd: '追加',
+    itemsAmount: '数量',
+    itemsRemove: '削除',
+    itemsEmpty: 'カタログを検索して、送信するアイテムを追加してください。',
+    itemsAction: 'アイテムを送信（{count}）',
+    itemsConfirm:
+      'アイテムは、現在読み込まれているセーブのエクソスーツの貨物に入ります。先にセーブフォルダーがバックアップされます。変更はゲームがセーブしたときに書き込まれます。',
     selectTitle: '送信する項目を選択',
     selectHint: '1 件、複数、またはすべてを選択できます。選択した項目だけが送信されます。',
     selectSearch: '名前または ID で検索',

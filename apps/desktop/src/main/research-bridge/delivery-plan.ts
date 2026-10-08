@@ -8,7 +8,10 @@ export const researchBridgeGameSha256 =
 
 // Profile DLLs the steps below were exercised against. Anything else installed is refused.
 export const testedBridgeSha256: readonly string[] = [
-  '6ad12b1caa2bfa94f6b4ca1bdcce0628b8d1b383cd03afa5e4056fe8324027fc'
+  '6ad12b1caa2bfa94f6b4ca1bdcce0628b8d1b383cd03afa5e4056fe8324027fc',
+  // 2026-10-08: adds the item request and the notification option of product recipes. The other
+  // requests are unchanged source; the item request itself has not been exercised live yet.
+  '22f1637a46b8842bb9400b6594729a20a86a1ace4b18c73fd202d153fd48ac2f'
 ]
 
 export const deliveryFeatureIds = [
@@ -94,6 +97,48 @@ const plans: Readonly<Record<DeliveryFeatureId, DeliveryPlan>> = {
   platform: {
     changesAccount: true,
     steps: [{ script: 'signal-account-180836.ps1', args: ['-AllOfKind', 'platform'] }, keepRewards]
+  }
+}
+
+// Scripts whose game routine can show the game's own notification for each entry.
+const alertScripts: readonly string[] = [
+  'signal-technology-180836.ps1',
+  'signal-product-180836.ps1'
+]
+
+// The same plan with the game's notifications switched on where a routine has them.
+export function withNotifications(plan: DeliveryPlan, notify: boolean): DeliveryPlan {
+  if (!notify) return plan
+  return {
+    ...plan,
+    steps: plan.steps.map((step) =>
+      alertScripts.includes(step.script) ? { ...step, args: [...step.args, '-ShowAlert'] } : step
+    )
+  }
+}
+
+export type ItemRequest = { id: string; amount: number }
+
+// Items for the exosuit cargo of the loaded slot, or null when the request is not well formed.
+export function getItemPlan(items: readonly ItemRequest[]): DeliveryPlan | null {
+  const ids = new Set(items.map((item) => item.id))
+  if (items.length < 1 || items.length > 32 || ids.size !== items.length) return null
+  const valid = items.every(
+    (item) =>
+      /^[A-Z0-9_]{1,15}$/.test(item.id) &&
+      Number.isInteger(item.amount) &&
+      item.amount >= 1 &&
+      item.amount <= 999999
+  )
+  if (!valid) return null
+  return {
+    changesAccount: false,
+    steps: [
+      {
+        script: 'signal-item-180836.ps1',
+        args: ['-Item', items.map((item) => `${item.id}=${item.amount}`).join(',')]
+      }
+    ]
   }
 }
 

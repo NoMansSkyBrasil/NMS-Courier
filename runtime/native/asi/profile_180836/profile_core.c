@@ -19,6 +19,7 @@
 //   reward_redeem.h                rewards: redeem season, Twitch and platform rewards in the slot
 //   fish_record.h                  fish: fill the slot's fishing record
 //   product_learn.h                products: learn product recipes in the slot
+//   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -74,9 +75,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "fish_record.h"
 #include "product_learn.h"
 #include "account_unlock.h"
+#include "item_give.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 15)
+#define EVENT_COUNT (CLASS_COUNT + 16)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -131,6 +133,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&fish_state, 0, 0) == 1) fish_apply_request();
     if (InterlockedCompareExchange(&product_state, 0, 0) == 1) product_apply_request();
     if (InterlockedCompareExchange(&account_state, 0, 0) == 1) account_apply_request();
+    if (InterlockedCompareExchange(&item_state, 0, 0) == 1) item_apply_request();
     account_keep_tick();
     if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) dispatch_requested_reward();
@@ -253,7 +256,8 @@ static int resolve_targets(void) {
            memcmp((void *)(base + STAT_GENERATOR_RVA), statgen_entry, sizeof(statgen_entry)) == 0 &&
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
-           reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base);
+           reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base) &&
+           item_resolve(base);
 #endif
 }
 
@@ -261,7 +265,7 @@ void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
-                                                     L"account", L"keep"};
+                                                     L"account", L"keep", L"item"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -305,6 +309,7 @@ void courier_probe_after_verified(void) {
         fish_write_result();
         product_write_result();
         account_write_result();
+        item_write_result();
         account_keep_write_status();
         if (signaled == WAIT_TIMEOUT) { waited += 2; write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK); continue; }
         if (signaled >= WAIT_OBJECT_0 + EVENT_COUNT) { write_status("event_wait_failed", MH_ERROR_UNSUPPORTED_FUNCTION); break; }
@@ -356,6 +361,10 @@ void courier_probe_after_verified(void) {
         }
         // The keep list was rewritten: load it again. The update thread reads it without a lock, so stop
         // the keeper first and give a running pass time to end.
+        else if (index == CLASS_COUNT + 15) {
+            if (item_read_request()) InterlockedExchange(&item_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
         else if (index == CLASS_COUNT + 14) {
             InterlockedExchange(&account_keep_count, 0);
             Sleep(200);

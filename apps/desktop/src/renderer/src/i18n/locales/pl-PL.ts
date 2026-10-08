@@ -182,6 +182,9 @@ export const plPL: Messages = {
     processId: 'Proces {id}'
   },
   settings: {
+    notifications: 'Powiadomienia gry',
+    notificationsHint:
+      'Pozwala grze pokazywać własne powiadomienie o tym, co zostało dostarczone, jeśli takie istnieje. Wyłącz, aby dostarczać po cichu. Ulepszenia ekwipunku nigdy nie proszą o potwierdzenie.',
     general: 'Ogólne',
     appearance: 'Wygląd',
     about: 'Informacje',
@@ -194,6 +197,16 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    itemsTitle: 'Wyślij przedmioty do gry',
+    itemsHint:
+      'Substancje i produkty trafiają do ładowni egzokombinezonu wczytanego zapisu, w stosach o rozmiarze dozwolonym przez grę. To, co się nie zmieści, nie jest wysyłane.',
+    itemsAdd: 'Dodaj',
+    itemsAmount: 'Ilość',
+    itemsRemove: 'Usuń',
+    itemsEmpty: 'Wyszukaj w katalogu i dodaj przedmioty do wysłania.',
+    itemsAction: 'Wyślij przedmioty ({count})',
+    itemsConfirm:
+      'Przedmioty są umieszczane w ładowni egzokombinezonu aktualnie wczytanego zapisu. Najpierw tworzona jest kopia zapasowa folderu zapisów. Zmiana zostanie zapisana, gdy gra zapisze stan.',
     selectTitle: 'Wybierz, co wysłać',
     selectHint: 'Zaznacz jeden wpis, kilka lub wszystkie. Wysyłane są tylko wybrane wpisy.',
     selectSearch: 'Szukaj po nazwie lub ID',

@@ -191,6 +191,9 @@ export const frFR: Messages = {
     processId: 'Processus {id}'
   },
   settings: {
+    notifications: 'Notifications du jeu',
+    notificationsHint:
+      'Laisse le jeu afficher sa propre notification pour ce qui est livré, lorsqu’il en a une. Désactivez pour livrer en silence. Les améliorations d’inventaire ne demandent jamais de confirmation.',
     general: 'Général',
     appearance: 'Apparence',
     about: 'À propos',
@@ -203,6 +206,16 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    itemsTitle: 'Envoyer des objets au jeu',
+    itemsHint:
+      'Les substances et les produits vont dans la soute de l’exocombinaison de la sauvegarde chargée, en piles de la taille autorisée par le jeu. Ce qui ne rentre pas n’est pas envoyé.',
+    itemsAdd: 'Ajouter',
+    itemsAmount: 'Quantité',
+    itemsRemove: 'Retirer',
+    itemsEmpty: 'Recherchez dans le catalogue et ajoutez les objets à envoyer.',
+    itemsAction: 'Envoyer les objets ({count})',
+    itemsConfirm:
+      'Les objets sont placés dans la soute de l’exocombinaison de la sauvegarde chargée actuellement. Le dossier des sauvegardes est d’abord copié. La modification est écrite dans la sauvegarde lorsque le jeu sauvegarde.',
     selectTitle: 'Choisissez ce qui est envoyé',
     selectHint:
       'Cochez une entrée, plusieurs ou toutes. Seules les entrées choisies sont envoyées.',

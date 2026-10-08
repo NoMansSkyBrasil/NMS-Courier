@@ -173,6 +173,9 @@ export const koKR: Messages = {
     processId: '프로세스 {id}'
   },
   settings: {
+    notifications: '게임 알림',
+    notificationsHint:
+      '전달된 항목에 대해 게임 자체 알림이 있으면 표시합니다. 끄면 알림 없이 전달합니다. 인벤토리 업그레이드는 확인을 요구하지 않습니다.',
     general: '일반',
     appearance: '화면 모양',
     about: '정보',
@@ -185,6 +188,16 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    itemsTitle: '게임으로 아이템 보내기',
+    itemsHint:
+      '물질과 제품은 불러온 저장 데이터의 엑소슈트 화물칸에, 게임이 허용하는 묶음 크기로 들어갑니다. 들어가지 않는 것은 전송되지 않습니다.',
+    itemsAdd: '추가',
+    itemsAmount: '수량',
+    itemsRemove: '제거',
+    itemsEmpty: '카탈로그에서 검색하여 보낼 아이템을 추가하세요.',
+    itemsAction: '아이템 보내기 ({count})',
+    itemsConfirm:
+      '아이템은 지금 불러온 저장 데이터의 엑소슈트 화물칸에 들어갑니다. 먼저 저장 폴더가 백업됩니다. 변경 사항은 게임이 저장할 때 기록됩니다.',
     selectTitle: '보낼 항목 선택',
     selectHint: '하나, 여러 개 또는 전체를 선택하세요. 선택한 항목만 전송됩니다.',
     selectSearch: '이름 또는 ID로 검색',

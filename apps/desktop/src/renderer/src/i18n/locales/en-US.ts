@@ -177,6 +177,9 @@ export const enUS: Messages = {
     processId: 'Process {id}'
   },
   settings: {
+    notifications: 'Game notifications',
+    notificationsHint:
+      'Let the game show its own notification for what is delivered, where it has one. Turn off to deliver silently. Inventory upgrades never ask for confirmation.',
     general: 'General',
     appearance: 'Appearance',
     about: 'About',
@@ -189,6 +192,16 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    itemsTitle: 'Send items to the game',
+    itemsHint:
+      'Substances and products go into the exosuit cargo of the loaded save, in stacks of the size the game allows. What does not fit is not sent.',
+    itemsAdd: 'Add',
+    itemsAmount: 'Amount',
+    itemsRemove: 'Remove',
+    itemsEmpty: 'Search the catalogue and add the items to send.',
+    itemsAction: 'Send items ({count})',
+    itemsConfirm:
+      'The items are placed in the exosuit cargo of the save that is loaded now. The save folder is backed up first. The change is written to the save when the game saves.',
     selectTitle: 'Choose what to send',
     selectHint: 'Pick one entry, several or all of them. Only the chosen entries are sent.',
     selectSearch: 'Search by name or ID',

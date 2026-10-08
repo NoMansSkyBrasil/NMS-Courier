@@ -18,13 +18,16 @@ import {
   SelectTrigger,
   SelectValue
 } from '@renderer/components/ui/select'
+import { Switch } from '@renderer/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
+import { useNotifyPreference } from '@renderer/hooks/use-notify-preference'
 import { locales, useLocale, type Locale } from '@renderer/i18n/locale-provider'
 
 export function SettingsPage(): React.JSX.Element {
   const { copy, locale, setLocale } = useLocale()
   const { theme, setTheme } = useTheme()
   const text = copy.settings
+  const [notify, setNotify] = useNotifyPreference()
   const themes = [
     { value: 'system', label: copy.controls.system },
     { value: 'light', label: copy.controls.light },
@@ -67,6 +70,13 @@ export function SettingsPage(): React.JSX.Element {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+                </Field>
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldLabel htmlFor="settings-notify">{text.notifications}</FieldLabel>
+                    <FieldDescription>{text.notificationsHint}</FieldDescription>
+                  </FieldContent>
+                  <Switch id="settings-notify" checked={notify} onCheckedChange={setNotify} />
                 </Field>
               </FieldGroup>
             </CardContent>

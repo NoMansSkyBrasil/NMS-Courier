@@ -169,6 +169,9 @@ export const zhTW: Messages = {
     processId: '處理程序 {id}'
   },
   settings: {
+    notifications: '遊戲通知',
+    notificationsHint:
+      '對於交付的內容，如果遊戲有自己的通知，就讓它顯示。關閉後將靜默交付。物品欄升級從不要求確認。',
     general: '一般',
     appearance: '外觀',
     about: '關於',
@@ -180,6 +183,16 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    itemsTitle: '向遊戲傳送物品',
+    itemsHint:
+      '物質和產品會放入已載入存檔的外骨骼裝貨艙，依遊戲允許的堆疊數量存放。放不下的部分不會傳送。',
+    itemsAdd: '新增',
+    itemsAmount: '數量',
+    itemsRemove: '移除',
+    itemsEmpty: '在目錄中搜尋並新增要傳送的物品。',
+    itemsAction: '傳送物品（{count}）',
+    itemsConfirm:
+      '物品會放入目前已載入存檔的外骨骼裝貨艙。傳送前會先備份存檔資料夾。遊戲儲存時變更才會寫入存檔。',
     selectTitle: '選擇要傳送的內容',
     selectHint: '可以勾選一個、多個或全部項目。只會傳送所選項目。',
     selectSearch: '依名稱或 ID 搜尋',

@@ -1,5 +1,32 @@
 # Runtime experiment log
 
+## 2026-10-08: item request and notification option built, not sent
+
+Offline analysis and a build; the game was not running and nothing was sent.
+Build 180836, executable `13d5060d...3499`. Owning note:
+[item delivery notes](ITEM_DELIVERY_NOTES.md).
+
+- Found the store add routine of 180836 at `0x4d0780` by the unique 32-byte
+  entry of the 179666 routine, and through its caller `0x4ce7a0` the game's
+  own way to build an element: substance lookup `0xebbf70`, product lookup
+  `0xec9ba0`, stack limits `0x4d43c0` and `0x4d4420`, element initialiser
+  `0x2a3aa80`.
+- New profile DLL `22f1637a46b8842bb9400b6594729a20a86a1ace4b18c73fd202d153fd48ac2f`
+  (source: `profile_180836/item_give.h`, `product_learn.h` with the optional
+  `silent=0` line) installed in the game folder; the previous
+  `6ad12b1c...27fc` is kept in
+  `E:\NMS-Courier-Research\native-builds\item-20261008\replaced`. Mods and
+  data patches: none changed.
+- Technology and recipe guard fixtures pass. The profile fixture fails with
+  code 5 before and after this change, because the real keep list in the
+  diagnostics folder enables the hooks at start; not caused by this change.
+- Application: Items page and "Game notifications" setting; 71 unit tests
+  pass.
+- Not proven: everything live. The item request has never run in the game;
+  the new DLL has not been started in the game at all yet. Currencies remain
+  open.
+- Undo: copy the kept DLL back over `Binaries\xinput9_1_0.dll`.
+
 ## 2026-10-08: per-entry selection in the application
 
 Application only; nothing sent to the game. The delivery card of seven areas

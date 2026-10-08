@@ -194,6 +194,9 @@ export const deDE: Messages = {
     processId: 'Prozess {id}'
   },
   settings: {
+    notifications: 'Benachrichtigungen des Spiels',
+    notificationsHint:
+      'Lässt das Spiel seine eigene Benachrichtigung für Geliefertes anzeigen, sofern es eine gibt. Ausschalten, um still zu liefern. Inventarerweiterungen fragen nie nach einer Bestätigung.',
     general: 'Allgemein',
     appearance: 'Darstellung',
     about: 'Info',
@@ -206,6 +209,16 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    itemsTitle: 'Gegenstände an das Spiel senden',
+    itemsHint:
+      'Substanzen und Produkte kommen in die Fracht des Exo-Anzugs des geladenen Spielstands, in Stapeln der vom Spiel erlaubten Größe. Was nicht hineinpasst, wird nicht gesendet.',
+    itemsAdd: 'Hinzufügen',
+    itemsAmount: 'Menge',
+    itemsRemove: 'Entfernen',
+    itemsEmpty: 'Durchsuche den Katalog und füge die zu sendenden Gegenstände hinzu.',
+    itemsAction: 'Gegenstände senden ({count})',
+    itemsConfirm:
+      'Die Gegenstände werden in die Fracht des Exo-Anzugs des gerade geladenen Spielstands gelegt. Vorher wird der Spielstandordner gesichert. Die Änderung wird in den Spielstand geschrieben, wenn das Spiel speichert.',
     selectTitle: 'Auswählen, was gesendet wird',
     selectHint:
       'Wähle einen Eintrag, mehrere oder alle. Nur die gewählten Einträge werden gesendet.',

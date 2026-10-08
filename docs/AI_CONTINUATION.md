@@ -1,5 +1,13 @@
 # AI continuation guide
 
+> Checkpoint 2026-10-08 (items): the profile DLL `22f1637a...ac2f` is
+> installed and adds an untested item request; see
+> [item delivery notes](ITEM_DELIVERY_NOTES.md). Next: with the game on slot 3,
+> run `signal-item-180836.ps1 -PreflightOnly`, then `-Item FUEL1=500,CASING=10`
+> once, and record what the cargo shows. Then currencies (routine behind the
+> money reward). Per-entry selection and the notification setting are in the
+> application but have not been used live from it.
+
 > Checkpoint 2026-10-08 (catalogue): the application reads the core catalogue
 > from the user's own installation with its own archive and table readers; see
 > [data and catalog, section 4a](DATA_AND_CATALOG.md#4a-implemented-native-import-of-the-core-catalogue).

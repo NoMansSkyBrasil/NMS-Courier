@@ -6,6 +6,7 @@ import {
   parseMarkdownRows,
   supportsSelection
 } from './delivery-options'
+import { getDeliveryPlan, getItemPlan, withNotifications } from './delivery-plan'
 
 const research = join(__dirname, '..', '..', '..', '..', '..', 'runtime', 'research')
 
@@ -48,5 +49,39 @@ describe('delivery options', () => {
     expect(getSelectionPlan('titles', [first, 'NOT_LISTED'], options)).toBeNull()
     expect(getSelectionPlan('titles', ["A'; Remove-Item x"], options)).toBeNull()
     expect(getSelectionPlan('fishing', ['ANY'], [])).toBeNull()
+  })
+})
+
+describe('item and notification plans', () => {
+  it('builds one item request and refuses malformed ones', () => {
+    expect(
+      getItemPlan([
+        { id: 'FUEL1', amount: 500 },
+        { id: 'CASING', amount: 10 }
+      ])
+    ).toEqual({
+      changesAccount: false,
+      steps: [{ script: 'signal-item-180836.ps1', args: ['-Item', 'FUEL1=500,CASING=10'] }]
+    })
+    expect(getItemPlan([])).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 0 }])).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 1.5 }])).toBeNull()
+    expect(getItemPlan([{ id: 'FUEL1', amount: 1000000 }])).toBeNull()
+    expect(getItemPlan([{ id: 'fuel1; x', amount: 1 }])).toBeNull()
+    expect(
+      getItemPlan([
+        { id: 'FUEL1', amount: 1 },
+        { id: 'FUEL1', amount: 2 }
+      ])
+    ).toBeNull()
+  })
+
+  it('asks for the game notification only where a routine has one', () => {
+    const technologies = withNotifications(getDeliveryPlan('technologies'), true)
+    expect(technologies.steps[0].args).toEqual(['-All', '-ShowAlert'])
+    expect(withNotifications(getDeliveryPlan('technologies'), false).steps[0].args).toEqual([
+      '-All'
+    ])
+    expect(withNotifications(getDeliveryPlan('titles'), true)).toEqual(getDeliveryPlan('titles'))
   })
 })

@@ -32,6 +32,7 @@ import { DeliverySelection, type DeliveryOption } from '@renderer/components/del
 import type { Feature } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
+import { readNotifyPreference } from '@renderer/hooks/use-notify-preference'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliver>>
@@ -89,9 +90,11 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
     setSending(true)
     try {
       setResult(
-        await (mode === 'chosen'
-          ? window.nms.deliver(feature.id, [...chosen])
-          : window.nms.deliver(feature.id))
+        await window.nms.deliver(
+          feature.id,
+          mode === 'chosen' ? [...chosen] : undefined,
+          readNotifyPreference()
+        )
       )
     } finally {
       setSending(false)

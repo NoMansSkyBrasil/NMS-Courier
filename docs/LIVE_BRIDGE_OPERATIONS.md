@@ -1,5 +1,13 @@
 # How the research bridge applies changes to the running game
 
+> **Items and notifications (2026-10-08).** Installed profile DLL:
+> `22f1637a46b8842bb9400b6594729a20a86a1ace4b18c73fd202d153fd48ac2f`. New
+> request `item` (script `signal-item-180836.ps1`): native calls only, the
+> game's store add routine for the exosuit cargo of the loaded slot; untested
+> live, see [item delivery notes](ITEM_DELIVERY_NOTES.md). Product requests
+> accept `-ShowAlert` (the game's own notification); without it they stay
+> silent as before.
+
 > **From the desktop application (2026-10-08).** In a development checkout the application can send
 > the eleven verified areas itself: its main process runs the same signal scripts described below,
 > after its own check of the game process and the installed DLL hash and after copying the save

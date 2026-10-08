@@ -44,6 +44,8 @@ static char product_ids[PRODUCT_REQUEST_CAPACITY][16];
 static volatile LONG product_results[PRODUCT_REQUEST_CAPACITY];
 static volatile LONG product_count;
 static volatile LONG product_state;        // 0 idle, 1 requested, 2 applied and waiting for the result file
+// 1: the game shows nothing; 0: the game shows its own "new recipe" notification for each product.
+static volatile LONG product_silent = 1;
 static volatile LONG product_known_before = -1;
 static volatile LONG product_known_after = -1;
 
@@ -91,7 +93,7 @@ __attribute__((unused)) static int product_resolve(uintptr_t base) {
            memcmp((void *)(base + PRODUCT_LEARN_RVA), learn_entry, sizeof(learn_entry)) == 0;
 }
 
-// Runs on the game's update thread: teach each requested product recipe once, silently.
+// Runs on the game's update thread: teach each requested product recipe once.
 static void product_apply_request(void) {
     // The routines stay unresolved in the fixture build, where no game manager exists.
     uintptr_t manager = product_lookup && product_learn
@@ -99,6 +101,7 @@ static void product_apply_request(void) {
     LONG count = InterlockedCompareExchange(&product_count, 0, 0);
     uint8_t *player_state = (uint8_t *)(manager + PRODUCT_PLAYER_STATE_OFFSET);
     int ready = manager && writable_range((uintptr_t)player_state + PRODUCT_KNOWN_COUNT_OFFSET, 16);
+    uint8_t silent = InterlockedCompareExchange(&product_silent, 0, 0) != 0;
     if (ready) InterlockedExchange(&product_known_before,
                                    *(const int32_t *)(player_state + PRODUCT_KNOWN_COUNT_OFFSET));
     for (LONG index = 0; index < count && index < PRODUCT_REQUEST_CAPACITY; ++index) {
@@ -110,7 +113,7 @@ static void product_apply_request(void) {
             const uint8_t *definition = product_lookup((void *)(manager + PRODUCT_TABLE_OFFSET), id);
             if (!definition) result = PRODUCT_UNKNOWN_ID;
             else if ((result = product_blocked(definition, id)) == PRODUCT_PENDING)
-                result = product_learn(player_state, id, 1) ? PRODUCT_LEARNED : PRODUCT_NOT_ADDED;
+                result = product_learn(player_state, id, silent) ? PRODUCT_LEARNED : PRODUCT_NOT_ADDED;
         }
         InterlockedExchange(&product_results[index], result);
     }
@@ -127,7 +130,8 @@ static int product_path(wchar_t *path, const wchar_t *kind) {
                     root, kind, (unsigned long)GetCurrentProcessId()) > 0;
 }
 
-// Parse the per-process request: one "id=<ID>" per line. Any other content, a malformed ID, a
+// Parse the per-process request: optional "silent=0" or "silent=1" (the default), then one
+// "id=<ID>" per line. Any other content, a malformed ID, a
 // duplicate or more than the capacity rejects the whole request.
 static int product_read_request(void) {
     wchar_t path[MAX_PATH];
@@ -135,11 +139,13 @@ static int product_read_request(void) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     char line[64];
-    LONG count = 0;
+    LONG count = 0, silent = 1;
     int ok = 1;
     while (ok && fgets(line, sizeof(line), file)) {
         line[strcspn(line, "\r\n")] = 0;
         if (!line[0]) continue;
+        if (strcmp(line, "silent=1") == 0) { silent = 1; continue; }
+        if (strcmp(line, "silent=0") == 0) { silent = 0; continue; }
         size_t length = strlen(line);
         if (strncmp(line, "id=", 3) != 0 || length < 4 || length > 3 + 15 || count >= PRODUCT_REQUEST_CAPACITY) {
             ok = 0;
@@ -159,6 +165,7 @@ static int product_read_request(void) {
     fclose(file);
     if (!ok || count == 0) return 0;
     InterlockedExchange(&product_count, count);
+    InterlockedExchange(&product_silent, silent);
     InterlockedExchange(&product_known_before, -1);
     InterlockedExchange(&product_known_after, -1);
     return 1;

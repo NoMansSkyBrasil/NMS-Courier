@@ -169,6 +169,9 @@ export const zhCN: Messages = {
     processId: '进程 {id}'
   },
   settings: {
+    notifications: '游戏通知',
+    notificationsHint:
+      '对于交付的内容，如果游戏有自己的通知，则让它显示。关闭后将静默交付。物品栏升级从不要求确认。',
     general: '常规',
     appearance: '外观',
     about: '关于',
@@ -180,6 +183,16 @@ export const zhCN: Messages = {
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
   delivery: {
+    itemsTitle: '向游戏发送物品',
+    itemsHint:
+      '物质和产品会放入已加载存档的外骨骼服货舱，按游戏允许的堆叠数量存放。放不下的部分不会发送。',
+    itemsAdd: '添加',
+    itemsAmount: '数量',
+    itemsRemove: '移除',
+    itemsEmpty: '在目录中搜索并添加要发送的物品。',
+    itemsAction: '发送物品（{count}）',
+    itemsConfirm:
+      '物品会放入当前已加载存档的外骨骼服货舱。发送前会先备份存档文件夹。游戏保存时更改才会写入存档。',
     selectTitle: '选择要发送的内容',
     selectHint: '可以勾选一个、多个或全部条目。只会发送所选条目。',
     selectSearch: '按名称或 ID 搜索',

@@ -192,6 +192,9 @@ export const nlNL: Messages = {
     processId: 'Proces {id}'
   },
   settings: {
+    notifications: 'Meldingen van het spel',
+    notificationsHint:
+      'Laat het spel zijn eigen melding tonen voor wat wordt geleverd, als die er is. Schakel uit om stil te leveren. Inventarisuitbreidingen vragen nooit om bevestiging.',
     general: 'Algemeen',
     appearance: 'Weergave',
     about: 'Over',
@@ -204,6 +207,16 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    itemsTitle: 'Voorwerpen naar het spel sturen',
+    itemsHint:
+      'Stoffen en producten gaan naar de vracht van het exopak van het geladen spel, in stapels van de grootte die het spel toestaat. Wat niet past, wordt niet verzonden.',
+    itemsAdd: 'Toevoegen',
+    itemsAmount: 'Aantal',
+    itemsRemove: 'Verwijderen',
+    itemsEmpty: 'Zoek in de catalogus en voeg de te verzenden voorwerpen toe.',
+    itemsAction: 'Voorwerpen verzenden ({count})',
+    itemsConfirm:
+      'De voorwerpen worden in de vracht van het exopak van het nu geladen spel geplaatst. Eerst wordt een back-up van de map met opgeslagen spellen gemaakt. De wijziging wordt opgeslagen wanneer het spel opslaat.',
     selectTitle: 'Kies wat er wordt verzonden',
     selectHint: 'Vink één item, meerdere of alle aan. Alleen de gekozen items worden verzonden.',
     selectSearch: 'Zoeken op naam of ID',

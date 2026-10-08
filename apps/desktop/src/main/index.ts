@@ -246,7 +246,7 @@ app.whenReady().then(() => {
     const root = getInstallationService().getSelectedRootPath()
     return getResearchBridgeService().getStatus(root, await gameStatusService.observe(root))
   })
-  ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown) => {
+  ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown, notify: unknown) => {
     if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')
     if (
       chosen != null &&
@@ -259,7 +259,26 @@ app.whenReady().then(() => {
       feature,
       root,
       await gameStatusService.observe(root),
-      (chosen as string[] | null | undefined) ?? null
+      (chosen as string[] | null | undefined) ?? null,
+      notify !== false
+    )
+  })
+  ipcMain.handle('nms:deliver-items', async (_, items: unknown) => {
+    const valid =
+      Array.isArray(items) &&
+      items.every(
+        (item) =>
+          item &&
+          typeof item === 'object' &&
+          typeof item.id === 'string' &&
+          typeof item.amount === 'number'
+      )
+    if (!valid) throw new Error('Invalid items.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().deliverItems(
+      (items as Array<{ id: string; amount: number }>).map(({ id, amount }) => ({ id, amount })),
+      root,
+      await gameStatusService.observe(root)
     )
   })
   // Entries of an area that can be sent one by one, named by the local catalogue when it can.

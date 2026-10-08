@@ -128,7 +128,12 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Read colour palettes from the game's archives for the model workshop (step 2), then models and textures (step 3).
 - [x] Per-entry selection in the delivery card (2026-10-08) for technologies, crafting recipes, build parts, appearance, titles, expedition rewards and Quicksilver items.
 - [ ] Per-entry selection still missing: fishing, refiner recipes, Twitch and platform rewards (needs a per-entry keep list). First live "send selected" from the application is not done.
-- [ ] Items and currencies on build 180836: the research profile has no request for them yet (the 2026-09 success was another build through the NMS.py bridge). Find and verify the game's own add-to-inventory and currency routines, then wire both pages.
+- [x] Items on build 180836 (2026-10-08): request, script and Items page implemented from the game's own store routines; see `docs/ITEM_DELIVERY_NOTES.md`.
+- [ ] Items: first live test on slot 3 (`FUEL1=500`, `CASING=10`); then other target stores (ship, freighter), technology items and procedural modules.
+- [ ] Currencies on build 180836: find the routine behind the game's money reward and call it with an amount; no data patch, no direct write of the balance.
+- [x] Game notifications on by default with a setting to deliver silently (2026-10-08): technologies, product recipes, build parts.
+- [ ] Observe live how the game queues notifications when a whole area is sent; other areas have no notification in their routine.
+- [ ] `run-profile-fixture.ps1` fails with code 5 on a machine whose diagnostics folder holds a keep list (the profile then enables its hooks at start). Make the fixture use its own folder.
 - [x] Detect the game installation automatically (2026-10-08): running game, Steam libraries, GOG registry.
 - [ ] Installation detection: verify on a GOG installation; decide about the Microsoft Store and Game Pass versions.
 - [ ] Translate the two native dialogs of the main process (installation folder picker, close

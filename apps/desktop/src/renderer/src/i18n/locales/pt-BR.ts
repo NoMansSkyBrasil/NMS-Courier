@@ -183,6 +183,9 @@ export const ptBR: Messages = {
     processId: 'Processo {id}'
   },
   settings: {
+    notifications: 'Notificações do jogo',
+    notificationsHint:
+      'Deixa o jogo mostrar a própria notificação do que for entregue, quando existir. Desative para entregar em silêncio. Melhorias de inventário nunca pedem confirmação.',
     general: 'Geral',
     appearance: 'Aparência',
     about: 'Sobre',
@@ -195,6 +198,16 @@ export const ptBR: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Ele funciona com uma versão exata do jogo por vez.'
   },
   delivery: {
+    itemsTitle: 'Enviar itens ao jogo',
+    itemsHint:
+      'Substâncias e produtos vão para a carga do exotraje do save carregado, em pilhas do tamanho que o jogo permite. O que não couber não é enviado.',
+    itemsAdd: 'Adicionar',
+    itemsAmount: 'Quantidade',
+    itemsRemove: 'Remover',
+    itemsEmpty: 'Busque no catálogo e adicione os itens a enviar.',
+    itemsAction: 'Enviar itens ({count})',
+    itemsConfirm:
+      'Os itens são colocados na carga do exotraje do save carregado agora. Antes é feito um backup da pasta de saves. A mudança é gravada no save quando o jogo salvar.',
     selectTitle: 'Escolha o que enviar',
     selectHint: 'Marque uma entrada, várias ou todas. Somente as entradas escolhidas são enviadas.',
     selectSearch: 'Buscar por nome ou ID',

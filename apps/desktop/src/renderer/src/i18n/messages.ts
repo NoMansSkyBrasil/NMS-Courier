@@ -136,6 +136,8 @@ export type Messages = {
     processId: string
   }
   settings: {
+    notifications: string
+    notificationsHint: string
     general: string
     appearance: string
     about: string
@@ -147,6 +149,14 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    itemsTitle: string
+    itemsHint: string
+    itemsAdd: string
+    itemsAmount: string
+    itemsRemove: string
+    itemsEmpty: string
+    itemsAction: string
+    itemsConfirm: string
     selectTitle: string
     selectHint: string
     selectSearch: string

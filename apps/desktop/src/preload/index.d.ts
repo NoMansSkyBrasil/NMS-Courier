@@ -140,7 +140,8 @@ declare global {
         processId: number | null
         bridgeSha256: string | null
       }>
-      deliver: (feature: string, chosen?: string[]) => Promise<DeliveryResult>
+      deliver: (feature: string, chosen?: string[], notify?: boolean) => Promise<DeliveryResult>
+      deliverItems: (items: Array<{ id: string; amount: number }>) => Promise<DeliveryResult>
       getDeliveryOptions: (
         feature: string,
         locale: string

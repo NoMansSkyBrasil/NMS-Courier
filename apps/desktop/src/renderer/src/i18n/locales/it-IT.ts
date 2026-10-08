@@ -190,6 +190,9 @@ export const itIT: Messages = {
     processId: 'Processo {id}'
   },
   settings: {
+    notifications: 'Notifiche del gioco',
+    notificationsHint:
+      'Lascia che il gioco mostri la propria notifica per ciò che viene consegnato, quando esiste. Disattiva per consegnare in silenzio. I potenziamenti dell’inventario non chiedono mai conferma.',
     general: 'Generali',
     appearance: 'Aspetto',
     about: 'Informazioni',
@@ -202,6 +205,16 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    itemsTitle: 'Invia oggetti al gioco',
+    itemsHint:
+      'Sostanze e prodotti vanno nel carico dell’esotuta del salvataggio caricato, in pile della dimensione consentita dal gioco. Ciò che non entra non viene inviato.',
+    itemsAdd: 'Aggiungi',
+    itemsAmount: 'Quantità',
+    itemsRemove: 'Rimuovi',
+    itemsEmpty: 'Cerca nel catalogo e aggiungi gli oggetti da inviare.',
+    itemsAction: 'Invia oggetti ({count})',
+    itemsConfirm:
+      'Gli oggetti vengono messi nel carico dell’esotuta del salvataggio caricato ora. Prima viene eseguito un backup della cartella dei salvataggi. La modifica viene scritta nel salvataggio quando il gioco salva.',
     selectTitle: 'Scegli cosa inviare',
     selectHint: 'Seleziona una voce, più voci o tutte. Vengono inviate solo le voci scelte.',
     selectSearch: 'Cerca per nome o ID',

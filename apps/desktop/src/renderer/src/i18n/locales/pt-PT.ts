@@ -188,6 +188,9 @@ export const ptPT: Messages = {
     processId: 'Processo {id}'
   },
   settings: {
+    notifications: 'Notificações do jogo',
+    notificationsHint:
+      'Permite que o jogo mostre a sua própria notificação do que for entregue, quando existir. Desative para entregar em silêncio. As melhorias de inventário nunca pedem confirmação.',
     general: 'Geral',
     appearance: 'Aparência',
     about: 'Acerca',
@@ -200,6 +203,16 @@ export const ptPT: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Funciona com uma versão exata do jogo de cada vez.'
   },
   delivery: {
+    itemsTitle: 'Enviar itens para o jogo',
+    itemsHint:
+      'As substâncias e os produtos vão para a carga do exofato da gravação carregada, em pilhas do tamanho que o jogo permite. O que não couber não é enviado.',
+    itemsAdd: 'Adicionar',
+    itemsAmount: 'Quantidade',
+    itemsRemove: 'Remover',
+    itemsEmpty: 'Procure no catálogo e adicione os itens a enviar.',
+    itemsAction: 'Enviar itens ({count})',
+    itemsConfirm:
+      'Os itens são colocados na carga do exofato da gravação carregada neste momento. Antes é feita uma cópia de segurança da pasta de gravações. A alteração é escrita na gravação quando o jogo gravar.',
     selectTitle: 'Escolha o que enviar',
     selectHint: 'Marque uma entrada, várias ou todas. Apenas as entradas escolhidas são enviadas.',
     selectSearch: 'Procurar por nome ou ID',

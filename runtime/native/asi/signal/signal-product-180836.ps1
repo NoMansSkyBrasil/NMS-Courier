@@ -17,6 +17,8 @@ param(
     # unlock a customisation option.
     [ValidateSet('catalogue_item', 'catalogue_technology', 'catalogue_construction', 'research_tree', 'customisation')]
     [string]$AllOfClass,
+    # Let the game show its own notification for each learned recipe; without it nothing is shown.
+    [switch]$ShowAlert,
     [switch]$PreflightOnly
 )
 
@@ -50,7 +52,7 @@ if ($requested.Count -lt 1 -or $requested.Count -gt 2048) { throw 'A request car
 
 $resultPath = Join-Path $script:ProfileDiagnostics "native-product-result-180836-$GameProcessId.txt"
 if (Test-Path -LiteralPath $resultPath) { Remove-Item -LiteralPath $resultPath }
-Write-ProfileRequest $session 'product' @($requested | ForEach-Object { "id=$_" })
+Write-ProfileRequest $session 'product' (@("silent=$([int](!$ShowAlert))") + ($requested | ForEach-Object { "id=$_" }))
 Send-ProfileEvent $session 'product'
 Write-Output "$($requested.Count) products requested."
 
