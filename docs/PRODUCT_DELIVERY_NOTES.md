@@ -5,8 +5,9 @@ slot product recipes ("known products"), which is what makes a craftable item
 or a build part available to the player.
 
 Status in one line: the classification, the game routine and a request in the
-research profile exist and are built; **the build is not installed yet and
-nothing has been taught.** Scope of a delivery: one slot, with one side
+research profile exist; the build is installed and on 2026-10-07 taught
+slot 3 the 108 catalogue items live (unsaved, not yet confirmed on screen).
+Technology and build parts have not been sent. Scope of a delivery: one slot, with one side
 effect on the account described below.
 
 ## What the owner saw
@@ -103,7 +104,31 @@ changes there.
 | Installed | **Yes**, 2026-10-07 after the owner saved and closed the game (no `NMS.exe` process; executable still `13d5060d...`). Replaces `2bd83437...ca78`; undo by copying that build back from the external native-builds directory. No request has been sent to it |
 | Checks run | Profile, technology and recipe fixtures pass. No fixture covers the product request |
 
-## First live test (proposed, not done)
+## First live requests (2026-10-07, slot 3)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...`, process 20536 |
+| Profile DLL | `a6c01dbc21ea0323ccac219691902b9f6b900bc3a42b63468dd14d7cbef9ecda` |
+| Slot | 3, identified by `identify-loaded-slot.py` (both slot 3 files matched 806 entries: 205 technologies, 601 products) |
+| Backup | Whole save folder copied to the external `save-backups/20261007-before-products` before the first request |
+| Preflight | Passed, `dispatch_state=0` |
+
+| Request | Result file |
+| --- | --- |
+| `-Id ALLOY1` | known 601 -> 602, `ALLOY1=learned` |
+| `-AllOfClass catalogue_item` (108) | known 602 -> 691: 89 `learned`, 19 `not_added` (already known: `ALLOY1` from the first request and 18 the slot had, such as `CASING`, `NANOTUBES`, the fishing baits) |
+
+The game kept running after both. Scope: slot 3 in memory; the routine's
+account "seen" call found every product already seen.
+
+Not proven yet: what the owner sees in the catalogue (awaiting confirmation),
+and persistence, which needs a save in the game and a read of the slot file.
+`catalogue_technology` (91) and `catalogue_construction` (1,067) were not
+sent. Undo: do not save and reload, or restore the backup with the game
+closed.
+
+## Remaining steps (proposed, not done)
 
 1. Done: saved, closed, DLL installed. Still to do: start the game on
    slot 3; identify the slot; preflight.

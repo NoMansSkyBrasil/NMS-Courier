@@ -6,8 +6,9 @@ status, dispatch state) and the event and request-file helpers. How a request
 travels from here into the game is described in
 [live bridge operations](../../../../docs/LIVE_BRIDGE_OPERATIONS.md).
 
-Status: written and parse-checked on 2026-10-07. **Not yet used for a live
-request.** Every run recorded before that date used the combined
+Status: the technology, recipe, fish and product scripts have been used live on
+slot 3 (2026-10-07); the others have not been used since the split. Every run
+recorded before the split used the combined
 `signal-freighter-class-180836.ps1`, which these replace.
 
 | Script | Domain | Requests |
@@ -48,16 +49,16 @@ Differences in behaviour:
 several, `-All` for every entry classed `deliverable`, `-ShowAlert` for the game's own
 alert. It refuses blocked and unknown IDs before sending and prints the profile's
 per-ID result. Rules and status:
-[technology delivery notes](../../../../docs/TECHNOLOGY_DELIVERY_NOTES.md). Not yet
-used for a live request.
+[technology delivery notes](../../../../docs/TECHNOLOGY_DELIVERY_NOTES.md). Used live on
+2026-10-07.
 
 ## Recipes
 
 `signal-recipe-180836.ps1` teaches refiner and cooking recipes to the loaded slot:
 `-All` for every recipe of the running game's table, or `-Id A[,B...]`. It prints the
 profile's counters. Rules and status:
-[recipe delivery notes](../../../../docs/RECIPE_DELIVERY_NOTES.md). Not yet used for
-a live request.
+[recipe delivery notes](../../../../docs/RECIPE_DELIVERY_NOTES.md). Used live on
+2026-10-07.
 
 ## Rewards
 
@@ -79,8 +80,8 @@ on 2026-10-07.
 
 `signal-product-180836.ps1` teaches product recipes to the loaded slot: `-Id A[,B...]`, or
 `-AllOfClass catalogue_item|catalogue_technology|catalogue_construction`. Rules and
-status: [product delivery notes](../../../../docs/PRODUCT_DELIVERY_NOTES.md). Not yet
-used for a live request.
+status: [product delivery notes](../../../../docs/PRODUCT_DELIVERY_NOTES.md). First used live
+on 2026-10-07.
 
 ## Rule
 

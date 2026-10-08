@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-07: first live product recipe requests on slot 3
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#first-live-requests-2026-10-07-slot-3).
+Build 180836 (`13d5060d...`), process 20536, DLL `a6c01dbc...ecda`, slot 3
+identified by content, save folder backed up first, preflight passed.
+
+- `-Id ALLOY1`: known products 601 -> 602, learned.
+- `-AllOfClass catalogue_item`: 602 -> 691; 89 learned, 19 already known.
+- Game kept running. Not proven: the catalogue on screen, persistence after
+  a save. Technology (91) and build parts (1,067) not sent.
+- Rollback: reload without saving, or restore the backup with the game closed.
+
 ## 2026-10-07: recipes and fishing record persisted in slot 3; product build installed
 
 The owner saved in the game (process 24704, DLL `2bd83437...ca78`) and closed

@@ -164,9 +164,10 @@ offline:
     account request was withdrawn. Product recipes are classified and built
     but not installed: read [product delivery notes](PRODUCT_DELIVERY_NOTES.md).
     DLL `a6c01dbc...ecda` is installed (game closed, nothing sent to it yet);
-    the saved slot 3 files hold 1,684 recipes and 220 fish. Next: start the
-    game on slot 3, identify the slot, then `signal-product-180836.ps1` with
-    one ID.
+    the saved slot 3 files hold 1,684 recipes and 220 fish. The 108
+    catalogue items were then taught live to slot 3 (known products 601 ->
+    691, unsaved). Next: owner confirms the catalogue, saves; then decide on
+    `catalogue_technology` and review `catalogue_construction`.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
