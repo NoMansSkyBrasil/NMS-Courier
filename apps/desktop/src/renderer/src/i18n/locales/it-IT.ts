@@ -113,7 +113,7 @@ export const itIT: Messages = {
     },
     models: {
       title: 'Officina dei modelli',
-      summary: 'Visualizza in anteprima modelli importati e tavolozze di colori.'
+      summary: 'Guarda com’è un seme o trova un seme per i pezzi che vuoi.'
     },
     bridge: {
       title: 'Gioco e ponte',
@@ -432,6 +432,61 @@ export const itIT: Messages = {
     matching: '{count} definizioni corrispondenti',
     loading: 'Caricamento delle definizioni…',
     languages: '{count} lingue del gioco'
+  },
+  workshop: {
+    title: 'Officina dei modelli',
+    description:
+      'Scegli cosa vuoi vedere, poi scrivi un seme, estraine uno a caso oppure scegli i pezzi e lascia che l’applicazione trovi un seme che li abbia.',
+    tabBuild: 'Assembla',
+    tabView: 'Vedi un seme',
+    buildDescription:
+      'Scegli il tipo, i pezzi e il colore principale. L’applicazione cerca un seme che li abbia e lo mostra.',
+    viewDescription:
+      'Scegli il tipo e scrivi un seme, oppure estraine uno a caso, per vedere com’è.',
+    colorTitle: 'Colore principale della vernice',
+    colorHint: 'I colori della tavolozza di vernice del gioco. Qualsiasi lascia la scelta al seme.',
+    seedColorsTitle: 'Colori di questo seme',
+    paintLabel: 'Vernice',
+    undercoatLabel: 'Sottofondo',
+    tabFile: 'File del modello',
+    categoryLabel: 'Categoria',
+    category: { starship: 'Astronave', multitool: 'Multi-attrezzo', freighter: 'Mercantile' },
+    kindLabel: 'Tipo',
+    toolKind: {
+      standard: 'Standard',
+      royal: 'Reale',
+      sentinel: 'Sentinella',
+      sentinelB: 'Sentinella B',
+      atlasSceptre: 'Scettro di Atlas',
+      atlas: 'Atlas',
+      staff: 'Bastone'
+    },
+    seedLabel: 'Seme',
+    seedHint: 'Sedici cifre esadecimali dopo 0x. Premi Invio o Mostra per vederlo.',
+    show: 'Mostra',
+    generate: 'Genera un seme',
+    generateWithParts: 'Genera con questi pezzi',
+    clearParts: 'Azzera i pezzi',
+    getInGame: 'Ottieni questo nel gioco',
+    found: 'Seme trovato dopo {tries} tentativi',
+    building: 'Assemblaggio del modello…',
+    empty: 'Ancora niente da mostrare',
+    partsTitle: 'Pezzi',
+    partsHint:
+      'Scegli i pezzi che vuoi e lascia il resto su Qualsiasi. Sotto un pezzo che ha pezzi propri compaiono altri elenchi.',
+    anyPart: 'Qualsiasi',
+    rare: 'raro',
+    detailsTitle: 'Dettagli estratti dal seme',
+    note: 'Il modello viene letto dai tuoi file di gioco. La forma segue il seme. I colori sono mostrati solo per le astronavi verniciate e sono approssimativi: texture e decalcomanie del gioco non vengono ancora disegnate. Nulla qui è stato ancora confrontato con il gioco seme per seme.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Seleziona prima la cartella del gioco, in Ponte.',
+      UNKNOWN_KIND: 'Questo tipo non è disponibile.',
+      INVALID_SEED: 'Il seme deve essere 0x seguito da un massimo di sedici cifre esadecimali.',
+      GAME_FILES_UNREADABLE: 'Impossibile leggere i file di gioco di questo modello.',
+      MODEL_TOO_LARGE: 'Questo modello è troppo grande per essere mostrato.',
+      SEED_NOT_FOUND:
+        'Nessun seme con questi pezzi è stato trovato in tempo. Riprova o lascia libero un pezzo.'
+    }
   },
   preview: {
     title: 'Officina dei modelli',

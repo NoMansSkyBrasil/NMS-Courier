@@ -115,7 +115,7 @@ export const nlNL: Messages = {
     },
     models: {
       title: 'Modelwerkplaats',
-      summary: 'Bekijk geïmporteerde modellen en kleurenpaletten.'
+      summary: 'Bekijk hoe een seed eruitziet of zoek een seed voor de onderdelen die je wilt.'
     },
     bridge: {
       title: 'Spel en brug',
@@ -433,6 +433,61 @@ export const nlNL: Messages = {
     matching: '{count} overeenkomende definities',
     loading: 'Definities laden…',
     languages: '{count} speltalen'
+  },
+  workshop: {
+    title: 'Modelwerkplaats',
+    description:
+      'Kies wat je wilt zien en typ dan een seed, trek er een willekeurig of kies de onderdelen en laat de toepassing een seed zoeken die ze heeft.',
+    tabBuild: 'Samenstellen',
+    tabView: 'Seed bekijken',
+    buildDescription:
+      'Kies het type, de onderdelen en de hoofdkleur. De toepassing zoekt een seed die ze heeft en toont die.',
+    viewDescription:
+      'Kies het type en typ een seed, of trek er een willekeurig, om te zien hoe die eruitziet.',
+    colorTitle: 'Hoofdkleur van de lak',
+    colorHint: 'De kleuren van het lakpalet van het spel. Willekeurig laat de keuze aan de seed.',
+    seedColorsTitle: 'Kleuren van deze seed',
+    paintLabel: 'Lak',
+    undercoatLabel: 'Grondlaag',
+    tabFile: 'Modelbestand',
+    categoryLabel: 'Categorie',
+    category: { starship: 'Sterrenschip', multitool: 'Multi-tool', freighter: 'Vrachtschip' },
+    kindLabel: 'Type',
+    toolKind: {
+      standard: 'Standaard',
+      royal: 'Koninklijk',
+      sentinel: 'Sentinel',
+      sentinelB: 'Sentinel B',
+      atlasSceptre: 'Atlas-scepter',
+      atlas: 'Atlas',
+      staff: 'Staf'
+    },
+    seedLabel: 'Seed',
+    seedHint: 'Zestien hexadecimale cijfers na 0x. Druk op Enter of Tonen om hem te zien.',
+    show: 'Tonen',
+    generate: 'Seed genereren',
+    generateWithParts: 'Genereren met deze onderdelen',
+    clearParts: 'Onderdelen wissen',
+    getInGame: 'Deze in het spel krijgen',
+    found: 'Seed gevonden na {tries} pogingen',
+    building: 'Model wordt opgebouwd…',
+    empty: 'Nog niets om te tonen',
+    partsTitle: 'Onderdelen',
+    partsHint:
+      'Kies de onderdelen die je wilt en laat de rest op Willekeurig. Onder een onderdeel met eigen onderdelen verschijnen meer lijsten.',
+    anyPart: 'Willekeurig',
+    rare: 'zeldzaam',
+    detailsTitle: 'Details die de seed heeft getrokken',
+    note: 'Het model wordt uit je eigen spelbestanden gelezen. De vorm volgt de seed. Kleuren worden alleen voor gelakte sterrenschepen getoond en zijn bij benadering: de texturen en stickers van het spel worden nog niet getekend. Niets hiervan is al seed voor seed met het spel vergeleken.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Selecteer eerst de spelmap, bij Brug.',
+      UNKNOWN_KIND: 'Dit type is niet beschikbaar.',
+      INVALID_SEED: 'De seed moet 0x zijn, gevolgd door hoogstens zestien hexadecimale cijfers.',
+      GAME_FILES_UNREADABLE: 'De spelbestanden van dit model konden niet worden gelezen.',
+      MODEL_TOO_LARGE: 'Dit model is te groot om te tonen.',
+      SEED_NOT_FOUND:
+        'Er is niet op tijd een seed met deze onderdelen gevonden. Probeer het opnieuw of laat een onderdeel vrij.'
+    }
   },
   preview: {
     title: 'Modelwerkplaats',

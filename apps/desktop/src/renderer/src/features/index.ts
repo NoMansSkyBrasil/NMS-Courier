@@ -37,16 +37,22 @@ export function featureHref(id: FeatureId, section?: SectionId): string {
 }
 
 export function featureFromHash(hash: string): Feature {
-  const id = hash.replace(/^#/, '').split('/')[0]
+  const id = hash.replace(/^#/, '').split('?')[0].split('/')[0]
   return features.find((feature) => feature.id === id) ?? features[0]
 }
 
 // The section of the page the hash names; the area's first section when it names none.
 export function sectionFromHash(hash: string, feature: Feature): SectionId | null {
   if (!feature.sections) return null
-  const named = hash.replace(/^#/, '').split('/')[1]
+  const named = hash.replace(/^#/, '').split('?')[0].split('/')[1]
   return (sectionIds as readonly string[]).includes(named) &&
     feature.sections.includes(named as SectionId)
     ? (named as SectionId)
     : feature.sections[0]
+}
+
+// Values a page hands to another through the hash, after a question mark ("#area/section?a=b").
+export function hashParameters(hash: string): URLSearchParams {
+  const position = hash.indexOf('?')
+  return new URLSearchParams(position < 0 ? '' : hash.slice(position + 1))
 }

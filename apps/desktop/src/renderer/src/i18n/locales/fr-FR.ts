@@ -114,7 +114,7 @@ export const frFR: Messages = {
     },
     models: {
       title: 'Atelier de modèles',
-      summary: 'Prévisualisez des modèles importés et des palettes de couleurs.'
+      summary: 'Voyez à quoi ressemble une graine ou trouvez une graine pour les pièces voulues.'
     },
     bridge: {
       title: 'Jeu et pont',
@@ -438,6 +438,62 @@ export const frFR: Messages = {
     matching: '{count} définitions correspondantes',
     loading: 'Chargement des définitions…',
     languages: '{count} langues du jeu'
+  },
+  workshop: {
+    title: 'Atelier de modèles',
+    description:
+      'Choisissez ce que vous voulez voir, puis saisissez une graine, tirez-en une au hasard ou choisissez les pièces et laissez l’application trouver une graine qui les possède.',
+    tabBuild: 'Assembler',
+    tabView: 'Voir une graine',
+    buildDescription:
+      'Choisissez le type, les pièces et la couleur principale. L’application cherche une graine qui les possède et l’affiche.',
+    viewDescription:
+      'Choisissez le type et saisissez une graine, ou tirez-en une au hasard, pour voir à quoi elle ressemble.',
+    colorTitle: 'Couleur principale de la peinture',
+    colorHint:
+      'Les couleurs de la palette de peinture du jeu. Indifférent laisse le choix à la graine.',
+    seedColorsTitle: 'Couleurs de cette graine',
+    paintLabel: 'Peinture',
+    undercoatLabel: 'Sous-couche',
+    tabFile: 'Fichier de modèle',
+    categoryLabel: 'Catégorie',
+    category: { starship: 'Vaisseau', multitool: 'Multi-outil', freighter: 'Cargo' },
+    kindLabel: 'Type',
+    toolKind: {
+      standard: 'Standard',
+      royal: 'Royal',
+      sentinel: 'Sentinelle',
+      sentinelB: 'Sentinelle B',
+      atlasSceptre: 'Sceptre d’Atlas',
+      atlas: 'Atlas',
+      staff: 'Bâton'
+    },
+    seedLabel: 'Graine',
+    seedHint: 'Seize chiffres hexadécimaux après 0x. Appuyez sur Entrée ou Afficher pour la voir.',
+    show: 'Afficher',
+    generate: 'Générer une graine',
+    generateWithParts: 'Générer avec ces pièces',
+    clearParts: 'Effacer les pièces',
+    getInGame: 'Obtenir celui-ci dans le jeu',
+    found: 'Graine trouvée après {tries} essais',
+    building: 'Assemblage du modèle…',
+    empty: 'Rien à afficher pour l’instant',
+    partsTitle: 'Pièces',
+    partsHint:
+      'Choisissez les pièces voulues et laissez le reste sur Indifférent. D’autres listes apparaissent sous une pièce qui a ses propres pièces.',
+    anyPart: 'Indifférent',
+    rare: 'rare',
+    detailsTitle: 'Détails tirés par la graine',
+    note: 'Le modèle est lu dans vos propres fichiers du jeu. La forme suit la graine. Les couleurs ne sont affichées que pour les vaisseaux peints et sont approximatives : les textures et décalcomanies du jeu ne sont pas encore dessinées. Rien ici n’a encore été comparé au jeu graine par graine.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Sélectionnez d’abord le dossier du jeu, dans Passerelle.',
+      UNKNOWN_KIND: 'Ce type n’est pas disponible.',
+      INVALID_SEED: 'La graine doit être 0x suivi d’au plus seize chiffres hexadécimaux.',
+      GAME_FILES_UNREADABLE: 'Les fichiers du jeu de ce modèle n’ont pas pu être lus.',
+      MODEL_TOO_LARGE: 'Ce modèle est trop volumineux pour être affiché.',
+      SEED_NOT_FOUND:
+        'Aucune graine avec ces pièces n’a été trouvée à temps. Réessayez ou laissez une pièce libre.'
+    }
   },
   preview: {
     title: 'Atelier de modèles',

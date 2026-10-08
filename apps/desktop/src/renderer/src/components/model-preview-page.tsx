@@ -4,6 +4,8 @@ import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
 import { useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
+import { ModelWorkshopCard } from './model-workshop-card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { AppearanceRecipeControls } from './appearance-recipe-controls'
 import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card'
@@ -14,7 +16,33 @@ import { Input } from './ui/input'
 import { Checkbox } from './ui/checkbox'
 import { Field, FieldGroup, FieldLabel, FieldSet, FieldLegend } from './ui/field'
 
+// The workshop page: a screen to build (choose parts and colour, get a seed), a screen to view a
+// seed, and the older tools for a model file the user brings on a third tab.
 export function ModelPreviewPage(): React.JSX.Element {
+  const { copy } = useLocale()
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 md:p-6">
+      <Tabs defaultValue="build">
+        <TabsList>
+          <TabsTrigger value="build">{copy.workshop.tabBuild}</TabsTrigger>
+          <TabsTrigger value="view">{copy.workshop.tabView}</TabsTrigger>
+          <TabsTrigger value="file">{copy.workshop.tabFile}</TabsTrigger>
+        </TabsList>
+        <TabsContent value="build">
+          <ModelWorkshopCard mode="build" />
+        </TabsContent>
+        <TabsContent value="view">
+          <ModelWorkshopCard mode="view" />
+        </TabsContent>
+        <TabsContent value="file">
+          <ModelFileTools />
+        </TabsContent>
+      </Tabs>
+    </main>
+  )
+}
+
+function ModelFileTools(): React.JSX.Element {
   const { copy: messages } = useLocale()
   const copy = messages.preview
   const [model, setModel] = useState<PreviewModel | null>(null)
@@ -56,7 +84,7 @@ export function ModelPreviewPage(): React.JSX.Element {
     }
   }
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:p-6">
+    <div className="flex flex-col gap-4">
       <Card>
         <CardHeader>
           <CardTitle>{copy.title}</CardTitle>
@@ -229,6 +257,6 @@ export function ModelPreviewPage(): React.JSX.Element {
           })
         }}
       />
-    </main>
+    </div>
   )
 }

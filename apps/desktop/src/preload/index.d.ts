@@ -24,6 +24,21 @@ declare global {
       previewPaletteSeed: (
         seed: string
       ) => Promise<import('../shared/model-preview').PaletteEvaluationResult>
+      workshopModel: (request: {
+        category: string
+        kind: string
+        seed: string
+      }) => Promise<import('../shared/model-workshop').WorkshopModelResult>
+      workshopChoices: (request: {
+        category: string
+        kind: string
+      }) => Promise<import('../shared/model-workshop').WorkshopChoicesResult>
+      workshopFindSeed: (request: {
+        category: string
+        kind: string
+        parts: import('../shared/model-workshop').WorkshopWantedPart[]
+        paint: number[] | null
+      }) => Promise<import('../shared/model-workshop').WorkshopSeedResult>
       getFoundationStatus: () => Promise<{
         apiVersion: string
         runtime: 'bundled' | 'unavailable'

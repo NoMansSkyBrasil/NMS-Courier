@@ -101,7 +101,7 @@ export const zhTW: Messages = {
     catalog: { title: '遊戲目錄', summary: '搜尋已安裝遊戲中的物品。' },
     models: {
       title: '模型工坊',
-      summary: '預覽匯入的模型和調色盤。'
+      summary: '查看種子的外觀，或為想要的部件尋找種子。'
     },
     bridge: {
       title: '遊戲與橋接',
@@ -392,6 +392,57 @@ export const zhTW: Messages = {
     matching: '{count} 個相符的定義',
     loading: '正在載入定義…',
     languages: '{count} 種遊戲語言'
+  },
+  workshop: {
+    title: '模型工坊',
+    description:
+      '先選擇要查看的內容，然後輸入種子、隨機產生一個，或選好部件，讓應用程式找出帶有這些部件的種子。',
+    tabBuild: '組裝',
+    tabView: '查看種子',
+    buildDescription: '選擇類型、部件和主色。應用程式會尋找帶有它們的種子並顯示出來。',
+    viewDescription: '選擇類型並輸入種子，或隨機產生一個，查看它的外觀。',
+    colorTitle: '塗裝主色',
+    colorHint: '遊戲塗裝調色盤的顏色。「任意」表示交給種子決定。',
+    seedColorsTitle: '此種子的顏色',
+    paintLabel: '塗裝',
+    undercoatLabel: '底漆',
+    tabFile: '模型檔案',
+    categoryLabel: '類別',
+    category: { starship: '星艦', multitool: '多功能工具', freighter: '貨船' },
+    kindLabel: '類型',
+    toolKind: {
+      standard: '標準',
+      royal: '皇家',
+      sentinel: '哨兵',
+      sentinelB: '哨兵 B',
+      atlasSceptre: '阿特拉斯權杖',
+      atlas: '阿特拉斯',
+      staff: '法杖'
+    },
+    seedLabel: '種子',
+    seedHint: '0x 後接十六位十六進位數字。按 Enter 或「顯示」查看。',
+    show: '顯示',
+    generate: '產生種子',
+    generateWithParts: '用這些部件產生',
+    clearParts: '清除部件',
+    getInGame: '在遊戲中取得這一個',
+    found: '嘗試 {tries} 次後找到種子',
+    building: '正在組裝模型…',
+    empty: '尚無可顯示的內容',
+    partsTitle: '部件',
+    partsHint: '選擇想要的部件，其餘保持「任意」。帶有自身部件的部件下方會出現更多清單。',
+    anyPart: '任意',
+    rare: '稀有',
+    detailsTitle: '由種子決定的細節',
+    note: '模型讀取自你自己的遊戲檔案。外形由種子決定。顏色僅對有塗裝的星艦顯示，且為近似值：遊戲的紋理和貼花尚未繪製。這裡的內容尚未逐個種子與遊戲比對。',
+    errors: {
+      INSTALLATION_NOT_SELECTED: '請先在「橋接」中選擇遊戲資料夾。',
+      UNKNOWN_KIND: '此類型無法使用。',
+      INVALID_SEED: '種子必須是 0x 後接最多十六位十六進位數字。',
+      GAME_FILES_UNREADABLE: '無法讀取此模型的遊戲檔案。',
+      MODEL_TOO_LARGE: '此模型過大，無法顯示。',
+      SEED_NOT_FOUND: '未能及時找到帶有這些部件的種子。請重試，或放開其中一個部件。'
+    }
   },
   preview: {
     title: '模型工坊',

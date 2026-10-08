@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.10.0 (2026-10-08)
+
+- New: the model workshop no longer needs a model file. It reads the game's
+  own files and has two screens: "Build" (choose type, parts and main paint
+  colour; the application finds a seed that has them) and "View a seed" (type
+  or draw a seed and see it). Twenty types: eight starships, seven
+  multi-tools, five freighters. See `docs/MODEL_WORKSHOP.md`.
+- New: "Get this one in the game" hands a starship type and seed to
+  Starships, "Get a new one".
+- The earlier model file tools are on a third tab.
+- Shapes follow the seed; colours are approximate and for painted starships
+  only; textures and decals are not drawn. Not compared with the running game.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.9.0 and bridge 1.7.0 (2026-10-08)
 
 - New: three more starship kinds under "Get a new one": exotic, living ship

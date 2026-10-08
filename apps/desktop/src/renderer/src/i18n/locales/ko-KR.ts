@@ -102,7 +102,7 @@ export const koKR: Messages = {
     catalog: { title: '게임 카탈로그', summary: '설치된 게임의 아이템을 검색합니다.' },
     models: {
       title: '모델 작업실',
-      summary: '가져온 모델과 색상 팔레트를 미리 봅니다.'
+      summary: '시드의 모습을 보거나 원하는 부품의 시드를 찾으세요.'
     },
     bridge: {
       title: '게임과 브리지',
@@ -407,6 +407,60 @@ export const koKR: Messages = {
     matching: '일치하는 정의 {count}개',
     loading: '정의를 불러오는 중…',
     languages: '게임 언어 {count}개'
+  },
+  workshop: {
+    title: '모델 작업실',
+    description:
+      '보고 싶은 것을 고른 뒤 시드를 입력하거나, 무작위로 뽑거나, 부품을 골라 그 부품을 가진 시드를 앱이 찾게 하세요.',
+    tabBuild: '조립',
+    tabView: '시드 보기',
+    buildDescription:
+      '종류, 부품, 주 색상을 고르세요. 앱이 그 조합을 가진 시드를 찾아 보여 줍니다.',
+    viewDescription: '종류를 고르고 시드를 입력하거나 무작위로 뽑아 모습을 확인하세요.',
+    colorTitle: '도장 주 색상',
+    colorHint: '게임의 도장 팔레트 색상입니다. 아무거나는 시드에 맡깁니다.',
+    seedColorsTitle: '이 시드의 색상',
+    paintLabel: '도장',
+    undercoatLabel: '밑칠',
+    tabFile: '모델 파일',
+    categoryLabel: '분류',
+    category: { starship: '우주선', multitool: '멀티툴', freighter: '화물선' },
+    kindLabel: '종류',
+    toolKind: {
+      standard: '표준',
+      royal: '로열',
+      sentinel: '센티넬',
+      sentinelB: '센티넬 B',
+      atlasSceptre: '아틀라스 홀',
+      atlas: '아틀라스',
+      staff: '지팡이'
+    },
+    seedLabel: '시드',
+    seedHint: '0x 뒤에 16자리 16진수. Enter 키나 표시를 눌러 확인하세요.',
+    show: '표시',
+    generate: '시드 생성',
+    generateWithParts: '이 부품으로 생성',
+    clearParts: '부품 선택 지우기',
+    getInGame: '게임에서 이것 얻기',
+    found: '{tries}번 시도 끝에 시드를 찾았습니다',
+    building: '모델을 조립하는 중…',
+    empty: '아직 표시할 것이 없습니다',
+    partsTitle: '부품',
+    partsHint:
+      '원하는 부품을 고르고 나머지는 아무거나로 두세요. 자체 부품이 있는 부품 아래에는 목록이 더 나타납니다.',
+    anyPart: '아무거나',
+    rare: '희귀',
+    detailsTitle: '시드가 정한 세부 사항',
+    note: '모델은 사용자의 게임 파일에서 읽습니다. 형태는 시드를 따릅니다. 색상은 도장된 우주선에만 표시되며 근사치입니다. 게임의 텍스처와 데칼은 아직 그려지지 않습니다. 여기 있는 것은 아직 시드별로 게임과 비교하지 않았습니다.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: '먼저 브리지에서 게임 폴더를 선택하세요.',
+      UNKNOWN_KIND: '이 종류는 사용할 수 없습니다.',
+      INVALID_SEED: '시드는 0x 뒤에 최대 16자리 16진수여야 합니다.',
+      GAME_FILES_UNREADABLE: '이 모델의 게임 파일을 읽을 수 없습니다.',
+      MODEL_TOO_LARGE: '이 모델은 너무 커서 표시할 수 없습니다.',
+      SEED_NOT_FOUND:
+        '제한 시간 안에 이 부품을 가진 시드를 찾지 못했습니다. 다시 시도하거나 부품 하나를 자유롭게 두세요.'
+    }
   },
   preview: {
     title: '모델 작업실',

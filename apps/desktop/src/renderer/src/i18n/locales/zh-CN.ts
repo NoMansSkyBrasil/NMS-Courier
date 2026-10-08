@@ -101,7 +101,7 @@ export const zhCN: Messages = {
     catalog: { title: '游戏目录', summary: '搜索已安装游戏中的物品。' },
     models: {
       title: '模型工坊',
-      summary: '预览导入的模型和调色板。'
+      summary: '查看种子的外观，或为想要的部件寻找种子。'
     },
     bridge: {
       title: '游戏与桥接',
@@ -392,6 +392,57 @@ export const zhCN: Messages = {
     matching: '{count} 个匹配的定义',
     loading: '正在加载定义…',
     languages: '{count} 种游戏语言'
+  },
+  workshop: {
+    title: '模型工坊',
+    description:
+      '先选择要查看的内容，然后输入种子、随机生成一个，或者选好部件，让应用找出带有这些部件的种子。',
+    tabBuild: '组装',
+    tabView: '查看种子',
+    buildDescription: '选择类型、部件和主色。应用会寻找带有它们的种子并显示出来。',
+    viewDescription: '选择类型并输入种子，或随机生成一个，查看它的外观。',
+    colorTitle: '涂装主色',
+    colorHint: '游戏涂装调色板的颜色。“任意”表示交给种子决定。',
+    seedColorsTitle: '此种子的颜色',
+    paintLabel: '涂装',
+    undercoatLabel: '底漆',
+    tabFile: '模型文件',
+    categoryLabel: '类别',
+    category: { starship: '星际飞船', multitool: '多功能工具', freighter: '货船' },
+    kindLabel: '类型',
+    toolKind: {
+      standard: '标准',
+      royal: '皇家',
+      sentinel: '哨兵',
+      sentinelB: '哨兵 B',
+      atlasSceptre: '阿特拉斯权杖',
+      atlas: '阿特拉斯',
+      staff: '法杖'
+    },
+    seedLabel: '种子',
+    seedHint: '0x 后接十六位十六进制数字。按回车或“显示”查看。',
+    show: '显示',
+    generate: '生成种子',
+    generateWithParts: '用这些部件生成',
+    clearParts: '清除部件',
+    getInGame: '在游戏中获取这一个',
+    found: '尝试 {tries} 次后找到种子',
+    building: '正在组装模型…',
+    empty: '暂无可显示的内容',
+    partsTitle: '部件',
+    partsHint: '选择想要的部件，其余保持“任意”。带有自身部件的部件下方会出现更多列表。',
+    anyPart: '任意',
+    rare: '稀有',
+    detailsTitle: '由种子决定的细节',
+    note: '模型读取自你自己的游戏文件。外形由种子决定。颜色仅对有涂装的星际飞船显示，且为近似值：游戏的纹理和贴花尚未绘制。这里的内容尚未逐个种子与游戏比对。',
+    errors: {
+      INSTALLATION_NOT_SELECTED: '请先在“桥接”中选择游戏文件夹。',
+      UNKNOWN_KIND: '此类型不可用。',
+      INVALID_SEED: '种子必须是 0x 后接最多十六位十六进制数字。',
+      GAME_FILES_UNREADABLE: '无法读取此模型的游戏文件。',
+      MODEL_TOO_LARGE: '此模型过大，无法显示。',
+      SEED_NOT_FOUND: '未能及时找到带有这些部件的种子。请重试，或放开其中一个部件。'
+    }
   },
   preview: {
     title: '模型工坊',

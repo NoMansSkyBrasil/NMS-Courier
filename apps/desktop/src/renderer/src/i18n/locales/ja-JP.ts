@@ -103,7 +103,7 @@ export const jaJP: Messages = {
     catalog: { title: 'ゲームカタログ', summary: 'インストール済みのゲームのアイテムを検索。' },
     models: {
       title: 'モデル工房',
-      summary: 'インポートしたモデルとカラーパレットのプレビュー。'
+      summary: 'シード値の見た目を確認したり、欲しいパーツのシード値を探したりできます。'
     },
     bridge: {
       title: 'ゲームとブリッジ',
@@ -420,6 +420,60 @@ export const jaJP: Messages = {
     matching: '一致する定義: {count} 件',
     loading: '定義を読み込み中…',
     languages: 'ゲームの言語: {count}'
+  },
+  workshop: {
+    title: 'モデル工房',
+    description:
+      '見たいものを選び、シード値を入力するか、ランダムに生成するか、パーツを選んでその組み合わせを持つシード値をアプリに探させます。',
+    tabBuild: '組み立て',
+    tabView: 'シード値を表示',
+    buildDescription:
+      '種類、パーツ、メインカラーを選びます。その組み合わせを持つシード値をアプリが探して表示します。',
+    viewDescription: '種類を選び、シード値を入力するかランダムに生成して、見た目を確認します。',
+    colorTitle: '塗装のメインカラー',
+    colorHint: 'ゲームの塗装パレットの色です。「指定なし」はシード値に任せます。',
+    seedColorsTitle: 'このシード値の色',
+    paintLabel: '塗装',
+    undercoatLabel: '下地',
+    tabFile: 'モデルファイル',
+    categoryLabel: 'カテゴリ',
+    category: { starship: '宇宙船', multitool: 'マルチツール', freighter: '貨物船' },
+    kindLabel: '種類',
+    toolKind: {
+      standard: '標準',
+      royal: 'ロイヤル',
+      sentinel: 'センチネル',
+      sentinelB: 'センチネル B',
+      atlasSceptre: 'アトラスの笏',
+      atlas: 'アトラス',
+      staff: '杖'
+    },
+    seedLabel: 'シード値',
+    seedHint: '0x に続く 16 桁の 16 進数。Enter キーまたは「表示」で確認できます。',
+    show: '表示',
+    generate: 'シード値を生成',
+    generateWithParts: 'このパーツで生成',
+    clearParts: 'パーツ指定を解除',
+    getInGame: 'これをゲームで入手',
+    found: '{tries} 回の試行でシード値が見つかりました',
+    building: 'モデルを組み立て中…',
+    empty: '表示するものはまだありません',
+    partsTitle: 'パーツ',
+    partsHint:
+      '欲しいパーツを選び、残りは「指定なし」のままにします。固有のパーツを持つパーツの下には、さらにリストが表示されます。',
+    anyPart: '指定なし',
+    rare: 'レア',
+    detailsTitle: 'シード値が決めた細部',
+    note: 'モデルはお使いのゲームファイルから読み込みます。形状はシード値に従います。色は塗装された宇宙船にのみ表示され、近似です。ゲームのテクスチャとデカールはまだ描画されません。ここにあるものは、まだシード値ごとにゲームと照合されていません。',
+    errors: {
+      INSTALLATION_NOT_SELECTED: '先に「ブリッジ」でゲームフォルダを選択してください。',
+      UNKNOWN_KIND: 'この種類は利用できません。',
+      INVALID_SEED: 'シード値は 0x に続く最大 16 桁の 16 進数で入力してください。',
+      GAME_FILES_UNREADABLE: 'このモデルのゲームファイルを読み込めませんでした。',
+      MODEL_TOO_LARGE: 'このモデルは大きすぎて表示できません。',
+      SEED_NOT_FOUND:
+        '時間内にこのパーツを持つシード値が見つかりませんでした。もう一度試すか、パーツを 1 つ「指定なし」にしてください。'
+    }
   },
   preview: {
     title: 'モデル工房',

@@ -112,7 +112,7 @@ export const ptPT: Messages = {
     catalog: { title: 'Catálogo do jogo', summary: 'Pesquise os itens do seu jogo instalado.' },
     models: {
       title: 'Oficina de modelos',
-      summary: 'Pré-visualize modelos importados e paletas de cores.'
+      summary: 'Veja como é uma seed ou encontre uma seed para as peças que quer.'
     },
     bridge: {
       title: 'Jogo e ponte',
@@ -428,6 +428,60 @@ export const ptPT: Messages = {
     matching: '{count} definições encontradas',
     loading: 'A carregar definições…',
     languages: '{count} idiomas do jogo'
+  },
+  workshop: {
+    title: 'Oficina de modelos',
+    description:
+      'Escolha o que quer ver e depois escreva uma seed, sorteie uma ou escolha as peças e deixe a aplicação encontrar uma seed que as tenha.',
+    tabBuild: 'Montar',
+    tabView: 'Ver uma seed',
+    buildDescription:
+      'Escolha o tipo, as peças e a cor principal. A aplicação procura uma seed que as tenha e mostra o resultado.',
+    viewDescription: 'Escolha o tipo e escreva uma seed, ou sorteie uma, para ver como é.',
+    colorTitle: 'Cor principal da pintura',
+    colorHint: 'As cores da paleta de pintura do jogo. Qualquer deixa a escolha para a seed.',
+    seedColorsTitle: 'Cores desta seed',
+    paintLabel: 'Pintura',
+    undercoatLabel: 'Subcapa',
+    tabFile: 'Ficheiro de modelo',
+    categoryLabel: 'Categoria',
+    category: { starship: 'Nave', multitool: 'Multiferramenta', freighter: 'Cargueiro' },
+    kindLabel: 'Tipo',
+    toolKind: {
+      standard: 'Padrão',
+      royal: 'Real',
+      sentinel: 'Sentinela',
+      sentinelB: 'Sentinela B',
+      atlasSceptre: 'Cetro Atlas',
+      atlas: 'Atlas',
+      staff: 'Bastão'
+    },
+    seedLabel: 'Seed',
+    seedHint: 'Dezasseis dígitos hexadecimais depois de 0x. Prima Enter ou Mostrar para ver.',
+    show: 'Mostrar',
+    generate: 'Gerar uma seed',
+    generateWithParts: 'Gerar com estas peças',
+    clearParts: 'Limpar peças',
+    getInGame: 'Obter esta no jogo',
+    found: 'Seed encontrada após {tries} tentativas',
+    building: 'A montar o modelo…',
+    empty: 'Ainda nada para mostrar',
+    partsTitle: 'Peças',
+    partsHint:
+      'Escolha as peças que quer e deixe o resto em Qualquer. Aparecem mais listas por baixo de uma peça que tem peças próprias.',
+    anyPart: 'Qualquer',
+    rare: 'rara',
+    detailsTitle: 'Detalhes sorteados pela seed',
+    note: 'O modelo é lido dos seus próprios ficheiros do jogo. A forma segue a seed. As cores aparecem apenas nas naves pintadas e são aproximadas: as texturas e os decalques do jogo ainda não são desenhados. Nada aqui foi ainda comparado com o jogo seed a seed.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Selecione primeiro a pasta do jogo, em Ponte.',
+      UNKNOWN_KIND: 'Este tipo não está disponível.',
+      INVALID_SEED: 'A seed deve ser 0x seguido de até dezasseis dígitos hexadecimais.',
+      GAME_FILES_UNREADABLE: 'Não foi possível ler os ficheiros do jogo deste modelo.',
+      MODEL_TOO_LARGE: 'Este modelo é demasiado grande para mostrar.',
+      SEED_NOT_FOUND:
+        'Não foi encontrada a tempo nenhuma seed com estas peças. Tente de novo ou deixe uma peça livre.'
+    }
   },
   preview: {
     title: 'Oficina de modelos',

@@ -52,6 +52,7 @@ import type { DeliveryStateId, SectionId } from '@renderer/i18n/messages'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverEquipment>>
+import { hashParameters } from '@renderer/features'
 import type { EquipmentArea } from '@renderer/features/equipment-areas'
 type Action = 'grid' | 'classStep' | 'slotReward' | 'offer' | 'build'
 
@@ -121,8 +122,19 @@ export function EquipmentCard({
   const [itemClass, setItemClass] = useState('S')
   const [shipIndex, setShipIndex] = useState(-1)
   const [scene, setScene] = useState('')
-  const [model, setModel] = useState<string>(area === 'multitools' ? toolModels[0] : shipModels[0])
-  const [modelSeed, setModelSeed] = useState('')
+  // The model workshop hands over a kind and a seed through the hash.
+  const [handed] = useState(() => hashParameters(window.location.hash))
+  const handedKind = handed.get('kind') ?? ''
+  const [model, setModel] = useState<string>(
+    area === 'multitools'
+      ? toolModels[0]
+      : (shipModels as readonly string[]).includes(handedKind)
+        ? handedKind
+        : shipModels[0]
+  )
+  const [modelSeed, setModelSeed] = useState(
+    /^0x[0-9a-f]{1,16}$/i.test(handed.get('seed') ?? '') ? (handed.get('seed') as string) : ''
+  )
   const [homeSeed, setHomeSeed] = useState('')
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)

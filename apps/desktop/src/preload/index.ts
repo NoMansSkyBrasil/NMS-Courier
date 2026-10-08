@@ -5,6 +5,16 @@ const nms = {
   selectAppearanceRecipe: () => ipcRenderer.invoke('nms:select-appearance-recipe'),
   selectPreviewPalettes: () => ipcRenderer.invoke('nms:select-preview-palettes'),
   previewPaletteSeed: (seed: string) => ipcRenderer.invoke('nms:preview-palette-seed', seed),
+  workshopModel: (request: { category: string; kind: string; seed: string }) =>
+    ipcRenderer.invoke('nms:workshop-model', request),
+  workshopChoices: (request: { category: string; kind: string }) =>
+    ipcRenderer.invoke('nms:workshop-choices', request),
+  workshopFindSeed: (request: {
+    category: string
+    kind: string
+    parts: Array<{ parent: string; group: string; id: string }>
+    paint: number[] | null
+  }) => ipcRenderer.invoke('nms:workshop-find-seed', request),
   getFoundationStatus: (): Promise<{
     apiVersion: string
     runtime: 'bundled' | 'unavailable'

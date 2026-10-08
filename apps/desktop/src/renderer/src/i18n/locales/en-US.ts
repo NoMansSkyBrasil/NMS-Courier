@@ -103,7 +103,7 @@ export const enUS: Messages = {
     catalog: { title: 'Game catalogue', summary: 'Search the items of your installed game.' },
     models: {
       title: 'Model workshop',
-      summary: 'Preview imported models and colour palettes.'
+      summary: 'See what a seed looks like, or find a seed for the parts you want.'
     },
     bridge: {
       title: 'Game and bridge',
@@ -414,6 +414,61 @@ export const enUS: Messages = {
     matching: '{count} matching definitions',
     loading: 'Loading definitions…',
     languages: '{count} game languages'
+  },
+  workshop: {
+    title: 'Model workshop',
+    description:
+      'Choose what you want to see, then type a seed, draw a random one, or pick the parts and let the application find a seed that has them.',
+    tabBuild: 'Build',
+    tabView: 'View a seed',
+    buildDescription:
+      'Choose the type, the parts and the main colour. The application looks for a seed that has them and shows it.',
+    viewDescription:
+      'Choose the type and type a seed, or draw a random one, to see what it looks like.',
+    colorTitle: 'Main paint colour',
+    colorHint: "The colours of the game's paint palette. Any leaves the choice to the seed.",
+    seedColorsTitle: 'Colours of this seed',
+    paintLabel: 'Paint',
+    undercoatLabel: 'Undercoat',
+    tabFile: 'Model file',
+    categoryLabel: 'Category',
+    category: { starship: 'Starship', multitool: 'Multi-tool', freighter: 'Freighter' },
+    kindLabel: 'Type',
+    toolKind: {
+      standard: 'Standard',
+      royal: 'Royal',
+      sentinel: 'Sentinel',
+      sentinelB: 'Sentinel B',
+      atlasSceptre: 'Atlas Sceptre',
+      atlas: 'Atlas',
+      staff: 'Staff'
+    },
+    seedLabel: 'Seed',
+    seedHint: 'Sixteen hexadecimal digits after 0x. Press Enter or Show to see it.',
+    show: 'Show',
+    generate: 'Generate a seed',
+    generateWithParts: 'Generate with these parts',
+    clearParts: 'Clear parts',
+    getInGame: 'Get this one in the game',
+    found: 'Seed found after {tries} attempts',
+    building: 'Building the model…',
+    empty: 'Nothing to show yet',
+    partsTitle: 'Parts',
+    partsHint:
+      'Choose the parts you want and leave the rest on Any. More lists appear under a part that has parts of its own.',
+    anyPart: 'Any',
+    rare: 'rare',
+    detailsTitle: 'Details drawn by the seed',
+    note: "The model is read from your own game files. Shapes follow the seed. Colours are shown for painted starships only and are approximate: the game's textures and decals are not drawn yet. Nothing here was compared with the game seed by seed yet.",
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Select the game folder first, in Bridge.',
+      UNKNOWN_KIND: 'This type is not available.',
+      INVALID_SEED: 'The seed must be 0x followed by up to sixteen hexadecimal digits.',
+      GAME_FILES_UNREADABLE: 'The game files for this model could not be read.',
+      MODEL_TOO_LARGE: 'This model is too large to show.',
+      SEED_NOT_FOUND:
+        'No seed with these parts was found in time. Try again or leave one part free.'
+    }
   },
   preview: {
     title: 'Model workshop',

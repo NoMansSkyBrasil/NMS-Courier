@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-08: model workshop reads the game's files (application 1.10.0), offline
+
+Offline only; no game process, bridge or save. Build 180836 files. Owning
+note: [model workshop](MODEL_WORKSHOP.md). The application now reads part
+lists, scene graphs and geometry from the installation's archives, ports the
+seed-to-parts traversal and shows the model of a seed; it also searches a seed
+for chosen parts and main paint colour by trying random seeds. Type lists were
+checked against the game's part lists and the community customizer at
+`nms.center`. Observed: five reference selections equal the research port, all
+twenty types build, a search with nested parts and a colour succeeds, the
+rendered page shows a painted fighter. Failed on the way: nested part lists
+were first read as plain lists (they are held through references), which made
+every part list unreadable. Rejected: copying the site's part nicknames and
+data. Not proven: any agreement with the running game.
+
 ## 2026-10-08: exotic, living and interceptor starships added (bridge 1.7.0), not sent
 
 Offline analysis and a build; nothing sent to the game. Build 180836. Owning

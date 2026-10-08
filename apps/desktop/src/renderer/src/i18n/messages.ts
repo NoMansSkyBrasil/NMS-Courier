@@ -305,6 +305,44 @@ export type Messages = {
     loading: string
     languages: string
   }
+  workshop: {
+    title: string
+    description: string
+    tabBuild: string
+    tabView: string
+    buildDescription: string
+    viewDescription: string
+    colorTitle: string
+    colorHint: string
+    seedColorsTitle: string
+    paintLabel: string
+    undercoatLabel: string
+    tabFile: string
+    categoryLabel: string
+    category: Record<'starship' | 'multitool' | 'freighter', string>
+    kindLabel: string
+    toolKind: Record<
+      'standard' | 'royal' | 'sentinel' | 'sentinelB' | 'atlas' | 'staff' | 'atlasSceptre',
+      string
+    >
+    seedLabel: string
+    seedHint: string
+    show: string
+    generate: string
+    generateWithParts: string
+    clearParts: string
+    getInGame: string
+    found: string
+    building: string
+    empty: string
+    partsTitle: string
+    partsHint: string
+    anyPart: string
+    rare: string
+    detailsTitle: string
+    note: string
+    errors: Record<import('../../../shared/model-workshop').WorkshopFailure, string>
+  }
   preview: {
     title: string
     description: string

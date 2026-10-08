@@ -111,7 +111,7 @@ export const plPL: Messages = {
     },
     models: {
       title: 'Warsztat modeli',
-      summary: 'Podgląd zaimportowanych modeli i palet kolorów.'
+      summary: 'Zobacz, jak wygląda ziarno, albo znajdź ziarno dla wybranych części.'
     },
     bridge: {
       title: 'Gra i most',
@@ -419,6 +419,60 @@ export const plPL: Messages = {
     matching: 'Pasujące definicje: {count}',
     loading: 'Wczytywanie definicji…',
     languages: 'Języki gry: {count}'
+  },
+  workshop: {
+    title: 'Warsztat modeli',
+    description:
+      'Wybierz, co chcesz zobaczyć, a potem wpisz ziarno, wylosuj je albo wybierz części i pozwól aplikacji znaleźć ziarno, które je ma.',
+    tabBuild: 'Złóż',
+    tabView: 'Zobacz ziarno',
+    buildDescription:
+      'Wybierz typ, części i główny kolor. Aplikacja poszuka ziarna, które je ma, i je pokaże.',
+    viewDescription: 'Wybierz typ i wpisz ziarno albo wylosuj je, aby zobaczyć, jak wygląda.',
+    colorTitle: 'Główny kolor lakieru',
+    colorHint: 'Kolory palety lakieru z gry. Dowolna zostawia wybór ziarnu.',
+    seedColorsTitle: 'Kolory tego ziarna',
+    paintLabel: 'Lakier',
+    undercoatLabel: 'Podkład',
+    tabFile: 'Plik modelu',
+    categoryLabel: 'Kategoria',
+    category: { starship: 'Statek', multitool: 'Multinarzędzie', freighter: 'Frachtowiec' },
+    kindLabel: 'Typ',
+    toolKind: {
+      standard: 'Standardowe',
+      royal: 'Królewskie',
+      sentinel: 'Strażnicze',
+      sentinelB: 'Strażnicze B',
+      atlasSceptre: 'Berło Atlasu',
+      atlas: 'Atlas',
+      staff: 'Laska'
+    },
+    seedLabel: 'Ziarno',
+    seedHint: 'Szesnaście cyfr szesnastkowych po 0x. Naciśnij Enter lub Pokaż, aby je zobaczyć.',
+    show: 'Pokaż',
+    generate: 'Wygeneruj ziarno',
+    generateWithParts: 'Wygeneruj z tymi częściami',
+    clearParts: 'Wyczyść części',
+    getInGame: 'Zdobądź ten w grze',
+    found: 'Ziarno znalezione po {tries} próbach',
+    building: 'Składanie modelu…',
+    empty: 'Na razie nie ma nic do pokazania',
+    partsTitle: 'Części',
+    partsHint:
+      'Wybierz części, które chcesz, a resztę zostaw jako Dowolna. Pod częścią, która ma własne części, pojawiają się kolejne listy.',
+    anyPart: 'Dowolna',
+    rare: 'rzadka',
+    detailsTitle: 'Szczegóły wylosowane przez ziarno',
+    note: 'Model jest odczytywany z twoich własnych plików gry. Kształt wynika z ziarna. Kolory są pokazywane tylko dla lakierowanych statków i są przybliżone: tekstury i naklejki z gry nie są jeszcze rysowane. Nic tutaj nie zostało jeszcze porównane z grą ziarno po ziarnie.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Najpierw wybierz folder gry w sekcji Most.',
+      UNKNOWN_KIND: 'Ten typ jest niedostępny.',
+      INVALID_SEED: 'Ziarno musi mieć postać 0x i najwyżej szesnastu cyfr szesnastkowych.',
+      GAME_FILES_UNREADABLE: 'Nie udało się odczytać plików gry tego modelu.',
+      MODEL_TOO_LARGE: 'Ten model jest zbyt duży, aby go pokazać.',
+      SEED_NOT_FOUND:
+        'Nie znaleziono na czas ziarna z tymi częściami. Spróbuj ponownie albo zostaw jedną część dowolną.'
+    }
   },
   preview: {
     title: 'Warsztat modeli',

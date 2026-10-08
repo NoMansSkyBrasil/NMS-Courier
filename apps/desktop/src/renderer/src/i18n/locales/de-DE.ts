@@ -117,7 +117,8 @@ export const deDE: Messages = {
     },
     models: {
       title: 'Modellwerkstatt',
-      summary: 'Vorschau importierter Modelle und Farbpaletten.'
+      summary:
+        'Sieh dir an, wie ein Seed aussieht, oder finde einen Seed für die gewünschten Teile.'
     },
     bridge: {
       title: 'Spiel und Brücke',
@@ -439,6 +440,61 @@ export const deDE: Messages = {
     matching: '{count} passende Definitionen',
     loading: 'Definitionen werden geladen…',
     languages: '{count} Spielsprachen'
+  },
+  workshop: {
+    title: 'Modellwerkstatt',
+    description:
+      'Wähle, was du sehen möchtest, und gib dann einen Seed ein, würfle einen aus oder wähle die Teile und lass die Anwendung einen Seed finden, der sie hat.',
+    tabBuild: 'Zusammenstellen',
+    tabView: 'Seed ansehen',
+    buildDescription:
+      'Wähle Typ, Teile und Hauptfarbe. Die Anwendung sucht einen Seed, der sie hat, und zeigt ihn.',
+    viewDescription:
+      'Wähle den Typ und gib einen Seed ein oder würfle einen aus, um zu sehen, wie er aussieht.',
+    colorTitle: 'Hauptfarbe der Lackierung',
+    colorHint: 'Die Farben der Lackpalette des Spiels. „Beliebig“ überlässt die Wahl dem Seed.',
+    seedColorsTitle: 'Farben dieses Seeds',
+    paintLabel: 'Lack',
+    undercoatLabel: 'Grundierung',
+    tabFile: 'Modelldatei',
+    categoryLabel: 'Kategorie',
+    category: { starship: 'Raumschiff', multitool: 'Multi-Werkzeug', freighter: 'Frachter' },
+    kindLabel: 'Typ',
+    toolKind: {
+      standard: 'Standard',
+      royal: 'Royal',
+      sentinel: 'Wächter',
+      sentinelB: 'Wächter B',
+      atlasSceptre: 'Atlas-Zepter',
+      atlas: 'Atlas',
+      staff: 'Stab'
+    },
+    seedLabel: 'Seed',
+    seedHint: 'Sechzehn Hexadezimalziffern nach 0x. Drücke die Eingabetaste oder „Anzeigen“.',
+    show: 'Anzeigen',
+    generate: 'Seed erzeugen',
+    generateWithParts: 'Mit diesen Teilen erzeugen',
+    clearParts: 'Teile zurücksetzen',
+    getInGame: 'Dieses im Spiel erhalten',
+    found: 'Seed nach {tries} Versuchen gefunden',
+    building: 'Modell wird zusammengesetzt…',
+    empty: 'Noch nichts anzuzeigen',
+    partsTitle: 'Teile',
+    partsHint:
+      'Wähle die gewünschten Teile und lass den Rest auf „Beliebig“. Unter einem Teil mit eigenen Teilen erscheinen weitere Listen.',
+    anyPart: 'Beliebig',
+    rare: 'selten',
+    detailsTitle: 'Vom Seed ausgeloste Details',
+    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Die Form folgt dem Seed. Farben werden nur für lackierte Raumschiffe gezeigt und sind Näherungen: Texturen und Abziehbilder des Spiels werden noch nicht gezeichnet. Nichts hiervon wurde bisher Seed für Seed mit dem Spiel verglichen.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Wähle zuerst unter „Brücke“ den Spielordner aus.',
+      UNKNOWN_KIND: 'Dieser Typ ist nicht verfügbar.',
+      INVALID_SEED: 'Der Seed muss 0x gefolgt von höchstens sechzehn Hexadezimalziffern sein.',
+      GAME_FILES_UNREADABLE: 'Die Spieldateien dieses Modells konnten nicht gelesen werden.',
+      MODEL_TOO_LARGE: 'Dieses Modell ist zu groß für die Anzeige.',
+      SEED_NOT_FOUND:
+        'In der verfügbaren Zeit wurde kein Seed mit diesen Teilen gefunden. Versuche es erneut oder lass ein Teil frei.'
+    }
   },
   preview: {
     title: 'Modellwerkstatt',

@@ -106,7 +106,7 @@ export const esES: Messages = {
     catalog: { title: 'Catálogo del juego', summary: 'Busca los objetos de tu juego instalado.' },
     models: {
       title: 'Taller de modelos',
-      summary: 'Previsualiza modelos importados y paletas de colores.'
+      summary: 'Mira cómo es una semilla o encuentra una semilla para las piezas que quieres.'
     },
     bridge: {
       title: 'Juego y puente',
@@ -425,6 +425,61 @@ export const esES: Messages = {
     matching: '{count} definiciones coincidentes',
     loading: 'Cargando definiciones…',
     languages: '{count} idiomas del juego'
+  },
+  workshop: {
+    title: 'Taller de modelos',
+    description:
+      'Elige qué quieres ver y luego escribe una semilla, sortea una o elige las piezas y deja que la aplicación encuentre una semilla que las tenga.',
+    tabBuild: 'Montar',
+    tabView: 'Ver una semilla',
+    buildDescription:
+      'Elige el tipo, las piezas y el color principal. La aplicación busca una semilla que los tenga y la muestra.',
+    viewDescription: 'Elige el tipo y escribe una semilla, o sortea una, para ver cómo es.',
+    colorTitle: 'Color principal de la pintura',
+    colorHint:
+      'Los colores de la paleta de pintura del juego. Cualquiera deja la elección a la semilla.',
+    seedColorsTitle: 'Colores de esta semilla',
+    paintLabel: 'Pintura',
+    undercoatLabel: 'Capa base',
+    tabFile: 'Archivo de modelo',
+    categoryLabel: 'Categoría',
+    category: { starship: 'Nave', multitool: 'Multiherramienta', freighter: 'Carguero' },
+    kindLabel: 'Tipo',
+    toolKind: {
+      standard: 'Estándar',
+      royal: 'Real',
+      sentinel: 'Centinela',
+      sentinelB: 'Centinela B',
+      atlasSceptre: 'Cetro Atlas',
+      atlas: 'Atlas',
+      staff: 'Bastón'
+    },
+    seedLabel: 'Semilla',
+    seedHint: 'Dieciséis dígitos hexadecimales después de 0x. Pulsa Intro o Mostrar para verla.',
+    show: 'Mostrar',
+    generate: 'Generar una semilla',
+    generateWithParts: 'Generar con estas piezas',
+    clearParts: 'Quitar piezas',
+    getInGame: 'Obtener esta en el juego',
+    found: 'Semilla encontrada tras {tries} intentos',
+    building: 'Montando el modelo…',
+    empty: 'Nada que mostrar todavía',
+    partsTitle: 'Piezas',
+    partsHint:
+      'Elige las piezas que quieras y deja el resto en Cualquiera. Aparecen más listas debajo de una pieza que tiene piezas propias.',
+    anyPart: 'Cualquiera',
+    rare: 'rara',
+    detailsTitle: 'Detalles sorteados por la semilla',
+    note: 'El modelo se lee de tus propios archivos del juego. La forma sigue la semilla. Los colores solo se muestran en las naves pintadas y son aproximados: las texturas y calcomanías del juego aún no se dibujan. Nada de esto se ha comparado todavía con el juego semilla por semilla.',
+    errors: {
+      INSTALLATION_NOT_SELECTED: 'Selecciona primero la carpeta del juego, en Puente.',
+      UNKNOWN_KIND: 'Este tipo no está disponible.',
+      INVALID_SEED: 'La semilla debe ser 0x seguido de hasta dieciséis dígitos hexadecimales.',
+      GAME_FILES_UNREADABLE: 'No se pudieron leer los archivos del juego de este modelo.',
+      MODEL_TOO_LARGE: 'Este modelo es demasiado grande para mostrarlo.',
+      SEED_NOT_FOUND:
+        'No se encontró a tiempo ninguna semilla con estas piezas. Inténtalo de nuevo o deja una pieza libre.'
+    }
   },
   preview: {
     title: 'Taller de modelos',

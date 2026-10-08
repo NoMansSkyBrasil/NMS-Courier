@@ -80,7 +80,7 @@ const familyNames = [
   'Slime',
   'Hulk'
 ]
-type Family = { mode: number; colors: PreviewColor[] }
+export type Family = { mode: number; colors: PreviewColor[] }
 type State = [number, number]
 const mask64 = (1n << 64n) - 1n
 
@@ -94,7 +94,7 @@ export function advance(state: State): State {
   return [Number(product & 0xffffffffn), Number(product >> 32n)]
 }
 
-function childSeed(state: State): [State, bigint] {
+export function childSeed(state: State): [State, bigint] {
   const first = advance(state)
   const second = advance(first)
   let value = (BigInt(second[0]) << 32n) | BigInt(first[0])
@@ -138,6 +138,64 @@ function distance(left: PreviewColor, right: PreviewColor): number {
   const g = Math.fround(left[1] - right[1])
   const b = Math.fround(left[2] - right[2])
   return Math.fround(Math.fround(b * b) + Math.fround(Math.fround(g * g) + Math.fround(r * r)))
+}
+
+// The families of the game's base palette file, or null when the bytes are not that file.
+export function readBasePalette(bytes: Buffer): Family[] | null {
+  if (
+    bytes.length !== basePaletteBytes ||
+    createHash('sha256').update(bytes).digest('hex') !== basePaletteHash
+  )
+    return null
+  return familyNames.map((_, index) => {
+    const base = 32 + index * 0x410
+    return {
+      mode: bytes.readUInt32LE(base + 0x400),
+      colors: Array.from(
+        { length: 64 },
+        (_, cell) =>
+          [0, 1, 2, 3].map((channel) =>
+            bytes.readFloatLE(base + cell * 16 + channel * 4)
+          ) as PreviewColor
+      )
+    }
+  })
+}
+
+export const paintFamily = 10
+export const undercoatFamily = 20
+
+// The five samples of each of the first `count` families for a seed, in file order. The same
+// schedule as generateBasePalette, stopped early: a ship's paint needs the first eleven families.
+export function leadingPaletteSamples(
+  seed: bigint,
+  families: Family[],
+  count: number
+): PreviewColor[][] {
+  let state = seedState(seed)
+  const rows: PreviewColor[][] = []
+  for (let index = 0; index < count; index++) {
+    const family = families[index]
+    const mode = family.mode || 5
+    const colors: PreviewColor[] = []
+    for (let slot = 0; slot < 5; slot++) {
+      let position: number
+      ;[state, position] = draw(state, mode)
+      let retries = 0
+      while (
+        retries < 64 &&
+        colors.some(
+          (previous) => distance(previous, family.colors[lookup(position, mode)]) < 2 ** -32
+        )
+      ) {
+        position = (position + 1) % 64
+        retries++
+      }
+      colors.push(family.colors[lookup(position, mode)])
+    }
+    rows.push(colors)
+  }
+  return rows
 }
 
 export function generateBasePalette(seed: bigint, families: Family[]): PalettePreview {

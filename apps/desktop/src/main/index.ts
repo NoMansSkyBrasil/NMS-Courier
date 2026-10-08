@@ -14,6 +14,8 @@ import { resolveBuildSupport } from './build-support'
 import { inspectRuntimeBundle, type RuntimeResourceContext } from './runtime-resources'
 import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 import { importPreviewModel } from './model-preview-import'
+import { GameModelFiles } from './model-workshop/game-model-files'
+import { ModelWorkshopService } from './model-workshop/model-workshop-service'
 import { BasePalettePreviewAdapter } from './nms-adapters/base-palette-preview'
 import { importAppearanceRecipe } from './nms-adapters/appearance-recipe'
 import {
@@ -37,6 +39,13 @@ const diagnosticsDirectory = join(process.env.LOCALAPPDATA ?? '', 'NMSCourier', 
 const gameStatusService = new GameStatusService(diagnosticsDirectory)
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 const palettePreview = new BasePalettePreviewAdapter()
+let modelWorkshopService: ModelWorkshopService | null = null
+
+function getModelWorkshopService(): ModelWorkshopService {
+  const root = (): string | null => getInstallationService().getSelectedRootPath()
+  modelWorkshopService ??= new ModelWorkshopService(new GameModelFiles(root), root)
+  return modelWorkshopService
+}
 let researchBridgeService: ResearchBridgeService | null = null
 
 // The research bridge exists only in a development checkout so far: the classification tables it
@@ -220,6 +229,20 @@ app.whenReady().then(() => {
     if (!owner || event.senderFrame !== event.sender.mainFrame)
       return { state: 'failed', reason: 'PALETTE_UNAVAILABLE' }
     return palettePreview.evaluate(seed)
+  })
+  // The model workshop: what a seed looks like, which parts can be drawn, and a seed for chosen
+  // parts. All three read the selected installation's archives; nothing is written.
+  ipcMain.handle('nms:workshop-model', (_, request: unknown) => {
+    const value = (request ?? {}) as Record<string, unknown>
+    return getModelWorkshopService().build(value.category, value.kind, value.seed)
+  })
+  ipcMain.handle('nms:workshop-choices', (_, request: unknown) => {
+    const value = (request ?? {}) as Record<string, unknown>
+    return getModelWorkshopService().choices(value.category, value.kind)
+  })
+  ipcMain.handle('nms:workshop-find-seed', (_, request: unknown) => {
+    const value = (request ?? {}) as Record<string, unknown>
+    return getModelWorkshopService().findSeed(value.category, value.kind, value.parts, value.paint)
   })
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
   ipcMain.handle('nms:get-game-status', () =>

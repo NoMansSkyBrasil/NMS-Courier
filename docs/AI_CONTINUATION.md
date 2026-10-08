@@ -1,5 +1,10 @@
 # AI continuation guide
 
+> Model workshop, 2026-10-08: application 1.10.0 builds models from the
+> installation's own files (two screens, twenty types). Owner:
+> [model workshop](MODEL_WORKSHOP.md). Next there: compare one obtained
+> starship with its workshop model, then texture layers and decals.
+
 > Checkpoint 2026-10-08 (end of day): application 1.9.0, bridge 1.7.0
 > (`7b8a83be...0509`), data file `2f55b139...37d6` (eight starship kinds) in
 > `GAMEDATA/MODS/NMSCourier`. Every carrier request (currencies, items with
