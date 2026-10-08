@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: two entitlement technologies not unlocked on the account (owner's report)
+
+The owner's editor shows `ENT_BOLTCASTER` and `ENT_PHOCORE` redeemed in the
+save but not unlocked on the account; the other four platform entries are
+both. Read-only check: `BOLT_SM` and `PHOTONIX_CORE` are in the account's
+seen technologies and no `ENT_*` value exists in the settings file, so the
+field the editor means is unknown. The owner will enable them in the editor;
+a diff of `accountdata.hg` against `20261008-offline-final-state` is the next
+step. Added to the list of things to deliver through the game.
+
 ## 2026-10-08: saved files after the Twitch and platform requests (read-only)
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#saved-state-after-the-twitch-and-platform-requests-read-from-disk-game-closed-0114).

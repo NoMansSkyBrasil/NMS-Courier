@@ -154,6 +154,8 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Character customisation in the slot: 263 specials delivered and confirmed on 2026-10-07.
 - [ ] Network-player delivery (later goal): find the multiplayer messages that make a peer run a reward and how the
   synchronised container hands over items ([reference feature catalog](docs/REFERENCE_FEATURE_CATALOG.md)).
+- [ ] `ENT_BOLTCASTER` and `ENT_PHOCORE` are not "unlocked on account" in the owner's editor: diff `accountdata.hg` after
+  the owner enables them there, then find the game's route ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
 - [ ] Pre-order and entitlement rewards (ships `ENT_SHIP`, `ENT_SHIP_PC`, `R_TGA_SHIP01`, Switch ship and multitool):
   find the entitlement grant routine and test one ship reward on a disposable slot
   ([reward redemption notes](docs/REWARD_REDEMPTION_NOTES.md)).

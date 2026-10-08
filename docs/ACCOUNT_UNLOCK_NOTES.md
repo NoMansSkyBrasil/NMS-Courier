@@ -324,6 +324,33 @@ ship claim did to the active ship.
 Still not proven: the lists after a restart, and after the store client
 goes online again.
 
+### Entitlement rewards still not unlocked on the account (owner's editor, 2026-10-08)
+
+After the session the owner's editor lists six "platform" rewards. Unlocked
+on the account and redeemed in the save: `TGA_SHIP1`, `SW_PREORDER`,
+`SW_PREORDER2`, `ENT_XO_HELMET`. Redeemed in the save but **not unlocked on
+the account: `ENT_BOLTCASTER` (Boltcaster SM) and `ENT_PHOCORE` (Photonix
+Core).** The owner confirmed by this that the two Switch rewards were claimed
+in the shop.
+
+What is known about the two missing ones:
+
+- They are entitlement entries whose reward is a technology (`BOLT_SM`,
+  `PHOTONIX_CORE`); both technologies are known in slot 3 and both are in the
+  account's seen technologies, in the current settings file and in the full
+  backup of 2026-10-07. So "unlocked on account" in the editor is neither of
+  those lists.
+- No `ENT_*` value appears anywhere in the settings file, now or in the full
+  backup. `ENT_XO_HELMET` reads as unlocked presumably because its reward is
+  the special `SPEC_XOHELMET`, which is in the account's specials.
+- Which account field the editor sets for an entitlement technology is not
+  known. The owner will enable the two in the editor; comparing
+  `accountdata.hg` before (backup `20261008-offline-final-state`) and after
+  will show the field. Then find the game routine that writes it.
+
+To deliver later through the game: `ENT_BOLTCASTER` and `ENT_PHOCORE` on the
+account.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
