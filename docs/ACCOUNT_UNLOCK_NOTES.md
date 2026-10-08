@@ -507,6 +507,16 @@ running game. What already persists without the bridge:
 Only the "available to claim" state of unclaimed Twitch rewards depends on
 the keep list.
 
+Clarified the same morning: the owner meant having the game itself report
+the local state so that the service updates its own records, without
+touching the servers. Same boundary: the project does not make the client
+send the service claims about rewards it did not grant. What the game
+uploads by itself as part of its normal account synchronisation (the lists
+it wrote after the local changes) is the game's own behaviour and was only
+observed. As read so far, the Twitch list travels one way, from the service
+to the game in the sign-in reply; no client report of Twitch rewards was
+found, and none was looked for further.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
