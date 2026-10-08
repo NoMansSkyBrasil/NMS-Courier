@@ -183,7 +183,7 @@ declare global {
       >
       installCorvetteLayout: () => Promise<
         | { state: 'installed'; name: string; partCount: number }
-        | { state: 'failed'; reason: string }
+        | { state: 'failed'; reason: string; detail?: string }
       >
       getCorvetteLayout: () => Promise<{
         installed: { name: string; partCount: number; installedAt: string } | null

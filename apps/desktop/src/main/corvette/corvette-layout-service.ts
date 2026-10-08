@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { join } from 'node:path'
 import { openPakArchive } from '../game-data/pak-archive'
@@ -55,7 +55,16 @@ export type CorvetteInstallResult =
   | { state: 'installed'; name: string; partCount: number }
   | {
       state: 'failed'
-      reason: 'installation_not_selected' | 'no_file_chosen' | 'unknown_structure' | 'unreadable'
+      // unreadable: the game's own files could not be read; unwritable: the mod folder could not
+      // be written.
+      reason:
+        | 'installation_not_selected'
+        | 'no_file_chosen'
+        | 'unknown_structure'
+        | 'unreadable'
+        | 'unwritable'
+      // The system's error code, for the record.
+      detail?: string
     }
 
 type Record = { name: string; partCount: number; installedAt: string; layoutSha256: string }
@@ -131,7 +140,13 @@ export class CorvetteLayoutService {
       if (await stat(research).catch(() => null)) {
         const kept = join(this.userDataPath, 'replaced-mods')
         await mkdir(kept, { recursive: true })
-        await rename(research, join(kept, `${researchFolder}-${Date.now()}`))
+        const target = join(kept, `${researchFolder}-${Date.now()}`)
+        // The game and the application's data are often on different drives, where a rename is
+        // not possible: copy first, then remove the copy that was in the game.
+        await rename(research, target).catch(async () => {
+          await cp(research, target, { recursive: true })
+          await rm(research, { recursive: true })
+        })
       }
       const layoutPath = join(mods, modFolder, ...layoutFile)
       await mkdir(join(layoutPath, '..'), { recursive: true })
@@ -145,8 +160,9 @@ export class CorvetteLayoutService {
       }
       await writeFile(this.recordPath(), JSON.stringify(record, null, 2))
       return { state: 'installed', name: record.name, partCount: record.partCount }
-    } catch {
-      return { state: 'failed', reason: 'unreadable' }
+    } catch (error) {
+      const detail = (error as NodeJS.ErrnoException).code ?? String(error).slice(0, 120)
+      return { state: 'failed', reason: 'unwritable', detail }
     }
   }
 }

@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-08: corvette build started from the application; preparing a file failed
+
+Slot from the owner's habit (slot 3), not identified by the tools. Build
+180836, bridge 1.4.0 (`520fd043...5300`), application 1.6.0, game running.
+
+- "Prepare in the game" with the 976-part export failed with "the files could
+  not be written". Nothing was written: the mod folder still held only the
+  research folder of 2026-10-07. Cause: the first step moves that folder to
+  the application's data folder with a rename, and the game is on drive E
+  while the data folder is on drive C. Fixed in application 1.6.1 (copy, then
+  remove).
+- "Start corvette build" from the Corvettes page worked, by the owner's
+  report: **first corvette build request from the application.** The layout
+  the game showed was the research one still installed (the same 976-part
+  export), not one written by the application.
+- Not proven: a layout written by the application; what the owner did after
+  build mode opened.
+
 ## 2026-10-08: bridge 1.4.0 and the item carriers installed
 
 Game closed (checked in the process list). Installed bridge 1.4.0

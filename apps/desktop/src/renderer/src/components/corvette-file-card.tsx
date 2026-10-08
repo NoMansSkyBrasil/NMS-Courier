@@ -115,7 +115,9 @@ export function CorvetteFileCard(): React.JSX.Element {
               {installed.state === 'failed'
                 ? installed.reason === 'unknown_structure'
                   ? copy.catalogPage.failStructure
-                  : text.installFailed
+                  : installed.reason === 'unreadable'
+                    ? copy.catalogPage.failUnreadable
+                    : `${text.installFailed}${installed.detail ? ` (${installed.detail})` : ''}`
                 : text.installedBody}
             </AlertDescription>
           </Alert>

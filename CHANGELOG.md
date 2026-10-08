@@ -13,6 +13,13 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.6.1 (2026-10-08)
+
+- Fix: preparing a corvette file failed when the game and the application's
+  data are on different drives, because the old research folder was moved
+  with a rename. It is now copied and then removed. A failure names the
+  system's error code.
+
 ## Application 1.6.0 (2026-10-08)
 
 - Corvette from a file: the Corvettes page takes a `.nmsship` export, shows
