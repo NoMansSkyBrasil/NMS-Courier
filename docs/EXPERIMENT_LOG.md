@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-08: account unlocks persisted; Twitch and platform lists read in the code (offline)
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#twitch-and-platform-rewards-what-the-code-does-offline-2026-10-08).
+Game closed; files and executables read only.
+
+- Both account files of 00:38 hold titles 346, specials 782, season 293:
+  the account requests of the night were saved by the game. Twitch 0,
+  platform 1.
+- The owner's editor shows no Twitch reward unlocked on the account. None
+  was requested: no routine exists for it.
+- Slot-side Twitch and platform sets identified (player state `+0xa8b00`,
+  `+0xa8b40`), reachable through the existing `redeem` event; not run.
+- Account-side: the bulk routine either keeps the loaded Twitch and platform
+  lists as plain lists (account `+0x290`, `+0x2a0`) or filters them into the
+  sets, depending on a byte at account `+0x2b1`. Explains the empty Twitch
+  set seen on 2026-10-07; the plain lists must be read again.
+
 ## 2026-10-08: pre-order, platform and entitlement rewards mapped (offline)
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md#pre-order-platform-and-entitlement-rewards-what-they-are-offline-2026-10-08).

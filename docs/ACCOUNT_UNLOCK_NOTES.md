@@ -141,6 +141,64 @@ Undo: with the game closed and the store client offline, copy the save
 folder and settings file back from `20261008-before-account-unlock`. Putting
 the store client online is also expected to bring back the remote account.
 
+### Saved state after the requests (read from disk, game closed)
+
+The owner saved and closed the game. Both account files, written by the
+game at 00:38, hold the result: `UnlockedTitles` 346, `UnlockedSpecials`
+782, `UnlockedSeasonRewards` 293 in the settings file and the same counts in
+`accountdata.hg`. `UnlockedTwitchRewards` is 0 and `UnlockedPlatformRewards`
+is 1 (`TGA_SHIP1`, in the settings file only). So the game persists what
+its account routines inserted.
+
+The owner's editor then showed every Twitch reward as not unlocked on the
+account and asked why they were not all unlocked. They were never
+requested: the account request has no Twitch or platform kind because the
+game has no single-entry routine for them. That is the open part below.
+
+## Twitch and platform rewards: what the code does (offline, 2026-10-08)
+
+Slot side, read from the redeem routine `5ab380` on build 180836:
+
+| Kind | How the ID is recognised | Slot set written | Account |
+| --- | --- | --- | --- |
+| Twitch | In the map at manager `+0x920`, or found by a product-side lookup (`eca510`, then the entry's field at `+0x20`) | Player state `+0xa8b00`, by helper `5ab7a0` | Not touched |
+| Platform | In the map at manager `+0x960`, or found by `eca600` (field at `+0x10`) | Player state `+0xa8b40`, by helper `5ab840` | Not touched |
+
+So "redeemed in save" for a Twitch or platform reward is reachable through
+the existing `redeem` event (`signal-reward-180836.ps1 -AllOfKind twitch`).
+It has not been run for these kinds. The editor already shows some Twitch
+rewards as redeemed in the save; those are the customisation ones whose
+specials were recorded on 2026-10-07.
+
+Account side, read from the bulk routine of build 180383 (`342ec0`, blocks
+at `345580` and `3456c2`; not yet relocated to 180836):
+
+- The Twitch set is at account `+0x200` and the platform set at `+0x240`,
+  as assumed.
+- When settings are applied the routine empties the set, then looks at a
+  byte at account `+0x2b1`. If it is zero the loaded list is **copied as it
+  is into a plain list** (Twitch at account `+0x290`, platform at `+0x2a0`)
+  and the set stays empty. If it is non-zero each loaded ID is inserted into
+  the set only when the map of that kind contains it.
+- This explains the earlier puzzle of an empty Twitch set beside a settings
+  file with 435 entries: the IDs were being held in the plain list, or were
+  filtered out by the map. Which of the two, and what sets the byte at
+  `+0x2b1`, was not determined; the earlier read of `+0x290` assumed a
+  different layout and has to be repeated.
+
+What "unlock every Twitch reward" would take:
+
+1. Read, in the running game: the byte at account `+0x2b1`, the two plain
+   lists, and how many entries the Twitch map at manager `+0x920` holds.
+2. Slot side: one Twitch reward through the `redeem` event, then all, for
+   the rewards where redeemed is the whole reward (decorations, appearance).
+   A ship, multitool, companion egg, firework or upgrade pack is an item:
+   marking it redeemed hands over nothing.
+3. Account side: no game routine adds one entry. The only way inside the
+   running game is the game's container insert on the set, or an append to
+   the plain list, with the changed flag; that is a direct write through a
+   native helper, to be labelled so and decided by the owner.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
