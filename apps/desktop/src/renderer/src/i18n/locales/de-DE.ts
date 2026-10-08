@@ -172,6 +172,8 @@ export const deDE: Messages = {
     open: 'Öffnen'
   },
   dashboard: {
+    heroBody:
+      'Sende Gegenstände, Währungen und Freischaltungen an dein eigenes laufendes Spiel. Alles läuft über das Spiel selbst, deine Spielstände werden nie bearbeitet, und die Namen und Symbole hier stammen aus deiner Installation.',
     game: 'Spiel',
     build: 'Spielversion',
     bridge: 'Brücke',

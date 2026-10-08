@@ -168,6 +168,8 @@ export const itIT: Messages = {
     open: 'Apri'
   },
   dashboard: {
+    heroBody:
+      'Invia oggetti, valute e sblocchi al tuo gioco in esecuzione. Tutto passa attraverso il gioco stesso, i tuoi salvataggi non vengono mai modificati, e i nomi e le icone che vedi qui provengono dalla tua installazione.',
     game: 'Gioco',
     build: 'Versione del gioco',
     bridge: 'Ponte',

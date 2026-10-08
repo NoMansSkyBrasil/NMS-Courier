@@ -19,6 +19,7 @@ import {
 } from '@renderer/components/ui/empty'
 import { Input } from '@renderer/components/ui/input'
 import { Skeleton } from '@renderer/components/ui/skeleton'
+import { GameIcon } from '@renderer/components/game-icon'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 
@@ -178,11 +179,16 @@ export function CatalogPage(): React.JSX.Element {
         {result?.entries.map((entry) => (
           <Card key={entry.entryKey}>
             <CardHeader className="gap-1">
-              <div className="flex items-start justify-between gap-3">
-                <CardTitle className="text-base">{entry.name || entry.gameId}</CardTitle>
-                <Badge variant="outline">{text[entry.domain]}</Badge>
+              <div className="flex items-start gap-3">
+                <GameIcon locator={entry.icon} size="lg" />
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <CardTitle className="text-base">{entry.name || entry.gameId}</CardTitle>
+                    <Badge variant="outline">{text[entry.domain]}</Badge>
+                  </div>
+                  <CardDescription>{entry.subtitle || entry.gameId}</CardDescription>
+                </div>
               </div>
-              <CardDescription>{entry.subtitle || entry.gameId}</CardDescription>
             </CardHeader>
             {entry.description && (
               <CardContent className="text-sm text-muted-foreground">

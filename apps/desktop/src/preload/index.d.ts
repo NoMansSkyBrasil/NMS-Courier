@@ -159,6 +159,7 @@ declare global {
         amount: number
         notify: boolean
       }) => Promise<DeliveryResult>
+      getGameIcon: (locator: string) => Promise<Uint8Array | null>
       getStackLimits: () => Promise<{
         substanceBase: number
         substanceCap: number
@@ -168,7 +169,7 @@ declare global {
       getDeliveryOptions: (
         feature: string,
         locale: string
-      ) => Promise<Array<{ id: string; group: string; name: string }>>
+      ) => Promise<Array<{ id: string; group: string; name: string; icon: string | null }>>
       getDeliveryActivity: () => Promise<DeliveryResult[]>
       searchCatalog: (request: {
         query: string

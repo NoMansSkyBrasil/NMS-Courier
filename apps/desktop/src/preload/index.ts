@@ -27,6 +27,7 @@ const nms = {
   deliverCurrency: (request: { currency: string; amount: number; notify: boolean }) =>
     ipcRenderer.invoke('nms:deliver-currency', request),
   getStackLimits: () => ipcRenderer.invoke('nms:get-stack-limits'),
+  getGameIcon: (locator: string) => ipcRenderer.invoke('nms:get-game-icon', locator),
   deliverItems: (items: Array<{ id: string; amount: number }>) =>
     ipcRenderer.invoke('nms:deliver-items', items),
   getDeliveryOptions: (feature: string, locale: string) =>

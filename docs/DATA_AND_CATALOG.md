@@ -164,6 +164,31 @@ from the executable; GOG and Game Pass installations were not tried (the
 archive layout is assumed to be the same). Palettes and 3D models are the
 next two steps and are not started.
 
+### 4b. Implemented: game icons without extraction
+
+Implemented on 2026-10-08 (owner request). Every catalogue entry keeps the
+game-relative locator of its icon. All 1,708 icons of the current catalogue
+are in one archive, `NMSARC.TexUI.pak`, as DDS files in BC7 (DXGI format 98),
+mostly 256 x 256.
+
+- Main process, `apps/desktop/src/main/game-data/icon-source.ts`: reads one
+  texture file from that archive when the renderer asks for it. Only locators
+  the catalogue names are served. Nothing is written to disk; the archive is
+  closed after 30 seconds without a request.
+- Renderer, `src/renderer/src/lib/game-icon-image.ts`: no decoder. The
+  texture's first picture is uploaded to a hidden WebGL 2 canvas through
+  `EXT_texture_compression_bptc`, drawn once at 96 pixels and kept as an image
+  address for the session. `components/game-icon.tsx` shows it in the standard
+  avatar component with a placeholder.
+- Without that WebGL extension, with another texture format, or for a missing
+  file, the placeholder stays. One icon locator of the catalogue has a doubled
+  slash and is not found.
+
+Verified in a started application on the owner's machine (catalogue page,
+item search, technology list, start page). Not verified: a machine without the
+extension; memory use after very long browsing (images are never released
+during a session).
+
 ### Packaged toolchain acceptance
 
 The separate [bulk research utility](../runtime/research/README.md) can extract all

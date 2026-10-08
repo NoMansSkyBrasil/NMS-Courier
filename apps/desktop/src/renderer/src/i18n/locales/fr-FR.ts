@@ -169,6 +169,8 @@ export const frFR: Messages = {
     open: 'Ouvrir'
   },
   dashboard: {
+    heroBody:
+      'Envoyez des objets, des monnaies et des déblocages à votre propre jeu en cours d’exécution. Tout passe par le jeu lui-même, vos sauvegardes ne sont jamais modifiées, et les noms et icônes affichés ici proviennent de votre installation.',
     game: 'Jeu',
     build: 'Version du jeu',
     bridge: 'Pont',

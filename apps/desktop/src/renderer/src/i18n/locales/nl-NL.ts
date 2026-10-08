@@ -170,6 +170,8 @@ export const nlNL: Messages = {
     open: 'Openen'
   },
   dashboard: {
+    heroBody:
+      'Stuur voorwerpen, valuta en ontgrendelingen naar je eigen draaiende spel. Alles loopt via het spel zelf, je opgeslagen spellen worden nooit bewerkt, en de namen en pictogrammen die je hier ziet komen uit je eigen installatie.',
     game: 'Spel',
     build: 'Spelversie',
     bridge: 'Brug',

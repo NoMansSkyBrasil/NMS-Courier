@@ -166,6 +166,8 @@ export const ptPT: Messages = {
     open: 'Abrir'
   },
   dashboard: {
+    heroBody:
+      'Envie itens, moedas e desbloqueios para o seu próprio jogo em execução. Tudo passa pelo próprio jogo, as suas gravações nunca são editadas, e os nomes e ícones que vê aqui vêm da sua instalação.',
     game: 'Jogo',
     build: 'Versão do jogo',
     bridge: 'Ponte',

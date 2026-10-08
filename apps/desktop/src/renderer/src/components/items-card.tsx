@@ -30,6 +30,7 @@ import {
   CardTitle
 } from '@renderer/components/ui/card'
 import { Input } from '@renderer/components/ui/input'
+import { GameIcon } from '@renderer/components/game-icon'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { Table, TableBody, TableCell, TableRow } from '@renderer/components/ui/table'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
@@ -39,7 +40,13 @@ type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverItems>>
 type Entry = Awaited<ReturnType<typeof window.nms.searchCatalog>>['entries'][number]
 type StackLimits = Awaited<ReturnType<typeof window.nms.getStackLimits>>
-type Chosen = { id: string; name: string; amount: number; stack: number | null }
+type Chosen = {
+  id: string
+  name: string
+  icon: string | null
+  amount: number
+  stack: number | null
+}
 
 const outcomeIcons = {
   completed: CircleCheckIcon,
@@ -128,6 +135,7 @@ export function ItemsCard(): React.JSX.Element {
             {
               id: entry.gameId,
               name: entry.name || entry.gameId,
+              icon: entry.icon,
               amount: stackOf(entry, limits) ?? 1,
               stack: stackOf(entry, limits)
             }
@@ -183,6 +191,9 @@ export function ItemsCard(): React.JSX.Element {
               <TableBody>
                 {found.map((entry) => (
                   <TableRow key={entry.entryKey}>
+                    <TableCell className="w-10">
+                      <GameIcon locator={entry.icon} />
+                    </TableCell>
                     <TableCell className="font-medium">{entry.name || entry.gameId}</TableCell>
                     <TableCell className="text-muted-foreground">{entry.gameId}</TableCell>
                     <TableCell>
@@ -222,6 +233,9 @@ export function ItemsCard(): React.JSX.Element {
               <TableBody>
                 {chosen.map((item) => (
                   <TableRow key={item.id}>
+                    <TableCell className="w-10">
+                      <GameIcon locator={item.icon} />
+                    </TableCell>
                     <TableCell className="font-medium">{item.name}</TableCell>
                     <TableCell className="text-muted-foreground">{item.id}</TableCell>
                     <TableCell className="text-muted-foreground">

@@ -138,6 +138,19 @@ export class CatalogRepository {
     }
   }
 
+  // Icon locator of every entry, by entry key; and the set of all of them in lower case.
+  icons(): Map<string, string> {
+    const icons = new Map<string, string>()
+    for (const entry of this.loadCurrent()?.catalog.entries ?? []) {
+      if (entry.icon) icons.set(entry.entryKey, entry.icon)
+    }
+    return icons
+  }
+
+  iconLocators(): Set<string> {
+    return new Set([...this.icons().values()].map((icon) => icon.toLowerCase()))
+  }
+
   // Display name of every entry in one language, by entry key.
   names(locale: string): Map<string, string> {
     const names = new Map<string, string>()

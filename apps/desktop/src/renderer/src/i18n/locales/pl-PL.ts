@@ -160,6 +160,8 @@ export const plPL: Messages = {
     open: 'Otwórz'
   },
   dashboard: {
+    heroBody:
+      'Wysyłaj przedmioty, waluty i odblokowania do własnej uruchomionej gry. Wszystko przechodzi przez samą grę, twoje zapisy nigdy nie są edytowane, a nazwy i ikony widoczne tutaj pochodzą z twojej instalacji.',
     game: 'Gra',
     build: 'Wersja gry',
     bridge: 'Most',

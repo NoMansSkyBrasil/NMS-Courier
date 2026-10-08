@@ -155,6 +155,8 @@ export const enUS: Messages = {
     open: 'Open'
   },
   dashboard: {
+    heroBody:
+      'Send items, currencies and unlocks to your own running game. Everything goes through the game itself, your saves are never edited, and the names and icons you see here come from your installation.',
     game: 'Game',
     build: 'Game build',
     bridge: 'Bridge',

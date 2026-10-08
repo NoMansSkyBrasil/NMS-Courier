@@ -4,6 +4,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
 import { CatalogImporter } from './game-data/catalog-import'
+import { IconSource } from './game-data/icon-source'
 import { isEquipmentRequest } from './research-bridge/equipment-plan'
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
@@ -24,6 +25,7 @@ import { ResearchBridgeService } from './research-bridge/research-bridge-service
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 let catalogImporter: CatalogImporter | null = null
+const iconSource = new IconSource()
 const gameStatusService = new GameStatusService()
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 const palettePreview = new BasePalettePreviewAdapter()
@@ -297,6 +299,15 @@ app.whenReady().then(() => {
       value.notify !== false
     )
   })
+  // The texture of one catalogue icon, as the game stores it; the renderer draws it.
+  ipcMain.handle('nms:get-game-icon', (_, locator: unknown) => {
+    if (typeof locator !== 'string' || locator.length > 260) return null
+    return iconSource.read(
+      getInstallationService().getSelectedRootPath(),
+      locator,
+      getCatalogRepository().iconLocators()
+    )
+  })
   ipcMain.handle('nms:get-stack-limits', async () => {
     const root = getInstallationService().getSelectedRootPath()
     const game = await gameStatusService.observe(root)
@@ -327,10 +338,12 @@ app.whenReady().then(() => {
     }
     const options = await getResearchBridgeService().getOptions(feature)
     const names = getCatalogRepository().names(locale)
+    const icons = getCatalogRepository().icons()
     return options.map((option) => ({
       id: option.id,
       group: option.group,
-      name: (option.domain && names.get(`${option.domain}:${option.id}`)) || ''
+      name: (option.domain && names.get(`${option.domain}:${option.id}`)) || '',
+      icon: (option.domain && icons.get(`${option.domain}:${option.id}`)) || null
     }))
   })
   ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())

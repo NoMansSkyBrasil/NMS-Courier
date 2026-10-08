@@ -147,6 +147,8 @@ export const zhCN: Messages = {
     open: '打开'
   },
   dashboard: {
+    heroBody:
+      '把物品、货币和解锁内容发送到你自己正在运行的游戏。一切都通过游戏本身完成，绝不编辑你的存档；这里显示的名称和图标都来自你的游戏安装。',
     game: '游戏',
     build: '游戏版本',
     bridge: '桥接',

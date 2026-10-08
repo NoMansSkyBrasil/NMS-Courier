@@ -3,6 +3,7 @@ import { Badge } from '@renderer/components/ui/badge'
 import { Button } from '@renderer/components/ui/button'
 import { Checkbox } from '@renderer/components/ui/checkbox'
 import { Input } from '@renderer/components/ui/input'
+import { GameIcon } from '@renderer/components/game-icon'
 import { Table, TableBody, TableCell, TableRow } from '@renderer/components/ui/table'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 
@@ -34,6 +35,8 @@ export function DeliverySelection({
     )
   }, [options, query])
   const shown = matching.slice(0, shownLimit)
+  // Areas the catalogue cannot name (titles, rewards) have no icons either.
+  const hasIcons = options.some((option) => option.icon)
 
   const toggle = (id: string, checked: boolean): void => {
     const next = new Set(chosen)
@@ -86,6 +89,11 @@ export function DeliverySelection({
                     onCheckedChange={(checked) => toggle(option.id, checked === true)}
                   />
                 </TableCell>
+                {hasIcons && (
+                  <TableCell className="w-10">
+                    <GameIcon locator={option.icon} />
+                  </TableCell>
+                )}
                 <TableCell className="font-medium">{option.name || option.id}</TableCell>
                 <TableCell className="text-muted-foreground">{option.id}</TableCell>
                 <TableCell className="text-right">

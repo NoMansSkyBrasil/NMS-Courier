@@ -1,5 +1,13 @@
 # Runtime experiment log
 
+## 2026-10-08: game icons and new start page (application only)
+
+Nothing sent to the game. Read-only scan of the installation: the 1,708 icon
+textures the catalogue names are all in `NMSARC.TexUI.pak`, BC7. The
+application reads one on demand and lets the graphics card decode it; see
+[data and catalog, section 4b](DATA_AND_CATALOG.md#4b-implemented-game-icons-without-extraction).
+Seen working in a started application. 74 unit tests pass. Application 1.3.0.
+
 ## 2026-10-08: bridge 1.2.0, free currency amounts and stack sizes (not sent)
 
 Offline analysis, build and installation; the game was closed. Build 180836,

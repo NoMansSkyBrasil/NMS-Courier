@@ -115,6 +115,7 @@ export type Messages = {
     open: string
   }
   dashboard: {
+    heroBody: string
     game: string
     build: string
     bridge: string

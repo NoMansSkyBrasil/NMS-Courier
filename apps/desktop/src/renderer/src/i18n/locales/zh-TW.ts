@@ -147,6 +147,8 @@ export const zhTW: Messages = {
     open: '開啟'
   },
   dashboard: {
+    heroBody:
+      '把物品、貨幣和解鎖內容傳送到你自己正在執行的遊戲。一切都透過遊戲本身完成，絕不編輯你的存檔；這裡顯示的名稱和圖示都來自你的遊戲安裝。',
     game: '遊戲',
     build: '遊戲版本',
     bridge: '橋接',

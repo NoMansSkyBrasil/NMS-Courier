@@ -137,8 +137,10 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Pages for exosuit, starships, multi-tools, freighters and corvettes wired to the existing bridge requests (2026-10-08). First live use from the application is open.
 - [x] Items: stack size of each item shown (2026-10-08, bridge 1.2.0). Not seen live yet.
 - [x] Currencies of any amount up to 4,294,967,295 (2026-10-08, bridge 1.2.0). Not exercised live yet.
-- [ ] Game icons beside item names in the catalogue and the item lists, read from the game's archives through each entry's icon locator (owner request 2026-10-08). Needs a DDS decoder.
-- [ ] Start page: a hero and a more refined layout with original shadcn components (owner request 2026-10-08).
+- [x] Game icons beside item names (2026-10-08, application 1.3.0), drawn by the graphics card from the game's own textures.
+- [x] Start page with a hero (2026-10-08, application 1.3.0).
+- [ ] Icons for areas the core catalogue cannot name yet (titles, expedition and Twitch rewards); release images when many were browsed.
+- [ ] Corvette delivery from a `.nmsship` file (owner request 2026-10-08): read the format, then build the corvette through the game's own routines; today the Corvettes page only starts build mode with class and slot options.
 - [ ] Frigates and companions: no research yet.
 - [x] Game notifications on by default with a setting to deliver silently (2026-10-08): technologies, product recipes, build parts.
 - [ ] Observe live how the game queues notifications when a whole area is sent; other areas have no notification in their routine.

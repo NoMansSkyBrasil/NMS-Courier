@@ -13,6 +13,13 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.3.0 (2026-10-08)
+
+- Game icons beside the names in the catalogue, the item lists and the entry
+  lists of the delivery pages, read from the user's own installation.
+- New start page: a hero with the application and bridge versions, the state
+  of the bridge, shortcuts and the areas as cards by group.
+
 ## Application 1.2.0 and bridge 1.2.0 (2026-10-08)
 
 Bridge 1.2.0, file SHA-256

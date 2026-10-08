@@ -161,6 +161,8 @@ export const esES: Messages = {
     open: 'Abrir'
   },
   dashboard: {
+    heroBody:
+      'Envía objetos, monedas y desbloqueos a tu propio juego en ejecución. Todo pasa por el propio juego, tus partidas guardadas nunca se editan, y los nombres e iconos que ves aquí proceden de tu instalación.',
     game: 'Juego',
     build: 'Versión del juego',
     bridge: 'Puente',
