@@ -6,8 +6,9 @@ backpack, capes), banners, jetpack trails, textures and titles **in the
 loaded save slot**.
 
 Status in one line: the link between each option and what unlocks it is
-mapped offline and a product class exists for it; **nothing has been sent
-and the unlock mechanism is not confirmed live.**
+mapped offline and a product class exists for it; one product
+(`BANNER_NMSA`) was taught to slot 3 as a test and the effect on screen is
+not confirmed yet.
 
 ## What the owner asked (2026-10-07)
 
@@ -58,6 +59,24 @@ existing product request can teach them to the slot:
    emblem 55. This is the test of whether a known product in the slot opens
    the option.
 3. If it does: `-AllOfClass customisation` (263).
+
+## Live requests (2026-10-07, slot 3)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...`, process 8256 |
+| Profile DLL | `68fd60bc51977404ef444f975d9a3073b8f937c5a06711fbaba7e271ec46d5a7` |
+| Slot | 3, identified by content (205 technologies, 1,905 products in memory) |
+| Backup | Save folder copied to the external `save-backups/20261007-before-customisation` |
+| Preflight | Passed, `dispatch_state=0` |
+
+| Request | Result file |
+| --- | --- |
+| `-Id BANNER_NMSA` | known products 1,905 -> 1,906, `BANNER_NMSA=learned` |
+
+So the routine writes a customisation part to the slot's known products.
+Game kept running. Not proven: that banner emblem 55 is open on screen
+(awaiting the owner). Undo: reload without saving, or restore the backup.
 
 Open questions:
 

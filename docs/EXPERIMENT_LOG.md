@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-07: first customisation product taught to slot 3
+
+Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md#live-requests-2026-10-07-slot-3).
+Process 8256, DLL `68fd60bc...d5a7`, slot 3 identified, backup taken,
+preflight passed.
+
+- `signal-product-180836.ps1 -Id BANNER_NMSA`: learned, known products
+  1,905 -> 1,906. Game kept running.
+- Not proven: banner emblem 55 open in the customiser.
+
 ## 2026-10-07: character customisation unlocks mapped (offline)
 
 Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md). Game
