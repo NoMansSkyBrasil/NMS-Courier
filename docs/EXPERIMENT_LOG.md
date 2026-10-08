@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-08: game files repaired by the owner through the store client; installation unchanged (read-only)
+
+The owner ran the store client's file repair with the game closed. Checked
+afterwards:
+
+- Executable: SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`,
+  unchanged (build 180836, file date 2026-10-05).
+- Bridge `xinput9_1_0.dll`: `68fd60bc...d5a7`, still installed.
+- `GAMEDATA/MODS`: both research mod folders still present.
+- `Binaries/SETTINGS/GCUSERSETTINGSDATA.MXML`: untouched (2026-10-07 23:56,
+  547,511 bytes) and still full (titles 346, specials 794, season 293,
+  Twitch 435, platform 1). `accountdata.hg` is still the editor's emptied
+  copy of 00:02.
+
+So the repair neither removed the bridge nor reset the account lists; the
+account will still be refilled from the settings file at the next start.
+
 ## 2026-10-08: second account cleanup checked on disk before starting the game (read-only)
 
 The owner locked everything again in the editor and closed the game (no
