@@ -83,6 +83,13 @@ on 2026-10-07.
 status: [product delivery notes](../../../../docs/PRODUCT_DELIVERY_NOTES.md). First used live
 on 2026-10-07.
 
+## Customisation
+
+`signal-customisation-180836.ps1 -Id A[,B...]` or `-All` records in the loaded slot the specials
+that unlock customisation options, through the profile's `redeem` event. Status:
+[customisation unlock notes](../../../../docs/CUSTOMISATION_UNLOCK_NOTES.md). First used live
+on 2026-10-07; effect not confirmed.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

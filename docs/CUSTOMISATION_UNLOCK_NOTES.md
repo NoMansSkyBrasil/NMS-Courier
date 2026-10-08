@@ -7,8 +7,9 @@ loaded save slot**.
 
 Status in one line: the link between each option and what unlocks it is
 mapped offline and a product class exists for it; one product
-(`BANNER_NMSA`) was taught to slot 3 as a test and the effect on screen is
-not confirmed yet.
+(`BANNER_NMSA`) was tested on slot 3: as a known product it did not open
+the option; the slot-side special routine was then called for it and the
+effect on screen is not confirmed yet.
 
 ## What the owner asked (2026-10-07)
 
@@ -74,9 +75,26 @@ existing product request can teach them to the slot:
 | --- | --- |
 | `-Id BANNER_NMSA` | known products 1,905 -> 1,906, `BANNER_NMSA=learned` |
 
-So the routine writes a customisation part to the slot's known products.
-Game kept running. Not proven: that banner emblem 55 is open on screen
-(awaiting the owner). Undo: reload without saving, or restore the backup.
+So the product routine writes a customisation part to the slot's known
+products. **The owner then checked: emblem 55 was still locked.** A known
+product in the slot does not open a customisation option; the hypothesis of
+the plan above is rejected.
+
+Second route, same process: the banner table calls its link
+`LinkedSpecialID`, and the slot-side reward routine `5ab380` (see
+[reward redemption notes](REWARD_REDEMPTION_NOTES.md)) adds an ID to the
+slot's known specials. New script
+`runtime/native/asi/signal/signal-customisation-180836.ps1` sends IDs of
+class `customisation` through the profile's existing `redeem` event (no new
+DLL).
+
+| Request | Result file |
+| --- | --- |
+| `signal-customisation-180836.ps1 -Id BANNER_NMSA` | `changed`, redeemed season set 10 -> 10 (as expected: not a season reward) |
+
+Game kept running. Not proven: which list changed (read the slot's known
+specials after a save) and whether emblem 55 is now open (awaiting the
+owner). Undo: reload without saving, or restore the backup.
 
 Open questions:
 

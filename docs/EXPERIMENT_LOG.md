@@ -1,5 +1,16 @@
 # Runtime experiment log
 
+## 2026-10-07: known product does not open a customisation option; special route tried
+
+Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md#live-requests-2026-10-07-slot-3).
+Process 8256, DLL `68fd60bc...d5a7`, slot 3.
+
+- Rejected: after `BANNER_NMSA` became a known product, the owner saw banner
+  emblem 55 still locked.
+- `signal-customisation-180836.ps1 -Id BANNER_NMSA` (profile `redeem` event,
+  game routine `5ab380`): `changed`. Game kept running.
+- Not proven: the list that changed, the emblem on screen.
+
 ## 2026-10-07: first customisation product taught to slot 3
 
 Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md#live-requests-2026-10-07-slot-3).
