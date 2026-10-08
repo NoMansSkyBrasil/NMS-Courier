@@ -64,7 +64,16 @@ export function isEquipmentRequest(value: unknown): value is EquipmentRequest {
   )
 }
 
-export const shipModels = ['fighter', 'hauler', 'explorer', 'shuttle', 'solar'] as const
+export const shipModels = [
+  'fighter',
+  'hauler',
+  'explorer',
+  'shuttle',
+  'solar',
+  'exotic',
+  'living',
+  'interceptor'
+] as const
 export const multitoolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
 
 // A new starship or multi-tool of a kind, seed and class: the bridge writes them into its own reward

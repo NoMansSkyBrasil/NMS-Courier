@@ -241,7 +241,10 @@ export const nlNL: Messages = {
       hauler: 'Transportschip',
       explorer: 'Verkenner',
       shuttle: 'Shuttle',
-      solar: 'Zonne'
+      solar: 'Solaire',
+      exotic: 'Exotisch',
+      living: 'Levend schip',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistool',

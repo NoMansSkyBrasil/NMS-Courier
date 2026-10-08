@@ -12,7 +12,7 @@ means the request was sent by hand with the research scripts that existed
 until 2026-10-08; *app* means sent from the desktop application. Since
 2026-10-08 only *app* counts as verified for the product.
 
-Current versions: application 1.8.1, bridge 1.6.0, game build 180836.
+Current versions: application 1.9.0, bridge 1.7.0, game build 180836.
 
 ## History in five steps
 
@@ -50,7 +50,7 @@ Current versions: application 1.8.1, bridge 1.6.0, game build 180836.
 | Exosuit: one more slot through the game's reward | Yes (2026-10-07) | Exosuit page (added 2026-10-08) | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Starship: all slots, supercharged, current ship or a ship slot | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Starship: class step, slot reward | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
-| New starship: kind, seed, class | Never | Starships, "Get a new one" (2026-10-08, bridge 1.6.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
+| New starship: kind (eight), seed, class | Never | Starships, "Get a new one" (2026-10-08, bridge 1.7.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
 | New multi-tool: kind, seed, class | Never | Multi-tools, "Get a new one" (2026-10-08, bridge 1.6.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
 | Starship from a plain `.nmsship` file | Never; no route known | File is recognised by the reader only | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Multi-tool: all slots, supercharged, class step, slot reward | Yes (2026-10-07) | Multi-tools page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |

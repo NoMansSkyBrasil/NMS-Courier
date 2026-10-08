@@ -211,11 +211,14 @@ export const zhTW: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: '戰鬥機',
-      hauler: '運輸船',
-      explorer: '探險船',
-      shuttle: '穿梭機',
-      solar: '太陽能'
+      fighter: '戰士',
+      hauler: '拖運船',
+      explorer: '探索者',
+      shuttle: '太空梭',
+      solar: '太陽能',
+      exotic: '外星的',
+      living: '活體太空船',
+      interceptor: '攔截艦'
     },
     toolModel: {
       pistol: '手槍',

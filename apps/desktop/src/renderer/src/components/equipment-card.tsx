@@ -67,7 +67,16 @@ const classes = ['S', 'A', 'B', 'C']
 // Actions that give something new; the others change what the player already owns.
 const obtainActions: readonly Action[] = ['offer', 'build']
 // Kinds of starship and multi-tool the bridge can offer; the seed decides the look within a kind.
-const shipModels = ['fighter', 'hauler', 'explorer', 'shuttle', 'solar'] as const
+const shipModels = [
+  'fighter',
+  'hauler',
+  'explorer',
+  'shuttle',
+  'solar',
+  'exotic',
+  'living',
+  'interceptor'
+] as const
 const toolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
 
 // Freighter models a player can own, by the game scene of each; the first leaves the choice to the
@@ -298,24 +307,44 @@ export function EquipmentCard({
                 <FieldContent>
                   <FieldLabel htmlFor="equipment-kind">{text.equipScene}</FieldLabel>
                 </FieldContent>
-                <Select
-                  items={kinds}
-                  value={model}
-                  onValueChange={(value) => setModel(value as string)}
-                >
-                  <SelectTrigger id="equipment-kind">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {kinds.map((entry) => (
-                        <SelectItem key={entry.value} value={entry.value}>
-                          {entry.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                {kinds.length > 5 ? (
+                  <Combobox
+                    items={kinds}
+                    value={kinds.find((entry) => entry.value === model) ?? kinds[0]}
+                    onValueChange={(entry) => setModel(entry?.value ?? kinds[0].value)}
+                  >
+                    <ComboboxInput id="equipment-kind" />
+                    <ComboboxContent>
+                      <ComboboxEmpty>{text.equipSceneEmpty}</ComboboxEmpty>
+                      <ComboboxList>
+                        {(entry: (typeof kinds)[number]) => (
+                          <ComboboxItem key={entry.value} value={entry}>
+                            {entry.label}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                ) : (
+                  <Select
+                    items={kinds}
+                    value={model}
+                    onValueChange={(value) => setModel(value as string)}
+                  >
+                    <SelectTrigger id="equipment-kind">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {kinds.map((entry) => (
+                          <SelectItem key={entry.value} value={entry.value}>
+                            {entry.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
               </Field>
               <Field orientation="responsive">
                 <FieldContent>

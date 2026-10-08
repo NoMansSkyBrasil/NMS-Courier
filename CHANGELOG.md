@@ -28,6 +28,22 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.9.0 and bridge 1.7.0 (2026-10-08)
+
+- New: three more starship kinds under "Get a new one": exotic, living ship
+  and interceptor. With the five existing ones these are the eight starship
+  types a player flies besides the corvette, which has its own area. Bridge
+  1.7.0, file SHA-256
+  `7b8a83be1228e415acce726c11f7424526c961af3aee9c0182f63073505e0509`; data
+  table SHA-256
+  `2f55b1393ac55058ec4bc86d261460649b9106ecda62d9997f252fef224a37d6` (18
+  entries; the first 15 are unchanged).
+- Changed: the names of the starship kinds are now the game's own in each of
+  the 14 languages, read from its text tables, instead of our translations.
+- Changed: the kind is chosen in a searchable list when there are more than
+  five (starships); multi-tools keep the plain list.
+- Not exercised live yet.
+
 ## Application 1.8.0 and bridge 1.6.0 (2026-10-08)
 
 - New: "Get a new one" for starships (fighter, hauler, explorer, shuttle,

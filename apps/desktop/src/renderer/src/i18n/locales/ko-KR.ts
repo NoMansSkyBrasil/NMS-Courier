@@ -217,11 +217,14 @@ export const koKR: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: '전투기',
-      hauler: '수송선',
-      explorer: '탐험선',
+      fighter: '투사',
+      hauler: '화물운송인',
+      explorer: '탐험가',
       shuttle: '셔틀',
-      solar: '솔라'
+      solar: '태양열',
+      exotic: '이국적',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: '피스톨',

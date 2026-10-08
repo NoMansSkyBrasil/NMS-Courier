@@ -241,9 +241,12 @@ export const deDE: Messages = {
     shipModel: {
       fighter: 'Jäger',
       hauler: 'Transporter',
-      explorer: 'Erkunder',
+      explorer: 'Entdecker',
       shuttle: 'Shuttle',
-      solar: 'Solar'
+      solar: 'Solare',
+      exotic: 'Exotisch',
+      living: 'Lebendes Schiff',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistole',

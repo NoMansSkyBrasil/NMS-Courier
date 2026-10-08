@@ -235,9 +235,12 @@ export const ruRU: Messages = {
     shipModel: {
       fighter: 'Истребитель',
       hauler: 'Тягач',
-      explorer: 'Исследователь',
-      shuttle: 'Шаттл',
-      solar: 'Солнечный'
+      explorer: 'Путешественник',
+      shuttle: 'Челнок',
+      solar: 'Солнечн.',
+      exotic: 'Экзотич.',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Пистолет',

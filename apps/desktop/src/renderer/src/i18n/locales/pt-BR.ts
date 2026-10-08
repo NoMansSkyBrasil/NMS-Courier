@@ -228,11 +228,14 @@ export const ptBR: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: 'Caça',
-      hauler: 'Transportadora',
-      explorer: 'Exploradora',
-      shuttle: 'Cápsula',
-      solar: 'Solar'
+      fighter: 'Nave de combate',
+      hauler: 'Carregador',
+      explorer: 'Explorador',
+      shuttle: 'Transporte',
+      solar: 'Solar',
+      exotic: 'Exótico',
+      living: 'Nave viva',
+      interceptor: 'Interceptador'
     },
     toolModel: {
       pistol: 'Pistola',

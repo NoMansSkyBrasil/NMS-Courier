@@ -223,11 +223,14 @@ export const jaJP: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: '戦闘機',
-      hauler: '運搬船',
-      explorer: '探検船',
+      fighter: '戦艦',
+      hauler: '輸送船',
+      explorer: '探査船',
       shuttle: 'シャトル',
-      solar: 'ソーラー'
+      solar: 'ソーラー',
+      exotic: '外来種',
+      living: '生ける宇宙船',
+      interceptor: '迎撃機'
     },
     toolModel: {
       pistol: 'ピストル',

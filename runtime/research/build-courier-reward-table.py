@@ -18,13 +18,25 @@ import hashlib
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+# Class and procedural scene of each kind are the game's own pairs in
+# metadata/simulation/space/aispaceshipmanager (ship models FIGHTER, DROPSHIP, SCIENTIFIC, SHUTTLE,
+# SAILSHIP, ROYAL, ALIEN and ROBOT). No shipped reward uses the procedural scene of the last three,
+# so their carriers copy the reward the game ships for that class with a special model and keep
+# only the listed technologies: the ones the technology table marks as core for the kind, and the
+# kind's basic weapons. Upgrades, trails and expedition extras of the special model are dropped.
 SHIPS = [
-    # model, carrier, the game's ship class, procedural scene
-    ("fighter", "COURIER_SHIP_FGT", "Fighter", "MODELS/COMMON/SPACECRAFT/FIGHTERS/FIGHTER_PROC.SCENE.MBIN"),
-    ("hauler", "COURIER_SHIP_DRP", "Dropship", "MODELS/COMMON/SPACECRAFT/DROPSHIPS/DROPSHIP_PROC.SCENE.MBIN"),
-    ("explorer", "COURIER_SHIP_SCI", "Scientific", "MODELS/COMMON/SPACECRAFT/SCIENTIFIC/SCIENTIFIC_PROC.SCENE.MBIN"),
-    ("shuttle", "COURIER_SHIP_SHT", "Shuttle", "MODELS/COMMON/SPACECRAFT/SHUTTLE/SHUTTLE_PROC.SCENE.MBIN"),
-    ("solar", "COURIER_SHIP_SAL", "Sail", "MODELS/COMMON/SPACECRAFT/SAILSHIP/SAILSHIP_PROC.SCENE.MBIN"),
+    # model, carrier, the game's ship class, procedural scene, technologies to keep (None: all)
+    ("fighter", "COURIER_SHIP_FGT", "Fighter", "MODELS/COMMON/SPACECRAFT/FIGHTERS/FIGHTER_PROC.SCENE.MBIN", None),
+    ("hauler", "COURIER_SHIP_DRP", "Dropship", "MODELS/COMMON/SPACECRAFT/DROPSHIPS/DROPSHIP_PROC.SCENE.MBIN", None),
+    ("explorer", "COURIER_SHIP_SCI", "Scientific", "MODELS/COMMON/SPACECRAFT/SCIENTIFIC/SCIENTIFIC_PROC.SCENE.MBIN", None),
+    ("shuttle", "COURIER_SHIP_SHT", "Shuttle", "MODELS/COMMON/SPACECRAFT/SHUTTLE/SHUTTLE_PROC.SCENE.MBIN", None),
+    ("solar", "COURIER_SHIP_SAL", "Sail", "MODELS/COMMON/SPACECRAFT/SAILSHIP/SAILSHIP_PROC.SCENE.MBIN", None),
+    ("exotic", "COURIER_SHIP_ROY", "Royal", "MODELS/COMMON/SPACECRAFT/S-CLASS/S-CLASS_PROC.SCENE.MBIN",
+     ("HYPERDRIVE", "LAUNCHER", "SHIPJUMP1", "SHIPSHIELD", "SHIPGUN1", "SHIPLAS1")),
+    ("living", "COURIER_SHIP_ALN", "Alien", "MODELS/COMMON/SPACECRAFT/S-CLASS/BIOPARTS/BIOSHIP_PROC.SCENE.MBIN",
+     ("WARP_ALIEN", "LAUNCHER_ALIEN", "SHIPJUMP_ALIEN", "SHIELD_ALIEN", "SHIPGUN_ALIEN", "SHIPLAS_ALIEN")),
+    ("interceptor", "COURIER_SHIP_RBT", "Robot", "MODELS/COMMON/SPACECRAFT/SENTINELSHIP/SENTINELSHIP_PROC.SCENE.MBIN",
+     ("HYPERDRIVE_ROBO", "LAUNCHER_ROBO", "SHIPJUMP_ROBO", "SHIPSHIELD_ROBO", "LIFESUP_ROBO", "SHIPGUN_ROBO")),
 ]
 WEAPONS = [
     ("pistol", "COURIER_TOOL_PST", "Pistol", "MODELS/COMMON/WEAPONS/MULTITOOL/MULTITOOL.SCENE.MBIN"),
@@ -119,7 +131,7 @@ def main() -> None:
             ("ForceSpecialMessage", "false"), ("HideInSeasonRewards", "false"), ("Silent", "false"),
             ("SeasonRewardListFormat", ""), ("RequiresTech", "")])),
     ]
-    for _, identifier, ship_class, scene in SHIPS:
+    for _, identifier, ship_class, scene, keep in SHIPS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificShip", "ShipType/ShipClass", ship_class,
                                        "ShipResource/Filename", scene))
         body = child(reward, "GcRewardSpecificShip")
@@ -131,6 +143,20 @@ def main() -> None:
                             ("IsRewardShip", "true"), ("FormatAsSeasonal", "false")):
             child(body, name).set("value", value)
         child(body, "ModelViewOverride/ModelViews").set("value", "None")
+        if keep is not None:
+            slots = child(body, "ShipInventory/Slots")
+            held = [slot.get("_id") for slot in slots]
+            missing = [name for name in keep if name not in held]
+            if missing:
+                raise SystemExit("shipped %s reward lacks %s" % (ship_class, missing))
+            for slot in list(slots):
+                if slot.get("_id") not in keep:
+                    slots.remove(slot)
+            for index, slot in enumerate(slots):
+                if index:
+                    slot.set("_index", str(index))
+                else:
+                    slot.attrib.pop("_index", None)
         entries.append(entry(identifier, reward))
     for _, identifier, stat_class, scene in WEAPONS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificWeapon", "WeaponType/WeaponStatClass", stat_class,

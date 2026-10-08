@@ -236,10 +236,13 @@ export const itIT: Messages = {
   delivery: {
     shipModel: {
       fighter: 'Caccia',
-      hauler: 'Trasporto',
-      explorer: 'Esploratrice',
+      hauler: 'Trasportatore',
+      explorer: 'Esploratore',
       shuttle: 'Navetta',
-      solar: 'Solare'
+      solar: 'Solare',
+      exotic: 'Esotica',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistola',

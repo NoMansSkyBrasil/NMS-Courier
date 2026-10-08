@@ -233,11 +233,14 @@ export const ptPT: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: 'Caça',
-      hauler: 'Cargueira',
-      explorer: 'Exploradora',
+      fighter: 'Combatente',
+      hauler: 'Transportador',
+      explorer: 'Explorador',
       shuttle: 'Vaivém',
-      solar: 'Solar'
+      solar: 'Solar',
+      exotic: 'Exótico',
+      living: 'Nave Viva',
+      interceptor: 'Intercetor'
     },
     toolModel: {
       pistol: 'Pistola',

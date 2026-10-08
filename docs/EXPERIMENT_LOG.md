@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-08: exotic, living and interceptor starships added (bridge 1.7.0), not sent
+
+Offline analysis and a build; nothing sent to the game. Build 180836. Owning
+note: [getting a new starship or multi-tool](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md).
+The owner pointed out that the application offered five starship kinds while
+the game has more. Checked: the wiki's archetype list names nine (shuttle,
+fighter, hauler, explorer, exotic, interceptor, solar, corvette, living ship);
+the game's `metadata/simulation/space/aispaceshipmanager` pairs `Royal` with
+`S-CLASS/S-CLASS_PROC`, `Alien` with `S-CLASS/BIOPARTS/BIOSHIP_PROC` and
+`Robot` with `SENTINELSHIP/SENTINELSHIP_PROC`. Three carriers added
+(`COURIER_SHIP_ROY`, `_ALN`, `_RBT`), table `2f55b139...37d6`, bridge 1.7.0
+(`7b8a83be...0509`). The earlier statement that the scenes of these kinds were
+not established was wrong: only the reward table had been searched. Rejected:
+copying the special-model rewards whole, which would have added expedition
+trails, bobbleheads and upgrades. Not proven: everything live. Installed in
+the game folder with the game closed; undo by restoring bridge 1.6.0
+(`4bc6f7ca...3935`) and table `8c9de2cc...b61c` from git history.
+
 ## 2026-10-08: new starship and multi-tool requests built (bridge 1.6.0), not sent
 
 Offline analysis and a build. Build 180836. Owning note:

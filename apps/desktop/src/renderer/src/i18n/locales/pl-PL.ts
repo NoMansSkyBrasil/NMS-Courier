@@ -229,8 +229,11 @@ export const plPL: Messages = {
       fighter: 'Myśliwiec',
       hauler: 'Transportowiec',
       explorer: 'Odkrywca',
-      shuttle: 'Wahadłowiec',
-      solar: 'Słoneczny'
+      shuttle: 'Prom',
+      solar: 'Słoneczny',
+      exotic: 'Egzotyczny',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistolet',

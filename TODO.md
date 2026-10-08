@@ -133,7 +133,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Corvette from a `.nmsship` file in the application (2026-10-08): choose, prepare in the game, restart, start build.
 - [ ] Corvette from a file: first live run from the application; then the version without a game restart.
 - [x] Getting a new starship or multi-tool by kind, seed and class (2026-10-08, bridge 1.6.0): implemented, not exercised live.
-- [ ] New starship and multi-tool: first live run; then exotic, living and sentinel ships, royal and sentinel multi-tools, slots at delivery, and plain `.nmsship` ship files mapped onto the request.
+- [ ] New starship and multi-tool: first live run; then royal, sentinel and atlas multi-tools (scenes are in the multi-tool pool table, see the obtain notes), slots at delivery, and plain `.nmsship` ship files mapped onto the request.
 - [ ] Install bridge 1.4.0 and the data file `654e4f6e...7b17`, then verify from the application: units of a free amount, and an item with the game's notification.
 - [ ] The application should install and update the bridge and the data file itself; today they are copied by hand with the game closed.
 - [x] Requests reach the bridge without any script (2026-10-08, application 1.4.0, bridge 1.3.0).

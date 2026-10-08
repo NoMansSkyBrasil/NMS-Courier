@@ -228,11 +228,14 @@ export const esES: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: 'Caza',
-      hauler: 'Carguero ligero',
-      explorer: 'Exploradora',
-      shuttle: 'Lanzadera',
-      solar: 'Solar'
+      fighter: 'Combatiente',
+      hauler: 'Transportista',
+      explorer: 'Explorador',
+      shuttle: 'Transbordador',
+      solar: 'Solar',
+      exotic: 'Exótica',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistola',

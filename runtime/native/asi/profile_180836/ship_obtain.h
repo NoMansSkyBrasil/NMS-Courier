@@ -11,7 +11,10 @@ static const obtain_model ship_obtain_models[] = {
     {"hauler", "COURIER_SHIP_DRP", 1},
     {"explorer", "COURIER_SHIP_SCI", 3},
     {"shuttle", "COURIER_SHIP_SHT", 4},
-    {"solar", "COURIER_SHIP_SAL", 8}
+    {"solar", "COURIER_SHIP_SAL", 8},
+    {"exotic", "COURIER_SHIP_ROY", 6},
+    {"living", "COURIER_SHIP_ALN", 7},
+    {"interceptor", "COURIER_SHIP_RBT", 9}
 };
 
 static obtain_domain ship_obtain = {

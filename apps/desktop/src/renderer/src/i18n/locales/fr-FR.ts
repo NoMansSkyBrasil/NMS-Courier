@@ -236,11 +236,14 @@ export const frFR: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: 'Chasseur',
+      fighter: 'Combattant',
       hauler: 'Transporteur',
       explorer: 'Explorateur',
       shuttle: 'Navette',
-      solar: 'Solaire'
+      solar: 'Solaire',
+      exotic: 'Exotique',
+      living: 'Vaisseau vivant',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistolet',

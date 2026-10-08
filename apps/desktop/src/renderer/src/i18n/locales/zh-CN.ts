@@ -211,11 +211,14 @@ export const zhCN: Messages = {
   },
   delivery: {
     shipModel: {
-      fighter: '战斗机',
-      hauler: '运输船',
-      explorer: '探险船',
-      shuttle: '穿梭机',
-      solar: '太阳能'
+      fighter: '战士',
+      hauler: '拖运船',
+      explorer: '探险家',
+      shuttle: '飞艇',
+      solar: '太阳能',
+      exotic: '异星',
+      living: '活体飞船',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: '手枪',

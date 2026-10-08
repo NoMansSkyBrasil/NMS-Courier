@@ -1,7 +1,7 @@
 # AI continuation guide
 
-> Checkpoint 2026-10-08 (end of day): application 1.8.0, bridge 1.6.0
-> (`4bc6f7ca...3935`), data file `8c9de2cc...b61c` in
+> Checkpoint 2026-10-08 (end of day): application 1.9.0, bridge 1.7.0
+> (`7b8a83be...0509`), data file `2f55b139...37d6` (eight starship kinds) in
 > `GAMEDATA/MODS/NMSCourier`. Every carrier request (currencies, items with
 > notification, new starship, new multi-tool) is still unproven live; the
 > first one that answers `given`, `rewarded` or `offered` confirms the

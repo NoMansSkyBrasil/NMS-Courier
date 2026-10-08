@@ -180,7 +180,10 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
-    shipModel: Record<'fighter' | 'hauler' | 'explorer' | 'shuttle' | 'solar', string>
+    shipModel: Record<
+      'fighter' | 'hauler' | 'explorer' | 'shuttle' | 'solar' | 'exotic' | 'living' | 'interceptor',
+      string
+    >
     toolModel: Record<'pistol' | 'rifle' | 'experimental' | 'alien' | 'staff', string>
     equipSeedHint: string
     obtainAction: string

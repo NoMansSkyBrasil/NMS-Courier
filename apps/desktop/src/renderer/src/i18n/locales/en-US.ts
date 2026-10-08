@@ -226,7 +226,10 @@ export const enUS: Messages = {
       hauler: 'Hauler',
       explorer: 'Explorer',
       shuttle: 'Shuttle',
-      solar: 'Solar'
+      solar: 'Solar',
+      exotic: 'Exotic',
+      living: 'Living Ship',
+      interceptor: 'Interceptor'
     },
     toolModel: {
       pistol: 'Pistol',
