@@ -229,12 +229,49 @@ game is using.
 | Profile DLL | SHA-256 `09a816dea38851f9bb57604d01fcffdd7107119ddde049671b69ac0a588c6813` |
 | Checks | Profile, technology and recipe fixtures pass; none covers the account request |
 | Table | [account unlocks](../runtime/research/account-unlocks.md) now lists 435 Twitch and 3 platform rewards as well |
-| Installed | See the experiment log entry of the same time |
+| Installed | Yes, 2026-10-08 about 01:02, with the game closed; replaces `95b99ad8...e6f0` |
 
 Unknown until tried: whether the map holds the Twitch IDs at all while the
 store client is offline; whether the game keeps a directly inserted entry
 when it next applies settings; whether an unlocked Twitch reward becomes
 claimable in the shop.
+
+### Twitch and platform requests run live (2026-10-08, slot 3 loaded)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...`, process 27024, store client offline |
+| Profile DLL | `09a816dea38851f9bb57604d01fcffdd7107119ddde049671b69ac0a588c6813` |
+| Slot loaded | 3, identified by content |
+| Account before | Titles 346, specials 782, season 293, Twitch 0, platform 1 |
+| Backup | Save folder and settings file copied to the external `save-backups/20261008-before-twitch` |
+| Preflight | Passed |
+
+| Request | Scope | Result |
+| --- | --- | --- |
+| `signal-account-180836.ps1 -Twitch TWITCH_406` | Account, direct write | `inserted`; Twitch set 0 -> 1. The result file reported `lists_ready_flag=1` and both plain lists empty, so the sets are the live representation in this session, and the Twitch map does hold the IDs with the store client offline |
+| `signal-reward-180836.ps1 -Id TWITCH_406` | Slot, game routine | `changed` |
+| `signal-account-180836.ps1 -AllOfKind twitch,platform` (438) | Account, direct write | Twitch 1 -> 435 (434 `inserted`, 1 `present`); platform 1 -> 3 (`SW_PREORDER`, `SW_PREORDER2` `inserted`, `TGA_SHIP1` `present`) |
+| `signal-reward-180836.ps1 -Id <234 IDs>` | Slot, game routine | 173 `changed`, 61 `no_change` (already redeemed) |
+
+The 234 slot-side IDs are the Twitch rewards whose product is a build part,
+a customisation part or an emote, without the 66 firework packs. Left out
+of the slot on purpose: those 66 and the 135 rewards whose product is of
+type Curiosity (ships, multitools, companion eggs, upgrade packs), because
+redeeming them in the slot would record a claim without handing over the
+item. They are unlocked on the account only.
+
+The game kept running after every request. Read back from memory: all 435
+Twitch IDs and all 3 platform IDs are in the account sets.
+
+Not proven: that the game writes these two sets to the account files when it
+saves; that it keeps them when it next applies settings or when the store
+client is online again (the remote copy has none of them); that an unlocked
+Twitch or platform reward can be claimed in the Quicksilver shop; what the
+owner's editor shows afterwards.
+
+Undo: with the game closed and the store client offline, copy the save
+folder and the settings file back from `20261008-before-twitch`.
 
 ## Plan that was followed
 

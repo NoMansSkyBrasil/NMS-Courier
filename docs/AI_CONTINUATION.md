@@ -209,8 +209,10 @@ offline:
     `95b99ad8...e6f0` adds the `account` event (titles, specials, season) and
     is installed. All 1,105 IDs were unlocked on the emptied account
     (process 25932) and saved by the game. DLL `09a816de...6813` adds Twitch
-    and platform as a direct insert (owner-approved, not run). Next: with the
-    game open, one Twitch ID on the account and one in the slot, then all.
+    and platform as a direct insert (owner-approved), run live in process
+    27024: Twitch 435, platform 3 on the account; 234 Twitch decorations
+    redeemed in slot 3. Next: read the saved account files, then what
+    survives a restart and going online, and the shop.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

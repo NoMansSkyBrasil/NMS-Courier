@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: Twitch and platform rewards on the account (direct write) and Twitch decorations in slot 3
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#twitch-and-platform-requests-run-live-2026-10-08-slot-3-loaded).
+Process 27024, DLL `09a816de...6813`, executable `13d5060d...`, slot 3
+identified, store client offline, backup `save-backups/20261008-before-twitch`,
+preflight passed.
+
+- One Twitch ID first on the account (`inserted`, flag `+0x2b1` is 1, plain
+  lists empty) and in the slot (`changed`).
+- Account, direct write: Twitch 1 -> 435, platform 1 -> 3.
+- Slot, game routine: 234 Twitch rewards (build parts, customisation,
+  emotes; no fireworks): 173 changed, 61 already redeemed. 201 item-type
+  rewards deliberately not redeemed in the slot.
+- Game kept running. Not proven: saved files, survival of the two sets at
+  the next start or online, claiming in the shop.
+
 ## 2026-10-08: Twitch and platform account kinds built (direct write); owner decision
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#owner-decision-and-second-build-2026-10-08).
