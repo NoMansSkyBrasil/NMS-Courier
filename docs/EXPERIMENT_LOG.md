@@ -1,5 +1,36 @@
 # Runtime experiment log
 
+## 2026-10-08: with both account files emptied, the game still starts with the full account
+
+Read-only. Before the start both local files were empty of unlocks: the
+editor's `accountdata.hg` (00:02, 44,435 bytes) and the reset settings file
+(00:10, 60,398 bytes). The owner started the game on slot 3: process 21972,
+DLL `68fd60bc...d5a7`, executable `13d5060d...`, slot identified as 3.
+
+- Account sets in memory: titles 346, unlocked specials 794, season 293,
+  platform 1; Twitch set at `+0x200` empty as before. All 263 customisation
+  IDs present. Identical to the state before any cleanup.
+- At 00:13 the game rewrote both files to their exact earlier sizes
+  (`accountdata.hg` 114,431 bytes; settings file 547,511 bytes, lists full
+  again including 435 Twitch rewards).
+- **Conclusion: the account's unlock lists do not come from either local
+  file alone. They are restored from outside the machine at start**, either
+  by the publisher's account data service (the executable has
+  `getaccountdata`, `uploadaccountdata`, `CheckAccountDataSyncState`) or by
+  the store client's cloud copy of `accountdata.hg`; which of the two was not
+  determined. The earlier reading "the game loads from the settings file" is
+  withdrawn: the settings file is an output here, not the source.
+- Consequences: unlocks written to the account by a game routine are kept
+  off the machine and come back; an account cannot be emptied for a test by
+  editing local files while online; the unlocks an editor wrote earlier are
+  now part of the synchronised account.
+- No request was sent. The settings file reset of 00:10 has no remaining
+  effect; nothing needs to be undone.
+- Ways to test an account route on a lacking account (proposed, none done):
+  start with the network disconnected and both files emptied; use another
+  account; or test only what this account lacks (`SW_PREORDER`,
+  `SW_PREORDER2`, the Twitch list).
+
 ## 2026-10-08: settings file unlock lists emptied as test preparation (direct file change, owner-authorised)
 
 **This is a direct edit of an account file, not a delivery and not a game

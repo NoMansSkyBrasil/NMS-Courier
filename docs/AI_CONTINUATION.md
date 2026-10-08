@@ -198,9 +198,10 @@ offline:
 26. *Account emptied for testing (2026-10-08).* The owner emptied
     `accountdata.hg` with an editor and authorised emptying the unlock lists
     of the settings file (backup `20261008-before-settings-list-reset`). This
-    is test preparation only. Next: start the game on slot 3, read the
-    account sets in memory, then test account routes one ID at a time. See
-    the experiment log entry of that date.
+    was test preparation only and had no effect: the game started with the
+    full account and rewrote both files, so the account is restored from
+    outside the machine. Testing an account route on a lacking account needs
+    an offline start or another account. See the experiment log.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
