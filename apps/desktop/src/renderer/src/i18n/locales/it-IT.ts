@@ -207,6 +207,11 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    equipScene: 'Modello',
+    equipSceneHint:
+      'Facoltativo. La scena di gioco del modello del mercantile; vuoto mantiene la scelta del gioco.',
+    equipModelSeed: 'Seme del modello',
+    equipHomeSeed: 'Seme del sistema di origine',
     currencyAmountHint: 'Qualsiasi importo da 1 a {max}, il saldo massimo che il gioco conserva.',
     itemsStack: 'Pila da {count}',
     equipActionLabel: 'Azione',
@@ -226,12 +231,15 @@ export const itIT: Messages = {
       'La ricompensa del gioco aggiunge l’importo e mostra la sua notifica. Il saldo non supera mai il massimo del gioco.',
     currencyLabel: 'Valuta',
     equipAction: {
+      slotReward: 'Aggiungi uno slot di inventario',
       grid: 'Applica all’inventario',
       classStep: 'Aumenta la classe di un livello',
       offer: 'Invia offerta di mercantile',
       build: 'Avvia costruzione corvetta'
     },
     equipActionHint: {
+      slotReward:
+        'Chiede al gioco la sua ricompensa slot. Il gioco apre la finestra per scegliere dove mettere il nuovo slot.',
       grid: 'Modifica l’inventario che possiedi già, sul posto. Nel gioco non si apre nulla.',
       classStep:
         'Chiede al gioco la sua ricompensa di potenziamento: un livello di classe per richiesta, fino a S.',

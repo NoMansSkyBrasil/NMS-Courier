@@ -205,6 +205,11 @@ export const ptPT: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Funciona com uma versão exata do jogo de cada vez.'
   },
   delivery: {
+    equipScene: 'Modelo',
+    equipSceneHint:
+      'Opcional. A cena do jogo do modelo do cargueiro; vazio mantém a escolha do próprio jogo.',
+    equipModelSeed: 'Semente do modelo',
+    equipHomeSeed: 'Semente do sistema de origem',
     currencyAmountHint: 'Qualquer valor de 1 a {max}, o maior saldo que o jogo mantém.',
     itemsStack: 'Pilha de {count}',
     equipActionLabel: 'Ação',
@@ -224,12 +229,15 @@ export const ptPT: Messages = {
       'A recompensa do próprio jogo adiciona o valor e mostra a sua notificação. O saldo nunca ultrapassa o máximo do jogo.',
     currencyLabel: 'Moeda',
     equipAction: {
+      slotReward: 'Adicionar um espaço de inventário',
       grid: 'Aplicar ao inventário',
       classStep: 'Subir um nível de classe',
       offer: 'Enviar oferta de cargueiro',
       build: 'Iniciar construção de corveta'
     },
     equipActionHint: {
+      slotReward:
+        'Pede ao jogo a sua própria recompensa de espaço. O jogo abre a janela para escolher onde fica o novo espaço.',
       grid: 'Altera o inventário que já possui, no próprio local. Nada é aberto no jogo.',
       classStep:
         'Pede ao jogo a sua própria recompensa de melhoria: um nível de classe por pedido, até S.',

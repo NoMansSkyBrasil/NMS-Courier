@@ -151,6 +151,10 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    equipScene: string
+    equipSceneHint: string
+    equipModelSeed: string
+    equipHomeSeed: string
     currencyAmountHint: string
     itemsStack: string
     equipActionLabel: string
@@ -166,8 +170,8 @@ export type Messages = {
     equipExtendedHint: string
     currencyHint: string
     currencyLabel: string
-    equipAction: Record<'grid' | 'classStep' | 'offer' | 'build', string>
-    equipActionHint: Record<'grid' | 'classStep' | 'offer' | 'build', string>
+    equipAction: Record<'grid' | 'classStep' | 'slotReward' | 'offer' | 'build', string>
+    equipActionHint: Record<'grid' | 'classStep' | 'slotReward' | 'offer' | 'build', string>
     currencyName: Record<'units' | 'nanites' | 'quicksilver', string>
     itemsTitle: string
     itemsHint: string

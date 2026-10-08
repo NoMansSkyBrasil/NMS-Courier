@@ -199,6 +199,11 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    equipScene: 'Model',
+    equipSceneHint:
+      'Opcjonalnie. Scena gry z modelem frachtowca; puste pole pozostawia wybór grze.',
+    equipModelSeed: 'Ziarno modelu',
+    equipHomeSeed: 'Ziarno układu macierzystego',
     currencyAmountHint:
       'Dowolna kwota od 1 do {max}, czyli największego salda, jakie przechowuje gra.',
     itemsStack: 'Stos po {count}',
@@ -218,12 +223,15 @@ export const plPL: Messages = {
       'Nagroda samej gry dodaje kwotę i pokazuje własne powiadomienie. Saldo nigdy nie przekracza maksimum gry.',
     currencyLabel: 'Waluta',
     equipAction: {
+      slotReward: 'Dodaj jedno miejsce w ekwipunku',
       grid: 'Zastosuj do ekwipunku',
       classStep: 'Podnieś klasę o jeden stopień',
       offer: 'Wyślij ofertę frachtowca',
       build: 'Rozpocznij budowę korwety'
     },
     equipActionHint: {
+      slotReward:
+        'Prosi grę o jej własną nagrodę miejsca. Gra otwiera okno, w którym wybierasz położenie nowego miejsca.',
       grid: 'Zmienia ekwipunek, który już masz, na miejscu. W grze nic się nie otwiera.',
       classStep: 'Prosi grę o jej własną nagrodę ulepszenia: jeden stopień klasy na żądanie, do S.',
       offer:

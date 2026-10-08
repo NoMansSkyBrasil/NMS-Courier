@@ -150,12 +150,15 @@ declare global {
       ) => Promise<DeliveryResult>
       deliverEquipment: (request: {
         area: 'exosuit' | 'starships' | 'multitools' | 'freighters' | 'corvettes'
-        action: 'grid' | 'classStep' | 'offer' | 'build'
+        action: 'grid' | 'classStep' | 'slotReward' | 'offer' | 'build'
         slots: boolean
         supercharge: boolean
         extendedTechnology: boolean
         itemClass: string
         shipIndex: number
+        scene: string
+        modelSeed: string
+        homeSeed: string
       }) => Promise<DeliveryResult>
       deliverCurrency: (request: {
         currency: string

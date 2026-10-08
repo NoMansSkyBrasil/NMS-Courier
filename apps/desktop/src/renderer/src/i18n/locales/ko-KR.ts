@@ -190,6 +190,10 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    equipScene: '모델',
+    equipSceneHint: '선택 사항. 화물선 모델의 게임 장면이며, 비워 두면 게임의 선택을 따릅니다.',
+    equipModelSeed: '모델 시드',
+    equipHomeSeed: '모항 성계 시드',
     currencyAmountHint: '1부터 {max}(게임이 보관하는 최대 잔액)까지 원하는 금액.',
     itemsStack: '{count}개 묶음',
     equipActionLabel: '동작',
@@ -207,12 +211,15 @@ export const koKR: Messages = {
       '게임 자체 보상이 금액을 추가하고 알림을 표시합니다. 잔액은 게임의 최대치를 넘지 않습니다.',
     currencyLabel: '화폐',
     equipAction: {
+      slotReward: '인벤토리 슬롯 하나 추가',
       grid: '인벤토리에 적용',
       classStep: '등급 한 단계 올리기',
       offer: '화물선 제안 보내기',
       build: '코르벳 건조 시작'
     },
     equipActionHint: {
+      slotReward:
+        '게임 자체의 슬롯 보상을 요청합니다. 게임 창이 열려 새 슬롯의 위치를 고를 수 있습니다.',
       grid: '이미 보유한 인벤토리를 그 자리에서 변경합니다. 게임에서 아무 창도 열리지 않습니다.',
       classStep:
         '게임 자체의 업그레이드 보상을 요청합니다. 요청 한 번에 등급이 한 단계씩, S까지 올라갑니다.',

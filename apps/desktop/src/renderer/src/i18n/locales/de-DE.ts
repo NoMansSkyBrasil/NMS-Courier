@@ -211,6 +211,11 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    equipScene: 'Modell',
+    equipSceneHint:
+      'Optional. Die Spielszene des Frachtermodells; leer bleibt es bei der Wahl des Spiels.',
+    equipModelSeed: 'Modell-Seed',
+    equipHomeSeed: 'Seed des Heimatsystems',
     currencyAmountHint:
       'Jeder Betrag von 1 bis {max}, dem größten Guthaben, das das Spiel speichert.',
     itemsStack: 'Stapel von {count}',
@@ -230,12 +235,15 @@ export const deDE: Messages = {
       'Die Belohnung des Spiels fügt den Betrag hinzu und zeigt die eigene Benachrichtigung. Das Guthaben übersteigt nie das Maximum des Spiels.',
     currencyLabel: 'Währung',
     equipAction: {
+      slotReward: 'Einen Inventarplatz hinzufügen',
       grid: 'Auf Inventar anwenden',
       classStep: 'Klasse um eine Stufe erhöhen',
       offer: 'Frachterangebot senden',
       build: 'Korvettenbau starten'
     },
     equipActionHint: {
+      slotReward:
+        'Fordert die Platz-Belohnung des Spiels an. Das Spiel öffnet sein Fenster, damit du wählst, wohin der neue Platz kommt.',
       grid: 'Ändert das Inventar, das du bereits besitzt, an Ort und Stelle. Im Spiel öffnet sich nichts.',
       classStep:
         'Fordert die Upgrade-Belohnung des Spiels an: eine Klassenstufe pro Anfrage, bis S.',

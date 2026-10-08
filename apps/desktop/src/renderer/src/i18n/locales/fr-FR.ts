@@ -208,6 +208,11 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    equipScene: 'Modèle',
+    equipSceneHint:
+      'Facultatif. La scène du jeu du modèle de cargo ; vide, le jeu fait son propre choix.',
+    equipModelSeed: 'Graine du modèle',
+    equipHomeSeed: 'Graine du système d’origine',
     currencyAmountHint:
       'N’importe quel montant de 1 à {max}, le plus grand solde que le jeu conserve.',
     itemsStack: 'Pile de {count}',
@@ -228,12 +233,15 @@ export const frFR: Messages = {
       'La récompense du jeu ajoute le montant et affiche sa notification. Le solde ne dépasse jamais le maximum du jeu.',
     currencyLabel: 'Monnaie',
     equipAction: {
+      slotReward: 'Ajouter un emplacement d’inventaire',
       grid: 'Appliquer à l’inventaire',
       classStep: 'Monter d’un niveau de classe',
       offer: 'Envoyer une offre de cargo',
       build: 'Lancer la construction d’une corvette'
     },
     equipActionHint: {
+      slotReward:
+        'Demande au jeu sa propre récompense d’emplacement. Le jeu ouvre sa fenêtre pour que vous choisissiez où placer le nouvel emplacement.',
       grid: 'Modifie l’inventaire que vous possédez déjà, sur place. Rien ne s’ouvre dans le jeu.',
       classStep:
         'Demande au jeu sa propre récompense d’amélioration : un niveau de classe par demande, jusqu’à S.',

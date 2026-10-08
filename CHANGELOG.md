@@ -31,7 +31,11 @@ and `CR_ITEM_PROD`, the carriers for items. Table SHA-256
 be copied to the game's mod folder again and needs a game restart.
 
 Application 1.5.0: sends items with or without notification according to the
-setting; accepts only bridge 1.4.0.
+setting; accepts only bridge 1.4.0. Brought in from earlier verified requests:
+expedition, Twitch and platform rewards are redeemed in the loaded slot as
+well as unlocked on the account; exosuit, starship, multi-tool and freighter
+pages can ask for the game's slot reward; the freighter offer takes a model
+and seeds.
 
 ## Application 1.4.0 and bridge 1.3.0 (2026-10-08)
 

@@ -185,6 +185,10 @@ export const zhCN: Messages = {
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
   delivery: {
+    equipScene: '模型',
+    equipSceneHint: '可选。货船模型的游戏场景；留空则保留游戏自己的选择。',
+    equipModelSeed: '模型种子',
+    equipHomeSeed: '母星系种子',
     currencyAmountHint: '1 到 {max}（游戏能保存的最大余额）之间的任意数额。',
     itemsStack: '每堆 {count}',
     equipActionLabel: '操作',
@@ -201,12 +205,14 @@ export const zhCN: Messages = {
     currencyHint: '由游戏自身的奖励增加数额并显示通知。余额不会超过游戏的上限。',
     currencyLabel: '货币',
     equipAction: {
+      slotReward: '增加一个物品栏格子',
       grid: '应用到物品栏',
       classStep: '等级提升一级',
       offer: '发送货船报价',
       build: '开始建造护卫舰'
     },
     equipActionHint: {
+      slotReward: '向游戏请求其自身的格子奖励。游戏会打开窗口，由你选择新格子的位置。',
       grid: '就地修改你已拥有的物品栏。游戏内不会打开任何界面。',
       classStep: '向游戏请求其自身的升级奖励：每次请求提升一级，最高到 S。',
       offer: '游戏会按下方选项向你提供一艘货船。在游戏中接受后，它会替换你当前的货船。',

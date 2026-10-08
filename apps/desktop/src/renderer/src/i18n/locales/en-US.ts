@@ -194,6 +194,11 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    equipScene: 'Model',
+    equipSceneHint:
+      'Optional. The game scene of the freighter model; empty keeps the game’s own choice.',
+    equipModelSeed: 'Model seed',
+    equipHomeSeed: 'Home system seed',
     currencyAmountHint: 'Any amount from 1 to {max}, the largest balance the game keeps.',
     itemsStack: 'Stack of {count}',
     equipActionLabel: 'Action',
@@ -211,12 +216,15 @@ export const enUS: Messages = {
       'The game’s own reward adds the amount and shows its notification. The balance never passes the game’s maximum.',
     currencyLabel: 'Currency',
     equipAction: {
+      slotReward: 'Add one inventory slot',
       grid: 'Apply to inventory',
       classStep: 'Raise class by one step',
       offer: 'Send freighter offer',
       build: 'Start corvette build'
     },
     equipActionHint: {
+      slotReward:
+        'Asks the game for its own slot reward. The game opens its window so you choose where the new slot goes.',
       grid: 'Changes the inventory you already own, in place. Nothing opens in the game.',
       classStep: 'Asks the game for its own upgrade reward: one class step per request, up to S.',
       offer:

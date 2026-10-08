@@ -2,7 +2,9 @@
 
 ## Current stage
 
-For a new AI/session, start with [the AI continuation guide](docs/AI_CONTINUATION.md).
+For a new AI/session, start with [the AI continuation guide](docs/AI_CONTINUATION.md) and the
+[capability status table](docs/CAPABILITY_STATUS.md), which says per capability whether it was seen
+working in the game, is in the application, and has worked from the application.
 It routes the current objective, capability/evidence status, completed work,
 bounded reproduction steps and unresolved targets to their owning documents.
 Read only the branch relevant to the user's request; do not load all research

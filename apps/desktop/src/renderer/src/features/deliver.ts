@@ -18,7 +18,8 @@ export const deliverFeatures: readonly Feature[] = [
     group: 'deliver',
     icon: PackageIcon,
     kind: 'delivery',
-    status: 'experimental',
+    // Sent from the application on 2026-10-08; see docs/CAPABILITY_STATUS.md.
+    status: 'verified',
     scope: 'slot',
     rules: ['gameRoutines', 'backup']
   },

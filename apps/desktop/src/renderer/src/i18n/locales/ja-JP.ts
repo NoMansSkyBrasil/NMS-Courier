@@ -195,6 +195,10 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    equipScene: 'モデル',
+    equipSceneHint: '任意。貨物船モデルのゲームシーン。空欄の場合はゲームの選択のままです。',
+    equipModelSeed: 'モデルのシード',
+    equipHomeSeed: '母星系のシード',
     currencyAmountHint: '1 から {max}（ゲームが保持できる最大残高）までの任意の金額。',
     itemsStack: 'スタック {count}',
     equipActionLabel: '操作',
@@ -214,12 +218,15 @@ export const jaJP: Messages = {
       'ゲーム自身の報酬が金額を追加し、通知を表示します。残高がゲームの上限を超えることはありません。',
     currencyLabel: '通貨',
     equipAction: {
+      slotReward: 'インベントリスロットを 1 つ追加',
       grid: 'インベントリに適用',
       classStep: 'クラスを 1 段階上げる',
       offer: '貨物船のオファーを送信',
       build: 'コルベットの建造を開始'
     },
     equipActionHint: {
+      slotReward:
+        'ゲーム自身のスロット報酬を要求します。ゲームのウィンドウが開き、新しいスロットの位置を選べます。',
       grid: 'すでに所有しているインベントリをその場で変更します。ゲーム内では何も開きません。',
       classStep:
         'ゲーム自身のアップグレード報酬を要求します。1 回の要求でクラスが 1 段階、S まで上がります。',

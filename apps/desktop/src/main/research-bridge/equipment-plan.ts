@@ -16,12 +16,13 @@ export type EquipmentArea = (typeof equipmentAreas)[number]
 // grid: make every inventory position usable, and optionally supercharge the technology slots, in
 // place and without any window in the game. classStep: the game's own reward that raises the class
 // by one step. offer: arm the options and start the game's freighter offer. build: arm the options
-// and start the game's corvette build mode.
+// and start the game's corvette build mode. slotReward: the game's own reward for one more
+// inventory slot, which opens the game's window to place it.
 export const equipmentActions: Readonly<Record<EquipmentArea, readonly string[]>> = {
-  exosuit: ['grid'],
-  starships: ['grid', 'classStep'],
-  multitools: ['grid', 'classStep'],
-  freighters: ['offer'],
+  exosuit: ['grid', 'slotReward'],
+  starships: ['grid', 'classStep', 'slotReward'],
+  multitools: ['grid', 'classStep', 'slotReward'],
+  freighters: ['offer', 'slotReward'],
   corvettes: ['build']
 }
 
@@ -34,6 +35,10 @@ export type EquipmentRequest = {
   itemClass: string
   // Ship slot 0 to 11, or -1 for the ship the player is using.
   shipIndex: number
+  // Freighter offer only, each optional: the game scene of the model and the two seeds.
+  scene: string
+  modelSeed: string
+  homeSeed: string
 }
 
 const classes = ['C', 'B', 'A', 'S']
@@ -49,7 +54,10 @@ export function isEquipmentRequest(value: unknown): value is EquipmentRequest {
     typeof request.supercharge === 'boolean' &&
     typeof request.extendedTechnology === 'boolean' &&
     typeof request.itemClass === 'string' &&
-    typeof request.shipIndex === 'number'
+    typeof request.shipIndex === 'number' &&
+    typeof request.scene === 'string' &&
+    typeof request.modelSeed === 'string' &&
+    typeof request.homeSeed === 'string'
   )
 }
 
@@ -97,15 +105,45 @@ function shippedReward(label: string, rewardId: string): DeliveryPlan {
   }
 }
 
+const scenePattern = /^MODELS\/[A-Z0-9_/.]{12,100}\.SCENE\.MBIN$/
+const seedPattern = /^0x[0-9A-Fa-f]{1,16}$/
+
+// The model and seeds of a freighter offer, as request lines; null when one is malformed.
+function freighterModel(request: EquipmentRequest): string[] | null {
+  const lines: string[] = []
+  if (request.scene) {
+    if (!scenePattern.test(request.scene)) return null
+    lines.push(`scene=${request.scene}`)
+  }
+  for (const [name, seed] of [
+    ['model_seed', request.modelSeed],
+    ['home_seed', request.homeSeed]
+  ]) {
+    if (!seed) continue
+    if (!seedPattern.test(seed)) return null
+    lines.push(`${name}=0x${seed.slice(2).toUpperCase()}`)
+  }
+  return lines
+}
+
 // Class and grid options for the next offer or build, then the request that starts it.
-function offer(label: string, start: string, request: EquipmentRequest): DeliveryPlan | null {
+function offer(
+  label: string,
+  start: string,
+  request: EquipmentRequest,
+  model: readonly string[] = []
+): DeliveryPlan | null {
   if (!classes.includes(request.itemClass)) return null
   return {
     changesAccount: false,
     steps: [
       {
         label,
+        ...(model.length
+          ? { request: { name: 'freighter-request', perProcess: true, lines: model } }
+          : {}),
         signals: [
+          ...(model.length ? ['model'] : []),
           request.itemClass.toLowerCase(),
           ...(request.slots ? ['slots'] : []),
           ...(request.slots && request.extendedTechnology ? ['techrows'] : []),
@@ -136,8 +174,18 @@ export function getEquipmentPlan(request: EquipmentRequest): DeliveryPlan | null
       return owned('multitool', 'equipped-weapon', 0, request)
     case 'multitools:classStep':
       return shippedReward('multitool', 'R_WEAP_UPGRADE')
-    case 'freighters:offer':
-      return offer('freighter', 'dispatch', request)
+    case 'freighters:offer': {
+      const model = freighterModel(request)
+      return model ? offer('freighter', 'dispatch', request, model) : null
+    }
+    case 'exosuit:slotReward':
+      return shippedReward('exosuit', 'RS_INV_SLOT')
+    case 'starships:slotReward':
+      return shippedReward('starship', 'R_SHIPSLOT_CASH')
+    case 'multitools:slotReward':
+      return shippedReward('multitool', 'R_WEAPSLOT_CASH')
+    case 'freighters:slotReward':
+      return shippedReward('freighter', 'R_FREIGHTSLOT')
     case 'corvettes:build':
       return offer('corvette', 'corvette', request)
     default:

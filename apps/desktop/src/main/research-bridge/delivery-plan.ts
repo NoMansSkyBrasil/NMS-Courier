@@ -156,6 +156,7 @@ async function idsOfClass(
     .map((cells) => cells[idColumn])
 }
 
+const rewardTable = 'unlockable-rewards.md'
 const productTable = 'product-delivery-classification.md'
 const accountTable = 'account-unlocks.md'
 
@@ -190,6 +191,18 @@ export async function getDeliveryPlan(
   const keep = async (): Promise<BridgeStep | null> =>
     steps.keep(await accountEntries(researchDirectory, ['twitch', 'platform']))
 
+  // Rewards are redeemed in the loaded slot first, then unlocked on the account, so both states
+  // exist (columns: ID, kind, expedition, product, flags, deliverable).
+  const redeem = async (kind: string): Promise<BridgeStep | null> =>
+    steps.redeem(
+      await idsOfClass(
+        researchDirectory,
+        rewardTable,
+        0,
+        (cells) => cells[1] === kind && cells[5] === 'yes'
+      )
+    )
+
   switch (feature) {
     case 'technologies':
       return plan(false, [
@@ -222,16 +235,21 @@ export async function getDeliveryPlan(
     case 'titles':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['title']))])
     case 'expeditions':
-      return plan(true, [steps.account(await accountEntries(researchDirectory, ['season']))])
+      return plan(true, [
+        await redeem('season'),
+        steps.account(await accountEntries(researchDirectory, ['season']))
+      ])
     case 'quicksilver':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['special']))])
     case 'twitch':
       return plan(true, [
+        await redeem('twitch'),
         steps.account(await accountEntries(researchDirectory, ['twitch'])),
         await keep()
       ])
     case 'platform':
       return plan(true, [
+        await redeem('platform'),
         steps.account(await accountEntries(researchDirectory, ['platform'])),
         await keep()
       ])

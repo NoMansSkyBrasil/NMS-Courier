@@ -209,6 +209,11 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    equipScene: 'Model',
+    equipSceneHint:
+      'Optioneel. De spelscène van het vrachtschipmodel; leeg behoudt de keuze van het spel.',
+    equipModelSeed: 'Modelseed',
+    equipHomeSeed: 'Seed van het thuissysteem',
     currencyAmountHint: 'Elk bedrag van 1 tot {max}, het grootste saldo dat het spel bijhoudt.',
     itemsStack: 'Stapel van {count}',
     equipActionLabel: 'Actie',
@@ -227,12 +232,15 @@ export const nlNL: Messages = {
       'De beloning van het spel zelf voegt het bedrag toe en toont de melding. Het saldo komt nooit boven het maximum van het spel.',
     currencyLabel: 'Valuta',
     equipAction: {
+      slotReward: 'Eén inventarisvak toevoegen',
       grid: 'Toepassen op inventaris',
       classStep: 'Klasse één stap verhogen',
       offer: 'Vrachtschipaanbod verzenden',
       build: 'Korvetbouw starten'
     },
     equipActionHint: {
+      slotReward:
+        'Vraagt het spel om zijn eigen vakbeloning. Het spel opent het venster zodat je kiest waar het nieuwe vak komt.',
       grid: 'Wijzigt de inventaris die je al hebt, ter plekke. Er wordt niets geopend in het spel.',
       classStep:
         'Vraagt het spel om zijn eigen upgradebeloning: één klassestap per verzoek, tot S.',

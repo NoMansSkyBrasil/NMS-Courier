@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@renderer/components/ui/select'
+import { Input } from '@renderer/components/ui/input'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { Switch } from '@renderer/components/ui/switch'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
@@ -44,14 +45,14 @@ import type { DeliveryStateId } from '@renderer/i18n/messages'
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.deliverEquipment>>
 import type { EquipmentArea } from '@renderer/features/equipment-areas'
-type Action = 'grid' | 'classStep' | 'offer' | 'build'
+type Action = 'grid' | 'classStep' | 'slotReward' | 'offer' | 'build'
 
 // What each area can ask the bridge for; the main process checks the same table again.
 const areaActions: Record<EquipmentArea, readonly Action[]> = {
-  exosuit: ['grid'],
-  starships: ['grid', 'classStep'],
-  multitools: ['grid', 'classStep'],
-  freighters: ['offer'],
+  exosuit: ['grid', 'slotReward'],
+  starships: ['grid', 'classStep', 'slotReward'],
+  multitools: ['grid', 'classStep', 'slotReward'],
+  freighters: ['offer', 'slotReward'],
   corvettes: ['build']
 }
 const classes = ['S', 'A', 'B', 'C']
@@ -75,6 +76,9 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
   const [extendedTechnology, setExtendedTechnology] = useState(false)
   const [itemClass, setItemClass] = useState('S')
   const [shipIndex, setShipIndex] = useState(-1)
+  const [scene, setScene] = useState('')
+  const [modelSeed, setModelSeed] = useState('')
+  const [homeSeed, setHomeSeed] = useState('')
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)
@@ -107,7 +111,10 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
           supercharge,
           extendedTechnology,
           itemClass,
-          shipIndex
+          shipIndex,
+          scene: scene.trim(),
+          modelSeed: modelSeed.trim(),
+          homeSeed: homeSeed.trim()
         })
       )
     } finally {
@@ -124,7 +131,7 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
       label: formatMessage(text.equipTargetSlot, { number: index + 1 })
     }))
   ]
-  const hasOptions = action !== 'classStep'
+  const hasOptions = action !== 'classStep' && action !== 'slotReward'
   const hasClass = action === 'offer' || action === 'build'
   const ready = status?.state === 'ready'
   const sendable = ready && !sending && (action !== 'grid' || slots || supercharge)
@@ -217,6 +224,42 @@ export function EquipmentCard({ area }: { area: EquipmentArea }): React.JSX.Elem
                 </SelectContent>
               </Select>
             </Field>
+          )}
+          {area === 'freighters' && action === 'offer' && (
+            <>
+              <Field>
+                <FieldLabel htmlFor="equipment-scene">{text.equipScene}</FieldLabel>
+                <Input
+                  id="equipment-scene"
+                  value={scene}
+                  placeholder="MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN"
+                  onChange={(event) => setScene(event.target.value)}
+                />
+                <FieldDescription>{text.equipSceneHint}</FieldDescription>
+              </Field>
+              <Field orientation="responsive">
+                <FieldContent>
+                  <FieldLabel htmlFor="equipment-model-seed">{text.equipModelSeed}</FieldLabel>
+                </FieldContent>
+                <Input
+                  id="equipment-model-seed"
+                  value={modelSeed}
+                  placeholder="0x8C968767B3282F13"
+                  onChange={(event) => setModelSeed(event.target.value)}
+                />
+              </Field>
+              <Field orientation="responsive">
+                <FieldContent>
+                  <FieldLabel htmlFor="equipment-home-seed">{text.equipHomeSeed}</FieldLabel>
+                </FieldContent>
+                <Input
+                  id="equipment-home-seed"
+                  value={homeSeed}
+                  placeholder="0x175000B001FFD"
+                  onChange={(event) => setHomeSeed(event.target.value)}
+                />
+              </Field>
+            </>
           )}
           {hasOptions && (
             <>

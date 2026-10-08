@@ -100,7 +100,10 @@ describe('item, currency and equipment requests', () => {
       supercharge: true,
       extendedTechnology: true,
       itemClass: 'S',
-      shipIndex: -1
+      shipIndex: -1,
+      scene: '',
+      modelSeed: '',
+      homeSeed: ''
     }
     expect(
       getEquipmentPlan({ ...base, area: 'corvettes', action: 'build' })?.steps[0].signals
@@ -112,6 +115,24 @@ describe('item, currency and equipment requests', () => {
       getEquipmentPlan({ ...base, area: 'starships', action: 'classStep' })?.steps[0].request?.lines
     ).toEqual(['R_SHIPUPGRADE'])
     expect(getEquipmentPlan({ ...base, area: 'exosuit', action: 'build' })).toBeNull()
+    const pirate = getEquipmentPlan({
+      ...base,
+      area: 'freighters',
+      action: 'offer',
+      scene: 'MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN',
+      modelSeed: '0x8c968767b3282f13'
+    })
+    expect(pirate?.steps[0].request?.lines).toEqual([
+      'scene=MODELS/COMMON/SPACECRAFT/INDUSTRIAL/PIRATEFREIGHTER.SCENE.MBIN',
+      'model_seed=0x8C968767B3282F13'
+    ])
+    expect(pirate?.steps[0].signals[0]).toBe('model')
+    expect(
+      getEquipmentPlan({ ...base, area: 'freighters', action: 'offer', scene: '../x' })
+    ).toBeNull()
+    expect(
+      getEquipmentPlan({ ...base, area: 'exosuit', action: 'slotReward' })?.steps[0].request?.lines
+    ).toEqual(['RS_INV_SLOT'])
     expect(
       getEquipmentPlan({ ...base, area: 'freighters', action: 'offer', itemClass: 'X' })
     ).toBeNull()

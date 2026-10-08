@@ -1,5 +1,9 @@
 # AI continuation guide
 
+> Start with [capability status](CAPABILITY_STATUS.md): one table of what was
+> seen working in the game, what is in the application and what has worked
+> from the application. Keep it current.
+
 > Checkpoint 2026-10-08 (late night): the first delivery from the application
 > worked (`FUEL1` x9999, bridge 1.3.0). Currencies were refused with
 > `bad_layout`; bridge 1.4.0 (`520fd043...5300`) corrects the entry offsets and
