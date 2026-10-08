@@ -403,6 +403,27 @@ by itself; the insert may have to be repeated in each session until the
 routine that empties the set is understood. Claiming the rewards while they
 are listed records them in the slot, which does persist.
 
+### Next session: keep the Twitch rewards across online starts (owner request, 2026-10-08)
+
+The owner asked for a way to keep the Twitch rewards available permanently,
+since the game empties the set at every online start, and left it for the
+next session. Nothing was started. Bounded plan:
+
+1. Offline, build 180836: list every code reference to the Twitch set
+   (account `+0x200`, that is `manager + 0x315948`) and to the changed
+   flag, starting from the relocated counterparts of `342ec0`, `8880a0` and
+   `888ec0` of build 180383. Identify the one that empties or replaces the
+   set after load and what data it uses (a reply from the Twitch service, or
+   the local list).
+2. Choose the smallest intervention, in this order of preference: have the
+   profile repeat the insert once after that routine has run in each
+   session (no change to game code); only if that is not enough, hook the
+   routine. Either is a research-profile behaviour pinned to this build.
+3. Test: online start, read the set, apply, restart, read again.
+
+Reminder of what already persists without any of this: a reward claimed in
+the shop is recorded in the slot.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;

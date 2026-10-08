@@ -160,7 +160,8 @@ This file is the operational source of truth for implementation order. Update it
   find the entitlement grant routine and test one ship reward on a disposable slot
   ([reward redemption notes](docs/REWARD_REDEMPTION_NOTES.md)).
 - [~] Twitch and platform rewards: on the account and in the shop (2026-10-08); platform survives going online, the
-  Twitch set is emptied by the game at an online start: find the routine that empties it ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
+  Twitch set is emptied by the game at an online start. **Next session (owner request):** find the routine that
+  empties it and make the rewards stay ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)) ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
 - [~] Account unlocks (titles, specials, season): run live on 2026-10-08; confirm on screen, in the saved files and after going online
   ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)). No fixture covers it.
 - [ ] Titles: confirm what the picker shows in slot 3; study the statistics route

@@ -213,8 +213,9 @@ offline:
     27024: Twitch 435, platform 3 on the account; 234 Twitch decorations
     redeemed in slot 3; the game saved them and its shop lists them. Back
     online the accounts merged, but the game empties the Twitch set at
-    start; it was inserted again in process 23800. Next: find what empties
-    it (users of account `+0x200`), and the entitlement technologies.
+    start; it was inserted again in process 23800. **Next session, asked by
+    the owner:** find what empties it (users of account `+0x200`) and keep
+    the rewards across online starts; then the entitlement technologies.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
