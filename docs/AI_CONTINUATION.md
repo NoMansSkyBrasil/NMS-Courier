@@ -3,8 +3,9 @@
 > Checkpoint 2026-10-08 (items): the profile DLL `22f1637a...ac2f` is
 > installed and adds an untested item request; see
 > [item delivery notes](ITEM_DELIVERY_NOTES.md). Next: with the game on slot 3,
-> run `signal-item-180836.ps1 -PreflightOnly`, then `-Item FUEL1=500,CASING=10`
-> once, and record what the cargo shows. Then currencies (routine behind the
+> send `FUEL1` x500 and `CASING` x10 once from the Items page of the application
+> (owner rule: live tests go through the application, see `AGENTS.md`) and
+> record what the cargo shows. Then currencies (routine behind the
 > money reward). Per-entry selection and the notification setting are in the
 > application but have not been used live from it.
 

@@ -105,6 +105,11 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   it to the desktop application: the area in `features/`, the plan in
   `apps/desktop/src/main/research-bridge/delivery-plan.ts`, and its texts. A capability that
   exists only as a script is unfinished work and is listed in `TODO.md`.
+- **Live tests go through the application.** From 2026-10-08 (owner decision) every live test,
+  every send to the game and every new feature is exercised from the desktop application, not by
+  running a signal script by hand, so the interface never falls behind the bridge. A script run by
+  hand is allowed only to diagnose a failure the application already showed, and the record says
+  so. A capability counts as verified only when it worked from the application.
 - Details and the mapping to game language identifiers:
   [product and UI](docs/PRODUCT_AND_UI.md#2-language).
 
