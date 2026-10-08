@@ -4,9 +4,11 @@ Checkpoint: 2026-10-08. Owner of the account domain: unlocking titles,
 specials and season (expedition) rewards on the account, which every save
 slot shares, through the game's own routines in the running game.
 
-Status in one line: the three routines are located on build 180836 and a
-request is built; **the build is not installed and nothing has been
-unlocked through it.** Scope of a request: the whole account.
+Status in one line: the request was run live on 2026-10-08 on an account
+emptied for the test: every title, every non-repeatable special and every
+season reward of the game tables is now in the account sets in memory.
+What the game shows, what it saves and what the remote copy does are not
+confirmed yet. Scope of a request: the whole account.
 
 ## Owner direction
 
@@ -96,10 +98,50 @@ Twitch and platform rewards have no such routine; see the triage notes.
 | Item | Value |
 | --- | --- |
 | Profile DLL | SHA-256 `95b99ad8ea600db3add26552d4644a025613204af96b200aed043a24b69de6f0`, built with `-Mode Profile180836` |
-| Installed | **No.** The game is running (process 25584); `68fd60bc...d5a7` stays installed until it is closed |
+| Installed | Yes, 2026-10-08 00:31:06, by a waiting copy as soon as the owner closed the game (store client offline); replaces `68fd60bc...d5a7` |
 | Checks run | Profile, technology and recipe fixtures pass. No fixture covers the account request |
 
-## First live test (proposed, not done)
+## First live requests (2026-10-08, account; slot 3 loaded)
+
+| Item | Value |
+| --- | --- |
+| Game | Build 180836, executable `13d5060d...`, process 25932, store client offline |
+| Profile DLL | `95b99ad8ea600db3add26552d4644a025613204af96b200aed043a24b69de6f0` |
+| Slot loaded | 3, identified by content (205 technologies, 1,906 products) |
+| Account before | Titles 86, unlocked specials 459, season 0, platform 1 (read from memory) |
+| Backup | Save folder and settings file copied to the external `save-backups/20261008-before-account-unlock` |
+| Preflight | Passed, `dispatch_state=0` |
+
+| Request | Result file | Account sets read back |
+| --- | --- | --- |
+| `-Title T_ABYSS` | `unlocked`, titles 86 -> 87 | `T_ABYSS` in titles |
+| `-Special BANNER_AF` (already known in the slot) | `unlocked`, specials 459 -> 460 | `BANNER_AF` in specials |
+| `-Season EXPD_POSTER23A` | `unlocked`, season 0 -> 1 | In season (and in specials since the slot-side test) |
+| `-AllOfKind title,special,season` (1,105 IDs) | Titles 87 -> 346 (259 `unlocked`, 87 `no_change`); specials 460 -> 782 (all 466 reported `unlocked`); season 1 -> 293 (293 `unlocked`) | Titles 346 of 346; season 293 of 293; of the 336 purchasable specials only the 14 repeatable ones are absent; all 263 customisation IDs present |
+
+The game kept running after every request. One attempt before the last
+request failed in the script's argument check (a comma list passed through
+`-File` arrives as one string) and sent nothing; call the script through
+`-Command` when giving several kinds.
+
+Noted: the specials routine reports 1 for an ID that was already present
+(466 reported, 322 actually added), so `unlocked` for a special means
+"present now", not "added by this request". The title routine reports
+`no_change` for a title already unlocked.
+
+Not proven: what the title picker, the customiser and the Quicksilver shop
+show (awaiting the owner); that the game writes this state to the account
+files; what happens when the store client goes online again; whether season
+rewards unlocked on the account can be claimed in the shop. The slot-side
+redemption of the remaining season rewards was deliberately not sent:
+redeeming a ship, multitool or companion in the slot records a claim without
+handing over the item.
+
+Undo: with the game closed and the store client offline, copy the save
+folder and settings file back from `20261008-before-account-unlock`. Putting
+the store client online is also expected to bring back the remote account.
+
+## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
    start on slot 3; identify the slot; read the account sets; back up the

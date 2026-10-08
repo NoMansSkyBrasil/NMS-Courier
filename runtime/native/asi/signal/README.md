@@ -95,7 +95,8 @@ on 2026-10-07; effect not confirmed.
 `signal-account-180836.ps1` unlocks titles, specials and season rewards **on the account**
 (every slot, synchronised outside the machine): `-Title`, `-Special`, `-Season` with IDs, or
 `-AllOfKind title,special,season`. Back up the save folder and the settings file first. Status:
-[account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). Not yet used for a live request.
+[account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). First used live on 2026-10-08. Give several
+kinds through `powershell -Command`, not `-File`.
 
 ## Rule
 

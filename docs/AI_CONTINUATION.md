@@ -206,9 +206,10 @@ offline:
 27. *Account request (2026-10-08).* Read
     [account unlock notes](ACCOUNT_UNLOCK_NOTES.md). With the store client
     offline the account opened mostly empty, which allows real tests. DLL
-    `95b99ad8...e6f0` adds the `account` event (titles, specials, season);
-    built, not installed. Next: install with the game closed and the client
-    still offline, then one ID of each kind.
+    `95b99ad8...e6f0` adds the `account` event (titles, specials, season) and
+    is installed. All 1,105 IDs were unlocked on the emptied account
+    (process 25932). Next: the owner's check of the interface, a save, and
+    what the remote copy does when the store client is online again.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

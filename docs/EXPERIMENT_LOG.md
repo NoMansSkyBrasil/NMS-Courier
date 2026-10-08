@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: titles, specials and season rewards unlocked on the account through the game's routines
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#first-live-requests-2026-10-08-account-slot-3-loaded).
+Process 25932, DLL `95b99ad8...e6f0` (installed 00:31:06 with the game
+closed), executable `13d5060d...`, slot 3 identified, store client offline,
+backup `save-backups/20261008-before-account-unlock`, preflight passed.
+
+- Single IDs first: one title, one special the slot already knew, one season
+  reward; each appeared in its account set.
+- All 1,105 deliverable IDs: titles 87 -> 346, specials 460 -> 782, season
+  1 -> 293. Only the 14 repeatable specials remain absent, as intended.
+- Game kept running. One earlier invocation failed in argument validation
+  and sent nothing.
+- Not proven: the game's interface, the saved account files, the remote
+  copy, claiming season rewards in the shop.
+
 ## 2026-10-08: account opens mostly empty with the store client offline; two slot-side tests; account request built
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md). Process 25584, slot

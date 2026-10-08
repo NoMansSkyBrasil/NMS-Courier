@@ -154,7 +154,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Character customisation in the slot: 263 specials delivered and confirmed on 2026-10-07.
 - [ ] Network-player delivery (later goal): find the multiplayer messages that make a peer run a reward and how the
   synchronised container hands over items ([reference feature catalog](docs/REFERENCE_FEATURE_CATALOG.md)).
-- [~] Account unlocks (titles, specials, season): request built on 2026-10-08, install and first live test pending
+- [~] Account unlocks (titles, specials, season): run live on 2026-10-08; confirm on screen, in the saved files and after going online
   ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)). No fixture covers it.
 - [ ] Titles: confirm what the picker shows in slot 3; study the statistics route
   ([customisation unlock notes](docs/CUSTOMISATION_UNLOCK_NOTES.md#titles)).
