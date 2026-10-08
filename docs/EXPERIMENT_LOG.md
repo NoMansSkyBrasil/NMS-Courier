@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-07: the redeem routine also changes the account (read-only finding); owner accepts account results
+
+Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md#correction-the-slot-side-routine-also-writes-the-account-found-2026-10-07).
+Process 8256, slot 3, DLL `68fd60bc...d5a7`; nothing was written in this step.
+
+- Account unlocked specials 741 -> 794 since the 16:50 read; all 263
+  customisation IDs present; `accountdata.hg` and the settings file rewritten
+  at 23:22. The earlier statement that the request left the account alone
+  was wrong.
+- The settings file had not been backed up before that request.
+- Account against the game tables: titles 346/346, purchasable specials
+  336/336, season 293/293, platform 1/3; Twitch set unresolved.
+- Owner decision the same evening: account-level results are accepted, by
+  game routines only.
+
 ## 2026-10-07: all customisation specials recorded in slot 3
 
 Owner: [customisation unlock notes](CUSTOMISATION_UNLOCK_NOTES.md#live-requests-2026-10-07-slot-3).

@@ -186,6 +186,71 @@ Besides the owner's direction: the executable contains requests named
 publisher's servers. A change there leaves the machine; a slot change does
 not, as far as the names show. The traffic itself was not observed.
 
+### Owner decision: account-level results are accepted (2026-10-07, evening)
+
+The owner ruled that receiving on the account is acceptable, reasoning that
+the reference service unlocks account-wide on the recipient and that only
+console save editors are limited to the save. This replaces the earlier
+"ignore the account data" direction of the same day. It does not change the
+product boundary: account lists are changed only by the game's own routines
+in the running game, never by editing `accountdata.hg` or the settings file.
+Deliveries still go into the loaded slot as well, and every record states
+both scopes.
+
+### Correction: the slot-side routine also writes the account (found 2026-10-07)
+
+These notes and the customisation notes said the `redeem` event "does not
+touch the account lists". **That was wrong for specials.** Read-only look at
+process 8256 after the customisation delivery of 263 IDs:
+
+| Account set | Before (16:50 read) | After |
+| --- | --- | --- |
+| Unlocked specials (`+0x180`) | 741 | 794 |
+| Unlocked titles (`+0x140`) | 346 | 346 |
+| Unlocked season rewards (`+0x1c0`) | 293 | 293 |
+| Unlocked platform rewards (`+0x240`) | 1 | 1 |
+| Twitch (`+0x200`, unresolved) | 0 | 0 |
+
+All 263 customisation IDs are now in the account's unlocked specials; 53 of
+them were new there. Both account files were rewritten by the game at 23:22
+(`accountdata.hg` and `GCUSERSETTINGSDATA.MXML`). So `5ab380`, when it adds
+a known special to the slot, also unlocks the special on the account, and
+the game then stores and presumably uploads the account data. Not verified:
+that nothing else added those 53 (the product requests of the same session
+only mark products as *seen*).
+
+What was not done properly: the settings file was not copied before the
+request, because the change was believed to be slot-only. The save folder
+backup `20261007-before-customisation-all` does contain the earlier
+`accountdata.hg`. From now on a `redeem` request counts as an account-level
+change and both account files are backed up first.
+
+### What can be done on the account (state on 2026-10-07)
+
+Compared with the game's own tables, the owner's account already holds
+every title (346 of 346), every purchasable special (336 of 336, plus 458
+other IDs), every season reward (293 of 293) and one of three platform
+rewards. Most of that was written by a save editor before this project.
+
+| List | Route in the game | State |
+| --- | --- | --- |
+| Unlocked specials | Slot-side routine `5ab380` (profile `redeem` event) writes slot and account | Used live for 263 IDs |
+| Unlocked season rewards | Account routine `60ae70`, called by the reward handler `f44010`, then `5ab380` for the slot | Slot side used live for 112 IDs; the account side is not exercised on this account because nothing is missing |
+| Unlocked titles | Account routine found on build 180383 (`609bb0`: checks the title's condition through `6093e0`, inserts, then gives the title's specials); not relocated to 180836 | Not built; nothing missing on this account |
+| Unlocked platform rewards | No single-entry routine found; only a bulk "apply loaded settings" routine | Not built. Missing here: `SW_PREORDER`, `SW_PREORDER2` |
+| Unlocked Twitch rewards | Same; and the set expected at `+0x200` is empty in memory while the file lists 435 | Unresolved |
+| Seen substances, technologies, products | Single-entry routines; the product learn routine calls the product one | Used indirectly |
+
+Consequences:
+
+- On an account that an editor has not touched, the `redeem` event alone
+  would deliver specials to both scopes. Season rewards would need the
+  account routine as well, or the whole reward handler; that needs a test on
+  an account that lacks them, which the owner's account cannot give.
+- Twitch and platform rewards are the open part; the only route known inside
+  the running game is a direct insert with the game's container routine,
+  which is a direct write and has to be labelled so.
+
 ## How the game redeems a reward in a slot (offline, build 180836)
 
 The shipped reward `GcRewardUnlockSeasonReward` (306 uses; fields `ProductID`,

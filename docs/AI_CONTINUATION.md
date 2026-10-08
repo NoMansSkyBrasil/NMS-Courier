@@ -189,6 +189,12 @@ offline:
     [reference feature catalog](REFERENCE_FEATURE_CATALOG.md). Not started;
     the first study is which multiplayer messages make a peer run a reward.
 
+25. *Account scope (2026-10-07, evening).* The owner accepts account-level
+    results. The `redeem` event was found to unlock specials on the account
+    as well as in the slot; back up both account files before using it. What
+    each account list needs is tabulated in
+    [reward redemption notes](REWARD_REDEMPTION_NOTES.md#what-can-be-done-on-the-account-state-on-2026-10-07).
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

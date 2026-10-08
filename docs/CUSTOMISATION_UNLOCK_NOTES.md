@@ -106,8 +106,13 @@ The owner then asked for everything. Save folder copied to
 The season set grew by 112, the number of customisation IDs that are also
 expedition rewards: for those the routine records the redemption as well.
 All of them are appearance parts, banners, trails or titles, for which
-known and redeemed is the whole reward. Scope: slot 3 only; the account
-lists were not touched. Game kept running.
+known and redeemed is the whole reward. Game kept running.
+
+**Scope, corrected the same evening:** slot 3 *and the account*. The
+routine also unlocked the specials on the account (unlocked specials 741 ->
+794; all 263 IDs present afterwards; both account files rewritten at 23:22).
+See [reward redemption notes](REWARD_REDEMPTION_NOTES.md#correction-the-slot-side-routine-also-writes-the-account-found-2026-10-07).
+The owner accepted account-level results that evening.
 
 **Confirmed by the owner: every appearance option is open.** The automatic
 save of slot 3 (`save5.hg`, 23:24) holds 274 known specials (11 before, plus

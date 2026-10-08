@@ -6,7 +6,8 @@
 // unlocks an ID on the account, its handler calls one routine with the player state and the ID. That
 // routine adds the matching special to the slot's known specials and, when the ID is in the season,
 // Twitch or platform table, records it in the slot's redeemed set for that kind. This file calls that
-// routine and nothing else: it does not touch the account lists.
+// routine and nothing else. Observed live on 2026-10-07: for a special the routine itself also unlocks
+// the ID on the account, so a request changes the slot and the account.
 
 #define REWARD_REDEEM_RVA 0x5ab380u
 #define REWARD_PLAYER_STATE_OFFSET 0xb940u     // from the manager object

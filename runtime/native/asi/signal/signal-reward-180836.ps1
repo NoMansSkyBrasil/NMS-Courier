@@ -1,6 +1,7 @@
 # Reward requests for the build 180836 research profile: mark season (expedition), Twitch and
-# platform rewards as redeemed in the loaded save slot through the game's own routine. Account-level
-# lists are not touched. Only IDs listed as deliverable in runtime/research/unlockable-rewards.md
+# platform rewards as redeemed in the loaded save slot through the game's own routine. For an ID that
+# is a special the routine also unlocks it on the account (observed 2026-10-07), so back up the
+# account files as well. Only IDs listed as deliverable in runtime/research/unlockable-rewards.md
 # are sent.
 param(
     [Parameter(Mandatory = $true)]

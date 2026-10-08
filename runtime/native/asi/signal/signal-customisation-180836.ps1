@@ -1,7 +1,8 @@
 # Customisation requests for the build 180836 research profile: record in the loaded save slot the
 # specials that unlock character customisation options, banners, jetpack trails, textures and titles.
-# Uses the profile's `redeem` event, which calls the game's own slot-side routine for one ID and does
-# not touch the account lists. Only IDs classed `customisation` in
+# Uses the profile's `redeem` event, which calls the game's own slot-side routine for one ID. That
+# routine also unlocks the special on the account (observed 2026-10-07), so back up the account files
+# as well. Only IDs classed `customisation` in
 # runtime/research/product-delivery-classification.md are sent.
 param(
     [Parameter(Mandatory = $true)]
