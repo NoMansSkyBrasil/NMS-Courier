@@ -487,6 +487,26 @@ hooking the handler because it leaves the game's sign-in path untouched.
 Not proven: everything live. Test: start online on slot 3 without sending
 anything, wait, read the Twitch set and the status file, check the shop.
 
+### Boundary: no change to the publisher's records (2026-10-08)
+
+The owner asked whether the Twitch rewards could be made permanent on the
+publisher's side, so that they stay without the bridge. Not pursued, and not
+to be built: the Twitch list is whatever the publisher's service returns at
+sign-in, so making it permanent there would mean altering or forging what
+that service holds for the account. The project changes only the local
+running game. What already persists without the bridge:
+
+- anything claimed in the Quicksilver shop: the claim and the item are in
+  the save slot;
+- the account's titles, specials, season rewards and platform rewards: after
+  going online on 2026-10-08 they were kept and merged with the remote
+  copy;
+- everything delivered to the slot (technologies, products, recipes,
+  customisation, fishing record).
+
+Only the "available to claim" state of unclaimed Twitch rewards depends on
+the keep list.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
