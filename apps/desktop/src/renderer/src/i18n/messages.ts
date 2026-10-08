@@ -314,7 +314,7 @@ export type Messages = {
     viewDescription: string
     colorTitle: string
     roles: Record<'primary' | 'secondary' | 'decal1' | 'decal2', string>
-    baseTextureTitle: string
+    texturesTitle: string
     baseTexture: Record<'COATING' | 'PAINTED' | 'PANELS', string>
     seedTexturesTitle: string
     colorHint: string

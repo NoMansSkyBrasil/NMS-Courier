@@ -428,7 +428,7 @@ export const jaJP: Messages = {
     tabBuild: '組み立て',
     tabView: 'シード値を表示',
     buildDescription:
-      '種類、パーツ、メインカラーを選びます。その組み合わせを持つシード値をアプリが探して表示します。',
+      '種類、パーツ、色、テクスチャを選びます。その組み合わせを持つシード値をアプリが探して表示します。',
     viewDescription: '種類を選び、シード値を入力するかランダムに生成して、見た目を確認します。',
     colorTitle: '色',
     roles: {
@@ -437,10 +437,11 @@ export const jaJP: Messages = {
       decal1: 'デカールカラー 1',
       decal2: 'デカールカラー 2'
     },
-    baseTextureTitle: 'ベーステクスチャ',
+    texturesTitle: 'テクスチャとデカール',
     baseTexture: { COATING: 'コーティング', PAINTED: '塗装', PANELS: 'メタル' },
     seedTexturesTitle: 'このシード値のテクスチャとデカール',
-    colorHint: 'ゲームの塗装パレットの色です。「指定なし」はシード値に任せます。',
+    colorHint:
+      'モデルがゲームのパレットから取る各色です。色の枠を選んでから色を選びます。「指定なし」はシード値に任せます。',
     seedColorsTitle: 'このシード値の色',
     paintLabel: '塗装',
     undercoatLabel: '下地',

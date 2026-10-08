@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.12.0 (2026-10-08)
+
+- New: in "Build", every colour and every texture layer of the model can be
+  chosen, for every type: the colours a model takes from the game's palettes
+  (for a painted starship the five named ones; for a living ship its body,
+  underbelly and cockpit colours; and so on) and each layer in which a seed
+  chooses (base texture, logo, number, letter and small sign decals, and the
+  layers of the other types).
+- New: a link can open the workshop on a tab, type and seed
+  (`#models?tab=view&category=starship&kind=fighter&seed=0x…`).
+- All twenty types were rendered and looked at; engine exhaust and effect
+  scenes are no longer drawn as solid shapes.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.11.0 (2026-10-08)
 
 - New: workshop models are painted with the game's own textures. The seed's

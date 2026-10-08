@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { BoxIcon, FolderOpenIcon } from 'lucide-react'
 import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
+import { hashParameters } from '@renderer/features'
 import { useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
@@ -22,7 +23,13 @@ export function ModelPreviewPage(): React.JSX.Element {
   const { copy } = useLocale()
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:p-6">
-      <Tabs defaultValue="build">
+      <Tabs
+        defaultValue={
+          ['build', 'view', 'file'].includes(hashParameters(window.location.hash).get('tab') ?? '')
+            ? (hashParameters(window.location.hash).get('tab') as string)
+            : 'build'
+        }
+      >
         <TabsList>
           <TabsTrigger value="build">{copy.workshop.tabBuild}</TabsTrigger>
           <TabsTrigger value="view">{copy.workshop.tabView}</TabsTrigger>

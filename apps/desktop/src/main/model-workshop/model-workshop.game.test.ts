@@ -66,22 +66,25 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     }
   }, 120_000)
 
-  it('offers nested groups and finds a seed for chosen parts, colours and base texture', async () => {
+  it('offers nested groups and finds a seed for chosen parts, colour and textures', async () => {
     const choices = service.choices('starship', 'fighter')
     expect(choices.state).toBe('listed')
     if (choices.state !== 'listed') return
     expect(choices.groups.map((group) => group.group)).toEqual(['_ENGINE_', '_WINGS_', '_COCKPIT_'])
-    expect(choices.paintColors.length).toBeGreaterThan(8)
     const wings = choices.groups[1].options.find((option) => option.groups.length > 0)!
     const nested = wings.groups[0]
     const wanted = [
       { parent: '', group: '_WINGS_', id: wings.id },
       { parent: nested.parent, group: nested.group, id: nested.options[0].id }
     ]
-    const primary = choices.paintColors[3]
+    const first = service.build('starship', 'fighter', '0x7')
+    expect(first.state).toBe('built')
+    if (first.state !== 'built') return
+    const primary = first.colors.find((slot) => slot.family === 10 && slot.sample === 0)!
+    const color = primary.palette[3]
     const found = await service.findSeed('starship', 'fighter', wanted, {
-      colors: { primary },
-      baseTexture: 'PAINTED'
+      colors: [{ family: 10, sample: 0, color }],
+      textures: [{ layer: 'BASE', group: '', name: 'PAINTED' }]
     })
     expect(found.state).toBe('found')
     if (found.state !== 'found') return
@@ -93,11 +96,40 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
         true
       )
     }
-    expect(built.paint?.primary.slice(0, 3)).toEqual(primary.slice(0, 3))
-    expect(built.textures.find((row) => row.layer === 'BASE' && row.group === '')?.name).toBe(
-      'PAINTED'
-    )
+    expect(
+      built.colors.find((slot) => slot.family === 10 && slot.sample === 0)?.color.slice(0, 3)
+    ).toEqual(color.slice(0, 3))
+    expect(
+      built.textureGroups.find((group) => group.layer === 'BASE' && group.group === '')?.chosen
+    ).toBe('PAINTED')
   }, 90_000)
+
+  it('finds a seed for a chosen decal and for a colour of a kind with its own palette', async () => {
+    const decal = await service.findSeed('starship', 'fighter', [], {
+      colors: [],
+      textures: [{ layer: 'BASE', group: 'DECALNUMBER', name: 'A1' }]
+    })
+    expect(decal.state).toBe('found')
+    const living = service.build('starship', 'living', '0x7')
+    expect(living.state).toBe('built')
+    if (living.state !== 'built') return
+    expect(living.colors.length).toBeGreaterThan(0)
+    const slot = living.colors[0]
+    const color = slot.palette[slot.palette.length - 1]
+    const found = await service.findSeed('starship', 'living', [], {
+      colors: [{ family: slot.family, sample: slot.sample, color }],
+      textures: []
+    })
+    expect(found.state).toBe('found')
+    if (found.state !== 'found') return
+    const built = service.build('starship', 'living', found.seed)
+    expect(
+      built.state === 'built' &&
+        built.colors
+          .find((entry) => entry.family === slot.family && entry.sample === slot.sample)
+          ?.color.slice(0, 3)
+    ).toEqual(color.slice(0, 3))
+  }, 120_000)
 
   // What the community customizer at nms.center shows for this seed (read on 2026-10-08): its
   // parts, its five colours with their palette numbers, and its texture and decal choices.
@@ -108,17 +140,18 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     expect(built.parts.map((part) => part.id).join(' ')).toBe(
       '_ENGINE_B _WINGS_A _ACC_A _COCKPIT_A _ANOSE_A _NOSEA_BASELOD0 _LOGO1_A2 _NUMBER4_A4 _NUMBER3_A3 _LOGO2_A3 _NUMBER2_A3 _NUMBER1_A2'
     )
-    const near = (color: readonly number[] | undefined, expected: number[]): void => {
-      expect(color).toBeDefined()
-      expected.forEach((value, index) => expect(color![index]).toBeCloseTo(value, 5))
+    const near = (family: number, sample: number, expected: number[]): void => {
+      const slot = built.colors.find((entry) => entry.family === family && entry.sample === sample)
+      expect(slot).toBeDefined()
+      expected.forEach((value, index) => expect(slot!.color[index]).toBeCloseTo(value, 5))
     }
-    near(built.paint?.primary, [0.976471, 0.92549, 0.066667])
-    near(built.paint?.secondary, [0.901961, 0.901961, 0.901961])
-    near(built.paint?.undercoat, [0.435294, 0.447059, 0.435294])
-    near(built.paint?.decal1, [0.243137, 0.560784, 0.792157])
-    near(built.paint?.decal2, [1, 0.87451, 0.709804])
+    near(10, 0, [0.976471, 0.92549, 0.066667])
+    near(10, 3, [0.901961, 0.901961, 0.901961])
+    near(20, 0, [0.435294, 0.447059, 0.435294])
+    near(10, 2, [0.243137, 0.560784, 0.792157])
+    near(10, 1, [1, 0.87451, 0.709804])
     const chosen = Object.fromEntries(
-      built.textures.map((row) => [`${row.layer}/${row.group}`, row.name])
+      built.textureGroups.map((group) => [`${group.layer}/${group.group}`, group.chosen])
     )
     expect(chosen).toMatchObject({
       'BASE/': 'PAINTED',

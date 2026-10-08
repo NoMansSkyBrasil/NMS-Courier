@@ -446,7 +446,7 @@ export const frFR: Messages = {
     tabBuild: 'Assembler',
     tabView: 'Voir une graine',
     buildDescription:
-      'Choisissez le type, les pièces et la couleur principale. L’application cherche une graine qui les possède et l’affiche.',
+      'Choisissez le type, les pièces, les couleurs et les textures. L’application cherche une graine qui les possède et l’affiche.',
     viewDescription:
       'Choisissez le type et saisissez une graine, ou tirez-en une au hasard, pour voir à quoi elle ressemble.',
     colorTitle: 'Couleurs',
@@ -456,11 +456,11 @@ export const frFR: Messages = {
       decal1: 'Couleur de décalcomanie 1',
       decal2: 'Couleur de décalcomanie 2'
     },
-    baseTextureTitle: 'Texture de base',
+    texturesTitle: 'Textures et décalcomanies',
     baseTexture: { COATING: 'Revêtement', PAINTED: 'Peint', PANELS: 'Métal' },
     seedTexturesTitle: 'Textures et décalcomanies de cette graine',
     colorHint:
-      'Les couleurs de la palette de peinture du jeu. Indifférent laisse le choix à la graine.',
+      'Chaque couleur que le modèle prend dans les palettes du jeu. Choisissez-en une, puis sa couleur ; Indifférent la laisse à la graine.',
     seedColorsTitle: 'Couleurs de cette graine',
     paintLabel: 'Peinture',
     undercoatLabel: 'Sous-couche',

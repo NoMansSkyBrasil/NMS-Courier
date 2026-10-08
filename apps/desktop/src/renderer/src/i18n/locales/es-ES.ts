@@ -433,7 +433,7 @@ export const esES: Messages = {
     tabBuild: 'Montar',
     tabView: 'Ver una semilla',
     buildDescription:
-      'Elige el tipo, las piezas y el color principal. La aplicación busca una semilla que los tenga y la muestra.',
+      'Elige el tipo, las piezas, los colores y las texturas. La aplicación busca una semilla que los tenga y la muestra.',
     viewDescription: 'Elige el tipo y escribe una semilla, o sortea una, para ver cómo es.',
     colorTitle: 'Colores',
     roles: {
@@ -442,11 +442,11 @@ export const esES: Messages = {
       decal1: 'Color de calcomanía 1',
       decal2: 'Color de calcomanía 2'
     },
-    baseTextureTitle: 'Textura base',
+    texturesTitle: 'Texturas y calcomanías',
     baseTexture: { COATING: 'Revestimiento', PAINTED: 'Pintado', PANELS: 'Metal' },
     seedTexturesTitle: 'Texturas y calcomanías de esta semilla',
     colorHint:
-      'Los colores de la paleta de pintura del juego. Cualquiera deja la elección a la semilla.',
+      'Cada color que el modelo toma de las paletas del juego. Elige uno y luego su color; Cualquiera lo deja a la semilla.',
     seedColorsTitle: 'Colores de esta semilla',
     paintLabel: 'Pintura',
     undercoatLabel: 'Capa base',

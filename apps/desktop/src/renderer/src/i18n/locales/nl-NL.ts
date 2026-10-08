@@ -441,7 +441,7 @@ export const nlNL: Messages = {
     tabBuild: 'Samenstellen',
     tabView: 'Seed bekijken',
     buildDescription:
-      'Kies het type, de onderdelen en de hoofdkleur. De toepassing zoekt een seed die ze heeft en toont die.',
+      'Kies het type, de onderdelen, de kleuren en de texturen. De toepassing zoekt een seed die ze heeft en toont die.',
     viewDescription:
       'Kies het type en typ een seed, of trek er een willekeurig, om te zien hoe die eruitziet.',
     colorTitle: 'Kleuren',
@@ -451,10 +451,11 @@ export const nlNL: Messages = {
       decal1: 'Stickerkleur 1',
       decal2: 'Stickerkleur 2'
     },
-    baseTextureTitle: 'Basistextuur',
+    texturesTitle: 'Texturen en stickers',
     baseTexture: { COATING: 'Coating', PAINTED: 'Gelakt', PANELS: 'Metaal' },
     seedTexturesTitle: 'Texturen en stickers van deze seed',
-    colorHint: 'De kleuren van het lakpalet van het spel. Willekeurig laat de keuze aan de seed.',
+    colorHint:
+      'Elke kleur die het model uit de paletten van het spel haalt. Kies er een en daarna de kleur; Willekeurig laat het aan de seed.',
     seedColorsTitle: 'Kleuren van deze seed',
     paintLabel: 'Lak',
     undercoatLabel: 'Grondlaag',

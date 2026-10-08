@@ -427,7 +427,7 @@ export const plPL: Messages = {
     tabBuild: 'Złóż',
     tabView: 'Zobacz ziarno',
     buildDescription:
-      'Wybierz typ, części i główny kolor. Aplikacja poszuka ziarna, które je ma, i je pokaże.',
+      'Wybierz typ, części, kolory i tekstury. Aplikacja poszuka ziarna, które je ma, i je pokaże.',
     viewDescription: 'Wybierz typ i wpisz ziarno albo wylosuj je, aby zobaczyć, jak wygląda.',
     colorTitle: 'Kolory',
     roles: {
@@ -436,10 +436,11 @@ export const plPL: Messages = {
       decal1: 'Kolor naklejki 1',
       decal2: 'Kolor naklejki 2'
     },
-    baseTextureTitle: 'Tekstura bazowa',
+    texturesTitle: 'Tekstury i naklejki',
     baseTexture: { COATING: 'Powłoka', PAINTED: 'Lakierowana', PANELS: 'Metal' },
     seedTexturesTitle: 'Tekstury i naklejki tego ziarna',
-    colorHint: 'Kolory palety lakieru z gry. Dowolna zostawia wybór ziarnu.',
+    colorHint:
+      'Każdy kolor, który model bierze z palet gry. Wybierz jeden, a potem jego barwę; Dowolna zostawia go ziarnu.',
     seedColorsTitle: 'Kolory tego ziarna',
     paintLabel: 'Lakier',
     undercoatLabel: 'Podkład',

@@ -12,7 +12,7 @@ import type {
 // Entity seed propagation, alternate collections and texture bindings are unverified.
 export const basePaletteHash = '3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e'
 export const basePaletteBytes = 32 + 66 * 0x410
-const familyNames = [
+export const familyNames = [
   'Grass',
   'Plant',
   'Leaf',

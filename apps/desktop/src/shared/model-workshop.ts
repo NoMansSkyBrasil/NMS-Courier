@@ -71,21 +71,26 @@ export type WorkshopPartGroup = {
 export type WorkshopWantedPart = { parent: string; group: string; id: string }
 
 export type WorkshopColor = [number, number, number, number]
-// The paint a seed draws, by the role each sample plays on a painted starship. The roles were
-// read off a known seed (docs/MODEL_WORKSHOP.md): of the five paint samples the first is the main
-// colour, the fourth the second colour, the third and second the two decal colours.
-export type WorkshopPaint = {
-  primary: WorkshopColor
-  secondary: WorkshopColor
-  undercoat: WorkshopColor
-  decal1: WorkshopColor
-  decal2: WorkshopColor
-}
-export const workshopPaintRoles = ['primary', 'secondary', 'undercoat', 'decal1', 'decal2'] as const
-export type WorkshopPaintRole = (typeof workshopPaintRoles)[number]
 
-// What a seed chose for one texture layer of the model (for example layer "BASE": "PAINTED").
-export type WorkshopTextureChoice = { layer: string; group: string; name: string }
+// One colour a model takes from the game's palettes: the palette family (its number and the
+// game's name for it), which of the family's samples, the colour the seed drew, and the distinct
+// colours of the family to choose from.
+export type WorkshopColorSlot = {
+  family: number
+  familyName: string
+  sample: number
+  color: WorkshopColor
+  palette: WorkshopColor[]
+}
+
+// One texture layer of the model in which a seed chooses (for example the base layer: coating,
+// painted or panels; or a decal layer: which logo): what the seed chose and what it can choose.
+export type WorkshopTextureGroup = {
+  layer: string
+  group: string
+  chosen: string
+  options: string[]
+}
 
 // How one material of the model is painted: its number in the model, whether it is a decal (shown
 // only where its texture is opaque), and its layers from top to bottom, each a game texture with
@@ -110,37 +115,32 @@ export type WorkshopModelResult =
       seed: string
       model: PreviewModel
       parts: WorkshopPart[]
-      paint: WorkshopPaint | null
-      textures: WorkshopTextureChoice[]
+      colors: WorkshopColorSlot[]
+      textureGroups: WorkshopTextureGroup[]
       surfaces: WorkshopSurface[]
     }
   | { state: 'failed'; reason: WorkshopFailure }
 
-// What can be chosen for a kind: the part groups and, where the kind is painted from the game's
-// paint palette, the distinct colours of the paint and undercoat palettes and the base textures.
 export type WorkshopChoicesResult =
-  | {
-      state: 'listed'
-      groups: WorkshopPartGroup[]
-      paintColors: WorkshopColor[]
-      undercoatColors: WorkshopColor[]
-      baseTextures: string[]
-    }
-  | { state: 'failed'; reason: WorkshopFailure }
+  { state: 'listed'; groups: WorkshopPartGroup[] } | { state: 'failed'; reason: WorkshopFailure }
 
 export type WorkshopSeedResult =
   { state: 'found'; seed: string; tried: number } | { state: 'failed'; reason: WorkshopFailure }
 
-// What the user wants of a seed besides parts: colours by role and the base texture.
+// What the user wants of a seed besides parts: colours by family and sample, and the
+// alternative of texture layers.
 export type WorkshopWantedLook = {
-  colors: Partial<Record<WorkshopPaintRole, number[]>>
-  baseTexture: string | null
+  colors: { family: number; sample: number; color: number[] }[]
+  textures: { layer: string; group: string; name: string }[]
 }
 
-// Kinds whose hull takes the paint and undercoat palettes with the model seed. Freighters take
-// their colours from the star system, and the others have palettes of their own.
-export function workshopPainted(category: string, kind: string): boolean {
-  return (
-    category === 'starship' && ['fighter', 'hauler', 'explorer', 'shuttle', 'solar'].includes(kind)
-  )
-}
+// The names the five colours of a painted starship go by, by palette family and sample (read off
+// a known seed, docs/MODEL_WORKSHOP.md). Paint is family 10 and undercoat family 20.
+export const workshopPaintRoles = [
+  { role: 'primary', family: 10, sample: 0 },
+  { role: 'secondary', family: 10, sample: 3 },
+  { role: 'undercoat', family: 20, sample: 0 },
+  { role: 'decal1', family: 10, sample: 2 },
+  { role: 'decal2', family: 10, sample: 1 }
+] as const
+export type WorkshopPaintRole = (typeof workshopPaintRoles)[number]['role']

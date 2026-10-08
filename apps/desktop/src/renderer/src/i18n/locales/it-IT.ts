@@ -440,7 +440,7 @@ export const itIT: Messages = {
     tabBuild: 'Assembla',
     tabView: 'Vedi un seme',
     buildDescription:
-      'Scegli il tipo, i pezzi e il colore principale. L’applicazione cerca un seme che li abbia e lo mostra.',
+      'Scegli il tipo, i pezzi, i colori e le texture. L’applicazione cerca un seme che li abbia e lo mostra.',
     viewDescription:
       'Scegli il tipo e scrivi un seme, oppure estraine uno a caso, per vedere com’è.',
     colorTitle: 'Colori',
@@ -450,10 +450,11 @@ export const itIT: Messages = {
       decal1: 'Colore decalcomania 1',
       decal2: 'Colore decalcomania 2'
     },
-    baseTextureTitle: 'Texture di base',
+    texturesTitle: 'Texture e decalcomanie',
     baseTexture: { COATING: 'Rivestimento', PAINTED: 'Verniciato', PANELS: 'Metallo' },
     seedTexturesTitle: 'Texture e decalcomanie di questo seme',
-    colorHint: 'I colori della tavolozza di vernice del gioco. Qualsiasi lascia la scelta al seme.',
+    colorHint:
+      'Ogni colore che il modello prende dalle tavolozze del gioco. Scegline uno e poi il suo colore; Qualsiasi lo lascia al seme.',
     seedColorsTitle: 'Colori di questo seme',
     paintLabel: 'Vernice',
     undercoatLabel: 'Sottofondo',

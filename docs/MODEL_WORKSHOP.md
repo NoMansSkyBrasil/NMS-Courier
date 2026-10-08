@@ -1,6 +1,6 @@
 # Model workshop
 
-Status on 2026-10-08: **implemented in application 1.11.0, offline only.** The
+Status on 2026-10-08: **implemented in application 1.12.0, offline only.** The
 workshop reads the selected installation's own archives and never touches the
 running game, the bridge or a save. Nothing here was compared with the running
 game seed by seed yet.
@@ -15,12 +15,14 @@ The page has three tabs.
 
 | Tab | What it does |
 | --- | --- |
-| Build | Choose category, type and parts and, for painted starships, any of the five colours and the base texture. The application looks for a seed that has them and shows the model. |
+| Build | Choose category, type, parts, any colour the model takes from the game's palettes and any texture layer in which a seed chooses (base texture, decals). The application looks for a seed that has them and shows the model. |
 | View a seed | Choose category and type, type a seed or draw a random one, and see the model, its paint colours and the parts it drew. |
 | Model file | The earlier tools for a GLB file the user brings (part visibility, tints, palettes, appearance recipes). |
 
 For a starship, "Get this one in the game" opens Starships, "Get a new one",
-with the type and the seed filled in.
+with the type and the seed filled in. A link can open the workshop directly:
+`#models?tab=view&category=starship&kind=fighter&seed=0x5EEDC0DE70FAE007`
+(`tab` is `build`, `view` or `file`).
 
 ## Categories and types
 
@@ -206,8 +208,11 @@ With `NMS_COURIER_GAME_ROOT` pointing at the installed build 180836:
   choices of the table above, and its textures can be fetched while any
   other texture path is refused.
 
-The rendered page was looked at in a test instance: a fighter with a chosen
-orange was found after 227 tries and shown painted.
+The rendered page was looked at in a test instance for all twenty types (seed
+`0x1234567890ABCDEF`): each shows a recognisable, textured model. Over five
+seeds per type no scene was missing, no geometry unreadable and no mesh
+without triangles. A search for a chosen decal and one for a living ship's
+body colour find a seed whose model has them.
 
 Reproduce:
 
@@ -221,8 +226,6 @@ cd apps/desktop && NMS_COURIER_GAME_ROOT="<game folder>" npx vitest run src/main
   like the workshop's model for that seed. The selection runs with an empty
   caller context; the game's callers may add forced or excluded parts.
 - The exact recolouring of a layer, masks, normal maps, glow and glass.
-- Decal choices (which logo, number or letter) in Build, and colour choices
-  for the kinds that are not painted from the paint palette.
 - Freighter colours (from the star system).
 - Pistol, rifle, experimental and alien multi-tools share one scene; what
   makes the game treat a seed as one or the other is not established.

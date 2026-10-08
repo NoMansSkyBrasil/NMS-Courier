@@ -448,7 +448,7 @@ export const deDE: Messages = {
     tabBuild: 'Zusammenstellen',
     tabView: 'Seed ansehen',
     buildDescription:
-      'Wähle Typ, Teile und Hauptfarbe. Die Anwendung sucht einen Seed, der sie hat, und zeigt ihn.',
+      'Wähle Typ, Teile, Farben und Texturen. Die Anwendung sucht einen Seed, der sie hat, und zeigt ihn.',
     viewDescription:
       'Wähle den Typ und gib einen Seed ein oder würfle einen aus, um zu sehen, wie er aussieht.',
     colorTitle: 'Farben',
@@ -458,10 +458,11 @@ export const deDE: Messages = {
       decal1: 'Abziehbildfarbe 1',
       decal2: 'Abziehbildfarbe 2'
     },
-    baseTextureTitle: 'Grundtextur',
+    texturesTitle: 'Texturen und Abziehbilder',
     baseTexture: { COATING: 'Beschichtung', PAINTED: 'Lackiert', PANELS: 'Metall' },
     seedTexturesTitle: 'Texturen und Abziehbilder dieses Seeds',
-    colorHint: 'Die Farben der Lackpalette des Spiels. „Beliebig“ überlässt die Wahl dem Seed.',
+    colorHint:
+      'Jede Farbe, die das Modell aus den Paletten des Spiels nimmt. Wähle eine und dann ihre Farbe; „Beliebig“ überlässt sie dem Seed.',
     seedColorsTitle: 'Farben dieses Seeds',
     paintLabel: 'Lack',
     undercoatLabel: 'Grundierung',

@@ -8,14 +8,12 @@ import {
 } from '../../../shared/model-workshop'
 import type {
   WorkshopCategory,
-  WorkshopColor,
+  WorkshopColorSlot,
   WorkshopFailure,
-  WorkshopPaint,
-  WorkshopPaintRole,
   WorkshopPart,
   WorkshopPartGroup,
   WorkshopSurface,
-  WorkshopTextureChoice,
+  WorkshopTextureGroup,
   WorkshopWantedLook,
   WorkshopWantedPart
 } from '../../../shared/model-workshop'
@@ -50,6 +48,7 @@ import {
 } from '@renderer/components/ui/select'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { ToggleGroup, ToggleGroupItem } from '@renderer/components/ui/toggle-group'
+import { hashParameters } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas } from './model-preview-canvas'
 
@@ -99,9 +98,23 @@ function cssColor(color: readonly number[]): string {
     .map((value) => Math.round(value * 255))
     .join(' ')})`
 }
-const noLook: WorkshopWantedLook = { colors: {}, baseTexture: null }
+// The named colours of a painted starship come first, in their usual order.
+function namedFirst(colors: readonly WorkshopColorSlot[]): WorkshopColorSlot[] {
+  const rank = (slot: WorkshopColorSlot): number => {
+    const index = workshopPaintRoles.findIndex(
+      (entry) => entry.family === slot.family && entry.sample === slot.sample
+    )
+    return index < 0 ? workshopPaintRoles.length : index
+  }
+  return [...colors].sort((left, right) => rank(left) - rank(right))
+}
+// A texture layer is named by its group when it has one ("DECALLOGO" reads "Logo").
+function layerLabel(layer: string, group: string): string {
+  return groupLabel((group || layer).replace(/^DECAL/, ''))
+}
+const noLook: WorkshopWantedLook = { colors: [], textures: [] }
 function hasLook(look: WorkshopWantedLook): boolean {
-  return Object.keys(look.colors).length > 0 || look.baseTexture !== null
+  return look.colors.length > 0 || look.textures.length > 0
 }
 function sameRgb(left: readonly number[], right: readonly number[]): boolean {
   return left[0] === right[0] && left[1] === right[1] && left[2] === right[2]
@@ -134,8 +147,17 @@ function reachable(
 export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.workshop
-  const [category, setCategory] = useState<WorkshopCategory>('starship')
-  const [kind, setKind] = useState<string>('fighter')
+  // Another page, or a link, may name what to open: "#models?tab=view&category=…&kind=…&seed=…".
+  const [handed] = useState(() => hashParameters(window.location.hash))
+  const handedCategory = workshopCategories.find((value) => value === handed.get('category'))
+  const [category, setCategory] = useState<WorkshopCategory>(handedCategory ?? 'starship')
+  const [kind, setKind] = useState<string>(() => {
+    const kinds = Object.keys(workshopKinds[handedCategory ?? 'starship'])
+    return kinds.includes(handed.get('kind') ?? '') ? (handed.get('kind') as string) : kinds[0]
+  })
+  const handedSeed = /^0x[0-9a-f]{1,16}$/i.test(handed.get('seed') ?? '')
+    ? handed.get('seed')
+    : null
   const kindItems = Object.keys(workshopKinds[category]).map((value) => ({
     value,
     label:
@@ -197,7 +219,13 @@ export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.E
             </Select>
           </Field>
         </div>
-        <WorkshopModel key={`${category}/${kind}`} mode={mode} category={category} kind={kind} />
+        <WorkshopModel
+          key={`${category}/${kind}`}
+          mode={mode}
+          category={category}
+          kind={kind}
+          firstSeed={mode === 'view' ? handedSeed : null}
+        />
       </CardContent>
       <CardFooter>
         <p className="text-sm text-muted-foreground">{text.note}</p>
@@ -211,29 +239,28 @@ export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.E
 function WorkshopModel({
   mode,
   category,
-  kind
+  kind,
+  firstSeed
 }: {
   mode: WorkshopMode
   category: WorkshopCategory
   kind: string
+  // The seed to open with; a random one when null.
+  firstSeed: string | null
 }): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.workshop
   const [typed, setTyped] = useState('')
   const [model, setModel] = useState<PreviewModel | null>(null)
   const [parts, setParts] = useState<WorkshopPart[]>([])
-  const [paint, setPaint] = useState<WorkshopPaint | null>(null)
-  const [textures, setTextures] = useState<WorkshopTextureChoice[]>([])
+  const [colors, setColors] = useState<WorkshopColorSlot[]>([])
+  const [textureGroups, setTextureGroups] = useState<WorkshopTextureGroup[]>([])
   const [surfaces, setSurfaces] = useState<WorkshopSurface[]>([])
   const [groups, setGroups] = useState<WorkshopPartGroup[]>([])
-  const [palettes, setPalettes] = useState<{ paint: WorkshopColor[]; undercoat: WorkshopColor[] }>({
-    paint: [],
-    undercoat: []
-  })
-  const [baseTextures, setBaseTextures] = useState<string[]>([])
   const [pinned, setPinned] = useState<Record<string, string>>({})
   const [look, setLook] = useState<WorkshopWantedLook>(noLook)
-  const [role, setRole] = useState<WorkshopPaintRole>('primary')
+  // The colour being chosen, as "family:sample"; the model's first colour until one is picked.
+  const [slotKey, setSlotKey] = useState<string | null>(null)
   const [busy, setBusy] = useState(true)
   const [tried, setTried] = useState<number | null>(null)
   const [error, setError] = useState<WorkshopFailure | null>(null)
@@ -252,8 +279,8 @@ function WorkshopModel({
           setSurfaces(result.surfaces)
           setModel(result.model)
           setParts(result.parts)
-          setPaint(result.paint)
-          setTextures(result.textures)
+          setColors(namedFirst(result.colors))
+          setTextureGroups(result.textureGroups)
           setTyped(result.seed)
         } else {
           setError(result.reason)
@@ -282,17 +309,15 @@ function WorkshopModel({
         .then((result) => {
           if (!active || result.state !== 'listed') return
           setGroups(result.groups)
-          setPalettes({ paint: result.paintColors, undercoat: result.undercoatColors })
-          setBaseTextures(result.baseTextures)
         })
         .catch(() => undefined)
     }
     // Started from a callback: the effect itself changes no state.
-    void Promise.resolve().then(() => load(randomSeed()))
+    void Promise.resolve().then(() => load(firstSeed ?? randomSeed()))
     return () => {
       active = false
     }
-  }, [mode, category, kind, load])
+  }, [mode, category, kind, load, firstSeed])
 
   // A seed with the chosen parts, colours and base texture, or any seed when nothing is chosen.
   const search = async (
@@ -334,8 +359,24 @@ function WorkshopModel({
   const seedValid = /^0x[0-9a-f]{1,16}$/i.test(typed.trim())
   const hasChoices = Object.keys(pinned).length > 0 || hasLook(look)
   const drawn = parts.filter((part) => part.alternatives > 1)
-  const roleLabel = (value: WorkshopPaintRole): string =>
-    value === 'undercoat' ? text.undercoatLabel : text.roles[value]
+  // A painted starship's five colours have names; any other colour goes by the game's name for
+  // its palette family and the number of the sample.
+  const slotLabel = (slot: { family: number; sample: number; familyName?: string }): string => {
+    const named = workshopPaintRoles.find(
+      (entry) => entry.family === slot.family && entry.sample === slot.sample
+    )
+    if (named) return named.role === 'undercoat' ? text.undercoatLabel : text.roles[named.role]
+    return `${(slot.familyName ?? String(slot.family)).replace(/_/g, ' ')} ${slot.sample + 1}`
+  }
+  const keyOf = (slot: { family: number; sample: number }): string =>
+    `${slot.family}:${slot.sample}`
+  const activeSlot = colors.find((slot) => keyOf(slot) === slotKey) ?? colors[0] ?? null
+  const wantedColor = (slot: { family: number; sample: number }): number[] | null =>
+    look.colors.find((entry) => entry.family === slot.family && entry.sample === slot.sample)
+      ?.color ?? null
+  const wantedTexture = (group: WorkshopTextureGroup): string | null =>
+    look.textures.find((entry) => entry.layer === group.layer && entry.group === group.group)
+      ?.name ?? null
   const textureLabel = (name: string): string =>
     text.baseTexture[name as keyof typeof text.baseTexture] ?? name
   const onLoaded = useCallback(() => undefined, [])
@@ -404,12 +445,7 @@ function WorkshopModel({
       style={{ backgroundColor: cssColor(color) }}
     />
   )
-  const baseItems = [
-    { value: anyPart, label: text.anyPart },
-    ...baseTextures.map((name) => ({ value: name, label: textureLabel(name) }))
-  ]
-  const rolePalette = role === 'undercoat' ? palettes.undercoat : palettes.paint
-  const roleColor = look.colors[role] ?? null
+  const activeColor = activeSlot ? wantedColor(activeSlot) : null
 
   return (
     <>
@@ -521,28 +557,30 @@ function WorkshopModel({
             </Button>
             <p className="text-sm text-muted-foreground">{copy.preview.hint}</p>
           </div>
-          {paint && (
+          {colors.length > 0 && (
             <Field>
               <FieldLabel>{text.seedColorsTitle}</FieldLabel>
               <div className="flex flex-wrap gap-1">
-                {workshopPaintRoles.map((value) => (
-                  <Badge key={value} variant="outline">
-                    {swatch(paint[value])}
-                    {roleLabel(value)}
+                {colors.map((slot) => (
+                  <Badge key={keyOf(slot)} variant="outline">
+                    {swatch(slot.color)}
+                    {slotLabel(slot)}
                   </Badge>
                 ))}
               </div>
             </Field>
           )}
-          {textures.length > 0 && (
+          {textureGroups.length > 0 && (
             <Field>
               <FieldLabel>{text.seedTexturesTitle}</FieldLabel>
               <div className="flex flex-wrap gap-1">
-                {textures.map((entry, index) => (
-                  <Badge key={`${entry.layer}-${entry.group}-${index}`} variant="outline">
-                    {groupLabel(entry.group || entry.layer)} {textureLabel(entry.name)}
-                  </Badge>
-                ))}
+                {textureGroups
+                  .filter((entry) => entry.chosen)
+                  .map((entry) => (
+                    <Badge key={`${entry.layer}/${entry.group}`} variant="outline">
+                      {layerLabel(entry.layer, entry.group)} {textureLabel(entry.chosen)}
+                    </Badge>
+                  ))}
               </div>
             </Field>
           )}
@@ -561,7 +599,7 @@ function WorkshopModel({
         </div>
         {mode === 'build' && (
           <div className="flex flex-col gap-6">
-            {palettes.paint.length > 0 && (
+            {activeSlot && (
               <FieldSet>
                 <FieldLegend>{text.colorTitle}</FieldLegend>
                 <FieldDescription>{text.colorHint}</FieldDescription>
@@ -569,45 +607,52 @@ function WorkshopModel({
                   variant="outline"
                   size="sm"
                   className="flex-wrap"
-                  value={[role]}
-                  onValueChange={(value) => value[0] && setRole(value[0] as WorkshopPaintRole)}
+                  value={[keyOf(activeSlot)]}
+                  onValueChange={(value) => value[0] && setSlotKey(value[0] as string)}
                 >
-                  {workshopPaintRoles.map((value) => (
-                    <ToggleGroupItem key={value} value={value}>
-                      {look.colors[value] && swatch(look.colors[value] as number[])}
-                      {roleLabel(value)}
+                  {colors.map((slot) => (
+                    <ToggleGroupItem key={keyOf(slot)} value={keyOf(slot)}>
+                      {swatch(wantedColor(slot) ?? slot.color)}
+                      {slotLabel(slot)}
                     </ToggleGroupItem>
                   ))}
                 </ToggleGroup>
                 <div className="flex flex-wrap gap-1">
                   <Button
                     size="sm"
-                    variant={roleColor ? 'outline' : 'secondary'}
+                    variant={activeColor ? 'outline' : 'secondary'}
                     disabled={busy}
                     onClick={() => {
-                      const colors = { ...look.colors }
-                      delete colors[role]
-                      const next = { ...look, colors }
+                      const next = {
+                        ...look,
+                        colors: look.colors.filter((entry) => keyOf(entry) !== keyOf(activeSlot))
+                      }
                       setLook(next)
                       void search(pinned, next)
                     }}
                   >
                     {text.anyPart}
                   </Button>
-                  {rolePalette.map((color, index) => {
-                    const active = roleColor !== null && sameRgb(roleColor, color)
+                  {activeSlot.palette.map((color, index) => {
+                    const active = activeColor !== null && sameRgb(activeColor, color)
                     return (
                       <Button
                         key={index}
                         size="icon-sm"
                         variant="outline"
-                        aria-label={`${roleLabel(role)} ${index + 1}`}
+                        aria-label={`${slotLabel(activeSlot)} ${index + 1}`}
                         aria-pressed={active}
                         disabled={busy}
                         className={active ? 'ring-2 ring-ring' : undefined}
                         style={{ backgroundColor: cssColor(color) }}
                         onClick={() => {
-                          const next = { ...look, colors: { ...look.colors, [role]: color } }
+                          const next = {
+                            ...look,
+                            colors: [
+                              ...look.colors.filter((entry) => keyOf(entry) !== keyOf(activeSlot)),
+                              { family: activeSlot.family, sample: activeSlot.sample, color }
+                            ]
+                          }
                           setLook(next)
                           void search(pinned, next)
                         }}
@@ -617,35 +662,62 @@ function WorkshopModel({
                 </div>
               </FieldSet>
             )}
-            {baseTextures.length > 0 && (
-              <Field>
-                <FieldLabel htmlFor="workshop-base-texture">{text.baseTextureTitle}</FieldLabel>
-                <Select
-                  items={baseItems}
-                  value={look.baseTexture ?? anyPart}
-                  onValueChange={(value) => {
-                    const next = {
-                      ...look,
-                      baseTexture: value === anyPart ? null : (value as string)
-                    }
-                    setLook(next)
-                    void search(pinned, next)
-                  }}
-                >
-                  <SelectTrigger id="workshop-base-texture" disabled={busy}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {baseItems.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </Field>
+            {textureGroups.length > 0 && (
+              <FieldSet>
+                <FieldLegend>{text.texturesTitle}</FieldLegend>
+                <FieldGroup>
+                  {textureGroups.map((group) => {
+                    const id = `workshop-texture-${group.layer}-${group.group}`
+                    const items = [
+                      { value: anyPart, label: text.anyPart },
+                      ...group.options.map((name) => ({ value: name, label: textureLabel(name) }))
+                    ]
+                    return (
+                      <Field key={id}>
+                        <FieldLabel htmlFor={id}>{layerLabel(group.layer, group.group)}</FieldLabel>
+                        <Select
+                          items={items}
+                          value={wantedTexture(group) ?? anyPart}
+                          onValueChange={(value) => {
+                            const others = look.textures.filter(
+                              (entry) => entry.layer !== group.layer || entry.group !== group.group
+                            )
+                            const next = {
+                              ...look,
+                              textures:
+                                value === anyPart
+                                  ? others
+                                  : [
+                                      ...others,
+                                      {
+                                        layer: group.layer,
+                                        group: group.group,
+                                        name: value as string
+                                      }
+                                    ]
+                            }
+                            setLook(next)
+                            void search(pinned, next)
+                          }}
+                        >
+                          <SelectTrigger id={id} disabled={busy}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {items.map((item) => (
+                                <SelectItem key={item.value} value={item.value}>
+                                  {item.label}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                    )
+                  })}
+                </FieldGroup>
+              </FieldSet>
             )}
             <FieldSet>
               <FieldLegend>{text.partsTitle}</FieldLegend>

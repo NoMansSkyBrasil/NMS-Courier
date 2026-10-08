@@ -8,7 +8,8 @@ import type { SceneNode } from './scene-graph'
 // Builds a binary glTF model from a game scene: the scene's nodes and transforms, the scenes it
 // refers to, and the triangles of its meshes. With a node filter, only the part alternatives the
 // filter accepts are kept, so the model is what one seed selects. A port of the research exporter
-// (runtime/research/export-scene-glb.py) without textures: each material is a plain colour.
+// (runtime/research/export-scene-glb.py). Materials are plain here; the interface paints them
+// with the game's textures from the surfaces this hands back.
 
 // The same limits the workshop's own model check applies (model-preview-import.ts).
 const maximumBytes = 64 * 1024 * 1024
@@ -27,32 +28,15 @@ export class SceneModelError extends Error {
   }
 }
 
-// Colours for a painted model: main paint, second paint and undercoat, as display values.
-export type ScenePaint = {
-  primary: readonly number[]
-  secondary: readonly number[]
-  undercoat: readonly number[]
+// Parsed scenes and material textures kept between builds, so a search that walks many models
+// reads each file once.
+export type SceneModelCache = {
+  scenes: Map<string, { root: SceneNode; geometryBase: string | null } | null>
+  diffuse: Map<string, string | null>
 }
 
-function linear(value: number): number {
-  const clamped = Math.min(Math.max(value, 0), 1)
-  return clamped <= 0.04045 ? clamped / 12.92 : ((clamped + 0.055) / 1.055) ** 2.4
-}
-
-// Which colour a material takes, judged by its name alone. The game decides this per pixel with
-// layered textures and masks, which are not read yet; this only gives the hull its main colours.
-function paintFor(name: string, paint: ScenePaint): number[] | null {
-  const sample = /DECAL|GLASS|ENGINE|JET/.test(name)
-    ? null
-    : /^(PRIMARY|HQTRIMPRIMARY|RACERMAIN|SCIENTIFIC_MAT|SHUTTLE_?MAT)/.test(name)
-      ? paint.primary
-      : /^SECONDARY/.test(name)
-        ? paint.secondary
-        : /^TERTIARY/.test(name)
-          ? paint.undercoat
-          : null
-  if (sample) return [linear(sample[0]), linear(sample[1]), linear(sample[2]), 1]
-  return /METAL|TRIM|PIPING|RUBBER/.test(name) ? [0.16, 0.17, 0.19, 1] : null
+export function emptySceneModelCache(): SceneModelCache {
+  return { scenes: new Map(), diffuse: new Map() }
 }
 
 // One material of a built model, in the order materials are first met while walking the model:
@@ -118,9 +102,11 @@ export function buildSceneModel(
   files: ModelFiles,
   scenePath: string,
   included: ((nodeName: string) => boolean) | null,
-  paint: ScenePaint | null = null,
   report: SceneModelReport | null = null,
-  surfaces: SceneSurface[] | null = null
+  surfaces: SceneSurface[] | null = null,
+  cache: SceneModelCache | null = null,
+  // False to walk the model for its materials only: no geometry is read and no model is built.
+  shapes = true
 ): Uint8Array {
   const nodes: GlbNode[] = []
   const meshes: object[] = []
@@ -155,24 +141,26 @@ export function buildSceneModel(
     if (known !== undefined) return known
     const name = (key.split('/').pop() ?? key).toUpperCase().replace('.MATERIAL.MBIN', '')
     const glow = /GLOW|BLINK/.test(name) || /^(LIGHT|HQLIGHT|HQWHITELIGHT|HEADLIGHT)/.test(name)
-    const painted = paint && !glow ? paintFor(name, paint) : null
     materials.push({
       // The number makes the name unique: the interface finds a material by it.
       name: `${materials.length}:${name}`,
       pbrMetallicRoughness: {
-        baseColorFactor: painted ?? (glow ? [0.95, 0.85, 0.6, 1] : [0.62, 0.64, 0.68, 1]),
+        baseColorFactor: glow ? [0.95, 0.85, 0.6, 1] : [0.62, 0.64, 0.68, 1],
         metallicFactor: 0.1,
         roughnessFactor: 0.8
       }
     })
     materialIndex.set(key, materials.length - 1)
     if (surfaces) {
-      let diffuse: string | null = null
-      try {
-        const data = files.read(key)
-        diffuse = data ? readMaterialDiffuse(data) : null
-      } catch {
-        diffuse = null
+      let diffuse = cache?.diffuse.get(key)
+      if (diffuse === undefined) {
+        try {
+          const data = files.read(key)
+          diffuse = data ? readMaterialDiffuse(data) : null
+        } catch {
+          diffuse = null
+        }
+        cache?.diffuse.set(key, diffuse)
       }
       surfaces.push({ material: materials.length - 1, path: key, name, diffuse })
     }
@@ -239,21 +227,35 @@ export function buildSceneModel(
   }
 
   const scene = (gamePath: string): { root: SceneNode; geometry: string | null } | null => {
-    const key = gamePath.replace(/\\/g, '/').toLowerCase()
+    const key = gamePath.split('\\').join('/').toLowerCase()
     if (sceneCache.has(key)) return sceneCache.get(key) ?? null
-    const data = files.read(key)
-    if (!data) {
+    let parsed = cache?.scenes.get(key)
+    if (parsed === undefined) {
+      const data = files.read(key)
+      if (!data) parsed = null
+      else {
+        const root = readSceneGraph(data)
+        const named = root.attributes.GEOMETRY
+        parsed = {
+          root,
+          geometryBase: named
+            ? named
+                .split('\\')
+                .join('/')
+                .toLowerCase()
+                .replace(/\.geometry\.mbin$/, '')
+            : null
+        }
+      }
+      cache?.scenes.set(key, parsed)
+    }
+    if (!parsed) {
       sceneCache.set(key, null)
       return null
     }
-    const root = readSceneGraph(data)
     let geometry: string | null = null
-    const named = root.attributes.GEOMETRY
-    if (named) {
-      const base = named
-        .replace(/\\/g, '/')
-        .toLowerCase()
-        .replace(/\.geometry\.mbin$/, '')
+    const base = parsed.geometryBase
+    if (base && shapes) {
       if (!streamCache.has(base)) {
         const description = files.read(base + '.geometry.mbin.pc')
         const streams = files.read(base + '.geometry.data.mbin.pc')
@@ -270,7 +272,7 @@ export function buildSceneModel(
       }
       geometry = streamCache.get(base) ? base : null
     }
-    const loaded = { root, geometry }
+    const loaded = { root: parsed.root, geometry }
     sceneCache.set(key, loaded)
     return loaded
   }
@@ -304,7 +306,9 @@ export function buildSceneModel(
     nodes.push(record)
     report?.nodeNames.add(node.name.toUpperCase())
     const children: number[] = []
-    if (node.type === 'MESH' && geometry) {
+    if (node.type === 'MESH' && !shapes) {
+      material(material_)
+    } else if (node.type === 'MESH' && geometry) {
       const made = mesh(geometry, node.nameHash, material(material_))
       if (made !== null) {
         record.mesh = made
@@ -337,6 +341,7 @@ export function buildSceneModel(
   const loaded = scene(scenePath)
   if (!loaded) throw new SceneModelError('scene_unavailable')
   const root = emit(loaded.root, loaded.geometry, 0, true)
+  if (!shapes) return new Uint8Array()
   if (root === null || meshes.length === 0) throw new SceneModelError('no_geometry')
 
   const binary = Buffer.concat([...chunks, Buffer.alloc((4 - (binaryLength % 4)) % 4)])

@@ -436,7 +436,7 @@ export const ptPT: Messages = {
     tabBuild: 'Montar',
     tabView: 'Ver uma seed',
     buildDescription:
-      'Escolha o tipo, as peças e a cor principal. A aplicação procura uma seed que as tenha e mostra o resultado.',
+      'Escolha o tipo, as peças, as cores e as texturas. A aplicação procura uma seed que as tenha e mostra o resultado.',
     viewDescription: 'Escolha o tipo e escreva uma seed, ou sorteie uma, para ver como é.',
     colorTitle: 'Cores',
     roles: {
@@ -445,10 +445,11 @@ export const ptPT: Messages = {
       decal1: 'Cor de decalque 1',
       decal2: 'Cor de decalque 2'
     },
-    baseTextureTitle: 'Textura base',
+    texturesTitle: 'Texturas e decalques',
     baseTexture: { COATING: 'Revestimento', PAINTED: 'Pintado', PANELS: 'Metal' },
     seedTexturesTitle: 'Texturas e decalques desta seed',
-    colorHint: 'As cores da paleta de pintura do jogo. Qualquer deixa a escolha para a seed.',
+    colorHint:
+      'Cada cor que o modelo tira das paletas do jogo. Escolha uma e depois a cor para ela; Qualquer deixa para a seed.',
     seedColorsTitle: 'Cores desta seed',
     paintLabel: 'Pintura',
     undercoatLabel: 'Subcapa',

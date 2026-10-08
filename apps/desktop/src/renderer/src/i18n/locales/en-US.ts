@@ -422,7 +422,7 @@ export const enUS: Messages = {
     tabBuild: 'Build',
     tabView: 'View a seed',
     buildDescription:
-      'Choose the type, the parts and the main colour. The application looks for a seed that has them and shows it.',
+      'Choose the type, the parts, the colours and the textures. The application looks for a seed that has them and shows it.',
     viewDescription:
       'Choose the type and type a seed, or draw a random one, to see what it looks like.',
     colorTitle: 'Colours',
@@ -432,10 +432,11 @@ export const enUS: Messages = {
       decal1: 'Decal colour 1',
       decal2: 'Decal colour 2'
     },
-    baseTextureTitle: 'Base texture',
+    texturesTitle: 'Textures and decals',
     baseTexture: { COATING: 'Coating', PAINTED: 'Painted', PANELS: 'Metal' },
     seedTexturesTitle: 'Textures and decals of this seed',
-    colorHint: "The colours of the game's paint palette. Any leaves the choice to the seed.",
+    colorHint:
+      "Each colour the model takes from the game's palettes. Pick one, then a colour for it; Any leaves it to the seed.",
     seedColorsTitle: 'Colours of this seed',
     paintLabel: 'Paint',
     undercoatLabel: 'Undercoat',

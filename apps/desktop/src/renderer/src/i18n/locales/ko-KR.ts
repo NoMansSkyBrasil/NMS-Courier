@@ -415,7 +415,7 @@ export const koKR: Messages = {
     tabBuild: '조립',
     tabView: '시드 보기',
     buildDescription:
-      '종류, 부품, 주 색상을 고르세요. 앱이 그 조합을 가진 시드를 찾아 보여 줍니다.',
+      '종류, 부품, 색상, 텍스처를 고르세요. 앱이 그 조합을 가진 시드를 찾아 보여 줍니다.',
     viewDescription: '종류를 고르고 시드를 입력하거나 무작위로 뽑아 모습을 확인하세요.',
     colorTitle: '색상',
     roles: {
@@ -424,10 +424,11 @@ export const koKR: Messages = {
       decal1: '데칼 색상 1',
       decal2: '데칼 색상 2'
     },
-    baseTextureTitle: '기본 텍스처',
+    texturesTitle: '텍스처와 데칼',
     baseTexture: { COATING: '코팅', PAINTED: '도장', PANELS: '금속' },
     seedTexturesTitle: '이 시드의 텍스처와 데칼',
-    colorHint: '게임의 도장 팔레트 색상입니다. 아무거나는 시드에 맡깁니다.',
+    colorHint:
+      '모델이 게임 팔레트에서 가져오는 각 색상입니다. 하나를 고른 뒤 색을 고르세요. 아무거나는 시드에 맡깁니다.',
     seedColorsTitle: '이 시드의 색상',
     paintLabel: '도장',
     undercoatLabel: '밑칠',

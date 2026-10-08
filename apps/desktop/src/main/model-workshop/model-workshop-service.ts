@@ -1,42 +1,47 @@
 import { createHash, randomBytes } from 'node:crypto'
-import { workshopPainted, workshopPaintRoles, workshopScene } from '../../shared/model-workshop'
+import { workshopScene } from '../../shared/model-workshop'
 import type {
   WorkshopChoicesResult,
   WorkshopColor,
+  WorkshopColorSlot,
   WorkshopFailure,
   WorkshopModelResult,
-  WorkshopPaint,
-  WorkshopPaintRole,
   WorkshopPartGroup,
   WorkshopSeedResult,
   WorkshopSurface,
-  WorkshopTextureChoice,
+  WorkshopTextureGroup,
+  WorkshopWantedLook,
   WorkshopWantedPart
 } from '../../shared/model-workshop'
 import { validatePreviewGlb } from '../model-preview-import'
 import {
+  familyNames,
   generateBasePalette,
   leadingPaletteSamples,
-  paintFamily,
-  readBasePalette,
-  undercoatFamily
+  readBasePalette
 } from '../nms-adapters/base-palette-preview'
 import type { Family } from '../nms-adapters/base-palette-preview'
 import { ModelFileError } from './binary-table'
 import type { ModelFiles } from './game-model-files'
 import { partListPath, readPartList } from './part-list'
 import type { PartList } from './part-list'
-import { buildSceneModel, SceneModelError } from './scene-model'
+import { buildSceneModel, emptySceneModelCache, SceneModelError } from './scene-model'
 import type { SceneSurface } from './scene-model'
 import { nodeIncluded, optionWeight, selectParts } from './seed-part-selection'
 import { readTextureList, textureListPath } from './texture-list'
 import type { TextureList } from './texture-list'
-import { chosenTextureName, selectTextures, texturesSupported } from './texture-selection'
+import {
+  chosenTextureName,
+  collectTextureGroups,
+  selectTextures,
+  texturesSupported
+} from './texture-selection'
+import type { SelectedTexture } from './texture-selection'
 
 // The model workshop's work in the main process: show what a seed looks like for a kind of
-// starship, multi-tool or freighter, list what can be chosen for a kind, and look for a seed that
-// has the parts, colours and base texture the user chose. Everything is read from the selected
-// installation.
+// starship, multi-tool or freighter, list the parts that can be chosen for a kind, and look for a
+// seed that has the parts, colours and textures the user chose. Everything is read from the
+// selected installation.
 
 const seedPattern = /^0x[0-9a-f]{1,16}$/i
 const palettePath = 'metadata/simulation/solarsystem/colours/basecolourpalettes.mbin'
@@ -44,19 +49,15 @@ const palettePath = 'metadata/simulation/solarsystem/colours/basecolourpalettes.
 // whichever limit comes first.
 const searchTries = 8_000_000
 const searchMilliseconds = 25_000
-const sliceTries = 4_000
+const sliceTries = 2_000
 // Budget for the tree of choices handed to the interface.
 const maximumTreeGroups = 20_000
 // No texture of a ship, multi-tool or freighter comes near this.
 const largestTexture = 96 * 1024 * 1024
-// Which of a family's five samples each paint role is.
-const paintSample: Record<WorkshopPaintRole, [number, number]> = {
-  primary: [paintFamily, 0],
-  secondary: [paintFamily, 3],
-  undercoat: [undercoatFamily, 0],
-  decal1: [paintFamily, 2],
-  decal2: [paintFamily, 1]
-}
+// Families the game draws again later in its palette schedule; for the others below this number
+// the first samples drawn are the final ones, which makes a colour check cheap.
+const redrawnFamilies = [0, 32, 33, 34, 35, 36, 37, 51]
+const firstLateFamily = 52
 
 function failure(error: unknown): WorkshopFailure {
   if (error instanceof SceneModelError && error.reason === 'model_too_large') {
@@ -82,10 +83,19 @@ function distinct(colors: readonly WorkshopColor[]): WorkshopColor[] {
   return result
 }
 
-type Look = {
-  textures: WorkshopTextureChoice[]
-  surfaces: WorkshopSurface[]
-  bytes: Uint8Array
+// The sample of a palette family a texture alternative takes: the game uses the fourth sample
+// for the channels above it, and channels 6 and 7 take no palette colour.
+function sampleOf(channel: number): number | null {
+  return channel < 6 ? Math.min(channel, 3) : null
+}
+
+// The texture side of a model for one seed: the lists in walk order, the seed's choices, and the
+// materials they belong to.
+type Texturing = {
+  surfaces: SceneSurface[]
+  lists: Map<string, TextureList>
+  ordered: TextureList[]
+  rows: SelectedTexture[]
 }
 
 export class ModelWorkshopService {
@@ -94,11 +104,28 @@ export class ModelWorkshopService {
   private search = 0
   // Textures the interface may ask for: those the last built model is painted with.
   private allowedTextures = new Set<string>()
+  // Parsed files kept between requests; a search walks the same scenes thousands of times.
+  private scenes = emptySceneModelCache()
+  private textureLists = new Map<string, TextureList | null>()
+  private cachedRoot: string | null = null
 
   constructor(
     private readonly files: ModelFiles,
     private readonly installationRoot: () => string | null
   ) {}
+
+  // Drops everything remembered about another installation.
+  private root(): string | null {
+    const root = this.installationRoot()
+    if (root !== this.cachedRoot) {
+      this.cachedRoot = root
+      this.palette = null
+      this.scenes = emptySceneModelCache()
+      this.textureLists.clear()
+      this.allowedTextures.clear()
+    }
+    return root
+  }
 
   // Part lists by scene path for one request, so a list is read once however often it is drawn.
   private lists(): (scenePath: string) => PartList | null {
@@ -122,93 +149,80 @@ export class ModelWorkshopService {
     return this.palette
   }
 
-  // The paint a seed draws for a painted kind; null for the other kinds.
-  private paint(category: string, kind: string, seed: bigint): WorkshopPaint | null {
-    const families = workshopPainted(category, kind) ? this.families() : null
-    if (!families) return null
-    const rows = leadingPaletteSamples(seed, families, undercoatFamily + 1)
-    const paint = {} as WorkshopPaint
-    for (const role of workshopPaintRoles) {
-      paint[role] = rows[paintSample[role][0]][paintSample[role][1]] as WorkshopColor
-    }
-    return paint
-  }
-
-  // The model of a seed with the textures the seed chooses. `tinted` is false for freighters,
-  // whose colours come from the star system and not from the model seed.
-  private look(
-    scene: string,
-    seed: bigint,
-    selected: ReadonlySet<string>,
-    paint: WorkshopPaint | null,
-    tinted: boolean
-  ): Look {
-    const sceneSurfaces: SceneSurface[] = []
-    const bytes = buildSceneModel(
-      this.files,
-      scene,
-      (name) => nodeIncluded(name, selected),
-      paint && { primary: paint.primary, secondary: paint.secondary, undercoat: paint.undercoat },
-      null,
-      sceneSurfaces
-    )
-    // Texture lists in the order their materials are first met while walking the model.
-    const order: string[] = []
-    const lists = new Map<string, TextureList>()
-    for (const surface of sceneSurfaces) {
-      if (!surface.diffuse) continue
-      const path = textureListPath(surface.diffuse)
-      if (lists.has(path) || order.includes(path)) continue
-      order.push(path)
+  private textureList(path: string): TextureList | null {
+    if (!this.textureLists.has(path)) {
+      let list: TextureList | null = null
       try {
         const data = this.files.read(path)
-        if (data) lists.set(path, readTextureList(data))
+        list = data ? readTextureList(data) : null
       } catch {
         // A list that cannot be read leaves its materials with their plain texture.
       }
+      this.textureLists.set(path, list)
     }
-    const ordered = order.flatMap((path) => (lists.has(path) ? [lists.get(path)!] : []))
-    const rows = texturesSupported(ordered) ? selectTextures(seed, ordered) : []
-    const families = tinted ? this.families() : null
-    const samples = families ? generateBasePalette(seed, families).families : null
-    const surfaces: WorkshopSurface[] = []
-    for (const surface of sceneSurfaces) {
+    return this.textureLists.get(path) ?? null
+  }
+
+  // What a seed chooses for the texture layers of a model whose materials were walked.
+  private texturing(seed: bigint, surfaces: SceneSurface[]): Texturing {
+    // Texture lists in the order their materials are first met while walking the model.
+    const lists = new Map<string, TextureList>()
+    const ordered: TextureList[] = []
+    const seen = new Set<string>()
+    for (const surface of surfaces) {
       if (!surface.diffuse) continue
-      const list = lists.get(textureListPath(surface.diffuse))
-      const layers: WorkshopSurface['layers'] = []
-      for (const layer of rows.length && list ? list.layers : []) {
-        const chosen = chosenTextureName(rows, layer.name, layer.group)
-        const option = layer.options.find((entry) => entry.name === chosen)
-        if (!option || !option.texture.endsWith('.dds')) continue
-        // The game takes sample 3 for the channels above it; channels 6 and 7 take no palette colour.
-        const sample =
-          samples && option.channel < 6
-            ? samples[option.family]?.colors[Math.min(option.channel, 3)]?.rgba
-            : undefined
-        layers.push({
-          texture: option.texture,
-          tint: sample ? [sample[0], sample[1], sample[2]] : null
-        })
+      const path = textureListPath(surface.diffuse)
+      if (seen.has(path)) continue
+      seen.add(path)
+      const list = this.textureList(path)
+      if (list) {
+        lists.set(path, list)
+        ordered.push(list)
       }
-      if (!layers.length) layers.push({ texture: surface.diffuse, tint: null })
-      surfaces.push({
-        material: surface.material,
-        cutout: /DECAL/.test(surface.name),
-        layers
-      })
     }
     return {
-      bytes,
       surfaces,
-      textures: rows
-        .filter((row) => row.name)
-        .map((row) => ({ layer: row.layer, group: row.group, name: row.name }))
-        .filter(
-          (row, index, all) =>
-            all.findIndex((other) => other.layer === row.layer && other.group === row.group) ===
-            index
-        )
+      lists,
+      ordered,
+      rows: texturesSupported(ordered) ? selectTextures(seed, ordered) : []
     }
+  }
+
+  // The materials of a seed's model without its geometry: enough to know its textures.
+  private walk(scene: string, selected: ReadonlySet<string>): SceneSurface[] {
+    const surfaces: SceneSurface[] = []
+    buildSceneModel(
+      this.files,
+      scene,
+      (name) => nodeIncluded(name, selected),
+      null,
+      surfaces,
+      this.scenes,
+      false
+    )
+    return surfaces
+  }
+
+  // The layers in which the seed chooses between more than one alternative.
+  private textureGroups(texturing: Texturing): WorkshopTextureGroup[] {
+    const result: WorkshopTextureGroup[] = []
+    for (const group of texturing.rows.length ? collectTextureGroups(texturing.ordered) : []) {
+      const options: string[] = []
+      for (const option of group.options) {
+        if (option.name && option.probabilitySum > 0 && !options.includes(option.name)) {
+          options.push(option.name)
+        }
+      }
+      if (options.length > 1) {
+        result.push({
+          layer: group.layer,
+          group: group.group,
+          chosen: chosenTextureName(texturing.rows, group.layer, group.group),
+          options
+        })
+      }
+    }
+    return result
   }
 
   build(category: unknown, kind: unknown, seed: unknown): WorkshopModelResult {
@@ -217,32 +231,93 @@ export class ModelWorkshopService {
     if (typeof seed !== 'string' || !seedPattern.test(seed)) {
       return { state: 'failed', reason: 'INVALID_SEED' }
     }
-    if (!this.installationRoot()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
+    if (!this.root()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
     try {
       const resolve = this.lists()
       const root = resolve(scene)
       if (!root) return { state: 'failed', reason: 'GAME_FILES_UNREADABLE' }
       const value = BigInt(seed)
       const selection = selectParts(value, root, resolve)
-      const paint = this.paint(String(category), String(kind), value)
-      const look = this.look(
+      const selected = new Set(selection.selectedIds)
+      const sceneSurfaces: SceneSurface[] = []
+      const bytes = buildSceneModel(
+        this.files,
         scene,
-        value,
-        new Set(selection.selectedIds),
-        paint,
-        String(category) !== 'freighter'
+        (name) => nodeIncluded(name, selected),
+        null,
+        sceneSurfaces,
+        this.scenes
       )
-      validatePreviewGlb(look.bytes)
+      validatePreviewGlb(bytes)
+      const texturing = this.texturing(value, sceneSurfaces)
+      // Freighters take their colours from the star system, not from the model seed: their
+      // textures are drawn as they are.
+      const families = String(category) === 'freighter' ? null : this.families()
+      const samples = families ? generateBasePalette(value, families).families : null
+      const colors: WorkshopColorSlot[] = []
+      const surfaces: WorkshopSurface[] = []
+      for (const surface of sceneSurfaces) {
+        if (!surface.diffuse) continue
+        const list = texturing.lists.get(textureListPath(surface.diffuse))
+        const layers: WorkshopSurface['layers'] = []
+        for (const layer of texturing.rows.length && list ? list.layers : []) {
+          const chosen = chosenTextureName(texturing.rows, layer.name, layer.group)
+          const option = layer.options.find((entry) => entry.name === chosen)
+          if (!option || !option.texture.endsWith('.dds')) continue
+          const sample = sampleOf(option.channel)
+          const rgba =
+            samples && families && sample !== null
+              ? samples[option.family]?.colors[sample]?.rgba
+              : undefined
+          if (rgba && families && sample !== null) {
+            if (!colors.some((slot) => slot.family === option.family && slot.sample === sample)) {
+              colors.push({
+                family: option.family,
+                familyName: familyNames[option.family] ?? String(option.family),
+                sample,
+                color: rgba as WorkshopColor,
+                palette: distinct(families[option.family].colors)
+              })
+            }
+          }
+          layers.push({ texture: option.texture, tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null })
+        }
+        if (!layers.length) layers.push({ texture: surface.diffuse, tint: null })
+        surfaces.push({ material: surface.material, cutout: /DECAL/.test(surface.name), layers })
+      }
+      // Then the colours the model's textures could take with other choices, so that every
+      // colour of the kind can be seen and chosen.
+      for (const list of samples && families ? texturing.ordered : []) {
+        for (const layer of list.layers) {
+          for (const option of layer.options) {
+            const sample = sampleOf(option.channel)
+            const rgba = sample === null ? undefined : samples![option.family]?.colors[sample]?.rgba
+            if (
+              rgba &&
+              sample !== null &&
+              !colors.some((slot) => slot.family === option.family && slot.sample === sample)
+            ) {
+              colors.push({
+                family: option.family,
+                familyName: familyNames[option.family] ?? String(option.family),
+                sample,
+                color: rgba as WorkshopColor,
+                palette: distinct(families![option.family].colors)
+              })
+            }
+          }
+        }
+      }
       this.allowedTextures = new Set(
-        look.surfaces.flatMap((surface) => surface.layers.map((layer) => layer.texture))
+        surfaces.flatMap((surface) => surface.layers.map((layer) => layer.texture))
       )
       return {
         state: 'built',
         seed: formatSeed(value),
         model: {
           name: `${String(kind)} ${formatSeed(value)}`,
-          sha256: createHash('sha256').update(look.bytes).digest('hex'),
-          bytes: look.bytes
+          sha256: createHash('sha256').update(bytes).digest('hex'),
+          bytes
         },
         parts: selection.parts.map((part) => ({
           depth: part.depth,
@@ -252,9 +327,9 @@ export class ModelWorkshopService {
           alternatives: part.alternatives,
           rare: part.rare
         })),
-        paint,
-        textures: look.textures,
-        surfaces: look.surfaces
+        colors,
+        textureGroups: this.textureGroups(texturing),
+        surfaces
       }
     } catch (error) {
       return { state: 'failed', reason: failure(error) }
@@ -272,13 +347,13 @@ export class ModelWorkshopService {
     }
   }
 
-  // Everything that can be chosen for a kind. A group is offered when a seed can draw more than
+  // The parts that can be chosen for a kind. A group is offered when a seed can draw more than
   // one alternative in it; a group with a single alternative is passed through, and what lies
   // under that alternative is offered in its place.
   choices(category: unknown, kind: unknown): WorkshopChoicesResult {
     const scene = workshopScene(String(category), String(kind))
     if (!scene) return { state: 'failed', reason: 'UNKNOWN_KIND' }
-    if (!this.installationRoot()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
+    if (!this.root()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
     try {
       const resolve = this.lists()
       const root = resolve(scene)
@@ -318,27 +393,15 @@ export class ModelWorkshopService {
         }
         return result
       }
-      const painted = workshopPainted(String(category), String(kind))
-      const families = painted ? this.families() : null
-      return {
-        state: 'listed',
-        groups: groupsOf(root, '', 0),
-        paintColors: distinct(families?.[paintFamily].colors ?? []),
-        undercoatColors: distinct(families?.[undercoatFamily].colors ?? []),
-        // The alternatives of the base layer that a seed can draw on these kinds.
-        baseTextures:
-          painted && ['fighter', 'hauler'].includes(String(kind))
-            ? ['COATING', 'PAINTED', 'PANELS']
-            : []
-      }
+      return { state: 'listed', groups: groupsOf(root, '', 0) }
     } catch (error) {
       return { state: 'failed', reason: failure(error) }
     }
   }
 
-  // A seed that draws the wanted parts and, when asked, the wanted colours and base texture.
-  // Seeds are tried at random: no way is known to compute a seed from what it draws, only to
-  // check a seed. The cheap checks come first: parts, then colours, then textures.
+  // A seed that draws the wanted parts and, when asked, the wanted colours and textures. Seeds
+  // are tried at random: no way is known to compute a seed from what it draws, only to check a
+  // seed. The cheap checks come first: parts, then colours, then textures.
   async findSeed(
     category: unknown,
     kind: unknown,
@@ -347,7 +410,7 @@ export class ModelWorkshopService {
   ): Promise<WorkshopSeedResult> {
     const scene = workshopScene(String(category), String(kind))
     if (!scene) return { state: 'failed', reason: 'UNKNOWN_KIND' }
-    if (!this.installationRoot()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
+    if (!this.root()) return { state: 'failed', reason: 'INSTALLATION_NOT_SELECTED' }
     const wanted: WorkshopWantedPart[] = []
     for (const entry of Array.isArray(wantedParts) ? wantedParts.slice(0, 64) : []) {
       const part = entry as Partial<WorkshopWantedPart> | null
@@ -361,34 +424,47 @@ export class ModelWorkshopService {
         wanted.push({ parent: part.parent, group: part.group, id: part.id })
       }
     }
-    const look = (wantedLook ?? {}) as { colors?: unknown; baseTexture?: unknown }
-    const painted = workshopPainted(String(category), String(kind))
-    const colors: [WorkshopPaintRole, number[]][] = []
-    if (painted && look.colors && typeof look.colors === 'object') {
-      for (const role of workshopPaintRoles) {
-        const color = (look.colors as Record<string, unknown>)[role]
-        if (
-          Array.isArray(color) &&
-          color.length >= 3 &&
-          color.every((value) => typeof value === 'number')
-        ) {
-          colors.push([role, color as number[]])
-        }
+    const look = (wantedLook ?? {}) as Partial<WorkshopWantedLook>
+    const colors: WorkshopWantedLook['colors'] = []
+    for (const entry of Array.isArray(look.colors) ? look.colors.slice(0, 16) : []) {
+      if (
+        entry &&
+        Number.isInteger(entry.family) &&
+        entry.family >= 0 &&
+        entry.family < familyNames.length &&
+        Number.isInteger(entry.sample) &&
+        entry.sample >= 0 &&
+        entry.sample < 4 &&
+        Array.isArray(entry.color) &&
+        entry.color.length >= 3 &&
+        entry.color.every((value) => typeof value === 'number')
+      ) {
+        colors.push({ family: entry.family, sample: entry.sample, color: entry.color })
       }
     }
-    const baseTexture =
-      painted && typeof look.baseTexture === 'string' && look.baseTexture.length <= 32
-        ? look.baseTexture
-        : null
+    const textures: WorkshopWantedLook['textures'] = []
+    for (const entry of Array.isArray(look.textures) ? look.textures.slice(0, 32) : []) {
+      if (
+        entry &&
+        typeof entry.layer === 'string' &&
+        typeof entry.group === 'string' &&
+        typeof entry.name === 'string' &&
+        entry.name.length <= 32
+      ) {
+        textures.push({ layer: entry.layer, group: entry.group, name: entry.name })
+      }
+    }
     const mine = (this.search += 1)
     try {
       const resolve = this.lists()
       const root = resolve(scene)
-      const families = colors.length ? this.families() : null
+      const families = colors.length && String(category) !== 'freighter' ? this.families() : null
       if (!root || (colors.length && !families)) {
         return { state: 'failed', reason: 'GAME_FILES_UNREADABLE' }
       }
-      const depth = colors.some(([role]) => role === 'undercoat') ? undercoatFamily : paintFamily
+      const highest = Math.max(0, ...colors.map((entry) => entry.family))
+      const early =
+        highest < firstLateFamily && !colors.some((entry) => redrawnFamilies.includes(entry.family))
       const started = Date.now()
       let tried = 0
       while (tried < searchTries && Date.now() - started < searchMilliseconds) {
@@ -397,7 +473,7 @@ export class ModelWorkshopService {
           tried += 1
           const seed = block.readBigUInt64LE(index * 8)
           let selectedIds: string[] | null = null
-          if (wanted.length || baseTexture) {
+          if (wanted.length || textures.length) {
             const selection = selectParts(seed, root, resolve)
             let matches = 0
             for (const want of wanted) {
@@ -414,20 +490,23 @@ export class ModelWorkshopService {
             selectedIds = selection.selectedIds
           }
           if (families) {
-            const rows = leadingPaletteSamples(seed, families, depth + 1)
+            const drawn = early
+              ? leadingPaletteSamples(seed, families, highest + 1)
+              : generateBasePalette(seed, families).families.map((family) =>
+                  family.colors.map((color) => color.rgba)
+                )
             if (
-              colors.some(
-                ([role, color]) =>
-                  !sameColor(rows[paintSample[role][0]][paintSample[role][1]], color)
-              )
+              colors.some((entry) => !sameColor(drawn[entry.family][entry.sample], entry.color))
             ) {
               continue
             }
           }
-          if (baseTexture && selectedIds) {
-            const drawn = this.look(scene, seed, new Set(selectedIds), null, false).textures
+          if (textures.length && selectedIds) {
+            const { rows } = this.texturing(seed, this.walk(scene, new Set(selectedIds)))
             if (
-              drawn.find((row) => row.layer === 'BASE' && row.group === '')?.name !== baseTexture
+              textures.some(
+                (entry) => chosenTextureName(rows, entry.layer, entry.group) !== entry.name
+              )
             ) {
               continue
             }

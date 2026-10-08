@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-08: all twenty workshop types rendered; colours and layers chosen generically (application 1.12.0), offline
+
+Offline only; build 180836 files. Owning note:
+[model workshop](MODEL_WORKSHOP.md). Each of the twenty types was built for
+seed `0x1234567890ABCDEF` in a test instance and the rendered picture looked
+at: all show a recognisable, textured model. Measured before that, over five
+seeds per type: no missing scene, no unreadable geometry and no mesh without
+triangles; the selected identifiers without a scene node are the game's own
+empty alternatives (`…_NONE`, `…_NULL`) and constraint helpers. Searches for a
+chosen decal (fighter number `A1`) and for a colour of a type with a palette
+of its own (living ship body) find a seed whose model has them. Not proven:
+agreement with the running game.
+
 ## 2026-10-08: workshop texture choice equals an independent tool (application 1.11.0), offline
 
 Offline only; build 180836 files; no game process. Owning note:
