@@ -12,6 +12,15 @@ the owner returns: what was removed, with the game closed or not, and what
 the account sets hold in memory after the next start (the account data is
 synchronised with the publisher's servers and may come back).
 
+Done by the owner at 23:54 with the game closed (no `NMS.exe` process): the
+editor's account pages show every Quicksilver item, expedition reward,
+Twitch reward, title, catalogue entry and guide topic locked.
+`accountdata.hg` was rewritten (114,431 -> 44,435 bytes).
+`GCUSERSETTINGSDATA.MXML` was **not** changed by the editor (still 23:22,
+547,511 bytes) and still lists the old unlocks. Which of the two the game
+loads from is not known; read the account sets in memory after the next
+start before any request.
+
 ## 2026-10-07: the redeem routine also changes the account (read-only finding); owner accepts account results
 
 Owner: [reward redemption notes](REWARD_REDEMPTION_NOTES.md#correction-the-slot-side-routine-also-writes-the-account-found-2026-10-07).
