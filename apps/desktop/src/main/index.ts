@@ -12,12 +12,27 @@ import { RuntimeDiagnosticsService } from './runtime-diagnostics-service'
 import { importPreviewModel } from './model-preview-import'
 import { BasePalettePreviewAdapter } from './nms-adapters/base-palette-preview'
 import { importAppearanceRecipe } from './nms-adapters/appearance-recipe'
+import { isDeliveryFeatureId } from './research-bridge/delivery-plan'
+import { ResearchBridgeService } from './research-bridge/research-bridge-service'
 
 let catalogRepository: CatalogRepository | null = null
 let installationService: InstallationService | null = null
 const gameStatusService = new GameStatusService()
 let runtimeDiagnosticsService: RuntimeDiagnosticsService | null = null
 const palettePreview = new BasePalettePreviewAdapter()
+let researchBridgeService: ResearchBridgeService | null = null
+
+// The research bridge exists only in a development checkout: it drives the signal scripts of the
+// repository and is not a packaged capability.
+function getResearchBridgeService(): ResearchBridgeService {
+  researchBridgeService ??= new ResearchBridgeService({
+    enabled: is.dev,
+    signalDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'native', 'asi', 'signal'),
+    backupDirectory: join(app.getPath('userData'), 'save-backups'),
+    saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS')
+  })
+  return researchBridgeService
+}
 
 function getCatalogRepository(): CatalogRepository {
   catalogRepository ??= new CatalogRepository(app.getPath('userData'))
@@ -216,6 +231,16 @@ app.whenReady().then(() => {
       return getInstallationService().getStatus()
     return await getInstallationService().select(result.filePaths[0])
   })
+  ipcMain.handle('nms:get-research-bridge-status', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().getStatus(root, await gameStatusService.observe(root))
+  })
+  ipcMain.handle('nms:deliver', async (_, feature: unknown) => {
+    if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().deliver(feature, root, await gameStatusService.observe(root))
+  })
+  ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())
   ipcMain.handle('nms:get-catalog-status', () => getCatalogRepository().getStatus())
   ipcMain.handle('nms:search-catalog', (_, request: unknown) =>
     getCatalogRepository().search(parseCatalogSearchRequest(request))

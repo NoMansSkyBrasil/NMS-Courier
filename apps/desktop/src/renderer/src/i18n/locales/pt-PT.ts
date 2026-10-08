@@ -199,6 +199,46 @@ export const ptPT: Messages = {
     experimentalBody:
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Funciona com uma versão exata do jogo de cada vez.'
   },
+  delivery: {
+    title: 'Enviar para o jogo',
+    hint: 'Utiliza a ponte de investigação desta versão de desenvolvimento.',
+    action: 'Entregar tudo',
+    sending: 'A enviar…',
+    confirmTitle: 'Enviar isto para o jogo em execução?',
+    confirmSlot:
+      'Altera o slot de gravação carregado no jogo neste momento. A pasta de gravações é copiada primeiro.',
+    confirmAccount:
+      'Altera a sua conta, partilhada por todos os slots de gravação, e o jogo sincroniza-a. A pasta de gravações e o ficheiro de definições são copiados primeiro.',
+    confirm: 'Enviar',
+    cancel: 'Cancelar',
+    result: 'Resultado',
+    backup: 'Cópia de segurança: {path}',
+    time: 'Hora',
+    activityEmptyTitle: 'Ainda nada enviado',
+    activityEmptyBody: 'As entregas desta sessão aparecem aqui.',
+    state: {
+      unavailable: 'Disponível apenas numa versão de desenvolvimento.',
+      installation_not_selected: 'Selecione primeiro a instalação do jogo.',
+      game_not_running: 'Inicie o jogo e carregue uma gravação.',
+      bridge_missing: 'A ponte não está instalada na pasta do jogo.',
+      bridge_untested: 'A ponte instalada não é uma versão testada.',
+      ready: 'Pronto: jogo em execução, processo {id}.',
+      busy: 'Está outra entrega em curso.',
+      backup_failed: 'Não foi possível fazer a cópia de segurança; nada foi enviado.'
+    },
+    outcome: {
+      completed: 'Concluído',
+      unknown: 'Resultado desconhecido',
+      failed: 'Falhou',
+      refused: 'Não enviado'
+    },
+    outcomeHint: {
+      completed: 'O jogo respondeu a todos os pedidos. Grave no jogo para manter.',
+      unknown: 'O jogo não respondeu a tempo. Não envie novamente; verifique no jogo.',
+      failed: 'Um pedido foi recusado antes de chegar ao jogo.',
+      refused: 'Nada foi enviado.'
+    }
+  },
   controls: {
     changeLanguage: 'Alterar idioma',
     changeTheme: 'Alterar tema',

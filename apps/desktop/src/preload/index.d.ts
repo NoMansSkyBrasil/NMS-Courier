@@ -1,5 +1,18 @@
 export {}
 
+type DeliveryResult = {
+  feature: string
+  outcome: 'completed' | 'unknown' | 'failed' | 'refused'
+  reason: string | null
+  startedAt: string
+  backupPath: string | null
+  steps: Array<{
+    script: string
+    outcome: 'completed' | 'unknown' | 'failed'
+    lines: string[]
+  }>
+}
+
 declare global {
   interface Window {
     nms: {
@@ -93,6 +106,19 @@ declare global {
         executableSize: number | null
         reason: string | null
       }>
+      getResearchBridgeStatus: () => Promise<{
+        state:
+          | 'unavailable'
+          | 'installation_not_selected'
+          | 'game_not_running'
+          | 'bridge_missing'
+          | 'bridge_untested'
+          | 'ready'
+        processId: number | null
+        bridgeSha256: string | null
+      }>
+      deliver: (feature: string) => Promise<DeliveryResult>
+      getDeliveryActivity: () => Promise<DeliveryResult[]>
       searchCatalog: (request: {
         query: string
         locale: string

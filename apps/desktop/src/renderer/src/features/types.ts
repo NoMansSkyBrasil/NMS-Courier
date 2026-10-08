@@ -16,4 +16,6 @@ export type Feature = {
   scope?: ScopeId
   rows?: readonly FeatureRow[]
   rules?: readonly RuleId[]
+  // The application can send this area to the game through the research bridge.
+  wired?: boolean
 }

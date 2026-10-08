@@ -194,6 +194,46 @@ export const ptBR: Messages = {
     experimentalBody:
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Ele funciona com uma versão exata do jogo por vez.'
   },
+  delivery: {
+    title: 'Enviar ao jogo',
+    hint: 'Usa a ponte de pesquisa desta versão de desenvolvimento.',
+    action: 'Entregar tudo',
+    sending: 'Enviando…',
+    confirmTitle: 'Enviar isto ao jogo em execução?',
+    confirmSlot:
+      'Altera o slot de save carregado no jogo neste momento. A pasta de saves é copiada antes.',
+    confirmAccount:
+      'Altera a sua conta, compartilhada por todos os slots de save, e o jogo a sincroniza. A pasta de saves e o arquivo de configurações são copiados antes.',
+    confirm: 'Enviar',
+    cancel: 'Cancelar',
+    result: 'Resultado',
+    backup: 'Backup: {path}',
+    time: 'Hora',
+    activityEmptyTitle: 'Nada enviado ainda',
+    activityEmptyBody: 'As entregas desta sessão aparecem aqui.',
+    state: {
+      unavailable: 'Disponível apenas em uma versão de desenvolvimento.',
+      installation_not_selected: 'Selecione primeiro a instalação do jogo.',
+      game_not_running: 'Abra o jogo e carregue um save.',
+      bridge_missing: 'A ponte não está instalada na pasta do jogo.',
+      bridge_untested: 'A ponte instalada não é uma versão testada.',
+      ready: 'Pronto: jogo em execução, processo {id}.',
+      busy: 'Outra entrega está em andamento.',
+      backup_failed: 'Não foi possível fazer o backup; nada foi enviado.'
+    },
+    outcome: {
+      completed: 'Concluído',
+      unknown: 'Resultado desconhecido',
+      failed: 'Falhou',
+      refused: 'Não enviado'
+    },
+    outcomeHint: {
+      completed: 'O jogo respondeu a todos os pedidos. Salve no jogo para manter.',
+      unknown: 'O jogo não respondeu a tempo. Não envie de novo; confira no jogo.',
+      failed: 'Um pedido foi recusado antes de chegar ao jogo.',
+      refused: 'Nada foi enviado.'
+    }
+  },
   controls: {
     changeLanguage: 'Alterar idioma',
     changeTheme: 'Alterar tema',

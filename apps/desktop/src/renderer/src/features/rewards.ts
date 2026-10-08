@@ -5,6 +5,7 @@ import type { Feature } from './types'
 export const rewardFeatures: readonly Feature[] = [
   {
     id: 'expeditions',
+    wired: true,
     group: 'rewards',
     icon: FlagIcon,
     kind: 'delivery',
@@ -18,6 +19,7 @@ export const rewardFeatures: readonly Feature[] = [
   },
   {
     id: 'twitch',
+    wired: true,
     group: 'rewards',
     icon: TvIcon,
     kind: 'delivery',
@@ -32,6 +34,7 @@ export const rewardFeatures: readonly Feature[] = [
   },
   {
     id: 'platform',
+    wired: true,
     group: 'rewards',
     icon: GiftIcon,
     kind: 'delivery',
@@ -42,6 +45,7 @@ export const rewardFeatures: readonly Feature[] = [
   },
   {
     id: 'quicksilver',
+    wired: true,
     group: 'rewards',
     icon: GemIcon,
     kind: 'delivery',

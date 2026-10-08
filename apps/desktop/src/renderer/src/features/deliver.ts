@@ -20,7 +20,7 @@ export const deliverFeatures: readonly Feature[] = [
     kind: 'delivery',
     status: 'experimental',
     scope: 'slot',
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'currencies',
@@ -38,7 +38,7 @@ export const deliverFeatures: readonly Feature[] = [
     kind: 'delivery',
     status: 'experimental',
     scope: 'slot',
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'starships',
@@ -47,7 +47,7 @@ export const deliverFeatures: readonly Feature[] = [
     kind: 'delivery',
     status: 'experimental',
     scope: 'slot',
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'multitools',
@@ -56,7 +56,7 @@ export const deliverFeatures: readonly Feature[] = [
     kind: 'delivery',
     status: 'experimental',
     scope: 'slot',
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'freighters',

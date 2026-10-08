@@ -18,6 +18,9 @@ const nms = {
   startRuntimeDiagnostics: () => ipcRenderer.invoke('nms:start-runtime-diagnostics'),
   getDeliveryReadiness: () => ipcRenderer.invoke('nms:get-delivery-readiness'),
   selectInstallation: () => ipcRenderer.invoke('nms:select-installation'),
+  getResearchBridgeStatus: () => ipcRenderer.invoke('nms:get-research-bridge-status'),
+  deliver: (feature: string) => ipcRenderer.invoke('nms:deliver', feature),
+  getDeliveryActivity: () => ipcRenderer.invoke('nms:get-delivery-activity'),
   searchCatalog: (request: {
     query: string
     locale: string

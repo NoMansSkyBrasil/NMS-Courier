@@ -201,6 +201,47 @@ export const itIT: Messages = {
     experimentalBody:
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
+  delivery: {
+    title: 'Invia al gioco',
+    hint: 'Usa il ponte di ricerca di questa versione di sviluppo.',
+    action: 'Consegna tutto',
+    sending: 'Invio in corso…',
+    confirmTitle: 'Inviare questo al gioco in esecuzione?',
+    confirmSlot:
+      'Modifica lo slot di salvataggio caricato nel gioco in questo momento. Prima viene copiata la cartella dei salvataggi.',
+    confirmAccount:
+      'Modifica il tuo account, condiviso da tutti gli slot di salvataggio, e il gioco lo sincronizza. Prima vengono copiati la cartella dei salvataggi e il file delle impostazioni.',
+    confirm: 'Invia',
+    cancel: 'Annulla',
+    result: 'Risultato',
+    backup: 'Copia di sicurezza: {path}',
+    time: 'Ora',
+    activityEmptyTitle: 'Non è ancora stato inviato nulla',
+    activityEmptyBody: 'Le consegne di questa sessione compaiono qui.',
+    state: {
+      unavailable: 'Disponibile solo in una versione di sviluppo.',
+      installation_not_selected: 'Seleziona prima l’installazione del gioco.',
+      game_not_running: 'Avvia il gioco e carica un salvataggio.',
+      bridge_missing: 'Il ponte non è installato nella cartella del gioco.',
+      bridge_untested: 'Il ponte installato non è una versione testata.',
+      ready: 'Pronto: gioco in esecuzione, processo {id}.',
+      busy: 'È in corso un’altra consegna.',
+      backup_failed: 'Impossibile creare la copia di sicurezza; non è stato inviato nulla.'
+    },
+    outcome: {
+      completed: 'Completato',
+      unknown: 'Esito sconosciuto',
+      failed: 'Non riuscito',
+      refused: 'Non inviato'
+    },
+    outcomeHint: {
+      completed:
+        'Il gioco ha risposto a ogni richiesta. Salva nel gioco per conservare il risultato.',
+      unknown: 'Il gioco non ha risposto in tempo. Non inviare di nuovo; controlla nel gioco.',
+      failed: 'Una richiesta è stata rifiutata prima di raggiungere il gioco.',
+      refused: 'Non è stato inviato nulla.'
+    }
+  },
   controls: {
     changeLanguage: 'Cambia lingua',
     changeTheme: 'Cambia tema',

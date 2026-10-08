@@ -203,6 +203,46 @@ export const nlNL: Messages = {
     experimentalBody:
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
+  delivery: {
+    title: 'Naar het spel sturen',
+    hint: 'Gebruikt de onderzoeksbrug van deze ontwikkelversie.',
+    action: 'Alles leveren',
+    sending: 'Bezig met verzenden…',
+    confirmTitle: 'Dit naar het draaiende spel sturen?',
+    confirmSlot:
+      'Het wijzigt het saveslot dat nu in het spel is geladen. De savemap wordt eerst gekopieerd.',
+    confirmAccount:
+      'Het wijzigt je account, dat door elk saveslot wordt gedeeld, en het spel synchroniseert het. De savemap en het instellingenbestand worden eerst gekopieerd.',
+    confirm: 'Verzenden',
+    cancel: 'Annuleren',
+    result: 'Resultaat',
+    backup: 'Back-up: {path}',
+    time: 'Tijd',
+    activityEmptyTitle: 'Nog niets verzonden',
+    activityEmptyBody: 'Leveringen van deze sessie verschijnen hier.',
+    state: {
+      unavailable: 'Alleen beschikbaar in een ontwikkelversie.',
+      installation_not_selected: 'Selecteer eerst de spelinstallatie.',
+      game_not_running: 'Start het spel en laad een save.',
+      bridge_missing: 'De brug is niet geïnstalleerd in de spelmap.',
+      bridge_untested: 'De geïnstalleerde brug is geen geteste versie.',
+      ready: 'Gereed: spel actief, proces {id}.',
+      busy: 'Er is al een levering bezig.',
+      backup_failed: 'De back-up kon niet worden gemaakt; er is niets verzonden.'
+    },
+    outcome: {
+      completed: 'Klaar',
+      unknown: 'Uitkomst onbekend',
+      failed: 'Mislukt',
+      refused: 'Niet verzonden'
+    },
+    outcomeHint: {
+      completed: 'Het spel heeft elk verzoek beantwoord. Sla op in het spel om het te behouden.',
+      unknown: 'Het spel antwoordde niet op tijd. Stuur het niet opnieuw; controleer in het spel.',
+      failed: 'Een verzoek is geweigerd voordat het het spel bereikte.',
+      refused: 'Er is niets verzonden.'
+    }
+  },
   controls: {
     changeLanguage: 'Taal wijzigen',
     changeTheme: 'Thema wijzigen',

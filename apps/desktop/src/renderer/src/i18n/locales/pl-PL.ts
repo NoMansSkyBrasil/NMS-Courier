@@ -193,6 +193,46 @@ export const plPL: Messages = {
     experimentalBody:
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
+  delivery: {
+    title: 'Wyślij do gry',
+    hint: 'Korzysta z mostu badawczego tej wersji deweloperskiej.',
+    action: 'Dostarcz wszystko',
+    sending: 'Wysyłanie…',
+    confirmTitle: 'Wysłać to do uruchomionej gry?',
+    confirmSlot:
+      'Zmienia slot zapisu wczytany teraz w grze. Najpierw kopiowany jest folder zapisów.',
+    confirmAccount:
+      'Zmienia Twoje konto, wspólne dla wszystkich slotów zapisu, a gra je synchronizuje. Najpierw kopiowane są folder zapisów i plik ustawień.',
+    confirm: 'Wyślij',
+    cancel: 'Anuluj',
+    result: 'Wynik',
+    backup: 'Kopia zapasowa: {path}',
+    time: 'Czas',
+    activityEmptyTitle: 'Jeszcze nic nie wysłano',
+    activityEmptyBody: 'Tutaj pojawiają się dostawy z tej sesji.',
+    state: {
+      unavailable: 'Dostępne tylko w wersji deweloperskiej.',
+      installation_not_selected: 'Najpierw wybierz instalację gry.',
+      game_not_running: 'Uruchom grę i wczytaj zapis.',
+      bridge_missing: 'Most nie jest zainstalowany w folderze gry.',
+      bridge_untested: 'Zainstalowany most nie jest przetestowaną wersją.',
+      ready: 'Gotowe: gra uruchomiona, proces {id}.',
+      busy: 'Trwa inna dostawa.',
+      backup_failed: 'Nie udało się utworzyć kopii zapasowej; nic nie wysłano.'
+    },
+    outcome: {
+      completed: 'Gotowe',
+      unknown: 'Wynik nieznany',
+      failed: 'Niepowodzenie',
+      refused: 'Nie wysłano'
+    },
+    outcomeHint: {
+      completed: 'Gra odpowiedziała na każde żądanie. Zapisz w grze, aby to zachować.',
+      unknown: 'Gra nie odpowiedziała na czas. Nie wysyłaj ponownie; sprawdź w grze.',
+      failed: 'Żądanie zostało odrzucone, zanim dotarło do gry.',
+      refused: 'Nic nie wysłano.'
+    }
+  },
   controls: {
     changeLanguage: 'Zmień język',
     changeTheme: 'Zmień motyw',

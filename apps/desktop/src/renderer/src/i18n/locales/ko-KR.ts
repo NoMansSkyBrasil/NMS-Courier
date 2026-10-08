@@ -184,6 +184,45 @@ export const koKR: Messages = {
     experimentalBody:
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
+  delivery: {
+    title: '게임으로 보내기',
+    hint: '이 개발 빌드의 연구용 브리지를 사용합니다.',
+    action: '모두 전달',
+    sending: '보내는 중…',
+    confirmTitle: '실행 중인 게임으로 보낼까요?',
+    confirmSlot: '지금 게임에서 불러온 세이브 슬롯을 변경합니다. 먼저 세이브 폴더를 복사합니다.',
+    confirmAccount:
+      '모든 세이브 슬롯이 공유하는 계정을 변경하며 게임이 이를 동기화합니다. 먼저 세이브 폴더와 설정 파일을 복사합니다.',
+    confirm: '보내기',
+    cancel: '취소',
+    result: '결과',
+    backup: '백업: {path}',
+    time: '시간',
+    activityEmptyTitle: '아직 보낸 것이 없습니다',
+    activityEmptyBody: '이번 세션의 전달 내역이 여기에 표시됩니다.',
+    state: {
+      unavailable: '개발 빌드에서만 사용할 수 있습니다.',
+      installation_not_selected: '먼저 게임 설치 위치를 선택하세요.',
+      game_not_running: '게임을 실행하고 세이브를 불러오세요.',
+      bridge_missing: '브리지가 게임 폴더에 설치되어 있지 않습니다.',
+      bridge_untested: '설치된 브리지는 검증된 빌드가 아닙니다.',
+      ready: '준비됨: 게임 실행 중, 프로세스 {id}.',
+      busy: '다른 전달이 진행 중입니다.',
+      backup_failed: '백업을 만들 수 없어 아무것도 보내지 않았습니다.'
+    },
+    outcome: {
+      completed: '완료',
+      unknown: '결과를 알 수 없음',
+      failed: '실패',
+      refused: '보내지 않음'
+    },
+    outcomeHint: {
+      completed: '게임이 모든 요청에 응답했습니다. 유지하려면 게임에서 저장하세요.',
+      unknown: '게임이 제때 응답하지 않았습니다. 다시 보내지 말고 게임에서 확인하세요.',
+      failed: '요청이 게임에 도달하기 전에 거부되었습니다.',
+      refused: '아무것도 보내지 않았습니다.'
+    }
+  },
   controls: {
     changeLanguage: '언어 변경',
     changeTheme: '테마 변경',

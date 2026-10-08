@@ -8,7 +8,7 @@ export const systemFeatures: readonly Feature[] = [
     group: 'system',
     icon: SaveIcon,
     kind: 'tool',
-    rules: ['slotIdentified', 'accountShared', 'backup', 'gameRoutines']
+    rules: ['accountShared', 'backup', 'gameRoutines']
   },
   { id: 'settings', group: 'system', icon: SettingsIcon, kind: 'tool' }
 ]

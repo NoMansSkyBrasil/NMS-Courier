@@ -92,6 +92,19 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   every locale in the same change; English is the fallback only for a string that is still
   untranslated, and such gaps must be listed in `TODO.md`.
 - Keep translations in dedicated locale resources, one per language, never inline in components.
+  The resources are `apps/desktop/src/renderer/src/i18n/locales/<locale>.ts`, typed by
+  `i18n/messages.ts`: add the key to the type first, then to all 14 files; a missing key must not
+  compile.
+- **Always translate, in the same change.** A new feature, screen, option, status, error text or
+  rule shown to the user is not done until it reads correctly in all 14 languages. This applies to
+  every model and collaborator. Do not ship English placeholders, do not leave a language for
+  later, and when a text is edited, edit its 13 translations too. Translate meaning, not words, and
+  use the game's own terms in each language (item, slot, currency and place names as the game
+  shows them).
+- **Every capability reaches the interface.** When the bridge gains a request, the same change adds
+  it to the desktop application: the area in `features/`, the plan in
+  `apps/desktop/src/main/research-bridge/delivery-plan.ts`, and its texts. A capability that
+  exists only as a script is unfinished work and is listed in `TODO.md`.
 - Details and the mapping to game language identifiers:
   [product and UI](docs/PRODUCT_AND_UI.md#2-language).
 

@@ -71,6 +71,21 @@ export const ruleIds = [
 ] as const
 export type RuleId = (typeof ruleIds)[number]
 
+export const deliveryStateIds = [
+  'unavailable',
+  'installation_not_selected',
+  'game_not_running',
+  'bridge_missing',
+  'bridge_untested',
+  'ready',
+  'busy',
+  'backup_failed'
+] as const
+export type DeliveryStateId = (typeof deliveryStateIds)[number]
+
+export const deliveryOutcomeIds = ['completed', 'unknown', 'failed', 'refused'] as const
+export type DeliveryOutcomeId = (typeof deliveryOutcomeIds)[number]
+
 export type Messages = {
   app: { name: string; tagline: string }
   groups: Record<GroupId, string>
@@ -129,6 +144,25 @@ export type Messages = {
     themeHint: string
     experimental: string
     experimentalBody: string
+  }
+  delivery: {
+    title: string
+    hint: string
+    action: string
+    sending: string
+    confirmTitle: string
+    confirmSlot: string
+    confirmAccount: string
+    confirm: string
+    cancel: string
+    result: string
+    backup: string
+    time: string
+    activityEmptyTitle: string
+    activityEmptyBody: string
+    state: Record<DeliveryStateId, string>
+    outcome: Record<DeliveryOutcomeId, string>
+    outcomeHint: Record<DeliveryOutcomeId, string>
   }
   controls: {
     changeLanguage: string

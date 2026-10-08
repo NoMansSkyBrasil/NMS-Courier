@@ -13,6 +13,7 @@ import type { Feature } from './types'
 export const unlockFeatures: readonly Feature[] = [
   {
     id: 'technologies',
+    wired: true,
     group: 'unlock',
     icon: CpuIcon,
     kind: 'delivery',
@@ -26,10 +27,11 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'blockedById', count: 2 },
       { row: 'total', count: 393 }
     ],
-    rules: ['gameRoutines', 'defectiveNever', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'defectiveNever', 'backup']
   },
   {
     id: 'productRecipes',
+    wired: true,
     group: 'unlock',
     icon: FlaskConicalIcon,
     kind: 'delivery',
@@ -40,10 +42,11 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'craftableTechnology', count: 91 },
       { row: 'repeatableNever', count: 18 }
     ],
-    rules: ['gameRoutines', 'repeatableNever', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'repeatableNever', 'backup']
   },
   {
     id: 'buildParts',
+    wired: true,
     group: 'unlock',
     icon: BlocksIcon,
     kind: 'delivery',
@@ -53,10 +56,11 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'buildParts', count: 1067 },
       { row: 'researchTree', count: 106 }
     ],
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'refinerRecipes',
+    wired: true,
     group: 'unlock',
     icon: CookingPotIcon,
     kind: 'delivery',
@@ -66,10 +70,11 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'deliverable', count: 1684 },
       { row: 'total', count: 1684 }
     ],
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'customisation',
+    wired: true,
     group: 'unlock',
     icon: PaletteIcon,
     kind: 'delivery',
@@ -80,6 +85,7 @@ export const unlockFeatures: readonly Feature[] = [
   },
   {
     id: 'titles',
+    wired: true,
     group: 'unlock',
     icon: AwardIcon,
     kind: 'delivery',
@@ -93,6 +99,7 @@ export const unlockFeatures: readonly Feature[] = [
   },
   {
     id: 'fishing',
+    wired: true,
     group: 'unlock',
     icon: FishIcon,
     kind: 'delivery',
@@ -103,6 +110,6 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'missionBound', count: 6 },
       { row: 'total', count: 226 }
     ],
-    rules: ['gameRoutines', 'slotIdentified', 'backup']
+    rules: ['gameRoutines', 'backup']
   }
 ]

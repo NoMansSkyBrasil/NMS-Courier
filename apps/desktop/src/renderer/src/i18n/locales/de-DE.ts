@@ -205,6 +205,47 @@ export const deDE: Messages = {
     experimentalBody:
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
+  delivery: {
+    title: 'An das Spiel senden',
+    hint: 'Nutzt die Forschungsbrücke dieser Entwicklungsversion.',
+    action: 'Alles liefern',
+    sending: 'Wird gesendet…',
+    confirmTitle: 'Dies an das laufende Spiel senden?',
+    confirmSlot:
+      'Ändert den Speicherplatz, der gerade im Spiel geladen ist. Der Spielstandordner wird vorher kopiert.',
+    confirmAccount:
+      'Ändert dein Konto, das alle Speicherplätze teilen, und das Spiel synchronisiert es. Der Spielstandordner und die Einstellungsdatei werden vorher kopiert.',
+    confirm: 'Senden',
+    cancel: 'Abbrechen',
+    result: 'Ergebnis',
+    backup: 'Sicherung: {path}',
+    time: 'Zeit',
+    activityEmptyTitle: 'Noch nichts gesendet',
+    activityEmptyBody: 'Lieferungen dieser Sitzung erscheinen hier.',
+    state: {
+      unavailable: 'Nur in einer Entwicklungsversion verfügbar.',
+      installation_not_selected: 'Wähle zuerst die Spielinstallation aus.',
+      game_not_running: 'Starte das Spiel und lade einen Spielstand.',
+      bridge_missing: 'Die Brücke ist nicht im Spielordner installiert.',
+      bridge_untested: 'Die installierte Brücke ist keine getestete Version.',
+      ready: 'Bereit: Spiel läuft, Prozess {id}.',
+      busy: 'Eine andere Lieferung läuft gerade.',
+      backup_failed: 'Die Sicherung konnte nicht erstellt werden; es wurde nichts gesendet.'
+    },
+    outcome: {
+      completed: 'Fertig',
+      unknown: 'Ergebnis unbekannt',
+      failed: 'Fehlgeschlagen',
+      refused: 'Nicht gesendet'
+    },
+    outcomeHint: {
+      completed: 'Das Spiel hat jede Anfrage beantwortet. Speichere im Spiel, um es zu behalten.',
+      unknown:
+        'Das Spiel hat nicht rechtzeitig geantwortet. Nicht erneut senden; im Spiel nachsehen.',
+      failed: 'Eine Anfrage wurde abgelehnt, bevor sie das Spiel erreichte.',
+      refused: 'Es wurde nichts gesendet.'
+    }
+  },
   controls: {
     changeLanguage: 'Sprache ändern',
     changeTheme: 'Design ändern',

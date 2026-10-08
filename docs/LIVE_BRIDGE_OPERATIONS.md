@@ -1,5 +1,12 @@
 # How the research bridge applies changes to the running game
 
+> **From the desktop application (2026-10-08).** In a development checkout the application can send
+> the eleven verified areas itself: its main process runs the same signal scripts described below,
+> after its own check of the game process and the installed DLL hash and after copying the save
+> folder. See [product and UI](PRODUCT_AND_UI.md#sending-from-the-interface-2026-10-08). The tested
+> DLL list lives in `apps/desktop/src/main/research-bridge/delivery-plan.ts` and must be updated
+> with every profile build that is meant to be used from the interface.
+
 Checkpoint: 2026-10-07. This explains, in one place, **how** every live change
 recorded on 2026-10-06 and 2026-10-07 was sent to the game: the pieces
 involved, the path of one request, what each kind of request does inside the

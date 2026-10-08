@@ -189,6 +189,47 @@ export const jaJP: Messages = {
     experimentalBody:
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
+  delivery: {
+    title: 'ゲームに送信',
+    hint: 'この開発用ビルドの調査用ブリッジを使用します。',
+    action: 'すべて配送',
+    sending: '送信中…',
+    confirmTitle: '実行中のゲームに送信しますか？',
+    confirmSlot:
+      '現在ゲームで読み込まれているセーブスロットを変更します。事前にセーブフォルダーをコピーします。',
+    confirmAccount:
+      'すべてのセーブスロットで共有されるアカウントを変更し、ゲームが同期します。事前にセーブフォルダーと設定ファイルをコピーします。',
+    confirm: '送信',
+    cancel: 'キャンセル',
+    result: '結果',
+    backup: 'バックアップ: {path}',
+    time: '時刻',
+    activityEmptyTitle: 'まだ何も送信していません',
+    activityEmptyBody: 'このセッションの配送がここに表示されます。',
+    state: {
+      unavailable: '開発用ビルドでのみ利用できます。',
+      installation_not_selected: '先にゲームのインストール先を選択してください。',
+      game_not_running: 'ゲームを起動してセーブを読み込んでください。',
+      bridge_missing: 'ブリッジがゲームフォルダーにインストールされていません。',
+      bridge_untested: 'インストールされているブリッジは検証済みのビルドではありません。',
+      ready: '準備完了: ゲーム実行中、プロセス {id}。',
+      busy: '別の配送が進行中です。',
+      backup_failed: 'バックアップを作成できなかったため、何も送信していません。'
+    },
+    outcome: {
+      completed: '完了',
+      unknown: '結果不明',
+      failed: '失敗',
+      refused: '未送信'
+    },
+    outcomeHint: {
+      completed:
+        'ゲームがすべてのリクエストに応答しました。保持するにはゲーム内でセーブしてください。',
+      unknown: 'ゲームが時間内に応答しませんでした。再送信せず、ゲーム内で確認してください。',
+      failed: 'リクエストはゲームに届く前に拒否されました。',
+      refused: '何も送信していません。'
+    }
+  },
   controls: {
     changeLanguage: '言語を変更',
     changeTheme: 'テーマを変更',

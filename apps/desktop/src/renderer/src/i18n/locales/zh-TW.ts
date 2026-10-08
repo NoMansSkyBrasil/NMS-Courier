@@ -179,6 +179,45 @@ export const zhTW: Messages = {
     experimental: '實驗性軟體',
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
+  delivery: {
+    title: '傳送到遊戲',
+    hint: '使用此開發版本的研究用橋接。',
+    action: '全部遞送',
+    sending: '正在傳送…',
+    confirmTitle: '要傳送到執行中的遊戲嗎？',
+    confirmSlot: '這會變更遊戲目前載入的存檔欄位。傳送前會先複製存檔資料夾。',
+    confirmAccount:
+      '這會變更所有存檔欄位共用的帳號，並由遊戲同步。傳送前會先複製存檔資料夾和設定檔。',
+    confirm: '傳送',
+    cancel: '取消',
+    result: '結果',
+    backup: '備份：{path}',
+    time: '時間',
+    activityEmptyTitle: '尚未傳送任何內容',
+    activityEmptyBody: '本次工作階段的遞送會顯示在這裡。',
+    state: {
+      unavailable: '僅在開發版本中可用。',
+      installation_not_selected: '請先選擇遊戲安裝位置。',
+      game_not_running: '請啟動遊戲並載入存檔。',
+      bridge_missing: '遊戲資料夾中未安裝橋接。',
+      bridge_untested: '已安裝的橋接不是經過測試的版本。',
+      ready: '就緒：遊戲執行中，處理程序 {id}。',
+      busy: '另一項遞送正在進行。',
+      backup_failed: '無法建立備份；未傳送任何內容。'
+    },
+    outcome: {
+      completed: '完成',
+      unknown: '結果未知',
+      failed: '失敗',
+      refused: '未傳送'
+    },
+    outcomeHint: {
+      completed: '遊戲已回應所有要求。請在遊戲中存檔以保留結果。',
+      unknown: '遊戲未及時回應。請勿再次傳送；請在遊戲中確認。',
+      failed: '要求在到達遊戲之前遭到拒絕。',
+      refused: '未傳送任何內容。'
+    }
+  },
   controls: {
     changeLanguage: '變更語言',
     changeTheme: '變更主題',

@@ -74,6 +74,18 @@ Implemented on 2026-10-08 with the official sidebar block (base-nova preset, luc
 
 Each area without a screen of its own is rendered by one generic page: summary, the two badges, a notice that nothing can be sent from the window yet (the research bridge is not connected to the application), the figures of the research build and the rules that always apply. Planned areas show the standard empty state. The dashboard lists every delivery area with its badges. Save Editor is a future dedicated area. History is the Activity area, planned.
 
+### Sending from the interface (2026-10-08)
+
+The eleven verified areas (technologies, crafting recipes, build parts, refiner and cooking, appearance, titles, fishing record, expeditions, Twitch drops, platform and pre-order, Quicksilver shop) carry a "Send to the game" card. It shows the bridge state, asks for confirmation naming what changes (the loaded save slot, or the account shared by every slot), sends once, and shows the game's answer and the backup location. The Activity area lists what was sent in the session.
+
+How it is wired, and its limits:
+
+- Renderer calls three narrow preload methods: `getResearchBridgeStatus()`, `deliver(area)`, `getDeliveryActivity()`. The area is an identifier from a fixed list; no command, path or game ID crosses the boundary.
+- Main owns `research-bridge/delivery-plan.ts` (each area as constant steps) and `research-bridge/research-bridge-service.ts`, which checks that the game runs and that the installed bridge DLL is one of the tested builds, copies the whole save folder (and the user settings file for an account change) into the application's `save-backups` directory, then runs the repository's signal scripts once each. Those scripts keep the only implementation of the preflight.
+- A step whose script reports no answer makes the outcome "unknown": remaining steps are not run and nothing is retried.
+- **Development builds only.** The service is enabled when the application is not packaged, because it depends on the signal scripts of the checkout and on Windows PowerShell. A packaged application reports the bridge as unavailable. This is the research bridge, not the production runtime of the architecture document.
+- Not in the application yet: identifying the loaded slot (the confirmation states that the slot loaded in the game is changed), choosing single entries instead of a whole area, the slot-side redemption of Twitch decorations, and the experimental areas (items, currencies, exosuit, starships, multi-tools, freighters, corvettes).
+
 The figures on the area pages are constants of the registry taken from the research notes for build 180836. They are to come from the catalogue package once the local catalogue carries the classifications.
 
 Future pages may show an honest planned/unavailable state. They must not contain convincing fake success flows. Do not create speculative feature implementations to populate navigation. The M0 demonstration mode is visually explicit and cannot dispatch real commands.

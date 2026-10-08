@@ -194,6 +194,46 @@ export const esES: Messages = {
     experimentalBody:
       'NMS Courier es una herramienta no oficial en desarrollo. Funciona con una versión exacta del juego cada vez.'
   },
+  delivery: {
+    title: 'Enviar al juego',
+    hint: 'Usa el puente de investigación de esta versión de desarrollo.',
+    action: 'Entregar todo',
+    sending: 'Enviando…',
+    confirmTitle: '¿Enviar esto al juego en ejecución?',
+    confirmSlot:
+      'Cambia la ranura de guardado cargada en el juego en este momento. Antes se copia la carpeta de guardado.',
+    confirmAccount:
+      'Cambia tu cuenta, compartida por todas las ranuras de guardado, y el juego la sincroniza. Antes se copian la carpeta de guardado y el archivo de ajustes.',
+    confirm: 'Enviar',
+    cancel: 'Cancelar',
+    result: 'Resultado',
+    backup: 'Copia de seguridad: {path}',
+    time: 'Hora',
+    activityEmptyTitle: 'Aún no se ha enviado nada',
+    activityEmptyBody: 'Las entregas de esta sesión aparecen aquí.',
+    state: {
+      unavailable: 'Solo disponible en una versión de desarrollo.',
+      installation_not_selected: 'Selecciona primero la instalación del juego.',
+      game_not_running: 'Inicia el juego y carga una partida.',
+      bridge_missing: 'El puente no está instalado en la carpeta del juego.',
+      bridge_untested: 'El puente instalado no es una versión probada.',
+      ready: 'Listo: juego en ejecución, proceso {id}.',
+      busy: 'Hay otra entrega en curso.',
+      backup_failed: 'No se pudo hacer la copia de seguridad; no se envió nada.'
+    },
+    outcome: {
+      completed: 'Hecho',
+      unknown: 'Resultado desconocido',
+      failed: 'Falló',
+      refused: 'No enviado'
+    },
+    outcomeHint: {
+      completed: 'El juego respondió a todas las solicitudes. Guarda en el juego para conservarlo.',
+      unknown: 'El juego no respondió a tiempo. No lo envíes de nuevo; compruébalo en el juego.',
+      failed: 'Una solicitud fue rechazada antes de llegar al juego.',
+      refused: 'No se envió nada.'
+    }
+  },
   controls: {
     changeLanguage: 'Cambiar idioma',
     changeTheme: 'Cambiar tema',

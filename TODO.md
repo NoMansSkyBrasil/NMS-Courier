@@ -125,7 +125,13 @@ This file is the operational source of truth for implementation order. Update it
   (`preview-copy.ts`, `appearance-copy.ts`). Move them into the locale resources.
 - [x] Interface organised by domain with the official sidebar block (2026-10-08): groups Overview,
   Deliver, Unlock, Rewards, Library, System; see [product and UI](docs/PRODUCT_AND_UI.md#3-navigation).
-- [ ] Area pages are descriptive only: connect them to the delivery bridge, one domain at a time.
+- [~] Area pages connected to the research bridge for the eleven verified areas (2026-10-08,
+  development builds only). First live delivery from the application still to be done.
+- [ ] From the application: identify the loaded slot, choose single entries, redeem Twitch
+  decorations in the slot, and wire the experimental areas (items, currencies, exosuit, starships,
+  multi-tools, freighters, corvettes).
+- [ ] The research bridge of the application depends on the checkout's scripts and on PowerShell;
+  a packaged build has no delivery. Replace it with the production runtime of the architecture.
 - [ ] Feed the area figures from the catalogue package instead of registry constants.
 
 ## Technology delivery requested by the user (2026-10-07)

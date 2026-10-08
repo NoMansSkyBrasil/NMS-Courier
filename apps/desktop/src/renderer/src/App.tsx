@@ -1,3 +1,4 @@
+import { ActivityPage } from '@renderer/components/activity-page'
 import { AppSidebar } from '@renderer/components/app-sidebar'
 import { CatalogPage } from '@renderer/components/catalog-page'
 import { DashboardPage } from '@renderer/components/dashboard-page'
@@ -25,6 +26,7 @@ function Workspace(): React.JSX.Element {
   const feature = featureFromHash(useHashRoute())
 
   if (feature.id === 'dashboard') return <DashboardPage />
+  if (feature.id === 'activity') return <ActivityPage />
   if (feature.id === 'catalog') return <CatalogPage />
   if (feature.id === 'bridge') return <DeliveryPage />
   if (feature.id === 'settings') return <SettingsPage />

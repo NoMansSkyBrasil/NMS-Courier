@@ -188,6 +188,46 @@ export const enUS: Messages = {
     experimentalBody:
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
+  delivery: {
+    title: 'Send to the game',
+    hint: 'Uses the research bridge of this development build.',
+    action: 'Deliver everything',
+    sending: 'Sending…',
+    confirmTitle: 'Send this to the running game?',
+    confirmSlot:
+      'It changes the save slot loaded in the game right now. The save folder is copied first.',
+    confirmAccount:
+      'It changes your account, shared by every save slot, and the game synchronises it. The save folder and the settings file are copied first.',
+    confirm: 'Send',
+    cancel: 'Cancel',
+    result: 'Result',
+    backup: 'Backup: {path}',
+    time: 'Time',
+    activityEmptyTitle: 'Nothing sent yet',
+    activityEmptyBody: 'Deliveries of this session appear here.',
+    state: {
+      unavailable: 'Only available in a development build.',
+      installation_not_selected: 'Select the game installation first.',
+      game_not_running: 'Start the game and load a save.',
+      bridge_missing: 'The bridge is not installed in the game folder.',
+      bridge_untested: 'The installed bridge is not a tested build.',
+      ready: 'Ready: game running, process {id}.',
+      busy: 'Another delivery is in progress.',
+      backup_failed: 'The backup could not be made; nothing was sent.'
+    },
+    outcome: {
+      completed: 'Done',
+      unknown: 'Unknown outcome',
+      failed: 'Failed',
+      refused: 'Not sent'
+    },
+    outcomeHint: {
+      completed: 'The game answered every request. Save in the game to keep it.',
+      unknown: 'The game did not answer in time. Do not send it again; check in the game.',
+      failed: 'A request was rejected before it reached the game.',
+      refused: 'Nothing was sent.'
+    }
+  },
   controls: {
     changeLanguage: 'Change language',
     changeTheme: 'Change theme',

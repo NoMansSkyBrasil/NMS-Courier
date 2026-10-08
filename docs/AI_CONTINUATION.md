@@ -228,6 +228,13 @@ offline:
     type-check, lint, unit tests and screenshots of the running Electron
     window in Portuguese.
 
+29. *Interface and bridge together (2026-10-08).* Eleven verified areas can
+    be sent from the desktop application in a development checkout; read
+    "Sending from the interface" in [product and UI](PRODUCT_AND_UI.md). No
+    delivery has been sent from the application yet. Standing rules added to
+    `AGENTS.md`: always translate into all 14 languages in the same change,
+    and every bridge capability reaches the interface.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

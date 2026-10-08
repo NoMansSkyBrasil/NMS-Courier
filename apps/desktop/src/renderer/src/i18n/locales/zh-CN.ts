@@ -179,6 +179,45 @@ export const zhCN: Messages = {
     experimental: '实验性软件',
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
+  delivery: {
+    title: '发送到游戏',
+    hint: '使用此开发版本的研究用桥接。',
+    action: '全部投递',
+    sending: '正在发送…',
+    confirmTitle: '要发送到运行中的游戏吗？',
+    confirmSlot: '这会更改游戏当前加载的存档栏位。发送前会先复制存档文件夹。',
+    confirmAccount:
+      '这会更改所有存档栏位共享的账号，并由游戏同步。发送前会先复制存档文件夹和设置文件。',
+    confirm: '发送',
+    cancel: '取消',
+    result: '结果',
+    backup: '备份：{path}',
+    time: '时间',
+    activityEmptyTitle: '尚未发送任何内容',
+    activityEmptyBody: '本次会话的投递会显示在这里。',
+    state: {
+      unavailable: '仅在开发版本中可用。',
+      installation_not_selected: '请先选择游戏安装位置。',
+      game_not_running: '请启动游戏并加载存档。',
+      bridge_missing: '游戏文件夹中未安装桥接。',
+      bridge_untested: '已安装的桥接不是经过测试的版本。',
+      ready: '就绪：游戏运行中，进程 {id}。',
+      busy: '另一项投递正在进行。',
+      backup_failed: '无法创建备份；未发送任何内容。'
+    },
+    outcome: {
+      completed: '完成',
+      unknown: '结果未知',
+      failed: '失败',
+      refused: '未发送'
+    },
+    outcomeHint: {
+      completed: '游戏已响应所有请求。请在游戏中保存以保留结果。',
+      unknown: '游戏未及时响应。请勿再次发送；请在游戏中确认。',
+      failed: '请求在到达游戏之前被拒绝。',
+      refused: '未发送任何内容。'
+    }
+  },
   controls: {
     changeLanguage: '更改语言',
     changeTheme: '更改主题',

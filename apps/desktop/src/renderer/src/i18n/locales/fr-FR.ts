@@ -202,6 +202,47 @@ export const frFR: Messages = {
     experimentalBody:
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
+  delivery: {
+    title: 'Envoyer au jeu',
+    hint: 'Utilise le pont de recherche de cette version de développement.',
+    action: 'Tout livrer',
+    sending: 'Envoi…',
+    confirmTitle: 'Envoyer ceci au jeu en cours d’exécution ?',
+    confirmSlot:
+      'Cela modifie l’emplacement de sauvegarde actuellement chargé dans le jeu. Le dossier de sauvegarde est copié au préalable.',
+    confirmAccount:
+      'Cela modifie votre compte, partagé par tous les emplacements de sauvegarde, et le jeu le synchronise. Le dossier de sauvegarde et le fichier de paramètres sont copiés au préalable.',
+    confirm: 'Envoyer',
+    cancel: 'Annuler',
+    result: 'Résultat',
+    backup: 'Copie de sécurité : {path}',
+    time: 'Heure',
+    activityEmptyTitle: 'Rien n’a encore été envoyé',
+    activityEmptyBody: 'Les livraisons de cette session apparaissent ici.',
+    state: {
+      unavailable: 'Disponible uniquement dans une version de développement.',
+      installation_not_selected: 'Sélectionnez d’abord l’installation du jeu.',
+      game_not_running: 'Lancez le jeu et chargez une sauvegarde.',
+      bridge_missing: 'Le pont n’est pas installé dans le dossier du jeu.',
+      bridge_untested: 'Le pont installé n’est pas une version testée.',
+      ready: 'Prêt : jeu en cours d’exécution, processus {id}.',
+      busy: 'Une autre livraison est en cours.',
+      backup_failed: 'La copie de sécurité a échoué ; rien n’a été envoyé.'
+    },
+    outcome: {
+      completed: 'Terminé',
+      unknown: 'Résultat inconnu',
+      failed: 'Échec',
+      refused: 'Non envoyé'
+    },
+    outcomeHint: {
+      completed:
+        'Le jeu a répondu à chaque demande. Sauvegardez dans le jeu pour conserver le résultat.',
+      unknown: 'Le jeu n’a pas répondu à temps. Ne renvoyez pas la demande ; vérifiez dans le jeu.',
+      failed: 'Une demande a été rejetée avant d’atteindre le jeu.',
+      refused: 'Rien n’a été envoyé.'
+    }
+  },
   controls: {
     changeLanguage: 'Changer de langue',
     changeTheme: 'Changer de thème',

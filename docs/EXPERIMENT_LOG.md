@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: desktop application wired to the research bridge (no live delivery from it yet)
+
+Owner: [product and UI](PRODUCT_AND_UI.md#sending-from-the-interface-2026-10-08).
+
+- Main-process service and plan for eleven areas; preload methods
+  `getResearchBridgeStatus`, `deliver`, `getDeliveryActivity`; renderer card
+  with confirmation and result, Activity page; all texts in 14 languages.
+- Tested DLL accepted by the application: `6ad12b1c...27fc`.
+- Checks: type-check and lint clean; 44 unit tests pass, seven of them for
+  the plan and the service (refusal of an untested bridge, backup contents,
+  stop at an unknown outcome); the running Electron window shows the card
+  with the state "select the game installation first".
+- **Not proven: an actual delivery sent from the application.** The game was
+  not running and no installation is selected in the development profile.
+- Development builds only; a packaged build reports the bridge unavailable.
+
 ## 2026-10-08: desktop interface reorganised by domain (no game interaction)
 
 Owner: [product and UI](PRODUCT_AND_UI.md#3-navigation). Renderer only; the
