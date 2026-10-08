@@ -275,6 +275,12 @@ export const deDE: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Version der Anwendung',
+    versionBridge: 'Version der installierten Brücke',
+    versionNone: 'Nicht installiert',
+    versionOld: 'Älter, ohne Version',
+    versionCurrent: 'Die Brücke ist aktuell.',
+    versionOutdated: 'Die Brücke ist veraltet. Diese Anwendung enthält die Brücke {version}.',
     detect: 'Automatisch erkennen',
     detecting: 'Suche läuft…',
     detectNone: 'Es wurde keine Installation gefunden. Wähle den Ordner selbst aus.',

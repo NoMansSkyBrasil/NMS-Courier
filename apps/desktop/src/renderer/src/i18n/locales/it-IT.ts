@@ -269,6 +269,12 @@ export const itIT: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Versione dell’applicazione',
+    versionBridge: 'Versione del ponte installato',
+    versionNone: 'Non installato',
+    versionOld: 'Vecchio, senza versione',
+    versionCurrent: 'Il ponte è aggiornato.',
+    versionOutdated: 'Il ponte non è aggiornato. Questa applicazione include il ponte {version}.',
     detect: 'Rileva automaticamente',
     detecting: 'Ricerca in corso…',
     detectNone: 'Non è stata trovata alcuna installazione. Seleziona la cartella manualmente.',

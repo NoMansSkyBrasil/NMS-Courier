@@ -1,18 +1,16 @@
 // What the application may ask the research bridge to do, as data. The renderer names an area; this
 // module turns it into fixed steps. No argument of a step ever comes from the renderer.
 
+import { bridgeReleases } from './bridge-version'
+
 export const researchBridgeBuild = '180836'
 // Executable of that build, as distributed by Steam.
 export const researchBridgeGameSha256 =
   '13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499'
 
-// Profile DLLs the steps below were exercised against. Anything else installed is refused.
-export const testedBridgeSha256: readonly string[] = [
-  '6ad12b1caa2bfa94f6b4ca1bdcce0628b8d1b383cd03afa5e4056fe8324027fc',
-  // 2026-10-08: adds the item request and the notification option of product recipes. The other
-  // requests are unchanged source; the item request itself has not been exercised live yet.
-  '22f1637a46b8842bb9400b6594729a20a86a1ace4b18c73fd202d153fd48ac2f'
-]
+// Profile DLLs the application accepts: every build listed in bridge-version.ts. Anything else
+// installed is refused.
+export const testedBridgeSha256: readonly string[] = Object.keys(bridgeReleases)
 
 export const deliveryFeatureIds = [
   'technologies',

@@ -68,6 +68,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "freighter_offer.h"
 #include "corvette_build.h"
 #include "purchase_setup_hooks_functions.h"
+#include "bridge_version.h"
 #include "shipped_reward_dispatch.h"
 #include "technology_learn.h"
 #include "recipe_learn.h"
@@ -93,7 +94,7 @@ static void write_status(const char *status, MH_STATUS result) {
     char text[2048];
 #define READ(value) ((long)InterlockedCompareExchange(&(value), 0, 0))
     size = snprintf(text, sizeof(text),
-        "status=%s\npid=%lu\nhook_status=%d\nmode=research_profile\nevent_base=%ls\n"
+        "status=%s\npid=%lu\nhook_status=%d\nmode=research_profile\nbridge_version=" BRIDGE_VERSION "\nevent_base=%ls\n"
         "requested_class=%ld\ndispatch_state=%ld\nsetup_calls=%ld\nfreighter_setups=%ld\nlast_kind=%ld\n"
         "applied_count=%ld\napplied_class=%ld\nrejected_item=%ld\n"
         "class_before=%ld,%ld,%ld\nclass_after=%ld,%ld,%ld\n"

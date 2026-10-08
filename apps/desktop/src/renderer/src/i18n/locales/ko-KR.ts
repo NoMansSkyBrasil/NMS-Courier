@@ -249,6 +249,12 @@ export const koKR: Messages = {
     }
   },
   bridgePage: {
+    versionApp: '앱 버전',
+    versionBridge: '설치된 브리지 버전',
+    versionNone: '설치되지 않음',
+    versionOld: '이전 버전(버전 없음)',
+    versionCurrent: '브리지가 최신 상태입니다.',
+    versionOutdated: '브리지가 오래되었습니다. 이 앱에는 브리지 {version}이(가) 포함되어 있습니다.',
     detect: '자동으로 찾기',
     detecting: '찾는 중…',
     detectNone: '설치 위치를 찾지 못했습니다. 폴더를 직접 선택하세요.',

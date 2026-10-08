@@ -271,6 +271,13 @@ export const frFR: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Version de l’application',
+    versionBridge: 'Version du pont installé',
+    versionNone: 'Non installé',
+    versionOld: 'Ancien, sans version',
+    versionCurrent: 'Le pont est à jour.',
+    versionOutdated:
+      'Le pont n’est pas à jour. Cette application est fournie avec le pont {version}.',
     detect: 'Détecter automatiquement',
     detecting: 'Recherche…',
     detectNone: 'Aucune installation n’a été trouvée. Sélectionnez le dossier vous-même.',

@@ -259,6 +259,12 @@ export const plPL: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Wersja aplikacji',
+    versionBridge: 'Wersja zainstalowanego mostu',
+    versionNone: 'Nie zainstalowano',
+    versionOld: 'Starsza, bez wersji',
+    versionCurrent: 'Most jest aktualny.',
+    versionOutdated: 'Most jest nieaktualny. Ta aplikacja zawiera most {version}.',
     detect: 'Wykryj automatycznie',
     detecting: 'Wyszukiwanie…',
     detectNone: 'Nie znaleziono instalacji. Wybierz folder samodzielnie.',

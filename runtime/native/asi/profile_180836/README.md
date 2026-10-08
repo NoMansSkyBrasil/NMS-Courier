@@ -10,6 +10,7 @@ nothing that belongs to one of them. Built with
 | File | Domain | Contents |
 | --- | --- | --- |
 | `profile_core.c` | core | Build check, addresses used by all, the hook on the game's update routine, per-process events, status file, target verification |
+| `bridge_version.h` | core | The bridge version, written to the status file |
 | `inventory_store.h` | shared | Layout of one inventory store; special slots; full grid; store consistency check |
 | `ship_inventory.h` | starship | Owned ship stores, primary ship, ship class and slot rewards |
 | `multitool_inventory.h` | multitool | Owned multitool stores, equipped multitool, multitool class and slot rewards |

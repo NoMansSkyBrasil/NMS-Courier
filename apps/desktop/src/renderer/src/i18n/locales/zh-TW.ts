@@ -243,6 +243,12 @@ export const zhTW: Messages = {
     }
   },
   bridgePage: {
+    versionApp: '應用程式版本',
+    versionBridge: '已安裝的橋接版本',
+    versionNone: '未安裝',
+    versionOld: '舊版，無版本號',
+    versionCurrent: '橋接已是最新版本。',
+    versionOutdated: '橋接版本已過期。此應用程式附帶的橋接版本為 {version}。',
     detect: '自動偵測',
     detecting: '正在尋找…',
     detectNone: '找不到安裝位置。請手動選擇資料夾。',

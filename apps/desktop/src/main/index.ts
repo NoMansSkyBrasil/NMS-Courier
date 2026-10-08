@@ -244,7 +244,11 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('nms:get-research-bridge-status', async () => {
     const root = getInstallationService().getSelectedRootPath()
-    return getResearchBridgeService().getStatus(root, await gameStatusService.observe(root))
+    const status = await getResearchBridgeService().getStatus(
+      root,
+      await gameStatusService.observe(root)
+    )
+    return { ...status, appVersion: app.getVersion() }
   })
   ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown, notify: unknown) => {
     if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')

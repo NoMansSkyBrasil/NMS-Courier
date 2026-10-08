@@ -266,6 +266,12 @@ export const ptPT: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Versão da aplicação',
+    versionBridge: 'Versão da ponte instalada',
+    versionNone: 'Não instalada',
+    versionOld: 'Antiga, sem versão',
+    versionCurrent: 'A ponte está atualizada.',
+    versionOutdated: 'A ponte está desatualizada. Esta aplicação inclui a ponte {version}.',
     detect: 'Detetar automaticamente',
     detecting: 'A procurar…',
     detectNone: 'Não foi encontrada nenhuma instalação. Selecione a pasta manualmente.',

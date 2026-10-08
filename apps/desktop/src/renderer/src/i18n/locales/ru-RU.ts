@@ -265,6 +265,12 @@ export const ruRU: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Версия приложения',
+    versionBridge: 'Версия установленного моста',
+    versionNone: 'Не установлен',
+    versionOld: 'Старая, без версии',
+    versionCurrent: 'Мост обновлён.',
+    versionOutdated: 'Мост устарел. В состав этого приложения входит мост {version}.',
     detect: 'Определить автоматически',
     detecting: 'Поиск…',
     detectNone: 'Установка не найдена. Выберите папку вручную.',

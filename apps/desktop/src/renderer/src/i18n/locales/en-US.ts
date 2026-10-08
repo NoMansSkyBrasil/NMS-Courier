@@ -255,6 +255,12 @@ export const enUS: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Application version',
+    versionBridge: 'Installed bridge version',
+    versionNone: 'Not installed',
+    versionOld: 'Older, without a version',
+    versionCurrent: 'The bridge is up to date.',
+    versionOutdated: 'The bridge is out of date. This application comes with bridge {version}.',
     detect: 'Detect automatically',
     detecting: 'Searching…',
     detectNone: 'No installation was found. Select the folder yourself.',

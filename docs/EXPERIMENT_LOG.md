@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-08: bridge 1.0.0 and application 1.0.0
+
+Build and installation only; the game was not running and nothing was sent.
+Owner decision: the bridge and the application are versioned from 1.0.0
+([changelog](../CHANGELOG.md), rules in `AGENTS.md`). Bridge 1.0.0 is the
+source of the item build plus `bridge_version.h` and the `bridge_version`
+line of the status file: SHA-256
+`70bbe51466c5bf31441f0af07d8740c5f1a479ea835eb4e866f387f2b30aba79`, built to
+`E:\NMS-Courier-Research\native-builds\bridge-1.0.0` and installed over
+`22f1637a...ac2f`. Technology and recipe guard fixtures pass; 73 unit tests
+pass, one of which fails when the header and the application disagree about
+the version. The started application showed application 1.0.0, installed
+bridge 1.0.0, up to date. Not proven: bridge 1.0.0 has not been started in
+the game. Undo: copy an earlier build from `native-builds` back.
+
 ## 2026-10-08: item request and notification option built, not sent
 
 Offline analysis and a build; the game was not running and nothing was sent.

@@ -1,7 +1,10 @@
 # How the research bridge applies changes to the running game
 
-> **Items and notifications (2026-10-08).** Installed profile DLL:
-> `22f1637a46b8842bb9400b6594729a20a86a1ace4b18c73fd202d153fd48ac2f`. New
+> **Bridge 1.0.0 (2026-10-08).** The bridge is versioned from now on (see
+> [the changelog](../CHANGELOG.md)); its status file carries `bridge_version`.
+> Installed: bridge 1.0.0,
+> `70bbe51466c5bf31441f0af07d8740c5f1a479ea835eb4e866f387f2b30aba79`, which
+> replaced the unversioned `22f1637a...ac2f` of the same day. New
 > request `item` (script `signal-item-180836.ps1`): native calls only, the
 > game's store add routine for the exosuit cargo of the loaded slot; untested
 > live, see [item delivery notes](ITEM_DELIVERY_NOTES.md). Product requests

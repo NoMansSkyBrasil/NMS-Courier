@@ -257,6 +257,13 @@ export const jaJP: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'アプリのバージョン',
+    versionBridge: 'インストール済みブリッジのバージョン',
+    versionNone: '未インストール',
+    versionOld: '旧版（バージョンなし）',
+    versionCurrent: 'ブリッジは最新です。',
+    versionOutdated:
+      'ブリッジが古くなっています。このアプリにはブリッジ {version} が付属しています。',
     detect: '自動で検出',
     detecting: '検索中…',
     detectNone: 'インストール先が見つかりませんでした。フォルダーを手動で選択してください。',

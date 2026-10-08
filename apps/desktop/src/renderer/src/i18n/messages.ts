@@ -186,6 +186,12 @@ export type Messages = {
     outcomeHint: Record<DeliveryOutcomeId, string>
   }
   bridgePage: {
+    versionApp: string
+    versionBridge: string
+    versionNone: string
+    versionOld: string
+    versionCurrent: string
+    versionOutdated: string
     detect: string
     detecting: string
     detectNone: string

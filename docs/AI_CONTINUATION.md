@@ -1,6 +1,7 @@
 # AI continuation guide
 
-> Checkpoint 2026-10-08 (items): the profile DLL `22f1637a...ac2f` is
+> Checkpoint 2026-10-08 (items): bridge 1.0.0 (`70bbe514...ba79`, versioned
+> from now on, see `CHANGELOG.md` and the Versions rules in `AGENTS.md`) is
 > installed and adds an untested item request; see
 > [item delivery notes](ITEM_DELIVERY_NOTES.md). Next: with the game on slot 3,
 > send `FUEL1` x500 and `CASING` x10 once from the Items page of the application

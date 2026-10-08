@@ -243,6 +243,12 @@ export const zhCN: Messages = {
     }
   },
   bridgePage: {
+    versionApp: '应用版本',
+    versionBridge: '已安装的桥接版本',
+    versionNone: '未安装',
+    versionOld: '旧版，无版本号',
+    versionCurrent: '桥接已是最新版本。',
+    versionOutdated: '桥接版本已过期。此应用附带的桥接版本为 {version}。',
     detect: '自动检测',
     detecting: '正在查找…',
     detectNone: '未找到安装位置。请手动选择文件夹。',

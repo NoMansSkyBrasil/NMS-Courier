@@ -113,6 +113,21 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Details and the mapping to game language identifiers:
   [product and UI](docs/PRODUCT_AND_UI.md#2-language).
 
+## Versions
+
+- The application and the bridge each have a version, `major.minor.patch`, starting at 1.0.0 on
+  2026-10-08 (owner decision). They move independently. See [the changelog](CHANGELOG.md).
+- **Every change to the bridge gets a new bridge version**, in the same commit: raise
+  `runtime/native/asi/profile_180836/bridge_version.h`, build, add the built file's SHA-256 with
+  that version to `apps/desktop/src/main/research-bridge/bridge-version.ts`, set `bridgeVersion`
+  there, and add a changelog entry. Never install or commit a changed bridge under an old version.
+- Raise the application version (`apps/desktop/package.json` and the root `package.json`) whenever
+  a change reaches the user, with a changelog entry in the same commit.
+- Major: something incompatible (a request or file format changed, a capability removed). Minor: a
+  new capability or option. Patch: a fix.
+- The interface must always show both versions and whether the installed bridge is the one the
+  application was built with; experiment records name the bridge by version and hash.
+
 ## Technologies that are never delivered
 
 - Defective and internal technology entries must never be taught, installed or offered, in any

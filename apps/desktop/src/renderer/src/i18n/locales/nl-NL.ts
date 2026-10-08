@@ -270,6 +270,12 @@ export const nlNL: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Versie van de applicatie',
+    versionBridge: 'Versie van de geïnstalleerde brug',
+    versionNone: 'Niet geïnstalleerd',
+    versionOld: 'Ouder, zonder versie',
+    versionCurrent: 'De brug is bijgewerkt.',
+    versionOutdated: 'De brug is verouderd. Deze applicatie bevat brug {version}.',
     detect: 'Automatisch detecteren',
     detecting: 'Bezig met zoeken…',
     detectNone: 'Er is geen installatie gevonden. Selecteer de map zelf.',

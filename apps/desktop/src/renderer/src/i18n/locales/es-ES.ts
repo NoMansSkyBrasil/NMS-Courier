@@ -261,6 +261,12 @@ export const esES: Messages = {
     }
   },
   bridgePage: {
+    versionApp: 'Versión de la aplicación',
+    versionBridge: 'Versión del puente instalado',
+    versionNone: 'No instalado',
+    versionOld: 'Antiguo, sin versión',
+    versionCurrent: 'El puente está actualizado.',
+    versionOutdated: 'El puente está desactualizado. Esta aplicación incluye el puente {version}.',
     detect: 'Detectar automáticamente',
     detecting: 'Buscando…',
     detectNone: 'No se encontró ninguna instalación. Selecciona la carpeta manualmente.',

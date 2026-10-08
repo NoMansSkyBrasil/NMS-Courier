@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import { cp, mkdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { GameProcessStatus } from '../game-status-service'
+import { bridgeReleases, bridgeVersion } from './bridge-version'
 import {
   classifyStepOutput,
   getDeliveryPlan,
@@ -27,6 +28,10 @@ export type ResearchBridgeStatus = {
     | 'ready'
   processId: number | null
   bridgeSha256: string | null
+  // Version of the installed bridge; null when none is installed or it predates versions.
+  installedBridgeVersion: string | null
+  // Version this application was built with.
+  bridgeVersion: string
 }
 
 export type DeliveryStepResult = {
@@ -89,20 +94,30 @@ export class ResearchBridgeService {
     installationRoot: string | null,
     game: GameProcessStatus
   ): Promise<ResearchBridgeStatus> {
-    const none = { processId: null, bridgeSha256: null }
+    const none = {
+      processId: null,
+      bridgeSha256: null,
+      installedBridgeVersion: null,
+      bridgeVersion
+    }
     if (!this.context.enabled || !(await exists(this.context.signalDirectory))) {
       return { state: 'unavailable', ...none }
     }
     if (!installationRoot) return { state: 'installation_not_selected', ...none }
     const bridgeSha256 = await sha256OfFile(join(installationRoot, 'Binaries', 'xinput9_1_0.dll'))
     if (!bridgeSha256) return { state: 'bridge_missing', ...none }
+    const installed = {
+      bridgeSha256,
+      installedBridgeVersion: bridgeReleases[bridgeSha256] ?? null,
+      bridgeVersion
+    }
     if (!testedBridgeSha256.includes(bridgeSha256)) {
-      return { state: 'bridge_untested', processId: null, bridgeSha256 }
+      return { state: 'bridge_untested', processId: null, ...installed }
     }
     if (game.state !== 'running' || game.processId === null) {
-      return { state: 'game_not_running', processId: null, bridgeSha256 }
+      return { state: 'game_not_running', processId: null, ...installed }
     }
-    return { state: 'ready', processId: game.processId, bridgeSha256 }
+    return { state: 'ready', processId: game.processId, ...installed }
   }
 
   getOptions(feature: DeliveryFeatureId): Promise<DeliveryOption[]> {

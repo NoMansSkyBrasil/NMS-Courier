@@ -168,12 +168,35 @@ export function BridgePage(): React.JSX.Element {
             <CardTitle>{text.bridgeTitle}</CardTitle>
             <CardDescription>{text.bridgeHint}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm" role="status" aria-live="polite">
+          <CardContent className="flex flex-col gap-2 text-sm">
+            <p role="status" aria-live="polite">
               {bridge
                 ? formatMessage(copy.delivery.state[bridge.state], { id: bridge.processId ?? '' })
                 : copy.delivery.state.unavailable}
             </p>
+            {bridge && (
+              <>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-muted-foreground">{text.versionApp}</span>
+                  <Badge variant="outline">{bridge.appVersion}</Badge>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-muted-foreground">{text.versionBridge}</span>
+                  <Badge variant="outline">
+                    {bridge.bridgeSha256 === null
+                      ? text.versionNone
+                      : (bridge.installedBridgeVersion ?? text.versionOld)}
+                  </Badge>
+                </div>
+                {bridge.bridgeSha256 !== null && (
+                  <p className="text-muted-foreground">
+                    {bridge.installedBridgeVersion === bridge.bridgeVersion
+                      ? text.versionCurrent
+                      : formatMessage(text.versionOutdated, { version: bridge.bridgeVersion })}
+                  </p>
+                )}
+              </>
+            )}
           </CardContent>
         </Card>
       </div>
