@@ -17,6 +17,7 @@ const streamStructure = 'e40c0000545702401363b3a89568b4cc'
 const halfFloat = 5131
 const float = 5126
 const positionSemantic = 0
+const coordinateSemantic = 1
 const maximumMeshes = 8192
 // One mesh never comes near this in the game's ships, multi-tools and freighters.
 export const maximumMeshCount = 1_000_000
@@ -25,11 +26,20 @@ export type MeshStream = {
   // x y z per vertex, and three vertex numbers per triangle.
   positions: Float32Array
   indices: Uint32Array
+  // u v per vertex (first row of a texture is v = 0), or null when the mesh has none.
+  coordinates: Float32Array | null
   low: [number, number, number]
   high: [number, number, number]
 }
 
-type Layout = { separate: boolean; offset: number; type: number; stride: number }
+type Layout = {
+  separate: boolean
+  offset: number
+  type: number
+  stride: number
+  // Offset and type of the texture coordinates in the same vertex, when present.
+  coordinates: { offset: number; type: number } | null
+}
 
 function halfToFloat(value: number): number {
   const exponent = (value >> 10) & 0x1f
@@ -55,7 +65,19 @@ function positionLayout(description: Buffer): Layout {
       if ((type !== halfFloat && type !== float) || description[element + 11] < 3 || stride < 6) {
         throw new ModelFileError('unknown_structure')
       }
-      return { separate, offset: description[element + 9], type, stride }
+      let coordinates: Layout['coordinates'] = null
+      for (let other = 0; other < elements.count; other += 1) {
+        const candidate = elements.start + other * 12
+        const candidateType = description.readUInt32LE(candidate + 4)
+        if (
+          description[candidate + 10] === coordinateSemantic &&
+          (candidateType === halfFloat || candidateType === float) &&
+          description[candidate + 11] >= 2
+        ) {
+          coordinates = { offset: description[candidate + 9], type: candidateType }
+        }
+      }
+      return { separate, offset: description[element + 9], type, stride, coordinates }
     }
   }
   throw new ModelFileError('unknown_structure')
@@ -133,7 +155,21 @@ export function readMeshStreams(description: Buffer, streams: Buffer): Map<numbe
       if (value >= count) throw new ModelFileError('corrupt_file')
       indices[index] = value
     }
-    result.set(hash, { positions, indices, low, high })
+    let coordinates: Float32Array | null = null
+    if (layout.coordinates) {
+      coordinates = new Float32Array(count * 2)
+      for (let vertex = 0; vertex < count; vertex += 1) {
+        const at = source + vertex * layout.stride + layout.coordinates.offset
+        for (let axis = 0; axis < 2; axis += 1) {
+          const value =
+            layout.coordinates.type === halfFloat
+              ? halfToFloat(streams.readUInt16LE(at + axis * 2))
+              : streams.readFloatLE(at + axis * 4)
+          coordinates[vertex * 2 + axis] = Number.isFinite(value) ? value : 0
+        }
+      }
+    }
+    result.set(hash, { positions, indices, low, high, coordinates })
   }
   return result
 }

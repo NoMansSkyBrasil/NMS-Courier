@@ -425,7 +425,16 @@ export const enUS: Messages = {
       'Choose the type, the parts and the main colour. The application looks for a seed that has them and shows it.',
     viewDescription:
       'Choose the type and type a seed, or draw a random one, to see what it looks like.',
-    colorTitle: 'Main paint colour',
+    colorTitle: 'Colours',
+    roles: {
+      primary: 'Main colour',
+      secondary: 'Second colour',
+      decal1: 'Decal colour 1',
+      decal2: 'Decal colour 2'
+    },
+    baseTextureTitle: 'Base texture',
+    baseTexture: { COATING: 'Coating', PAINTED: 'Painted', PANELS: 'Metal' },
+    seedTexturesTitle: 'Textures and decals of this seed',
     colorHint: "The colours of the game's paint palette. Any leaves the choice to the seed.",
     seedColorsTitle: 'Colours of this seed',
     paintLabel: 'Paint',
@@ -459,7 +468,7 @@ export const enUS: Messages = {
     anyPart: 'Any',
     rare: 'rare',
     detailsTitle: 'Details drawn by the seed',
-    note: "The model is read from your own game files. Shapes follow the seed. Colours are shown for painted starships only and are approximate: the game's textures and decals are not drawn yet. Nothing here was compared with the game seed by seed yet.",
+    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified. For one known seed all of this equals the result of an independent tool, but nothing was compared with the running game yet. Freighters are shown without their colours, which come from the star system.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Select the game folder first, in Bridge.',
       UNKNOWN_KIND: 'This type is not available.',

@@ -444,7 +444,16 @@ export const nlNL: Messages = {
       'Kies het type, de onderdelen en de hoofdkleur. De toepassing zoekt een seed die ze heeft en toont die.',
     viewDescription:
       'Kies het type en typ een seed, of trek er een willekeurig, om te zien hoe die eruitziet.',
-    colorTitle: 'Hoofdkleur van de lak',
+    colorTitle: 'Kleuren',
+    roles: {
+      primary: 'Hoofdkleur',
+      secondary: 'Tweede kleur',
+      decal1: 'Stickerkleur 1',
+      decal2: 'Stickerkleur 2'
+    },
+    baseTextureTitle: 'Basistextuur',
+    baseTexture: { COATING: 'Coating', PAINTED: 'Gelakt', PANELS: 'Metaal' },
+    seedTexturesTitle: 'Texturen en stickers van deze seed',
     colorHint: 'De kleuren van het lakpalet van het spel. Willekeurig laat de keuze aan de seed.',
     seedColorsTitle: 'Kleuren van deze seed',
     paintLabel: 'Lak',
@@ -478,7 +487,7 @@ export const nlNL: Messages = {
     anyPart: 'Willekeurig',
     rare: 'zeldzaam',
     detailsTitle: 'Details die de seed heeft getrokken',
-    note: 'Het model wordt uit je eigen spelbestanden gelezen. De vorm volgt de seed. Kleuren worden alleen voor gelakte sterrenschepen getoond en zijn bij benadering: de texturen en stickers van het spel worden nog niet getekend. Niets hiervan is al seed voor seed met het spel vergeleken.',
+    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd. Voor één bekende seed komt dit alles overeen met het resultaat van een onafhankelijk hulpmiddel, maar er is nog niets met het draaiende spel vergeleken. Vrachtschepen worden getoond zonder hun kleuren, die van het sterrenstelsel komen.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecteer eerst de spelmap, bij Brug.',
       UNKNOWN_KIND: 'Dit type is niet beschikbaar.',

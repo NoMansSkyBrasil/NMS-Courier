@@ -66,7 +66,7 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     }
   }, 120_000)
 
-  it('offers nested groups and finds a seed for chosen parts and paint', async () => {
+  it('offers nested groups and finds a seed for chosen parts, colours and base texture', async () => {
     const choices = service.choices('starship', 'fighter')
     expect(choices.state).toBe('listed')
     if (choices.state !== 'listed') return
@@ -78,8 +78,11 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
       { parent: '', group: '_WINGS_', id: wings.id },
       { parent: nested.parent, group: nested.group, id: nested.options[0].id }
     ]
-    const paint = choices.paintColors[3]
-    const found = await service.findSeed('starship', 'fighter', wanted, paint)
+    const primary = choices.paintColors[3]
+    const found = await service.findSeed('starship', 'fighter', wanted, {
+      colors: { primary },
+      baseTexture: 'PAINTED'
+    })
     expect(found.state).toBe('found')
     if (found.state !== 'found') return
     const built = service.build('starship', 'fighter', found.seed)
@@ -90,8 +93,46 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
         true
       )
     }
-    expect(built.paint?.paint[0].slice(0, 3)).toEqual(paint.slice(0, 3))
-  }, 60_000)
+    expect(built.paint?.primary.slice(0, 3)).toEqual(primary.slice(0, 3))
+    expect(built.textures.find((row) => row.layer === 'BASE' && row.group === '')?.name).toBe(
+      'PAINTED'
+    )
+  }, 90_000)
+
+  // What the community customizer at nms.center shows for this seed (read on 2026-10-08): its
+  // parts, its five colours with their palette numbers, and its texture and decal choices.
+  it('agrees with an independent tool on a known fighter seed', () => {
+    const built = service.build('starship', 'fighter', '0x5EEDC0DE70FAE007')
+    expect(built.state).toBe('built')
+    if (built.state !== 'built') return
+    expect(built.parts.map((part) => part.id).join(' ')).toBe(
+      '_ENGINE_B _WINGS_A _ACC_A _COCKPIT_A _ANOSE_A _NOSEA_BASELOD0 _LOGO1_A2 _NUMBER4_A4 _NUMBER3_A3 _LOGO2_A3 _NUMBER2_A3 _NUMBER1_A2'
+    )
+    const near = (color: readonly number[] | undefined, expected: number[]): void => {
+      expect(color).toBeDefined()
+      expected.forEach((value, index) => expect(color![index]).toBeCloseTo(value, 5))
+    }
+    near(built.paint?.primary, [0.976471, 0.92549, 0.066667])
+    near(built.paint?.secondary, [0.901961, 0.901961, 0.901961])
+    near(built.paint?.undercoat, [0.435294, 0.447059, 0.435294])
+    near(built.paint?.decal1, [0.243137, 0.560784, 0.792157])
+    near(built.paint?.decal2, [1, 0.87451, 0.709804])
+    const chosen = Object.fromEntries(
+      built.textures.map((row) => [`${row.layer}/${row.group}`, row.name])
+    )
+    expect(chosen).toMatchObject({
+      'BASE/': 'PAINTED',
+      'PAINT/': 'PANELS',
+      'BASE/DECALLET': 'A1',
+      'BASE/DECALNUMBER': 'C9',
+      'BASE/DECALLOGO': 'L',
+      'BASE/DECALSMALLSIGN': 'C'
+    })
+    expect(built.surfaces.length).toBeGreaterThan(10)
+    const texture = built.surfaces[0].layers[0].texture
+    expect(service.texture(texture)?.subarray(0, 4).toString('latin1')).toBe('DDS ')
+    expect(service.texture('textures/not/of/this/model.dds')).toBeNull()
+  })
 
   it('draws the same paint as the full palette port', () => {
     const data = files.read('metadata/simulation/solarsystem/colours/basecolourpalettes.mbin')

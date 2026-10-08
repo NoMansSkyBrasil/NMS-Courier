@@ -2,6 +2,7 @@ import { readMeshStreams } from './geometry-streams'
 import type { MeshStream } from './geometry-streams'
 import type { ModelFiles } from './game-model-files'
 import { readSceneGraph } from './scene-graph'
+import { readMaterialDiffuse } from './texture-list'
 import type { SceneNode } from './scene-graph'
 
 // Builds a binary glTF model from a game scene: the scene's nodes and transforms, the scenes it
@@ -13,8 +14,12 @@ import type { SceneNode } from './scene-graph'
 const maximumBytes = 64 * 1024 * 1024
 const maximumElements = 12_000_000
 const referenceDepth = 3
-// Meshes that would hide the model or repeat it: shield bubbles, shadow casters, lower detail levels.
-const excluded = /SHIELD|SHADOW|LOD[1-9]/i
+// Meshes that would hide the model or repeat it: shield bubbles and shadow casters (by material),
+// lower detail levels (by name), and engine exhaust, which the game draws as light, not as a solid.
+const excludedMaterial = /SHIELD|SHADOW|ENGINEJET|JET_MAT|ENGINEGLOWPOLY|ENGINEFLARE/i
+// Scenes of pure effects (exhaust, smoke, light) are not part of a model's shape.
+const effectScene = /^models.effects./i
+const excludedName = /SHADOW|FXSPHERE|LOD[1-9]/i
 
 export class SceneModelError extends Error {
   constructor(readonly reason: 'scene_unavailable' | 'model_too_large' | 'no_geometry') {
@@ -50,6 +55,36 @@ function paintFor(name: string, paint: ScenePaint): number[] | null {
   return /METAL|TRIM|PIPING|RUBBER/.test(name) ? [0.16, 0.17, 0.19, 1] : null
 }
 
+// One material of a built model, in the order materials are first met while walking the model:
+// its number in the model, its game path and the diffuse texture it names.
+export type SceneSurface = { material: number; path: string; name: string; diffuse: string | null }
+
+// What was left out while a model was built, for checks: nothing here stops the build.
+export type SceneModelReport = {
+  missingScenes: string[]
+  depthLimited: string[]
+  unreadableGeometry: string[]
+  meshesWithoutStream: string[]
+  excludedMeshes: string[]
+  otherLevelMeshes: number
+  meshes: number
+  // Names of every node that was kept, upper-cased.
+  nodeNames: Set<string>
+}
+
+export function emptySceneModelReport(): SceneModelReport {
+  return {
+    missingScenes: [],
+    depthLimited: [],
+    unreadableGeometry: [],
+    meshesWithoutStream: [],
+    excludedMeshes: [],
+    otherLevelMeshes: 0,
+    meshes: 0,
+    nodeNames: new Set()
+  }
+}
+
 type GlbNode = {
   name: string
   translation?: number[]
@@ -83,7 +118,9 @@ export function buildSceneModel(
   files: ModelFiles,
   scenePath: string,
   included: ((nodeName: string) => boolean) | null,
-  paint: ScenePaint | null = null
+  paint: ScenePaint | null = null,
+  report: SceneModelReport | null = null,
+  surfaces: SceneSurface[] | null = null
 ): Uint8Array {
   const nodes: GlbNode[] = []
   const meshes: object[] = []
@@ -96,6 +133,8 @@ export function buildSceneModel(
   const materialIndex = new Map<string, number>()
   const meshIndex = new Map<string, number>()
   const accessorIndex = new Map<string, number>()
+  // First accessors of the meshes that carry texture coordinates.
+  const textured = new Set<number>()
   const sceneCache = new Map<string, { root: SceneNode; geometry: string | null } | null>()
   const streamCache = new Map<string, Map<number, MeshStream> | null>()
 
@@ -118,7 +157,8 @@ export function buildSceneModel(
     const glow = /GLOW|BLINK/.test(name) || /^(LIGHT|HQLIGHT|HQWHITELIGHT|HEADLIGHT)/.test(name)
     const painted = paint && !glow ? paintFor(name, paint) : null
     materials.push({
-      name,
+      // The number makes the name unique: the interface finds a material by it.
+      name: `${materials.length}:${name}`,
       pbrMetallicRoughness: {
         baseColorFactor: painted ?? (glow ? [0.95, 0.85, 0.6, 1] : [0.62, 0.64, 0.68, 1]),
         metallicFactor: 0.1,
@@ -126,6 +166,16 @@ export function buildSceneModel(
       }
     })
     materialIndex.set(key, materials.length - 1)
+    if (surfaces) {
+      let diffuse: string | null = null
+      try {
+        const data = files.read(key)
+        diffuse = data ? readMaterialDiffuse(data) : null
+      } catch {
+        diffuse = null
+      }
+      surfaces.push({ material: materials.length - 1, path: key, name, diffuse })
+    }
     return materials.length - 1
   }
 
@@ -160,12 +210,29 @@ export function buildSceneModel(
       elements += count + stream.indices.length
       if (elements > maximumElements) throw new SceneModelError('model_too_large')
       first = accessors.length - 2
+      if (stream.coordinates) {
+        accessors.push({
+          bufferView: view(
+            Buffer.from(
+              stream.coordinates.buffer,
+              stream.coordinates.byteOffset,
+              stream.coordinates.byteLength
+            ),
+            34962
+          ),
+          componentType: 5126,
+          count,
+          type: 'VEC2'
+        })
+        elements += count
+        textured.add(first)
+      }
       accessorIndex.set(`${geometry}|${hash}`, first)
     }
+    const attributes: Record<string, number> = { POSITION: first }
+    if (textured.has(first)) attributes.TEXCOORD_0 = first + 2
     meshes.push({
-      primitives: [
-        { attributes: { POSITION: first }, indices: first + 1, material: materialNumber }
-      ]
+      primitives: [{ attributes, indices: first + 1, material: materialNumber }]
     })
     meshIndex.set(key, meshes.length - 1)
     return meshes.length - 1
@@ -195,9 +262,10 @@ export function buildSceneModel(
             base,
             description && streams ? readMeshStreams(description, streams) : null
           )
-        } catch {
+        } catch (error) {
           // A part whose geometry cannot be read is left out; the rest of the model is still shown.
           streamCache.set(base, null)
+          report?.unreadableGeometry.push(`${base}: ${String(error)}`)
         }
       }
       geometry = streamCache.get(base) ? base : null
@@ -217,8 +285,14 @@ export function buildSceneModel(
     const material_ = node.attributes.MATERIAL ?? 'UNKNOWN'
     if (node.type === 'COLLISION') return null
     if (node.type === 'MESH') {
-      if (Number.parseInt(node.attributes.LODLEVEL || '0', 10) !== 0) return null
-      if (excluded.test(`${node.name}|${material_}`)) return null
+      if (Number.parseInt(node.attributes.LODLEVEL || '0', 10) !== 0) {
+        if (report) report.otherLevelMeshes += 1
+        return null
+      }
+      if (excludedName.test(node.name) || excludedMaterial.test(material_.slice(-48))) {
+        report?.excludedMeshes.push(`${node.name}|${material_.slice(-40)}`)
+        return null
+      }
     }
     const record: GlbNode = { name: top ? (node.name.split('\\').pop() ?? node.name) : node.name }
     if (node.translation.some((value) => value !== 0)) record.translation = node.translation
@@ -228,20 +302,33 @@ export function buildSceneModel(
     if (node.scale.some((value) => value !== 1)) record.scale = node.scale
     const index = nodes.length
     nodes.push(record)
+    report?.nodeNames.add(node.name.toUpperCase())
     const children: number[] = []
     if (node.type === 'MESH' && geometry) {
       const made = mesh(geometry, node.nameHash, material(material_))
-      if (made !== null) record.mesh = made
-    } else if (node.type === 'REFERENCE' && depth < referenceDepth) {
+      if (made !== null) {
+        record.mesh = made
+        if (report) report.meshes += 1
+      } else report?.meshesWithoutStream.push(node.name)
+    }
+    // A reference's own children are walked before the scene it refers to. The order materials
+    // are first met decides how texture layers merge, and this order is the one that reproduces
+    // a known seed's texture choices (docs/MODEL_WORKSHOP.md).
+    for (const child of node.children) {
+      const inner = emit(child, geometry, depth, false)
+      if (inner !== null) children.push(inner)
+    }
+    if (node.type === 'REFERENCE' && effectScene.test(node.attributes.SCENEGRAPH ?? '')) {
+      // Left out on purpose.
+    } else if (node.type === 'REFERENCE' && depth >= referenceDepth) {
+      report?.depthLimited.push(node.attributes.SCENEGRAPH ?? '')
+    } else if (node.type === 'REFERENCE') {
       const loaded = scene(node.attributes.SCENEGRAPH ?? '')
+      if (!loaded) report?.missingScenes.push(node.attributes.SCENEGRAPH ?? '')
       if (loaded) {
         const inner = emit(loaded.root, loaded.geometry, depth + 1, true)
         if (inner !== null) children.push(inner)
       }
-    }
-    for (const child of node.children) {
-      const inner = emit(child, geometry, depth, false)
-      if (inner !== null) children.push(inner)
     }
     if (children.length) record.children = children
     return index

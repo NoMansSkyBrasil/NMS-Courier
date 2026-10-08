@@ -433,7 +433,16 @@ export const ptBR: Messages = {
     buildDescription:
       'Escolha o tipo, as peças e a cor principal. O aplicativo procura uma seed que as tenha e mostra o resultado.',
     viewDescription: 'Escolha o tipo e digite uma seed, ou sorteie uma, para ver como ela é.',
-    colorTitle: 'Cor principal da pintura',
+    colorTitle: 'Cores',
+    roles: {
+      primary: 'Cor principal',
+      secondary: 'Cor secundária',
+      decal1: 'Cor de decalque 1',
+      decal2: 'Cor de decalque 2'
+    },
+    baseTextureTitle: 'Textura base',
+    baseTexture: { COATING: 'Revestimento', PAINTED: 'Pintado', PANELS: 'Metal' },
+    seedTexturesTitle: 'Texturas e decalques desta seed',
     colorHint: 'As cores da paleta de pintura do jogo. Qualquer deixa a escolha para a seed.',
     seedColorsTitle: 'Cores desta seed',
     paintLabel: 'Pintura',
@@ -467,7 +476,7 @@ export const ptBR: Messages = {
     anyPart: 'Qualquer',
     rare: 'rara',
     detailsTitle: 'Detalhes sorteados pela seed',
-    note: 'O modelo é lido dos seus próprios arquivos do jogo. O formato segue a seed. As cores aparecem só nas naves pintadas e são aproximadas: as texturas e os decalques do jogo ainda não são desenhados. Nada aqui foi comparado com o jogo seed por seed ainda.',
+    note: 'O modelo é lido dos seus próprios arquivos do jogo. Peças, camadas de textura, decalques e cores seguem a seed; iluminação e efeitos de material são simplificados. Para uma seed conhecida, tudo isso é igual ao resultado de uma ferramenta independente, mas nada foi comparado ainda com o jogo rodando. Cargueiros aparecem sem suas cores, que vêm do sistema estelar.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecione primeiro a pasta do jogo, em Ponte.',
       UNKNOWN_KIND: 'Este tipo não está disponível.',

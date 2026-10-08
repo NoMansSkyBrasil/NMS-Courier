@@ -435,7 +435,16 @@ export const esES: Messages = {
     buildDescription:
       'Elige el tipo, las piezas y el color principal. La aplicación busca una semilla que los tenga y la muestra.',
     viewDescription: 'Elige el tipo y escribe una semilla, o sortea una, para ver cómo es.',
-    colorTitle: 'Color principal de la pintura',
+    colorTitle: 'Colores',
+    roles: {
+      primary: 'Color principal',
+      secondary: 'Color secundario',
+      decal1: 'Color de calcomanía 1',
+      decal2: 'Color de calcomanía 2'
+    },
+    baseTextureTitle: 'Textura base',
+    baseTexture: { COATING: 'Revestimiento', PAINTED: 'Pintado', PANELS: 'Metal' },
+    seedTexturesTitle: 'Texturas y calcomanías de esta semilla',
     colorHint:
       'Los colores de la paleta de pintura del juego. Cualquiera deja la elección a la semilla.',
     seedColorsTitle: 'Colores de esta semilla',
@@ -470,7 +479,7 @@ export const esES: Messages = {
     anyPart: 'Cualquiera',
     rare: 'rara',
     detailsTitle: 'Detalles sorteados por la semilla',
-    note: 'El modelo se lee de tus propios archivos del juego. La forma sigue la semilla. Los colores solo se muestran en las naves pintadas y son aproximados: las texturas y calcomanías del juego aún no se dibujan. Nada de esto se ha comparado todavía con el juego semilla por semilla.',
+    note: 'El modelo se lee de tus propios archivos del juego. Las piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados. Para una semilla conocida, todo esto coincide con el resultado de una herramienta independiente, pero nada se ha comparado todavía con el juego en ejecución. Los cargueros se muestran sin sus colores, que proceden del sistema estelar.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecciona primero la carpeta del juego, en Puente.',
       UNKNOWN_KIND: 'Este tipo no está disponible.',

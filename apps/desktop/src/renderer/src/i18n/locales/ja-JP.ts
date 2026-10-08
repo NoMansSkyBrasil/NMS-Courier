@@ -430,7 +430,16 @@ export const jaJP: Messages = {
     buildDescription:
       '種類、パーツ、メインカラーを選びます。その組み合わせを持つシード値をアプリが探して表示します。',
     viewDescription: '種類を選び、シード値を入力するかランダムに生成して、見た目を確認します。',
-    colorTitle: '塗装のメインカラー',
+    colorTitle: '色',
+    roles: {
+      primary: 'メインカラー',
+      secondary: 'サブカラー',
+      decal1: 'デカールカラー 1',
+      decal2: 'デカールカラー 2'
+    },
+    baseTextureTitle: 'ベーステクスチャ',
+    baseTexture: { COATING: 'コーティング', PAINTED: '塗装', PANELS: 'メタル' },
+    seedTexturesTitle: 'このシード値のテクスチャとデカール',
     colorHint: 'ゲームの塗装パレットの色です。「指定なし」はシード値に任せます。',
     seedColorsTitle: 'このシード値の色',
     paintLabel: '塗装',
@@ -464,7 +473,7 @@ export const jaJP: Messages = {
     anyPart: '指定なし',
     rare: 'レア',
     detailsTitle: 'シード値が決めた細部',
-    note: 'モデルはお使いのゲームファイルから読み込みます。形状はシード値に従います。色は塗装された宇宙船にのみ表示され、近似です。ゲームのテクスチャとデカールはまだ描画されません。ここにあるものは、まだシード値ごとにゲームと照合されていません。',
+    note: 'モデルはお使いのゲームファイルから読み込みます。パーツ、テクスチャレイヤー、デカール、色はシード値に従います。照明とマテリアル効果は簡略化されています。既知のシード値 1 つについては独立したツールの結果と一致していますが、実行中のゲームとはまだ照合していません。貨物船は色なしで表示されます（色は星系で決まるため）。',
     errors: {
       INSTALLATION_NOT_SELECTED: '先に「ブリッジ」でゲームフォルダを選択してください。',
       UNKNOWN_KIND: 'この種類は利用できません。',

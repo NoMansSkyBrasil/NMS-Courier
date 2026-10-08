@@ -3,6 +3,8 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
+import type { WorkshopSurface } from '../../../shared/model-workshop'
+import { paintSurface } from '@renderer/lib/model-surface-painter'
 
 export type PreviewPart = { id: string; name: string }
 type Props = {
@@ -11,6 +13,12 @@ type Props = {
   tint: string | null
   partColors: ReadonlyMap<string, PreviewColor>
   reset: number
+  // How the model's materials are painted, and where a game texture's bytes come from. Both are
+  // read once, when the model is loaded.
+  surfaces?: readonly WorkshopSurface[]
+  fetchTexture?: (texture: string) => Promise<Uint8Array | null>
+  // A taller view, for the workshop's own models.
+  tall?: boolean
   onLoaded: (parts: PreviewPart[]) => void
   onError: () => void
 }
@@ -26,11 +34,18 @@ export function ModelPreviewCanvas({
   tint,
   partColors,
   reset,
+  surfaces,
+  fetchTexture,
+  tall,
   onLoaded,
   onError
 }: Props): React.JSX.Element {
   const host = useRef<HTMLDivElement>(null)
   const controller = useRef<Controller | null>(null)
+  const painting = useRef({ surfaces, fetchTexture })
+  useEffect(() => {
+    painting.current = { surfaces, fetchTexture }
+  })
   useEffect(() => {
     const container = host.current!
     let active = true
@@ -39,6 +54,7 @@ export function ModelPreviewCanvas({
     let observer: ResizeObserver | undefined
     let controls: OrbitControls | undefined
     let root: THREE.Group | undefined
+    const painted = new Set<THREE.Texture>()
     const disposeModel = (group: THREE.Group): void => {
       const geometries = new Set<THREE.BufferGeometry>()
       const materials = new Set<THREE.Material>()
@@ -50,6 +66,11 @@ export function ModelPreviewCanvas({
       })
       geometries.forEach((geometry) => geometry.dispose())
       materials.forEach((material) => material.dispose())
+      painted.forEach((texture) => {
+        ;(texture.image as ImageBitmap | undefined)?.close?.()
+        texture.dispose()
+      })
+      painted.clear()
     }
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
@@ -140,6 +161,58 @@ export function ModelPreviewCanvas({
           }
           controller.current = { meshes, colors, fit }
           fit()
+          // Paint the materials one after another; the model is already on screen in plain colours.
+          const { surfaces: plans, fetchTexture: fetch } = painting.current
+          if (plans?.length && fetch) {
+            const byNumber = new Map<number, THREE.MeshStandardMaterial[]>()
+            for (const material of colors.keys()) {
+              const number = Number.parseInt(material.name, 10)
+              if (!(material instanceof THREE.MeshStandardMaterial) || Number.isNaN(number))
+                continue
+              byNumber.set(number, [...(byNumber.get(number) ?? []), material])
+            }
+            void (async () => {
+              const pictures = new Map<string, THREE.Texture | null>()
+              for (const plan of plans) {
+                const targets = byNumber.get(plan.material)
+                if (!targets?.length) continue
+                const key = JSON.stringify([plan.layers, plan.cutout])
+                if (!pictures.has(key)) {
+                  const bitmap = await paintSurface(plan.layers, plan.cutout, fetch).catch(
+                    () => null
+                  )
+                  if (!active) {
+                    bitmap?.close()
+                    return
+                  }
+                  let texture: THREE.Texture | null = null
+                  if (bitmap) {
+                    texture = new THREE.Texture(bitmap)
+                    texture.colorSpace = THREE.SRGBColorSpace
+                    texture.wrapS = THREE.RepeatWrapping
+                    texture.wrapT = THREE.RepeatWrapping
+                    texture.flipY = false
+                    texture.needsUpdate = true
+                    painted.add(texture)
+                  }
+                  pictures.set(key, texture)
+                }
+                const texture = pictures.get(key)
+                if (!texture) continue
+                for (const material of targets) {
+                  material.map = texture
+                  material.color.setRGB(1, 1, 1)
+                  colors.set(material, material.color.clone())
+                  if (plan.cutout) {
+                    material.alphaTest = 0.5
+                    material.polygonOffset = true
+                    material.polygonOffsetFactor = -1
+                  }
+                  material.needsUpdate = true
+                }
+              }
+            })()
+          }
           onLoaded(
             meshes.map((mesh, index) => ({ id: mesh.uuid, name: mesh.name || `Mesh ${index + 1}` }))
           )
@@ -192,5 +265,10 @@ export function ModelPreviewCanvas({
   useEffect(() => {
     controller.current?.fit()
   }, [reset])
-  return <div ref={host} className="h-[440px] w-full overflow-hidden rounded-md border" />
+  return (
+    <div
+      ref={host}
+      className={`${tall ? 'h-[600px]' : 'h-[440px]'} w-full overflow-hidden rounded-md border`}
+    />
+  )
 }

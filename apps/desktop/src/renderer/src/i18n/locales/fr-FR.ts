@@ -449,7 +449,16 @@ export const frFR: Messages = {
       'Choisissez le type, les pièces et la couleur principale. L’application cherche une graine qui les possède et l’affiche.',
     viewDescription:
       'Choisissez le type et saisissez une graine, ou tirez-en une au hasard, pour voir à quoi elle ressemble.',
-    colorTitle: 'Couleur principale de la peinture',
+    colorTitle: 'Couleurs',
+    roles: {
+      primary: 'Couleur principale',
+      secondary: 'Couleur secondaire',
+      decal1: 'Couleur de décalcomanie 1',
+      decal2: 'Couleur de décalcomanie 2'
+    },
+    baseTextureTitle: 'Texture de base',
+    baseTexture: { COATING: 'Revêtement', PAINTED: 'Peint', PANELS: 'Métal' },
+    seedTexturesTitle: 'Textures et décalcomanies de cette graine',
     colorHint:
       'Les couleurs de la palette de peinture du jeu. Indifférent laisse le choix à la graine.',
     seedColorsTitle: 'Couleurs de cette graine',
@@ -484,7 +493,7 @@ export const frFR: Messages = {
     anyPart: 'Indifférent',
     rare: 'rare',
     detailsTitle: 'Détails tirés par la graine',
-    note: 'Le modèle est lu dans vos propres fichiers du jeu. La forme suit la graine. Les couleurs ne sont affichées que pour les vaisseaux peints et sont approximatives : les textures et décalcomanies du jeu ne sont pas encore dessinées. Rien ici n’a encore été comparé au jeu graine par graine.',
+    note: 'Le modèle est lu dans vos propres fichiers du jeu. Les pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matière sont simplifiés. Pour une graine connue, tout cela est identique au résultat d’un outil indépendant, mais rien n’a encore été comparé au jeu en cours d’exécution. Les cargos sont affichés sans leurs couleurs, qui viennent du système stellaire.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Sélectionnez d’abord le dossier du jeu, dans Passerelle.',
       UNKNOWN_KIND: 'Ce type n’est pas disponible.',

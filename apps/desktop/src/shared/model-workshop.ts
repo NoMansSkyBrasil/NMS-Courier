@@ -71,8 +71,30 @@ export type WorkshopPartGroup = {
 export type WorkshopWantedPart = { parent: string; group: string; id: string }
 
 export type WorkshopColor = [number, number, number, number]
-// The paint a seed draws: five samples each, the first being the main one.
-export type WorkshopPaint = { paint: WorkshopColor[]; undercoat: WorkshopColor[] }
+// The paint a seed draws, by the role each sample plays on a painted starship. The roles were
+// read off a known seed (docs/MODEL_WORKSHOP.md): of the five paint samples the first is the main
+// colour, the fourth the second colour, the third and second the two decal colours.
+export type WorkshopPaint = {
+  primary: WorkshopColor
+  secondary: WorkshopColor
+  undercoat: WorkshopColor
+  decal1: WorkshopColor
+  decal2: WorkshopColor
+}
+export const workshopPaintRoles = ['primary', 'secondary', 'undercoat', 'decal1', 'decal2'] as const
+export type WorkshopPaintRole = (typeof workshopPaintRoles)[number]
+
+// What a seed chose for one texture layer of the model (for example layer "BASE": "PAINTED").
+export type WorkshopTextureChoice = { layer: string; group: string; name: string }
+
+// How one material of the model is painted: its number in the model, whether it is a decal (shown
+// only where its texture is opaque), and its layers from top to bottom, each a game texture with
+// the colour it is tinted to.
+export type WorkshopSurface = {
+  material: number
+  cutout: boolean
+  layers: { texture: string; tint: [number, number, number] | null }[]
+}
 
 export type WorkshopFailure =
   | 'INSTALLATION_NOT_SELECTED'
@@ -89,17 +111,31 @@ export type WorkshopModelResult =
       model: PreviewModel
       parts: WorkshopPart[]
       paint: WorkshopPaint | null
+      textures: WorkshopTextureChoice[]
+      surfaces: WorkshopSurface[]
     }
   | { state: 'failed'; reason: WorkshopFailure }
 
 // What can be chosen for a kind: the part groups and, where the kind is painted from the game's
-// paint palette, its distinct colours.
+// paint palette, the distinct colours of the paint and undercoat palettes and the base textures.
 export type WorkshopChoicesResult =
-  | { state: 'listed'; groups: WorkshopPartGroup[]; paintColors: WorkshopColor[] }
+  | {
+      state: 'listed'
+      groups: WorkshopPartGroup[]
+      paintColors: WorkshopColor[]
+      undercoatColors: WorkshopColor[]
+      baseTextures: string[]
+    }
   | { state: 'failed'; reason: WorkshopFailure }
 
 export type WorkshopSeedResult =
   { state: 'found'; seed: string; tried: number } | { state: 'failed'; reason: WorkshopFailure }
+
+// What the user wants of a seed besides parts: colours by role and the base texture.
+export type WorkshopWantedLook = {
+  colors: Partial<Record<WorkshopPaintRole, number[]>>
+  baseTexture: string | null
+}
 
 // Kinds whose hull takes the paint and undercoat palettes with the model seed. Freighters take
 // their colours from the star system, and the others have palettes of their own.

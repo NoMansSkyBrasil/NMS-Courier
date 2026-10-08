@@ -429,7 +429,16 @@ export const plPL: Messages = {
     buildDescription:
       'Wybierz typ, części i główny kolor. Aplikacja poszuka ziarna, które je ma, i je pokaże.',
     viewDescription: 'Wybierz typ i wpisz ziarno albo wylosuj je, aby zobaczyć, jak wygląda.',
-    colorTitle: 'Główny kolor lakieru',
+    colorTitle: 'Kolory',
+    roles: {
+      primary: 'Kolor główny',
+      secondary: 'Kolor dodatkowy',
+      decal1: 'Kolor naklejki 1',
+      decal2: 'Kolor naklejki 2'
+    },
+    baseTextureTitle: 'Tekstura bazowa',
+    baseTexture: { COATING: 'Powłoka', PAINTED: 'Lakierowana', PANELS: 'Metal' },
+    seedTexturesTitle: 'Tekstury i naklejki tego ziarna',
     colorHint: 'Kolory palety lakieru z gry. Dowolna zostawia wybór ziarnu.',
     seedColorsTitle: 'Kolory tego ziarna',
     paintLabel: 'Lakier',
@@ -463,7 +472,7 @@ export const plPL: Messages = {
     anyPart: 'Dowolna',
     rare: 'rzadka',
     detailsTitle: 'Szczegóły wylosowane przez ziarno',
-    note: 'Model jest odczytywany z twoich własnych plików gry. Kształt wynika z ziarna. Kolory są pokazywane tylko dla lakierowanych statków i są przybliżone: tekstury i naklejki z gry nie są jeszcze rysowane. Nic tutaj nie zostało jeszcze porównane z grą ziarno po ziarnie.',
+    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone. Dla jednego znanego ziarna wszystko to zgadza się z wynikiem niezależnego narzędzia, ale nic nie zostało jeszcze porównane z działającą grą. Frachtowce są pokazywane bez swoich kolorów, które zależą od układu gwiezdnego.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Najpierw wybierz folder gry w sekcji Most.',
       UNKNOWN_KIND: 'Ten typ jest niedostępny.',

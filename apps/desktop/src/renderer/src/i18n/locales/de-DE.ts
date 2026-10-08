@@ -451,7 +451,16 @@ export const deDE: Messages = {
       'Wähle Typ, Teile und Hauptfarbe. Die Anwendung sucht einen Seed, der sie hat, und zeigt ihn.',
     viewDescription:
       'Wähle den Typ und gib einen Seed ein oder würfle einen aus, um zu sehen, wie er aussieht.',
-    colorTitle: 'Hauptfarbe der Lackierung',
+    colorTitle: 'Farben',
+    roles: {
+      primary: 'Hauptfarbe',
+      secondary: 'Zweitfarbe',
+      decal1: 'Abziehbildfarbe 1',
+      decal2: 'Abziehbildfarbe 2'
+    },
+    baseTextureTitle: 'Grundtextur',
+    baseTexture: { COATING: 'Beschichtung', PAINTED: 'Lackiert', PANELS: 'Metall' },
+    seedTexturesTitle: 'Texturen und Abziehbilder dieses Seeds',
     colorHint: 'Die Farben der Lackpalette des Spiels. „Beliebig“ überlässt die Wahl dem Seed.',
     seedColorsTitle: 'Farben dieses Seeds',
     paintLabel: 'Lack',
@@ -485,7 +494,7 @@ export const deDE: Messages = {
     anyPart: 'Beliebig',
     rare: 'selten',
     detailsTitle: 'Vom Seed ausgeloste Details',
-    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Die Form folgt dem Seed. Farben werden nur für lackierte Raumschiffe gezeigt und sind Näherungen: Texturen und Abziehbilder des Spiels werden noch nicht gezeichnet. Nichts hiervon wurde bisher Seed für Seed mit dem Spiel verglichen.',
+    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturschichten, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht. Für einen bekannten Seed stimmt all das mit dem Ergebnis eines unabhängigen Werkzeugs überein, aber nichts wurde bisher mit dem laufenden Spiel verglichen. Frachter werden ohne ihre Farben gezeigt, die vom Sternsystem stammen.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Wähle zuerst unter „Brücke“ den Spielordner aus.',
       UNKNOWN_KIND: 'Dieser Typ ist nicht verfügbar.',

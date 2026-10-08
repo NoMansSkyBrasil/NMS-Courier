@@ -28,6 +28,22 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.11.0 (2026-10-08)
+
+- New: workshop models are painted with the game's own textures. The seed's
+  choice of texture layers and decals is evaluated, each layer is tinted with
+  its palette colour and the layers are drawn over one another.
+- New: the workshop shows a seed's five colours by role (main, second,
+  undercoat, two decal colours) and its texture and decal choices; "Build"
+  lets all five colours and the base texture be chosen.
+- Checked against an independent tool: for fighter seed
+  `0x5EEDC0DE70FAE007` the parts, the five colours and the six texture and
+  decal choices are the same as the community customizer at `nms.center`
+  shows. See `docs/MODEL_WORKSHOP.md`.
+- Fixed: the second colour was taken from the wrong palette sample.
+- Changed: engine exhaust and other effect scenes are left out of a model.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.10.0 (2026-10-08)
 
 - New: the model workshop no longer needs a model file. It reads the game's

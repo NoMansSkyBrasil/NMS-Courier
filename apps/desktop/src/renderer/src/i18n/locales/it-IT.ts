@@ -443,7 +443,16 @@ export const itIT: Messages = {
       'Scegli il tipo, i pezzi e il colore principale. L’applicazione cerca un seme che li abbia e lo mostra.',
     viewDescription:
       'Scegli il tipo e scrivi un seme, oppure estraine uno a caso, per vedere com’è.',
-    colorTitle: 'Colore principale della vernice',
+    colorTitle: 'Colori',
+    roles: {
+      primary: 'Colore principale',
+      secondary: 'Colore secondario',
+      decal1: 'Colore decalcomania 1',
+      decal2: 'Colore decalcomania 2'
+    },
+    baseTextureTitle: 'Texture di base',
+    baseTexture: { COATING: 'Rivestimento', PAINTED: 'Verniciato', PANELS: 'Metallo' },
+    seedTexturesTitle: 'Texture e decalcomanie di questo seme',
     colorHint: 'I colori della tavolozza di vernice del gioco. Qualsiasi lascia la scelta al seme.',
     seedColorsTitle: 'Colori di questo seme',
     paintLabel: 'Vernice',
@@ -477,7 +486,7 @@ export const itIT: Messages = {
     anyPart: 'Qualsiasi',
     rare: 'raro',
     detailsTitle: 'Dettagli estratti dal seme',
-    note: 'Il modello viene letto dai tuoi file di gioco. La forma segue il seme. I colori sono mostrati solo per le astronavi verniciate e sono approssimativi: texture e decalcomanie del gioco non vengono ancora disegnate. Nulla qui è stato ancora confrontato con il gioco seme per seme.',
+    note: 'Il modello viene letto dai tuoi file di gioco. Pezzi, strati di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati. Per un seme noto tutto questo è uguale al risultato di uno strumento indipendente, ma nulla è stato ancora confrontato con il gioco in esecuzione. I mercantili sono mostrati senza i loro colori, che dipendono dal sistema stellare.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Seleziona prima la cartella del gioco, in Ponte.',
       UNKNOWN_KIND: 'Questo tipo non è disponibile.',

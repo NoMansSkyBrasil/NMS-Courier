@@ -313,6 +313,10 @@ export type Messages = {
     buildDescription: string
     viewDescription: string
     colorTitle: string
+    roles: Record<'primary' | 'secondary' | 'decal1' | 'decal2', string>
+    baseTextureTitle: string
+    baseTexture: Record<'COATING' | 'PAINTED' | 'PANELS', string>
+    seedTexturesTitle: string
     colorHint: string
     seedColorsTitle: string
     paintLabel: string

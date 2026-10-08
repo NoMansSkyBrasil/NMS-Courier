@@ -3,7 +3,9 @@
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the
 > installation's own files (two screens, twenty types). Owner:
 > [model workshop](MODEL_WORKSHOP.md). Next there: compare one obtained
-> starship with its workshop model, then texture layers and decals.
+> starship with its workshop model. Application 1.11.0 paints models with
+> the game's textures; parts, colours and texture choices of one seed equal
+> an independent tool's.
 
 > Checkpoint 2026-10-08 (end of day): application 1.9.0, bridge 1.7.0
 > (`7b8a83be...0509`), data file `2f55b139...37d6` (eight starship kinds) in

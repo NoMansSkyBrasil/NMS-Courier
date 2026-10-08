@@ -417,7 +417,16 @@ export const koKR: Messages = {
     buildDescription:
       '종류, 부품, 주 색상을 고르세요. 앱이 그 조합을 가진 시드를 찾아 보여 줍니다.',
     viewDescription: '종류를 고르고 시드를 입력하거나 무작위로 뽑아 모습을 확인하세요.',
-    colorTitle: '도장 주 색상',
+    colorTitle: '색상',
+    roles: {
+      primary: '주 색상',
+      secondary: '보조 색상',
+      decal1: '데칼 색상 1',
+      decal2: '데칼 색상 2'
+    },
+    baseTextureTitle: '기본 텍스처',
+    baseTexture: { COATING: '코팅', PAINTED: '도장', PANELS: '금속' },
+    seedTexturesTitle: '이 시드의 텍스처와 데칼',
     colorHint: '게임의 도장 팔레트 색상입니다. 아무거나는 시드에 맡깁니다.',
     seedColorsTitle: '이 시드의 색상',
     paintLabel: '도장',
@@ -451,7 +460,7 @@ export const koKR: Messages = {
     anyPart: '아무거나',
     rare: '희귀',
     detailsTitle: '시드가 정한 세부 사항',
-    note: '모델은 사용자의 게임 파일에서 읽습니다. 형태는 시드를 따릅니다. 색상은 도장된 우주선에만 표시되며 근사치입니다. 게임의 텍스처와 데칼은 아직 그려지지 않습니다. 여기 있는 것은 아직 시드별로 게임과 비교하지 않았습니다.',
+    note: '모델은 사용자의 게임 파일에서 읽습니다. 부품, 텍스처 레이어, 데칼, 색상은 시드를 따르며 조명과 재질 효과는 단순화되어 있습니다. 알려진 시드 하나에 대해서는 이 모든 것이 독립적인 도구의 결과와 같지만, 실행 중인 게임과는 아직 비교하지 않았습니다. 화물선은 색상 없이 표시됩니다. 화물선의 색상은 항성계에서 정해집니다.',
     errors: {
       INSTALLATION_NOT_SELECTED: '먼저 브리지에서 게임 폴더를 선택하세요.',
       UNKNOWN_KIND: '이 종류는 사용할 수 없습니다.',

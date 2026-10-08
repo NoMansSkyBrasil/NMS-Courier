@@ -9,53 +9,67 @@ import type { PakArchive } from '../game-data/pak-archive'
 
 // Archives that hold scene graphs, part lists and geometry; texture and audio archives are skipped.
 const modelArchive = /^NMSARC\.(EntitySceneMBIN|Mesh[A-Za-z]*|Precache|MetadataEtc|Scenes)\.pak$/i
+// Archives that hold the textures of ships, multi-tools and freighters; planet and creature
+// texture archives are skipped.
+const textureArchive = /^NMSARC\.Tex(?!Biomes|Creature|Planet)[A-Za-z]*\.pak$/i
 const idleMilliseconds = 60_000
 
 export type ModelFiles = {
   // Contents of one game file by its game path (any case, either slash), or null when absent.
   read: (gamePath: string) => Buffer | null
+  readTexture: (gamePath: string) => Buffer | null
 }
 
+type OpenSet = { archives: PakArchive[]; owner: Map<string, PakArchive> }
+
 export class GameModelFiles implements ModelFiles {
-  private open: { root: string; archives: PakArchive[]; owner: Map<string, PakArchive> } | null =
-    null
+  private root: string | null = null
+  private sets = new Map<RegExp, OpenSet>()
   private idleTimer: NodeJS.Timeout | null = null
 
   constructor(private readonly installationRoot: () => string | null) {}
 
   read(gamePath: string): Buffer | null {
-    const root = this.installationRoot()
-    if (!root) return null
-    const name = gamePath.replace(/\\/g, '/').toLowerCase()
-    const owner = this.archives(root).get(name)
-    return owner ? owner.read(name) : null
+    return this.from(modelArchive, gamePath)
+  }
+
+  // A texture file; the texture archives are opened only when the first texture is asked for.
+  readTexture(gamePath: string): Buffer | null {
+    return this.from(textureArchive, gamePath)
   }
 
   close(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer)
     this.idleTimer = null
-    for (const archive of this.open?.archives ?? []) archive.close()
-    this.open = null
+    for (const set of this.sets.values()) for (const archive of set.archives) archive.close()
+    this.sets.clear()
   }
 
-  private archives(root: string): Map<string, PakArchive> {
-    if (this.open?.root !== root) {
+  private from(pattern: RegExp, gamePath: string): Buffer | null {
+    const root = this.installationRoot()
+    if (!root) return null
+    if (this.root !== root) {
       this.close()
+      this.root = root
+    }
+    let set = this.sets.get(pattern)
+    if (!set) {
       const folder = join(root, 'GAMEDATA', 'PCBANKS')
-      const archives: PakArchive[] = []
-      const owner = new Map<string, PakArchive>()
+      set = { archives: [], owner: new Map() }
       for (const file of readdirSync(folder).sort()) {
-        if (!modelArchive.test(file)) continue
+        if (!pattern.test(file)) continue
         const archive = openPakArchive(join(folder, file))
-        archives.push(archive)
+        set.archives.push(archive)
         // The first archive that names a file serves it.
-        for (const name of archive.names) if (!owner.has(name)) owner.set(name, archive)
+        for (const name of archive.names) if (!set.owner.has(name)) set.owner.set(name, archive)
       }
-      this.open = { root, archives, owner }
+      this.sets.set(pattern, set)
     }
     if (this.idleTimer) clearTimeout(this.idleTimer)
     this.idleTimer = setTimeout(() => this.close(), idleMilliseconds)
     this.idleTimer.unref()
-    return this.open.owner
+    const name = gamePath.split('\\').join('/').toLowerCase()
+    const owner = set.owner.get(name)
+    return owner ? owner.read(name) : null
   }
 }

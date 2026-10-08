@@ -236,13 +236,17 @@ app.whenReady().then(() => {
     const value = (request ?? {}) as Record<string, unknown>
     return getModelWorkshopService().build(value.category, value.kind, value.seed)
   })
+  // One texture of the model built last, as the game stores it; the renderer draws it.
+  ipcMain.handle('nms:workshop-texture', (_, path: unknown) =>
+    getModelWorkshopService().texture(path)
+  )
   ipcMain.handle('nms:workshop-choices', (_, request: unknown) => {
     const value = (request ?? {}) as Record<string, unknown>
     return getModelWorkshopService().choices(value.category, value.kind)
   })
   ipcMain.handle('nms:workshop-find-seed', (_, request: unknown) => {
     const value = (request ?? {}) as Record<string, unknown>
-    return getModelWorkshopService().findSeed(value.category, value.kind, value.parts, value.paint)
+    return getModelWorkshopService().findSeed(value.category, value.kind, value.parts, value.look)
   })
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
   ipcMain.handle('nms:get-game-status', () =>

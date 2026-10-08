@@ -13,8 +13,9 @@ const nms = {
     category: string
     kind: string
     parts: Array<{ parent: string; group: string; id: string }>
-    paint: number[] | null
+    look: { colors: Record<string, number[]>; baseTexture: string | null }
   }) => ipcRenderer.invoke('nms:workshop-find-seed', request),
+  workshopTexture: (path: string) => ipcRenderer.invoke('nms:workshop-texture', path),
   getFoundationStatus: (): Promise<{
     apiVersion: string
     runtime: 'bundled' | 'unavailable'

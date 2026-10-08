@@ -56,7 +56,7 @@ function allNever(list: PartList): boolean {
 
 // One step of the game's generator (low * 0x5A76F899 + carry, split into two 32-bit words),
 // done with plain numbers because a seed search takes it millions of times.
-function advance(state: [number, number]): [number, number] {
+export function advance(state: [number, number]): [number, number] {
   const low = state[0] & 0xffff
   const high = state[0] >>> 16
   const middle = high * 0xf899 + low * 0x5a76

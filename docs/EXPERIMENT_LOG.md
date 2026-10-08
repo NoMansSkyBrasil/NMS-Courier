@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-08: workshop texture choice equals an independent tool (application 1.11.0), offline
+
+Offline only; build 180836 files; no game process. Owning note:
+[model workshop](MODEL_WORKSHOP.md). The texture option selector was ported
+to the application and compared with what the community customizer at
+`nms.center` shows for fighter seed `0x5EEDC0DE70FAE007` (page read on
+2026-10-08, its default result; no request was sent to its server). Parts: all
+twelve equal. Colours: all five equal, with the same palette numbers. Texture
+and decal choices: three of six equal with the research order of texture
+lists, five of six once a reference's own children were walked before the
+scene it refers to, six of six once a node's own mesh was taken before its
+children. This settles two inputs the research had left as candidates: the
+texture seed is the model seed, and the order of texture lists is: a node's
+mesh, then its children, then the referenced scene. Rejected on the way:
+walking the referenced scene first (the research exporter's order) and
+counting hidden alternatives' materials. Not proven: the same for other
+seeds and types, and anything against the running game. One seed is one
+data point; it has twelve parts, five colours and six texture choices, all
+of which would have to agree by chance.
+
 ## 2026-10-08: model workshop reads the game's files (application 1.10.0), offline
 
 Offline only; no game process, bridge or save. Build 180836 files. Owning

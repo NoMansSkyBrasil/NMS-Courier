@@ -1,6 +1,6 @@
 # Model workshop
 
-Status on 2026-10-08: **implemented in application 1.10.0, offline only.** The
+Status on 2026-10-08: **implemented in application 1.11.0, offline only.** The
 workshop reads the selected installation's own archives and never touches the
 running game, the bridge or a save. Nothing here was compared with the running
 game seed by seed yet.
@@ -15,7 +15,7 @@ The page has three tabs.
 
 | Tab | What it does |
 | --- | --- |
-| Build | Choose category, type, parts and (for painted starships) the main paint colour. The application looks for a seed that has them and shows the model. |
+| Build | Choose category, type and parts and, for painted starships, any of the five colours and the base texture. The application looks for a seed that has them and shows the model. |
 | View a seed | Choose category and type, type a seed or draw a random one, and see the model, its paint colours and the parts it drew. |
 | Model file | The earlier tools for a GLB file the user brings (part visibility, tints, palettes, appearance recipes). |
 
@@ -80,7 +80,9 @@ Everything is in `apps/desktop/src/main/model-workshop/`, one file per thing:
 | `geometry-streams.ts` | Reader of mesh positions and triangles (`.geometry.mbin.pc`, `.geometry.data.mbin.pc`). |
 | `seed-part-selection.ts` | Which parts a seed selects (port of `runtime/research/evaluate-descriptor-seed.py`, empty caller context). |
 | `scene-model.ts` | Builds a binary glTF model from a scene, keeping only the selected parts. |
-| `model-workshop-service.ts` | The three requests of the interface: model of a seed, choices of a type, seed for chosen parts and paint. |
+| `texture-list.ts` | Readers of a material's diffuse texture (`.material.mbin`) and of a texture list (`.texture.mbin`). |
+| `texture-selection.ts` | Which alternative of each texture layer a seed selects (port of `runtime/research/evaluate-texture-options.py`, merged mode). |
+| `model-workshop-service.ts` | The requests of the interface: model of a seed with its painted surfaces, one texture, choices of a type, seed for chosen parts, colours and base texture. |
 | `model-workshop.game.test.ts` | Checks against a real installation; runs only with `NMS_COURIER_GAME_ROOT` set. |
 
 Binary layouts were read from the build 180836 files by comparison with their
@@ -93,6 +95,8 @@ structure identifier is not the one it was written for:
 | Scene graph | `e40c0000477eb83dd8021f5963a896ad` |
 | Geometry description | `e40c000020329c81a6f6de9aa96c1fda` |
 | Geometry streams | `e40c0000545702401363b3a89568b4cc` |
+| Texture list | `e40c000031c3f04c087fe55d0cc74825` |
+| Material | `e40c00008ad43747a9f1e538fccced2c` |
 
 The field offsets are in the comment at the top of each reader.
 
@@ -119,21 +123,72 @@ tries or twenty seconds. The paint colour is checked only for seeds whose
 parts already match. A combination that is rare (many nested choices plus a
 colour) may not be found in that time; the interface says so.
 
-### Colours
+### Colours, textures and decals
 
-Painted starships (fighter, hauler, explorer, shuttle, solar) take five paint
-and five undercoat samples from the game's base palette file
-(`metadata/simulation/solarsystem/colours/basecolourpalettes.mbin`, SHA-256
-`3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`, the same
-bytes in builds 180383 and 180836) with the model seed, by the existing
-palette port. The first paint sample agreed with the hull colour of seven
-public reference seeds
-([model preview research](MODEL_PREVIEW_RESEARCH.md#primary-paint-color-against-seven-public-references-2026-10-07)).
+A material names a diffuse texture; that texture's list holds up to eight
+layers, each with alternatives (for the base layer of a fighter: coating,
+painted, panels) and each alternative with the palette family and sample it is
+tinted with. Decals are layers too (logo, number, letter, small sign).
 
-On the model the colours are placed by material name only: `PRIMARY…` takes
-the first paint sample, `SECONDARY…` the second, `TERTIARY…` the first
-undercoat sample, metal and trim materials a dark grey. This is an
-approximation; the game decides per pixel with layered textures and masks.
+For a seed the application:
+
+1. walks the model and collects the texture lists in the order their
+   materials are first met: a node's own mesh, then its children, then the
+   scene a reference node refers to;
+2. merges the layers of all lists by layer name and group and draws one
+   alternative per merged layer with the model seed
+   (`texture-selection.ts`);
+3. draws the palette with the model seed (the existing palette port) and
+   gives each chosen alternative its sample;
+4. hands the interface, per material, the stack of textures and tints; the
+   interface draws the stack on the graphics card (the textures are BC1 and
+   BC7, decoded by the card) and puts the picture on the material
+   (`renderer/src/lib/model-surface-painter.ts`).
+
+The five colours of a painted starship, by role, are samples of the palette
+file `metadata/simulation/solarsystem/colours/basecolourpalettes.mbin`
+(SHA-256 `3521862b5b2bfb33afe3a8a5bf5a15b6b60ff60327656ec4f7ca9d5e590b9c4e`,
+the same bytes in builds 180383 and 180836):
+
+| Role | Family | Sample of five |
+| --- | --- | --- |
+| Main colour | Paint | first |
+| Second colour | Paint | fourth |
+| Decal colour 1 | Paint | third |
+| Decal colour 2 | Paint | second |
+| Undercoat | Undercoat | first |
+
+Not exact: the tint itself. A layer is recoloured in hue, saturation and
+brightness toward its sample by the rule the research took from community
+descriptions, not from the game's shaders. Mask, normal and glow maps are not
+used; lighting is the workshop's own. Freighters are drawn with their
+textures but without tints: their colours come from the star system.
+
+### Compared with an independent tool
+
+The community customizer at `nms.center` shows, as its default result, what
+its author's tooling computes for fighter seed `0x5EEDC0DE70FAE007`. Read on
+2026-10-08 (the page only; no request to its server), compared with the
+application's result for the same seed:
+
+| What | Site | Application |
+| --- | --- | --- |
+| Parts | `_ENGINE_B`, `_WINGS_A`, `_ACC_A`, `_COCKPIT_A`, `_ANOSE_A`, `_NOSEA_BASELOD0`, `_LOGO1_A2`, `_NUMBER4_A4`, `_NUMBER3_A3`, `_LOGO2_A3`, `_NUMBER2_A3`, `_NUMBER1_A2` | the same twelve, in the same order |
+| Main colour | Paint 18, 0.976 0.925 0.067 | the same |
+| Second colour | Paint 1 (group Alternative3), 0.902 0.902 0.902 | the same |
+| Undercoat | Undercoat 49, 0.435 0.447 0.435 | the same |
+| Decal colour 1 | Paint 47 (Alternative2), 0.243 0.561 0.792 | the same |
+| Decal colour 2 | Paint 2 (Alternative1), 1 0.875 0.710 | the same |
+| Base layer | `PAINTED`, Paint, Alternative4 | the same |
+| Paint layer | `PANELS`, Paint, Primary | the same |
+| Letter decal | `A1` | the same |
+| Number decal | `C9` | the same |
+| Logo decal | `L` | the same |
+| Small sign decal | `C` | the same |
+
+The site numbers palette colours from 1; the application's are from 0. The
+comparison is a test (`model-workshop.game.test.ts`). It is one seed of one
+type.
 
 ## Checks (2026-10-08)
 
@@ -147,6 +202,9 @@ With `NMS_COURIER_GAME_ROOT` pointing at the installed build 180836:
   the model of that seed has those parts and that colour.
 - The shortened palette schedule gives the same paint and undercoat as the
   full port for three seeds.
+- Fighter seed `0x5EEDC0DE70FAE007` gives the parts, colours and texture
+  choices of the table above, and its textures can be fetched while any
+  other texture path is refused.
 
 The rendered page was looked at in a test instance: a fighter with a chosen
 orange was found after 227 tries and shown painted.
@@ -162,10 +220,10 @@ cd apps/desktop && NMS_COURIER_GAME_ROOT="<game folder>" npx vitest run src/main
 - Comparison with the running game: that a starship obtained with a seed looks
   like the workshop's model for that seed. The selection runs with an empty
   caller context; the game's callers may add forced or excluded parts.
-- Textures, decals, texture layer choice (coating, painted, metal), second
-  and decal colours as choices, glow and glass.
-- Colours for the living ship, exotic, interceptor, multi-tools and freighters
-  (their own palettes; freighters take colours from the star system).
+- The exact recolouring of a layer, masks, normal maps, glow and glass.
+- Decal choices (which logo, number or letter) in Build, and colour choices
+  for the kinds that are not painted from the paint palette.
+- Freighter colours (from the star system).
 - Pistol, rifle, experimental and alien multi-tools share one scene; what
   makes the game treat a seed as one or the other is not established.
 - Class, slots, stats and the generated name of a seed.

@@ -37,8 +37,9 @@ declare global {
         category: string
         kind: string
         parts: import('../shared/model-workshop').WorkshopWantedPart[]
-        paint: number[] | null
+        look: import('../shared/model-workshop').WorkshopWantedLook
       }) => Promise<import('../shared/model-workshop').WorkshopSeedResult>
+      workshopTexture: (path: string) => Promise<Uint8Array | null>
       getFoundationStatus: () => Promise<{
         apiVersion: string
         runtime: 'bundled' | 'unavailable'
