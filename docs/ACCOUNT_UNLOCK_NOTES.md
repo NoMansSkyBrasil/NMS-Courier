@@ -36,9 +36,10 @@ What that means per kind:
 
 So the lists are restored from outside the machine when the store client
 is online. Not determined: whether the copy comes from the store client's
-cloud or from the publisher's service reached through it, and what happens
-to an offline session's account when the client goes online again (it may
-be overwritten by the remote copy or merged).
+cloud or from the publisher's service reached through it. When the client
+went online again after the offline session of 2026-10-08, the two accounts
+were **merged**, with the Twitch set as the one exception; see "Back
+online" below.
 
 In the offline start the 86 titles were not in either file: the game
 unlocked them itself at load from the slot's own state. The 458 specials
@@ -350,6 +351,57 @@ What is known about the two missing ones:
 
 To deliver later through the game: `ENT_BOLTCASTER` and `ENT_PHOCORE` on the
 account.
+
+### Back online: what the remote copy did, and Twitch sent again (2026-10-08, about 01:18 to 01:25)
+
+The owner put the store client online, started the game on slot 3 and
+reported that the Twitch option had disappeared from the Quicksilver
+companion. Process 23800, DLL `09a816de...6813`, executable `13d5060d...`,
+slot 3 identified.
+
+Read-only first:
+
+| List | Offline result (saved 01:13) | In memory online | Files rewritten by the game at 01:18 |
+| --- | --- | --- | --- |
+| Titles | 346 | 346 | 346 |
+| Unlocked specials | 782 | 796 | 796 |
+| Season rewards | 293 | 293 | 293 |
+| Platform rewards | 3 | 3 (`SW_PREORDER`, `SW_PREORDER2`, `TGA_SHIP1`) | 3 |
+| Twitch rewards | 435 | **0** | **435 in the settings file** |
+| Seen substances / technologies / products | 34 / 153 / 1,956 | not read | 105 / 318 / 4,416 |
+
+Findings:
+
+- **The remote and the local account were merged, not replaced**: specials
+  became 796 (more than either side had), the seen lists returned to their
+  full sizes, and the two Switch platform rewards inserted offline survived.
+- **Twitch is the exception**: the settings file lists all 435, but the set
+  in memory is empty, exactly the state seen on 2026-10-07. The result file
+  of the next request showed `lists_ready_flag=1` and empty plain lists, and
+  the Twitch map accepted the IDs, so neither the plain-list path nor a
+  missing table explains it. Something empties the Twitch set after load
+  when online; the two unexamined users of these sets (`8880a0`, `888ec0` on
+  build 180383) are the candidates, read as a refresh from the Twitch
+  service.
+
+Then, after a backup (`save-backups/20261008-online-before-twitch-resend`)
+and a passed preflight:
+
+| Request | Result |
+| --- | --- |
+| `signal-account-180836.ps1 -Twitch TWITCH_406` | `inserted`, Twitch 0 -> 1 |
+| `signal-account-180836.ps1 -AllOfKind twitch` (435) | Twitch 1 -> 435 (434 `inserted`, 1 `present`) |
+
+The set was read four times over the following minute and stayed at 435.
+The owner confirmed that "Collect Twitch rewards" is back in the companion's
+menu. Game kept running.
+
+Not proven, and the expected weak point: **persistence across a restart
+while online.** The settings file already held all 435 at the last start and
+the game still came up with an empty set, so a saved list does not survive
+by itself; the insert may have to be repeated in each session until the
+routine that empties the set is understood. Claiming the rewards while they
+are listed records them in the slot, which does persist.
 
 ## Plan that was followed
 

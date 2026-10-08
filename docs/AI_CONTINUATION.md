@@ -211,8 +211,10 @@ offline:
     (process 25932) and saved by the game. DLL `09a816de...6813` adds Twitch
     and platform as a direct insert (owner-approved), run live in process
     27024: Twitch 435, platform 3 on the account; 234 Twitch decorations
-    redeemed in slot 3. Next: read the saved account files, then what
-    survives a restart and going online, and the shop.
+    redeemed in slot 3; the game saved them and its shop lists them. Back
+    online the accounts merged, but the game empties the Twitch set at
+    start; it was inserted again in process 23800. Next: find what empties
+    it (users of account `+0x200`), and the entitlement technologies.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

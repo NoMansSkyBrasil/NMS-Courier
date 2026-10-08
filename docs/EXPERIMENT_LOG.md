@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: online again - accounts merged, Twitch set emptied by the game, Twitch inserted again
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#back-online-what-the-remote-copy-did-and-twitch-sent-again-2026-10-08-about-0118-to-0125).
+Process 23800, DLL `09a816de...6813`, slot 3, store client online.
+
+- Read-only: titles 346, specials 796, season 293, platform 3 in memory;
+  Twitch 0 in memory although the settings file rewritten at 01:18 lists
+  435. Remote and local accounts were merged; the Switch platform rewards
+  survived.
+- The owner saw the Twitch option missing from the Quicksilver companion.
+- Backup `20261008-online-before-twitch-resend`; one Twitch ID, then all
+  435, inserted on the account (direct write). Set stable at 435 for a
+  minute; the owner saw the Twitch option return.
+- Not proven: survival of the Twitch set across an online restart (the
+  evidence is against it); the routine that empties it.
+
 ## 2026-10-08: two entitlement technologies not unlocked on the account (owner's report)
 
 The owner's editor shows `ENT_BOLTCASTER` and `ENT_PHOCORE` redeemed in the
