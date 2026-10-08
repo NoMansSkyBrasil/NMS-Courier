@@ -239,6 +239,101 @@ export const ptPT: Messages = {
       refused: 'Nada foi enviado.'
     }
   },
+  bridgePage: {
+    installationTitle: 'Instalação do jogo',
+    installationSelected: '{name} está selecionada.',
+    installationNone: 'Escolha a pasta de instalação do No Man’s Sky.',
+    installationInvalid: 'A pasta selecionada não é uma instalação válida do No Man’s Sky.',
+    select: 'Selecionar instalação',
+    verifying: 'A verificar…',
+    bridgeTitle: 'Ponte de investigação',
+    bridgeHint: 'O componente dentro do jogo que realiza as entregas.',
+    diagnosticsTitle: 'Diagnóstico só de leitura',
+    diagnosticsHint:
+      'Liga o anfitrião de runtime privado, que não tem qualquer comando de entrega. Mantenha esta janela aberta até fechar o jogo.',
+    connect: 'Ligar runtime só de leitura',
+    starting: 'A iniciar…',
+    diagNotConnected: 'Nenhum runtime de diagnóstico ligado.',
+    diagHostReady: 'O anfitrião de runtime está pronto, a aguardar o jogo.',
+    diagAuthenticated: 'Handshake concluído; a aguardar o callback do jogo.',
+    diagCallbackReady: 'O callback só de leitura está ativo no jogo.',
+    diagFailed: 'O diagnóstico falhou ({reason}).',
+    diagEnded: 'A sessão de diagnóstico terminou com o jogo.'
+  },
+  catalogPage: {
+    unavailableTitle: 'O catálogo local não está disponível',
+    unavailableBody: 'Ainda não foi gerado nenhum catálogo neste perfil da aplicação.',
+    title: 'Catálogo local',
+    description:
+      'Definições só de leitura extraídas da instalação selecionada do jogo. Um resultado não significa que o item pode ser entregue.',
+    buildBadge: 'Versão {build}',
+    searchLabel: 'Pesquisar no catálogo local',
+    searchPlaceholder: 'Pesquise por nome ou ID do jogo',
+    all: 'Tudo',
+    substance: 'Substâncias',
+    product: 'Produtos',
+    technology: 'Tecnologias',
+    matching: '{count} definições encontradas',
+    loading: 'A carregar definições…',
+    languages: '{count} idiomas do jogo'
+  },
+  preview: {
+    title: 'Oficina de modelos',
+    description: 'Inspecione um modelo GLB estático local e monte as suas partes visíveis.',
+    stage: 'Pré-visualização experimental',
+    import: 'Abrir modelo GLB',
+    loading: 'A carregar modelo…',
+    empty: 'Escolha um modelo local para começar',
+    hint: 'Arraste para rodar, use a roda para aproximar e arraste com o botão direito para deslocar.',
+    limits:
+      'Esta versão aceita ficheiros GLB estáticos até 64 MiB, apenas com texturas PNG incorporadas e sem recursos externos. A conversão nativa de recursos do NMS ainda não está ligada.',
+    warning:
+      'As seleções de partes e a tonalidade afetam apenas esta pré-visualização. Não calculam uma semente nem entregam uma nave.',
+    parts: 'Partes visíveis',
+    all: 'Mostrar tudo',
+    none: 'Ocultar tudo',
+    filter: 'Filtrar partes por nome',
+    tint: 'Tonalidade da pré-visualização',
+    original: 'Repor cores do modelo',
+    reset: 'Repor câmara',
+    palettes: 'Paletas do jogo',
+    paletteHelp: 'Abra o BASECOLOURPALETTES.MBIN extraído do conjunto de dados suportado.',
+    importPalette: 'Abrir MBIN de paletas',
+    seed: 'Semente de cor experimental',
+    calculatePalette: 'Calcular amostras de cor',
+    calculatedSeed: 'Semente calculada',
+    family: 'Família de paleta',
+    samples: 'Cinco amostras de cor',
+    sample: 'Amostra de cor',
+    paletteIndex: 'Cor de origem',
+    colorTarget: 'Aplicar a',
+    visibleTarget: 'Todas as partes visíveis',
+    applyColor: 'Aplicar cor selecionada',
+    paletteWarning:
+      'Cálculo experimental da paleta base. As amostras RGB recolorem as partes; não preveem máscaras de textura nativas, o aspeto de uma nave nem uma semente inversa.',
+    INVALID_PALETTE: 'Este ficheiro não corresponde à impressão digital da paleta base suportada.',
+    INVALID_SEED: 'Introduza 0x seguido de 1 a 16 dígitos hexadecimais.',
+    PALETTE_UNAVAILABLE: 'Abra um ficheiro de paleta suportado antes de calcular cores.',
+    failed: 'Não foi possível apresentar o modelo.',
+    INVALID_MODEL: 'O ficheiro não é um modelo válido dentro dos limites da pré-visualização.',
+    UNSUPPORTED_MODEL:
+      'Este modelo usa texturas, animação, extensões ou geometria fora do subconjunto suportado.',
+    FILE_UNAVAILABLE: 'Não foi possível ler o ficheiro selecionado.'
+  },
+  appearance: {
+    title: 'Receita de aparência por semente',
+    open: 'Abrir receita de aparência',
+    apply: 'Aplicar receita à pré-visualização',
+    help: 'Importe uma receita ou um relatório de pesquisa de sementes com associações de malhas explícitas.',
+    warning:
+      'Pré-visualização candidata: apenas partes explícitas e amostras RGB. Texturas DDS, máscaras e shaders nativos não são reproduzidos.',
+    mismatch:
+      'A impressão digital do modelo ou os nomes das malhas não correspondem. Não foram aplicadas alterações.',
+    failed: 'Não foi possível ler o ficheiro como uma receita de aparência suportada.',
+    seed: 'Semente candidata',
+    applied: 'Receita aplicada à pré-visualização',
+    candidate: 'Candidato do avaliador parcial'
+  },
   controls: {
     changeLanguage: 'Alterar idioma',
     changeTheme: 'Alterar tema',

@@ -246,6 +246,103 @@ export const deDE: Messages = {
       refused: 'Es wurde nichts gesendet.'
     }
   },
+  bridgePage: {
+    installationTitle: 'Spielinstallation',
+    installationSelected: '{name} ist ausgewählt.',
+    installationNone: 'Wähle den Installationsordner von No Man’s Sky.',
+    installationInvalid: 'Der gewählte Ordner ist keine gültige Installation von No Man’s Sky.',
+    select: 'Installation auswählen',
+    verifying: 'Wird geprüft…',
+    bridgeTitle: 'Forschungsbrücke',
+    bridgeHint: 'Die Komponente im Spiel, die die Lieferungen ausführt.',
+    diagnosticsTitle: 'Nur-Lese-Diagnose',
+    diagnosticsHint:
+      'Verbindet den privaten Laufzeit-Host, der keinen Lieferbefehl hat. Lass dieses Fenster geöffnet, bis du das Spiel schließt.',
+    connect: 'Nur-Lese-Laufzeit verbinden',
+    starting: 'Wird gestartet…',
+    diagNotConnected: 'Keine Diagnoselaufzeit verbunden.',
+    diagHostReady: 'Der Laufzeit-Host ist bereit und wartet auf das Spiel.',
+    diagAuthenticated: 'Handshake abgeschlossen; warte auf den Rückruf des Spiels.',
+    diagCallbackReady: 'Der Nur-Lese-Rückruf ist im Spiel aktiv.',
+    diagFailed: 'Diagnose fehlgeschlagen ({reason}).',
+    diagEnded: 'Die Diagnosesitzung wurde mit dem Spiel beendet.'
+  },
+  catalogPage: {
+    unavailableTitle: 'Der lokale Katalog ist nicht verfügbar',
+    unavailableBody: 'In diesem Anwendungsprofil wurde noch kein Katalog erzeugt.',
+    title: 'Lokaler Katalog',
+    description:
+      'Nur-Lese-Definitionen aus der gewählten Spielinstallation. Ein Treffer bedeutet nicht, dass der Gegenstand geliefert werden kann.',
+    buildBadge: 'Version {build}',
+    searchLabel: 'Lokalen Katalog durchsuchen',
+    searchPlaceholder: 'Nach Name oder Spiel-ID suchen',
+    all: 'Alle',
+    substance: 'Substanzen',
+    product: 'Produkte',
+    technology: 'Technologien',
+    matching: '{count} passende Definitionen',
+    loading: 'Definitionen werden geladen…',
+    languages: '{count} Spielsprachen'
+  },
+  preview: {
+    title: 'Modellwerkstatt',
+    description:
+      'Untersuche ein lokales statisches GLB-Modell und stelle seine sichtbaren Teile zusammen.',
+    stage: 'Experimentelle Vorschau',
+    import: 'GLB-Modell öffnen',
+    loading: 'Modell wird geladen…',
+    empty: 'Wähle ein lokales Modell, um zu beginnen',
+    hint: 'Ziehen zum Drehen, Scrollen zum Zoomen und mit der rechten Maustaste ziehen zum Verschieben.',
+    limits:
+      'Diese Version akzeptiert statische GLB-Dateien bis 64 MiB, nur mit eingebetteten PNG-Texturen und ohne externe Ressourcen. Die native Umwandlung von NMS-Assets ist noch nicht angebunden.',
+    warning:
+      'Teileauswahl und Tönung betreffen nur diese Vorschau. Sie berechnen keinen Seed und liefern kein Schiff.',
+    parts: 'Sichtbare Teile',
+    all: 'Alle anzeigen',
+    none: 'Alle ausblenden',
+    filter: 'Teile nach Namen filtern',
+    tint: 'Tönung der Vorschau',
+    original: 'Modellfarben wiederherstellen',
+    reset: 'Kamera zurücksetzen',
+    palettes: 'Spielpaletten',
+    paletteHelp: 'Öffne die extrahierte BASECOLOURPALETTES.MBIN aus dem unterstützten Datensatz.',
+    importPalette: 'Paletten-MBIN öffnen',
+    seed: 'Experimenteller Farb-Seed',
+    calculatePalette: 'Farbproben berechnen',
+    calculatedSeed: 'Berechneter Seed',
+    family: 'Palettenfamilie',
+    samples: 'Fünf Farbproben',
+    sample: 'Farbprobe',
+    paletteIndex: 'Quellfarbe',
+    colorTarget: 'Anwenden auf',
+    visibleTarget: 'Alle sichtbaren Teile',
+    applyColor: 'Gewählte Farbe anwenden',
+    paletteWarning:
+      'Experimentelle Berechnung der Basispalette. RGB-Proben färben Teile um; sie sagen weder native Texturmasken noch das Aussehen eines Schiffs noch einen inversen Seed voraus.',
+    INVALID_PALETTE:
+      'Diese Datei entspricht nicht dem Fingerabdruck der unterstützten Basispalette.',
+    INVALID_SEED: 'Gib 0x gefolgt von 1 bis 16 Hexadezimalziffern ein.',
+    PALETTE_UNAVAILABLE: 'Öffne eine unterstützte Palettendatei, bevor du Farben berechnest.',
+    failed: 'Das Modell konnte nicht dargestellt werden.',
+    INVALID_MODEL: 'Die Datei ist kein gültiges Modell innerhalb der Vorschaugrenzen.',
+    UNSUPPORTED_MODEL:
+      'Dieses Modell verwendet Texturen, Animation, Erweiterungen oder Geometrie außerhalb des unterstützten Umfangs.',
+    FILE_UNAVAILABLE: 'Die gewählte Datei konnte nicht gelesen werden.'
+  },
+  appearance: {
+    title: 'Aussehensrezept nach Seed',
+    open: 'Aussehensrezept öffnen',
+    apply: 'Rezept auf die Vorschau anwenden',
+    help: 'Importiere ein Rezept oder einen Seed-Suchbericht mit ausdrücklichen Mesh-Zuordnungen.',
+    warning:
+      'Kandidatenvorschau: nur ausdrückliche Teile und RGB-Proben. Native DDS-Texturen, Masken und Shader werden nicht nachgebildet.',
+    mismatch:
+      'Der Fingerabdruck des Modells oder die Mesh-Namen stimmen nicht überein. Es wurde nichts geändert.',
+    failed: 'Die Datei konnte nicht als unterstütztes Aussehensrezept gelesen werden.',
+    seed: 'Kandidaten-Seed',
+    applied: 'Rezept auf die Vorschau angewendet',
+    candidate: 'Kandidat des Teilauswerters'
+  },
   controls: {
     changeLanguage: 'Sprache ändern',
     changeTheme: 'Design ändern',

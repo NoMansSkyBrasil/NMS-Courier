@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import { BoxIcon, FolderOpenIcon } from 'lucide-react'
 import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
 import { useLocale } from '@renderer/i18n/locale-provider'
-import { previewCopy } from '@renderer/i18n/preview-copy'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
 import { AppearanceRecipeControls } from './appearance-recipe-controls'
@@ -16,8 +15,8 @@ import { Checkbox } from './ui/checkbox'
 import { Field, FieldGroup, FieldLabel, FieldSet, FieldLegend } from './ui/field'
 
 export function ModelPreviewPage(): React.JSX.Element {
-  const { locale } = useLocale()
-  const copy = previewCopy[locale as keyof typeof previewCopy] ?? previewCopy['en-US']
+  const { copy: messages } = useLocale()
+  const copy = messages.preview
   const [model, setModel] = useState<PreviewModel | null>(null)
   const [parts, setParts] = useState<PreviewPart[]>([])
   const [hidden, setHidden] = useState(new Set<string>())

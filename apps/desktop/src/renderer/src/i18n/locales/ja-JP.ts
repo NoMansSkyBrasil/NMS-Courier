@@ -230,6 +230,101 @@ export const jaJP: Messages = {
       refused: '何も送信していません。'
     }
   },
+  bridgePage: {
+    installationTitle: 'ゲームのインストール先',
+    installationSelected: '{name} を選択中です。',
+    installationNone: 'No Man’s Sky のインストールフォルダーを選択してください。',
+    installationInvalid: '選択したフォルダーは有効な No Man’s Sky のインストール先ではありません。',
+    select: 'インストール先を選択',
+    verifying: '確認中…',
+    bridgeTitle: '調査用ブリッジ',
+    bridgeHint: '配送を実行する、ゲーム内のコンポーネント。',
+    diagnosticsTitle: '読み取り専用の診断',
+    diagnosticsHint:
+      '配送コマンドを持たないプライベートのランタイムホストに接続します。ゲームを閉じるまで、このウィンドウは開いたままにしてください。',
+    connect: '読み取り専用ランタイムに接続',
+    starting: '開始中…',
+    diagNotConnected: '診断用ランタイムは接続されていません。',
+    diagHostReady: 'ランタイムホストの準備ができ、ゲームを待機しています。',
+    diagAuthenticated: 'ハンドシェイクが完了しました。ゲームのコールバックを待機しています。',
+    diagCallbackReady: '読み取り専用のコールバックがゲーム内で有効です。',
+    diagFailed: '診断に失敗しました（{reason}）。',
+    diagEnded: '診断セッションはゲームとともに終了しました。'
+  },
+  catalogPage: {
+    unavailableTitle: 'ローカルカタログは利用できません',
+    unavailableBody: 'このアプリケーションプロファイルでは、まだカタログが生成されていません。',
+    title: 'ローカルカタログ',
+    description:
+      '選択したゲームのインストール先から抽出した読み取り専用の定義です。結果が表示されても、そのアイテムを配送できるとは限りません。',
+    buildBadge: 'ビルド {build}',
+    searchLabel: 'ローカルカタログを検索',
+    searchPlaceholder: '名前またはゲーム ID で検索',
+    all: 'すべて',
+    substance: '物質',
+    product: '製品',
+    technology: 'テクノロジー',
+    matching: '一致する定義: {count} 件',
+    loading: '定義を読み込み中…',
+    languages: 'ゲームの言語: {count}'
+  },
+  preview: {
+    title: 'モデル工房',
+    description: 'ローカルの静的 GLB モデルを確認し、表示するパーツを組み合わせます。',
+    stage: '実験的なプレビュー',
+    import: 'GLB モデルを開く',
+    loading: 'モデルを読み込み中…',
+    empty: 'ローカルのモデルを選んで開始してください',
+    hint: 'ドラッグで回転、スクロールでズーム、右ドラッグで移動します。',
+    limits:
+      'このバージョンは、埋め込み PNG テクスチャのみで外部リソースを持たない 64 MiB までの静的 GLB ファイルに対応しています。NMS アセットのネイティブ変換はまだ接続されていません。',
+    warning:
+      'パーツの選択と色合いは、このプレビューにのみ反映されます。シードの計算や宇宙船の配送は行いません。',
+    parts: '表示中のパーツ',
+    all: 'すべて表示',
+    none: 'すべて非表示',
+    filter: '名前でパーツを絞り込む',
+    tint: 'プレビューの色合い',
+    original: 'モデルの色に戻す',
+    reset: 'カメラをリセット',
+    palettes: 'ゲームのパレット',
+    paletteHelp: '対応するデータセットから抽出した BASECOLOURPALETTES.MBIN を開いてください。',
+    importPalette: 'パレット MBIN を開く',
+    seed: '実験的なカラーシード',
+    calculatePalette: '色サンプルを計算',
+    calculatedSeed: '計算されたシード',
+    family: 'パレットファミリー',
+    samples: '5 つの色サンプル',
+    sample: '色サンプル',
+    paletteIndex: '元の色',
+    colorTarget: '適用先',
+    visibleTarget: '表示中のすべてのパーツ',
+    applyColor: '選択した色を適用',
+    paletteWarning:
+      '基本パレットの実験的な計算です。RGB サンプルはパーツを塗り替えるだけで、ネイティブのテクスチャマスク、宇宙船の外見、逆算したシードを予測するものではありません。',
+    INVALID_PALETTE: 'このファイルは、対応する基本パレットのフィンガープリントと一致しません。',
+    INVALID_SEED: '0x に続けて 1～16 桁の 16 進数を入力してください。',
+    PALETTE_UNAVAILABLE: '色を計算する前に、対応するパレットファイルを開いてください。',
+    failed: 'モデルを表示できませんでした。',
+    INVALID_MODEL: 'このファイルは、プレビューの制限内の有効なモデルではありません。',
+    UNSUPPORTED_MODEL:
+      'このモデルは、対応範囲外のテクスチャ、アニメーション、拡張機能、またはジオメトリを使用しています。',
+    FILE_UNAVAILABLE: '選択したファイルを読み込めませんでした。'
+  },
+  appearance: {
+    title: 'シードによる外見レシピ',
+    open: '外見レシピを開く',
+    apply: 'レシピをプレビューに適用',
+    help: 'メッシュの対応が明示されたレシピまたはシード検索レポートをインポートします。',
+    warning:
+      '候補のプレビュー: 明示されたパーツと RGB サンプルのみ。ネイティブの DDS テクスチャ、マスク、シェーダーは再現されません。',
+    mismatch:
+      'モデルのフィンガープリントまたはメッシュ名が一致しません。変更は適用されていません。',
+    failed: 'このファイルは、対応する外見レシピとして読み込めませんでした。',
+    seed: '候補シード',
+    applied: 'レシピをプレビューに適用しました',
+    candidate: '部分評価器の候補'
+  },
   controls: {
     changeLanguage: '言語を変更',
     changeTheme: 'テーマを変更',

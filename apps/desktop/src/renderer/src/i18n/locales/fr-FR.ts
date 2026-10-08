@@ -243,6 +243,105 @@ export const frFR: Messages = {
       refused: 'Rien n’a été envoyé.'
     }
   },
+  bridgePage: {
+    installationTitle: 'Installation du jeu',
+    installationSelected: '{name} est sélectionnée.',
+    installationNone: 'Choisissez le dossier d’installation de No Man’s Sky.',
+    installationInvalid:
+      'Le dossier sélectionné n’est pas une installation valide de No Man’s Sky.',
+    select: 'Sélectionner l’installation',
+    verifying: 'Vérification…',
+    bridgeTitle: 'Pont de recherche',
+    bridgeHint: 'Le composant à l’intérieur du jeu qui effectue les livraisons.',
+    diagnosticsTitle: 'Diagnostic en lecture seule',
+    diagnosticsHint:
+      'Connecte l’hôte d’exécution privé, qui n’a aucune commande de livraison. Gardez cette fenêtre ouverte jusqu’à la fermeture du jeu.',
+    connect: 'Connecter l’exécution en lecture seule',
+    starting: 'Démarrage…',
+    diagNotConnected: 'Aucune exécution de diagnostic n’est connectée.',
+    diagHostReady: 'L’hôte d’exécution est prêt et attend le jeu.',
+    diagAuthenticated: 'Négociation terminée ; en attente du rappel du jeu.',
+    diagCallbackReady: 'Le rappel en lecture seule est actif dans le jeu.',
+    diagFailed: 'Le diagnostic a échoué ({reason}).',
+    diagEnded: 'La session de diagnostic s’est terminée avec le jeu.'
+  },
+  catalogPage: {
+    unavailableTitle: 'Le catalogue local n’est pas disponible',
+    unavailableBody: 'Aucun catalogue n’a encore été généré dans ce profil de l’application.',
+    title: 'Catalogue local',
+    description:
+      'Définitions en lecture seule extraites de l’installation du jeu sélectionnée. Un résultat ne signifie pas que l’objet peut être livré.',
+    buildBadge: 'Version {build}',
+    searchLabel: 'Rechercher dans le catalogue local',
+    searchPlaceholder: 'Rechercher par nom ou identifiant du jeu',
+    all: 'Tout',
+    substance: 'Substances',
+    product: 'Produits',
+    technology: 'Technologies',
+    matching: '{count} définitions correspondantes',
+    loading: 'Chargement des définitions…',
+    languages: '{count} langues du jeu'
+  },
+  preview: {
+    title: 'Atelier de modèles',
+    description: 'Inspectez un modèle GLB statique local et assemblez ses parties visibles.',
+    stage: 'Aperçu expérimental',
+    import: 'Ouvrir un modèle GLB',
+    loading: 'Chargement du modèle…',
+    empty: 'Choisissez un modèle local pour commencer',
+    hint: 'Faites glisser pour pivoter, utilisez la molette pour zoomer et le clic droit pour déplacer.',
+    limits:
+      'Cette version accepte les fichiers GLB statiques jusqu’à 64 Mio, avec des textures PNG intégrées uniquement et sans ressources externes. La conversion native des ressources de NMS n’est pas encore branchée.',
+    warning:
+      'Les sélections de parties et la teinte ne concernent que cet aperçu. Elles ne calculent pas de graine et ne livrent pas de vaisseau.',
+    parts: 'Parties visibles',
+    all: 'Tout afficher',
+    none: 'Tout masquer',
+    filter: 'Filtrer les parties par nom',
+    tint: 'Teinte de l’aperçu',
+    original: 'Rétablir les couleurs du modèle',
+    reset: 'Réinitialiser la caméra',
+    palettes: 'Palettes du jeu',
+    paletteHelp:
+      'Ouvrez le fichier BASECOLOURPALETTES.MBIN extrait du jeu de données pris en charge.',
+    importPalette: 'Ouvrir le MBIN de palettes',
+    seed: 'Graine de couleur expérimentale',
+    calculatePalette: 'Calculer les échantillons de couleur',
+    calculatedSeed: 'Graine calculée',
+    family: 'Famille de palette',
+    samples: 'Cinq échantillons de couleur',
+    sample: 'Échantillon de couleur',
+    paletteIndex: 'Couleur source',
+    colorTarget: 'Appliquer à',
+    visibleTarget: 'Toutes les parties visibles',
+    applyColor: 'Appliquer la couleur sélectionnée',
+    paletteWarning:
+      'Calcul expérimental de la palette de base. Les échantillons RVB recolorent les parties ; ils ne prédisent ni les masques de texture natifs, ni l’apparence d’un vaisseau, ni une graine inverse.',
+    INVALID_PALETTE:
+      'Ce fichier ne correspond pas à l’empreinte de la palette de base prise en charge.',
+    INVALID_SEED: 'Saisissez 0x suivi de 1 à 16 chiffres hexadécimaux.',
+    PALETTE_UNAVAILABLE:
+      'Ouvrez un fichier de palette pris en charge avant de calculer les couleurs.',
+    failed: 'Le modèle n’a pas pu être affiché.',
+    INVALID_MODEL: 'Le fichier n’est pas un modèle valide dans les limites de l’aperçu.',
+    UNSUPPORTED_MODEL:
+      'Ce modèle utilise des textures, une animation, des extensions ou une géométrie hors du sous-ensemble pris en charge.',
+    FILE_UNAVAILABLE: 'Le fichier sélectionné n’a pas pu être lu.'
+  },
+  appearance: {
+    title: 'Recette d’apparence par graine',
+    open: 'Ouvrir une recette d’apparence',
+    apply: 'Appliquer la recette à l’aperçu',
+    help: 'Importez une recette ou un rapport de recherche de graines avec des liaisons de maillages explicites.',
+    warning:
+      'Aperçu candidat : parties explicites et échantillons RVB uniquement. Les textures DDS, masques et shaders natifs ne sont pas reproduits.',
+    mismatch:
+      'L’empreinte du modèle ou les noms des maillages ne correspondent pas. Aucun changement n’a été appliqué.',
+    failed: 'Le fichier n’a pas pu être lu comme une recette d’apparence prise en charge.',
+    seed: 'Graine candidate',
+    applied: 'Recette appliquée à l’aperçu',
+    candidate: 'Candidat de l’évaluateur partiel'
+  },
   controls: {
     changeLanguage: 'Changer de langue',
     changeTheme: 'Changer de thème',

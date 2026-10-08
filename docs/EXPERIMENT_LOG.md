@@ -1,5 +1,14 @@
 # Runtime experiment log
 
+## 2026-10-08: every renderer screen translated into the 14 languages
+
+Renderer only. The model workshop, the catalogue page and the game and
+bridge page now read their text from the locale resources; the bridge page
+was rewritten without the old non-functional delivery form. New unit test
+for the resources. Checks: type-check and lint clean, 58 unit tests pass,
+the running Electron window captured on the three pages in `pt-BR`. Not
+done: two native dialogs of the main process, review by native speakers.
+
 ## 2026-10-08: desktop application wired to the research bridge (no live delivery from it yet)
 
 Owner: [product and UI](PRODUCT_AND_UI.md#sending-from-the-interface-2026-10-08).

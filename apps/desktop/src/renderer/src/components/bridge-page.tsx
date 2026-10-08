@@ -1,0 +1,178 @@
+import { useEffect, useState } from 'react'
+import { FolderOpenIcon, RadioIcon } from 'lucide-react'
+import { Badge } from '@renderer/components/ui/badge'
+import { Button } from '@renderer/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@renderer/components/ui/card'
+import { Spinner } from '@renderer/components/ui/spinner'
+import { useGameState } from '@renderer/hooks/use-game-state'
+import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+
+type Installation = Awaited<ReturnType<typeof window.nms.getInstallationStatus>>
+type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
+
+const activeDiagnostics = [
+  'checking',
+  'starting',
+  'host_ready',
+  'bridge_authenticated',
+  'callback_ready'
+]
+
+// Everything between the application and the game: which installation is used, whether the game
+// runs, whether its build is known, and the state of the bridge that performs the deliveries.
+export function BridgePage(): React.JSX.Element {
+  const { copy } = useLocale()
+  const text = copy.bridgePage
+  const { game, build, diagnostics } = useGameState()
+  const [installation, setInstallation] = useState<Installation | null>(null)
+  const [bridge, setBridge] = useState<BridgeStatus | null>(null)
+  const [selecting, setSelecting] = useState(false)
+  const [starting, setStarting] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    const refresh = (): void => {
+      void window.nms.getInstallationStatus().then((next) => active && setInstallation(next))
+      void window.nms.getResearchBridgeStatus().then((next) => active && setBridge(next))
+    }
+    refresh()
+    const timer = window.setInterval(refresh, 5000)
+    return () => {
+      active = false
+      window.clearInterval(timer)
+    }
+  }, [])
+
+  const selectInstallation = async (): Promise<void> => {
+    setSelecting(true)
+    try {
+      setInstallation(await window.nms.selectInstallation())
+      setBridge(await window.nms.getResearchBridgeStatus())
+    } finally {
+      setSelecting(false)
+    }
+  }
+
+  const startDiagnostics = async (): Promise<void> => {
+    setStarting(true)
+    try {
+      await window.nms.startRuntimeDiagnostics()
+    } finally {
+      setStarting(false)
+    }
+  }
+
+  const installationText =
+    installation?.state === 'available'
+      ? formatMessage(text.installationSelected, { name: installation.displayName ?? '' })
+      : installation?.state === 'invalid'
+        ? text.installationInvalid
+        : text.installationNone
+  const gameText =
+    game?.state === 'running'
+      ? copy.dashboard.running
+      : game?.state === 'not_running'
+        ? copy.dashboard.notRunning
+        : game?.state === 'installation_not_selected'
+          ? copy.dashboard.notSelected
+          : copy.dashboard.unknown
+  const buildText =
+    build?.state === 'supported'
+      ? copy.dashboard.supported
+      : build?.state === 'unknown'
+        ? copy.dashboard.unsupported
+        : copy.dashboard.unknown
+  const diagnosticsText =
+    diagnostics?.state === 'callback_ready'
+      ? text.diagCallbackReady
+      : diagnostics?.state === 'bridge_authenticated'
+        ? text.diagAuthenticated
+        : diagnostics?.state === 'host_ready'
+          ? text.diagHostReady
+          : diagnostics?.state === 'failed'
+            ? formatMessage(text.diagFailed, { reason: diagnostics.reasonCode ?? '' })
+            : diagnostics?.state === 'ended'
+              ? text.diagEnded
+              : text.diagNotConnected
+  const diagnosticsBusy = starting || activeDiagnostics.includes(diagnostics?.state ?? '')
+
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>{text.installationTitle}</CardTitle>
+            <CardDescription>{installationText}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2 text-sm">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-muted-foreground">{copy.dashboard.game}</span>
+              <Badge variant="outline">{gameText}</Badge>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-muted-foreground">{copy.dashboard.build}</span>
+              <Badge variant="outline">{build?.buildLabel ?? buildText}</Badge>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              variant="outline"
+              onClick={() => void selectInstallation()}
+              disabled={selecting}
+            >
+              {selecting ? (
+                <Spinner data-icon="inline-start" />
+              ) : (
+                <FolderOpenIcon data-icon="inline-start" />
+              )}
+              {selecting ? text.verifying : text.select}
+            </Button>
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{text.bridgeTitle}</CardTitle>
+            <CardDescription>{text.bridgeHint}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm" role="status" aria-live="polite">
+              {bridge
+                ? formatMessage(copy.delivery.state[bridge.state], { id: bridge.processId ?? '' })
+                : copy.delivery.state.unavailable}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>{text.diagnosticsTitle}</CardTitle>
+          <CardDescription>{text.diagnosticsHint}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+            {diagnosticsText}
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button
+            variant="outline"
+            onClick={() => void startDiagnostics()}
+            disabled={
+              diagnosticsBusy || installation?.state !== 'available' || game?.state !== 'running'
+            }
+          >
+            <RadioIcon data-icon="inline-start" />
+            {starting ? text.starting : text.connect}
+          </Button>
+        </CardFooter>
+      </Card>
+    </main>
+  )
+}

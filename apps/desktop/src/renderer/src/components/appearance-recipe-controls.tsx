@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { bindAppearanceRecipe, type AppearanceRecipe } from '../../../shared/appearance-recipe'
 import type { PreviewColor } from '../../../shared/model-preview'
 import { useLocale } from '@renderer/i18n/locale-provider'
-import { appearanceCopy } from '@renderer/i18n/appearance-copy'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -18,8 +17,8 @@ export function AppearanceRecipeControls({
   parts,
   onApply
 }: Props): React.JSX.Element {
-  const { locale } = useLocale()
-  const copy = appearanceCopy[locale as keyof typeof appearanceCopy] ?? appearanceCopy['en-US']
+  const { copy: messages } = useLocale()
+  const copy = messages.appearance
   const [recipe, setRecipe] = useState<AppearanceRecipe | null>(null)
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<'failed' | 'mismatch' | 'applied' | null>(null)

@@ -242,6 +242,102 @@ export const itIT: Messages = {
       refused: 'Non è stato inviato nulla.'
     }
   },
+  bridgePage: {
+    installationTitle: 'Installazione del gioco',
+    installationSelected: '{name} è selezionata.',
+    installationNone: 'Scegli la cartella di installazione di No Man’s Sky.',
+    installationInvalid: 'La cartella selezionata non è un’installazione valida di No Man’s Sky.',
+    select: 'Seleziona installazione',
+    verifying: 'Verifica in corso…',
+    bridgeTitle: 'Ponte di ricerca',
+    bridgeHint: 'Il componente all’interno del gioco che esegue le consegne.',
+    diagnosticsTitle: 'Diagnostica in sola lettura',
+    diagnosticsHint:
+      'Collega l’host di runtime privato, che non ha alcun comando di consegna. Tieni aperta questa finestra finché non chiudi il gioco.',
+    connect: 'Collega runtime in sola lettura',
+    starting: 'Avvio in corso…',
+    diagNotConnected: 'Nessun runtime di diagnostica collegato.',
+    diagHostReady: 'L’host di runtime è pronto e attende il gioco.',
+    diagAuthenticated: 'Handshake completato; in attesa della callback del gioco.',
+    diagCallbackReady: 'La callback in sola lettura è attiva nel gioco.',
+    diagFailed: 'Diagnostica non riuscita ({reason}).',
+    diagEnded: 'La sessione di diagnostica è terminata con il gioco.'
+  },
+  catalogPage: {
+    unavailableTitle: 'Il catalogo locale non è disponibile',
+    unavailableBody:
+      'In questo profilo dell’applicazione non è ancora stato generato alcun catalogo.',
+    title: 'Catalogo locale',
+    description:
+      'Definizioni in sola lettura estratte dall’installazione del gioco selezionata. Un risultato non significa che l’oggetto possa essere consegnato.',
+    buildBadge: 'Versione {build}',
+    searchLabel: 'Cerca nel catalogo locale',
+    searchPlaceholder: 'Cerca per nome o ID del gioco',
+    all: 'Tutto',
+    substance: 'Sostanze',
+    product: 'Prodotti',
+    technology: 'Tecnologie',
+    matching: '{count} definizioni corrispondenti',
+    loading: 'Caricamento delle definizioni…',
+    languages: '{count} lingue del gioco'
+  },
+  preview: {
+    title: 'Officina dei modelli',
+    description: 'Esamina un modello GLB statico locale e assembla le sue parti visibili.',
+    stage: 'Anteprima sperimentale',
+    import: 'Apri modello GLB',
+    loading: 'Caricamento del modello…',
+    empty: 'Scegli un modello locale per iniziare',
+    hint: 'Trascina per ruotare, usa la rotellina per lo zoom e trascina con il tasto destro per spostare.',
+    limits:
+      'Questa versione accetta file GLB statici fino a 64 MiB, solo con texture PNG incorporate e senza risorse esterne. La conversione nativa delle risorse di NMS non è ancora collegata.',
+    warning:
+      'Le selezioni delle parti e la tinta riguardano solo questa anteprima. Non calcolano un seme e non consegnano un’astronave.',
+    parts: 'Parti visibili',
+    all: 'Mostra tutto',
+    none: 'Nascondi tutto',
+    filter: 'Filtra le parti per nome',
+    tint: 'Tinta dell’anteprima',
+    original: 'Ripristina i colori del modello',
+    reset: 'Reimposta la telecamera',
+    palettes: 'Tavolozze del gioco',
+    paletteHelp: 'Apri il file BASECOLOURPALETTES.MBIN estratto dal set di dati supportato.',
+    importPalette: 'Apri MBIN delle tavolozze',
+    seed: 'Seme di colore sperimentale',
+    calculatePalette: 'Calcola i campioni di colore',
+    calculatedSeed: 'Seme calcolato',
+    family: 'Famiglia di tavolozze',
+    samples: 'Cinque campioni di colore',
+    sample: 'Campione di colore',
+    paletteIndex: 'Colore di origine',
+    colorTarget: 'Applica a',
+    visibleTarget: 'Tutte le parti visibili',
+    applyColor: 'Applica il colore selezionato',
+    paletteWarning:
+      'Calcolo sperimentale della tavolozza di base. I campioni RGB ricolorano le parti; non prevedono le maschere di texture native, l’aspetto di un’astronave né un seme inverso.',
+    INVALID_PALETTE: 'Questo file non corrisponde all’impronta della tavolozza di base supportata.',
+    INVALID_SEED: 'Inserisci 0x seguito da 1 a 16 cifre esadecimali.',
+    PALETTE_UNAVAILABLE: 'Apri un file di tavolozza supportato prima di calcolare i colori.',
+    failed: 'Impossibile visualizzare il modello.',
+    INVALID_MODEL: 'Il file non è un modello valido entro i limiti dell’anteprima.',
+    UNSUPPORTED_MODEL:
+      'Questo modello usa texture, animazione, estensioni o geometria al di fuori del sottoinsieme supportato.',
+    FILE_UNAVAILABLE: 'Impossibile leggere il file selezionato.'
+  },
+  appearance: {
+    title: 'Ricetta di aspetto per seme',
+    open: 'Apri ricetta di aspetto',
+    apply: 'Applica la ricetta all’anteprima',
+    help: 'Importa una ricetta o un rapporto di ricerca dei semi con associazioni esplicite delle mesh.',
+    warning:
+      'Anteprima candidata: solo parti esplicite e campioni RGB. Texture DDS, maschere e shader nativi non vengono riprodotti.',
+    mismatch:
+      'L’impronta del modello o i nomi delle mesh non corrispondono. Non è stata applicata alcuna modifica.',
+    failed: 'Impossibile leggere il file come ricetta di aspetto supportata.',
+    seed: 'Seme candidato',
+    applied: 'Ricetta applicata all’anteprima',
+    candidate: 'Candidato del valutatore parziale'
+  },
   controls: {
     changeLanguage: 'Cambia lingua',
     changeTheme: 'Cambia tema',

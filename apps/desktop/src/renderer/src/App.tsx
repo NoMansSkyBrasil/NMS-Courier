@@ -1,8 +1,8 @@
 import { ActivityPage } from '@renderer/components/activity-page'
 import { AppSidebar } from '@renderer/components/app-sidebar'
+import { BridgePage } from '@renderer/components/bridge-page'
 import { CatalogPage } from '@renderer/components/catalog-page'
 import { DashboardPage } from '@renderer/components/dashboard-page'
-import { DeliveryPage } from '@renderer/components/delivery-page'
 import { FeaturePage } from '@renderer/components/feature-page'
 import { SettingsPage } from '@renderer/components/settings-page'
 import { SiteHeader } from '@renderer/components/site-header'
@@ -28,7 +28,7 @@ function Workspace(): React.JSX.Element {
   if (feature.id === 'dashboard') return <DashboardPage />
   if (feature.id === 'activity') return <ActivityPage />
   if (feature.id === 'catalog') return <CatalogPage />
-  if (feature.id === 'bridge') return <DeliveryPage />
+  if (feature.id === 'bridge') return <BridgePage />
   if (feature.id === 'settings') return <SettingsPage />
   if (feature.id === 'models')
     return (

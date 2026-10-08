@@ -120,9 +120,12 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Application shell in all 14 languages, one resource per language, typed so a missing key
   does not compile (2026-10-08). Translations were written by the assistant and have not been
   reviewed by native speakers.
-- [ ] Untranslated screens, still English or three languages only: game catalogue page
-  (`catalog-page.tsx`), game and bridge page (`delivery-page.tsx`), model workshop
-  (`preview-copy.ts`, `appearance-copy.ts`). Move them into the locale resources.
+- [x] Every renderer screen in all 14 languages (2026-10-08): catalogue page, game and bridge page
+  (rewritten as `bridge-page.tsx`), model workshop; `preview-copy.ts`, `appearance-copy.ts` and
+  `delivery-page.tsx` removed; `locales.test.ts` checks keys, empty strings and placeholders.
+- [ ] Translate the two native dialogs of the main process (installation folder picker, close
+  warning during diagnostics); they need the locale in the main process.
+- [ ] Have the translations reviewed by native speakers.
 - [x] Interface organised by domain with the official sidebar block (2026-10-08): groups Overview,
   Deliver, Unlock, Rewards, Library, System; see [product and UI](docs/PRODUCT_AND_UI.md#3-navigation).
 - [~] Area pages connected to the research bridge for the eleven verified areas (2026-10-08,

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Color, LinearSRGBColorSpace } from 'three'
 import type { PalettePreview, PreviewColor } from '../../../shared/model-preview'
 import { useLocale } from '@renderer/i18n/locale-provider'
-import { previewCopy } from '@renderer/i18n/preview-copy'
 import type { PreviewPart } from './model-preview-canvas'
 import { Button } from './ui/button'
 import { Alert, AlertDescription } from './ui/alert'
@@ -26,8 +25,8 @@ export function ModelPaletteControls({
   parts: PreviewPart[]
   onApply: (part: string, color: PreviewColor) => void
 }): React.JSX.Element {
-  const { locale } = useLocale()
-  const copy = previewCopy[locale as keyof typeof previewCopy] ?? previewCopy['en-US']
+  const { copy: messages } = useLocale()
+  const copy = messages.preview
   const [seed, setSeed] = useState('0x7')
   const [source, setSource] = useState<string | null>(null)
   const [preview, setPreview] = useState<PalettePreview | null>(null)

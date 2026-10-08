@@ -164,6 +164,93 @@ export type Messages = {
     outcome: Record<DeliveryOutcomeId, string>
     outcomeHint: Record<DeliveryOutcomeId, string>
   }
+  bridgePage: {
+    installationTitle: string
+    installationSelected: string
+    installationNone: string
+    installationInvalid: string
+    select: string
+    verifying: string
+    bridgeTitle: string
+    bridgeHint: string
+    diagnosticsTitle: string
+    diagnosticsHint: string
+    connect: string
+    starting: string
+    diagNotConnected: string
+    diagHostReady: string
+    diagAuthenticated: string
+    diagCallbackReady: string
+    diagFailed: string
+    diagEnded: string
+  }
+  catalogPage: {
+    unavailableTitle: string
+    unavailableBody: string
+    title: string
+    description: string
+    buildBadge: string
+    searchLabel: string
+    searchPlaceholder: string
+    all: string
+    substance: string
+    product: string
+    technology: string
+    matching: string
+    loading: string
+    languages: string
+  }
+  preview: {
+    title: string
+    description: string
+    stage: string
+    import: string
+    loading: string
+    empty: string
+    hint: string
+    limits: string
+    warning: string
+    parts: string
+    all: string
+    none: string
+    filter: string
+    tint: string
+    original: string
+    reset: string
+    palettes: string
+    paletteHelp: string
+    importPalette: string
+    seed: string
+    calculatePalette: string
+    calculatedSeed: string
+    family: string
+    samples: string
+    sample: string
+    paletteIndex: string
+    colorTarget: string
+    visibleTarget: string
+    applyColor: string
+    paletteWarning: string
+    INVALID_PALETTE: string
+    INVALID_SEED: string
+    PALETTE_UNAVAILABLE: string
+    failed: string
+    INVALID_MODEL: string
+    UNSUPPORTED_MODEL: string
+    FILE_UNAVAILABLE: string
+  }
+  appearance: {
+    title: string
+    open: string
+    apply: string
+    help: string
+    warning: string
+    mismatch: string
+    failed: string
+    seed: string
+    applied: string
+    candidate: string
+  }
   controls: {
     changeLanguage: string
     changeTheme: string

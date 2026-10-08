@@ -243,6 +243,102 @@ export const nlNL: Messages = {
       refused: 'Er is niets verzonden.'
     }
   },
+  bridgePage: {
+    installationTitle: 'Spelinstallatie',
+    installationSelected: '{name} is geselecteerd.',
+    installationNone: 'Kies de installatiemap van No Man’s Sky.',
+    installationInvalid: 'De geselecteerde map is geen geldige installatie van No Man’s Sky.',
+    select: 'Installatie selecteren',
+    verifying: 'Bezig met controleren…',
+    bridgeTitle: 'Onderzoeksbrug',
+    bridgeHint: 'Het onderdeel in het spel dat de leveringen uitvoert.',
+    diagnosticsTitle: 'Alleen-lezen diagnose',
+    diagnosticsHint:
+      'Verbindt de privé-runtimehost, die geen leveropdracht heeft. Houd dit venster open tot je het spel sluit.',
+    connect: 'Alleen-lezen runtime verbinden',
+    starting: 'Bezig met starten…',
+    diagNotConnected: 'Geen diagnoseruntime verbonden.',
+    diagHostReady: 'De runtimehost is gereed en wacht op het spel.',
+    diagAuthenticated: 'Handshake voltooid; wachten op de callback van het spel.',
+    diagCallbackReady: 'De alleen-lezen callback is actief in het spel.',
+    diagFailed: 'Diagnose mislukt ({reason}).',
+    diagEnded: 'De diagnosesessie is met het spel beëindigd.'
+  },
+  catalogPage: {
+    unavailableTitle: 'De lokale catalogus is niet beschikbaar',
+    unavailableBody: 'In dit applicatieprofiel is nog geen catalogus gegenereerd.',
+    title: 'Lokale catalogus',
+    description:
+      'Alleen-lezen definities uit de geselecteerde spelinstallatie. Een resultaat betekent niet dat het voorwerp geleverd kan worden.',
+    buildBadge: 'Versie {build}',
+    searchLabel: 'Zoeken in de lokale catalogus',
+    searchPlaceholder: 'Zoek op naam of spel-ID',
+    all: 'Alles',
+    substance: 'Stoffen',
+    product: 'Producten',
+    technology: 'Technologieën',
+    matching: '{count} overeenkomende definities',
+    loading: 'Definities laden…',
+    languages: '{count} speltalen'
+  },
+  preview: {
+    title: 'Modelwerkplaats',
+    description: 'Bekijk een lokaal statisch GLB-model en stel de zichtbare onderdelen samen.',
+    stage: 'Experimentele voorvertoning',
+    import: 'GLB-model openen',
+    loading: 'Model laden…',
+    empty: 'Kies een lokaal model om te beginnen',
+    hint: 'Sleep om te draaien, scrol om te zoomen en sleep met de rechtermuisknop om te verschuiven.',
+    limits:
+      'Deze versie accepteert statische GLB-bestanden tot 64 MiB, alleen met ingesloten PNG-texturen en zonder externe bronnen. De native conversie van NMS-assets is nog niet aangesloten.',
+    warning:
+      'Onderdeelkeuzes en tint gelden alleen voor deze voorvertoning. Ze berekenen geen seed en leveren geen schip.',
+    parts: 'Zichtbare onderdelen',
+    all: 'Alles tonen',
+    none: 'Alles verbergen',
+    filter: 'Onderdelen filteren op naam',
+    tint: 'Tint van de voorvertoning',
+    original: 'Modelkleuren herstellen',
+    reset: 'Camera herstellen',
+    palettes: 'Spelpaletten',
+    paletteHelp: 'Open de uitgepakte BASECOLOURPALETTES.MBIN uit de ondersteunde gegevensset.',
+    importPalette: 'Paletten-MBIN openen',
+    seed: 'Experimentele kleurseed',
+    calculatePalette: 'Kleurmonsters berekenen',
+    calculatedSeed: 'Berekende seed',
+    family: 'Paletfamilie',
+    samples: 'Vijf kleurmonsters',
+    sample: 'Kleurmonster',
+    paletteIndex: 'Bronkleur',
+    colorTarget: 'Toepassen op',
+    visibleTarget: 'Alle zichtbare onderdelen',
+    applyColor: 'Geselecteerde kleur toepassen',
+    paletteWarning:
+      'Experimentele berekening van het basispalet. RGB-monsters kleuren onderdelen opnieuw; ze voorspellen geen native textuurmaskers, geen uiterlijk van een schip en geen omgekeerde seed.',
+    INVALID_PALETTE:
+      'Dit bestand komt niet overeen met de vingerafdruk van het ondersteunde basispalet.',
+    INVALID_SEED: 'Voer 0x in, gevolgd door 1 tot 16 hexadecimale cijfers.',
+    PALETTE_UNAVAILABLE: 'Open een ondersteund paletbestand voordat je kleuren berekent.',
+    failed: 'Het model kon niet worden weergegeven.',
+    INVALID_MODEL: 'Het bestand is geen geldig model binnen de grenzen van de voorvertoning.',
+    UNSUPPORTED_MODEL:
+      'Dit model gebruikt texturen, animatie, extensies of geometrie buiten de ondersteunde subset.',
+    FILE_UNAVAILABLE: 'Het geselecteerde bestand kon niet worden gelezen.'
+  },
+  appearance: {
+    title: 'Uiterlijkrecept op seed',
+    open: 'Uiterlijkrecept openen',
+    apply: 'Recept toepassen op de voorvertoning',
+    help: 'Importeer een recept of een seed-zoekrapport met expliciete mesh-koppelingen.',
+    warning:
+      'Kandidaatvoorvertoning: alleen expliciete onderdelen en RGB-monsters. Native DDS-texturen, maskers en shaders worden niet nagebootst.',
+    mismatch:
+      'De vingerafdruk van het model of de meshnamen komen niet overeen. Er is niets gewijzigd.',
+    failed: 'Het bestand kon niet worden gelezen als een ondersteund uiterlijkrecept.',
+    seed: 'Kandidaatseed',
+    applied: 'Recept toegepast op de voorvertoning',
+    candidate: 'Kandidaat van de gedeeltelijke evaluator'
+  },
   controls: {
     changeLanguage: 'Taal wijzigen',
     changeTheme: 'Thema wijzigen',
