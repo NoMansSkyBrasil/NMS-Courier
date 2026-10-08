@@ -502,7 +502,12 @@ Also seen in the same read: 204 known technologies in the slot, one fewer
 than the 205 of every earlier read. Not explained and not caused by a
 request of this session; check which ID is missing.
 
-Not proven: the shop on screen in this session (awaiting the owner); the
+**Second online start, same morning (process 18352):** the owner closed and
+reopened the game; again nothing was sent. Keeper status identical
+(`insert_passes=1`, `last_inserted=435`, `last_unknown=0`); Twitch 435 and
+platform 3 in memory. The keep list restores the set at every start.
+
+Not proven: the shop on screen in these sessions (awaiting the owner); the
 behaviour after the 30-minute window; a later re-sign-in within one
 session.
 

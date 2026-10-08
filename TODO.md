@@ -158,6 +158,8 @@ This file is the operational source of truth for implementation order. Update it
   reward + redeem in the slot; user chooses ships and multitools; check the 14 technology-carrying appearance rewards
   already redeemed in slot 3 ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
 - [ ] Interface text, all 14 languages: Twitch rewards stay claimable only while the bridge is installed.
+- [ ] `HDRIVEBOOST4` vanished from slot 3 between 2026-10-08 01:13 and 09:16 and was taught again; find out whether
+  the game removes it.
 - [ ] `ENT_BOLTCASTER` and `ENT_PHOCORE` are not "unlocked on account" in the owner's editor: diff `accountdata.hg` after
   the owner enables them there, then find the game's route ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
 - [ ] Pre-order and entitlement rewards (ships `ENT_SHIP`, `ENT_SHIP_PC`, `R_TGA_SHIP01`, Switch ship and multitool):

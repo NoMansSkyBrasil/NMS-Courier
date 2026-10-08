@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-08: keep list holds at a second online start; `HDRIVEBOOST4` taught again
+
+Process 18352, DLL `6ad12b1c...27fc`, executable `13d5060d...`, slot 3
+identified, store client online.
+
+- Read-only: keeper inserted 435 Twitch IDs in one pass again; Twitch 435,
+  platform 3. See [account unlock notes](ACCOUNT_UNLOCK_NOTES.md).
+- The slot's missing technology is `HDRIVEBOOST4` (present in the 01:13
+  backup, absent from the 09:16 files). Cause unknown. Backup taken, then
+  `signal-technology-180836.ps1 -Id HDRIVEBOOST4`: learned, 204 -> 205. See
+  [technology delivery notes](TECHNOLOGY_DELIVERY_NOTES.md). Game kept
+  running. Not proven: that it stays after a save and restart.
+
 ## 2026-10-08: keep list proven across an online start
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#why-the-twitch-set-does-not-survive-an-online-start-and-the-keep-list-2026-10-08-morning).

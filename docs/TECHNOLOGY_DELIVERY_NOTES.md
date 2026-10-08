@@ -1,5 +1,18 @@
 # Technology delivery notes
 
+> **2026-10-08: one delivered technology disappeared and was taught again.**
+> Slot 3 showed 204 known technologies in two game sessions instead of 205.
+> Comparing the slot files of 09:16 with the backup of 01:13 the same day,
+> the missing one is `HDRIVEBOOST4`; nothing was added. No request of this
+> project removes a technology, and the cause is unknown (between the two
+> files the owner claimed the Switch ship and multitool in the shop, went
+> online, and used a third-party editor on the account data). Taught again
+> in process 18352 (DLL `6ad12b1c...27fc`, backup
+> `save-backups/20261008-before-hdriveboost4`):
+> `signal-technology-180836.ps1 -Id HDRIVEBOOST4`, known 204 -> 205,
+> `learned`. To watch: whether it is gone again after the next save and
+> start, which would mean the game itself removes it.
+
 Checkpoint: 2026-10-07. Owner of the technology domain: teaching the player
 *known technologies* (the blueprints listed in the game catalogue), in three
 modes requested by the project owner — one, several, all — and the permanent
