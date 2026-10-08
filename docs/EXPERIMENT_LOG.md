@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-07: the account cleanup did not hold; the game restored the account from the settings file
+
+Read-only. Game restarted by the owner at about 23:56: process 20732, slot 3
+identified, DLL `68fd60bc...d5a7`, executable `13d5060d...`.
+
+- Account sets in memory are full again: titles 346, unlocked specials 794,
+  season 293, platform 1, Twitch set (unresolved) 0. Identical to the read
+  before the cleanup.
+- `accountdata.hg` was rewritten by the game at 23:56 and is back to exactly
+  114,431 bytes; `GCUSERSETTINGSDATA.MXML` was rewritten at the same minute.
+- Reading: on this installation the game loads the account lists from the
+  settings file (which the editor did not change) and then writes
+  `accountdata.hg` from memory. A server-side restore would look the same and
+  is not excluded.
+- Consequence: there is still nothing missing on the account to test an
+  account route with. No request was sent.
+- To get an account that lacks entries, both files have to lack them before
+  the game starts. That is test preparation by the owner outside the project's
+  delivery rules; this project's tools do not edit either file.
+
 ## 2026-10-07: owner will clear account unlocks with a save editor (backup taken)
 
 The owner announced removing unlocks from the account with a third-party

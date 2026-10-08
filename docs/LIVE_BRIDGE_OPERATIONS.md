@@ -74,6 +74,8 @@ There is **one** save folder per platform account
 | Account data | `accountdata.hg` and its `mf_` companion, rewritten when the game starts | The whole account, every slot |
 | User settings | `Binaries/SETTINGS/GCUSERSETTINGSDATA.MXML` in the game's install folder | The whole installation, every slot: seen substances, technologies and products, titles, unlocked specials and unlocked season, Twitch and platform rewards |
 
+Observed on 2026-10-07: after a third-party editor emptied the unlock lists in `accountdata.hg` only, the next game start had every list in memory again and rewrote `accountdata.hg` to its earlier size. The settings file, or the publisher's servers, restored them; see the experiment log.
+
 On the owner's installation the slots in use are 1 (`save.hg`, `save2.hg`),
 2 (`save3.hg`, `save4.hg`), 3 (`save5.hg`, `save6.hg`) and 9 (`save17.hg`,
 `save18.hg`). **The test save is slot 3.** Earlier notes that speak of "other
