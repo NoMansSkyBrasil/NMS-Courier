@@ -7,9 +7,10 @@ or a build part available to the player.
 Status in one line: the classification, the game routine and a request in the
 research profile exist; the build is installed and on 2026-10-07 taught
 slot 3 the 108 catalogue items and the 91 craftable technology products
-and the 1,067 build parts live (1,802 known products; the build parts are
-not yet saved or confirmed on screen). Five freighter rooms became known
-without being requested during the technology request; unexplained. Scope of a delivery: one slot, with one side
+the 1,067 build parts and the 106 research-tree products live: 1,905 known
+products, saved and confirmed on screen by the owner on 2026-10-07. Open:
+five freighter rooms became known without being requested; one game crash
+of unknown cause; corvette part unlocks. Scope of a delivery: one slot, with one side
 effect on the account described below.
 
 ## What the owner saw
@@ -236,14 +237,16 @@ preflight passed.
 | `-AllOfClass research_tree` (106) | known 1,802 -> 1,905: 103 `learned`, 3 `not_added` (already known) |
 
 The 103 equal the tree products found missing offline. The game kept
-running. Not proven: the terminals on screen (station decorations,
-containers), persistence after the owner's save, and whether the crash
-repeats.
+running.
+
+Confirmed afterwards: the owner saved, checked the terminals and reported
+that it worked. Both slot 3 files (`save6.hg` 21:28, `save5.hg` 21:29) hold
+1,905 known products. The crash did not repeat while the owner checked; its
+cause remains unknown.
 
 ## Remaining steps (proposed, not done)
 
-1. Owner saves and checks the station decoration and storage trees; watch
-   for a repeat of the crash.
-2. Read the slot file after the save (expect 1,905 known products).
+1. Done: owner confirmed on screen; saved files hold 1,905 known products.
+2. Watch for a repeat of the `nvoglv64` crash in later sessions.
 3. Corvette part unlocks (`BIG_*` tree entries): find the mechanism.
 4. Review the 964 remaining hidden learnable products.

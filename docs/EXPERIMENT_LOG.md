@@ -9,7 +9,8 @@ new class was sent. Backup taken, preflight passed.
 
 - `-AllOfClass research_tree` (106): 103 learned, 3 already known; known
   products 1,802 -> 1,905. Game kept running.
-- Not proven: terminals on screen, persistence, crash recurrence.
+- Confirmed: the owner saw the trees unlocked and saved; both slot 3 files
+  hold 1,905 known products. The crash did not repeat during the check.
 - Rollback: `save-backups/20261007-before-research-tree`.
 
 ## 2026-10-07: game crash after the build part delivery; hidden research-tree products; second product build
