@@ -203,6 +203,37 @@ export const ptPT: Messages = {
       'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Funciona com uma versão exata do jogo de cada vez.'
   },
   delivery: {
+    equipActionLabel: 'Ação',
+    equipTarget: 'Nave',
+    equipTargetCurrent: 'Nave atual',
+    equipTargetSlot: 'Nave do espaço {number}',
+    equipClass: 'Classe',
+    equipSlots: 'Todos os espaços do inventário',
+    equipSlotsHint: 'Torna utilizáveis todas as posições das grelhas de carga e de tecnologia.',
+    equipSupercharge: 'Espaços sobrecarregados',
+    equipSuperchargeHint:
+      'Transforma cada espaço de tecnologia utilizável num espaço sobrecarregado.',
+    equipExtended: 'Linhas adicionais de tecnologia',
+    equipExtendedHint:
+      'Aumenta a grelha de tecnologia para doze linhas. Requer todos os espaços do inventário.',
+    currencyHint:
+      'A recompensa do próprio jogo adiciona o valor e mostra a sua notificação. Os valores são fixos; envie novamente para receber mais.',
+    currencyLabel: 'Moeda',
+    equipAction: {
+      grid: 'Aplicar ao inventário',
+      classStep: 'Subir um nível de classe',
+      offer: 'Enviar oferta de cargueiro',
+      build: 'Iniciar construção de corveta'
+    },
+    equipActionHint: {
+      grid: 'Altera o inventário que já possui, no próprio local. Nada é aberto no jogo.',
+      classStep:
+        'Pede ao jogo a sua própria recompensa de melhoria: um nível de classe por pedido, até S.',
+      offer:
+        'O jogo oferece um cargueiro com as opções abaixo. Aceite no jogo; substitui o seu cargueiro atual.',
+      build: 'O jogo abre a construção de corveta com as opções abaixo.'
+    },
+    currencyName: { units: 'Unidades', nanites: 'Nanites', quicksilver: 'Mercúrio' },
     itemsTitle: 'Enviar itens para o jogo',
     itemsHint:
       'As substâncias e os produtos vão para a carga do exofato da gravação carregada, em pilhas do tamanho que o jogo permite. O que não couber não é enviado.',
@@ -241,6 +272,8 @@ export const ptPT: Messages = {
     activityEmptyTitle: 'Ainda nada enviado',
     activityEmptyBody: 'As entregas desta sessão aparecem aqui.',
     state: {
+      currency_data_missing:
+        'O ficheiro de dados das moedas não está na pasta de mods do jogo ou é de outra versão. Nada foi enviado.',
       selection_invalid:
         'A seleção contém uma entrada que esta área não disponibiliza. Nada foi enviado.',
       unavailable: 'Disponível apenas numa versão de desenvolvimento.',

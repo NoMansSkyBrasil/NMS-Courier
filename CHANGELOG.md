@@ -13,6 +13,22 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.1.0 and bridge 1.1.0 (2026-10-08)
+
+Meaning of the numbers (owner, 2026-10-08): `x.x.1` bug fixes, `x.1.x` an
+update that is not very large, `2.x.x` a large new feature.
+
+Bridge 1.1.0, file SHA-256
+`0a51fbd01bbafb5f4fe921ab5dcdc8f47e5423a9589384aaa4d45e600607a03d`: the
+twelve currency rewards of `runtime/mods/currency_rewards` may be requested
+(`signal-currency-180836.ps1`). Needs that data file in the game's mod
+folder. Not exercised live yet.
+
+Application 1.1.0: working pages for Currencies, Exosuit, Starships,
+Multi-tools, Freighters and Corvettes, sending the options the bridge
+already had as scripts. None of these pages has been used against the
+running game yet.
+
 ## Application 1.0.0 and bridge 1.0.0 (2026-10-08)
 
 First versioned state. Everything below is for game build 180836 and the local

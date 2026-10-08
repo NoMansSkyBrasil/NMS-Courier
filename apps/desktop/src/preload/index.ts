@@ -23,6 +23,9 @@ const nms = {
   getResearchBridgeStatus: () => ipcRenderer.invoke('nms:get-research-bridge-status'),
   deliver: (feature: string, chosen?: string[], notify?: boolean) =>
     ipcRenderer.invoke('nms:deliver', feature, chosen ?? null, notify ?? true),
+  deliverEquipment: (request: unknown) => ipcRenderer.invoke('nms:deliver-equipment', request),
+  deliverCurrency: (request: { currency: string; amount: string }) =>
+    ipcRenderer.invoke('nms:deliver-currency', request),
   deliverItems: (items: Array<{ id: string; amount: number }>) =>
     ipcRenderer.invoke('nms:deliver-items', items),
   getDeliveryOptions: (feature: string, locale: string) =>

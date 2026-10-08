@@ -6,6 +6,13 @@ import { join } from 'node:path'
 import type { GameProcessStatus } from '../game-status-service'
 import { bridgeReleases, bridgeVersion } from './bridge-version'
 import {
+  currencyDataFile,
+  currencyDataSha256,
+  getCurrencyPlan,
+  type CurrencyRequest
+} from './currency-plan'
+import { getEquipmentPlan, type EquipmentArea, type EquipmentRequest } from './equipment-plan'
+import {
   classifyStepOutput,
   getDeliveryPlan,
   getItemPlan,
@@ -41,10 +48,16 @@ export type DeliveryStepResult = {
 }
 
 export type DeliveryResult = {
-  feature: DeliveryFeatureId | 'items'
+  feature: DeliveryFeatureId | 'items' | 'currencies' | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
-  reason: ResearchBridgeStatus['state'] | 'busy' | 'backup_failed' | 'selection_invalid' | null
+  reason:
+    | ResearchBridgeStatus['state']
+    | 'busy'
+    | 'backup_failed'
+    | 'selection_invalid'
+    | 'currency_data_missing'
+    | null
   startedAt: string
   backupPath: string | null
   steps: DeliveryStepResult[]
@@ -153,6 +166,38 @@ export class ResearchBridgeService {
     game: GameProcessStatus
   ): Promise<DeliveryResult> {
     return this.run('items', getItemPlan(items), installationRoot, game)
+  }
+
+  // Inventory grids, class steps, a freighter offer or a corvette build, with the chosen options.
+  deliverEquipment(
+    request: EquipmentRequest,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run(request.area, getEquipmentPlan(request), installationRoot, game)
+  }
+
+  // Units, nanites or quicksilver. The game can only give them when the currency rewards data file
+  // is in its mod folder, so its presence and content are checked first.
+  async deliverCurrency(
+    request: CurrencyRequest,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    const data = installationRoot
+      ? await sha256OfFile(join(installationRoot, ...currencyDataFile))
+      : null
+    if (installationRoot && data !== currencyDataSha256) {
+      return this.record({
+        feature: 'currencies',
+        outcome: 'refused',
+        reason: 'currency_data_missing',
+        startedAt: new Date().toISOString(),
+        backupPath: null,
+        steps: []
+      })
+    }
+    return this.run('currencies', getCurrencyPlan(request), installationRoot, game)
   }
 
   private async run(

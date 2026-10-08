@@ -205,6 +205,37 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    equipActionLabel: 'Azione',
+    equipTarget: 'Astronave',
+    equipTargetCurrent: 'Astronave attuale',
+    equipTargetSlot: 'Astronave dello slot {number}',
+    equipClass: 'Classe',
+    equipSlots: 'Tutti gli slot dell’inventario',
+    equipSlotsHint:
+      'Rende utilizzabili tutte le posizioni delle griglie di carico e di tecnologia.',
+    equipSupercharge: 'Slot sovraccaricati',
+    equipSuperchargeHint: 'Trasforma ogni slot tecnologia utilizzabile in uno slot sovraccaricato.',
+    equipExtended: 'Righe di tecnologia aggiuntive',
+    equipExtendedHint:
+      'Porta la griglia di tecnologia a dodici righe. Richiede tutti gli slot dell’inventario.',
+    currencyHint:
+      'La ricompensa del gioco aggiunge l’importo e mostra la sua notifica. Gli importi sono fissi; invia di nuovo per riceverne altri.',
+    currencyLabel: 'Valuta',
+    equipAction: {
+      grid: 'Applica all’inventario',
+      classStep: 'Aumenta la classe di un livello',
+      offer: 'Invia offerta di mercantile',
+      build: 'Avvia costruzione corvetta'
+    },
+    equipActionHint: {
+      grid: 'Modifica l’inventario che possiedi già, sul posto. Nel gioco non si apre nulla.',
+      classStep:
+        'Chiede al gioco la sua ricompensa di potenziamento: un livello di classe per richiesta, fino a S.',
+      offer:
+        'Il gioco ti offre un mercantile con le opzioni qui sotto. Accettalo nel gioco; sostituisce il tuo mercantile attuale.',
+      build: 'Il gioco apre la costruzione della corvetta con le opzioni qui sotto.'
+    },
+    currencyName: { units: 'Unità', nanites: 'Naniti', quicksilver: 'Argento vivo' },
     itemsTitle: 'Invia oggetti al gioco',
     itemsHint:
       'Sostanze e prodotti vanno nel carico dell’esotuta del salvataggio caricato, in pile della dimensione consentita dal gioco. Ciò che non entra non viene inviato.',
@@ -243,6 +274,8 @@ export const itIT: Messages = {
     activityEmptyTitle: 'Non è ancora stato inviato nulla',
     activityEmptyBody: 'Le consegne di questa sessione compaiono qui.',
     state: {
+      currency_data_missing:
+        'Il file di dati delle valute non è nella cartella dei mod del gioco oppure è di un’altra versione. Non è stato inviato nulla.',
       selection_invalid:
         'La selezione contiene una voce che quest’area non offre. Non è stato inviato nulla.',
       unavailable: 'Disponibile solo in una versione di sviluppo.',

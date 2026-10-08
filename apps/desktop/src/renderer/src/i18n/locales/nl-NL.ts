@@ -207,6 +207,36 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    equipActionLabel: 'Actie',
+    equipTarget: 'Sterrenschip',
+    equipTargetCurrent: 'Huidig sterrenschip',
+    equipTargetSlot: 'Sterrenschip in plek {number}',
+    equipClass: 'Klasse',
+    equipSlots: 'Alle inventarisvakken',
+    equipSlotsHint: 'Maakt elke positie van de vracht- en technologierasters bruikbaar.',
+    equipSupercharge: 'Supergeladen vakken',
+    equipSuperchargeHint: 'Maakt van elk bruikbaar technologievak een supergeladen vak.',
+    equipExtended: 'Extra technologierijen',
+    equipExtendedHint:
+      'Breidt het technologieraster uit naar twaalf rijen. Vereist alle inventarisvakken.',
+    currencyHint:
+      'De beloning van het spel zelf voegt het bedrag toe en toont de melding. De bedragen zijn vast; verzend opnieuw voor meer.',
+    currencyLabel: 'Valuta',
+    equipAction: {
+      grid: 'Toepassen op inventaris',
+      classStep: 'Klasse één stap verhogen',
+      offer: 'Vrachtschipaanbod verzenden',
+      build: 'Korvetbouw starten'
+    },
+    equipActionHint: {
+      grid: 'Wijzigt de inventaris die je al hebt, ter plekke. Er wordt niets geopend in het spel.',
+      classStep:
+        'Vraagt het spel om zijn eigen upgradebeloning: één klassestap per verzoek, tot S.',
+      offer:
+        'Het spel biedt je een vrachtschip aan met de onderstaande opties. Accepteer het in het spel; het vervangt je huidige vrachtschip.',
+      build: 'Het spel opent de korvetbouw met de onderstaande opties.'
+    },
+    currencyName: { units: 'Units', nanites: 'Nanieten', quicksilver: 'Kwikzilver' },
     itemsTitle: 'Voorwerpen naar het spel sturen',
     itemsHint:
       'Stoffen en producten gaan naar de vracht van het exopak van het geladen spel, in stapels van de grootte die het spel toestaat. Wat niet past, wordt niet verzonden.',
@@ -245,6 +275,8 @@ export const nlNL: Messages = {
     activityEmptyTitle: 'Nog niets verzonden',
     activityEmptyBody: 'Leveringen van deze sessie verschijnen hier.',
     state: {
+      currency_data_missing:
+        'Het valutagegevensbestand staat niet in de modmap van het spel of is van een andere versie. Er is niets verzonden.',
       selection_invalid:
         'De selectie bevat een item dat dit onderdeel niet aanbiedt. Er is niets verzonden.',
       unavailable: 'Alleen beschikbaar in een ontwikkelversie.',

@@ -188,6 +188,35 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    equipActionLabel: '동작',
+    equipTarget: '우주선',
+    equipTargetCurrent: '현재 우주선',
+    equipTargetSlot: '슬롯 {number}의 우주선',
+    equipClass: '등급',
+    equipSlots: '모든 인벤토리 슬롯',
+    equipSlotsHint: '화물 및 기술 격자의 모든 위치를 사용할 수 있게 합니다.',
+    equipSupercharge: '과충전 슬롯',
+    equipSuperchargeHint: '사용 가능한 모든 기술 슬롯을 과충전 슬롯으로 만듭니다.',
+    equipExtended: '추가 기술 줄',
+    equipExtendedHint: '기술 격자를 12줄로 늘립니다. 모든 인벤토리 슬롯이 필요합니다.',
+    currencyHint:
+      '게임 자체 보상이 금액을 추가하고 알림을 표시합니다. 금액은 고정되어 있으며, 더 받으려면 다시 보내세요.',
+    currencyLabel: '화폐',
+    equipAction: {
+      grid: '인벤토리에 적용',
+      classStep: '등급 한 단계 올리기',
+      offer: '화물선 제안 보내기',
+      build: '코르벳 건조 시작'
+    },
+    equipActionHint: {
+      grid: '이미 보유한 인벤토리를 그 자리에서 변경합니다. 게임에서 아무 창도 열리지 않습니다.',
+      classStep:
+        '게임 자체의 업그레이드 보상을 요청합니다. 요청 한 번에 등급이 한 단계씩, S까지 올라갑니다.',
+      offer:
+        '게임이 아래 옵션으로 화물선을 제안합니다. 게임에서 수락하면 현재 화물선을 대체합니다.',
+      build: '게임이 아래 옵션으로 코르벳 건조를 엽니다.'
+    },
+    currencyName: { units: '유닛', nanites: '나나이트', quicksilver: '퀵실버' },
     itemsTitle: '게임으로 아이템 보내기',
     itemsHint:
       '물질과 제품은 불러온 저장 데이터의 엑소슈트 화물칸에, 게임이 허용하는 묶음 크기로 들어갑니다. 들어가지 않는 것은 전송되지 않습니다.',
@@ -224,6 +253,8 @@ export const koKR: Messages = {
     activityEmptyTitle: '아직 보낸 것이 없습니다',
     activityEmptyBody: '이번 세션의 전달 내역이 여기에 표시됩니다.',
     state: {
+      currency_data_missing:
+        '화폐 데이터 파일이 게임의 모드 폴더에 없거나 버전이 다릅니다. 아무것도 전송되지 않았습니다.',
       selection_invalid:
         '선택 항목에 이 영역에서 제공하지 않는 항목이 있습니다. 아무것도 전송되지 않았습니다.',
       unavailable: '개발 빌드에서만 사용할 수 있습니다.',

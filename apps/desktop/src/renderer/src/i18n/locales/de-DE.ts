@@ -209,6 +209,36 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    equipActionLabel: 'Aktion',
+    equipTarget: 'Raumschiff',
+    equipTargetCurrent: 'Aktuelles Raumschiff',
+    equipTargetSlot: 'Raumschiff in Platz {number}',
+    equipClass: 'Klasse',
+    equipSlots: 'Alle Inventarplätze',
+    equipSlotsHint: 'Macht jede Position der Fracht- und Technologieraster nutzbar.',
+    equipSupercharge: 'Aufgeladene Plätze',
+    equipSuperchargeHint: 'Macht jeden nutzbaren Technologieplatz zu einem aufgeladenen Platz.',
+    equipExtended: 'Zusätzliche Technologiereihen',
+    equipExtendedHint:
+      'Erweitert das Technologieraster auf zwölf Reihen. Erfordert alle Inventarplätze.',
+    currencyHint:
+      'Die Belohnung des Spiels fügt den Betrag hinzu und zeigt die eigene Benachrichtigung. Die Beträge sind fest; sende erneut, um mehr zu erhalten.',
+    currencyLabel: 'Währung',
+    equipAction: {
+      grid: 'Auf Inventar anwenden',
+      classStep: 'Klasse um eine Stufe erhöhen',
+      offer: 'Frachterangebot senden',
+      build: 'Korvettenbau starten'
+    },
+    equipActionHint: {
+      grid: 'Ändert das Inventar, das du bereits besitzt, an Ort und Stelle. Im Spiel öffnet sich nichts.',
+      classStep:
+        'Fordert die Upgrade-Belohnung des Spiels an: eine Klassenstufe pro Anfrage, bis S.',
+      offer:
+        'Das Spiel bietet dir einen Frachter mit den folgenden Optionen an. Nimm ihn im Spiel an; er ersetzt deinen aktuellen Frachter.',
+      build: 'Das Spiel öffnet den Korvettenbau mit den folgenden Optionen.'
+    },
+    currencyName: { units: 'Units', nanites: 'Naniten', quicksilver: 'Quecksilber' },
     itemsTitle: 'Gegenstände an das Spiel senden',
     itemsHint:
       'Substanzen und Produkte kommen in die Fracht des Exo-Anzugs des geladenen Spielstands, in Stapeln der vom Spiel erlaubten Größe. Was nicht hineinpasst, wird nicht gesendet.',
@@ -249,6 +279,8 @@ export const deDE: Messages = {
     activityEmptyTitle: 'Noch nichts gesendet',
     activityEmptyBody: 'Lieferungen dieser Sitzung erscheinen hier.',
     state: {
+      currency_data_missing:
+        'Die Währungsdatendatei liegt nicht im Mod-Ordner des Spiels oder hat eine andere Version. Es wurde nichts gesendet.',
       selection_invalid:
         'Die Auswahl enthält einen Eintrag, den dieser Bereich nicht anbietet. Es wurde nichts gesendet.',
       unavailable: 'Nur in einer Entwicklungsversion verfügbar.',

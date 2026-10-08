@@ -192,6 +192,34 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    equipActionLabel: 'Action',
+    equipTarget: 'Starship',
+    equipTargetCurrent: 'Current starship',
+    equipTargetSlot: 'Starship slot {number}',
+    equipClass: 'Class',
+    equipSlots: 'All inventory slots',
+    equipSlotsHint: 'Makes every position of the cargo and technology grids usable.',
+    equipSupercharge: 'Supercharged slots',
+    equipSuperchargeHint: 'Turns every usable technology slot into a supercharged slot.',
+    equipExtended: 'Extra technology rows',
+    equipExtendedHint: 'Raises the technology grid to twelve rows. Needs all inventory slots.',
+    currencyHint:
+      'The game’s own reward adds the amount and shows its notification. The amounts are fixed; send again for more.',
+    currencyLabel: 'Currency',
+    equipAction: {
+      grid: 'Apply to inventory',
+      classStep: 'Raise class by one step',
+      offer: 'Send freighter offer',
+      build: 'Start corvette build'
+    },
+    equipActionHint: {
+      grid: 'Changes the inventory you already own, in place. Nothing opens in the game.',
+      classStep: 'Asks the game for its own upgrade reward: one class step per request, up to S.',
+      offer:
+        'The game offers you a freighter with the options below. Accept it in the game; it replaces your current freighter.',
+      build: 'The game opens corvette building with the options below.'
+    },
+    currencyName: { units: 'Units', nanites: 'Nanites', quicksilver: 'Quicksilver' },
     itemsTitle: 'Send items to the game',
     itemsHint:
       'Substances and products go into the exosuit cargo of the loaded save, in stacks of the size the game allows. What does not fit is not sent.',
@@ -230,6 +258,8 @@ export const enUS: Messages = {
     activityEmptyTitle: 'Nothing sent yet',
     activityEmptyBody: 'Deliveries of this session appear here.',
     state: {
+      currency_data_missing:
+        'The currency data file is not in the game’s mod folder, or it is a different version. Nothing was sent.',
       selection_invalid:
         'The selection contains an entry this area does not offer. Nothing was sent.',
       unavailable: 'Only available in a development build.',

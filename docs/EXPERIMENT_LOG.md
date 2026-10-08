@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-08: bridge 1.1.0, currency data file and six wired pages
+
+Build and installation only; the game was not running and nothing was sent.
+Build 180836. Bridge 1.1.0 (`0a51fbd0...a03d`) installed over 1.0.0; it adds
+twelve currency reward IDs to the list of rewards that may be dispatched
+through the game's reward routine (`0xf140f0`). Data file
+`runtime/mods/currency_rewards/NMSCourierCurrencyRewards` (table SHA-256
+`cdf9552a...6062`) copied to the game's `GAMEDATA\MODS`; the empty folder of
+the 2026-09 probe was removed. The method is the one that delivered the three
+currencies on build 179666; the reward entry layout is the same in the 180836
+table. The application gained pages for currencies, exosuit, starships,
+multi-tools, freighters and corvettes (`equipment-plan.ts`,
+`currency-plan.ts`); 73 unit tests pass. Not proven: all of it live, and
+whether the game still loads a sparse `.EXML` table from the mod folder on
+this build (if no money arrives, try the `.MXML` name). Undo: remove the mod
+folder and copy an earlier bridge back.
+
 ## 2026-10-08: bridge 1.0.0 and application 1.0.0
 
 Build and installation only; the game was not running and nothing was sent.

@@ -4,6 +4,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { CatalogRepository, catalogDomains, type CatalogDomain } from './catalog-repository'
 import { CatalogImporter } from './game-data/catalog-import'
+import { isEquipmentRequest } from './research-bridge/equipment-plan'
 import { InstallationService } from './installation-service'
 import { GameStatusService } from './game-status-service'
 import { resolveLocalItemDeliveryReadiness } from './delivery-readiness'
@@ -265,6 +266,28 @@ app.whenReady().then(() => {
       await gameStatusService.observe(root),
       (chosen as string[] | null | undefined) ?? null,
       notify !== false
+    )
+  })
+  ipcMain.handle('nms:deliver-equipment', async (_, request: unknown) => {
+    if (!isEquipmentRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    const { area, action, slots, supercharge, extendedTechnology, itemClass, shipIndex } = request
+    return getResearchBridgeService().deliverEquipment(
+      { area, action, slots, supercharge, extendedTechnology, itemClass, shipIndex },
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  ipcMain.handle('nms:deliver-currency', async (_, request: unknown) => {
+    const value = request as { currency?: unknown; amount?: unknown } | null
+    if (!value || typeof value.currency !== 'string' || typeof value.amount !== 'string') {
+      throw new Error('Invalid request.')
+    }
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().deliverCurrency(
+      { currency: value.currency, amount: value.amount },
+      root,
+      await gameStatusService.observe(root)
     )
   })
   ipcMain.handle('nms:deliver-items', async (_, items: unknown) => {

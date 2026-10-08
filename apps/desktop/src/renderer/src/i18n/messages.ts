@@ -80,7 +80,8 @@ export const deliveryStateIds = [
   'ready',
   'busy',
   'backup_failed',
-  'selection_invalid'
+  'selection_invalid',
+  'currency_data_missing'
 ] as const
 export type DeliveryStateId = (typeof deliveryStateIds)[number]
 
@@ -149,6 +150,22 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    equipActionLabel: string
+    equipTarget: string
+    equipTargetCurrent: string
+    equipTargetSlot: string
+    equipClass: string
+    equipSlots: string
+    equipSlotsHint: string
+    equipSupercharge: string
+    equipSuperchargeHint: string
+    equipExtended: string
+    equipExtendedHint: string
+    currencyHint: string
+    currencyLabel: string
+    equipAction: Record<'grid' | 'classStep' | 'offer' | 'build', string>
+    equipActionHint: Record<'grid' | 'classStep' | 'offer' | 'build', string>
+    currencyName: Record<'units' | 'nanites' | 'quicksilver', string>
     itemsTitle: string
     itemsHint: string
     itemsAdd: string

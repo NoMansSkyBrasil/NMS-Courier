@@ -197,6 +197,35 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    equipActionLabel: 'Działanie',
+    equipTarget: 'Statek',
+    equipTargetCurrent: 'Obecny statek',
+    equipTargetSlot: 'Statek w miejscu {number}',
+    equipClass: 'Klasa',
+    equipSlots: 'Wszystkie miejsca w ekwipunku',
+    equipSlotsHint: 'Udostępnia wszystkie pozycje siatek ładunku i technologii.',
+    equipSupercharge: 'Doładowane miejsca',
+    equipSuperchargeHint: 'Zamienia każde dostępne miejsce technologii w miejsce doładowane.',
+    equipExtended: 'Dodatkowe rzędy technologii',
+    equipExtendedHint:
+      'Powiększa siatkę technologii do dwunastu rzędów. Wymaga wszystkich miejsc w ekwipunku.',
+    currencyHint:
+      'Nagroda samej gry dodaje kwotę i pokazuje własne powiadomienie. Kwoty są stałe; wyślij ponownie, aby otrzymać więcej.',
+    currencyLabel: 'Waluta',
+    equipAction: {
+      grid: 'Zastosuj do ekwipunku',
+      classStep: 'Podnieś klasę o jeden stopień',
+      offer: 'Wyślij ofertę frachtowca',
+      build: 'Rozpocznij budowę korwety'
+    },
+    equipActionHint: {
+      grid: 'Zmienia ekwipunek, który już masz, na miejscu. W grze nic się nie otwiera.',
+      classStep: 'Prosi grę o jej własną nagrodę ulepszenia: jeden stopień klasy na żądanie, do S.',
+      offer:
+        'Gra oferuje frachtowiec z poniższymi opcjami. Zaakceptuj go w grze; zastąpi obecny frachtowiec.',
+      build: 'Gra otwiera budowę korwety z poniższymi opcjami.'
+    },
+    currencyName: { units: 'Jednostki', nanites: 'Nanity', quicksilver: 'Rtęć' },
     itemsTitle: 'Wyślij przedmioty do gry',
     itemsHint:
       'Substancje i produkty trafiają do ładowni egzokombinezonu wczytanego zapisu, w stosach o rozmiarze dozwolonym przez grę. To, co się nie zmieści, nie jest wysyłane.',
@@ -234,6 +263,8 @@ export const plPL: Messages = {
     activityEmptyTitle: 'Jeszcze nic nie wysłano',
     activityEmptyBody: 'Tutaj pojawiają się dostawy z tej sesji.',
     state: {
+      currency_data_missing:
+        'Pliku danych walut nie ma w folderze modów gry albo jest w innej wersji. Nic nie zostało wysłane.',
       selection_invalid:
         'Zaznaczenie zawiera wpis, którego ten obszar nie oferuje. Nic nie zostało wysłane.',
       unavailable: 'Dostępne tylko w wersji deweloperskiej.',

@@ -193,6 +193,37 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    equipActionLabel: '操作',
+    equipTarget: '宇宙船',
+    equipTargetCurrent: '現在の宇宙船',
+    equipTargetSlot: 'スロット {number} の宇宙船',
+    equipClass: 'クラス',
+    equipSlots: 'すべてのインベントリスロット',
+    equipSlotsHint: '貨物とテクノロジーのグリッドのすべての位置を使用可能にします。',
+    equipSupercharge: 'スーパーチャージスロット',
+    equipSuperchargeHint:
+      '使用可能なテクノロジースロットをすべてスーパーチャージスロットにします。',
+    equipExtended: 'テクノロジーの追加行',
+    equipExtendedHint:
+      'テクノロジーのグリッドを 12 行に拡張します。すべてのインベントリスロットが必要です。',
+    currencyHint:
+      'ゲーム自身の報酬が金額を追加し、通知を表示します。金額は固定です。さらに必要な場合はもう一度送信してください。',
+    currencyLabel: '通貨',
+    equipAction: {
+      grid: 'インベントリに適用',
+      classStep: 'クラスを 1 段階上げる',
+      offer: '貨物船のオファーを送信',
+      build: 'コルベットの建造を開始'
+    },
+    equipActionHint: {
+      grid: 'すでに所有しているインベントリをその場で変更します。ゲーム内では何も開きません。',
+      classStep:
+        'ゲーム自身のアップグレード報酬を要求します。1 回の要求でクラスが 1 段階、S まで上がります。',
+      offer:
+        'ゲームが下記のオプションで貨物船を提示します。ゲーム内で受け取ると、現在の貨物船と入れ替わります。',
+      build: 'ゲームが下記のオプションでコルベットの建造を開きます。'
+    },
+    currencyName: { units: 'ユニット', nanites: 'ナノマシン', quicksilver: '水銀' },
     itemsTitle: 'アイテムをゲームに送信',
     itemsHint:
       '物質と製品は、読み込み中のセーブのエクソスーツの貨物に、ゲームが許可するスタックサイズで入ります。入りきらない分は送信されません。',
@@ -231,6 +262,8 @@ export const jaJP: Messages = {
     activityEmptyTitle: 'まだ何も送信していません',
     activityEmptyBody: 'このセッションの配送がここに表示されます。',
     state: {
+      currency_data_missing:
+        '通貨データファイルがゲームの MOD フォルダーにないか、バージョンが異なります。何も送信されませんでした。',
       selection_invalid:
         '選択内容に、この項目では提供されていないものが含まれています。何も送信されませんでした。',
       unavailable: '開発用ビルドでのみ利用できます。',

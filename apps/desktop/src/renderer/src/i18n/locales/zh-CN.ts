@@ -183,6 +183,32 @@ export const zhCN: Messages = {
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
   delivery: {
+    equipActionLabel: '操作',
+    equipTarget: '飞船',
+    equipTargetCurrent: '当前飞船',
+    equipTargetSlot: '栏位 {number} 的飞船',
+    equipClass: '等级',
+    equipSlots: '全部物品栏格子',
+    equipSlotsHint: '让货舱和科技网格的每个位置都可用。',
+    equipSupercharge: '超载格子',
+    equipSuperchargeHint: '把每个可用的科技格子变为超载格子。',
+    equipExtended: '额外科技行',
+    equipExtendedHint: '把科技网格扩展到十二行。需要启用全部物品栏格子。',
+    currencyHint: '由游戏自身的奖励增加数额并显示通知。数额是固定的；需要更多时请再次发送。',
+    currencyLabel: '货币',
+    equipAction: {
+      grid: '应用到物品栏',
+      classStep: '等级提升一级',
+      offer: '发送货船报价',
+      build: '开始建造护卫舰'
+    },
+    equipActionHint: {
+      grid: '就地修改你已拥有的物品栏。游戏内不会打开任何界面。',
+      classStep: '向游戏请求其自身的升级奖励：每次请求提升一级，最高到 S。',
+      offer: '游戏会按下方选项向你提供一艘货船。在游戏中接受后，它会替换你当前的货船。',
+      build: '游戏会按下方选项打开护卫舰建造。'
+    },
+    currencyName: { units: '单位', nanites: '纳米星团', quicksilver: '水银' },
     itemsTitle: '向游戏发送物品',
     itemsHint:
       '物质和产品会放入已加载存档的外骨骼服货舱，按游戏允许的堆叠数量存放。放不下的部分不会发送。',
@@ -219,6 +245,7 @@ export const zhCN: Messages = {
     activityEmptyTitle: '尚未发送任何内容',
     activityEmptyBody: '本次会话的投递会显示在这里。',
     state: {
+      currency_data_missing: '货币数据文件不在游戏的模组文件夹中，或版本不同。未发送任何内容。',
       selection_invalid: '所选内容包含此区域不提供的条目。未发送任何内容。',
       unavailable: '仅在开发版本中可用。',
       installation_not_selected: '请先选择游戏安装位置。',

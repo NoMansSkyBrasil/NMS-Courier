@@ -206,6 +206,37 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    equipActionLabel: 'Action',
+    equipTarget: 'Vaisseau',
+    equipTargetCurrent: 'Vaisseau actuel',
+    equipTargetSlot: 'Vaisseau de l’emplacement {number}',
+    equipClass: 'Classe',
+    equipSlots: 'Tous les emplacements d’inventaire',
+    equipSlotsHint: 'Rend utilisables toutes les positions des grilles de soute et de technologie.',
+    equipSupercharge: 'Emplacements surchargés',
+    equipSuperchargeHint:
+      'Transforme chaque emplacement de technologie utilisable en emplacement surchargé.',
+    equipExtended: 'Rangées de technologie supplémentaires',
+    equipExtendedHint:
+      'Porte la grille de technologie à douze rangées. Nécessite tous les emplacements d’inventaire.',
+    currencyHint:
+      'La récompense du jeu ajoute le montant et affiche sa notification. Les montants sont fixes ; envoyez à nouveau pour en recevoir davantage.',
+    currencyLabel: 'Monnaie',
+    equipAction: {
+      grid: 'Appliquer à l’inventaire',
+      classStep: 'Monter d’un niveau de classe',
+      offer: 'Envoyer une offre de cargo',
+      build: 'Lancer la construction d’une corvette'
+    },
+    equipActionHint: {
+      grid: 'Modifie l’inventaire que vous possédez déjà, sur place. Rien ne s’ouvre dans le jeu.',
+      classStep:
+        'Demande au jeu sa propre récompense d’amélioration : un niveau de classe par demande, jusqu’à S.',
+      offer:
+        'Le jeu vous propose un cargo avec les options ci-dessous. Acceptez-le dans le jeu ; il remplace votre cargo actuel.',
+      build: 'Le jeu ouvre la construction de corvette avec les options ci-dessous.'
+    },
+    currencyName: { units: 'Unités', nanites: 'Nanites', quicksilver: 'Vif-argent' },
     itemsTitle: 'Envoyer des objets au jeu',
     itemsHint:
       'Les substances et les produits vont dans la soute de l’exocombinaison de la sauvegarde chargée, en piles de la taille autorisée par le jeu. Ce qui ne rentre pas n’est pas envoyé.',
@@ -245,6 +276,8 @@ export const frFR: Messages = {
     activityEmptyTitle: 'Rien n’a encore été envoyé',
     activityEmptyBody: 'Les livraisons de cette session apparaissent ici.',
     state: {
+      currency_data_missing:
+        'Le fichier de données des monnaies n’est pas dans le dossier de mods du jeu ou n’est pas à la bonne version. Rien n’a été envoyé.',
       selection_invalid:
         'La sélection contient une entrée que cette zone ne propose pas. Rien n’a été envoyé.',
       unavailable: 'Disponible uniquement dans une version de développement.',

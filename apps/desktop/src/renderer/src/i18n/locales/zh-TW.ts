@@ -183,6 +183,32 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    equipActionLabel: '操作',
+    equipTarget: '星艦',
+    equipTargetCurrent: '目前的星艦',
+    equipTargetSlot: '欄位 {number} 的星艦',
+    equipClass: '等級',
+    equipSlots: '全部物品欄格子',
+    equipSlotsHint: '讓貨艙和科技網格的每個位置都可使用。',
+    equipSupercharge: '超載格子',
+    equipSuperchargeHint: '將每個可用的科技格子變為超載格子。',
+    equipExtended: '額外科技列',
+    equipExtendedHint: '將科技網格擴充到十二列。需要啟用全部物品欄格子。',
+    currencyHint: '由遊戲自身的獎勵增加數額並顯示通知。數額是固定的；需要更多時請再次傳送。',
+    currencyLabel: '貨幣',
+    equipAction: {
+      grid: '套用到物品欄',
+      classStep: '等級提升一級',
+      offer: '傳送貨船報價',
+      build: '開始建造護衛艦'
+    },
+    equipActionHint: {
+      grid: '就地修改你已擁有的物品欄。遊戲內不會開啟任何介面。',
+      classStep: '向遊戲要求其自身的升級獎勵：每次要求提升一級，最高到 S。',
+      offer: '遊戲會依下方選項向你提供一艘貨船。在遊戲中接受後，它會取代你目前的貨船。',
+      build: '遊戲會依下方選項開啟護衛艦建造。'
+    },
+    currencyName: { units: '單位', nanites: '奈米機械', quicksilver: '水銀' },
     itemsTitle: '向遊戲傳送物品',
     itemsHint:
       '物質和產品會放入已載入存檔的外骨骼裝貨艙，依遊戲允許的堆疊數量存放。放不下的部分不會傳送。',
@@ -219,6 +245,7 @@ export const zhTW: Messages = {
     activityEmptyTitle: '尚未傳送任何內容',
     activityEmptyBody: '本次工作階段的遞送會顯示在這裡。',
     state: {
+      currency_data_missing: '貨幣資料檔案不在遊戲的模組資料夾中，或版本不同。未傳送任何內容。',
       selection_invalid: '所選內容包含此區域未提供的項目。未傳送任何內容。',
       unavailable: '僅在開發版本中可用。',
       installation_not_selected: '請先選擇遊戲安裝位置。',

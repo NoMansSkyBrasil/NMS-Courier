@@ -198,6 +198,38 @@ export const esES: Messages = {
       'NMS Courier es una herramienta no oficial en desarrollo. Funciona con una versión exacta del juego cada vez.'
   },
   delivery: {
+    equipActionLabel: 'Acción',
+    equipTarget: 'Nave',
+    equipTargetCurrent: 'Nave actual',
+    equipTargetSlot: 'Nave del espacio {number}',
+    equipClass: 'Clase',
+    equipSlots: 'Todos los espacios del inventario',
+    equipSlotsHint:
+      'Hace utilizables todas las posiciones de las cuadrículas de carga y de tecnología.',
+    equipSupercharge: 'Espacios supercargados',
+    equipSuperchargeHint:
+      'Convierte cada espacio de tecnología utilizable en un espacio supercargado.',
+    equipExtended: 'Filas adicionales de tecnología',
+    equipExtendedHint:
+      'Amplía la cuadrícula de tecnología a doce filas. Requiere todos los espacios del inventario.',
+    currencyHint:
+      'La recompensa del propio juego añade la cantidad y muestra su notificación. Las cantidades son fijas; envía de nuevo para recibir más.',
+    currencyLabel: 'Moneda',
+    equipAction: {
+      grid: 'Aplicar al inventario',
+      classStep: 'Subir un nivel de clase',
+      offer: 'Enviar oferta de carguero',
+      build: 'Iniciar construcción de corbeta'
+    },
+    equipActionHint: {
+      grid: 'Cambia el inventario que ya tienes, en su sitio. No se abre nada en el juego.',
+      classStep:
+        'Pide al juego su propia recompensa de mejora: un nivel de clase por solicitud, hasta S.',
+      offer:
+        'El juego te ofrece un carguero con las opciones de abajo. Acéptalo en el juego; sustituye a tu carguero actual.',
+      build: 'El juego abre la construcción de corbeta con las opciones de abajo.'
+    },
+    currencyName: { units: 'Unidades', nanites: 'Nanitos', quicksilver: 'Azogue' },
     itemsTitle: 'Enviar objetos al juego',
     itemsHint:
       'Las sustancias y los productos van a la carga del exotraje de la partida cargada, en pilas del tamaño que permite el juego. Lo que no quepa no se envía.',
@@ -236,6 +268,8 @@ export const esES: Messages = {
     activityEmptyTitle: 'Aún no se ha enviado nada',
     activityEmptyBody: 'Las entregas de esta sesión aparecen aquí.',
     state: {
+      currency_data_missing:
+        'El archivo de datos de monedas no está en la carpeta de mods del juego o es de otra versión. No se envió nada.',
       selection_invalid:
         'La selección contiene una entrada que esta área no ofrece. No se envió nada.',
       unavailable: 'Solo disponible en una versión de desarrollo.',

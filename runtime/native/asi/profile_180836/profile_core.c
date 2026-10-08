@@ -69,6 +69,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "corvette_build.h"
 #include "purchase_setup_hooks_functions.h"
 #include "bridge_version.h"
+#include "currency_reward.h"
 #include "shipped_reward_dispatch.h"
 #include "technology_learn.h"
 #include "recipe_learn.h"

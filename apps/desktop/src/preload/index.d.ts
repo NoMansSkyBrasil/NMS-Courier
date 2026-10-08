@@ -145,6 +145,16 @@ declare global {
       }>
       deliver: (feature: string, chosen?: string[], notify?: boolean) => Promise<DeliveryResult>
       deliverItems: (items: Array<{ id: string; amount: number }>) => Promise<DeliveryResult>
+      deliverEquipment: (request: {
+        area: 'exosuit' | 'starships' | 'multitools' | 'freighters' | 'corvettes'
+        action: 'grid' | 'classStep' | 'offer' | 'build'
+        slots: boolean
+        supercharge: boolean
+        extendedTechnology: boolean
+        itemClass: string
+        shipIndex: number
+      }) => Promise<DeliveryResult>
+      deliverCurrency: (request: { currency: string; amount: string }) => Promise<DeliveryResult>
       getDeliveryOptions: (
         feature: string,
         locale: string

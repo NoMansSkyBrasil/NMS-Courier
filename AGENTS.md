@@ -123,8 +123,8 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
   there, and add a changelog entry. Never install or commit a changed bridge under an old version.
 - Raise the application version (`apps/desktop/package.json` and the root `package.json`) whenever
   a change reaches the user, with a changelog entry in the same commit.
-- Major: something incompatible (a request or file format changed, a capability removed). Minor: a
-  new capability or option. Patch: a fix.
+- Meaning of the three numbers, as the owner defined them on 2026-10-08: `x.x.1` patch for bug
+  fixes; `x.1.x` minor for an update that is not very large; `2.x.x` major for a large new feature.
 - The interface must always show both versions and whether the installed bridge is the one the
   application was built with; experiment records name the bridge by version and hash.
 
