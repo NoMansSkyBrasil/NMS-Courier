@@ -203,6 +203,13 @@ offline:
     outside the machine. Testing an account route on a lacking account needs
     an offline start or another account. See the experiment log.
 
+27. *Account request (2026-10-08).* Read
+    [account unlock notes](ACCOUNT_UNLOCK_NOTES.md). With the store client
+    offline the account opened mostly empty, which allows real tests. DLL
+    `95b99ad8...e6f0` adds the `account` event (titles, specials, season);
+    built, not installed. Next: install with the game closed and the client
+    still offline, then one ID of each kind.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

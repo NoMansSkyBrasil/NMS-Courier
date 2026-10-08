@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-08: account opens mostly empty with the store client offline; two slot-side tests; account request built
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md). Process 25584, slot
+3 identified, DLL `68fd60bc...d5a7`, executable `13d5060d...`. The owner
+saw the game try to reconnect to the publisher's servers.
+
+- Read-only at start: titles 86, unlocked specials 458, season 0, platform
+  1. Both account files rewritten at 00:22 in that state (44,679 and 221,988
+  bytes). With the store client offline the remote copy was not applied.
+- Backup `save-backups/20261008-offline-empty-account-start`.
+- `signal-customisation-180836.ps1 -Id BANNER_AF`: `no_change`; account
+  unchanged (the slot already knew it).
+- `signal-reward-180836.ps1 -Id EXPD_POSTER23A`: `changed`; slot redeemed
+  season 122 -> 123; account specials 458 -> 459; account season still 0.
+- Offline: title, special and season account routines located on 180836
+  (`60ab50`, `60ad70`, `60ae70`); request built into profile DLL
+  `95b99ad8...e6f0`, **not installed** (game running). Fixtures pass.
+- Not proven: anything about the account request live.
+
 ## 2026-10-08: account files emptied again for an offline start (direct file change, owner-authorised test preparation)
 
 The owner put the store client in offline mode and asked for the files to be

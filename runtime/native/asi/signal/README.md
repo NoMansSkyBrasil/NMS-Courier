@@ -90,6 +90,13 @@ that unlock customisation options, through the profile's `redeem` event. Status:
 [customisation unlock notes](../../../../docs/CUSTOMISATION_UNLOCK_NOTES.md). First used live
 on 2026-10-07; effect not confirmed.
 
+## Account
+
+`signal-account-180836.ps1` unlocks titles, specials and season rewards **on the account**
+(every slot, synchronised outside the machine): `-Title`, `-Special`, `-Season` with IDs, or
+`-AllOfKind title,special,season`. Back up the save folder and the settings file first. Status:
+[account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). Not yet used for a live request.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

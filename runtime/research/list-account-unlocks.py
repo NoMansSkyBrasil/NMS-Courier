@@ -1,0 +1,102 @@
+"""List what the game can unlock on the account through its single-entry routines, as one Markdown data table.
+
+Reads the converted player title table, purchasable specials table, season
+reward table and the customisation tables of the existing corpus, read-only.
+One row per (kind, ID): `title` for every player title, `special` for every
+purchasable special and every ID a customisation table names as its unlock,
+`season` for every season (expedition) reward. The `Deliverable` column is
+`no` for a repeatable (consumable) special and the other firework items,
+which must never be unlocked. The research signal script reads this table to
+decide what an "account" request may carry.
+"""
+import argparse
+from pathlib import Path
+import sqlite3
+import sys
+import xml.etree.ElementTree as ElementTree
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import markdown_data  # noqa: E402
+
+TITLES = 'metadata/gamestate/playerdata/playertitledata.mbin'
+SPECIALS = 'metadata/reality/tables/purchaseablespecials.mbin'
+SEASON = 'metadata/reality/tables/unlockableseasonrewards.mbin'
+# Customisation tables and the fields that name the special unlocking an option.
+CUSTOMISATION = {
+    'metadata/gamestate/playerdata/charactercustomisationdescriptorgroupsdata.mbin': ('LinkedProductOrSpecialID',),
+    'metadata/gamestate/playerdata/bannercustomisationdata.mbin': ('LinkedSpecialID', 'ProductToUnlock'),
+    'metadata/gamestate/playerdata/thrustercustomisationdata.mbin': ('LinkedSpecialID',),
+    'metadata/gamestate/playerdata/charactercustomisationtextureoptiondata.mbin': ('ProductsToUnlock',),
+    'metadata/gamestate/playerdata/playertitledata.mbin': ('TitleUnlocksSpecials',),
+}
+TITLE_CONDITIONS = (('UnlockedByProductRecipe', 'product'), ('UnlockedByMission', 'mission'),
+                    ('UnlockedByTrophy', 'trophy'), ('UnlockedByStat', 'stat'))
+
+
+def root_of(index, path):
+    rows = index.execute('SELECT xml_path FROM files WHERE path = ?', (path,)).fetchall()
+    if len(rows) != 1:
+        raise SystemExit('Expected exactly one source for ' + path)
+    data = Path(rows[0][0]).read_bytes()
+    if len(data) > 32 * 1024**2:
+        raise SystemExit('Byte budget exceeded for ' + path)
+    return ElementTree.fromstring(data)
+
+
+def blocked(identifier, consumable):
+    return identifier in consumable or identifier.startswith(('SPEC_FIREWORK', 'EXPD_FIREWORK'))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--corpus', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True, help='Markdown data table to write')
+    args = parser.parse_args()
+    index = sqlite3.connect((args.corpus / 'index.sqlite').resolve().as_uri() + '?mode=ro', uri=True)
+    rows, counts = [], {}
+
+    def add(kind, identifier, detail, deliverable):
+        rows.append([kind, identifier, detail, 'yes' if deliverable else 'no'])
+        counts[kind] = counts.get(kind, 0) + 1
+
+    for title in root_of(index, TITLES).iter('Property'):
+        if title.get('value') != 'GcPlayerTitle':
+            continue
+        fields = {child.get('name'): child for child in title}
+        conditions = [label for name, label in TITLE_CONDITIONS if fields[name].get('value')]
+        interaction = list(fields['UnlockedByInteraction'])
+        if interaction and interaction[0].get('value') != 'None':
+            conditions.append('interaction')
+        add('title', fields['ID'].get('value'), ' '.join(conditions) or 'none', True)
+
+    specials, consumable = {}, set()
+    for entry in next(node for node in root_of(index, SPECIALS).iter('Property') if node.get('name') == 'Table'):
+        fields = {child.get('name'): child.get('value') for child in entry}
+        specials[fields['ID']] = 'shop'
+        if fields.get('IsConsumable') == 'true':
+            consumable.add(fields['ID'])
+    for path, names in CUSTOMISATION.items():
+        for node in root_of(index, path).iter('Property'):
+            if node.get('name') in names and node.get('value') and not list(node):
+                specials.setdefault(node.get('value'), 'customisation')
+    for identifier in sorted(specials):
+        add('special', identifier, specials[identifier], not blocked(identifier, consumable))
+
+    for entry in next(node for node in root_of(index, SEASON).iter('Property') if node.get('name') == 'Table'):
+        fields = {child.get('name'): child for child in entry}
+        identifier = fields['ID'].get('value')
+        seasons = ' '.join(node.get('value') for node in fields['SeasonIds'] if node.get('value'))
+        add('season', identifier, seasons, not blocked(identifier, consumable))
+
+    description = ('What the account request may unlock: every player title, every purchasable or '
+                   'customisation-linked special and every season reward of the game tables. Detail is the '
+                   "title's unlock condition, the special's origin, or the expedition numbers. Generated by "
+                   '`list-account-unlocks.py`; do not edit by hand. Counts: %s. Meaning and status: '
+                   '[account unlock notes](../../docs/ACCOUNT_UNLOCK_NOTES.md).'
+                   % ', '.join('%s %d' % item for item in sorted(counts.items())))
+    markdown_data.write_table(args.output, 'Account unlocks', description, ['Kind', 'ID', 'Detail', 'Deliverable'], rows)
+    print(counts, 'not deliverable', sum(1 for row in rows if row[3] == 'no'))
+
+
+if __name__ == '__main__':
+    main()
