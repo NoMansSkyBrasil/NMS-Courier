@@ -105,6 +105,8 @@ Persistent footer: game state/build and runtime state. “Connected” does not 
 8. Offer local catalog generation, with progress and safe cancellation.
 9. Show independent statuses for catalog availability, game running, bridge connection, and player readiness.
 
+Implemented on 2026-10-08 (steps 3 to 5): the application looks for the game by itself at the first start and from a "Detect automatically" button on the game and bridge page. It does not scan disks. Sources, in order: the folder of a running `NMS.exe`; the Steam client's install path from the registry (`HKCU\Software\Valve\Steam\SteamPath`, then `HKLM\SOFTWARE\WOW6432Node\Valve\Steam\InstallPath`) and every library in its `libraryfolders.vdf`; the GOG registry entry of the game. Each candidate goes through the same validation as a folder chosen by hand. One valid installation is selected; with several, the one whose game is running is selected, otherwise none and the page asks the user to choose. Code: `apps/desktop/src/main/installation-detection.ts` and `InstallationService.detect()`. Verified on the owner's machine for a Steam library on another drive. Not verified: a GOG installation (the product number in the registry key is from memory of GOG's catalogue), the Microsoft Store and Game Pass versions (not searched for at all).
+
 No terminal commands, Python installers, account registration, external website setup, or first-launch package downloads are part of the user journey.
 
 If no installation exists, the application still opens. If a previously generated catalog exists, it remains browsable with stale/compatibility indicators as appropriate.

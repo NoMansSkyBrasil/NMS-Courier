@@ -106,6 +106,16 @@ declare global {
         executableSize: number | null
         reason: string | null
       }>
+      detectInstallation: () => Promise<{
+        status: {
+          state: 'not_selected' | 'available' | 'invalid'
+          displayName: string | null
+          executableSha256: string | null
+          executableSize: number | null
+          reason: string | null
+        }
+        found: number
+      }>
       getResearchBridgeStatus: () => Promise<{
         state:
           | 'unavailable'

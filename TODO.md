@@ -123,6 +123,8 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Every renderer screen in all 14 languages (2026-10-08): catalogue page, game and bridge page
   (rewritten as `bridge-page.tsx`), model workshop; `preview-copy.ts`, `appearance-copy.ts` and
   `delivery-page.tsx` removed; `locales.test.ts` checks keys, empty strings and placeholders.
+- [x] Detect the game installation automatically (2026-10-08): running game, Steam libraries, GOG registry.
+- [ ] Installation detection: verify on a GOG installation; decide about the Microsoft Store and Game Pass versions.
 - [ ] Translate the two native dialogs of the main process (installation folder picker, close
   warning during diagnostics); they need the locale in the main process.
 - [ ] Have the translations reviewed by native speakers.

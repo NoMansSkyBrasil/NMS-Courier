@@ -7,7 +7,12 @@ import {
   statSync,
   writeFileSync
 } from 'node:fs'
-import { basename, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
+import {
+  findInstallationCandidates,
+  systemDetectionSources,
+  type DetectionSources
+} from './installation-detection'
 
 export type InstallationStatus = {
   state: 'not_selected' | 'available' | 'invalid'
@@ -163,6 +168,23 @@ export class InstallationService {
       'utf8'
     )
     return this.getStatus()
+  }
+
+  // Look for the game where the store clients and a running game say it is, and select it when the
+  // answer is unambiguous: one valid installation, or the one whose game is running.
+  async detect(
+    sources: DetectionSources = systemDetectionSources
+  ): Promise<{ status: InstallationStatus; found: number }> {
+    const valid: string[] = []
+    for (const candidate of await findInstallationCandidates(sources)) {
+      if ((await inspectInstallation(candidate)).state === 'available') valid.push(candidate)
+    }
+    const running = (await sources.listRunningGamePaths()).map((path) =>
+      resolve(dirname(dirname(path))).toLowerCase()
+    )
+    const chosen =
+      valid.length === 1 ? valid[0] : valid.find((path) => running.includes(path.toLowerCase()))
+    return { status: chosen ? await this.select(chosen) : this.getStatus(), found: valid.length }
   }
 
   getSelectedRootPath(): string | null {

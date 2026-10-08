@@ -234,6 +234,10 @@ export const plPL: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Wykryj automatycznie',
+    detecting: 'Wyszukiwanie…',
+    detectNone: 'Nie znaleziono instalacji. Wybierz folder samodzielnie.',
+    detectSeveral: 'Znaleziono więcej niż jedną instalację. Wybierz tę, na której grasz.',
     installationTitle: 'Instalacja gry',
     installationSelected: 'Wybrano: {name}.',
     installationNone: 'Wybierz folder instalacji No Man’s Sky.',

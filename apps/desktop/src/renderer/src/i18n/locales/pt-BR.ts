@@ -235,6 +235,10 @@ export const ptBR: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Detectar automaticamente',
+    detecting: 'Procurando…',
+    detectNone: 'Nenhuma instalação foi encontrada. Selecione a pasta manualmente.',
+    detectSeveral: 'Mais de uma instalação foi encontrada. Selecione a que você joga.',
     installationTitle: 'Instalação do jogo',
     installationSelected: '{name} está selecionada.',
     installationNone: 'Escolha a pasta de instalação do No Man’s Sky.',

@@ -244,6 +244,11 @@ export const nlNL: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Automatisch detecteren',
+    detecting: 'Bezig met zoeken…',
+    detectNone: 'Er is geen installatie gevonden. Selecteer de map zelf.',
+    detectSeveral:
+      'Er is meer dan één installatie gevonden. Selecteer de installatie waarmee je speelt.',
     installationTitle: 'Spelinstallatie',
     installationSelected: '{name} is geselecteerd.',
     installationNone: 'Kies de installatiemap van No Man’s Sky.',

@@ -219,6 +219,10 @@ export const zhTW: Messages = {
     }
   },
   bridgePage: {
+    detect: '自動偵測',
+    detecting: '正在尋找…',
+    detectNone: '找不到安裝位置。請手動選擇資料夾。',
+    detectSeveral: '找到多個安裝位置。請選擇你用來遊玩的那一個。',
     installationTitle: '遊戲安裝位置',
     installationSelected: '已選擇 {name}。',
     installationNone: '請選擇 No Man’s Sky 的安裝資料夾。',

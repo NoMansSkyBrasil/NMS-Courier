@@ -235,6 +235,10 @@ export const esES: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Detectar automáticamente',
+    detecting: 'Buscando…',
+    detectNone: 'No se encontró ninguna instalación. Selecciona la carpeta manualmente.',
+    detectSeveral: 'Se encontró más de una instalación. Selecciona la que usas para jugar.',
     installationTitle: 'Instalación del juego',
     installationSelected: '{name} está seleccionada.',
     installationNone: 'Elige la carpeta de instalación de No Man’s Sky.',

@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: automatic detection of the game installation
+
+Application only; nothing sent to the game. With no installation selected,
+the application started, found `E:\SteamLibrary\steamapps\common\No Man's Sky`
+through the Steam library list by itself and stored it with executable
+`13d5060d...3499`; the technologies page then asked for the game to be
+started instead of for an installation. 61 unit tests pass, three of them
+for the detection. Not verified: GOG, Microsoft Store, several installations
+on one machine.
+
 ## 2026-10-08: every renderer screen translated into the 14 languages
 
 Renderer only. The model workshop, the catalogue page and the game and

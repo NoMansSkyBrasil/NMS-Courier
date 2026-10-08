@@ -241,6 +241,10 @@ export const ruRU: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Определить автоматически',
+    detecting: 'Поиск…',
+    detectNone: 'Установка не найдена. Выберите папку вручную.',
+    detectSeveral: 'Найдено несколько установок. Выберите ту, в которую вы играете.',
     installationTitle: 'Установка игры',
     installationSelected: 'Выбрано: {name}.',
     installationNone: 'Выберите папку установки No Man’s Sky.',

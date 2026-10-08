@@ -247,6 +247,11 @@ export const deDE: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Automatisch erkennen',
+    detecting: 'Suche läuft…',
+    detectNone: 'Es wurde keine Installation gefunden. Wähle den Ordner selbst aus.',
+    detectSeveral:
+      'Es wurde mehr als eine Installation gefunden. Wähle die aus, mit der du spielst.',
     installationTitle: 'Spielinstallation',
     installationSelected: '{name} ist ausgewählt.',
     installationNone: 'Wähle den Installationsordner von No Man’s Sky.',

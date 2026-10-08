@@ -231,6 +231,11 @@ export const jaJP: Messages = {
     }
   },
   bridgePage: {
+    detect: '自動で検出',
+    detecting: '検索中…',
+    detectNone: 'インストール先が見つかりませんでした。フォルダーを手動で選択してください。',
+    detectSeveral:
+      '複数のインストール先が見つかりました。プレイに使っているものを選択してください。',
     installationTitle: 'ゲームのインストール先',
     installationSelected: '{name} を選択中です。',
     installationNone: 'No Man’s Sky のインストールフォルダーを選択してください。',

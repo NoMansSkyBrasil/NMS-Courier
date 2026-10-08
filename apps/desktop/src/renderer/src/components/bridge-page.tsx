@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FolderOpenIcon, RadioIcon } from 'lucide-react'
+import { FolderOpenIcon, RadioIcon, SearchIcon } from 'lucide-react'
 import { Badge } from '@renderer/components/ui/badge'
 import { Button } from '@renderer/components/ui/button'
 import {
@@ -34,6 +34,9 @@ export function BridgePage(): React.JSX.Element {
   const [installation, setInstallation] = useState<Installation | null>(null)
   const [bridge, setBridge] = useState<BridgeStatus | null>(null)
   const [selecting, setSelecting] = useState(false)
+  const [detecting, setDetecting] = useState(false)
+  // Installations found by the last detection; null until one has run.
+  const [found, setFound] = useState<number | null>(null)
   const [starting, setStarting] = useState(false)
 
   useEffect(() => {
@@ -60,6 +63,18 @@ export function BridgePage(): React.JSX.Element {
     }
   }
 
+  const detectInstallation = async (): Promise<void> => {
+    setDetecting(true)
+    try {
+      const result = await window.nms.detectInstallation()
+      setInstallation(result.status)
+      setFound(result.found)
+      setBridge(await window.nms.getResearchBridgeStatus())
+    } finally {
+      setDetecting(false)
+    }
+  }
+
   const startDiagnostics = async (): Promise<void> => {
     setStarting(true)
     try {
@@ -74,7 +89,11 @@ export function BridgePage(): React.JSX.Element {
       ? formatMessage(text.installationSelected, { name: installation.displayName ?? '' })
       : installation?.state === 'invalid'
         ? text.installationInvalid
-        : text.installationNone
+        : found === 0
+          ? text.detectNone
+          : found !== null && found > 1
+            ? text.detectSeveral
+            : text.installationNone
   const gameText =
     game?.state === 'running'
       ? copy.dashboard.running
@@ -121,7 +140,15 @@ export function BridgePage(): React.JSX.Element {
               <Badge variant="outline">{build?.buildLabel ?? buildText}</Badge>
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-wrap gap-2">
+            <Button onClick={() => void detectInstallation()} disabled={detecting || selecting}>
+              {detecting ? (
+                <Spinner data-icon="inline-start" />
+              ) : (
+                <SearchIcon data-icon="inline-start" />
+              )}
+              {detecting ? text.detecting : text.detect}
+            </Button>
             <Button
               variant="outline"
               onClick={() => void selectInstallation()}

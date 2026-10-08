@@ -243,6 +243,10 @@ export const itIT: Messages = {
     }
   },
   bridgePage: {
+    detect: 'Rileva automaticamente',
+    detecting: 'Ricerca in corso…',
+    detectNone: 'Non è stata trovata alcuna installazione. Seleziona la cartella manualmente.',
+    detectSeveral: 'È stata trovata più di un’installazione. Seleziona quella con cui giochi.',
     installationTitle: 'Installazione del gioco',
     installationSelected: '{name} è selezionata.',
     installationNone: 'Scegli la cartella di installazione di No Man’s Sky.',

@@ -219,6 +219,10 @@ export const zhCN: Messages = {
     }
   },
   bridgePage: {
+    detect: '自动检测',
+    detecting: '正在查找…',
+    detectNone: '未找到安装位置。请手动选择文件夹。',
+    detectSeveral: '找到多个安装位置。请选择你用来游玩的那一个。',
     installationTitle: '游戏安装位置',
     installationSelected: '已选择 {name}。',
     installationNone: '请选择 No Man’s Sky 的安装文件夹。',

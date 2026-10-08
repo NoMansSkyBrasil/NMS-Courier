@@ -241,12 +241,20 @@ app.whenReady().then(() => {
     return getResearchBridgeService().deliver(feature, root, await gameStatusService.observe(root))
   })
   ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())
+  ipcMain.handle('nms:detect-installation', () => getInstallationService().detect())
   ipcMain.handle('nms:get-catalog-status', () => getCatalogRepository().getStatus())
   ipcMain.handle('nms:search-catalog', (_, request: unknown) =>
     getCatalogRepository().search(parseCatalogSearchRequest(request))
   )
 
   createWindow()
+
+  // First start: look for the game by itself, after the window is up.
+  if (getInstallationService().getStatus().state === 'not_selected') {
+    void getInstallationService()
+      .detect()
+      .catch(() => undefined)
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

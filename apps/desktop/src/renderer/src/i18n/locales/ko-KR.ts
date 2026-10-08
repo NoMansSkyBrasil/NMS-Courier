@@ -224,6 +224,10 @@ export const koKR: Messages = {
     }
   },
   bridgePage: {
+    detect: '자동으로 찾기',
+    detecting: '찾는 중…',
+    detectNone: '설치 위치를 찾지 못했습니다. 폴더를 직접 선택하세요.',
+    detectSeveral: '설치 위치가 둘 이상 발견되었습니다. 플레이하는 설치 위치를 선택하세요.',
     installationTitle: '게임 설치 위치',
     installationSelected: '{name}이(가) 선택되었습니다.',
     installationNone: 'No Man’s Sky 설치 폴더를 선택하세요.',

@@ -165,6 +165,10 @@ export type Messages = {
     outcomeHint: Record<DeliveryOutcomeId, string>
   }
   bridgePage: {
+    detect: string
+    detecting: string
+    detectNone: string
+    detectSeveral: string
     installationTitle: string
     installationSelected: string
     installationNone: string
