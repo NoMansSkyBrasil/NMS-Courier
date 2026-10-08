@@ -117,10 +117,16 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Repeat the live checks of the freighter, corvette and owned-inventory requests on the split
   build, and extend the fixture to the corvette, reward and owned branches.
 - [x] Reduce the language selector to the game's 14 interface languages.
-- [ ] Translate the interface copy into the eleven languages that still fall back to English:
-  `pt-PT`, `ja-JP`, `fr-FR`, `it-IT`, `de-DE`, `nl-NL`, `ko-KR`, `pl-PL`, `ru-RU`, `zh-CN`, `zh-TW`.
-- [ ] Move interface copy out of `locale-provider.tsx`, `appearance-copy.ts` and `preview-copy.ts`
-  into one resource per language, and add a test that fails when a locale lacks a key.
+- [x] Application shell in all 14 languages, one resource per language, typed so a missing key
+  does not compile (2026-10-08). Translations were written by the assistant and have not been
+  reviewed by native speakers.
+- [ ] Untranslated screens, still English or three languages only: game catalogue page
+  (`catalog-page.tsx`), game and bridge page (`delivery-page.tsx`), model workshop
+  (`preview-copy.ts`, `appearance-copy.ts`). Move them into the locale resources.
+- [x] Interface organised by domain with the official sidebar block (2026-10-08): groups Overview,
+  Deliver, Unlock, Rewards, Library, System; see [product and UI](docs/PRODUCT_AND_UI.md#3-navigation).
+- [ ] Area pages are descriptive only: connect them to the delivery bridge, one domain at a time.
+- [ ] Feed the area figures from the catalogue package instead of registry constants.
 
 ## Technology delivery requested by the user (2026-10-07)
 
@@ -157,7 +163,8 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Twitch claim feature (owner decision 2026-10-08): add the Twitch shipped rewards to the dispatch, claim = give the
   reward + redeem in the slot; user chooses ships and multitools; check the 14 technology-carrying appearance rewards
   already redeemed in slot 3 ([account unlock notes](docs/ACCOUNT_UNLOCK_NOTES.md)).
-- [ ] Interface text, all 14 languages: Twitch rewards stay claimable only while the bridge is installed.
+- [x] Interface text, all 14 languages: Twitch rewards stay claimable only while the bridge is installed
+  (rule `keepList` of the Twitch drops area, 2026-10-08).
 - [ ] `HDRIVEBOOST4` vanished from slot 3 between 2026-10-08 01:13 and 09:16 and was taught again; find out whether
   the game removes it.
 - [ ] `ENT_BOLTCASTER` and `ENT_PHOCORE` are not "unlocked on account" in the owner's editor: diff `accountdata.hg` after

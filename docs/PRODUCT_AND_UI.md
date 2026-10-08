@@ -53,13 +53,28 @@ The application supports exactly the 14 interface languages No Man's Sky lists o
 | `zh-CN` | Simplified Chinese | `simplifiedchinese` |
 | `zh-TW` | Traditional Chinese | `traditionalchinese` |
 
-Status: the selector lists these 14. Authored interface copy exists only for `pt-BR`, `en-US` and `es-ES`; the other eleven fall back to English until translated (tracked in the [delivery tracker](../TODO.md)). The game archives also contain `english`, `latinamericanspanish` and `tencentchinese`; these are not application locales. Which English archive the store's single "English" entry corresponds to has not been checked; the mapping to `usenglish` is the existing one.
+Status (2026-10-08): the selector lists these 14. The application shell (navigation, dashboard, area pages, settings) has one complete resource per language under `apps/desktop/src/renderer/src/i18n/locales/`, typed by `i18n/messages.ts` so a missing string does not compile. Three older screens still carry their own copy or English text and are tracked in the [delivery tracker](../TODO.md): the model workshop (`preview-copy.ts`, `appearance-copy.ts`, three languages), the game catalogue page and the game and bridge page (English only). The game archives also contain `english`, `latinamericanspanish` and `tencentchinese`; these are not application locales. Which English archive the store's single "English" entry corresponds to has not been checked; the mapping to `usenglish` is the existing one.
 
 Game item names/descriptions come from local game localization with an explicit fallback. Internal IDs, schema keys, and enum identifiers are not translated. Avoid building sentences by concatenating translated fragments; use parameterized messages and locale-aware numbers/plurals.
 
 ## 3. Navigation
 
-Sidebar: Dashboard, Items, Ships, Multitools, Freighters, Frigates, Pets, Corvettes, Rewards, Library, Settings. Save Editor is a future dedicated area. History begins as a Dashboard section with a full-history view.
+Implemented on 2026-10-08 with the official sidebar block (base-nova preset, lucide icons, no added CSS). Six groups, one entry per area; the registry is `apps/desktop/src/renderer/src/features/`, one file per group:
+
+| Group | Areas |
+| --- | --- |
+| Overview | Dashboard, Activity |
+| Deliver | Items, Currencies, Exosuit, Starships, Multi-tools, Freighters, Corvettes, Frigates, Companions |
+| Unlock | Technologies, Crafting recipes, Build parts, Refiner and cooking, Appearance, Titles, Fishing record |
+| Rewards | Expeditions, Twitch drops, Platform and pre-order, Quicksilver shop |
+| Library | Game catalogue, Model workshop |
+| System | Game and bridge, Saves and account, Settings |
+
+"Deliver" is what is handed to the player or changed on something owned; "Unlock" is knowledge of the character or the account; "Rewards" is what the game normally grants from outside the save. Every delivery area carries two labels shown as badges: what it changes (save slot, account, both) and how far it is proven (verified, experimental, planned). The header shows the group and the area as a breadcrumb. Pages are addressed by hash, `#<area id>`.
+
+Each area without a screen of its own is rendered by one generic page: summary, the two badges, a notice that nothing can be sent from the window yet (the research bridge is not connected to the application), the figures of the research build and the rules that always apply. Planned areas show the standard empty state. The dashboard lists every delivery area with its badges. Save Editor is a future dedicated area. History is the Activity area, planned.
+
+The figures on the area pages are constants of the registry taken from the research notes for build 180836. They are to come from the catalogue package once the local catalogue carries the classifications.
 
 Future pages may show an honest planned/unavailable state. They must not contain convincing fake success flows. Do not create speculative feature implementations to populate navigation. The M0 demonstration mode is visually explicit and cannot dispatch real commands.
 

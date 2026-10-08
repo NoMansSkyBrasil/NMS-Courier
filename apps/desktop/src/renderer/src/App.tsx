@@ -1,14 +1,18 @@
 import { AppSidebar } from '@renderer/components/app-sidebar'
 import { CatalogPage } from '@renderer/components/catalog-page'
+import { DashboardPage } from '@renderer/components/dashboard-page'
 import { DeliveryPage } from '@renderer/components/delivery-page'
-import { SectionCards } from '@renderer/components/section-cards'
+import { FeaturePage } from '@renderer/components/feature-page'
+import { SettingsPage } from '@renderer/components/settings-page'
 import { SiteHeader } from '@renderer/components/site-header'
 import { ThemeProvider } from '@renderer/components/theme-provider'
-import { LocaleProvider } from '@renderer/i18n/locale-provider'
 import { SidebarInset, SidebarProvider } from '@renderer/components/ui/sidebar'
-import { TooltipProvider } from '@renderer/components/ui/tooltip'
-import { lazy, Suspense, useEffect, useState } from 'react'
 import { Skeleton } from '@renderer/components/ui/skeleton'
+import { TooltipProvider } from '@renderer/components/ui/tooltip'
+import { featureFromHash } from '@renderer/features'
+import { useHashRoute } from '@renderer/hooks/use-hash-route'
+import { LocaleProvider } from '@renderer/i18n/locale-provider'
+import { lazy, Suspense } from 'react'
 
 const ModelPreviewPage = lazy(() =>
   import('@renderer/components/model-preview-page').then((module) => ({
@@ -16,24 +20,21 @@ const ModelPreviewPage = lazy(() =>
   }))
 )
 
+// Areas with a page of their own; every other area is described by the generic feature page.
 function Workspace(): React.JSX.Element {
-  const [page, setPage] = useState(window.location.hash)
+  const feature = featureFromHash(useHashRoute())
 
-  useEffect(() => {
-    const updatePage = (): void => setPage(window.location.hash)
-    window.addEventListener('hashchange', updatePage)
-    return () => window.removeEventListener('hashchange', updatePage)
-  }, [])
-
-  if (page === '#catalog') return <CatalogPage />
-  if (page === '#delivery') return <DeliveryPage />
-  if (page === '#models')
+  if (feature.id === 'dashboard') return <DashboardPage />
+  if (feature.id === 'catalog') return <CatalogPage />
+  if (feature.id === 'bridge') return <DeliveryPage />
+  if (feature.id === 'settings') return <SettingsPage />
+  if (feature.id === 'models')
     return (
       <Suspense fallback={<Skeleton className="m-6 h-96" />}>
         <ModelPreviewPage />
       </Suspense>
     )
-  return <SectionCards />
+  return <FeaturePage feature={feature} />
 }
 
 function App(): React.JSX.Element {

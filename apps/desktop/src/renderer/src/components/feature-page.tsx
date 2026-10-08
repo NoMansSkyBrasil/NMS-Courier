@@ -1,0 +1,127 @@
+import { CheckIcon, InfoIcon } from 'lucide-react'
+import { ScopeBadge, StatusBadge } from '@renderer/components/feature-badges'
+import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
+import { Badge } from '@renderer/components/ui/badge'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@renderer/components/ui/card'
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle
+} from '@renderer/components/ui/empty'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@renderer/components/ui/table'
+import { researchBuild, type Feature } from '@renderer/features'
+import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
+
+// One area of the application: what it changes, how far it is proven, what it covers and the rules
+// it always follows. Nothing is sent from here; the page states that plainly.
+export function FeaturePage({ feature }: { feature: Feature }): React.JSX.Element {
+  const { copy, locale } = useLocale()
+  const text = copy.features[feature.id]
+
+  if (feature.status === 'planned') {
+    return (
+      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <feature.icon />
+            </EmptyMedia>
+            <EmptyTitle>{copy.page.plannedTitle}</EmptyTitle>
+            <EmptyDescription>{text.summary}</EmptyDescription>
+            <EmptyDescription>{copy.page.plannedBody}</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      </main>
+    )
+  }
+
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
+      <Card>
+        <CardHeader>
+          <div className="flex flex-wrap items-center gap-2">
+            <CardTitle>{text.title}</CardTitle>
+            {feature.status && <StatusBadge status={feature.status} />}
+            {feature.scope && <ScopeBadge scope={feature.scope} />}
+          </div>
+          <CardDescription>{text.summary}</CardDescription>
+        </CardHeader>
+      </Card>
+      {feature.kind === 'delivery' && (
+        <Alert>
+          <InfoIcon />
+          <AlertTitle>{copy.page.availabilityTitle}</AlertTitle>
+          <AlertDescription>{copy.page.availabilityBody}</AlertDescription>
+        </Alert>
+      )}
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+        {feature.rows && (
+          <Card>
+            <CardHeader>
+              <div className="flex flex-wrap items-center gap-2">
+                <CardTitle>{copy.page.includes}</CardTitle>
+                <Badge variant="outline">
+                  {formatMessage(copy.page.researchBuild, { build: researchBuild })}
+                </Badge>
+              </div>
+              <CardDescription>{copy.page.includesHint}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>{copy.page.kind}</TableHead>
+                    <TableHead className="text-right">{copy.page.entries}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {feature.rows.map((entry) => (
+                    <TableRow key={entry.row}>
+                      <TableCell>{copy.rows[entry.row]}</TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {entry.count.toLocaleString(locale)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+        {feature.rules && (
+          <Card>
+            <CardHeader>
+              <CardTitle>{copy.page.rulesTitle}</CardTitle>
+              <CardDescription>{copy.page.rulesHint}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="flex flex-col gap-3 text-sm">
+                {feature.rules.map((rule) => (
+                  <li key={rule} className="flex items-start gap-2">
+                    <CheckIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                    <span>{copy.rules[rule]}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </main>
+  )
+}

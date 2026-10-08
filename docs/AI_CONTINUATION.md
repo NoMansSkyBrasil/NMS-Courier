@@ -220,6 +220,14 @@ offline:
     claim feature, the 14 technology-carrying rewards, one missing known
     technology (204 of 205), the entitlement technologies.
 
+28. *Frontend (2026-10-08).* The desktop renderer is organised by domain with
+    the official shadcn sidebar block; see
+    [product and UI](PRODUCT_AND_UI.md#3-navigation). Registry in
+    `apps/desktop/src/renderer/src/features/`, copy in `i18n/locales/` (14
+    languages). Area pages describe and do not send anything yet. Checked by
+    type-check, lint, unit tests and screenshots of the running Electron
+    window in Portuguese.
+
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
 example seeds, and pointed at the workshop as the place to check results.

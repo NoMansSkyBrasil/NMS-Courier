@@ -1,182 +1,50 @@
-'use client'
-
 import * as React from 'react'
+import { SendIcon } from 'lucide-react'
 
-import { NavMain } from '@renderer/components/nav-main'
-import { NavProjects } from '@renderer/components/nav-projects'
-import { NavUser } from '@renderer/components/nav-user'
-import { TeamSwitcher } from '@renderer/components/team-switcher'
+import { NavGroup } from '@renderer/components/nav-group'
+import { NavStatus } from '@renderer/components/nav-status'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail
 } from '@renderer/components/ui/sidebar'
-import {
-  GalleryVerticalEndIcon,
-  AudioLinesIcon,
-  TerminalIcon,
-  TerminalSquareIcon,
-  BotIcon,
-  BookOpenIcon,
-  Settings2Icon,
-  FrameIcon,
-  PieChartIcon,
-  MapIcon
-} from 'lucide-react'
+import { featureFromHash, featureGroups, featureHref } from '@renderer/features'
+import { useHashRoute } from '@renderer/hooks/use-hash-route'
 import { useLocale } from '@renderer/i18n/locale-provider'
-import { previewCopy } from '@renderer/i18n/preview-copy'
 
-function getData(copy: ReturnType<typeof useLocale>['copy'], locale: ReturnType<typeof useLocale>['locale']) {
-  return {
-    user: {
-      name: 'NMS Courier',
-      email: copy.sidebar.localDesktopFoundation,
-      avatar: '/avatars/shadcn.jpg'
-    },
-    teams: [
-      {
-        name: 'NMS Courier',
-        logo: <GalleryVerticalEndIcon />,
-        plan: copy.sidebar.foundation
-      },
-      {
-        name: copy.sidebar.deliveryRuntime,
-        logo: <AudioLinesIcon />,
-        plan: copy.sidebar.planned
-      },
-      {
-        name: 'Save Editor',
-        logo: <TerminalIcon />,
-        plan: copy.sidebar.futureArea
-      }
-    ],
-    navMain: [
-      {
-        title: copy.sidebar.overview,
-        url: '#',
-        icon: <TerminalSquareIcon />,
-        isActive: true,
-        items: [
-          {
-            title: copy.sidebar.foundation,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.localStatus,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.implementationPlan,
-            url: '#'
-          }
-        ]
-      },
-      {
-        title: copy.sidebar.deliveryRuntime,
-        url: '#',
-        icon: <BotIcon />,
-        items: [
-          {
-            title: copy.sidebar.connections,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.deliveryTools,
-            url: '#delivery'
-          },
-          {
-            title: copy.sidebar.privateProtocol,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.activityLog,
-            url: '#'
-          }
-        ]
-      },
-      {
-        title: copy.sidebar.toolCatalog,
-        url: '#',
-        icon: <BookOpenIcon />,
-        items: [
-          {
-            title: copy.sidebar.deliveryTools,
-            url: '#catalog'
-          },
-          {
-            title: (previewCopy[locale as keyof typeof previewCopy] ?? previewCopy['en-US']).title,
-            url: '#models'
-          },
-          {
-            title: copy.sidebar.help,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.releaseNotes,
-            url: '#'
-          }
-        ]
-      },
-      {
-        title: copy.sidebar.application,
-        url: '#',
-        icon: <Settings2Icon />,
-        items: [
-          {
-            title: copy.sidebar.general,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.appearance,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.language,
-            url: '#'
-          },
-          {
-            title: copy.sidebar.about,
-            url: '#'
-          }
-        ]
-      }
-    ],
-    projects: [
-      {
-        name: copy.sidebar.protocol,
-        url: '#',
-        icon: <FrameIcon />
-      },
-      {
-        name: copy.sidebar.distribution,
-        url: '#',
-        icon: <PieChartIcon />
-      },
-      {
-        name: 'Save Editor',
-        url: '#',
-        icon: <MapIcon />
-      }
-    ]
-  }
-}
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>): React.JSX.Element {
+  const { copy } = useLocale()
+  const activeId = featureFromHash(useHashRoute()).id
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { copy, locale } = useLocale()
-  const data = getData(copy, locale)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" render={<a href={featureHref('dashboard')} />}>
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <SendIcon className="size-4" />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{copy.app.name}</span>
+                <span className="truncate text-xs">{copy.app.tagline}</span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {featureGroups.map((group) => (
+          <NavGroup key={group.id} group={group.id} features={group.features} activeId={activeId} />
+        ))}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavStatus />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

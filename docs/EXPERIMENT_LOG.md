@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-08: desktop interface reorganised by domain (no game interaction)
+
+Owner: [product and UI](PRODUCT_AND_UI.md#3-navigation). Renderer only; the
+game was not involved.
+
+- Official shadcn sidebar block and components (base-nova), lucide icons, no
+  CSS added or changed. Template leftovers removed: team switcher, user
+  menu, projects, documents, secondary navigation, chart, data table, sample
+  data.
+- 27 areas in six groups, each delivery area labelled with its scope and how
+  far it is proven; figures from the research notes of build 180836.
+- 14 complete locale resources for the shell.
+- Checks: renderer type-check and lint clean, 37 unit tests pass, the
+  running Electron window captured through its debugging port on the
+  dashboard, an area page, a planned area and settings, in `pt-BR`.
+- Not done: the pages send nothing; three older screens are not translated;
+  other window sizes and scaling were not checked.
+
 ## 2026-10-08: keep list holds at a second online start; `HDRIVEBOOST4` taught again
 
 Process 18352, DLL `6ad12b1c...27fc`, executable `13d5060d...`, slot 3

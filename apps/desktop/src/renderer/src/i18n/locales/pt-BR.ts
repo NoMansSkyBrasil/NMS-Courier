@@ -1,0 +1,204 @@
+import type { Messages } from '../messages'
+
+export const ptBR: Messages = {
+  app: { name: 'NMS Courier', tagline: 'Entrega local para No Man’s Sky' },
+  groups: {
+    overview: 'Visão geral',
+    deliver: 'Entregar',
+    unlock: 'Desbloquear',
+    rewards: 'Recompensas',
+    library: 'Biblioteca',
+    system: 'Sistema'
+  },
+  features: {
+    dashboard: { title: 'Painel', summary: 'Se a entrega está disponível agora, e por quê.' },
+    activity: { title: 'Atividade', summary: 'Cada pedido enviado ao jogo e o resultado.' },
+    items: {
+      title: 'Itens',
+      summary: 'Substâncias e produtos colocados em um inventário do save carregado.'
+    },
+    currencies: { title: 'Moedas', summary: 'Unidades, nanitos e mercúrio.' },
+    exosuit: {
+      title: 'Exotraje',
+      summary: 'Classe, espaços de carga e de tecnologia e espaços sobrecarregados do exotraje.'
+    },
+    starships: {
+      title: 'Naves',
+      summary: 'Classe, tamanho do inventário e espaços sobrecarregados da nave que você possui.'
+    },
+    multitools: {
+      title: 'Multiferramentas',
+      summary: 'Classe, espaços e espaços sobrecarregados da multiferramenta equipada.'
+    },
+    freighters: {
+      title: 'Cargueiros',
+      summary: 'Uma oferta de cargueiro com a classe, o modelo e as sementes escolhidos.'
+    },
+    frigates: { title: 'Fragatas', summary: 'Recrutamento de fragatas para a frota.' },
+    corvettes: {
+      title: 'Corvetas',
+      summary: 'Uma corveta construída a partir de um projeto compartilhado.'
+    },
+    companions: { title: 'Companheiros', summary: 'Ovos de companheiro e criaturas.' },
+    technologies: {
+      title: 'Tecnologias',
+      summary: 'Plantas que o personagem sabe instalar.'
+    },
+    productRecipes: {
+      title: 'Receitas de fabricação',
+      summary: 'Receitas de itens fabricáveis e de tecnologia fabricável.'
+    },
+    buildParts: {
+      title: 'Peças de construção',
+      summary: 'Peças de base, de cargueiro e de decoração no menu de construção.'
+    },
+    refinerRecipes: {
+      title: 'Refino e culinária',
+      summary: 'Receitas do refinador e do processador de nutrientes no catálogo.'
+    },
+    customisation: {
+      title: 'Aparência',
+      summary: 'Capacetes, armaduras, capas, estandartes, rastros de jetpack e gestos.'
+    },
+    titles: { title: 'Títulos', summary: 'Títulos de jogador para o estandarte.' },
+    fishing: { title: 'Registro de pesca', summary: 'O registro de captura de cada peixe.' },
+    expeditions: {
+      title: 'Expedições',
+      summary: 'Recompensas de expedições passadas, resgatáveis no companheiro de mercúrio.'
+    },
+    twitch: {
+      title: 'Drops da Twitch',
+      summary: 'Recompensas de campanhas da Twitch, resgatáveis no companheiro de mercúrio.'
+    },
+    platform: {
+      title: 'Plataforma e pré-venda',
+      summary: 'Recompensas ligadas a uma plataforma, a uma pré-venda ou a um evento.'
+    },
+    quicksilver: {
+      title: 'Loja de mercúrio',
+      summary: 'Itens vendidos pelo companheiro de mercúrio.'
+    },
+    catalog: { title: 'Catálogo do jogo', summary: 'Pesquise os itens do seu jogo instalado.' },
+    models: {
+      title: 'Oficina de modelos',
+      summary: 'Visualize modelos importados e paletas de cores.'
+    },
+    bridge: {
+      title: 'Jogo e ponte',
+      summary: 'Instalação, versão do jogo e a conexão com o jogo em execução.'
+    },
+    saves: {
+      title: 'Saves e conta',
+      summary: 'Qual slot de save está carregado e o que é compartilhado pela conta inteira.'
+    },
+    settings: { title: 'Configurações', summary: 'Idioma, aparência e detalhes do aplicativo.' }
+  },
+  status: { verified: 'Verificado', experimental: 'Experimental', planned: 'Planejado' },
+  statusHint: {
+    verified: 'Funcionou no jogo em execução, na versão de pesquisa.',
+    experimental: 'Funciona em parte ou só em condições conhecidas.',
+    planned: 'Ainda não foi construído.'
+  },
+  scope: {
+    slot: 'Slot de save',
+    account: 'Conta',
+    both: 'Slot de save e conta',
+    none: 'Sem alteração'
+  },
+  scopeHint: {
+    slot: 'Altera apenas o slot de save carregado.',
+    account: 'Altera a conta, compartilhada por todos os slots de save.',
+    both: 'Altera o slot de save carregado e a conta.',
+    none: 'Somente leitura; nada muda no jogo.'
+  },
+  rows: {
+    deliverable: 'Entregues',
+    blockedDamaged: 'Entradas de espaço danificado, nunca entregues',
+    blockedMaintenance: 'Entradas de manutenção, nunca entregues',
+    blockedTemplates: 'Modelos procedurais, nunca entregues',
+    blockedById: 'Bloqueadas por uma regra permanente',
+    catalogueItems: 'Itens fabricáveis',
+    craftableTechnology: 'Tecnologia fabricável',
+    buildParts: 'Peças de construção',
+    researchTree: 'Vendidas nos terminais de pesquisa',
+    repeatableNever: 'Compras repetíveis, nunca desbloqueadas',
+    missionBound: 'Ligados a uma missão, ignorados',
+    redeemedInSave: 'Registrados no save',
+    itemRewards: 'Itens para resgatar na loja',
+    total: 'No jogo'
+  },
+  rules: {
+    gameRoutines:
+      'Tudo é feito pelo próprio jogo em execução. Arquivos de save nunca são editados.',
+    defectiveNever: 'Entradas defeituosas e internas nunca são entregues, em nenhum modo.',
+    repeatableNever:
+      'Fogos de artifício, o Sinalizador Mítico e o Ovo do Vazio nunca são desbloqueados: a loja deixaria de vendê-los.',
+    claimItems:
+      'Naves, multiferramentas, ovos e pacotes são desbloqueados na conta; resgate-os na loja para receber o item.',
+    keepList:
+      'Os drops da Twitch só continuam resgatáveis enquanto a ponte estiver instalada. Resgate o que quiser manter.',
+    backup: 'A pasta de saves é copiada antes de cada alteração.',
+    slotIdentified: 'O slot de save carregado é identificado antes de cada entrega.',
+    accountShared:
+      'Alterações na conta chegam a todos os slots de save e são sincronizadas pelo jogo.'
+  },
+  page: {
+    availabilityTitle: 'Ainda não disponível nesta janela',
+    availabilityBody:
+      'Isto foi feito pela ponte de pesquisa. A conexão deste aplicativo com o jogo ainda está em construção, então nada pode ser enviado daqui.',
+    includes: 'O que abrange',
+    includesHint: 'Números da versão de pesquisa.',
+    rulesTitle: 'Como se comporta',
+    rulesHint: 'Regras que sempre valem.',
+    entries: 'Entradas',
+    kind: 'Tipo',
+    status: 'Situação',
+    scope: 'Altera',
+    researchBuild: 'Versão de pesquisa {build}',
+    plannedTitle: 'Ainda não construído',
+    plannedBody:
+      'Esta área está planejada. Ela aparecerá aqui quando funcionar no jogo em execução.',
+    open: 'Abrir'
+  },
+  dashboard: {
+    game: 'Jogo',
+    build: 'Versão do jogo',
+    bridge: 'Ponte',
+    catalog: 'Catálogo',
+    capabilities: 'O que o Courier faz',
+    capabilitiesHint: 'Cada área, o que ela altera e até onde foi comprovada.',
+    feature: 'Área',
+    area: 'Grupo',
+    running: 'Em execução',
+    notRunning: 'Fechado',
+    notSelected: 'Nenhuma instalação selecionada',
+    unknown: 'Desconhecido',
+    supported: 'Compatível',
+    unsupported: 'Não compatível',
+    connected: 'Conectada',
+    notConnected: 'Não conectada',
+    available: 'Disponível',
+    unavailable: 'Não gerado',
+    entriesCount: '{count} entradas',
+    processId: 'Processo {id}'
+  },
+  settings: {
+    general: 'Geral',
+    appearance: 'Aparência',
+    about: 'Sobre',
+    language: 'Idioma',
+    languageHint: 'Os catorze idiomas de No Man’s Sky.',
+    theme: 'Tema',
+    themeHint: 'Segue o sistema por padrão.',
+    experimental: 'Software experimental',
+    experimentalBody:
+      'O NMS Courier é uma ferramenta não oficial em desenvolvimento. Ele funciona com uma versão exata do jogo por vez.'
+  },
+  controls: {
+    changeLanguage: 'Alterar idioma',
+    changeTheme: 'Alterar tema',
+    light: 'Claro',
+    dark: 'Escuro',
+    system: 'Sistema'
+  }
+}
