@@ -1,3 +1,4 @@
+import { crc32 } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 import { workshopKinds } from '../../shared/model-workshop'
 import { GameModelFiles } from './game-model-files'
@@ -15,6 +16,8 @@ import {
 // the research port (runtime/research/evaluate-descriptor-seed.py) on 2026-10-08.
 
 const root = process.env.NMS_COURIER_GAME_ROOT ?? ''
+const fighterPartChecksums =
+  '756635:0x5EEDC0DE523DF454,2847669:0x5EEDC0DEB1EFBCC6,5235880:0x5EEDC0DE3215FC27,11418125:0x5EEDC0DE057872C2,18106866:0x5EEDC0DE0A90F307,18745605:0x5EEDC0DE63454C36,24673986:0x5EEDC0DE685FBFE1,25090309:0x5EEDC0DE678C61C6,25199372:0x5EEDC0DE4CF26BD3,27820294:0x5EEDC0DE262AC32F,32625640:0x5EEDC0DE0B6F8BC3,34659580:0x5EEDC0DEDE5A6CFE,34788271:0x5EEDC0DE504DF338,34982211:0x5EEDC0DE823FE5D5,38533746:0x5EEDC0DE6B6A754C,40056388:0x5EEDC0DE0586AA9C,40110748:0x5EEDC0DE4CCC6B3D,40451972:0x5EEDC0DE0A472D8C,43242822:0x5EEDC0DE4A5463BE,50134902:0x5EEDC0DE0AAD98B1,50202493:0x5EEDC0DE37514E26,50537505:0x5EEDC0DEA106D5CD,51108799:0x5EEDC0DEC3D45BE9,55056044:0x5EEDC0DE85C6CD48,57155210:0x5EEDC0DE5A564742,58530065:0x5EEDC0DEEDE6D54E,62467347:0x5EEDC0DECD69481F,62667496:0x5EEDC0DE69C69BB0,63476588:0x5EEDC0DEDE80F8C1,65927046:0x5EEDC0DE4E0DB27E,69227250:0x5EEDC0DE307350AB,70621299:0x5EEDC0DE09E4FFBD,71463793:0x5EEDC0DE3BB25CAF,71819242:0x5EEDC0DE2501F63E,74886573:0x5EEDC0DE741E93F4,76120258:0x5EEDC0DE0D1DEA93,76563062:0x5EEDC0DE01A8631D,81081908:0x5EEDC0DE4646AA1F,86680179:0x5EEDC0DE34DFA26F,89403525:0x5EEDC0DE1A5B3154,89709582:0x5EEDC0DE338FEA4A,92169798:0x5EEDC0DE60E6D393,94737572:0x5EEDC0DE3121EA3E,100838069:0x5EEDC0DE18677851,105098474:0x5EEDC0DE9D5E3680,109180405:0x5EEDC0DEC8DF8BDE,110478751:0x5EEDC0DEA77C6E42,112398868:0x5EEDC0DE3457970D,115545652:0x5EEDC0DEB83C666C,117778646:0x5EEDC0DE20B14521,118647982:0x5EEDC0DE3E8EC21B,119686863:0x5EEDC0DE2FD8BE3B,121395466:0x5EEDC0DE4278CDAB,124205904:0x5EEDC0DEFA86D813,126000061:0x5EEDC0DE29C024BC,128112869:0x5EEDC0DE532F5377,129900655:0x5EEDC0DED19D1D25,130708409:0x5EEDC0DE74C513BB,132292851:0x5EEDC0DE3A0EB4C2,137107884:0x5EEDC0DE176B544D,519043181:0x5EEDC0DE70FAE007,1567561460:0x5EEDC0DE5A508483,1566761207:0x5EEDC0DE76FDFEEA,1562621193:0x5EEDC0DE41DDC205'
 const references: [string, string, string][] = [
   [
     workshopKinds.starship.fighter,
@@ -165,6 +168,30 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     const texture = built.surfaces[0].layers[0].texture
     expect(service.texture(texture)?.subarray(0, 4).toString('latin1')).toBe('DDS ')
     expect(service.texture('textures/not/of/this/model.dds')).toBeNull()
+  })
+
+  // Seeds from the same site's table of fighter seeds, each with the CRC-32 of the identifiers of
+  // the parts it draws, joined in drawing order (read on 2026-10-08; a sample of its 1,809 pairs).
+  it('draws the parts an independent table records for sixty-four fighter seeds', () => {
+    const list = resolve(workshopKinds.starship.fighter)!
+    const failed: string[] = []
+    for (const pair of fighterPartChecksums.split(',')) {
+      const [checksum, seed] = pair.split(':')
+      const joined = selectParts(BigInt(seed), list, resolve)
+        // The site's table was made with an older game version, whose mecha wing alternatives
+        // carried a level suffix.
+        .parts.map((part) =>
+          /^_WINGSJ_(FULL|MID|LOW)$/.test(part.id) ? part.id + 'LOD0' : part.id
+        )
+        .join('')
+        // The site's own correction for one wing, applied before it takes the checksum.
+        .replace(
+          '_D_LEFT_DECALA_A1_CDECAL1_A1',
+          '_D_LEFT_DECALA_A1_CDECAL1_A1_DECALA_A1_CDECAL1_A1'
+        )
+      if (crc32(Buffer.from(joined, 'latin1')) !== Number(checksum)) failed.push(seed)
+    }
+    expect(failed).toEqual([])
   })
 
   it('draws the same paint as the full palette port', () => {

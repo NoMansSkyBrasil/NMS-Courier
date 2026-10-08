@@ -120,7 +120,7 @@ def loaded_node_included(name, selected):
     return name[:31].upper() in selected or name[:15].upper() in selected
 
 
-def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix=''):
+def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix='', taken=None):
     """Explicit-context group selection at RVA 2d67800; return original index."""
     if len(options) > 4096 or any(len(values) > 4096 for values in (selected, inclusion, exclusion)):
         raise ValueError('Descriptor context count budget exceeded')
@@ -131,7 +131,11 @@ def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix
                 if not any(token and token in option['id'] for token in exclusion)
                 and included(option['id'], inclusion)]
     total = sum(core['option_weight'](options[i]['name']) for i in eligible)
-    if not total or any(option['id'] in selected for option in options):
+    # A group is skipped when one of its alternatives was already chosen. The comparison is by
+    # the identifier as spelled (level suffix included), which `taken` holds; comparing with the
+    # normalised identifiers drew different parts for 3 of 64 fighter seeds of an independent
+    # table (docs/MODEL_WORKSHOP.md, 2026-10-08). Callers without `taken` keep the old test.
+    if not total or any(option['id'] in (selected if taken is None else taken) for option in options):
         return state, None
     matches = [i for i in eligible if prefix and prefix in options[i]['id']]
     if len(matches) == 1:
@@ -149,7 +153,7 @@ def choose_group(state, options, selected=(), inclusion=(), exclusion=(), prefix
 
 
 def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), prefix=''):
-    selected, trace, visits = [], [], []
+    selected, trace, visits, taken = [], [], [], []
     calls = [0]
 
     def visit(model, local_seed, local_enabled, depth, local_prefix, local_exclusion):
@@ -161,7 +165,7 @@ def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), pref
         classification = 1
         for group in model['groups']:
             options = group['options']
-            state, index = choose_group(state, options, selected, inclusion, local_exclusion, local_prefix)
+            state, index = choose_group(state, options, selected, inclusion, local_exclusion, local_prefix, taken)
             if index is None:
                 continue
             option = options[index]
@@ -169,6 +173,7 @@ def evaluate(seed, tree, resolve, enabled=True, inclusion=(), exclusion=(), pref
                 classification = 2
             elif 'xNEVER' not in option['name'] and 'xWEIRD' in option['name']:
                 classification = 3
+            taken.append(option['id'])
             identity = normalized_id(option['id'])
             if identity not in selected:
                 selected.append(identity)

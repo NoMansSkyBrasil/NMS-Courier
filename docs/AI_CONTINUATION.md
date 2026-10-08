@@ -5,7 +5,8 @@
 > [model workshop](MODEL_WORKSHOP.md). Next there: compare one obtained
 > starship with its workshop model. Application 1.11.0 paints models with
 > the game's textures; parts, colours and texture choices of one seed equal
-> an independent tool's.
+> an independent tool's, and the parts of 64 fighter seeds equal its table
+> (1.12.1 corrected the already-chosen rule of the part selection).
 
 > Checkpoint 2026-10-08 (end of day): application 1.9.0, bridge 1.7.0
 > (`7b8a83be...0509`), data file `2f55b139...37d6` (eight starship kinds) in

@@ -28,6 +28,18 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.12.1 (2026-10-08)
+
+- Fixed: which parts a seed selects. A group is skipped when one of its
+  alternatives was already chosen elsewhere in the model; the comparison is
+  now by the identifier as the part list spells it. The rule taken over from
+  the research compared identifiers with their level suffix removed, which
+  dropped a decal on some combinations (for example a fighter with K wings
+  and the E cockpit). With the fix, 64 of 64 fighter seeds of an independent
+  table draw exactly the recorded parts; before it, 61. The research tool
+  `runtime/research/evaluate-descriptor-seed.py` has the same fix.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.12.0 (2026-10-08)
 
 - New: in "Build", every colour and every texture layer of the model can be

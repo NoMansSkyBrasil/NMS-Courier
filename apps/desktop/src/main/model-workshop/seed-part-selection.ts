@@ -72,6 +72,8 @@ export function selectParts(
   root: PartList,
   resolve: (scenePath: string) => PartList | null
 ): PartSelection {
+  // Identifiers of the chosen alternatives exactly as the part lists spell them.
+  const sourceIds: string[] = []
   const selectedIds: string[] = []
   const parts: SelectedPart[] = []
   let calls = 0
@@ -83,8 +85,11 @@ export function selectParts(
     for (const group of list.groups) {
       const weights = group.options.map((option) => optionWeight(option.name))
       const total = weights.reduce((sum, weight) => sum + weight, 0)
-      // A group is skipped when nothing can be drawn or one of its parts is already selected.
-      if (!total || group.options.some((option) => selectedIds.includes(option.id))) continue
+      // A group is skipped when nothing can be drawn or one of its alternatives was already
+      // chosen elsewhere in the model. The comparison is by the identifier as spelled, level
+      // suffix included: with the normalised identifier three of sixty-four known seeds drew
+      // different parts (docs/MODEL_WORKSHOP.md).
+      if (!total || group.options.some((option) => sourceIds.includes(option.id))) continue
       state = advance(state)
       let position = Math.floor((state[0] * total) / 0x100000000)
       let chosen: PartOption | null = null
@@ -98,6 +103,7 @@ export function selectParts(
       if (!chosen) throw new Error('part_choice_out_of_range')
       const id = normalizedPartId(chosen.id)
       if (!selectedIds.includes(id)) selectedIds.push(id)
+      sourceIds.push(chosen.id)
       parts.push({
         depth,
         parent,

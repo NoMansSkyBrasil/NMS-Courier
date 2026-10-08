@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-08: part selection checked against 64 seeds of an independent table; one rule corrected (application 1.12.1), offline
+
+Offline only; build 180836 files. Owning note:
+[model workshop](MODEL_WORKSHOP.md). The community customizer at `nms.center`
+carries a table of 1,809 fighter seeds, each keyed by the CRC-32 of the
+identifiers of the parts it draws, joined in drawing order (confirmed on its
+default seed: CRC-32 of our twelve identifiers is its checksum 519043181).
+Sixty-four pairs were read from the page and compared. Observed: 58 equal at
+first. Three of the six differences were naming: the table was made with an
+older game version in which the three mecha wing alternatives carried a level
+suffix (`_WINGSJ_LOWLOD0`; build 180836 has `_WINGSJ_LOW`). The other three
+were ours: seeds combining K wings with the E cockpit, where a decal group of
+the cockpit was skipped because a wing decal had the same identifier once its
+level suffix was removed. Tried: comparing by the normalised identifier
+(61 of 64), never skipping (62 of 64), comparing by the identifier as spelled
+(64 of 64). The last is now the rule in the application and in the research
+tool. Not proven: other types (the table has seeds for fighters only) and
+anything against the running game.
+
 ## 2026-10-08: all twenty workshop types rendered; colours and layers chosen generically (application 1.12.0), offline
 
 Offline only; build 180836 files. Owning note:

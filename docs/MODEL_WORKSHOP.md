@@ -1,6 +1,6 @@
 # Model workshop
 
-Status on 2026-10-08: **implemented in application 1.12.0, offline only.** The
+Status on 2026-10-08: **implemented in application 1.12.1, offline only.** The
 workshop reads the selected installation's own archives and never touches the
 running game, the bridge or a save. Nothing here was compared with the running
 game seed by seed yet.
@@ -117,6 +117,43 @@ Parts are named by the game's identifiers (`_WINGS_` reads "Wings",
 `_WINGS_A` reads "A"), because the game has no display text for them. The
 community's nicknames (for example "Wings Vector") are not used.
 
+### Checked against a table of fighter seeds
+
+The same site carries a table of 1,809 fighter seeds, each keyed by the
+CRC-32 of the identifiers of the parts the seed draws, joined in drawing order
+(decal parts included). Sixty-four of its pairs were compared on 2026-10-08
+and are a test: all sixty-four seeds draw exactly the recorded parts.
+
+Two things were learned on the way:
+
+- The table was made with an older game version. Its three mecha wing
+  alternatives are named `_WINGSJ_FULLLOD0`, `_WINGSJ_MIDLOD0` and
+  `_WINGSJ_LOWLOD0`; build 180836 names them without the suffix. The test
+  adds the suffix before taking the checksum.
+- A group is skipped when one of its alternatives was already chosen
+  elsewhere in the model, and that comparison is by the identifier as the
+  part list spells it. The research port compared identifiers with the level
+  suffix removed; that skipped a cockpit decal whenever a wing decal had the
+  same name apart from its suffix (K wings with the E cockpit) and failed
+  three of the sixty-four seeds. Never skipping failed two.
+
+Only fighters have such a table on the site.
+
+### Standard multi-tool: what decides pistol, rifle, experimental, alien
+
+The standard multi-tool scene has one part list for all of them. Its first
+group has two alternatives: a rare one (weight 1 against 20) under which a
+second group chooses between the starter, the experimental (`Pristine`) and
+the alien model, all rare; and the normal one, under which the gun mode
+(two alternatives), barrel, stock, magazine, screen and side accessory are
+drawn. Both groups can be chosen in Build. With a seed alone the experimental
+and alien models are therefore rare. The game also has a stat class per
+multi-tool (pistol, rifle, experimental, alien); whether it forces the
+matching model when it builds one (the traversal has a way for a caller to
+force an alternative) is not established, so a seed shown here as a normal
+model may be given another model by the game for an experimental or alien
+multi-tool.
+
 ### Seed for chosen parts
 
 No way is known to compute a seed from its parts, so the application tries
@@ -196,6 +233,7 @@ type.
 
 With `NMS_COURIER_GAME_ROOT` pointing at the installed build 180836:
 
+- Sixty-four fighter seeds draw the parts an independent table records.
 - Five seeds on four types select exactly the parts the research port selects
   (fighter `0x7` and `0xA547AB958C97E439`, hauler `0xD440D42921FFFF7A`,
   interceptor `0x7`, freighter `0x8C968767B3282F13`).
@@ -227,7 +265,7 @@ cd apps/desktop && NMS_COURIER_GAME_ROOT="<game folder>" npx vitest run src/main
   caller context; the game's callers may add forced or excluded parts.
 - The exact recolouring of a layer, masks, normal maps, glow and glass.
 - Freighter colours (from the star system).
-- Pistol, rifle, experimental and alien multi-tools share one scene; what
-  makes the game treat a seed as one or the other is not established.
+- Whether the game forces the experimental or alien model for a multi-tool
+  of that stat class (see above).
 - Class, slots, stats and the generated name of a seed.
 - Glyph location search, which the customizer site offers.
