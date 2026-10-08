@@ -13,6 +13,24 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.7.0 and bridge 1.5.0 (2026-10-08)
+
+Owner request: a clear name for what the project puts into the game's mod
+folder.
+
+- One folder, `GAMEDATA/MODS/NMSCourier`, holds everything: the reward entries
+  and the corvette layout the application prepares. It replaces
+  `NMSCourierCurrencyRewards` and `NMSCourierCorvette`.
+- The reward table has only the five entries that are used, named
+  `COURIER_UNITS`, `COURIER_NANITES`, `COURIER_QS`, `COURIER_SUBST` and
+  `COURIER_PRODUCT`, each of amount 1. The nine unused fixed-amount entries
+  are gone. Table SHA-256
+  `38ead98efee7cf0506d2b6f486ab7c612c1ad827aaf4ec45cc64d602e5c839a2`;
+  source `runtime/mods/courier_rewards`.
+- Bridge 1.5.0, file SHA-256
+  `eb3c8b3785bfd87d88869fc70302a7fdb499592a795cc9ba04f03cd0b0c84cec`, uses
+  those names. Nothing else changed in it. Not exercised live yet, like 1.4.0.
+
 ## Application 1.6.1 (2026-10-08)
 
 - Fix: preparing a corvette file failed when the game and the application's

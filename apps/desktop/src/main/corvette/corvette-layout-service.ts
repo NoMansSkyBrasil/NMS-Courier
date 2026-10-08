@@ -18,7 +18,8 @@ import {
 // export assembled, and the player finishes it in the game. Proven by hand on 2026-10-07; see
 // docs/CORVETTE_DELIVERY_NOTES.md. Nothing in a save is touched.
 
-const modFolder = 'NMSCourierCorvette'
+// The project's one folder in the game's mod folder; the reward entries live there too.
+const modFolder = 'NMSCourier'
 // The folder the research of 2026-10-07 used for the same two files; it must not stay beside ours.
 const researchFolder = 'NMSCourierCorvetteLayoutResearch'
 const layoutFile = ['METADATA', 'SIMULATION', 'SHIPBASES', 'DEFAULTSHIPBASE.MBIN']

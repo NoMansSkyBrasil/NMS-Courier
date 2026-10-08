@@ -121,8 +121,8 @@ static int item_readable(uintptr_t address, size_t length) {
 // product reward, each of amount 1 with the identifier below.
 #define ITEM_SUBSTANCE_REWARD_HASH 0x4551b575u
 #define ITEM_PRODUCT_REWARD_HASH 0x21b90b77u
-#define ITEM_SUBSTANCE_CARRIER "CR_ITEM_SUB"
-#define ITEM_PRODUCT_CARRIER "CR_ITEM_PROD"
+#define ITEM_SUBSTANCE_CARRIER "COURIER_SUBST"
+#define ITEM_PRODUCT_CARRIER "COURIER_PRODUCT"
 #define ITEM_SUBSTANCE_CARRIER_ID "FUEL1"
 #define ITEM_PRODUCT_CARRIER_ID "CASING"
 typedef struct { char id[16]; int32_t amount_max, amount_min; } item_substance_reward;

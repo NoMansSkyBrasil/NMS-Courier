@@ -76,6 +76,10 @@ the game's decision and is not known yet. With silent delivery, or when the
 carrier is not available, the store routine is used as before (`added`).
 Not proven live.
 
+Since bridge 1.5.0 the two item carriers are named `COURIER_SUBST` and
+`COURIER_PRODUCT` and live in the mod folder `NMSCourier`
+(`runtime/mods/courier_rewards`).
+
 ## Stack sizes
 
 Owner request of 2026-10-08. The stack of an item in a store is what the

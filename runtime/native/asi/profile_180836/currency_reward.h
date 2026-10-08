@@ -4,7 +4,7 @@
 // reward_carrier.h.
 //
 // The game has no reward of an arbitrary amount, so this file uses three rewards of the data file
-// (runtime/mods/currency_rewards) as carriers, see reward_carrier.h: it checks that the carrier is
+// (runtime/mods/courier_rewards) as carriers, see reward_carrier.h: it checks that the carrier is
 // exactly that file's entry (one money reward, the expected currency and the file's amount), writes
 // the requested amount, calls the game's reward routine and writes the file's amount back.
 
@@ -27,8 +27,8 @@ static const char *const currency_result_names[] = {
 };
 static const char *const currency_names[CURRENCY_COUNT] = {"units", "nanites", "quicksilver"};
 // Carrier of each currency with the amount the data file gives it, in the game's currency order.
-static const char *const currency_carriers[CURRENCY_COUNT] = {"CR_UNITS_1M", "CR_NANITE_1K", "CR_QS_1K"};
-static const int32_t currency_carrier_amounts[CURRENCY_COUNT] = {1000000, 1000, 1000};
+static const char *const currency_carriers[CURRENCY_COUNT] = {"COURIER_UNITS", "COURIER_NANITES", "COURIER_QS"};
+static const int32_t currency_carrier_amounts[CURRENCY_COUNT] = {1, 1, 1};
 
 static volatile LONG currency_state;       // 0 idle, 1 requested, 2 applied and waiting for the result file
 static volatile LONG currency_kind;

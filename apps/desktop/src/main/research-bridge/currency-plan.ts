@@ -1,7 +1,7 @@
 import type { DeliveryPlan } from './delivery-plan'
 
 // Currency requests: units, nanites or quicksilver of any amount through the game's own reward
-// routine. The bridge needs the data file of runtime/mods/currency_rewards in the game's mod folder.
+// routine. The bridge needs the data file of runtime/mods/courier_rewards in the game's mod folder.
 
 export const currencies = ['units', 'nanites', 'quicksilver'] as const
 export type Currency = (typeof currencies)[number]
@@ -12,13 +12,13 @@ export const currencyMaximum = 4294967295
 export const currencyDataFile = [
   'GAMEDATA',
   'MODS',
-  'NMSCourierCurrencyRewards',
+  'NMSCourier',
   'METADATA',
   'REALITY',
   'TABLES',
   'REWARDTABLE.EXML'
 ] as const
-export const currencyDataSha256 = '654e4f6ee459c992833cc4350148a66f737bc6943de94fb666fb93aae5a87b17'
+export const currencyDataSha256 = '38ead98efee7cf0506d2b6f486ab7c612c1ad827aaf4ec45cc64d602e5c839a2'
 
 export type CurrencyRequest = { currency: string; amount: number }
 

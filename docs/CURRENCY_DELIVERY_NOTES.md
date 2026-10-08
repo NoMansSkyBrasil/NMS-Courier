@@ -69,6 +69,15 @@ read as "list at +0, identifier at +0x18" of an entry that starts 16 bytes
 later. Bridge 1.4.0 uses the corrected offsets
 (`runtime/native/asi/profile_180836/reward_carrier.h`). Not yet run again.
 
+## Names since bridge 1.5.0 (2026-10-08)
+
+On the owner's request the mod folder is `NMSCourier` and the carriers are
+`COURIER_UNITS`, `COURIER_NANITES` and `COURIER_QS`, each holding amount 1 in
+the file. Read every `CR_*` name and `NMSCourierCurrencyRewards` in the
+earlier sections of this note as those. Source: `runtime/mods/courier_rewards`,
+table SHA-256
+`38ead98efee7cf0506d2b6f486ab7c612c1ad827aaf4ec45cc64d602e5c839a2`.
+
 ## Files and requests
 
 - Data file: `runtime/mods/currency_rewards/NMSCourierCurrencyRewards`, copied

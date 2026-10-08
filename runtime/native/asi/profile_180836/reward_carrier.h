@@ -1,5 +1,5 @@
 // Shared by the currency and item domains of the build 180836 research profile: find one of this
-// project's own entries in the game's reward table (the data file of runtime/mods/currency_rewards)
+// project's own entries in the game's reward table (the data file of runtime/mods/courier_rewards)
 // so a domain can use it as a carrier. A carrier is an entry with exactly one reward; the domain
 // checks that it still holds what the data file gave it, writes the requested content, calls the
 // game's reward routine and writes the original content back. Only that entry is ever written; what

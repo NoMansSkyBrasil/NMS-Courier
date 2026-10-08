@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-08: one mod folder named NMSCourier; bridge 1.5.0 installed
+
+On the owner's request for a clear name, with the game closed. The project's
+files in the game's mod folder are now one folder, `NMSCourier`, with five
+reward entries (`COURIER_UNITS`, `COURIER_NANITES`, `COURIER_QS`,
+`COURIER_SUBST`, `COURIER_PRODUCT`; table `38ead98e...39a2`). Bridge 1.5.0
+(`eb3c8b37...4cec`) uses those names; both hashes read back from the game
+folder. The previous folder `NMSCourierCurrencyRewards` was moved to
+`E:\NMS-Courier-Research\removed-from-game\20261008`. The profile fixture
+passes; 80 unit tests pass. Nothing sent. Not proven: currencies and items
+with notification, which have not run on 1.4.0 either. Undo: copy bridge 1.4.0
+and the old folder back and use application 1.6.1.
+
 ## 2026-10-08: leftover research files moved out of the game folder
 
 On the owner's request, with the game closed. Moved to
