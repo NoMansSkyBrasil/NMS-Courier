@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: all build parts taught to slot 3
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#build-parts-same-day-same-process).
+Process 20536, DLL `a6c01dbc...ecda`, slot 3 re-identified, new backup taken.
+The owner asked for every locked or priced entry of the construction research
+terminals.
+
+- `-AllOfClass catalogue_construction` (1,067): 1,024 learned, 43 already
+  known; known products 778 -> 1,802, equal to the number learned.
+- Game kept running. Not proven: the terminals and build menu on screen,
+  persistence after a save.
+- Rollback: restore `20261007-before-build-parts` with the game closed.
+
 ## 2026-10-07: craftable technology products on slot 3 (Atlas Passes); five unrequested entries
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#first-live-requests-2026-10-07-slot-3).

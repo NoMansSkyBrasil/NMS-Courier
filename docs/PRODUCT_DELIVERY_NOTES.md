@@ -7,8 +7,9 @@ or a build part available to the player.
 Status in one line: the classification, the game routine and a request in the
 research profile exist; the build is installed and on 2026-10-07 taught
 slot 3 the 108 catalogue items and the 91 craftable technology products
-live (saved: 778 known products). Build parts have not been sent. Five
-freighter rooms became known without being requested; unexplained. Scope of a delivery: one slot, with one side
+and the 1,067 build parts live (1,802 known products; the build parts are
+not yet saved or confirmed on screen). Five freighter rooms became known
+without being requested during the technology request; unexplained. Scope of a delivery: one slot, with one side
 effect on the account described below.
 
 ## What the owner saw
@@ -40,7 +41,7 @@ All three product tables, 4,446 entries:
 | --- | --- | --- | --- |
 | `catalogue_item` | 108 | Craftable, and the game's catalogue lists it under crafting, trade, curiosities or cooking | yes |
 | `catalogue_technology` | 91 | Craftable, listed under technology | yes, on request |
-| `catalogue_construction` | 1,067 | Craftable or a customisation part, listed under construction (build parts) | yes, on request; not reviewed entry by entry yet |
+| `catalogue_construction` | 1,067 | Craftable or a customisation part, listed under construction (build parts) | yes, on request; reviewed structurally on 2026-10-07 |
 | `not_learnable` | 2,092 | Not craftable and not a customisation part: the game's own routine refuses it | no |
 | `not_in_catalogue` | 1,070 | Learnable, but the catalogue does not list it (`WikiCategory` NotEnabled) | no |
 | `blocked_repeatable` | 18 | A repeatable purchase: the 14 consumable specials, the other `SPEC_FIREWORK` and `EXPD_FIREWORK` items | never |
@@ -144,12 +145,41 @@ the per-ID result as the complete list of what a request changes.
 Persistence: the owner saved during the session; both slot 3 files (21:06 and
 21:07) hold 778 known products, equal to the list in memory.
 
-The game kept running after all three. Scope: slot 3; the routine's
+### Build parts (same day, same process)
+
+The owner sent twenty screenshots of the Anomaly's construction research
+terminals (large and small prefabs, technology modules, aquatic
+construction, station decorations and modules, decals, posters, decorative
+modules, fossil displays, lighting, farming) with most entries locked or
+priced, and asked for all of it to be released at once.
+
+Review done before sending, on the classification table only: all 1,067
+`catalogue_construction` entries are type BuildingPart, craftable and listed
+under construction; no ID carries a test, debug, obsolete or placeholder
+marker. Largest ID groups: `S_` 176, `BASE_` 125, `B_` 97, `EXPD_` 92, `F_`
+49, `T_` 48, `DECAL_` 41, `BLD_` 40, `FRE_` 34, `STA_` 31, `STATUE_` 28,
+`FOS_` 22. This is a structural review, not an entry-by-entry check in the
+game.
+
+Before the request: save folder copied to the external
+`save-backups/20261007-before-build-parts`; slot re-identified as 3 (205
+technologies, 778 products in memory).
+
+| Request | Result file |
+| --- | --- |
+| `-AllOfClass catalogue_construction` (1,067) | known 778 -> 1,802: 1,024 `learned`, 43 `not_added` (already known) |
+
+This time the count rose by exactly the number learned. The five
+`FRE_ROOM_NPC*` entries of the previous request therefore remain an isolated,
+unexplained case.
+
+The game kept running after all four. Scope: slot 3; the routine's
 account "seen" call found every product already seen.
 
 Not proven yet: that the three Atlas Pass entries are lit on screen after the
-third request (awaiting the owner). `catalogue_construction` (1,067) was not
-sent. Undo: restore the backup with the game closed.
+third request, and what the research terminals and the build menu show after
+the fourth (awaiting the owner); persistence of the build parts, which needs
+a save. Undo: restore a backup with the game closed.
 
 ## Remaining steps (proposed, not done)
 

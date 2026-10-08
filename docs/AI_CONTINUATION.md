@@ -166,9 +166,9 @@ offline:
     DLL `a6c01dbc...ecda` is installed (game closed, nothing sent to it yet);
     the saved slot 3 files hold 1,684 recipes and 220 fish. The 108
     catalogue items and 91 craftable technology products were then taught
-    live to slot 3 (known products 601 -> 778, saved). Open: five freighter
-    rooms became known unrequested (see the notes); review
-    `catalogue_construction` before sending it.
+    live to slot 3, then all 1,067 build parts (known products 601 -> 1,802;
+    build parts awaiting the owner's confirmation and save). Open: five
+    freighter rooms became known unrequested during the technology request.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single
