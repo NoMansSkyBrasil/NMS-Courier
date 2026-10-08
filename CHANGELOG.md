@@ -13,6 +13,16 @@ The application shows both on the "Game and bridge" page and says whether the
 installed bridge is the one it was built with. Rules for raising a version are
 in `AGENTS.md` ("Versions").
 
+## Application 1.1.1 (2026-10-08)
+
+- Fix: the application never saw the running game. Windows PowerShell writes
+  a process start time as `/Date(n)/`, which the application rejected, so
+  every page said "start the game" and nothing could be sent. The query now
+  asks for ISO text and the reader accepts both forms.
+- Fix: the dashboard and the sidebar showed "not supported" for build 180836
+  and took the bridge state from the old diagnostic runtime; both now use the
+  research bridge.
+
 ## Application 1.1.0 and bridge 1.1.0 (2026-10-08)
 
 Meaning of the numbers (owner, 2026-10-08): `x.x.1` bug fixes, `x.1.x` an

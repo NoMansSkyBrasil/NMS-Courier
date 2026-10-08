@@ -25,7 +25,7 @@ import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 // Answers one question: can something be delivered right now, and if not, what is missing.
 export function DashboardPage(): React.JSX.Element {
   const { copy, locale } = useLocale()
-  const { game, build, catalog, diagnostics } = useGameState()
+  const { game, build, catalog, bridge } = useGameState()
   const text = copy.dashboard
 
   const cards = [
@@ -61,11 +61,8 @@ export function DashboardPage(): React.JSX.Element {
     {
       label: text.bridge,
       icon: CableIcon,
-      value:
-        diagnostics?.state === 'callback_ready' || diagnostics?.state === 'bridge_authenticated'
-          ? text.connected
-          : text.notConnected,
-      detail: diagnostics?.buildLabel ?? ''
+      value: bridge?.state === 'ready' ? text.connected : text.notConnected,
+      detail: bridge?.installedBridgeVersion ?? ''
     },
     {
       label: text.catalog,

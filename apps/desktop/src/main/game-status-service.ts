@@ -21,11 +21,19 @@ async function queryNmsProcesses(): Promise<string> {
       '-NoProfile',
       '-NonInteractive',
       '-Command',
-      'Get-Process -Name NMS -ErrorAction SilentlyContinue | Select-Object Id,Path,StartTime | ConvertTo-Json -Compress'
+      // The start time is written as text here: Windows PowerShell turns a date into "/Date(n)/".
+      "Get-Process -Name NMS -ErrorAction SilentlyContinue | Select-Object Id,Path,@{n='StartTime';e={$_.StartTime.ToUniversalTime().ToString('o')}} | ConvertTo-Json -Compress"
     ],
     { windowsHide: true, timeout: 10_000, maxBuffer: 64 * 1024 }
   )
   return stdout
+}
+
+// Start time as milliseconds: ISO text, or the "/Date(milliseconds)/" form of Windows PowerShell.
+function parseStartTime(value: unknown): number {
+  if (typeof value !== 'string') return Number.NaN
+  const legacy = /^\/Date\((\d+)\)\/$/.exec(value)
+  return legacy ? Number(legacy[1]) : Date.parse(value)
 }
 
 export function parseNmsProcessOutput(output: string, installationRoot: string): GameProcessStatus {
@@ -46,13 +54,12 @@ export function parseNmsProcessOutput(output: string, installationRoot: string):
       record.Id > 0 &&
       typeof record.Path === 'string' &&
       resolve(record.Path).toLocaleLowerCase() === expectedPath &&
-      typeof record.StartTime === 'string' &&
-      !Number.isNaN(Date.parse(record.StartTime))
+      !Number.isNaN(parseStartTime(record.StartTime))
     ) {
       return {
         state: 'running',
         processId: record.Id,
-        startedAt: new Date(record.StartTime).toISOString()
+        startedAt: new Date(parseStartTime(record.StartTime)).toISOString()
       }
     }
   }

@@ -214,9 +214,14 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-game-status', () =>
     gameStatusService.observe(getInstallationService().getSelectedRootPath())
   )
-  ipcMain.handle('nms:get-build-support', () =>
-    resolveBuildSupport(getInstallationService().getStatus(), getRuntimeResourceContext())
-  )
+  ipcMain.handle('nms:get-build-support', () => {
+    const installation = getInstallationService().getStatus()
+    const support = resolveBuildSupport(installation, getRuntimeResourceContext())
+    // The research bridge supports its own build, whatever the older runtime registry says.
+    return installation.executableSha256 === researchBridgeGameSha256
+      ? { state: 'supported' as const, buildLabel: researchBridgeBuild, adapterVersion: null }
+      : support
+  })
   ipcMain.handle('nms:get-runtime-diagnostics-status', () =>
     getRuntimeDiagnosticsService().getStatus()
   )

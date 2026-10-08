@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-08: first start of bridge 1.1.0; the application could not see the game
+
+Slot not recorded (owner had the game open and reported that nothing could be
+sent). Build 180836, bridge 1.1.0 (`0a51fbd0...a03d`), game process 6136. The
+bridge started normally: its status file says `status=armed`,
+`bridge_version=1.1.0`. Nothing was sent, because the application reported
+"not running": its process query returns the start time as `/Date(n)/` under
+Windows PowerShell and the reader accepted only ISO text. This means no
+delivery has ever gone from the application to the game before this fix.
+Fixed in application 1.1.1 (`game-status-service.ts`, with a test of the real
+output form). Still unproven: every send from the application.
+
 ## 2026-10-08: full-resolution interface image export
 
 Offline export only; no game process, save slot, bridge, DLL, mod or data patch

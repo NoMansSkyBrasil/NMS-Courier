@@ -17,6 +17,19 @@ describe('game process observation', () => {
     ).toEqual({ state: 'running', processId: 1234, startedAt: '2026-09-22T12:00:00.000Z' })
   })
 
+  it('reads the date form Windows PowerShell writes', () => {
+    expect(
+      parseNmsProcessOutput(
+        String.raw`{"Id":6136,"Path":"C:\\Games\\No Man’s Sky\\Binaries\\NMS.exe","StartTime":"\/Date(1791480739251)\/"}`,
+        installationRoot
+      )
+    ).toEqual({
+      state: 'running',
+      processId: 6136,
+      startedAt: new Date(1791480739251).toISOString()
+    })
+  })
+
   it('does not mistake another installation for the selected game process', () => {
     expect(
       parseNmsProcessOutput(
