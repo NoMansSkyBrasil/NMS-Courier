@@ -98,6 +98,27 @@ Consequences for Courier, as readings to test and not as facts:
 - The "Switch 2 only until 7.05" group shows such routes get closed by
   updates; whatever we find must be pinned to an exact build like the rest.
 
+### Intended flow for a network delivery (owner's description, 2026-10-07)
+
+1. The sender joins the recipient's session, or the recipient joins the
+   sender's.
+2. The sender picks the recipient by friend ID or by player name; the tool
+   should read the players present in the session and offer them, instead of
+   asking for a typed name.
+3. The sender fires the delivery and the recipient receives it.
+
+What each step needs from research, none of it started:
+
+| Step | Needs |
+| --- | --- |
+| Session | Nothing new: the game's own multiplayer. Only read which session the game is in |
+| Recipient | Where the running game keeps the list of session players (name, platform ID, network ID); read-only |
+| Fire | The message that makes that one peer run a reward or receive items, addressed to the chosen player and to nobody else |
+
+Rules that already apply: the result must be reported per recipient, a
+local success never counts as a network success, and an unanswered request
+is an unknown outcome that is not retried automatically.
+
 ## Delivery defaults requested by the user
 
 Stated on 2026-10-06: an entity should arrive with the chosen class (S when not
