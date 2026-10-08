@@ -11,7 +11,8 @@ const research = join(__dirname, '..', '..', '..', '..', '..', 'runtime', 'resea
 
 describe('delivery options', () => {
   it('reads the data rows of a generated table', () => {
-    const text = '# Title\n\n| ID | Class |\n| --- | --- |\n| A1 | deliverable |\n| B2 | blocked |\n'
+    const text =
+      '# Title\n\n| ID | Class |\n| --- | --- |\n| A1 | deliverable |\n| B2 | blocked |\n'
     expect(parseMarkdownRows(text)).toEqual([
       ['A1', 'deliverable'],
       ['B2', 'blocked']
