@@ -454,6 +454,8 @@ export const enUS: Messages = {
       staff: 'Staff'
     },
     seedLabel: 'Seed',
+    homeSeedHint:
+      'A freighter takes its colours from its home star system. Type that seed, or draw one, to see the freighter in colour; empty shows it without.',
     seedHint: 'Sixteen hexadecimal digits after 0x. Press Enter or Show to see it.',
     show: 'Show',
     generate: 'Generate a seed',
@@ -469,7 +471,7 @@ export const enUS: Messages = {
     anyPart: 'Any',
     rare: 'rare',
     detailsTitle: 'Details drawn by the seed',
-    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified. For one known seed all of this equals the result of an independent tool, but nothing was compared with the running game yet. Freighters are shown without their colours, which come from the star system.',
+    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified. For one known seed all of this equals the result of an independent tool, but nothing was compared with the running game yet.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Select the game folder first, in Bridge.',
       UNKNOWN_KIND: 'This type is not available.',

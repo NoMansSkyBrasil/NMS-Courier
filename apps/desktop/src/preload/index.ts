@@ -5,7 +5,7 @@ const nms = {
   selectAppearanceRecipe: () => ipcRenderer.invoke('nms:select-appearance-recipe'),
   selectPreviewPalettes: () => ipcRenderer.invoke('nms:select-preview-palettes'),
   previewPaletteSeed: (seed: string) => ipcRenderer.invoke('nms:preview-palette-seed', seed),
-  workshopModel: (request: { category: string; kind: string; seed: string }) =>
+  workshopModel: (request: { category: string; kind: string; seed: string; colorSeed?: string }) =>
     ipcRenderer.invoke('nms:workshop-model', request),
   workshopChoices: (request: { category: string; kind: string }) =>
     ipcRenderer.invoke('nms:workshop-choices', request),

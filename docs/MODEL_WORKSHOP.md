@@ -1,6 +1,6 @@
 # Model workshop
 
-Status on 2026-10-08: **implemented in application 1.12.1, offline only.** The
+Status on 2026-10-08: **implemented in application 1.13.0, offline only.** The
 workshop reads the selected installation's own archives and never touches the
 running game, the bridge or a save. Nothing here was compared with the running
 game seed by seed yet.
@@ -200,8 +200,16 @@ the same bytes in builds 180383 and 180836):
 Not exact: the tint itself. A layer is recoloured in hue, saturation and
 brightness toward its sample by the rule the research took from community
 descriptions, not from the game's shaders. Mask, normal and glow maps are not
-used; lighting is the workshop's own. Freighters are drawn with their
-textures but without tints: their colours come from the star system.
+used; lighting is the workshop's own.
+
+A freighter takes its colours from its home star system, so the workshop
+asks for a second seed for freighters and draws the palette with it; the
+texture choices still use the model seed. Without a home seed a freighter is
+drawn untinted. For the pirate freighter of 2026-10-06 (model seed
+`0x8C968767B3282F13`, home seed `0x175000B001FFD`) the colours equal the
+ones the research recorded for that home seed (a test). Colours cannot be
+chosen for a freighter in Build: they do not depend on its own seed. A link
+carries the home seed as `home=`.
 
 ### Compared with an independent tool
 
@@ -264,7 +272,7 @@ cd apps/desktop && NMS_COURIER_GAME_ROOT="<game folder>" npx vitest run src/main
   like the workshop's model for that seed. The selection runs with an empty
   caller context; the game's callers may add forced or excluded parts.
 - The exact recolouring of a layer, masks, normal maps, glow and glass.
-- Freighter colours (from the star system).
+- A search for a home system seed with chosen freighter colours.
 - Whether the game forces the experimental or alien model for a multi-tool
   of that stat class (see above).
 - Class, slots, stats and the generated name of a seed.

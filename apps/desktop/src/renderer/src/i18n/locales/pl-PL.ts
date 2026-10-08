@@ -458,6 +458,8 @@ export const plPL: Messages = {
       staff: 'Laska'
     },
     seedLabel: 'Ziarno',
+    homeSeedHint:
+      'Frachtowiec bierze kolory ze swojego macierzystego układu gwiezdnego. Wpisz to ziarno albo wylosuj je, aby zobaczyć frachtowiec w kolorze; puste pole pokazuje go bez koloru.',
     seedHint: 'Szesnaście cyfr szesnastkowych po 0x. Naciśnij Enter lub Pokaż, aby je zobaczyć.',
     show: 'Pokaż',
     generate: 'Wygeneruj ziarno',
@@ -473,7 +475,7 @@ export const plPL: Messages = {
     anyPart: 'Dowolna',
     rare: 'rzadka',
     detailsTitle: 'Szczegóły wylosowane przez ziarno',
-    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone. Dla jednego znanego ziarna wszystko to zgadza się z wynikiem niezależnego narzędzia, ale nic nie zostało jeszcze porównane z działającą grą. Frachtowce są pokazywane bez swoich kolorów, które zależą od układu gwiezdnego.',
+    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone. Dla jednego znanego ziarna wszystko to zgadza się z wynikiem niezależnego narzędzia, ale nic nie zostało jeszcze porównane z działającą grą.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Najpierw wybierz folder gry w sekcji Most.',
       UNKNOWN_KIND: 'Ten typ jest niedostępny.',

@@ -1,5 +1,19 @@
 # Runtime experiment log
 
+## 2026-10-08: freighter colours from the home system seed in the workshop (application 1.13.0), offline
+
+Offline only; build 180836 files. Owning note:
+[model workshop](MODEL_WORKSHOP.md). The owner recalled that the colours had
+come out right for the dreadnought seed. The record is the pirate freighter of
+2026-10-06 (model seed `0x8C968767B3282F13`, home seed `0x175000B001FFD`):
+its palette is drawn with the home seed. The workshop now takes that seed for
+freighters. Observed: the application's colours for that home seed equal the
+recorded ones (`PirateBase` second sample `#212324`, `PirateAlt` first sample
+`#949494`), and the rendered dreadnought is near-black and grey instead of
+the untinted teal. Not proven: against the running game; and the colours of
+regular and capital freighters, which use other palette families, were only
+looked at, not compared with anything.
+
 ## 2026-10-08: part selection checked against 64 seeds of an independent table; one rule corrected (application 1.12.1), offline
 
 Offline only; build 180836 files. Owning note:

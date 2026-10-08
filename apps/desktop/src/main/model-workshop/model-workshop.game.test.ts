@@ -194,6 +194,35 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     expect(failed).toEqual([])
   })
 
+  // The pirate freighter the project owner supplied on 2026-10-06, with the colours the research
+  // recorded for its home seed (docs/SEED_CATEGORY_LEDGER.md).
+  it('tints a freighter with the colours of its home system seed', () => {
+    const plain = service.build('freighter', 'pirate', '0x8C968767B3282F13')
+    expect(plain.state === 'built' && plain.colors.length).toBe(0)
+    const built = service.build('freighter', 'pirate', '0x8C968767B3282F13', '0x175000B001FFD')
+    expect(built.state).toBe('built')
+    if (built.state !== 'built') return
+    const hex = (color: readonly number[]): string =>
+      '#' +
+      color
+        .slice(0, 3)
+        .map((value) =>
+          Math.round(value * 255)
+            .toString(16)
+            .padStart(2, '0')
+        )
+        .join('')
+        .toUpperCase()
+    const drawn = Object.fromEntries(
+      built.colors.map((slot) => [`${slot.familyName}/${slot.sample}`, hex(slot.color)])
+    )
+    expect(drawn).toMatchObject({
+      'PirateBase/1': '#212324',
+      'PirateAlt/0': '#949494'
+    })
+    expect(built.surfaces.some((surface) => surface.layers.some((layer) => layer.tint))).toBe(true)
+  }, 60_000)
+
   it('draws the same paint as the full palette port', () => {
     const data = files.read('metadata/simulation/solarsystem/colours/basecolourpalettes.mbin')
     const families = readBasePalette(data!)!

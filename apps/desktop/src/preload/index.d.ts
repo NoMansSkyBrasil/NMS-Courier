@@ -28,6 +28,7 @@ declare global {
         category: string
         kind: string
         seed: string
+        colorSeed?: string
       }) => Promise<import('../shared/model-workshop').WorkshopModelResult>
       workshopChoices: (request: {
         category: string

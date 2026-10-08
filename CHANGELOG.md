@@ -28,6 +28,15 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.13.0 (2026-10-08)
+
+- New: freighters in the model workshop take a second seed, the seed of
+  their home star system, and are shown in its colours. The pirate freighter
+  the owner supplied (model seed `0x8C968767B3282F13`, home seed
+  `0x175000B001FFD`) shows the near-black and grey the research recorded for
+  that home seed. Without a home seed a freighter is shown untinted as before.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.12.1 (2026-10-08)
 
 - Fixed: which parts a seed selects. A group is skipped when one of its

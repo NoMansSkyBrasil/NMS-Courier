@@ -467,6 +467,8 @@ export const ptPT: Messages = {
       staff: 'Bastão'
     },
     seedLabel: 'Seed',
+    homeSeedHint:
+      'Um cargueiro vai buscar as cores ao seu sistema estelar de origem. Escreva essa seed, ou sorteie uma, para ver o cargueiro a cores; vazio mostra-o sem cor.',
     seedHint: 'Dezasseis dígitos hexadecimais depois de 0x. Prima Enter ou Mostrar para ver.',
     show: 'Mostrar',
     generate: 'Gerar uma seed',
@@ -482,7 +484,7 @@ export const ptPT: Messages = {
     anyPart: 'Qualquer',
     rare: 'rara',
     detailsTitle: 'Detalhes sorteados pela seed',
-    note: 'O modelo é lido dos seus próprios ficheiros do jogo. Peças, camadas de textura, decalques e cores seguem a seed; a iluminação e os efeitos de material são simplificados. Para uma seed conhecida, tudo isto é igual ao resultado de uma ferramenta independente, mas nada foi ainda comparado com o jogo em execução. Os cargueiros aparecem sem as suas cores, que vêm do sistema estelar.',
+    note: 'O modelo é lido dos seus próprios ficheiros do jogo. Peças, camadas de textura, decalques e cores seguem a seed; a iluminação e os efeitos de material são simplificados. Para uma seed conhecida, tudo isto é igual ao resultado de uma ferramenta independente, mas nada foi ainda comparado com o jogo em execução.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecione primeiro a pasta do jogo, em Ponte.',
       UNKNOWN_KIND: 'Este tipo não está disponível.',

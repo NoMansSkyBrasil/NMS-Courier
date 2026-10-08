@@ -225,7 +225,9 @@ export class ModelWorkshopService {
     return result
   }
 
-  build(category: unknown, kind: unknown, seed: unknown): WorkshopModelResult {
+  // `colorSeed` is the seed the colours are drawn with when it is not the model seed: a
+  // freighter takes its colours from its home star system.
+  build(category: unknown, kind: unknown, seed: unknown, colorSeed?: unknown): WorkshopModelResult {
     const scene = workshopScene(String(category), String(kind))
     if (!scene) return { state: 'failed', reason: 'UNKNOWN_KIND' }
     if (typeof seed !== 'string' || !seedPattern.test(seed)) {
@@ -250,10 +252,20 @@ export class ModelWorkshopService {
       )
       validatePreviewGlb(bytes)
       const texturing = this.texturing(value, sceneSurfaces)
-      // Freighters take their colours from the star system, not from the model seed: their
+      // A freighter is tinted only when the seed of its home system is given; without it its
       // textures are drawn as they are.
-      const families = String(category) === 'freighter' ? null : this.families()
-      const samples = families ? generateBasePalette(value, families).families : null
+      const freighter = String(category) === 'freighter'
+      const paletteSeed =
+        typeof colorSeed === 'string' && seedPattern.test(colorSeed)
+          ? BigInt(colorSeed)
+          : freighter
+            ? null
+            : value
+      const families = paletteSeed === null ? null : this.families()
+      const samples =
+        families && paletteSeed !== null
+          ? generateBasePalette(paletteSeed, families).families
+          : null
       const colors: WorkshopColorSlot[] = []
       const surfaces: WorkshopSurface[] = []
       for (const surface of sceneSurfaces) {

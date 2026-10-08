@@ -464,6 +464,8 @@ export const esES: Messages = {
       staff: 'Bastón'
     },
     seedLabel: 'Semilla',
+    homeSeedHint:
+      'Un carguero toma sus colores de su sistema estelar de origen. Escribe esa semilla, o sortea una, para verlo en color; vacío lo muestra sin color.',
     seedHint: 'Dieciséis dígitos hexadecimales después de 0x. Pulsa Intro o Mostrar para verla.',
     show: 'Mostrar',
     generate: 'Generar una semilla',
@@ -479,7 +481,7 @@ export const esES: Messages = {
     anyPart: 'Cualquiera',
     rare: 'rara',
     detailsTitle: 'Detalles sorteados por la semilla',
-    note: 'El modelo se lee de tus propios archivos del juego. Las piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados. Para una semilla conocida, todo esto coincide con el resultado de una herramienta independiente, pero nada se ha comparado todavía con el juego en ejecución. Los cargueros se muestran sin sus colores, que proceden del sistema estelar.',
+    note: 'El modelo se lee de tus propios archivos del juego. Las piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados. Para una semilla conocida, todo esto coincide con el resultado de una herramienta independiente, pero nada se ha comparado todavía con el juego en ejecución.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecciona primero la carpeta del juego, en Puente.',
       UNKNOWN_KIND: 'Este tipo no está disponible.',

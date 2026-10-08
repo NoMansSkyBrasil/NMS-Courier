@@ -234,7 +234,7 @@ app.whenReady().then(() => {
   // parts. All three read the selected installation's archives; nothing is written.
   ipcMain.handle('nms:workshop-model', (_, request: unknown) => {
     const value = (request ?? {}) as Record<string, unknown>
-    return getModelWorkshopService().build(value.category, value.kind, value.seed)
+    return getModelWorkshopService().build(value.category, value.kind, value.seed, value.colorSeed)
   })
   // One texture of the model built last, as the game stores it; the renderer draws it.
   ipcMain.handle('nms:workshop-texture', (_, path: unknown) =>

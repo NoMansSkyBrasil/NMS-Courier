@@ -480,6 +480,8 @@ export const deDE: Messages = {
       staff: 'Stab'
     },
     seedLabel: 'Seed',
+    homeSeedHint:
+      'Ein Frachter nimmt seine Farben aus seinem Heimatsternsystem. Gib diesen Seed ein oder würfle einen aus, um den Frachter farbig zu sehen; leer zeigt ihn ohne Farbe.',
     seedHint: 'Sechzehn Hexadezimalziffern nach 0x. Drücke die Eingabetaste oder „Anzeigen“.',
     show: 'Anzeigen',
     generate: 'Seed erzeugen',
@@ -495,7 +497,7 @@ export const deDE: Messages = {
     anyPart: 'Beliebig',
     rare: 'selten',
     detailsTitle: 'Vom Seed ausgeloste Details',
-    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturschichten, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht. Für einen bekannten Seed stimmt all das mit dem Ergebnis eines unabhängigen Werkzeugs überein, aber nichts wurde bisher mit dem laufenden Spiel verglichen. Frachter werden ohne ihre Farben gezeigt, die vom Sternsystem stammen.',
+    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturschichten, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht. Für einen bekannten Seed stimmt all das mit dem Ergebnis eines unabhängigen Werkzeugs überein, aber nichts wurde bisher mit dem laufenden Spiel verglichen.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Wähle zuerst unter „Brücke“ den Spielordner aus.',
       UNKNOWN_KIND: 'Dieser Typ ist nicht verfügbar.',

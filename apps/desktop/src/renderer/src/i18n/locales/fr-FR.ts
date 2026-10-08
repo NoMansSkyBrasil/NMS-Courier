@@ -478,6 +478,8 @@ export const frFR: Messages = {
       staff: 'Bâton'
     },
     seedLabel: 'Graine',
+    homeSeedHint:
+      'Un cargo tire ses couleurs de son système stellaire d’origine. Saisissez cette graine, ou tirez-en une, pour le voir en couleur ; vide l’affiche sans couleur.',
     seedHint: 'Seize chiffres hexadécimaux après 0x. Appuyez sur Entrée ou Afficher pour la voir.',
     show: 'Afficher',
     generate: 'Générer une graine',
@@ -493,7 +495,7 @@ export const frFR: Messages = {
     anyPart: 'Indifférent',
     rare: 'rare',
     detailsTitle: 'Détails tirés par la graine',
-    note: 'Le modèle est lu dans vos propres fichiers du jeu. Les pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matière sont simplifiés. Pour une graine connue, tout cela est identique au résultat d’un outil indépendant, mais rien n’a encore été comparé au jeu en cours d’exécution. Les cargos sont affichés sans leurs couleurs, qui viennent du système stellaire.',
+    note: 'Le modèle est lu dans vos propres fichiers du jeu. Les pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matière sont simplifiés. Pour une graine connue, tout cela est identique au résultat d’un outil indépendant, mais rien n’a encore été comparé au jeu en cours d’exécution.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Sélectionnez d’abord le dossier du jeu, dans Passerelle.',
       UNKNOWN_KIND: 'Ce type n’est pas disponible.',

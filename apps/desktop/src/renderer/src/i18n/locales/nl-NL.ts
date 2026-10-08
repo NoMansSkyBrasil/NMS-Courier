@@ -473,6 +473,8 @@ export const nlNL: Messages = {
       staff: 'Staf'
     },
     seedLabel: 'Seed',
+    homeSeedHint:
+      'Een vrachtschip haalt zijn kleuren uit zijn thuissterrenstelsel. Typ die seed, of trek er een, om het in kleur te zien; leeg toont het zonder kleur.',
     seedHint: 'Zestien hexadecimale cijfers na 0x. Druk op Enter of Tonen om hem te zien.',
     show: 'Tonen',
     generate: 'Seed genereren',
@@ -488,7 +490,7 @@ export const nlNL: Messages = {
     anyPart: 'Willekeurig',
     rare: 'zeldzaam',
     detailsTitle: 'Details die de seed heeft getrokken',
-    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd. Voor één bekende seed komt dit alles overeen met het resultaat van een onafhankelijk hulpmiddel, maar er is nog niets met het draaiende spel vergeleken. Vrachtschepen worden getoond zonder hun kleuren, die van het sterrenstelsel komen.',
+    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd. Voor één bekende seed komt dit alles overeen met het resultaat van een onafhankelijk hulpmiddel, maar er is nog niets met het draaiende spel vergeleken.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecteer eerst de spelmap, bij Brug.',
       UNKNOWN_KIND: 'Dit type is niet beschikbaar.',

@@ -472,6 +472,8 @@ export const itIT: Messages = {
       staff: 'Bastone'
     },
     seedLabel: 'Seme',
+    homeSeedHint:
+      'Un mercantile prende i colori dal suo sistema stellare d’origine. Scrivi quel seme, o estraine uno, per vederlo a colori; vuoto lo mostra senza colore.',
     seedHint: 'Sedici cifre esadecimali dopo 0x. Premi Invio o Mostra per vederlo.',
     show: 'Mostra',
     generate: 'Genera un seme',
@@ -487,7 +489,7 @@ export const itIT: Messages = {
     anyPart: 'Qualsiasi',
     rare: 'raro',
     detailsTitle: 'Dettagli estratti dal seme',
-    note: 'Il modello viene letto dai tuoi file di gioco. Pezzi, strati di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati. Per un seme noto tutto questo è uguale al risultato di uno strumento indipendente, ma nulla è stato ancora confrontato con il gioco in esecuzione. I mercantili sono mostrati senza i loro colori, che dipendono dal sistema stellare.',
+    note: 'Il modello viene letto dai tuoi file di gioco. Pezzi, strati di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati. Per un seme noto tutto questo è uguale al risultato di uno strumento indipendente, ma nulla è stato ancora confrontato con il gioco in esecuzione.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Seleziona prima la cartella del gioco, in Ponte.',
       UNKNOWN_KIND: 'Questo tipo non è disponibile.',

@@ -330,6 +330,7 @@ export type Messages = {
       string
     >
     seedLabel: string
+    homeSeedHint: string
     seedHint: string
     show: string
     generate: string

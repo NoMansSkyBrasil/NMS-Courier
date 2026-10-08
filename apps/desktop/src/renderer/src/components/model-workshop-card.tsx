@@ -112,6 +112,7 @@ function namedFirst(colors: readonly WorkshopColorSlot[]): WorkshopColorSlot[] {
 function layerLabel(layer: string, group: string): string {
   return groupLabel((group || layer).replace(/^DECAL/, ''))
 }
+const seedShape = /^0x[0-9a-f]{1,16}$/i
 const noLook: WorkshopWantedLook = { colors: [], textures: [] }
 function hasLook(look: WorkshopWantedLook): boolean {
   return look.colors.length > 0 || look.textures.length > 0
@@ -225,6 +226,7 @@ export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.E
           category={category}
           kind={kind}
           firstSeed={mode === 'view' ? handedSeed : null}
+          firstHomeSeed={seedShape.test(handed.get('home') ?? '') ? handed.get('home') : null}
         />
       </CardContent>
       <CardFooter>
@@ -240,17 +242,22 @@ function WorkshopModel({
   mode,
   category,
   kind,
-  firstSeed
+  firstSeed,
+  firstHomeSeed
 }: {
   mode: WorkshopMode
   category: WorkshopCategory
   kind: string
   // The seed to open with; a random one when null.
   firstSeed: string | null
+  firstHomeSeed: string | null
 }): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.workshop
   const [typed, setTyped] = useState('')
+  // A freighter's colours come from the seed of its home star system, typed beside its own.
+  const [homeSeed, setHomeSeed] = useState(firstHomeSeed ?? '')
+  const homeSeedRef = useRef(firstHomeSeed ?? '')
   const [model, setModel] = useState<PreviewModel | null>(null)
   const [parts, setParts] = useState<WorkshopPart[]>([])
   const [colors, setColors] = useState<WorkshopColorSlot[]>([])
@@ -273,7 +280,13 @@ function WorkshopModel({
     async (seed: string) => {
       const mine = (request.current += 1)
       try {
-        const result = await window.nms.workshopModel({ category, kind, seed })
+        const home = homeSeedRef.current.trim()
+        const result = await window.nms.workshopModel({
+          category,
+          kind,
+          seed,
+          ...(category === 'freighter' && seedShape.test(home) ? { colorSeed: home } : {})
+        })
         if (mine !== request.current) return
         if (result.state === 'built') {
           setSurfaces(result.surfaces)
@@ -511,6 +524,51 @@ function WorkshopModel({
         </div>
         {mode === 'view' && <FieldDescription>{text.seedHint}</FieldDescription>}
       </Field>
+      {category === 'freighter' && (
+        <Field>
+          <FieldLabel htmlFor={`workshop-home-seed-${mode}`}>
+            {copy.delivery.equipHomeSeed}
+          </FieldLabel>
+          <div className="flex flex-wrap gap-2">
+            <Input
+              id={`workshop-home-seed-${mode}`}
+              className="max-w-xs"
+              value={homeSeed}
+              placeholder="0x175000B001FFD"
+              spellCheck={false}
+              onChange={(event) => {
+                setHomeSeed(event.target.value)
+                homeSeedRef.current = event.target.value
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && seedValid) void show(typed.trim())
+              }}
+            />
+            <Button
+              variant="outline"
+              disabled={busy || !seedValid}
+              onClick={() => {
+                const drawn = randomSeed()
+                setHomeSeed(drawn)
+                homeSeedRef.current = drawn
+                void show(typed.trim())
+              }}
+            >
+              <DicesIcon data-icon="inline-start" />
+              {text.generate}
+            </Button>
+            <Button
+              variant="outline"
+              disabled={busy || !seedValid}
+              onClick={() => void show(typed.trim())}
+            >
+              <EyeIcon data-icon="inline-start" />
+              {text.show}
+            </Button>
+          </div>
+          <FieldDescription>{text.homeSeedHint}</FieldDescription>
+        </Field>
+      )}
       {tried !== null && (
         <div>
           <Badge variant="secondary">
@@ -599,7 +657,7 @@ function WorkshopModel({
         </div>
         {mode === 'build' && (
           <div className="flex flex-col gap-6">
-            {activeSlot && (
+            {activeSlot && category !== 'freighter' && (
               <FieldSet>
                 <FieldLegend>{text.colorTitle}</FieldLegend>
                 <FieldDescription>{text.colorHint}</FieldDescription>
