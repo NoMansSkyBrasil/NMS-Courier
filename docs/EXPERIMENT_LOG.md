@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: bridge 1.4.0 and the item carriers installed
+
+Game closed (checked in the process list). Installed bridge 1.4.0
+(`520fd043...5300`) over 1.3.0 and the data file with the item carriers
+(`654e4f6e...7b17`) in `GAMEDATA\MODS\NMSCourierCurrencyRewards`; both
+hashes read back from the game folder. Nothing sent. Next, from the
+application on slot 3: units of a free amount, then an item with the
+notification setting on. Undo: copy bridge 1.3.0 back from
+`E:\NMS-Courier-Research\native-builds\bridge-1.3.0\final`.
+
 ## 2026-10-08: first deliveries from the application (bridge 1.3.0): item added, currency refused
 
 Slot taken from the owner's habit (slot 3), not identified by the tools. Build
