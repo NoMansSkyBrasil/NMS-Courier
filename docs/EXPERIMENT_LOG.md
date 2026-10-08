@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: leftover research files moved out of the game folder
+
+On the owner's request, with the game closed. Moved to
+`E:\NMS-Courier-Research\removed-from-game\20261008` (kept, not deleted):
+the two bridge backups of 2026-09-23 beside the bridge
+(`xinput9_1_0.dll.known-good-backup`, `xinput9_1_0.dll.scoped-test-backup`)
+and the corvette research mod folder `NMSCourierCorvetteLayoutResearch` (the
+976-part layout and the validation switch). The empty folder
+`NMSCourierCurrencyRewardProbe` was removed. What the project now has in the
+game folder: `Binaries\xinput9_1_0.dll` (bridge 1.4.0) and
+`GAMEDATA\MODS\NMSCourierCurrencyRewards`. Left alone because they are the
+game's own: `GAMEDATA\CRITICAL_ERROR.txt`, `GAMEDATA\FullLog.txt` and the
+settings files. Consequence: until a corvette file is prepared from the
+application, "Start corvette build" opens the game's empty default layout and
+corvette validation is on again. Undo: copy the folder back.
+
 ## 2026-10-08: corvette build started from the application; preparing a file failed
 
 Slot from the owner's habit (slot 3), not identified by the tools. Build
