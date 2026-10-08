@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-07: craftable technology products on slot 3 (Atlas Passes); five unrequested entries
+
+Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#first-live-requests-2026-10-07-slot-3).
+Same process 20536, DLL `a6c01dbc...ecda`, slot 3. The owner reported Atlas
+Pass V1 to V3 still dark after the catalogue items.
+
+- `-AllOfClass catalogue_technology` (91): 82 learned including `ACCESS1` to
+  `ACCESS3`, 9 already known; known products 691 -> 778.
+- Unexplained: +87 for 82 learned. The five extras are the freighter
+  specialist rooms `FRE_ROOM_NPC*`, never requested.
+- Saved slot 3 files hold 778 known products. Game kept running.
+- Not proven: the passes lit on screen; the origin of the five extras.
+
 ## 2026-10-07: first live product recipe requests on slot 3
 
 Owner: [product delivery notes](PRODUCT_DELIVERY_NOTES.md#first-live-requests-2026-10-07-slot-3).

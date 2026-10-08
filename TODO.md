@@ -150,7 +150,8 @@ This file is the operational source of truth for implementation order. Update it
   pseudo-substances.
 - [ ] Never mark a consumable special as known (14 entries today, by the table's own flag).
 - [~] Product recipes: classified and built on 2026-10-07 ([product delivery notes](docs/PRODUCT_DELIVERY_NOTES.md));
-  install and first live test pending. Review the 1,067 build parts before "all build parts".
+  items and technology delivered live to slot 3. Review the 1,067 build parts before "all build parts".
+- [ ] Explain the five `FRE_ROOM_NPC*` products that became known without a request (2026-10-07).
 - [x] Withdraw the account-level fossil request (owner direction: the save, not the account).
 - [ ] (superseded) Product recipes as the next domain: the learn-product routine is identified; classify the
   product table and block defective entries before any "all products" option.

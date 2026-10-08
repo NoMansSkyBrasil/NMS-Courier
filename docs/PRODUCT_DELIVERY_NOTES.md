@@ -6,8 +6,9 @@ or a build part available to the player.
 
 Status in one line: the classification, the game routine and a request in the
 research profile exist; the build is installed and on 2026-10-07 taught
-slot 3 the 108 catalogue items live (unsaved, not yet confirmed on screen).
-Technology and build parts have not been sent. Scope of a delivery: one slot, with one side
+slot 3 the 108 catalogue items and the 91 craftable technology products
+live (saved: 778 known products). Build parts have not been sent. Five
+freighter rooms became known without being requested; unexplained. Scope of a delivery: one slot, with one side
 effect on the account described below.
 
 ## What the owner saw
@@ -119,14 +120,36 @@ changes there.
 | `-Id ALLOY1` | known 601 -> 602, `ALLOY1=learned` |
 | `-AllOfClass catalogue_item` (108) | known 602 -> 691: 89 `learned`, 19 `not_added` (already known: `ALLOY1` from the first request and 18 the slot had, such as `CASING`, `NANOTUBES`, the fishing baits) |
 
-The game kept running after both. Scope: slot 3 in memory; the routine's
+The owner then showed the catalogue: recipes 432/432, technology 358/358,
+build parts 49/925 (37 before), and three entries still dark: Atlas Pass V1,
+V2 and V3. Those are `ACCESS1` to `ACCESS3`, craftable products the catalogue
+lists under technology, so they are in `catalogue_technology`, which had not
+been sent. Third request, same process and DLL:
+
+| Request | Result file |
+| --- | --- |
+| `-AllOfClass catalogue_technology` (91) | known 691 -> 778: 82 `learned` (including `ACCESS1`, `ACCESS2`, `ACCESS3`), 9 `not_added` (already known: `SB_BEACON`, `BASE_FLAG`, `BUILDBEACON`, `BUILDSIGNAL`, `TELEPORTER`, `BP_ANALYSER`, `BUILD_REFINER1`, `U_BIOGENERATOR`, `U_POWERLINE`) |
+
+**Unexplained: the count rose by 87 for 82 learned.** Comparing the list in
+memory with the backup taken before the first request, the five extra
+entries are `FRE_ROOM_NPCSCI`, `FRE_ROOM_NPCWEA`, `FRE_ROOM_NPCFAR`,
+`FRE_ROOM_NPCVEH` and `FRE_ROOM_NPCBUI` (freighter specialist rooms, class
+`catalogue_construction`), which no request named. The first two requests
+added exactly what they reported (601 -> 602 -> 691), so these five arrived
+during the third request or from the game itself in between. Not
+investigated; candidates are a linked unlock inside the learn routine for
+one of the 82 products, or ordinary game progress. Find out before trusting
+the per-ID result as the complete list of what a request changes.
+
+Persistence: the owner saved during the session; both slot 3 files (21:06 and
+21:07) hold 778 known products, equal to the list in memory.
+
+The game kept running after all three. Scope: slot 3; the routine's
 account "seen" call found every product already seen.
 
-Not proven yet: what the owner sees in the catalogue (awaiting confirmation),
-and persistence, which needs a save in the game and a read of the slot file.
-`catalogue_technology` (91) and `catalogue_construction` (1,067) were not
-sent. Undo: do not save and reload, or restore the backup with the game
-closed.
+Not proven yet: that the three Atlas Pass entries are lit on screen after the
+third request (awaiting the owner). `catalogue_construction` (1,067) was not
+sent. Undo: restore the backup with the game closed.
 
 ## Remaining steps (proposed, not done)
 
