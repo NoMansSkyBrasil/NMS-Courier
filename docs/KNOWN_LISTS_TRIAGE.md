@@ -307,7 +307,7 @@ The settings object's list fields are named, in order, `SeenSubstances`,
 | `+0x140` | Writer `609bb0` (table at `*(manager + 0x308)`, entries with product lists) | Probably unlocked titles; not confirmed. **Not** Twitch or platform, correcting the first guess above |
 | `+0x180` | Writer `609dd0` uses the specials map (manager `+0x8a0`) | Unlocked specials |
 | `+0x1c0` | Writer `609ed0` uses the season map (manager `+0x8e0`) | Unlocked season rewards |
-| `+0x200` | No single-entry writer. A large routine starting at `342ec0` clears it and refills it from a list, keeping each ID found in a map at manager `+0x920` | Unlocked Twitch rewards |
+| `+0x200` | No single-entry writer. A large routine starting at `342ec0` clears it and refills it from a list, keeping each ID found in a map at manager `+0x920`. **Corrected 2026-10-08:** that routine parses the service's sign-in reply; the list is the reply's `rewards.twitch`, not the saved settings ([account unlock notes](ACCOUNT_UNLOCK_NOTES.md)) | Unlocked Twitch rewards |
 | `+0x240` | Same routine, next block | Unlocked platform rewards |
 
 A scan of the whole executable for writers of the changed flag found only the

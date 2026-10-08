@@ -424,6 +424,69 @@ next session. Nothing was started. Bounded plan:
 Reminder of what already persists without any of this: a reward claimed in
 the shop is recorded in the slot.
 
+### Why the Twitch set does not survive an online start, and the keep list (2026-10-08, morning)
+
+Offline reading of build 180836; the game was closed.
+
+**What empties it.** Only one place in the executable writes the Twitch set
+by absolute address: the block at `3455e0` inside the very large routine
+that starts near `342f00`. The strings that routine uses identify it: `jwt`,
+`routes`, `websocket`, `settings`, `seasonData`, `currentSeason`,
+`cloudSaveStatus`, `rewards`, `twitch`, `switchpreorder`, `hgid`,
+`platforms`, `myAlliances`. It parses the reply of the publisher's service
+at sign-in. Inside its `rewards` object it reads two lists, `twitch` and
+`switchpreorder`; then it empties the account's Twitch set and refills it
+from the `twitch` list (through the plain list or the map filter, depending
+on the byte at account `+0x2b1`), and does the same for the platform set
+with `switchpreorder`.
+
+So the "bulk routine" of the earlier notes is not "apply loaded settings":
+it is the sign-in reply handler, and **the Twitch rewards an account holds
+are whatever the service lists at each sign-in**. The 435 IDs in the local
+settings file are not what the set is built from. This corrects the reading
+in [known lists triage](KNOWN_LISTS_TRIAGE.md). The other two references to
+the set (`5b6f1e`, `88a68e`) only test membership.
+
+Not explained: on 2026-10-08 the platform set kept its three entries
+through an online start although the same handler has a block that empties
+it. Either the reply carried no usable `rewards` object and the Twitch set
+was empty for another reason (never restored from the settings file), or the
+platform block is skipped under a condition not read yet. The keep list
+below covers both kinds either way.
+
+**Chosen intervention: a keep list, no change to game code.** Preferred over
+hooking the handler because it leaves the game's sign-in path untouched.
+
+- A persistent file, `native-account-keep-180836.txt` in the diagnostics
+  folder, holds `twitch=<ID>` and `platform=<ID>` lines (at most 1,024). It
+  is shared by every game process.
+- When the profile starts and the list is not empty it enables its hooks at
+  once (before this, hooks were enabled only at the first request).
+- On the game's update thread, every five seconds, once the account is
+  loaded (its title set is not empty): for each kept kind, if the account's
+  set holds fewer entries than the list, the profile repeats the direct
+  insert of 2026-10-08 for that kind. A full set costs one count per check.
+- A status file per process, `native-account-keep-status-180836-<PID>.txt`,
+  reports the kept counts, how many times an insert pass was needed and what
+  the last pass inserted or could not find.
+- New event `keep` makes a running game load the list again. Script
+  `runtime/native/asi/signal/signal-account-keep-180836.ps1` writes the list
+  (`-AllOfKind twitch,platform` or `-Clear`) and can signal a running game.
+- Limits: the profile's request window lasts 30 minutes per process, after
+  which its hooks are disabled and the keeper stops; an insert done before
+  that stays for the session. It remains a direct write through native
+  helpers, repeated. Remove it with `-Clear`.
+
+| Item | Value |
+| --- | --- |
+| Profile DLL | SHA-256 `6ad12b1caa2bfa94f6b4ca1bdcce0628b8d1b383cd03afa5e4056fe8324027fc` |
+| Checks | Profile, technology and recipe fixtures pass (run without a keep list); none covers the keeper |
+| Installed | Yes, 2026-10-08 morning, game closed; replaces `09a816de...6813` |
+| Keep list | Written: 435 Twitch and 3 platform IDs |
+
+Not proven: everything live. Test: start online on slot 3 without sending
+anything, wait, read the Twitch set and the status file, check the shop.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;

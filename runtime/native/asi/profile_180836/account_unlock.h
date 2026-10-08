@@ -11,6 +11,13 @@
 // account's set with the game's container routine, and mark the account data as changed. That is a
 // DIRECT WRITE through native helpers, not a call of a game unlock routine, and is reported as such.
 //
+// Keep list. When the game is online its login reply carries the Twitch rewards the publisher's service
+// knows for the account, and the game replaces the Twitch set with that list (often empty); the set is
+// also not restored from the saved settings. So a direct insert lasts one session. The keep list is a
+// persistent file of twitch= and platform= lines; while the profile's hooks are enabled the update
+// thread checks every few seconds whether the account's sets hold fewer entries than the list of that
+// kind and, if so, repeats the same direct insert. Nothing in the game's code is changed.
+//
 // Nothing here touches a save slot. The account data is shared by every slot and is synchronised
 // outside the machine.
 
@@ -277,4 +284,121 @@ static void account_write_result(void) {
         fclose(file);
     }
     InterlockedExchange(&account_state, 0);
+}
+
+// ---- Keep list ----
+
+#define ACCOUNT_KEEP_CAPACITY 1024
+#define ACCOUNT_KEEP_INTERVAL_MS 5000u
+
+static char account_keep_ids[ACCOUNT_KEEP_CAPACITY][ACCOUNT_ID_SIZE];
+static uint8_t account_keep_kinds[ACCOUNT_KEEP_CAPACITY];
+static volatile LONG account_keep_count;           // entries loaded; 0 disables the keeper
+static volatile LONG account_keep_wanted[ACCOUNT_KIND_COUNT];
+static volatile LONG account_keep_passes;          // times the update thread had to insert again
+static volatile LONG account_keep_last_inserted;
+static volatile LONG account_keep_last_unknown;
+static volatile LONG account_keep_reported = -1;
+static ULONGLONG account_keep_next_check;
+
+static int account_keep_path(wchar_t *path, int status) {
+    wchar_t root[MAX_PATH];
+    DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, MAX_PATH);
+    if (!length || length >= MAX_PATH) return 0;
+    // The list is shared by every game process; the status file is per process.
+    return (status ? swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-account-keep-status-180836-%lu.txt",
+                              root, (unsigned long)GetCurrentProcessId())
+                   : swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-account-keep-180836.txt", root)) > 0;
+}
+
+// Worker thread: load the persistent keep list. Only twitch= and platform= lines are accepted; any other
+// content, a malformed ID or a duplicate rejects the whole file and disables the keeper. Returns the
+// number of entries now kept.
+static LONG account_keep_load(void) {
+    wchar_t path[MAX_PATH];
+    InterlockedExchange(&account_keep_count, 0);
+    if (!account_keep_path(path, 0)) return 0;
+    FILE *file = _wfopen(path, L"r");
+    if (!file) return 0;
+    char line[64];
+    LONG count = 0, wanted[ACCOUNT_KIND_COUNT] = {0};
+    int ok = 1;
+    while (ok && fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\r\n")] = 0;
+        if (!line[0]) continue;
+        int kind = strncmp(line, "twitch=", 7) == 0 ? ACCOUNT_KIND_TWITCH
+                 : strncmp(line, "platform=", 9) == 0 ? ACCOUNT_KIND_PLATFORM : -1;
+        const char *id = kind == ACCOUNT_KIND_TWITCH ? line + 7 : line + 9;
+        size_t length = kind < 0 ? 0 : strlen(id);
+        if (kind < 0 || length < 1 || length > ACCOUNT_ID_SIZE - 1 || count >= ACCOUNT_KEEP_CAPACITY ||
+            account_blocked_id(id)) {
+            ok = 0;
+            break;
+        }
+        for (const char *cursor = id; *cursor; ++cursor)
+            if (!((*cursor >= 'A' && *cursor <= 'Z') || (*cursor >= '0' && *cursor <= '9') || *cursor == '_')) ok = 0;
+        for (LONG seen = 0; ok && seen < count; ++seen)
+            if (account_keep_kinds[seen] == kind && strcmp(account_keep_ids[seen], id) == 0) ok = 0;
+        if (!ok) break;
+        memset(account_keep_ids[count], 0, sizeof(account_keep_ids[count]));
+        memcpy(account_keep_ids[count], id, length);
+        account_keep_kinds[count] = (uint8_t)kind;
+        ++wanted[kind];
+        ++count;
+    }
+    fclose(file);
+    if (!ok) count = 0;
+    for (int kind = 0; kind < ACCOUNT_KIND_COUNT; ++kind) InterlockedExchange(&account_keep_wanted[kind], ok ? wanted[kind] : 0);
+    InterlockedExchange(&account_keep_count, count);
+    return count;
+}
+
+// Update thread: every few seconds, when the account is loaded and a kept kind holds fewer entries than
+// its list, repeat the direct insert for that kind.
+static void account_keep_tick(void) {
+    LONG count = InterlockedCompareExchange(&account_keep_count, 0, 0);
+    if (count <= 0 || !account_unlock[ACCOUNT_KIND_TITLE]) return;
+    ULONGLONG now = GetTickCount64();
+    if (now < account_keep_next_check) return;
+    account_keep_next_check = now + ACCOUNT_KEEP_INTERVAL_MS;
+    uintptr_t manager = *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA);
+    if (!manager) return;
+    uint8_t *account = (uint8_t *)(manager + ACCOUNT_OBJECT_OFFSET);
+    // The account counts as loaded once its title set holds something: every account has the default title.
+    if (!writable_range((uintptr_t)account, 0x2c0) || account_set_entries(account, ACCOUNT_TITLE_SET_OFFSET) <= 0) return;
+    LONG inserted = 0, unknown = 0;
+    int worked = 0;
+    for (int kind = ACCOUNT_KIND_TWITCH; kind <= ACCOUNT_KIND_PLATFORM; ++kind) {
+        LONG wanted = InterlockedCompareExchange(&account_keep_wanted[kind], 0, 0);
+        LONG held = account_set_entries(account, account_set_offsets[kind]);
+        if (wanted <= 0 || held >= wanted) continue;
+        worked = 1;
+        for (LONG index = 0; index < count && index < ACCOUNT_KEEP_CAPACITY; ++index) {
+            if (account_keep_kinds[index] != kind) continue;
+            LONG result = account_insert_listed((uint8_t *)manager, account, kind, account_keep_ids[index]);
+            inserted += result == ACCOUNT_INSERTED;
+            unknown += result == ACCOUNT_UNKNOWN_ID || result == ACCOUNT_NOT_READY;
+        }
+    }
+    if (!worked) return;
+    InterlockedExchange(&account_keep_last_inserted, inserted);
+    InterlockedExchange(&account_keep_last_unknown, unknown);
+    if (inserted) InterlockedIncrement(&account_keep_passes);
+}
+
+// Worker thread: write the keeper's state when it changed.
+static void account_keep_write_status(void) {
+    LONG passes = InterlockedCompareExchange(&account_keep_passes, 0, 0);
+    wchar_t path[MAX_PATH];
+    if (passes == InterlockedCompareExchange(&account_keep_reported, 0, 0) || !account_keep_path(path, 1)) return;
+    FILE *file = _wfopen(path, L"w");
+    if (!file) return;
+    fprintf(file, "kept=%ld\nkept_twitch=%ld\nkept_platform=%ld\ninsert_passes=%ld\nlast_inserted=%ld\nlast_unknown=%ld\n",
+            (long)InterlockedCompareExchange(&account_keep_count, 0, 0),
+            (long)InterlockedCompareExchange(&account_keep_wanted[ACCOUNT_KIND_TWITCH], 0, 0),
+            (long)InterlockedCompareExchange(&account_keep_wanted[ACCOUNT_KIND_PLATFORM], 0, 0), (long)passes,
+            (long)InterlockedCompareExchange(&account_keep_last_inserted, 0, 0),
+            (long)InterlockedCompareExchange(&account_keep_last_unknown, 0, 0));
+    fclose(file);
+    InterlockedExchange(&account_keep_reported, passes);
 }

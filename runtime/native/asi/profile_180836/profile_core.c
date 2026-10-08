@@ -76,7 +76,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "account_unlock.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 14)
+#define EVENT_COUNT (CLASS_COUNT + 15)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -131,6 +131,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&fish_state, 0, 0) == 1) fish_apply_request();
     if (InterlockedCompareExchange(&product_state, 0, 0) == 1) product_apply_request();
     if (InterlockedCompareExchange(&account_state, 0, 0) == 1) account_apply_request();
+    account_keep_tick();
     if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) dispatch_requested_reward();
     original_update(application);
@@ -260,7 +261,7 @@ void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
-                                                     L"account"};
+                                                     L"account", L"keep"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -289,7 +290,13 @@ void courier_probe_after_verified(void) {
         }
     }
     int hooks_enabled = 0;
-    write_status("awaiting_request", MH_OK);
+    // A keep list needs the update hook from the start: the game replaces the Twitch set soon after login.
+    if (account_keep_load() > 0) {
+        result = MH_EnableHook(MH_ALL_HOOKS);
+        if (result != MH_OK) { write_status("hook_enable_failed", result); return; }
+        hooks_enabled = 1;
+    }
+    write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK);
     for (unsigned waited = 0; waited < ARM_WINDOW_SECONDS; ) {
         DWORD signaled = WaitForMultipleObjects(EVENT_COUNT, events, FALSE, 2000);
         technology_write_result();
@@ -298,6 +305,7 @@ void courier_probe_after_verified(void) {
         fish_write_result();
         product_write_result();
         account_write_result();
+        account_keep_write_status();
         if (signaled == WAIT_TIMEOUT) { waited += 2; write_status(hooks_enabled ? "armed" : "awaiting_request", MH_OK); continue; }
         if (signaled >= WAIT_OBJECT_0 + EVENT_COUNT) { write_status("event_wait_failed", MH_ERROR_UNSUPPORTED_FUNCTION); break; }
         unsigned index = signaled - WAIT_OBJECT_0;
@@ -345,6 +353,14 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 13) {
             if (account_read_request()) InterlockedExchange(&account_state, 1);
             else InterlockedIncrement(&request_errors);
+        }
+        // The keep list was rewritten: load it again. The update thread reads it without a lock, so stop
+        // the keeper first and give a running pass time to end.
+        else if (index == CLASS_COUNT + 14) {
+            InterlockedExchange(&account_keep_count, 0);
+            Sleep(200);
+            account_keep_load();
+            InterlockedExchange(&account_keep_reported, -1);
         }
         else {
             InterlockedExchange(&dispatch_choice, index == CLASS_COUNT + 6 ? 2 : index == CLASS_COUNT + 5 ? 1 : 0);

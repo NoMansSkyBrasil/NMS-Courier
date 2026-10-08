@@ -99,6 +99,14 @@ insert into the account's set, not a game routine. Back up the save folder and t
 [account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). First used live on 2026-10-08. Give several
 kinds through `powershell -Command`, not `-File`.
 
+## Account keep list
+
+`signal-account-keep-180836.ps1 -AllOfKind twitch,platform` writes the list of Twitch and platform
+rewards the profile re-inserts in every session; `-Clear` empties it. With `-GameProcessId` and
+`-ExpectedDllSha256` a running game loads it at once. Call it through `powershell -Command` when
+giving several kinds. Status: [account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). Not yet
+proven live.
+
 ## Rule
 
 Add a new domain as a new script here. Do not add a second domain's

@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-08: what empties the Twitch set (offline) and the keep list build
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#why-the-twitch-set-does-not-survive-an-online-start-and-the-keep-list-2026-10-08-morning).
+Offline, build 180836; game closed, executable `13d5060d...` unchanged.
+
+- The only writer of the Twitch set is inside the handler of the service's
+  sign-in reply (strings `jwt`, `seasonData`, `rewards`, `twitch`,
+  `switchpreorder`): the set is rebuilt from the reply at each sign-in. The
+  earlier name "apply loaded settings" was wrong.
+- Built: keep list in the account domain (update-thread re-insert when a
+  kept set is short), event `keep`, script
+  `signal-account-keep-180836.ps1`. DLL `6ad12b1c...27fc`; fixtures pass
+  without a keep list.
+- Installed with the game closed; keep list written with 435 Twitch and 3
+  platform IDs. Nothing proven live yet.
+- Rollback: `signal-account-keep-180836.ps1 -Clear`; previous DLL
+  `09a816de...6813` in the external native-builds directory.
+
 ## 2026-10-08: online again - accounts merged, Twitch set emptied by the game, Twitch inserted again
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#back-online-what-the-remote-copy-did-and-twitch-sent-again-2026-10-08-about-0118-to-0125).
