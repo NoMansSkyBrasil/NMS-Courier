@@ -267,8 +267,15 @@ Twitch IDs and all 3 platform IDs are in the account sets.
 Seen by the owner in the same session (screenshot): the game itself raised
 its notification "Collect the reward! Twitch rewards available - find the
 rewards obtained at the Quicksilver Synthesis Companion". So the game reads
-the inserted Twitch set as real unlocks and offers them for claiming. The
-claim itself was not tried.
+the inserted Twitch set as real unlocks and offers them for claiming.
+
+A second screenshot, same session and before any restart: the Quicksilver
+Synthesis Companion's "Collect Twitch rewards" page lists the item-type
+rewards as "Available" (multitools such as Memories of the Ancients and the
+Improvised Ion Generator, companion eggs, and the Atlas firework pack as
+"obtained 0 of 15"). These are exactly the rewards left out of the slot-side
+request, so leaving them unredeemed in the slot keeps them claimable through
+the game's own shop. The claim itself was not tried.
 
 Not proven: that the game writes these two sets to the account files when it
 saves; that it keeps them when it next applies settings or when the store
