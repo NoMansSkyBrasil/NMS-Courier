@@ -208,8 +208,9 @@ offline:
     offline the account opened mostly empty, which allows real tests. DLL
     `95b99ad8...e6f0` adds the `account` event (titles, specials, season) and
     is installed. All 1,105 IDs were unlocked on the emptied account
-    (process 25932). Next: the owner's check of the interface, a save, and
-    what the remote copy does when the store client is online again.
+    (process 25932) and saved by the game. DLL `09a816de...6813` adds Twitch
+    and platform as a direct insert (owner-approved, not run). Next: with the
+    game open, one Twitch ID on the account and one in the slot, then all.
 
 The user asked on 2026-10-06 for complete algorithms for **all** ship,
 multitool and freighter categories (normal, capital, pirate), not single

@@ -1,7 +1,9 @@
 # Account requests for the build 180836 research profile: unlock titles, specials and season
-# (expedition) rewards on the ACCOUNT through the game's own single-entry routines. This changes data
-# shared by every save slot and synchronised outside the machine: back up the save folder and the user
-# settings file first. Only IDs listed as deliverable in runtime/research/account-unlocks.md are sent.
+# (expedition) rewards on the ACCOUNT through the game's own single-entry routines, and Twitch and
+# platform rewards by a direct insert into the account's set with the game's container routine (the
+# game has no single-entry routine for those two). This changes data shared by every save slot and
+# synchronised outside the machine: back up the save folder and the user settings file first. Only IDs
+# listed as deliverable in runtime/research/account-unlocks.md are sent.
 param(
     [Parameter(Mandatory = $true)]
     [int]$GameProcessId,
@@ -15,8 +17,12 @@ param(
     [string[]]$Special,
     [ValidatePattern('^[A-Z0-9_]{1,15}$')]
     [string[]]$Season,
+    [ValidatePattern('^[A-Z0-9_]{1,15}$')]
+    [string[]]$Twitch,
+    [ValidatePattern('^[A-Z0-9_]{1,15}$')]
+    [string[]]$Platform,
     # Every deliverable ID of the named kinds.
-    [ValidateSet('title', 'special', 'season')]
+    [ValidateSet('title', 'special', 'season', 'twitch', 'platform')]
     [string[]]$AllOfKind,
     [switch]$PreflightOnly
 )
@@ -32,14 +38,14 @@ if ($PreflightOnly) {
 $tablePath = Join-Path $PSScriptRoot '..\..\..\research\account-unlocks.md'
 $known = [ordered]@{}
 foreach ($line in Get-Content -LiteralPath $tablePath) {
-    if ($line -match '^\| (title|special|season) \| ([A-Z0-9_]{1,15}) \| [^|]* \| (yes|no) \|') {
+    if ($line -match '^\| (title|special|season|twitch|platform) \| ([A-Z0-9_]{1,15}) \| [^|]* \| (yes|no) \|') {
         $known["$($Matches[1])=$($Matches[2])"] = $Matches[3]
     }
 }
 if ($known.Count -lt 1) { throw 'Account unlock table is missing or empty' }
 
 $requested = @()
-foreach ($pair in @(@('title', $Title), @('special', $Special), @('season', $Season))) {
+foreach ($pair in @(@('title', $Title), @('special', $Special), @('season', $Season), @('twitch', $Twitch), @('platform', $Platform))) {
     foreach ($entry in @($pair[1] | Where-Object { $_ } | Select-Object -Unique)) {
         $key = "$($pair[0])=$entry"
         if (!$known.Contains($key)) { throw "Unknown $($pair[0]) ID: $entry" }
@@ -65,7 +71,8 @@ if (!(Test-Path -LiteralPath $resultPath)) {
     return
 }
 $lines = Get-Content -LiteralPath $resultPath
-$lines | Select-Object -First 7
-$lines | Select-Object -Skip 7 | Group-Object { ($_ -split ':', 2)[0] + ' ' + ($_ -split '=', 2)[1] } |
-    ForEach-Object { "$($_.Name): $($_.Count)" }
-$lines | Select-Object -Skip 7 | Where-Object { $_ -notmatch '=(unlocked|no_change)$' } | Select-Object -First 30
+$summary = @($lines | Where-Object { $_ -notmatch ':' })
+$perId = @($lines | Where-Object { $_ -match ':' })
+$summary
+$perId | Group-Object { ($_ -split ':', 2)[0] + ' ' + ($_ -split '=', 2)[1] } | ForEach-Object { "$($_.Name): $($_.Count)" }
+$perId | Where-Object { $_ -notmatch '=(unlocked|no_change|inserted|present)$' } | Select-Object -First 30

@@ -94,7 +94,8 @@ on 2026-10-07; effect not confirmed.
 
 `signal-account-180836.ps1` unlocks titles, specials and season rewards **on the account**
 (every slot, synchronised outside the machine): `-Title`, `-Special`, `-Season` with IDs, or
-`-AllOfKind title,special,season`. Back up the save folder and the settings file first. Status:
+`-AllOfKind title,special,season`. Kinds `twitch` and `platform` (`-Twitch`, `-Platform`) are a direct
+insert into the account's set, not a game routine. Back up the save folder and the settings file first. Status:
 [account unlock notes](../../../../docs/ACCOUNT_UNLOCK_NOTES.md). First used live on 2026-10-08. Give several
 kinds through `powershell -Command`, not `-File`.
 

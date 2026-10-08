@@ -35,6 +35,7 @@ reader can start from Markdown and reach every data file.
 
 | File | Kind | Size | First entry or columns | Explained in |
 | --- | --- | --- | --- | --- |
+| [account-unlocks.md](../runtime/research/account-unlocks.md) | Markdown table | 1557 rows, 4 columns | columns: Kind, ID, Detail, Deliverable | [ACCOUNT_UNLOCK_NOTES.md](../docs/ACCOUNT_UNLOCK_NOTES.md) |
 | [alternate-palette-data-180383.md](../runtime/research/alternate-palette-data-180383.md) | Markdown table | 2 rows, 2 columns | Alternate palette similarity threshold global; runtime value unknown | [ALTERNATE_PALETTE_RESEARCH.md](../docs/ALTERNATE_PALETTE_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [appearance-binding-callees-180383.md](../runtime/research/appearance-binding-callees-180383.md) | Markdown table | 3 rows, 2 columns | Procedural texture selection and palette binding candidate called by 636750 | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [appearance-child-methods-180383.md](../runtime/research/appearance-child-methods-180383.md) | Markdown table | 3 rows, 2 columns | Internal scene slot18; child collection mutation candidate | [APPEARANCE_CONTEXT_RESEARCH.md](../docs/APPEARANCE_CONTEXT_RESEARCH.md) |
@@ -204,4 +205,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 128 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 129 data files in 4 folders; 42 not mentioned outside this catalog.

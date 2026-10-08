@@ -1,5 +1,14 @@
 # Runtime experiment log
 
+## 2026-10-08: Twitch and platform account kinds built (direct write); owner decision
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#owner-decision-and-second-build-2026-10-08).
+Offline. The owner approved Twitch in the slot and on the account, in the
+running game only. Profile DLL `09a816de...6813` adds kinds `twitch` and
+`platform` to the account request as a direct insert with the game's lookup
+and container routines; fixtures pass. Installed with the game closed
+(replaces `95b99ad8...e6f0`). No request sent.
+
 ## 2026-10-08: account unlocks persisted; Twitch and platform lists read in the code (offline)
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#twitch-and-platform-rewards-what-the-code-does-offline-2026-10-08).

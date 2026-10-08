@@ -199,6 +199,43 @@ What "unlock every Twitch reward" would take:
    the plain list, with the changed flag; that is a direct write through a
    native helper, to be labelled so and decided by the owner.
 
+### Owner decision and second build (2026-10-08)
+
+The owner approved unlocking Twitch rewards both in the loaded slot and on
+the account, on the condition that it is done in the running game and never
+with a save editor. For the slot, only the rewards where redeemed is the
+whole reward (decorations, appearance); ships, multitools, companion eggs,
+fireworks and upgrade packs are left out of the slot-side request.
+
+Account side as built, in `account_unlock.h`, kinds `twitch` and `platform`:
+
+1. The ID must be in the game's own map of that kind (manager `+0x920` or
+   `+0x960`), found with the game's lookup (`567610`) exactly as the redeem
+   routine tests it.
+2. The game's container routine (`3df740`, the one every account routine
+   uses) finds or makes the slot in the account's set (`+0x200` or `+0x240`).
+3. When the routine reports a new slot the profile stores the 16-byte ID in
+   it, as the season routine does; then it sets the changed flag (`+0x2b0`)
+   and increments the same counter byte the season routine increments.
+
+**This is a direct write through native helpers, not a call of a game
+unlock routine**; results are `inserted`, `present`, `unknown_id` or
+`insert_failed`. The result file also reports the byte at account `+0x2b1`
+and the sizes of the two plain lists, to settle which representation the
+game is using.
+
+| Item | Value |
+| --- | --- |
+| Profile DLL | SHA-256 `09a816dea38851f9bb57604d01fcffdd7107119ddde049671b69ac0a588c6813` |
+| Checks | Profile, technology and recipe fixtures pass; none covers the account request |
+| Table | [account unlocks](../runtime/research/account-unlocks.md) now lists 435 Twitch and 3 platform rewards as well |
+| Installed | See the experiment log entry of the same time |
+
+Unknown until tried: whether the map holds the Twitch IDs at all while the
+store client is offline; whether the game keeps a directly inserted entry
+when it next applies settings; whether an unlocked Twitch reward becomes
+claimable in the shop.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;
