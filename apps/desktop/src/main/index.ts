@@ -246,10 +246,34 @@ app.whenReady().then(() => {
     const root = getInstallationService().getSelectedRootPath()
     return getResearchBridgeService().getStatus(root, await gameStatusService.observe(root))
   })
-  ipcMain.handle('nms:deliver', async (_, feature: unknown) => {
+  ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown) => {
     if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')
+    if (
+      chosen != null &&
+      !(Array.isArray(chosen) && chosen.every((id) => typeof id === 'string'))
+    ) {
+      throw new Error('Invalid selection.')
+    }
     const root = getInstallationService().getSelectedRootPath()
-    return getResearchBridgeService().deliver(feature, root, await gameStatusService.observe(root))
+    return getResearchBridgeService().deliver(
+      feature,
+      root,
+      await gameStatusService.observe(root),
+      (chosen as string[] | null | undefined) ?? null
+    )
+  })
+  // Entries of an area that can be sent one by one, named by the local catalogue when it can.
+  ipcMain.handle('nms:get-delivery-options', async (_, feature: unknown, locale: unknown) => {
+    if (!isDeliveryFeatureId(feature) || typeof locale !== 'string') {
+      throw new Error('Invalid delivery area.')
+    }
+    const options = await getResearchBridgeService().getOptions(feature)
+    const names = getCatalogRepository().names(locale)
+    return options.map((option) => ({
+      id: option.id,
+      group: option.group,
+      name: (option.domain && names.get(`${option.domain}:${option.id}`)) || ''
+    }))
   })
   ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())
   ipcMain.handle('nms:detect-installation', () => getInstallationService().detect())

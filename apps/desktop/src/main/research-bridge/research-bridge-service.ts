@@ -1,3 +1,4 @@
+import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { cp, mkdir, readFile, stat } from 'node:fs/promises'
@@ -34,7 +35,7 @@ export type DeliveryResult = {
   feature: DeliveryFeatureId
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
-  reason: ResearchBridgeStatus['state'] | 'busy' | 'backup_failed' | null
+  reason: ResearchBridgeStatus['state'] | 'busy' | 'backup_failed' | 'selection_invalid' | null
   startedAt: string
   backupPath: string | null
   steps: DeliveryStepResult[]
@@ -100,6 +101,13 @@ export class ResearchBridgeService {
     return { state: 'ready', processId: game.processId, bridgeSha256 }
   }
 
+  getOptions(feature: DeliveryFeatureId): Promise<DeliveryOption[]> {
+    return listDeliveryOptions(
+      join(this.context.signalDirectory, '..', '..', '..', 'research'),
+      feature
+    )
+  }
+
   getActivity(): DeliveryResult[] {
     return [...this.activity].reverse()
   }
@@ -107,7 +115,9 @@ export class ResearchBridgeService {
   async deliver(
     feature: DeliveryFeatureId,
     installationRoot: string | null,
-    game: GameProcessStatus
+    game: GameProcessStatus,
+    // Chosen entries; without them the whole area is sent.
+    chosen: readonly string[] | null = null
   ): Promise<DeliveryResult> {
     const result: DeliveryResult = {
       feature,
@@ -124,7 +134,10 @@ export class ResearchBridgeService {
       if (status.state !== 'ready' || !installationRoot || !status.bridgeSha256) {
         return this.record({ ...result, reason: status.state })
       }
-      const plan = getDeliveryPlan(feature)
+      const plan = chosen
+        ? getSelectionPlan(feature, chosen, await this.getOptions(feature))
+        : getDeliveryPlan(feature)
+      if (!plan) return this.record({ ...result, reason: 'selection_invalid' })
       result.backupPath = await this.backUp(feature, installationRoot, plan.changesAccount)
       if (!result.backupPath) return this.record({ ...result, reason: 'backup_failed' })
 

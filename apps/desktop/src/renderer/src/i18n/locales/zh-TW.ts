@@ -180,6 +180,16 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    selectTitle: '選擇要傳送的內容',
+    selectHint: '可以勾選一個、多個或全部項目。只會傳送所選項目。',
+    selectSearch: '依名稱或 ID 搜尋',
+    selectAllShown: '全選目前顯示的項目',
+    selectClear: '清除選取',
+    selectCount: '已選取 {count} 項',
+    selectShowing: '正在顯示 {total} 項中的 {shown} 項。請使用搜尋縮小清單。',
+    selectAction: '傳送所選（{count}）',
+    selectNoCatalog: '從遊戲讀取目錄後會顯示名稱（資料庫 → 遊戲目錄）。',
+    selectNone: '沒有符合搜尋的項目。',
     title: '傳送到遊戲',
     hint: '使用此開發版本的研究用橋接。',
     action: '全部遞送',
@@ -196,6 +206,7 @@ export const zhTW: Messages = {
     activityEmptyTitle: '尚未傳送任何內容',
     activityEmptyBody: '本次工作階段的遞送會顯示在這裡。',
     state: {
+      selection_invalid: '所選內容包含此區域未提供的項目。未傳送任何內容。',
       unavailable: '僅在開發版本中可用。',
       installation_not_selected: '請先選擇遊戲安裝位置。',
       game_not_running: '請啟動遊戲並載入存檔。',

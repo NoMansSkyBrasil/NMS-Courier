@@ -204,6 +204,17 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    selectTitle: 'Kies wat er wordt verzonden',
+    selectHint: 'Vink één item, meerdere of alle aan. Alleen de gekozen items worden verzonden.',
+    selectSearch: 'Zoeken op naam of ID',
+    selectAllShown: 'Alle getoonde selecteren',
+    selectClear: 'Selectie wissen',
+    selectCount: '{count} geselecteerd',
+    selectShowing: '{shown} van {total} getoond. Gebruik de zoekfunctie om de lijst te verkleinen.',
+    selectAction: 'Geselecteerde verzenden ({count})',
+    selectNoCatalog:
+      'Namen verschijnen nadat de catalogus uit het spel is gelezen (Bibliotheek, Spelcatalogus).',
+    selectNone: 'Niets komt overeen met de zoekopdracht.',
     title: 'Naar het spel sturen',
     hint: 'Gebruikt de onderzoeksbrug van deze ontwikkelversie.',
     action: 'Alles leveren',
@@ -221,6 +232,8 @@ export const nlNL: Messages = {
     activityEmptyTitle: 'Nog niets verzonden',
     activityEmptyBody: 'Leveringen van deze sessie verschijnen hier.',
     state: {
+      selection_invalid:
+        'De selectie bevat een item dat dit onderdeel niet aanbiedt. Er is niets verzonden.',
       unavailable: 'Alleen beschikbaar in een ontwikkelversie.',
       installation_not_selected: 'Selecteer eerst de spelinstallatie.',
       game_not_running: 'Start het spel en laad een save.',

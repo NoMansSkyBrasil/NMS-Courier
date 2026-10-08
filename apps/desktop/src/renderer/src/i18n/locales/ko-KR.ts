@@ -185,6 +185,16 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    selectTitle: '보낼 항목 선택',
+    selectHint: '하나, 여러 개 또는 전체를 선택하세요. 선택한 항목만 전송됩니다.',
+    selectSearch: '이름 또는 ID로 검색',
+    selectAllShown: '표시된 항목 모두 선택',
+    selectClear: '선택 해제',
+    selectCount: '{count}개 선택됨',
+    selectShowing: '{total}개 중 {shown}개 표시 중입니다. 검색으로 목록을 좁히세요.',
+    selectAction: '선택 항목 보내기 ({count})',
+    selectNoCatalog: '이름은 게임에서 카탈로그를 읽은 뒤에 표시됩니다(라이브러리, 게임 카탈로그).',
+    selectNone: '검색과 일치하는 항목이 없습니다.',
     title: '게임으로 보내기',
     hint: '이 개발 빌드의 연구용 브리지를 사용합니다.',
     action: '모두 전달',
@@ -201,6 +211,8 @@ export const koKR: Messages = {
     activityEmptyTitle: '아직 보낸 것이 없습니다',
     activityEmptyBody: '이번 세션의 전달 내역이 여기에 표시됩니다.',
     state: {
+      selection_invalid:
+        '선택 항목에 이 영역에서 제공하지 않는 항목이 있습니다. 아무것도 전송되지 않았습니다.',
       unavailable: '개발 빌드에서만 사용할 수 있습니다.',
       installation_not_selected: '먼저 게임 설치 위치를 선택하세요.',
       game_not_running: '게임을 실행하고 세이브를 불러오세요.',

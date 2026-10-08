@@ -21,7 +21,10 @@ const nms = {
   selectInstallation: () => ipcRenderer.invoke('nms:select-installation'),
   detectInstallation: () => ipcRenderer.invoke('nms:detect-installation'),
   getResearchBridgeStatus: () => ipcRenderer.invoke('nms:get-research-bridge-status'),
-  deliver: (feature: string) => ipcRenderer.invoke('nms:deliver', feature),
+  deliver: (feature: string, chosen?: string[]) =>
+    ipcRenderer.invoke('nms:deliver', feature, chosen ?? null),
+  getDeliveryOptions: (feature: string, locale: string) =>
+    ipcRenderer.invoke('nms:get-delivery-options', feature, locale),
   getDeliveryActivity: () => ipcRenderer.invoke('nms:get-delivery-activity'),
   searchCatalog: (request: {
     query: string

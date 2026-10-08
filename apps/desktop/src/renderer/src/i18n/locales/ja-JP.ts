@@ -190,6 +190,17 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    selectTitle: '送信する項目を選択',
+    selectHint: '1 件、複数、またはすべてを選択できます。選択した項目だけが送信されます。',
+    selectSearch: '名前または ID で検索',
+    selectAllShown: '表示中をすべて選択',
+    selectClear: '選択を解除',
+    selectCount: '{count} 件選択中',
+    selectShowing: '{total} 件中 {shown} 件を表示しています。検索で絞り込んでください。',
+    selectAction: '選択した項目を送信（{count}）',
+    selectNoCatalog:
+      '名前は、ゲームからカタログを読み込むと表示されます（ライブラリ → ゲームカタログ）。',
+    selectNone: '検索に一致する項目はありません。',
     title: 'ゲームに送信',
     hint: 'この開発用ビルドの調査用ブリッジを使用します。',
     action: 'すべて配送',
@@ -207,6 +218,8 @@ export const jaJP: Messages = {
     activityEmptyTitle: 'まだ何も送信していません',
     activityEmptyBody: 'このセッションの配送がここに表示されます。',
     state: {
+      selection_invalid:
+        '選択内容に、この項目では提供されていないものが含まれています。何も送信されませんでした。',
       unavailable: '開発用ビルドでのみ利用できます。',
       installation_not_selected: '先にゲームのインストール先を選択してください。',
       game_not_running: 'ゲームを起動してセーブを読み込んでください。',

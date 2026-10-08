@@ -79,7 +79,8 @@ export const deliveryStateIds = [
   'bridge_untested',
   'ready',
   'busy',
-  'backup_failed'
+  'backup_failed',
+  'selection_invalid'
 ] as const
 export type DeliveryStateId = (typeof deliveryStateIds)[number]
 
@@ -146,6 +147,16 @@ export type Messages = {
     experimentalBody: string
   }
   delivery: {
+    selectTitle: string
+    selectHint: string
+    selectSearch: string
+    selectAllShown: string
+    selectClear: string
+    selectCount: string
+    selectShowing: string
+    selectAction: string
+    selectNoCatalog: string
+    selectNone: string
     title: string
     hint: string
     action: string

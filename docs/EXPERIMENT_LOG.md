@@ -1,5 +1,16 @@
 # Runtime experiment log
 
+## 2026-10-08: per-entry selection in the application
+
+Application only; nothing sent to the game. The delivery card of seven areas
+lists its entries (205 technologies, 346 titles and so on) from the
+classification tables and sends the chosen identifiers through the signal
+script's existing single-entry parameter. 69 unit tests pass; the new ones
+check that blocked entries are not offered and that an identifier outside the
+list, or one that is not a plain identifier, yields no plan. Rendered and
+ticked in a started application. Not proven: a live "send selected" from the
+application.
+
 ## 2026-10-08: core catalogue read from the installation by the application itself
 
 Offline only; the game was not running and nothing was sent to it. Build

@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react'
-import { CircleAlertIcon, CircleCheckIcon, CircleHelpIcon, SendIcon } from 'lucide-react'
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  CircleHelpIcon,
+  ListChecksIcon,
+  SendIcon
+} from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import {
   AlertDialog,
@@ -22,6 +28,7 @@ import {
   CardTitle
 } from '@renderer/components/ui/card'
 import { Spinner } from '@renderer/components/ui/spinner'
+import { DeliverySelection, type DeliveryOption } from '@renderer/components/delivery-selection'
 import type { Feature } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale-provider'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
@@ -39,10 +46,24 @@ const outcomeIcons = {
 // Sends one area to the running game through the research bridge: state, a confirmation that names
 // what changes, one request, and the game's answer. It never sends twice by itself.
 export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Element {
-  const { copy } = useLocale()
+  const { copy, locale } = useLocale()
   const text = copy.delivery
   const [status, setStatus] = useState<BridgeStatus | null>(null)
-  const [confirming, setConfirming] = useState(false)
+  // What the open confirmation would send: the whole area or the chosen entries.
+  const [confirming, setConfirming] = useState<'all' | 'chosen' | null>(null)
+  const [options, setOptions] = useState<DeliveryOption[]>([])
+  const [chosen, setChosen] = useState<ReadonlySet<string>>(new Set())
+
+  useEffect(() => {
+    let active = true
+    void window.nms
+      .getDeliveryOptions(feature.id, locale)
+      .then((next) => active && setOptions(next))
+      .catch(() => active && setOptions([]))
+    return () => {
+      active = false
+    }
+  }, [feature.id, locale])
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)
 
@@ -63,10 +84,15 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
   }, [])
 
   const send = async (): Promise<void> => {
-    setConfirming(false)
+    const mode = confirming
+    setConfirming(null)
     setSending(true)
     try {
-      setResult(await window.nms.deliver(feature.id))
+      setResult(
+        await (mode === 'chosen'
+          ? window.nms.deliver(feature.id, [...chosen])
+          : window.nms.deliver(feature.id))
+      )
     } finally {
       setSending(false)
     }
@@ -87,6 +113,9 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
+        {options.length > 0 && (
+          <DeliverySelection options={options} chosen={chosen} onChange={setChosen} />
+        )}
         {result && OutcomeIcon && (
           <Alert variant={result.outcome === 'failed' ? 'destructive' : 'default'}>
             <OutcomeIcon />
@@ -112,12 +141,25 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
           </p>
         )}
       </CardContent>
-      <CardFooter>
-        <AlertDialog open={confirming} onOpenChange={setConfirming}>
+      <CardFooter className="flex flex-wrap gap-2">
+        <AlertDialog
+          open={confirming !== null}
+          onOpenChange={(open) => setConfirming(open ? 'all' : null)}
+        >
           <AlertDialogTrigger render={<Button disabled={!ready || sending} />}>
             {sending ? <Spinner data-icon="inline-start" /> : <SendIcon data-icon="inline-start" />}
             {sending ? text.sending : text.action}
           </AlertDialogTrigger>
+          {options.length > 0 && (
+            <Button
+              variant="outline"
+              disabled={!ready || sending || chosen.size === 0}
+              onClick={() => setConfirming('chosen')}
+            >
+              <ListChecksIcon data-icon="inline-start" />
+              {formatMessage(text.selectAction, { count: chosen.size.toLocaleString(locale) })}
+            </Button>
+          )}
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>{text.confirmTitle}</AlertDialogTitle>

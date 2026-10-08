@@ -189,6 +189,17 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    selectTitle: 'Choose what to send',
+    selectHint: 'Pick one entry, several or all of them. Only the chosen entries are sent.',
+    selectSearch: 'Search by name or ID',
+    selectAllShown: 'Select all shown',
+    selectClear: 'Clear selection',
+    selectCount: '{count} selected',
+    selectShowing: 'Showing {shown} of {total}. Search to narrow the list.',
+    selectAction: 'Send selected ({count})',
+    selectNoCatalog:
+      'Names appear after the catalogue is read from the game (Library, Game catalogue).',
+    selectNone: 'Nothing matches the search.',
     title: 'Send to the game',
     hint: 'Uses the research bridge of this development build.',
     action: 'Deliver everything',
@@ -206,6 +217,8 @@ export const enUS: Messages = {
     activityEmptyTitle: 'Nothing sent yet',
     activityEmptyBody: 'Deliveries of this session appear here.',
     state: {
+      selection_invalid:
+        'The selection contains an entry this area does not offer. Nothing was sent.',
       unavailable: 'Only available in a development build.',
       installation_not_selected: 'Select the game installation first.',
       game_not_running: 'Start the game and load a save.',

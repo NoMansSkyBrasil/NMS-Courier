@@ -126,6 +126,9 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Read the core catalogue from the user's installation without external tools (2026-10-08): archive, table and language readers in `apps/desktop/src/main/game-data/`.
 - [ ] Catalogue import: other tables (recipes, rewards, parts, titles), relations, icons from the stored locators, progress and cancel, a worker, several layouts per table for older builds.
 - [ ] Read colour palettes from the game's archives for the model workshop (step 2), then models and textures (step 3).
+- [x] Per-entry selection in the delivery card (2026-10-08) for technologies, crafting recipes, build parts, appearance, titles, expedition rewards and Quicksilver items.
+- [ ] Per-entry selection still missing: fishing, refiner recipes, Twitch and platform rewards (needs a per-entry keep list). First live "send selected" from the application is not done.
+- [ ] Items and currencies on build 180836: the research profile has no request for them yet (the 2026-09 success was another build through the NMS.py bridge). Find and verify the game's own add-to-inventory and currency routines, then wire both pages.
 - [x] Detect the game installation automatically (2026-10-08): running game, Steam libraries, GOG registry.
 - [ ] Installation detection: verify on a GOG installation; decide about the Microsoft Store and Game Pass versions.
 - [ ] Translate the two native dialogs of the main process (installation folder picker, close

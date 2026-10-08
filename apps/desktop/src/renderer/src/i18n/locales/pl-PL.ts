@@ -194,6 +194,16 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    selectTitle: 'Wybierz, co wysłać',
+    selectHint: 'Zaznacz jeden wpis, kilka lub wszystkie. Wysyłane są tylko wybrane wpisy.',
+    selectSearch: 'Szukaj po nazwie lub ID',
+    selectAllShown: 'Zaznacz wszystkie widoczne',
+    selectClear: 'Wyczyść zaznaczenie',
+    selectCount: 'Zaznaczono: {count}',
+    selectShowing: 'Widoczne: {shown} z {total}. Użyj wyszukiwania, aby zawęzić listę.',
+    selectAction: 'Wyślij zaznaczone ({count})',
+    selectNoCatalog: 'Nazwy pojawią się po odczytaniu katalogu z gry (Biblioteka, Katalog gry).',
+    selectNone: 'Nic nie pasuje do wyszukiwania.',
     title: 'Wyślij do gry',
     hint: 'Korzysta z mostu badawczego tej wersji deweloperskiej.',
     action: 'Dostarcz wszystko',
@@ -211,6 +221,8 @@ export const plPL: Messages = {
     activityEmptyTitle: 'Jeszcze nic nie wysłano',
     activityEmptyBody: 'Tutaj pojawiają się dostawy z tej sesji.',
     state: {
+      selection_invalid:
+        'Zaznaczenie zawiera wpis, którego ten obszar nie oferuje. Nic nie zostało wysłane.',
       unavailable: 'Dostępne tylko w wersji deweloperskiej.',
       installation_not_selected: 'Najpierw wybierz instalację gry.',
       game_not_running: 'Uruchom grę i wczytaj zapis.',

@@ -180,6 +180,16 @@ export const zhCN: Messages = {
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
   delivery: {
+    selectTitle: '选择要发送的内容',
+    selectHint: '可以勾选一个、多个或全部条目。只会发送所选条目。',
+    selectSearch: '按名称或 ID 搜索',
+    selectAllShown: '全选当前显示的条目',
+    selectClear: '清除选择',
+    selectCount: '已选择 {count} 项',
+    selectShowing: '正在显示 {total} 项中的 {shown} 项。请使用搜索缩小列表。',
+    selectAction: '发送所选（{count}）',
+    selectNoCatalog: '从游戏读取目录后会显示名称（资料库 → 游戏目录）。',
+    selectNone: '没有与搜索匹配的条目。',
     title: '发送到游戏',
     hint: '使用此开发版本的研究用桥接。',
     action: '全部投递',
@@ -196,6 +206,7 @@ export const zhCN: Messages = {
     activityEmptyTitle: '尚未发送任何内容',
     activityEmptyBody: '本次会话的投递会显示在这里。',
     state: {
+      selection_invalid: '所选内容包含此区域不提供的条目。未发送任何内容。',
       unavailable: '仅在开发版本中可用。',
       installation_not_selected: '请先选择游戏安装位置。',
       game_not_running: '请启动游戏并加载存档。',

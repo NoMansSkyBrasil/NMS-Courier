@@ -140,7 +140,11 @@ declare global {
         processId: number | null
         bridgeSha256: string | null
       }>
-      deliver: (feature: string) => Promise<DeliveryResult>
+      deliver: (feature: string, chosen?: string[]) => Promise<DeliveryResult>
+      getDeliveryOptions: (
+        feature: string,
+        locale: string
+      ) => Promise<Array<{ id: string; group: string; name: string }>>
       getDeliveryActivity: () => Promise<DeliveryResult[]>
       searchCatalog: (request: {
         query: string

@@ -131,6 +131,16 @@ export class CatalogRepository {
     }
   }
 
+  // Display name of every entry in one language, by entry key.
+  names(locale: string): Map<string, string> {
+    const names = new Map<string, string>()
+    for (const entry of this.loadCurrent()?.catalog.entries ?? []) {
+      const name = plainText(entry.localizations[locale]?.name)
+      if (name) names.set(entry.entryKey, name)
+    }
+    return names
+  }
+
   private loadCurrent(): { generationId: string; catalog: CoreCatalog } | null {
     const generationsPath = join(this.userDataPath, 'catalog', 'generations')
     let generationIds: string[]

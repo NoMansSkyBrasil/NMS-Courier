@@ -206,6 +206,19 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    selectTitle: 'Auswählen, was gesendet wird',
+    selectHint:
+      'Wähle einen Eintrag, mehrere oder alle. Nur die gewählten Einträge werden gesendet.',
+    selectSearch: 'Nach Name oder ID suchen',
+    selectAllShown: 'Alle angezeigten auswählen',
+    selectClear: 'Auswahl aufheben',
+    selectCount: '{count} ausgewählt',
+    selectShowing:
+      '{shown} von {total} werden angezeigt. Nutze die Suche, um die Liste einzugrenzen.',
+    selectAction: 'Ausgewählte senden ({count})',
+    selectNoCatalog:
+      'Namen erscheinen, nachdem der Katalog aus dem Spiel gelesen wurde (Bibliothek, Spielkatalog).',
+    selectNone: 'Keine Treffer für die Suche.',
     title: 'An das Spiel senden',
     hint: 'Nutzt die Forschungsbrücke dieser Entwicklungsversion.',
     action: 'Alles liefern',
@@ -223,6 +236,8 @@ export const deDE: Messages = {
     activityEmptyTitle: 'Noch nichts gesendet',
     activityEmptyBody: 'Lieferungen dieser Sitzung erscheinen hier.',
     state: {
+      selection_invalid:
+        'Die Auswahl enthält einen Eintrag, den dieser Bereich nicht anbietet. Es wurde nichts gesendet.',
       unavailable: 'Nur in einer Entwicklungsversion verfügbar.',
       installation_not_selected: 'Wähle zuerst die Spielinstallation aus.',
       game_not_running: 'Starte das Spiel und lade einen Spielstand.',
