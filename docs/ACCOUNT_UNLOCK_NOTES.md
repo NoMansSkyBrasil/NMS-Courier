@@ -294,6 +294,36 @@ owner's editor shows afterwards.
 Undo: with the game closed and the store client offline, copy the save
 folder and the settings file back from `20261008-before-twitch`.
 
+### Saved state after the Twitch and platform requests (read from disk, game closed, 01:14)
+
+The owner saved, closed the game, reported that it "apparently worked" and
+asked for a comparison. No `NMS.exe` process; files read only.
+
+| List | Settings file (01:13) | `accountdata.hg` (01:13) |
+| --- | --- | --- |
+| Unlocked titles | 346 | 346 |
+| Unlocked specials | 782 | 782 |
+| Unlocked season rewards | 293 | 293 |
+| Unlocked Twitch rewards | 435 | 435 |
+| Unlocked platform rewards | 3 (`SW_PREORDER`, `SW_PREORDER2`, `TGA_SHIP1`) | No non-empty list found for it |
+| Seen substances / technologies / products | 34 / 153 / 1,956 | 34 / 153 / 1,956 |
+
+So the game wrote the directly inserted Twitch and platform sets to its own
+files, like the sets filled through its routines. The platform list is in
+the settings file only; whether `accountdata.hg` carries platform rewards at
+all is not known.
+
+Slot 3, both files (01:13 and 01:14): known technologies 205, known products
+1,906, known recipes 1,684, known specials 278, redeemed season 124,
+redeemed Twitch 235, **redeemed platform 3** (1 before the session), fishing
+record 220. This project sent no platform redemption to the slot, so the two
+new platform entries come from the owner claiming the Switch ship and
+multitool in the shop; to be confirmed with the owner, along with what the
+ship claim did to the active ship.
+
+Still not proven: the lists after a restart, and after the store client
+goes online again.
+
 ## Plan that was followed
 
 1. Close the game with the store client still offline; install the DLL;

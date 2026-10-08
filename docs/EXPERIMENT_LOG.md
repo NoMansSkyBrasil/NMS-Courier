@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-08: saved files after the Twitch and platform requests (read-only)
+
+Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#saved-state-after-the-twitch-and-platform-requests-read-from-disk-game-closed-0114).
+Game closed. Settings file: titles 346, specials 782, season 293, Twitch
+435, platform 3. `accountdata.hg`: the same except no platform list. Slot 3
+files: specials 278, season 124, Twitch 235, platform 3 (the two new ones
+not sent by this project; presumably claimed by the owner in the shop),
+technologies 205, products 1,906, recipes 1,684, fish 220. The game persists
+the directly inserted sets. Open: restart, going online.
+
 ## 2026-10-08: Twitch and platform rewards on the account (direct write) and Twitch decorations in slot 3
 
 Owner: [account unlock notes](ACCOUNT_UNLOCK_NOTES.md#twitch-and-platform-requests-run-live-2026-10-08-slot-3-loaded).
