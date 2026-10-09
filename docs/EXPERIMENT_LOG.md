@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-09: where the layer average and the multiply switch come from
+
+Offline, game closed. Build 180836 executable and game files. Owning note:
+[model workshop](MODEL_WORKSHOP.md#how-the-game-combines-the-layers-of-a-texture-2026-10-09).
+
+Observed in the executable: `636c40` fills a layer of the texture build job
+(recolour, multiply from the alternative's byte `+0x54`, average from the
+alternative when its byte `+0x55` is set, else a deferred request to the
+texture); `63b130` serves the deferred requests from texture parameters
+`0x2c5` to `0x2c7`; `1897490` returns them from the texture resource; the
+loader `1895ae0` fills them from a 32-bit value of the DDS header, and
+`1897540` computes one only when that value is zero. Observed in the files:
+the value is at `0x38` of every starship and weapon texture.
+
+Rejected on the way, each by rendering the multi-tool `0x81E18111081140E1`
+and comparing with the owner's screenshots: the first pixel of the smallest
+level for BC7 files (blue grip, purple bands); a plain mean (bands of one
+colour); the alpha-weighted mean (the same). A first reading of the header
+offset as `0x3c` was wrong by four bytes and gave a blue band.
+
+Changed: application 1.17.2.
+
+Not proven: no new comparison with the running game; the unpainted metal
+and the black front flap of that multi-tool are unchanged.
+
 ## 2026-10-09: the game's texture layer shader decompiled; the workshop's painter follows it
 
 Offline, game closed. Build 180836 shaders (`NMSARC.Shaders`, SPIR-V).

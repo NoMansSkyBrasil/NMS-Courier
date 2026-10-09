@@ -28,6 +28,15 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.17.2 (2026-10-09)
+
+- Fixed: the two inputs of the game's layer shader that were still guessed
+  are now the game's own. A layer's average colour is read from the header of
+  its texture file, where the game takes it; the multiply switch and a stored
+  average are read from the texture list. On the multi-tool compared with the
+  game the bands of the second texture now have the game's two tones.
+- Bridge unchanged (1.8.0).
+
 ## Application 1.17.1 (2026-10-09)
 
 - Fixed: the model workshop tints and stacks texture layers with the game's

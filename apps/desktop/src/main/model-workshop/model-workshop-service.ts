@@ -328,9 +328,16 @@ export class ModelWorkshopService {
               })
             }
           }
-          layers.push({ texture: option.texture, tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null })
+          layers.push({
+            texture: option.texture,
+            tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null,
+            multiply: option.multiply,
+            average: option.average
+          })
         }
-        if (!layers.length) layers.push({ texture: surface.diffuse, tint: null })
+        if (!layers.length) {
+          layers.push({ texture: surface.diffuse, tint: null, multiply: false, average: null })
+        }
         const overlay: WorkshopSurface['overlay'] = []
         // A second diffuse texture lies over the first. Its list is taken as it is when each of
         // its layers has a single alternative; a list with choices is not evaluated here.
@@ -343,9 +350,16 @@ export class ModelWorkshopService {
             const sample = sampleOf(option.channel)
             const rgba =
               samples && sample !== null ? samples[option.family]?.colors[sample]?.rgba : undefined
-            over.push({ texture: option.texture, tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null })
+            over.push({
+              texture: option.texture,
+              tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null,
+              multiply: option.multiply,
+              average: option.average
+            })
           }
-          if (!over.length) over.push({ texture: surface.overlay, tint: null })
+          if (!over.length) {
+            over.push({ texture: surface.overlay, tint: null, multiply: false, average: null })
+          }
           overlay.push(...over)
         }
         surfaces.push({

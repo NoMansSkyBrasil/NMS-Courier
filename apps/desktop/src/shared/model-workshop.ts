@@ -98,10 +98,24 @@ export type WorkshopTextureGroup = {
 export type WorkshopSurface = {
   material: number
   cutout: boolean
-  layers: { texture: string; tint: [number, number, number] | null }[]
+  layers: {
+    texture: string
+    tint: [number, number, number] | null
+    // Multiply by the tint instead of recolouring toward it.
+    multiply: boolean
+    // The texture's average colour when the game's files give one.
+    average: [number, number, number] | null
+  }[]
   // The layers of the material's second diffuse texture, laid over the first with the model's
   // second texture coordinates; empty when the material has none.
-  overlay: { texture: string; tint: [number, number, number] | null }[]
+  overlay: {
+    texture: string
+    tint: [number, number, number] | null
+    // Multiply by the tint instead of recolouring toward it.
+    multiply: boolean
+    // The texture's average colour when the game's files give one.
+    average: [number, number, number] | null
+  }[]
 }
 
 export type WorkshopFailure =

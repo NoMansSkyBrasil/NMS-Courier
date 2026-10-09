@@ -348,14 +348,29 @@ layer's average colour (`gAverageColourNVec4`), a multiply switch
 7. At the end the picture is turned back (power 1 / 2.2).
 
 `apps/desktop/src/renderer/src/lib/model-surface-painter.ts` does exactly
-this from application 1.17.1, with two inputs it cannot take from the game:
+this from application 1.17.1. Its two remaining inputs were traced and are
+the game's own from application 1.17.2:
 
-- **The average colour.** The routine that sets the shader's inputs
-  (`1bf170`, called from `6358f0`) copies eight averages from the texture
-  build job (job `+0x160`); what fills them is not traced. The workshop uses
-  the alpha-weighted mean of the layer.
-- **The multiply switch.** Eight bytes of the same job (`+0x1e0`); what sets
-  them is not traced. The workshop never multiplies.
+- **The multiply switch** is a field of the texture alternative in the
+  texture list: `Multiply`, one byte at `+0x54` of the 0x60-byte record. The
+  routine at `636c40` copies it to the texture build job (`+0x1e0`). Seven of
+  the game's 1,527 lists use it, among them the fighters' `primary` and
+  `secondary` lists (alternatives `STEALTH`, `METALBOLT`, `SEVENTEEN`).
+- **The average colour** is, in order: the alternative's own
+  `AverageColour` (four floats at `+0x00`) when its `OverrideAverageColour`
+  (`+0x55`) is set, which only building and grass lists do; otherwise the
+  texture's average, which the job asks the texture for (parameters `0x2c5`
+  to `0x2c7`, served at `1897490`). The texture loader (`1895ae0`) takes it
+  from the file: **the four bytes at `0x38` of the DDS header are blue,
+  green, red, alpha of the average**, written by the tool that made the
+  file. All 2,155 starship and weapon textures of build 180836 carry it.
+  Only when those bytes are zero does the loader compute one, and then not as
+  a mean: for the older block formats it reads the single block at the end
+  of the file as a BC1 colour block and keeps its first pixel (`1897540`).
+
+Checked on the multi-tool `0x81E18111081140E1`: with the header averages the
+wide bands of its second texture come out light orange beside the orange-red
+stripes, as in the game; with a computed mean they came out one colour.
 
 Also not established: which layer of a texture list the game passes as
 source 1 (the workshop draws the last used layer first, which gives the

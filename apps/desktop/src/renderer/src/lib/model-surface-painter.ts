@@ -11,21 +11,27 @@
 // values; the hue is moved by the difference between the tint and the layer's average, the
 // saturation is capped by the tint's, the brightness is moved toward the tint's with a weight
 // that peaks at mid grey; the result is turned to linear light, laid over the layers below by
-// the layer's alpha, and the finished picture is turned back at the end. The layer's average
-// colour is computed here; how the game computes the one it passes to the shader is not known.
+// the layer's alpha, and the finished picture is turned back at the end. A layer marked to
+// multiply is multiplied by its tint instead. The layer's average colour is the one the game
+// takes when it loads the texture (`averageOfTexture`).
 
 const ddsMagic = 0x20534444
 const fourCcDx10 = 0x30315844
 const fourCcDxt1 = 0x31545844
 const fourCcDxt5 = 0x35545844
 const pictureSize = 512
-const averageSize = 32
 
-export type SurfaceLayer = { texture: string; tint: [number, number, number] | null }
+export type SurfaceLayer = {
+  texture: string
+  tint: [number, number, number] | null
+  multiply: boolean
+  average: [number, number, number] | null
+}
 
 type Picture = { width: number; height: number; format: number; blocks: Uint8Array }
 type Formats = { bc1: number; bc3: number; bc7: number; bc7Srgb: number }
 
+// The smallest level of a DDS file: `wanted` 0.
 // The level of a DDS file that is closest to the wanted size without being smaller, when the
 // file is one of the formats the painter can draw.
 function readLevel(file: Uint8Array, wanted: number, formats: Formats): Picture | null {
@@ -58,15 +64,94 @@ function readLevel(file: Uint8Array, wanted: number, formats: Formats): Picture 
   } else return null
   if (width < 4 || height < 4 || width > 8192 || height > 8192) return null
   for (let level = 0; level < levels; level += 1) {
-    const size = Math.ceil(width / 4) * Math.ceil(height / 4) * blockBytes
+    const size = Math.max(1, Math.ceil(width / 4)) * Math.max(1, Math.ceil(height / 4)) * blockBytes
     if (offset + size > file.byteLength) return null
-    const last = level === levels - 1 || width / 2 < wanted || height / 2 < wanted || width <= 4
+    const last =
+      level === levels - 1 ||
+      (wanted > 0 && (width / 2 < wanted || height / 2 < wanted || width <= 4))
     if (last) return { width, height, format, blocks: file.subarray(offset, offset + size) }
     offset += size
     width = Math.max(width >> 1, 1)
     height = Math.max(height >> 1, 1)
   }
   return null
+}
+
+// The average colour the game keeps for a texture, as its loader takes it (routines at 1895ae0
+// and 1897540 of build 180836; docs/MODEL_WORKSHOP.md):
+// 1. The game's texture files carry it in their header: the four bytes at 0x38 are blue, green,
+//    red and alpha. When they are not all zero, that is the average.
+// 2. Without it, for the older block formats the game reads the one block at the end of the
+//    file (the smallest level) as a BC1 colour block (for BC3 the colour half) and keeps its
+//    first pixel.
+// Null when neither applies; the painter then takes a plain mean, which the game does not do
+// (it leaves the value to a later task whose arithmetic is not read).
+export function averageOfTexture(file: Uint8Array): [number, number, number] | null {
+  if (file.byteLength < 128) return null
+  const view = new DataView(file.buffer, file.byteOffset, file.byteLength)
+  if (view.getUint32(0, true) !== ddsMagic) return null
+  if (view.getUint32(0x38, true) !== 0)
+    return [file[0x3a] / 255, file[0x39] / 255, file[0x38] / 255]
+  let height = view.getUint32(12, true)
+  let width = view.getUint32(16, true)
+  // The level count is used only when the header says it is given (flag 0x20000).
+  const given = (view.getUint32(8, true) & 0x20000) !== 0 ? view.getUint32(28, true) : 1
+  const levels = Math.max(given, 1)
+  const fourCc = view.getUint32(84, true)
+  let offset = 128
+  let blockBytes = 16
+  // BC3 keeps its colour block in the second half of a block and is read with four colours
+  // always; every other format is read with the BC1 rule that allows three colours.
+  let colourAt = 0
+  let threeColour = true
+  if (fourCc === fourCcDx10) {
+    if (file.byteLength < 148) return null
+    const dxgi = view.getUint32(128, true)
+    offset = 148
+    if (dxgi === 71 || dxgi === 72) blockBytes = 8
+    else if (dxgi === 77 || dxgi === 78) {
+      colourAt = 8
+      threeColour = false
+    } else return null
+  } else if (fourCc === fourCcDxt1) blockBytes = 8
+  else if (fourCc === fourCcDxt5) {
+    colourAt = 8
+    threeColour = false
+  } else return null
+  if (width < 1 || height < 1 || width > 16384 || height > 16384) return null
+  const sizeOf = (w: number, h: number): number =>
+    Math.max(1, (w + 3) >> 2) * Math.max(1, (h + 3) >> 2) * blockBytes
+  let total = 0
+  for (let level = 0; level < levels; level += 1) {
+    total += sizeOf(width, height)
+    width = Math.max(width >> 1, 1)
+    height = Math.max(height >> 1, 1)
+  }
+  const block = offset + total - sizeOf(width, height) + colourAt
+  if (block < offset || block + 8 > file.byteLength) return null
+  const first = view.getUint16(block, true)
+  const second = view.getUint16(block + 2, true)
+  const expand = (colour: number): [number, number, number] => {
+    const red = colour >> 11
+    const green = (colour >> 5) & 63
+    const blue = colour & 31
+    return [(red << 3) | (red >> 2), (green << 2) | (green >> 4), (blue << 3) | (blue >> 2)]
+  }
+  const a = expand(first)
+  const b = expand(second)
+  const plain = threeColour && first <= second
+  const code = file[block + 4] & 3
+  const pixel =
+    code === 0
+      ? a
+      : code === 1
+        ? b
+        : code === 2
+          ? a.map((value, index) =>
+              plain ? (value + b[index]) >> 1 : Math.floor((2 * value + b[index]) / 3)
+            )
+          : a.map((value, index) => (plain ? 0 : Math.floor((value + 2 * b[index]) / 3)))
+  return [pixel[0] / 255, pixel[1] / 255, pixel[2] / 255]
 }
 
 const vertexSource = `#version 300 es
@@ -86,6 +171,7 @@ uniform sampler2D layer;
 uniform vec3 tint;
 uniform vec3 average;
 uniform bool tinted;
+uniform bool multiply;
 uniform bool opaque;
 uniform bool linear;
 in vec2 uv;
@@ -108,6 +194,14 @@ vec3 toHsv(vec3 c) {
 void main() {
   vec4 texel = texture(layer, uv);
   vec3 rgb = texel.rgb;
+  if (tinted && multiply) {
+    // Multiplied in linear light, as the game does; written back as a stored value when the
+    // target is not linear.
+    vec3 product = toLinear(rgb) * toLinear(tint);
+    float alphaOnly = clamp(texel.a - 0.004, 0.0, 1.0) * 1.00401604;
+    colour = vec4(linear ? product : pow(product, vec3(1.0 / 2.2)), opaque ? 1.0 : alphaOnly);
+    return;
+  }
   if (tinted) {
     vec3 own = toHsv(rgb);
     vec3 target = toHsv(tint);
@@ -224,27 +318,30 @@ function createPainter(): Painter | null {
     )
     return gl.getError() === gl.NO_ERROR
   }
-  // The layer's average colour, weighted by its alpha, from a small drawing of it.
-  const averageOf = (): [number, number, number] => {
+  // The plain mean of a texture's colour values, from its smallest level drawn by the graphics
+  // card. Transparent pixels count like any other, as their stored colour.
+  const meanColour = (file: Uint8Array): [number, number, number] | null => {
+    const picture = readLevel(file, 0, formats)
+    if (!picture || !upload(picture)) return null
+    const width = Math.min(picture.width, pictureSize)
+    const height = Math.min(picture.height, pictureSize)
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
-    gl.viewport(0, 0, averageSize, averageSize)
+    gl.viewport(0, 0, width, height)
     gl.disable(gl.BLEND)
     gl.uniform1i(uniform('tinted'), 0)
     gl.uniform1i(uniform('opaque'), 0)
     gl.uniform1i(uniform('linear'), 0)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
-    const pixels = new Uint8Array(averageSize * averageSize * 4)
-    gl.readPixels(0, 0, averageSize, averageSize, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
-    let weight = 0
+    const pixels = new Uint8Array(width * height * 4)
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
     const sum = [0, 0, 0]
     for (let index = 0; index < pixels.length; index += 4) {
-      const alpha = pixels[index + 3] / 255
-      weight += alpha
-      for (let channel = 0; channel < 3; channel += 1) {
-        sum[channel] += (pixels[index + channel] / 255) * alpha
-      }
+      sum[0] += pixels[index]
+      sum[1] += pixels[index + 1]
+      sum[2] += pixels[index + 2]
     }
-    return weight > 0 ? [sum[0] / weight, sum[1] / weight, sum[2] / weight] : [0.5, 0.5, 0.5]
+    const count = (pixels.length / 4) * 255
+    return [sum[0] / count, sum[1] / count, sum[2] / count]
   }
 
   return {
@@ -255,11 +352,13 @@ function createPainter(): Painter | null {
       })
       gl.useProgram(program)
       gl.bindTexture(gl.TEXTURE_2D, texture)
-      const averages: ([number, number, number] | null)[] = []
-      for (let index = 0; index < layers.length; index += 1) {
-        const picture = pictures[index]
-        averages.push(picture && layers[index].tint && upload(picture) ? averageOf() : null)
-      }
+      // The file's own average when it gives one, else the one the game takes from the texture.
+      const averages = layers.map((layer) => {
+        const file = files.get(layer.texture)
+        if (!layer.tint) return null
+        if (layer.average) return layer.average
+        return file ? (averageOfTexture(file) ?? meanColour(file)) : null
+      })
       gl.bindFramebuffer(gl.FRAMEBUFFER, stage ? stage.buffer : null)
       gl.uniform1i(uniform('linear'), stage ? 1 : 0)
       gl.viewport(0, 0, pictureSize, pictureSize)
@@ -273,6 +372,7 @@ function createPainter(): Painter | null {
         const tint = layers[index].tint
         const average = averages[index]
         gl.uniform1i(uniform('tinted'), tint && average ? 1 : 0)
+        gl.uniform1i(uniform('multiply'), layers[index].multiply ? 1 : 0)
         if (tint && average) {
           gl.uniform3f(uniform('tint'), tint[0], tint[1], tint[2])
           gl.uniform3f(uniform('average'), average[0], average[1], average[2])

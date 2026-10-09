@@ -30,6 +30,11 @@ export type TextureOption = {
   paletteIndex: number
   probability: number
   gameplayUse: number
+  // The layer is multiplied by its palette colour instead of being recoloured toward it.
+  multiply: boolean
+  // The average colour the file gives for the texture, when it overrides the one the game
+  // takes from the texture itself.
+  average: [number, number, number] | null
 }
 
 export type TextureLayer = {
@@ -67,7 +72,16 @@ export function readTextureList(data: Buffer): TextureList {
           paletteIndex: data.readInt32LE(option + 0x44),
           family: data.readUInt32LE(option + 0x48),
           probability: data.readFloatLE(option + 0x4c),
-          gameplayUse: data.readUInt32LE(option + 0x50)
+          gameplayUse: data.readUInt32LE(option + 0x50),
+          multiply: data[option + 0x54] !== 0,
+          average:
+            data[option + 0x55] !== 0
+              ? [
+                  data.readFloatLE(option),
+                  data.readFloatLE(option + 4),
+                  data.readFloatLE(option + 8)
+                ]
+              : null
         }
       })
     })
