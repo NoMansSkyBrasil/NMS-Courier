@@ -66,5 +66,16 @@ static volatile LONG scope_tool_rows;      // the scoped setup is a multi-tool t
 static volatile LONG obtain_tool_size_type = -1;   // size type the layout call of the last such setup had
 static volatile LONG obtain_tool_grid[3] = {-1, -1, -1};   // the offered grid after the last such setup
 static volatile LONG obtain_tool_setups;    // setups this applied to
+// The same for a new starship (bridge 1.19.0). A ship item (kind 0) has a cargo grid in the store at
+// +0x980 and a technology grid at +0xe10, like a freighter. The setup is recognised by the requested
+// seed, or by happening inside the reward call of the request (obtain_ship_giving), because the ship
+// reward may not hand the seed on unchanged.
+static volatile LONG64 obtain_ship_seed;
+static volatile LONG obtain_ship_slots;
+static volatile LONG obtain_ship_super;
+static volatile LONG obtain_ship_rows;
+static volatile LONG obtain_ship_giving;
+static volatile LONG obtain_ship_setups;
+static volatile LONG obtain_ship_grid[6] = {-1, -1, -1, -1, -1, -1};   // cargo w,h,count then technology
 static volatile LONG setup_calls;
 static volatile LONG last_kind = -1;

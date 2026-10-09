@@ -28,6 +28,21 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.24.0 and bridge 1.19.0 (2026-10-09)
+
+Bridge 1.19.0, SHA-256 `238495a51ad06190d492bc47d5ff9913837b62df9593d0ef8c436cc7805cd4d2`.
+
+- New: "All inventory slots", "Supercharged slots" and "Extra technology
+  rows" when getting a new starship, by the method that gave a new
+  multi-tool its 120 slots: the hooked setup of the offered ship asks the
+  cargo grid at 120 and the technology grid at 60, or 120 with the extra
+  rows (the technology height bound of the ship's size type is raised from 6
+  to 12 for that one layout call, as for freighters), and marks every
+  technology slot supercharged. Where the game's bounds stop short the full
+  grid is written directly. The result file gains `offer_cargo=`,
+  `offer_technology=` and `ship_setups=`. Not exercised in the running game
+  yet.
+
 ## Application 1.23.2 (2026-10-09)
 
 - Changed (owner decision): "Use legacy colours" is off by default, in the

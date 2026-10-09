@@ -301,6 +301,32 @@ Confirmed live the same day: `offer_grid=10,12,120`, `offer_size_type=25`
 (`0x19`), two table bounds raised for the call, 116 slots marked
 supercharged on top of the ones the tool had. The fallback was not needed.
 
+### Slots of a new starship (bridge 1.19.0)
+
+Owner request of 2026-10-09: the same for starships, up to 120 cargo and 120
+supercharged technology slots. The status file of earlier runs showed the
+hooked setup routine being called with kind 0 after a ship offer, so the
+ship reward reaches `8e58e0` too. A ship item has its cargo grid in the
+store at `+0x980` and its technology grid at `+0xe10`, the offsets the
+freighter and corvette code already uses.
+
+The starship request takes `slots=1`, `super=1` and `rows=1` (with
+`slots=1`). The setup of a ship item is taken as the offered one when it
+happens inside the reward call of the request, or later with the requested
+seed as its seed argument; a corvette build keeps its own arming. Then:
+
+- the layout calls of the two stores get the largest counts through the
+  existing detour (cargo 120, technology 60; with the rows the technology
+  height bound of the size type becomes 12 for the call and the count 120);
+- after the setup, a cargo grid of fewer than twelve rows, and with the rows
+  a technology grid of fewer than twelve, is written full directly;
+- with `super=1` every usable technology slot is marked supercharged.
+
+The result file reports `offer_cargo=`, `offer_technology=` and
+`ship_setups=`. Not exercised live. Open: whether the ship reward hands the
+seed on unchanged; what the game's bounds give for each ship size type; what
+the accepted ship keeps.
+
 ### Multi-tool kinds: a save editor's list against the game's data
 
 The owner sent the type list of a save editor: Standard, Rifle, Royal,

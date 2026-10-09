@@ -77,6 +77,9 @@ typedef struct {
     // the frames left before it runs and what it reported.
     LONG (*upgrade)(uintptr_t manager, LONG slot, int slots, int supercharge);
     volatile LONG want_slots, want_super, want_rows, upgrade_frames, upgraded;
+    // The offered item takes the slot options while the game builds it: 0 no, 1 a multi-tool,
+    // 2 a starship (purchase_setup_hooks.h).
+    int offer_options;
     volatile LONG legacy_frames, legacy_slot;
     uint64_t legacy_seed;
     // Where the game passes "no legacy colours" when it builds the offered model; count 0 for none.
@@ -193,7 +196,16 @@ static void obtain_apply_request(obtain_domain *domain) {
     if (reward) {
         *(uint64_t *)(reward + domain->seed_offset) = domain->seed;
         *(int32_t *)(reward + domain->class_offset) = (int32_t)InterlockedCompareExchange(&domain->item_class, 0, 0);
-        if (domain->upgrade) {
+        if (domain->offer_options == 2) {
+            LONG slots = InterlockedCompareExchange(&domain->want_slots, 0, 0);
+            LONG supercharge = InterlockedCompareExchange(&domain->want_super, 0, 0);
+            InterlockedExchange(&obtain_ship_slots, slots);
+            InterlockedExchange(&obtain_ship_super, supercharge);
+            InterlockedExchange(&obtain_ship_rows, slots && InterlockedCompareExchange(&domain->want_rows, 0, 0));
+            InterlockedExchange64(&obtain_ship_seed, slots || supercharge ? (LONG64)domain->seed : 0);
+            InterlockedExchange(&obtain_ship_giving, 1);
+        }
+        if (domain->offer_options == 1) {
             // The offer itself is built with the slots (purchase_setup_hooks.h); the seed stays armed
             // because the game may set the offered item up again before it is accepted.
             LONG slots = InterlockedCompareExchange(&domain->want_slots, 0, 0);
@@ -207,6 +219,7 @@ static void obtain_apply_request(obtain_domain *domain) {
         if (wanted && !domain->offer_patched) domain->offer_patched = obtain_offer_colours(domain, 1);
         else if (!wanted && domain->offer_patched) domain->offer_patched = !obtain_offer_colours(domain, 0);
         reward_carrier_give(domain->models[model].carrier, 0);
+        if (domain->offer_options == 2) InterlockedExchange(&obtain_ship_giving, 0);
         InterlockedExchange(&domain->offer_legacy, wanted && domain->offer_patched);
         *(uint64_t *)(reward + domain->seed_offset) = OBTAIN_CARRIER_SEED;
         *(int32_t *)(reward + domain->class_offset) = OBTAIN_CARRIER_CLASS;
@@ -326,11 +339,11 @@ static int obtain_read_request(obtain_domain *domain) {
         } else if (strncmp(line, "legacy=", 7) == 0 && legacy < 0 && domain->record_stride &&
                    (line[7] == '0' || line[7] == '1') && !line[8]) {
             legacy = line[7] - '0';
-        } else if (strcmp(line, "slots=1") == 0 && !slots && domain->upgrade) {
+        } else if (strcmp(line, "slots=1") == 0 && !slots && domain->offer_options) {
             slots = 1;
-        } else if (strcmp(line, "super=1") == 0 && !supercharge && domain->upgrade) {
+        } else if (strcmp(line, "super=1") == 0 && !supercharge && domain->offer_options) {
             supercharge = 1;
-        } else if (strcmp(line, "rows=1") == 0 && !rows && domain->upgrade) {
+        } else if (strcmp(line, "rows=1") == 0 && !rows && domain->offer_options) {
             // Twelve rows instead of the game's six; only together with "slots=1".
             rows = 1;
         } else if (strncmp(line, "seed=0x", 7) == 0 && !have_seed) {
@@ -367,7 +380,17 @@ static void obtain_write_result(obtain_domain *domain) {
     if (file) {
         LONG model = InterlockedCompareExchange(&domain->model, 0, 0);
         LONG legacy = InterlockedCompareExchange(&domain->legacy, 0, 0);
-        if (domain->upgrade)
+        if (domain->offer_options == 2)
+            // Cargo and technology grids of the offered ship after its last setup, and how many setups.
+            fprintf(file, "offer_cargo=%ld,%ld,%ld\noffer_technology=%ld,%ld,%ld\nship_setups=%ld\n",
+                    InterlockedCompareExchange(&obtain_ship_grid[0], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_grid[1], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_grid[2], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_grid[3], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_grid[4], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_grid[5], 0, 0),
+                    InterlockedCompareExchange(&obtain_ship_setups, 0, 0));
+        if (domain->offer_options == 1)
             // What the offered item's grid was after its last setup, and the size type its layout had.
             fprintf(file, "offer_grid=%ld,%ld,%ld\noffer_size_type=%ld\n",
                     InterlockedCompareExchange(&obtain_tool_grid[0], 0, 0),

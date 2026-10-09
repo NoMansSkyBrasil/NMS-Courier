@@ -1,5 +1,14 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.19.0 built and installed; slot options for a new starship
+
+No live action. Build 180836, game closed (process list checked). Bridge
+1.19.0 (`238495a51ad06190d492bc47d5ff9913837b62df9593d0ef8c436cc7805cd4d2`) built, fixture passed, installed in place of 1.18.0 (kept
+under `native-builds/bridge-1.18.0`). Application 1.24.0. It adds the three
+slot options to the starship request:
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#slots-of-a-new-starship-bridge-1190).
+Not proven: everything live. To undo: copy the 1.18.0 file back.
+
 ## 2026-10-09: bridge 1.18.0 live: a new multi-tool offered with 120 supercharged slots
 
 Live, from the application 1.23.1. Build 180836 (`13d5060d...cc3499`),

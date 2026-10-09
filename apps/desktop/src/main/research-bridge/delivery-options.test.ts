@@ -123,7 +123,7 @@ describe('item, currency and equipment requests', () => {
     expect(ship?.steps[0].request).toEqual({
       name: 'ship-request',
       perProcess: true,
-      lines: ['model=hauler', 'seed=0x00000000DEADBEEF', 'class=a']
+      lines: ['model=hauler', 'seed=0x00000000DEADBEEF', 'class=a', 'slots=1', 'super=1', 'rows=1']
     })
     expect(ship?.steps[0].signals).toEqual(['ship'])
     expect(ship?.steps[0].accept?.(['model=hauler', 'result=bad_layout'])).toBe(false)

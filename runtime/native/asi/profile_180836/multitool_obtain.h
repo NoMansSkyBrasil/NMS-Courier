@@ -79,6 +79,7 @@ static obtain_domain multitool_obtain = {
     .record_legacy_offset = 0x2ad,
     .legacy = -1,
     .upgrade = multitool_obtain_upgrade,
+    .offer_options = 1,
     .offer_legacy_sites = multitool_offer_legacy_sites,
     .offer_legacy_site_count = sizeof(multitool_offer_legacy_sites) / sizeof(multitool_offer_legacy_sites[0])
 };

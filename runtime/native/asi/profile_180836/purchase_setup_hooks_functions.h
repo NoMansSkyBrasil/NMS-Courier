@@ -115,12 +115,52 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
         InterlockedExchange(&scope_tool_rows, InterlockedCompareExchange(&obtain_tool_rows, 0, 0));
         InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
     }
+    // An offered starship: the corvette build has its own arming and is left alone.
+    int ship = (uint32_t)kind == SHIP_ITEM_KIND && item && !corvette &&
+               (InterlockedCompareExchange(&obtain_ship_slots, 0, 0) || InterlockedCompareExchange(&obtain_ship_super, 0, 0)) &&
+               (InterlockedCompareExchange(&obtain_ship_giving, 0, 0) ||
+                (a2 && obtain_ship_seed && *(const uint64_t *)a2 == (uint64_t)obtain_ship_seed));
+    int ship_scoped = ship && InterlockedCompareExchange(&obtain_ship_slots, 0, 0);
+    if (ship_scoped) {
+        // The layout detour gives the cargo grid 120 and the technology grid 60, or 120 with the rows.
+        InterlockedExchange(&scope_rows, InterlockedCompareExchange(&obtain_ship_rows, 0, 0));
+        scope_item = item;
+        InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
+    }
     if (scoped) {
         InterlockedExchange(&scope_rows, InterlockedExchange(&tech_rows_armed, 0));
         scope_item = item;
         InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
     }
     uintptr_t result = original_setup(item, a2, a3, a4, a5, a6, kind, a8, a9, a10, a11);
+    if (ship) {
+        if (ship_scoped) {
+            InterlockedExchange(&scope_thread, 0);
+            scope_item = 0;
+            InterlockedExchange(&scope_rows, 0);
+        }
+        if (writable_range(item, ITEM_READ_SPAN)) {
+            uint8_t *cargo = (uint8_t *)item + MAIN_STORE_OFFSET, *technology = (uint8_t *)item + TECHNOLOGY_STORE_OFFSET;
+            // Fallback where the game's bounds for the ship's size type stopped short: the full grid
+            // written directly, as the owned request does.
+            if (ship_scoped) {
+                int16_t width = *(const int16_t *)(cargo + 0x80), rows = *(const int16_t *)(cargo + 0x82);
+                if (width >= 1 && width <= 16 && rows >= 1 && rows < EXTENDED_TECHNOLOGY_ROWS) fill_store_grid(cargo);
+                width = *(const int16_t *)(technology + 0x80);
+                rows = *(const int16_t *)(technology + 0x82);
+                if (InterlockedCompareExchange(&obtain_ship_rows, 0, 0) && width >= 1 && width <= 16 && rows >= 1 &&
+                    rows < EXTENDED_TECHNOLOGY_ROWS)
+                    fill_store_grid(technology);
+            }
+            if (InterlockedCompareExchange(&obtain_ship_super, 0, 0)) add_special_slots(technology);
+            record_grid(item);
+            for (int index = 0; index < 3; ++index) {
+                InterlockedExchange(&obtain_ship_grid[index], ((const int16_t *)(cargo + 0x80))[index]);
+                InterlockedExchange(&obtain_ship_grid[3 + index], ((const int16_t *)(technology + 0x80))[index]);
+            }
+        }
+        InterlockedIncrement(&obtain_ship_setups);
+    }
     if (scoped) {
         InterlockedExchange(&scope_thread, 0);
         scope_item = 0;

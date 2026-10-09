@@ -356,3 +356,15 @@ game's inventory table from 6 to 12 for the one layout call (put back right
 after); the direct write remains as a fallback. The result file reports
 `offer_grid=` and `offer_size_type=`. It changes the loaded slot only. To undo: load the
 save from before. Not exercised in the running game when written.
+
+### Slots of a starship got through an offer (bridge 1.19.0)
+
+The starship request may hold `slots=1`, `super=1` and `rows=1`. While the
+game sets the offered ship up, the bridge changes arguments of the game's
+layout calls (largest slot counts), raises the technology height bound of
+the ship's size type from 6 to 12 for one call when the rows are asked (put
+back right after), and afterwards **writes directly**: the full grid where
+the game's bounds stopped short, and the supercharged mark on every
+technology slot. The result file gains `offer_cargo=`, `offer_technology=`
+and `ship_setups=`. It changes the loaded slot only, and only if the offer
+is accepted. Not exercised in the running game when written.

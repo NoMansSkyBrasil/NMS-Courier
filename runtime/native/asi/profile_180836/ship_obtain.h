@@ -27,5 +27,6 @@ static obtain_domain ship_obtain = {
     .models = ship_obtain_models,
     .model_count = sizeof(ship_obtain_models) / sizeof(ship_obtain_models[0]),
     .model = -1,
-    .legacy = -1
+    .legacy = -1,
+    .offer_options = 2
 };
