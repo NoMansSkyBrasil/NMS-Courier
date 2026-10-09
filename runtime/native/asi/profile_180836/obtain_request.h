@@ -76,6 +76,31 @@ static int obtain_is_carrier(const void *reward, int model) {
            *(const int32_t *)(bytes + domain->type_offset) == domain->models[model].type;
 }
 
+// An offer opens a game screen that needs the mouse. A request sent from the application arrives
+// while the application's window, not the game's, is in front; an offer opened then was seen without
+// a cursor (2026-10-09). So a request waits on the game thread until the game's window has been the
+// foreground window for OBTAIN_FOCUS_FRAMES frames in a row (bridge 1.11.0). Whether this is the
+// cause of the missing cursor was not proven when this was written.
+#define OBTAIN_FOCUS_FRAMES 45
+static LONG obtain_focus_frames;
+
+static int obtain_game_in_front(void) {
+    HWND window = GetForegroundWindow();
+    DWORD process = 0;
+    if (!window) return 0;
+    GetWindowThreadProcessId(window, &process);
+    return process == GetCurrentProcessId();
+}
+
+// Game thread, every frame: true once the game has been in front long enough to open an offer.
+static int obtain_focus_ready(int waiting) {
+    if (!waiting || !obtain_game_in_front()) {
+        obtain_focus_frames = 0;
+        return 0;
+    }
+    return ++obtain_focus_frames >= OBTAIN_FOCUS_FRAMES;
+}
+
 #define OBTAIN_OFFER_LEGACY_BYTES 5
 static const uint8_t obtain_offer_standard[OBTAIN_OFFER_LEGACY_BYTES] = {0x44, 0x88, 0x74, 0x24, 0x20};
 static const uint8_t obtain_offer_legacy[OBTAIN_OFFER_LEGACY_BYTES] = {0xc6, 0x44, 0x24, 0x20, 0x01};

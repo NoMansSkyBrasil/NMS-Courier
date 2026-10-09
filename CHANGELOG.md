@@ -28,6 +28,16 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.20.1 and bridge 1.11.0 (2026-10-09)
+
+Bridge 1.11.0, SHA-256 `083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da`.
+
+- Changed, as a test of the missing cursor: a starship or multi-tool offer is
+  opened only after the game's window has been in front for 45 frames, one
+  offer at a time. Until now the offer opened while the application's window
+  was in front. The application waits up to 90 seconds for the result.
+  Whether this gives the offer its cursor is not proven.
+
 ## Application 1.20.0 and bridge 1.10.0 (2026-10-09)
 
 Bridge 1.10.0, SHA-256 `d0a7e555320fe90621b355d779d151d1a5cb5b7dacb517f2b5f82e86d18d1bee`.

@@ -107,7 +107,8 @@ function obtain(
           ]
         },
         signals: [kind],
-        result: { name: `${kind}-result`, seconds: 12 },
+        // The bridge opens the offer only once the game's window is in front again (1.11.0).
+        result: { name: `${kind}-result`, seconds: 90 },
         accept: (lines) => lines.includes('result=offered')
       }
     ]

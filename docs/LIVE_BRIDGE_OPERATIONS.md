@@ -321,3 +321,10 @@ expected bytes or neither is touched. This is not a native call and not a
 data write; it is a temporary code change on the game thread. The result file
 gains `offer_colours=legacy` or `offer_colours=standard`. Not exercised in
 the running game when written.
+
+### Offers wait for the game's window (bridge 1.11.0)
+
+A starship or multi-tool request is applied only after the game's window has
+been the foreground window for 45 frames in a row, and one request a frame.
+The result file is written after that, so the application waits up to 90
+seconds for it. Nothing is written to the game for this.

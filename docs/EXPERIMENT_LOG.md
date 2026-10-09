@@ -1,5 +1,15 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.11.0 built and installed; offers wait for the game's window
+
+No live action. Build 180836, game closed (process list checked). Bridge
+1.11.0 (`083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da`) built, fixture passed, installed in place of 1.10.0
+(`d0a7e555...1bee`, kept under `native-builds/bridge-1.10.0`). Application
+1.20.1. Reason and what was compared:
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#the-owners-objection-and-the-focus-hypothesis-bridge-1110).
+Not proven: that waiting for the game's window gives the offer its cursor.
+To undo: copy the 1.10.0 file back.
+
 ## 2026-10-09: first live offer with bridge 1.10.0; legacy colours on the offer, still no cursor
 
 Live, from the application 1.20.0. Build 180836 (`13d5060d...cc3499`),

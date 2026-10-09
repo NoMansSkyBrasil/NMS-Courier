@@ -156,6 +156,23 @@ own uses of this reward always are. If the menu case works, the bridge can
 open a menu page itself before the reward; the page numbers are run-time
 data and were not read yet. Nothing was changed for this in bridge 1.10.0.
 
+### The owner's objection and the focus hypothesis (bridge 1.11.0)
+
+The owner objected that offers opened by the bridge had a working cursor
+days earlier. The records agree in part: the freighter offer of 2026-10-06
+and the slot window of `RS_INV_SLOT` on 2026-10-07 were opened by a
+dispatched reward while walking around, and the freighter was accepted. So
+"an offer outside an interaction has no cursor" cannot be the whole story.
+
+Compared: the proxy (`xinput_proxy.c`) and the reward dispatch did not
+change since. What did change on 2026-10-08 is who sends: then a script was
+run while the owner sat in the game; now the owner presses a button in the
+application, so the game's window is not in front when the offer opens.
+Hypothesis: the game takes the mouse for an opening page only while its
+window is in front. Bridge 1.11.0 therefore keeps a starship or multi-tool
+request waiting on the game thread until the game's window has been the
+foreground window for 45 frames in a row. Not proven.
+
 ### Legacy colours on the offer itself (bridge 1.10.0)
 
 The pending tool's model is built inside the reward call: `8e58e0` calls the

@@ -144,8 +144,14 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&account_state, 0, 0) == 1) account_apply_request();
     if (InterlockedCompareExchange(&item_state, 0, 0) == 1) item_apply_request();
     if (InterlockedCompareExchange(&currency_state, 0, 0) == 1) currency_apply_request();
-    if (InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1) obtain_apply_request(&ship_obtain);
-    if (InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1) obtain_apply_request(&multitool_obtain);
+    // Offers wait until the game's window is in front; one offer a turn.
+    int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
+    int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
+    if (obtain_focus_ready(ship_waits || tool_waits)) {
+        obtain_focus_frames = 0;
+        if (ship_waits) obtain_apply_request(&ship_obtain);
+        else obtain_apply_request(&multitool_obtain);
+    }
     obtain_legacy_tick(&multitool_obtain);
     item_limits_tick();
     star_system_tick();
