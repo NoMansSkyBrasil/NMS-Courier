@@ -28,6 +28,17 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.14.0 (2026-10-08)
+
+- New: the workshop explains a freighter's home system seed and converts it.
+  The seed of a system is its address in the universe, so under the home
+  seed the workshop shows the portal address and galaxy it stands for, and a
+  portal address with a galaxy number can be typed to fill the seed.
+- Research: where the home seed comes from was traced in the executable
+  (`docs/SEED_ORIGINS.md`); new tool `runtime/research/read-class-members.py`
+  reads the field table of any data class of the executable.
+- Bridge unchanged (1.7.0).
+
 ## Application 1.13.0 (2026-10-08)
 
 - New: freighters in the model workshop take a second seed, the seed of

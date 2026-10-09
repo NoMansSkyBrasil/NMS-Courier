@@ -463,7 +463,11 @@ export const ptBR: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Um cargueiro tira as cores do seu sistema estelar de origem. Digite essa seed, ou sorteie uma, para ver o cargueiro colorido; vazio mostra sem cor.',
+      'Um cargueiro tira as cores do seu sistema estelar de origem, e a seed de um sistema é o endereço dele na galáxia. Digite a seed, sorteie uma ou informe abaixo o endereço de portal do sistema; vazio mostra o cargueiro sem cores.',
+    homeAddress: 'Esta seed é o sistema de endereço de portal {glyphs} na galáxia {galaxy}.',
+    glyphsLabel: 'Endereço de portal (12 glifos como 0–9, A–F)',
+    galaxyLabel: 'Número da galáxia',
+    useAddress: 'Usar este sistema',
     seedHint: 'Dezesseis dígitos hexadecimais depois de 0x. Pressione Enter ou Mostrar para ver.',
     show: 'Mostrar',
     generate: 'Gerar uma seed',

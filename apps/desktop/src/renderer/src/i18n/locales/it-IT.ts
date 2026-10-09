@@ -473,7 +473,12 @@ export const itIT: Messages = {
     },
     seedLabel: 'Seme',
     homeSeedHint:
-      'Un mercantile prende i colori dal suo sistema stellare d’origine. Scrivi quel seme, o estraine uno, per vederlo a colori; vuoto lo mostra senza colore.',
+      'Un mercantile prende i colori dal suo sistema stellare d’origine, e il seme di un sistema è il suo indirizzo nella galassia. Scrivi il seme, estraine uno o indica qui sotto l’indirizzo del portale del sistema; vuoto mostra il mercantile senza colori.',
+    homeAddress:
+      'Questo seme è il sistema con indirizzo del portale {glyphs} nella galassia {galaxy}.',
+    glyphsLabel: 'Indirizzo del portale (12 glifi come 0–9, A–F)',
+    galaxyLabel: 'Numero della galassia',
+    useAddress: 'Usa questo sistema',
     seedHint: 'Sedici cifre esadecimali dopo 0x. Premi Invio o Mostra per vederlo.',
     show: 'Mostra',
     generate: 'Genera un seme',

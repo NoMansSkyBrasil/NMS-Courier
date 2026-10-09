@@ -481,7 +481,11 @@ export const deDE: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Ein Frachter nimmt seine Farben aus seinem Heimatsternsystem. Gib diesen Seed ein oder würfle einen aus, um den Frachter farbig zu sehen; leer zeigt ihn ohne Farbe.',
+      'Ein Frachter nimmt seine Farben aus seinem Heimatsternsystem, und der Seed eines Systems ist seine Adresse in der Galaxie. Gib den Seed ein, würfle einen aus oder nenne unten die Portaladresse des Systems; leer zeigt den Frachter ohne Farben.',
+    homeAddress: 'Dieser Seed ist das System mit der Portaladresse {glyphs} in Galaxie {galaxy}.',
+    glyphsLabel: 'Portaladresse (12 Glyphen als 0–9, A–F)',
+    galaxyLabel: 'Galaxienummer',
+    useAddress: 'Dieses System verwenden',
     seedHint: 'Sechzehn Hexadezimalziffern nach 0x. Drücke die Eingabetaste oder „Anzeigen“.',
     show: 'Anzeigen',
     generate: 'Seed erzeugen',

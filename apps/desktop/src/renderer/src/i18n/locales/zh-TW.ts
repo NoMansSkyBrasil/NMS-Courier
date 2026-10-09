@@ -425,7 +425,11 @@ export const zhTW: Messages = {
     },
     seedLabel: '種子',
     homeSeedHint:
-      '貨船的顏色來自其母星系。輸入該種子或隨機產生一個，即可查看帶顏色的貨船；留空則不帶顏色顯示。',
+      '貨船的顏色來自其母星系，而星系的種子就是它在銀河中的位址。輸入種子、隨機產生一個，或在下方填寫該星系的傳送門位址；留空則貨船不帶顏色顯示。',
+    homeAddress: '此種子是銀河 {galaxy} 中傳送門位址為 {glyphs} 的星系。',
+    glyphsLabel: '傳送門位址（12 個符文，0–9、A–F）',
+    galaxyLabel: '銀河編號',
+    useAddress: '使用此星系',
     seedHint: '0x 後接十六位十六進位數字。按 Enter 或「顯示」查看。',
     show: '顯示',
     generate: '產生種子',

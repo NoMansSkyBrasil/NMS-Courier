@@ -331,6 +331,10 @@ export type Messages = {
     >
     seedLabel: string
     homeSeedHint: string
+    homeAddress: string
+    glyphsLabel: string
+    galaxyLabel: string
+    useAddress: string
     seedHint: string
     show: string
     generate: string

@@ -48,6 +48,7 @@ import {
 } from '@renderer/components/ui/select'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { ToggleGroup, ToggleGroupItem } from '@renderer/components/ui/toggle-group'
+import { glyphsFromSystemSeed, systemSeedFromGlyphs } from '../../../shared/system-address'
 import { hashParameters } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas } from './model-preview-canvas'
@@ -258,6 +259,10 @@ function WorkshopModel({
   // A freighter's colours come from the seed of its home star system, typed beside its own.
   const [homeSeed, setHomeSeed] = useState(firstHomeSeed ?? '')
   const homeSeedRef = useRef(firstHomeSeed ?? '')
+  const [glyphs, setGlyphs] = useState('')
+  const [galaxy, setGalaxy] = useState('1')
+  const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
+  const fromGlyphs = systemSeedFromGlyphs(glyphs, Number(galaxy))
   const [model, setModel] = useState<PreviewModel | null>(null)
   const [parts, setParts] = useState<WorkshopPart[]>([])
   const [colors, setColors] = useState<WorkshopColorSlot[]>([])
@@ -566,7 +571,51 @@ function WorkshopModel({
               {text.show}
             </Button>
           </div>
-          <FieldDescription>{text.homeSeedHint}</FieldDescription>
+          <FieldDescription>
+            {text.homeSeedHint}
+            {homeAddress &&
+              ' ' +
+                formatMessage(text.homeAddress, {
+                  glyphs: homeAddress.glyphs,
+                  galaxy: homeAddress.galaxyNumber
+                })}
+          </FieldDescription>
+          <div className="flex flex-wrap items-end gap-2">
+            <Field className="max-w-48">
+              <FieldLabel htmlFor={`workshop-glyphs-${mode}`}>{text.glyphsLabel}</FieldLabel>
+              <Input
+                id={`workshop-glyphs-${mode}`}
+                value={glyphs}
+                maxLength={15}
+                placeholder="01750B001FFD"
+                spellCheck={false}
+                onChange={(event) => setGlyphs(event.target.value)}
+              />
+            </Field>
+            <Field className="max-w-28">
+              <FieldLabel htmlFor={`workshop-galaxy-${mode}`}>{text.galaxyLabel}</FieldLabel>
+              <Input
+                id={`workshop-galaxy-${mode}`}
+                type="number"
+                min={1}
+                max={256}
+                value={galaxy}
+                onChange={(event) => setGalaxy(event.target.value)}
+              />
+            </Field>
+            <Button
+              variant="outline"
+              disabled={busy || !fromGlyphs || !seedValid}
+              onClick={() => {
+                if (!fromGlyphs) return
+                setHomeSeed(fromGlyphs)
+                homeSeedRef.current = fromGlyphs
+                void show(typed.trim())
+              }}
+            >
+              {text.useAddress}
+            </Button>
+          </div>
         </Field>
       )}
       {tried !== null && (

@@ -474,7 +474,11 @@ export const nlNL: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Een vrachtschip haalt zijn kleuren uit zijn thuissterrenstelsel. Typ die seed, of trek er een, om het in kleur te zien; leeg toont het zonder kleur.',
+      'Een vrachtschip haalt zijn kleuren uit zijn thuissterrenstelsel, en de seed van een stelsel is zijn adres in het sterrenstelsel. Typ de seed, trek er een of geef hieronder het portaaladres van het stelsel; leeg toont het vrachtschip zonder kleuren.',
+    homeAddress: 'Deze seed is het stelsel met portaaladres {glyphs} in sterrenstelsel {galaxy}.',
+    glyphsLabel: 'Portaaladres (12 glyphs als 0–9, A–F)',
+    galaxyLabel: 'Nummer van het sterrenstelsel',
+    useAddress: 'Dit stelsel gebruiken',
     seedHint: 'Zestien hexadecimale cijfers na 0x. Druk op Enter of Tonen om hem te zien.',
     show: 'Tonen',
     generate: 'Seed genereren',

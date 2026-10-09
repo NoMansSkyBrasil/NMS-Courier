@@ -105,6 +105,10 @@ For upgrade/product seed enumeration, package identifiers and native forward
 oracle design, read [the Pi assessment](PI_PROCEDURAL_ITEM_RESEARCH.md).
 Its version-specific upstream hooks are research clues, not current-build APIs.
 
+Seed questions ("what is this seed, where does the game get it") start at
+[where each seed comes from](SEED_ORIGINS.md); class field offsets of the
+executable come from `runtime/research/read-class-members.py`.
+
 ## Function lookup
 
 For 3D preview feasibility, NMSMV source and public image/seed comparisons, read

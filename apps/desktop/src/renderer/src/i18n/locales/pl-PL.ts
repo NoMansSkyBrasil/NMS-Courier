@@ -459,7 +459,11 @@ export const plPL: Messages = {
     },
     seedLabel: 'Ziarno',
     homeSeedHint:
-      'Frachtowiec bierze kolory ze swojego macierzystego układu gwiezdnego. Wpisz to ziarno albo wylosuj je, aby zobaczyć frachtowiec w kolorze; puste pole pokazuje go bez koloru.',
+      'Frachtowiec bierze kolory ze swojego macierzystego układu gwiezdnego, a ziarno układu to jego adres w galaktyce. Wpisz ziarno, wylosuj je albo podaj poniżej adres portalu układu; puste pole pokazuje frachtowiec bez kolorów.',
+    homeAddress: 'To ziarno to układ o adresie portalu {glyphs} w galaktyce {galaxy}.',
+    glyphsLabel: 'Adres portalu (12 glifów jako 0–9, A–F)',
+    galaxyLabel: 'Numer galaktyki',
+    useAddress: 'Użyj tego układu',
     seedHint: 'Szesnaście cyfr szesnastkowych po 0x. Naciśnij Enter lub Pokaż, aby je zobaczyć.',
     show: 'Pokaż',
     generate: 'Wygeneruj ziarno',

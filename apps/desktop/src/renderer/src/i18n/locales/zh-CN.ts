@@ -425,7 +425,11 @@ export const zhCN: Messages = {
     },
     seedLabel: '种子',
     homeSeedHint:
-      '货船的颜色来自其母星系。输入该种子或随机生成一个，即可查看带颜色的货船；留空则不带颜色显示。',
+      '货船的颜色来自其母星系，而星系的种子就是它在星系中的地址。输入种子、随机生成一个，或在下方填写该星系的传送门地址；留空则货船不带颜色显示。',
+    homeAddress: '此种子是星系 {galaxy} 中传送门地址为 {glyphs} 的星系。',
+    glyphsLabel: '传送门地址（12 个符文，0–9、A–F）',
+    galaxyLabel: '星系编号',
+    useAddress: '使用此星系',
     seedHint: '0x 后接十六位十六进制数字。按回车或“显示”查看。',
     show: '显示',
     generate: '生成种子',

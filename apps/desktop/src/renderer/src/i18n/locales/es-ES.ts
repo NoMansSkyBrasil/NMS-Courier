@@ -465,7 +465,12 @@ export const esES: Messages = {
     },
     seedLabel: 'Semilla',
     homeSeedHint:
-      'Un carguero toma sus colores de su sistema estelar de origen. Escribe esa semilla, o sortea una, para verlo en color; vacío lo muestra sin color.',
+      'Un carguero toma sus colores de su sistema estelar de origen, y la semilla de un sistema es su dirección en la galaxia. Escribe la semilla, sortea una o indica abajo la dirección de portal del sistema; vacío muestra el carguero sin colores.',
+    homeAddress:
+      'Esta semilla es el sistema con dirección de portal {glyphs} en la galaxia {galaxy}.',
+    glyphsLabel: 'Dirección de portal (12 glifos como 0–9, A–F)',
+    galaxyLabel: 'Número de galaxia',
+    useAddress: 'Usar este sistema',
     seedHint: 'Dieciséis dígitos hexadecimales después de 0x. Pulsa Intro o Mostrar para verla.',
     show: 'Mostrar',
     generate: 'Generar una semilla',

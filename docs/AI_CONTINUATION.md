@@ -1,5 +1,11 @@
 # AI continuation guide
 
+> Seed origins, 2026-10-08: [where each seed comes from](SEED_ORIGINS.md) is
+> the owning note for "what is this seed and how does the game get it". Done:
+> the freighter home system seed is the system's 52-bit universe address.
+> Next there: how a system's starships, multi-tools and freighter get their
+> model seeds; the owning class of each seed field.
+
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the
 > installation's own files (two screens, twenty types). Owner:
 > [model workshop](MODEL_WORKSHOP.md). Next there: compare one obtained

@@ -479,7 +479,12 @@ export const frFR: Messages = {
     },
     seedLabel: 'Graine',
     homeSeedHint:
-      'Un cargo tire ses couleurs de son système stellaire d’origine. Saisissez cette graine, ou tirez-en une, pour le voir en couleur ; vide l’affiche sans couleur.',
+      'Un cargo tire ses couleurs de son système stellaire d’origine, et la graine d’un système est son adresse dans la galaxie. Saisissez la graine, tirez-en une ou indiquez ci-dessous l’adresse de portail du système ; vide affiche le cargo sans couleurs.',
+    homeAddress:
+      'Cette graine est le système d’adresse de portail {glyphs} dans la galaxie {galaxy}.',
+    glyphsLabel: 'Adresse de portail (12 glyphes en 0–9, A–F)',
+    galaxyLabel: 'Numéro de galaxie',
+    useAddress: 'Utiliser ce système',
     seedHint: 'Seize chiffres hexadécimaux après 0x. Appuyez sur Entrée ou Afficher pour la voir.',
     show: 'Afficher',
     generate: 'Générer une graine',

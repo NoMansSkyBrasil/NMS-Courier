@@ -455,7 +455,11 @@ export const enUS: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'A freighter takes its colours from its home star system. Type that seed, or draw one, to see the freighter in colour; empty shows it without.',
+      'A freighter takes its colours from its home star system, and the seed of a system is its address in the galaxy. Type the seed, draw one, or give the portal address of the system below; empty shows the freighter without colours.',
+    homeAddress: 'This seed is the system with portal address {glyphs} in galaxy {galaxy}.',
+    glyphsLabel: 'Portal address (12 glyphs as 0–9, A–F)',
+    galaxyLabel: 'Galaxy number',
+    useAddress: 'Use this system',
     seedHint: 'Sixteen hexadecimal digits after 0x. Press Enter or Show to see it.',
     show: 'Show',
     generate: 'Generate a seed',

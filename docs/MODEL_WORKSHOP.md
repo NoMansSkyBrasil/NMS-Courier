@@ -1,6 +1,6 @@
 # Model workshop
 
-Status on 2026-10-08: **implemented in application 1.13.0, offline only.** The
+Status on 2026-10-08: **implemented in application 1.14.0, offline only.** The
 workshop reads the selected installation's own archives and never touches the
 running game, the bridge or a save. Nothing here was compared with the running
 game seed by seed yet.
@@ -210,6 +210,11 @@ drawn untinted. For the pirate freighter of 2026-10-06 (model seed
 ones the research recorded for that home seed (a test). Colours cannot be
 chosen for a freighter in Build: they do not depend on its own seed. A link
 carries the home seed as `home=`.
+
+The home seed is the system's address in the universe
+([where each seed comes from](SEED_ORIGINS.md#freighter-home-system-seed)), so
+the workshop shows the portal address and galaxy a home seed stands for and
+accepts a portal address with a galaxy number instead of the seed.
 
 ### Compared with an independent tool
 

@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-08: freighter home system seed traced to the system's address (application 1.14.0), offline
+
+Offline reading of the build 180836 executable (`13d5060d...cc3499`); no game
+process. Owning note: [where each seed comes from](SEED_ORIGINS.md). The owner
+asked what the home seed is and how to get it. Observed: the acceptance code
+copies it from `+0x2480` of the current solar system; the executable's field
+table names that field `Seed` of `cGcSolarSystemData`; the caller of the
+system generator at `62a343` masks a 64-bit value with `0xFFFFFFFFFFFFF` and
+passes it as that seed, and the generator stores it at `+0x2480`. So a home
+seed is the 52-bit address of the system. The owner's seed `0x175000B001FFD`
+reads as portal address `01750B001FFD`, galaxy 1. Rejected on the way:
+searching every code reference to displacement `0x2480` (dozens of unrelated
+objects use it); the field table answered it directly. Not proven: the bit
+order inside the address from the executable (taken from the community's
+portal convention), the second generator's caller, and anything live.
+New tool: `runtime/research/read-class-members.py`; new data table
+`runtime/research/seed-fields-180836.md` (122 fields named `...Seed...`).
+
 ## 2026-10-08: freighter colours from the home system seed in the workshop (application 1.13.0), offline
 
 Offline only; build 180836 files. Owning note:
