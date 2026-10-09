@@ -418,3 +418,46 @@ missing texture step:
 Rejected by rendering: the two halves of the body texture being swapped (a
 shift of half its width) gives large orange areas on top that the game does
 not have.
+
+## Legacy colours: the game's second palette generator (2026-10-09)
+
+The owner's idea, confirmed in the executable, in a save and on two tools.
+This replaces the "first child seed" rule of 1.16.1, which was wrong.
+
+A multi-tool's saved data has `UseLegacyColours` (true for all three
+procedural multi-tools of the owner's test save; false for the fixed reward
+tools). The flag travels from the multi-tool (`+0x281`) through the palette
+builder (`1149f50`) to the texture build job (`+0x1c9`), where `63a8ec`
+chooses the generator:
+
+| | Flag clear | Flag set (legacy colours) |
+| --- | --- | --- |
+| Routine | `62e2b0` | `630310` (per family `6305b0`) |
+| Palette file | `basecolourpalettes.mbin` | `legacybasecolourpalettes.mbin` |
+| Order | families 0 to 51, then redrawn and late families from child seeds | all 66 families in file order from one stream, then six redrawn from a child seed |
+| Cell of a sample | by the family's mode (five cases) | second step's top three bits, plus eight times the first's unless the mode is 3 |
+| A repeated colour | the next cell, no new draw | **drawn again with two more steps** while nearer than `DuplicateColourThreshold` (1.0, `gcenvironmentglobals`) to an earlier sample of the family; at most 64 draws |
+
+The two files hold the same Paint and Undercoat tables; they differ in the
+modes of earlier families. Because a redraw takes steps, every later family
+moves on the stream, so the same seed gives other colours. A threshold of 1.0
+keeps only colours far apart, which is why legacy palettes are contrasting.
+
+The seed is the multi-tool's own `Seed` (`+0x248`); its resource seed
+(`+0x218`) is used only when the first is not set (`5db8b6`).
+
+Checked on the two tools bought in the game, standard type:
+
+| Seed | Paint, first and fourth sample | Undercoat, first | In the game |
+| --- | --- | --- | --- |
+| `0x81E18111081140E1` | `#fbc85f`, `#ff9375` | `#cec8c1` | yellow grip, orange stripes, beige top housing |
+| `0xB46E55097073F0AA` | `#ec5f4f`, `#fbc85f` | `#dad7d0` | red body with its cyan counterpart, white and yellow stripes |
+
+`generateLegacyPalette` in
+`apps/desktop/src/main/nms-adapters/base-palette-preview.ts` is the port; a
+game-file test holds these colours. The beige top housing of the first tool,
+open until now, is its Undercoat under this generator.
+
+Not done: the same switch for starships (`ShipUsesLegacyColours` in the
+save, per ship); the six families the legacy generator redraws from a child
+seed (none is used by a starship or multi-tool layer).

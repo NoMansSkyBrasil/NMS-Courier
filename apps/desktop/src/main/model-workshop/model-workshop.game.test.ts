@@ -267,4 +267,33 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     expect(report.ships[1].scene).toBe(workshopKinds.freighter.capital)
     expect(report.ships[7].scene).toBe(workshopKinds.freighter.pirate)
   })
+
+  // Two multi-tools bought in the running game on 2026-10-09 and their colours as the game
+  // showed them: the first has a yellow grip and a beige coat, the second a red body.
+  it('draws a multi-tool with the legacy colours', () => {
+    const hex = (color: readonly number[]): string =>
+      '#' +
+      color
+        .slice(0, 3)
+        .map((value) =>
+          Math.round(value * 255)
+            .toString(16)
+            .padStart(2, '0')
+        )
+        .join('')
+    const colours = (seed: string): Record<string, string> => {
+      const result = service.build('multitool', 'standard', seed)
+      if (result.state !== 'built') throw new Error(JSON.stringify(result))
+      return Object.fromEntries(
+        result.colors.map((slot) => [`${slot.familyName} ${slot.sample}`, hex(slot.color)])
+      )
+    }
+    const first = colours('0x81E18111081140E1')
+    expect(first['Paint 0']).toBe('#fbc85f')
+    expect(first['Paint 3']).toBe('#ff9375')
+    expect(first['Undercoat 0']).toBe('#cec8c1')
+    const second = colours('0xB46E55097073F0AA')
+    expect(second['Paint 0']).toBe('#ec5f4f')
+    expect(second['Paint 3']).toBe('#fbc85f')
+  })
 })

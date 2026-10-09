@@ -1,5 +1,31 @@
 # Runtime experiment log
 
+## 2026-10-09: second multi-tool; legacy colours found; third system
+
+Live reading, then offline. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0
+(`b4950c6e...41f8`) reporting the system, process 13604, slot 3 (the owner
+exported the save of that slot and sent screenshots). The owner bought a
+multi-tool at a planet's weapon terminal by hand; nothing was sent by the
+application. Memory was read with the research tooling; the save file was
+read, not written. Owning notes:
+[seed origins](SEED_ORIGINS.md#third-system-and-a-second-multi-tool-2026-10-09),
+[model workshop](MODEL_WORKSHOP.md#legacy-colours-the-games-second-palette-generator-2026-10-09).
+
+Observed: system `0x00007900F669E14B`, first ship after 950 steps, emulator
+identical; tool seed `0xB46E55097073F0AA` equal to the first planet's seed;
+the workshop's shape equal to the game's; `UseLegacyColours` true in the
+save; the flag's path in the executable to a second palette generator.
+
+Changed: application 1.17.3 draws multi-tool palettes with that generator.
+Both tools rendered and compared with the owner's screenshots: colours agree.
+
+Rejected: the first child seed as a multi-tool's palette seed (fitted the
+first tool only); the tool's seed with the first generator and shifted
+samples; the mixed seed.
+
+Not proven: the origin of a station's multi-tool seed; legacy colours for
+starships; unpainted metal is still lit plainly.
+
 ## 2026-10-09: the surface shader read; two differences on the multi-tool remain
 
 Offline, game closed. Build 180836 shaders: the 704 variants of

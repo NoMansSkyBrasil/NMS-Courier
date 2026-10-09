@@ -28,6 +28,17 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.17.3 (2026-10-09)
+
+- Fixed: multi-tool colours. Multi-tools are marked to use the game's legacy
+  colours, which the game draws with a second palette generator from its
+  legacy palette file; the workshop now does the same, with the tool's own
+  seed. The rule of 1.16.1 (first child seed) was wrong: it fitted one tool
+  by chance and failed on the second. Both tools bought in the game now come
+  out in the game's colours (yellow grip and beige coat; red and cyan body
+  with white and yellow stripes).
+- Bridge unchanged (1.8.0).
+
 ## Application 1.17.2 (2026-10-09)
 
 - Fixed: the two inputs of the game's layer shader that were still guessed

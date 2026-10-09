@@ -16,11 +16,11 @@ import type {
 import { validatePreviewGlb } from '../model-preview-import'
 import {
   familyNames,
-  childSeed,
   generateBasePalette,
-  seedState,
+  generateLegacyPalette,
   leadingPaletteSamples,
-  readBasePalette
+  readBasePalette,
+  readLegacyPalette
 } from '../nms-adapters/base-palette-preview'
 import type { Family } from '../nms-adapters/base-palette-preview'
 import {
@@ -54,6 +54,7 @@ import type { SelectedTexture } from './texture-selection'
 
 const seedPattern = /^0x[0-9a-f]{1,16}$/i
 const palettePath = 'metadata/simulation/solarsystem/colours/basecolourpalettes.mbin'
+const legacyPalettePath = 'metadata/simulation/solarsystem/colours/legacybasecolourpalettes.mbin'
 // A search tries random seeds in slices, so the application stays responsive; it stops at
 // whichever limit comes first.
 const searchTries = 8_000_000
@@ -98,11 +99,11 @@ function sampleOf(channel: number): number | null {
   return channel < 6 ? Math.min(channel, 3) : null
 }
 
-// The seed a model's palette is drawn with. A starship draws it with its own seed. A multi-tool
-// draws it with the first child seed of its own, while its texture layers still follow its own
-// seed: seen on one tool bought in the game (docs/MODEL_WORKSHOP.md).
-function paletteSeedOf(category: string, seed: bigint): bigint {
-  return category === 'multitool' ? childSeed(seedState(seed))[1] : seed
+// Multi-tools are marked to use the legacy colours (`UseLegacyColours` in their saved data): the
+// game draws their palette with its second generator from its legacy palette file. Seen on two
+// tools bought in the game (docs/MODEL_WORKSHOP.md).
+function usesLegacyColours(category: string): boolean {
+  return category === 'multitool'
 }
 
 // The texture side of a model for one seed: the lists in walk order, the seed's choices, and the
@@ -116,6 +117,7 @@ type Texturing = {
 
 export class ModelWorkshopService {
   private palette: Family[] | null = null
+  private legacyPalette: Family[] | null = null
   // The newest search; an older one stops as soon as it notices.
   private search = 0
   // Textures the interface may ask for: those the last built model is painted with.
@@ -157,12 +159,28 @@ export class ModelWorkshopService {
     }
   }
 
-  private families(): Family[] | null {
+  private families(legacy = false): Family[] | null {
+    if (legacy) {
+      if (!this.legacyPalette) {
+        const data = this.files.read(legacyPalettePath)
+        this.legacyPalette = data ? readLegacyPalette(data) : null
+      }
+      return this.legacyPalette
+    }
     if (!this.palette) {
       const data = this.files.read(palettePath)
       this.palette = data ? readBasePalette(data) : null
     }
     return this.palette
+  }
+
+  // The five samples of every family for a seed, by the generator the kind of model uses.
+  private samples(seed: bigint, families: Family[], legacy: boolean): Family['colors'][] {
+    return legacy
+      ? generateLegacyPalette(seed, families)
+      : generateBasePalette(seed, families).families.map((family) =>
+          family.colors.map((color) => color.rgba)
+        )
   }
 
   private textureList(path: string): TextureList | null {
@@ -295,12 +313,11 @@ export class ModelWorkshopService {
           ? BigInt(colorSeed)
           : freighter
             ? null
-            : paletteSeedOf(String(category), value)
-      const families = paletteSeed === null ? null : this.families()
+            : value
+      const legacy = usesLegacyColours(String(category))
+      const families = paletteSeed === null ? null : this.families(legacy)
       const samples =
-        families && paletteSeed !== null
-          ? generateBasePalette(paletteSeed, families).families
-          : null
+        families && paletteSeed !== null ? this.samples(paletteSeed, families, legacy) : null
       const colors: WorkshopColorSlot[] = []
       const surfaces: WorkshopSurface[] = []
       for (const surface of sceneSurfaces) {
@@ -314,9 +331,7 @@ export class ModelWorkshopService {
           if (!option || !option.texture.endsWith('.dds')) continue
           const sample = sampleOf(option.channel)
           const rgba =
-            samples && families && sample !== null
-              ? samples[option.family]?.colors[sample]?.rgba
-              : undefined
+            samples && families && sample !== null ? samples[option.family]?.[sample] : undefined
           if (rgba && families && sample !== null) {
             if (!colors.some((slot) => slot.family === option.family && slot.sample === sample)) {
               colors.push({
@@ -348,8 +363,7 @@ export class ModelWorkshopService {
             if (layer.options.length !== 1 || !layer.options[0].texture.endsWith('.dds')) continue
             const option = layer.options[0]
             const sample = sampleOf(option.channel)
-            const rgba =
-              samples && sample !== null ? samples[option.family]?.colors[sample]?.rgba : undefined
+            const rgba = samples && sample !== null ? samples[option.family]?.[sample] : undefined
             over.push({
               texture: option.texture,
               tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null,
@@ -375,7 +389,7 @@ export class ModelWorkshopService {
         for (const layer of list.layers) {
           for (const option of layer.options) {
             const sample = sampleOf(option.channel)
-            const rgba = sample === null ? undefined : samples![option.family]?.colors[sample]?.rgba
+            const rgba = sample === null ? undefined : samples![option.family]?.[sample]
             if (
               rgba &&
               sample !== null &&
@@ -544,7 +558,9 @@ export class ModelWorkshopService {
     try {
       const resolve = this.lists()
       const root = resolve(scene)
-      const families = colors.length && String(category) !== 'freighter' ? this.families() : null
+      const legacy = usesLegacyColours(String(category))
+      const families =
+        colors.length && String(category) !== 'freighter' ? this.families(legacy) : null
       if (!root || (colors.length && !families)) {
         return { state: 'failed', reason: 'GAME_FILES_UNREADABLE' }
       }
@@ -576,12 +592,11 @@ export class ModelWorkshopService {
             selectedIds = selection.selectedIds
           }
           if (families) {
-            const paletteSeed = paletteSeedOf(String(category), seed)
-            const drawn = early
-              ? leadingPaletteSamples(paletteSeed, families, highest + 1)
-              : generateBasePalette(paletteSeed, families).families.map((family) =>
-                  family.colors.map((color) => color.rgba)
-                )
+            const drawn = legacy
+              ? generateLegacyPalette(seed, families)
+              : early
+                ? leadingPaletteSamples(seed, families, highest + 1)
+                : this.samples(seed, families, false)
             if (
               colors.some((entry) => !sameColor(drawn[entry.family][entry.sample], entry.color))
             ) {

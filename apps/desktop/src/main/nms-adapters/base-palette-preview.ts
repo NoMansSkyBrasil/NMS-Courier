@@ -142,9 +142,21 @@ function distance(left: PreviewColor, right: PreviewColor): number {
 
 // The families of the game's base palette file, or null when the bytes are not that file.
 export function readBasePalette(bytes: Buffer): Family[] | null {
+  return readPaletteFile(bytes, basePaletteHash)
+}
+
+// The game's second palette file, used for things marked to use the legacy colours
+// (metadata/simulation/solarsystem/colours/legacybasecolourpalettes.mbin of build 180836).
+export const legacyPaletteHash = '5a2f5cfd3ba90f0344d628cf251a596d8c6ea9ffc66176bbb0af29f2d69bd02b'
+
+export function readLegacyPalette(bytes: Buffer): Family[] | null {
+  return readPaletteFile(bytes, legacyPaletteHash)
+}
+
+function readPaletteFile(bytes: Buffer, hash: string): Family[] | null {
   if (
     bytes.length !== basePaletteBytes ||
-    createHash('sha256').update(bytes).digest('hex') !== basePaletteHash
+    createHash('sha256').update(bytes).digest('hex') !== hash
   )
     return null
   return familyNames.map((_, index) => {
@@ -159,6 +171,38 @@ export function readBasePalette(bytes: Buffer): Family[] | null {
           ) as PreviewColor
       )
     }
+  })
+}
+
+// The five samples of every family the way the game draws them for something marked to use the
+// legacy colours (a multi-tool's `UseLegacyColours`): its second palette generator, read in the
+// executable of build 180836 (routines 630310 and 6305b0; docs/MODEL_WORKSHOP.md). The families
+// are taken in file order from one stream. A sample is two steps: the cell is the second step's
+// top three bits, plus eight times the first's unless the family's mode is 3. A sample nearer
+// than the game's `DuplicateColourThreshold` (1.0 in gcenvironmentglobals) to an earlier sample
+// of its family is drawn again with two more steps, at most 64 draws; the 64th is kept as it is.
+// Only the families of the file's own order are given; the game goes on to redraw six of them
+// from a child seed, which no starship or multi-tool layer uses.
+export function generateLegacyPalette(seed: bigint, families: Family[]): PreviewColor[][] {
+  if (seed < 0n || seed > mask64 || families.length !== 66)
+    throw new Error('Invalid palette input.')
+  const threshold = 1
+  let state = seedState(seed)
+  return families.map((family) => {
+    const chosen: PreviewColor[] = []
+    for (let slot = 0; slot < 5; slot++) {
+      let color = family.colors[0]
+      for (let attempt = 0; attempt < 64; attempt++) {
+        const first = advance(state)
+        state = advance(first)
+        const cell = family.mode === 3 ? state[0] >>> 29 : (state[0] >>> 29) + (first[0] >>> 29) * 8
+        color = family.colors[cell]
+        if (!chosen.some((other) => threshold > Math.fround(Math.sqrt(distance(other, color)))))
+          break
+      }
+      chosen.push(color)
+    }
+    return chosen
   })
 }
 

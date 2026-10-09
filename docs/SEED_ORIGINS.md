@@ -456,6 +456,26 @@ The ship list fields, in their names and ours: the owner (`role`: frigates 0,
 traders 1, pirates 2, police 3, swarm 5) is our `faction`; the kind
 (`ai`: 0 ship, 2 to 5 freighter sizes, 6 frigate) is our `shipRole`.
 
+### Third system and a second multi-tool, 2026-10-09
+
+Live, read only, process 13604, slot 3 (the owner also exported the save,
+which names the same tools). System `0x00007900F669E14B`: fifty ships, first
+ship after **950** steps; the emulated generator gives the same fifty.
+
+The owner bought a multi-tool at a weapon terminal on a planet. Its seed is
+`0xB46E55097073F0AA`, **the seed of that system's first planet**. So a
+terminal on a planet offers the tool whose seed is the planet's seed; the
+tool of a space station (`0x81E18111081140E1` in the second system) is not a
+planet seed of its system and its origin is still open.
+
+The workshop builds the same rifle for that seed (second shape checked
+against the game). The colours led to the legacy palette generator:
+[model workshop](MODEL_WORKSHOP.md#legacy-colours-the-games-second-palette-generator-2026-10-09).
+
+From the save: a multi-tool keeps `Seed`, an empty resource seed,
+`UseLegacyColours`, `IsLarge` and an inventory layout seed
+(`0xC7B6373732855389` for this tool, `0x1` for the older ones).
+
 ### Next step, bounded
 
 The draws are listed (above). The next piece of the hand port is the number
