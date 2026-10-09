@@ -264,6 +264,9 @@ export const esES: Messages = {
     equipSceneHint:
       'Opcional. La escena del juego del modelo del carguero; vacío mantiene la elección del propio juego.',
     equipModelSeed: 'Semilla del modelo',
+    equipLegacyColours: 'Usar colores antiguos',
+    equipLegacyColoursHint:
+      'Marca la multiherramienta para usar los colores antiguos, como las que entrega el juego. La oferta del juego no tiene esta opción, así que el puente escribe la marca en el arma justo después de que la aceptes; la pantalla de oferta sigue mostrando los otros colores.',
     equipHomeSeed: 'Semilla del sistema de origen',
     currencyAmountHint: 'Cualquier cantidad de 1 a {max}, el mayor saldo que conserva el juego.',
     itemsStack: 'Pila de {count}',

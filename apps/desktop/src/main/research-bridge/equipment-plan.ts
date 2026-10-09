@@ -41,6 +41,8 @@ export type EquipmentRequest = {
   scene: string
   modelSeed: string
   homeSeed: string
+  // A new multi-tool only: mark it to use the game's legacy colours once the offer is accepted.
+  legacyColours?: boolean
 }
 
 const classes = ['C', 'B', 'A', 'S']
@@ -99,7 +101,9 @@ function obtain(
           lines: [
             `model=${request.model}`,
             `seed=0x${seed.slice(2).toUpperCase()}`,
-            `class=${request.itemClass.toLowerCase()}`
+            `class=${request.itemClass.toLowerCase()}`,
+            // Bridge 1.9.0 onwards; an older bridge rejects a request with this line.
+            ...(kind === 'weapon' && request.legacyColours === true ? ['legacy=1'] : [])
           ]
         },
         signals: [kind],

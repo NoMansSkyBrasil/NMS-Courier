@@ -3,14 +3,20 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.8.0'
+export const bridgeVersion = '1.9.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
 // An older bridge is recognised and named, and the application asks for it to be updated.
 // 1.5.0 looks for the reward entries under their new names (COURIER_*), which is what the data
 // file this application checks contains.
-export const compatibleBridgeVersions: readonly string[] = ['1.5.0', '1.6.0', '1.7.0', '1.8.0']
+export const compatibleBridgeVersions: readonly string[] = [
+  '1.5.0',
+  '1.6.0',
+  '1.7.0',
+  '1.8.0',
+  '1.9.0'
+]
 
 // null: a build from before versions existed. It still works for the requests it has.
 export const bridgeReleases: Readonly<Record<string, string | null>> = {
@@ -39,5 +45,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // 1.7.0 (2026-10-08): three more starship kinds: exotic, living and interceptor.
   '7b8a83be1228e415acce726c11f7424526c961af3aee9c0182f63073505e0509': '1.7.0',
   // 1.8.0 (2026-10-08): reports the seed of the current star system and its ships (read only).
-  b4950c6eb5ca14b38d5f49f3605c83d301908561b2f60529c1fb2a4f317041f8: '1.8.0'
+  b4950c6eb5ca14b38d5f49f3605c83d301908561b2f60529c1fb2a4f317041f8: '1.8.0',
+  // 1.9.0 (2026-10-09): a multi-tool request may ask for the legacy colours; the flag is written
+  // on the owned record once the offered tool is accepted (a direct write, not a native call).
+  bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794: '1.9.0'
 }

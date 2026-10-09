@@ -24,5 +24,13 @@ static obtain_domain multitool_obtain = {
     .type_offset = 0x1bc,
     .models = multitool_obtain_models,
     .model_count = sizeof(multitool_obtain_models) / sizeof(multitool_obtain_models[0]),
-    .model = -1
+    .model = -1,
+    // The owned multi-tool records (multitool_inventory.h) keep the seed and the legacy colours
+    // flag: the game copies the saved Seed to +0x2b0 and UseLegacyColours to +0x2ad (5517ae).
+    .record_offset = OWNED_WEAPON_OFFSET,
+    .record_stride = OWNED_WEAPON_STRIDE,
+    .record_count = OWNED_WEAPON_SLOTS,
+    .record_seed_offset = 0x2b0,
+    .record_legacy_offset = 0x2ad,
+    .legacy = -1
 };

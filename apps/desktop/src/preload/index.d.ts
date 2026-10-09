@@ -179,6 +179,7 @@ declare global {
         scene: string
         modelSeed: string
         homeSeed: string
+        legacyColours?: boolean
       }) => Promise<DeliveryResult>
       deliverCurrency: (request: {
         currency: string

@@ -279,3 +279,34 @@ until they are repeated.
 - In-place class rewards and silent grid changes:
   [owned inventory upgrade notes](OWNED_INVENTORY_UPGRADE_NOTES.md).
 - Every run, with build and DLL hashes: [experiment log](EXPERIMENT_LOG.md).
+
+## Legacy colours of a new multi-tool (bridge 1.9.0)
+
+The multi-tool request (`native-weapon-request-180836-<PID>.txt`) may hold one
+more line, `legacy=1` (or `legacy=0`). The result file gains a line
+`legacy=1`, `legacy=0` or `legacy=not_asked`.
+
+This part is **a direct write, not a native call**: the game's specific-weapon
+reward has no legacy colours field. After the offer is given, the bridge
+checks the six owned multi-tool records on the game thread every frame, for
+about ten minutes (36,000 frames). When a record holds the requested seed
+with its in-use byte set, it writes one byte, the record's legacy colours
+flag (`+0x2ad`; the seed is at `+0x2b0`), and stops. It then writes
+`native-weapon-legacy-180836-<PID>.txt`:
+
+```text
+seed=0x<seed>
+legacy=<0 or 1>
+result=written | not_found
+slot=<record number, or -1>
+```
+
+The layout comes from the executable: the routine that loads a save copies
+`UseLegacyColours` to `+0x2ad` and `Seed` to `+0x2b0` of each record
+(`5517ae`). It changes the loaded slot only. To undo: load the save from
+before, or send the same tool again with the other value. Not exercised in
+the running game when written; whether the tool in the hand changes colour at
+once or only after it is drawn again is not known.
+
+The starship request does not take the line: where the running game keeps a
+ship's mark (`ShipUsesLegacyColours` in the save) is not found.

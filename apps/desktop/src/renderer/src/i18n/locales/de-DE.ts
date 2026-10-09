@@ -276,6 +276,9 @@ export const deDE: Messages = {
     equipSceneHint:
       'Optional. Die Spielszene des Frachtermodells; leer bleibt es bei der Wahl des Spiels.',
     equipModelSeed: 'Modell-Seed',
+    equipLegacyColours: 'Alte Farben verwenden',
+    equipLegacyColoursHint:
+      'Markiert das Multi-Werkzeug für die alten Farben, wie die vom Spiel vergebenen. Das Angebot des Spiels hat dafür keine Einstellung, daher schreibt die Brücke die Markierung direkt nach deiner Annahme auf das Werkzeug; der Angebotsbildschirm zeigt noch die anderen Farben.',
     equipHomeSeed: 'Seed des Heimatsystems',
     currencyAmountHint:
       'Jeder Betrag von 1 bis {max}, dem größten Guthaben, das das Spiel speichert.',

@@ -258,6 +258,9 @@ export const jaJP: Messages = {
     equipScene: 'モデル',
     equipSceneHint: '任意。貨物船モデルのゲームシーン。空欄の場合はゲームの選択のままです。',
     equipModelSeed: 'モデルのシード',
+    equipLegacyColours: '旧カラーを使用',
+    equipLegacyColoursHint:
+      'ゲームが渡すマルチツールと同じように、旧カラーを使うよう指定します。ゲームのオファーにはこの設定がないため、受け取った直後にブリッジがツールへ指定を書き込みます。オファー画面には別の色が表示されたままです。',
     equipHomeSeed: '母星系のシード',
     currencyAmountHint: '1 から {max}（ゲームが保持できる最大残高）までの任意の金額。',
     itemsStack: 'スタック {count}',

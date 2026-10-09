@@ -17,7 +17,9 @@
 > station multi-tool, seed `0x81E18111081140E1`, has the shape the workshop
 > builds; multi-tools use the legacy palette generator (application 1.17.3,
 > two tools agree with the game); a planet terminal's tool has the planet's
-> seed, a station's tool origin unknown; the ships of
+> seed, a station's tool origin unknown; bridge 1.9.0 (installed, not
+> exercised live) marks a new multi-tool for legacy colours by a direct
+> write after the offer is accepted; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

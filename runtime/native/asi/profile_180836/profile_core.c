@@ -146,6 +146,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&currency_state, 0, 0) == 1) currency_apply_request();
     if (InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1) obtain_apply_request(&ship_obtain);
     if (InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1) obtain_apply_request(&multitool_obtain);
+    obtain_legacy_tick(&multitool_obtain);
     item_limits_tick();
     star_system_tick();
     account_keep_tick();
@@ -330,6 +331,7 @@ void courier_probe_after_verified(void) {
         currency_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
+        obtain_write_legacy(&multitool_obtain);
         account_keep_write_status();
         if (signaled == WAIT_TIMEOUT) {
             // A request written by the application is handled as the event of the same name.

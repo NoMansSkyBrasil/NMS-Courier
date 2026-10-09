@@ -107,6 +107,17 @@ Multi-tools not offered yet: the game's multi-tool pool table
 `Sentinel` with `SENTINELMULTITOOL` and `Atlas` with `ATLASMULTITOOL`. No
 shipped reward uses them and the stat class each needs is not confirmed.
 
+## Legacy colours (2026-10-09, bridge 1.9.0)
+
+Multi-tools the game hands out are marked `UseLegacyColours` and coloured by
+the game's second palette generator ([model workshop](MODEL_WORKSHOP.md#legacy-colours-the-games-second-palette-generator-2026-10-09)).
+A tool got through the specific-weapon reward is not marked (the owner's
+reward tools have it false), and the reward has no field for it. So the
+request's `legacy=1` is carried out by a direct write of the owned record's
+flag after the offer is accepted
+([live bridge operations](LIVE_BRIDGE_OPERATIONS.md#legacy-colours-of-a-new-multi-tool-bridge-190)).
+Not exercised live. Starships: not available.
+
 ## Not proven, and open
 
 - For the exotic, living and interceptor kinds specifically: whether the game

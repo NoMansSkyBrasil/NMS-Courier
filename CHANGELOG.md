@@ -28,6 +28,23 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.19.0 and bridge 1.9.0 (2026-10-09)
+
+Bridge 1.9.0, SHA-256 `bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794`.
+
+- New: getting a multi-tool can mark it to use the legacy colours. The game's
+  reward has no such setting, so the bridge **writes** the mark on the owned
+  multi-tool record once the offered tool is accepted (a direct write of one
+  byte, not a native call), and says in a file whether it did. The game's
+  offer screen still shows the other colours. Not exercised in the running
+  game yet.
+- New: "Get this one in the game" in the model workshop also for multi-tools
+  (the standard scene and the staff); it carries the seed and the legacy
+  colours choice to the multi-tool page, where the option is a switch, on by
+  default.
+- Not for starships yet: where the running game keeps a ship's legacy mark is
+  not found.
+
 ## Application 1.18.0 (2026-10-09)
 
 - New: a "Use legacy colours" choice in the model workshop, for starships and

@@ -272,6 +272,9 @@ export const frFR: Messages = {
     equipSceneHint:
       'Facultatif. La scène du jeu du modèle de cargo ; vide, le jeu fait son propre choix.',
     equipModelSeed: 'Graine du modèle',
+    equipLegacyColours: 'Utiliser les anciennes couleurs',
+    equipLegacyColoursHint:
+      'Marque le multi-outil pour utiliser les anciennes couleurs, comme ceux que le jeu remet. L’offre du jeu n’a pas ce réglage ; la passerelle écrit donc la marque sur l’outil juste après votre acceptation ; l’écran d’offre montre encore les autres couleurs.',
     equipHomeSeed: 'Graine du système d’origine',
     currencyAmountHint:
       'N’importe quel montant de 1 à {max}, le plus grand solde que le jeu conserve.',

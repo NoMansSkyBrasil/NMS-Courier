@@ -127,7 +127,9 @@ export function EquipmentCard({
   const handedKind = handed.get('kind') ?? ''
   const [model, setModel] = useState<string>(
     area === 'multitools'
-      ? toolModels[0]
+      ? (toolModels as readonly string[]).includes(handedKind)
+        ? handedKind
+        : toolModels[0]
       : (shipModels as readonly string[]).includes(handedKind)
         ? handedKind
         : shipModels[0]
@@ -136,6 +138,8 @@ export function EquipmentCard({
     /^0x[0-9a-f]{1,16}$/i.test(handed.get('seed') ?? '') ? (handed.get('seed') as string) : ''
   )
   const [homeSeed, setHomeSeed] = useState('')
+  // Multi-tools the game hands out use the legacy colours; the workshop may hand over its choice.
+  const [legacyColours, setLegacyColours] = useState(handed.get('legacy') !== '0')
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)
@@ -172,7 +176,8 @@ export function EquipmentCard({
           model,
           scene: scene.trim(),
           modelSeed: modelSeed.trim(),
-          homeSeed: homeSeed.trim()
+          homeSeed: homeSeed.trim(),
+          legacyColours: area === 'multitools' && legacyColours
         })
       )
     } finally {
@@ -370,6 +375,19 @@ export function EquipmentCard({
                   onChange={(event) => setModelSeed(event.target.value)}
                 />
               </Field>
+              {area === 'multitools' && (
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldLabel htmlFor="equipment-legacy">{text.equipLegacyColours}</FieldLabel>
+                    <FieldDescription>{text.equipLegacyColoursHint}</FieldDescription>
+                  </FieldContent>
+                  <Switch
+                    id="equipment-legacy"
+                    checked={legacyColours}
+                    onCheckedChange={setLegacyColours}
+                  />
+                </Field>
+              )}
             </>
           )}
           {area === 'freighters' && action === 'offer' && (

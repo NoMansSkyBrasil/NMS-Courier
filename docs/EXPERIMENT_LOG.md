@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.9.0 built and installed; legacy colours on a new multi-tool
+
+No live action. Build 180836 (`13d5060d...cc3499`), game closed (checked in
+the process list). Bridge 1.9.0 built
+(`bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794`), the fixture passed, and the file was installed in the game folder in
+place of 1.8.0 (`b4950c6e...41f8`, kept under `native-builds/bridge-1.8.0`).
+Data file unchanged (`2f55b139...37d6`). Application 1.19.0. Owning notes:
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#legacy-colours-2026-10-09-bridge-190),
+[live bridge operations](LIVE_BRIDGE_OPERATIONS.md#legacy-colours-of-a-new-multi-tool-bridge-190).
+
+What it adds: a multi-tool request with `legacy=1`; after the offer the
+bridge writes the legacy colours flag of the owned record that holds the
+seed (a direct write). To undo the installation: copy the 1.8.0 file back.
+
+Not proven: everything live. The request, the write, and the tool's colours
+after it were not exercised; the first live test is to be done from the
+application's multi-tool page with the test slot.
+
 ## 2026-10-09: second multi-tool; legacy colours found; third system
 
 Live reading, then offline. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0

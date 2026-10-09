@@ -258,6 +258,9 @@ export const enUS: Messages = {
     equipSceneHint:
       'Optional. The game scene of the freighter model; empty keeps the game’s own choice.',
     equipModelSeed: 'Model seed',
+    equipLegacyColours: 'Use legacy colours',
+    equipLegacyColoursHint:
+      'Marks the multi-tool to use the legacy colours, as the tools the game hands out are. The game has no setting for this in its offer, so the bridge writes the mark on the tool right after you accept it; the offer screen still shows the other colours.',
     equipHomeSeed: 'Home system seed',
     currencyAmountHint: 'Any amount from 1 to {max}, the largest balance the game keeps.',
     itemsStack: 'Stack of {count}',

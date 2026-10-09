@@ -26,5 +26,6 @@ static obtain_domain ship_obtain = {
     .type_offset = 0x248,
     .models = ship_obtain_models,
     .model_count = sizeof(ship_obtain_models) / sizeof(ship_obtain_models[0]),
-    .model = -1
+    .model = -1,
+    .legacy = -1
 };

@@ -262,6 +262,9 @@ export const plPL: Messages = {
     equipSceneHint:
       'Opcjonalnie. Scena gry z modelem frachtowca; puste pole pozostawia wybór grze.',
     equipModelSeed: 'Ziarno modelu',
+    equipLegacyColours: 'Użyj starych kolorów',
+    equipLegacyColoursHint:
+      'Oznacza multinarzędzie do użycia starych kolorów, tak jak te wydawane przez grę. Oferta gry nie ma takiego ustawienia, więc most zapisuje oznaczenie na narzędziu zaraz po przyjęciu oferty; ekran oferty nadal pokazuje inne kolory.',
     equipHomeSeed: 'Ziarno układu macierzystego',
     currencyAmountHint:
       'Dowolna kwota od 1 do {max}, czyli największego salda, jakie przechowuje gra.',

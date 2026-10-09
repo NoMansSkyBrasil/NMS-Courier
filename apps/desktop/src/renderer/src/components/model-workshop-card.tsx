@@ -273,6 +273,14 @@ function WorkshopModel({
   const [glyphs, setGlyphs] = useState('')
   const [galaxy, setGalaxy] = useState('1')
   const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
+  // Where the seed can be got in the game: any starship type; of the multi-tools the standard
+  // scene (the game's pistol, rifle, experimental and alien tools) and the staff.
+  const getLink =
+    category === 'starship'
+      ? `#starships/obtain?kind=${kind}&seed=${encodeURIComponent(typed.trim())}`
+      : category === 'multitool' && (kind === 'standard' || kind === 'staff')
+        ? `#multitools/obtain?kind=${kind === 'staff' ? 'staff' : 'pistol'}&seed=${encodeURIComponent(typed.trim())}&legacy=${legacy ? 1 : 0}`
+        : null
   // The star system a typed ship seed was drawn in, when it has one.
   const origin = useMemo(() => {
     if (category === 'multitool' || !/^0x[0-9a-f]{16}$/i.test(typed.trim())) return null
@@ -533,15 +541,8 @@ function WorkshopModel({
               {text.clearParts}
             </Button>
           )}
-          {category === 'starship' && model && seedValid && (
-            <Button
-              variant="outline"
-              render={
-                <a
-                  href={`#starships/obtain?kind=${kind}&seed=${encodeURIComponent(typed.trim())}`}
-                />
-              }
-            >
+          {getLink && model && seedValid && (
+            <Button variant="outline" render={<a href={getLink} />}>
               <SendIcon data-icon="inline-start" />
               {text.getInGame}
             </Button>

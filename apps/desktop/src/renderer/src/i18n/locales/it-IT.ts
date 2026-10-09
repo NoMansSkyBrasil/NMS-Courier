@@ -271,6 +271,9 @@ export const itIT: Messages = {
     equipSceneHint:
       'Facoltativo. La scena di gioco del modello del mercantile; vuoto mantiene la scelta del gioco.',
     equipModelSeed: 'Seme del modello',
+    equipLegacyColours: 'Usa i colori precedenti',
+    equipLegacyColoursHint:
+      'Contrassegna il multi-attrezzo per usare i colori precedenti, come quelli che il gioco consegna. L’offerta del gioco non ha questa opzione, quindi il ponte scrive il contrassegno sull’attrezzo subito dopo che l’hai accettato; la schermata dell’offerta mostra ancora gli altri colori.',
     equipHomeSeed: 'Seme del sistema di origine',
     currencyAmountHint: 'Qualsiasi importo da 1 a {max}, il saldo massimo che il gioco conserva.',
     itemsStack: 'Pila da {count}',

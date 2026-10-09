@@ -195,6 +195,8 @@ export type Messages = {
     equipScene: string
     equipSceneHint: string
     equipModelSeed: string
+    equipLegacyColours: string
+    equipLegacyColoursHint: string
     equipHomeSeed: string
     currencyAmountHint: string
     itemsStack: string

@@ -246,6 +246,9 @@ export const zhTW: Messages = {
     equipScene: '模型',
     equipSceneHint: '選填。貨船模型的遊戲場景；留空則保留遊戲自己的選擇。',
     equipModelSeed: '模型種子',
+    equipLegacyColours: '使用舊版顏色',
+    equipLegacyColoursHint:
+      '將多功能工具標記為使用舊版顏色，與遊戲發放的工具一樣。遊戲的報價中沒有這個設定，因此橋接會在你接受後立即把標記寫到工具上；報價畫面仍顯示另一組顏色。',
     equipHomeSeed: '母星系種子',
     currencyAmountHint: '1 到 {max}（遊戲能保存的最大餘額）之間的任意數額。',
     itemsStack: '每疊 {count}',

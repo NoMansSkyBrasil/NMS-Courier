@@ -246,6 +246,9 @@ export const zhCN: Messages = {
     equipScene: '模型',
     equipSceneHint: '可选。货船模型的游戏场景；留空则保留游戏自己的选择。',
     equipModelSeed: '模型种子',
+    equipLegacyColours: '使用旧版颜色',
+    equipLegacyColoursHint:
+      '将多功能工具标记为使用旧版颜色，与游戏发放的工具一样。游戏的报价中没有这个设置，因此桥接会在你接受后立即把标记写到工具上；报价界面仍显示另一组颜色。',
     equipHomeSeed: '母星系种子',
     currencyAmountHint: '1 到 {max}（游戏能保存的最大余额）之间的任意数额。',
     itemsStack: '每堆 {count}',
