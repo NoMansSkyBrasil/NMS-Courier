@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.20.3 and bridge 1.13.0 (2026-10-09)
+
+Bridge 1.13.0, SHA-256 `cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2`.
+
+- Fixed: the offer still came with the standard colours. The two
+  instructions changed since 1.10.0 are on a branch the reward does not
+  take; the reward loads the offered model through the game's scene loader,
+  whose legacy colours argument is written at a third place (`0x8e5c7e`).
+  That place is now changed too. Not exercised in the running game yet.
+- Fixed: after switching back to the game, an offer that opened before the
+  first click had no cursor. The offer now also waits until the game holds
+  the mouse (the system's arrow is hidden), not only until its window is in
+  front.
+
 ## Application 1.20.2 and bridge 1.12.0 (2026-10-09)
 
 Bridge 1.12.0, SHA-256 `50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0`.

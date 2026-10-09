@@ -321,7 +321,9 @@ expected bytes or neither is touched. This is not a native call and not a
 data write; it is a temporary code change on the game thread. From bridge
 1.12.0 the bytes are not restored right after the call but when the watch
 for the accepted tool ends (mark written, or 36,000 frames), because the
-game builds the offered model again later. The result file
+game builds the offered model again later. From bridge 1.13.0 a third
+place is changed the same way, `0x8e5c7e` (`44 88 74 24 60` to
+`c6 44 24 60 01`): the one on the branch the reward really takes. The result file
 gains `offer_colours=legacy` or `offer_colours=standard`. Not exercised in
 the running game when written.
 
@@ -329,5 +331,7 @@ the running game when written.
 
 A starship or multi-tool request is applied only after the game's window has
 been the foreground window for 45 frames in a row, and one request a frame.
+From bridge 1.13.0 the system's mouse arrow must be hidden in those frames
+too: the game holds the mouse only after the first click on its window.
 The result file is written after that, so the application waits up to 90
 seconds for it. Nothing is written to the game for this.

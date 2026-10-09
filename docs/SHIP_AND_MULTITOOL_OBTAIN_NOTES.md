@@ -192,6 +192,27 @@ watch for the accepted tool ends (mark written, or 36,000 frames).
 Wrong in the 1.10.0 record: its `offer_colours=legacy` line said only that
 the bytes were changed for the call, not what the screen showed.
 
+### The branch the reward takes, and the mouse (bridge 1.13.0)
+
+Live with bridge 1.12.0 on 2026-10-09 (`model=rifle`,
+`seed=0xA1FA0E890FC18255`, `legacy=1`): the offer still had the standard
+colours. Reading `8e58e0` again: its fourth argument is a part description;
+only when one is given does it call the palette builder (`8e5b7d`,
+`8e5e12`). The reward (`f333c9`, `xor r9d, r9d`) gives none, so the model is
+loaded by the scene loader `639be0` (called at `8e5cea`). That routine reads
+its legacy colours argument from the caller's `[rsp+0x60]` and hands it to
+the texture job constructor (`639610`, stored at job `+0x1c9`, the byte the
+generator choice at `63a8ec` tests). The caller writes it at `8e5c7e` with
+`mov byte ptr [rsp+0x60], r14b` (`44 88 74 24 60`). Bridge 1.13.0 changes
+that instruction as well (`c6 44 24 60 01`), with the same rules. The
+"built twice" explanation given for 1.12.0 was not the cause.
+
+Mouse, as the owner found: with the game's window in front but before the
+first click, the system's arrow is still drawn and the game does not hold
+the mouse; an offer opened then has no cursor. Bridge 1.13.0 waits for both:
+the game's window in front and the system's arrow hidden (`GetCursorInfo`),
+45 frames in a row.
+
 ### Legacy colours on the offer itself (bridge 1.10.0)
 
 The pending tool's model is built inside the reward call: `8e58e0` calls the

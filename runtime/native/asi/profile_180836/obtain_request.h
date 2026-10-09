@@ -27,6 +27,12 @@
 // called from 8e6bf0). From 1.12.0 the change stays until the watch for the accepted tool ends: the
 // flag was written on the owned record, or OBTAIN_LEGACY_FRAMES frames passed. While it stays, any
 // multi-tool the game offers through this routine is built with the legacy colours.
+//
+// 1.12.0 still showed the standard colours (live, 2026-10-09): the two places are on a branch the
+// reward does not take. The reward passes no part description, so 8e58e0 loads the model through the
+// scene loader 639be0, whose legacy colours argument is the byte written at 8e5c7e
+// ("mov byte ptr [rsp+0x60], r14b"); 639be0 hands it to the texture job (639610, job +0x1c9). From
+// 1.13.0 that third place is changed as well.
 
 #define OBTAIN_CLASS_COUNT 4          // C, B, A, S as the game numbers them
 #define OBTAIN_CARRIER_SEED 1         // seed and class the data file gives every carrier
@@ -38,6 +44,13 @@ typedef struct {
     const char *carrier;    // reward table entry of the data file
     int32_t type;           // the game's type number the carrier must hold
 } obtain_model;
+
+// One place where the game writes "no legacy colours" onto the stack: its address and the stack
+// displacement of the instruction.
+typedef struct {
+    uint32_t rva;
+    uint8_t displacement;
+} obtain_offer_site;
 
 typedef struct {
     const wchar_t *file_kind;            // "ship" or "weapon": native-<kind>-request / -result
@@ -55,7 +68,7 @@ typedef struct {
     volatile LONG legacy_frames, legacy_slot;
     uint64_t legacy_seed;
     // Where the game passes "no legacy colours" when it builds the offered model; count 0 for none.
-    const uint32_t *offer_legacy_sites;
+    const obtain_offer_site *offer_legacy_sites;
     int offer_legacy_site_count;
     volatile LONG offer_legacy;    // 1 when the last offer was built with the legacy colours
     int offer_patched;             // game thread only: the game's code currently holds the change
@@ -86,8 +99,11 @@ static int obtain_is_carrier(const void *reward, int model) {
 // An offer opens a game screen that needs the mouse. A request sent from the application arrives
 // while the application's window, not the game's, is in front; an offer opened then was seen without
 // a cursor (2026-10-09). So a request waits on the game thread until the game's window has been the
-// foreground window for OBTAIN_FOCUS_FRAMES frames in a row (bridge 1.11.0). Whether this is the
-// cause of the missing cursor was not proven when this was written.
+// foreground window for OBTAIN_FOCUS_FRAMES frames in a row (bridge 1.11.0). Confirmed live the
+// same day, with one gap the owner found: after switching back, until the first click the system's
+// arrow is still shown and the game has not taken the mouse; an offer opened then has no cursor
+// either. So from 1.13.0 the system's arrow must also be hidden, which is how the game holds the
+// mouse while playing.
 #define OBTAIN_FOCUS_FRAMES 45
 static LONG obtain_focus_frames;
 
@@ -96,7 +112,9 @@ static int obtain_game_in_front(void) {
     DWORD process = 0;
     if (!window) return 0;
     GetWindowThreadProcessId(window, &process);
-    return process == GetCurrentProcessId();
+    if (process != GetCurrentProcessId()) return 0;
+    CURSORINFO cursor = {.cbSize = sizeof(cursor)};
+    return GetCursorInfo(&cursor) && !(cursor.flags & CURSOR_SHOWING);
 }
 
 // Game thread, every frame: true once the game has been in front long enough to open an offer.
@@ -109,37 +127,42 @@ static int obtain_focus_ready(int waiting) {
 }
 
 #define OBTAIN_OFFER_LEGACY_BYTES 5
-static const uint8_t obtain_offer_standard[OBTAIN_OFFER_LEGACY_BYTES] = {0x44, 0x88, 0x74, 0x24, 0x20};
-static const uint8_t obtain_offer_legacy[OBTAIN_OFFER_LEGACY_BYTES] = {0xc6, 0x44, 0x24, 0x20, 0x01};
+
+// The instruction of one site: "mov byte ptr [rsp+disp], r14b" as the game has it, or
+// "mov byte ptr [rsp+disp], 1".
+static void obtain_offer_instruction(uint8_t *bytes, uint8_t displacement, int legacy) {
+    const uint8_t standard[OBTAIN_OFFER_LEGACY_BYTES] = {0x44, 0x88, 0x74, 0x24, displacement};
+    const uint8_t changed[OBTAIN_OFFER_LEGACY_BYTES] = {0xc6, 0x44, 0x24, displacement, 0x01};
+    memcpy(bytes, legacy ? changed : standard, OBTAIN_OFFER_LEGACY_BYTES);
+}
+
+static int obtain_offer_write(void *site, const uint8_t *bytes) {
+    DWORD old = 0;
+    if (!VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, PAGE_EXECUTE_READWRITE, &old)) return 0;
+    memcpy(site, bytes, OBTAIN_OFFER_LEGACY_BYTES);
+    VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, old, &old);
+    FlushInstructionCache(GetCurrentProcess(), site, OBTAIN_OFFER_LEGACY_BYTES);
+    return 1;
+}
 
 // Writes one of the two instructions at every site of the domain; all or none. Game thread only.
 static int obtain_offer_colours(const obtain_domain *domain, int legacy) {
-    const uint8_t *expected = legacy ? obtain_offer_standard : obtain_offer_legacy;
-    const uint8_t *wanted = legacy ? obtain_offer_legacy : obtain_offer_standard;
     uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    uint8_t bytes[OBTAIN_OFFER_LEGACY_BYTES];
     if (domain->offer_legacy_site_count <= 0) return 0;
-    for (int index = 0; index < domain->offer_legacy_site_count; ++index)
-        if (memcmp((const void *)(base + domain->offer_legacy_sites[index]), expected, OBTAIN_OFFER_LEGACY_BYTES) != 0)
-            return 0;
     for (int index = 0; index < domain->offer_legacy_site_count; ++index) {
-        void *site = (void *)(base + domain->offer_legacy_sites[index]);
-        DWORD old = 0;
-        if (!VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, PAGE_EXECUTE_READWRITE, &old)) {
-            // Undo what was written so far; the earlier sites are still writable in practice.
-            while (--index >= 0) {
-                void *done = (void *)(base + domain->offer_legacy_sites[index]);
-                DWORD again = 0;
-                if (VirtualProtect(done, OBTAIN_OFFER_LEGACY_BYTES, PAGE_EXECUTE_READWRITE, &again)) {
-                    memcpy(done, expected, OBTAIN_OFFER_LEGACY_BYTES);
-                    VirtualProtect(done, OBTAIN_OFFER_LEGACY_BYTES, again, &again);
-                    FlushInstructionCache(GetCurrentProcess(), done, OBTAIN_OFFER_LEGACY_BYTES);
-                }
-            }
-            return 0;
+        obtain_offer_instruction(bytes, domain->offer_legacy_sites[index].displacement, !legacy);
+        if (memcmp((const void *)(base + domain->offer_legacy_sites[index].rva), bytes, sizeof(bytes)) != 0) return 0;
+    }
+    for (int index = 0; index < domain->offer_legacy_site_count; ++index) {
+        obtain_offer_instruction(bytes, domain->offer_legacy_sites[index].displacement, legacy);
+        if (obtain_offer_write((void *)(base + domain->offer_legacy_sites[index].rva), bytes)) continue;
+        // Undo what was written so far.
+        while (--index >= 0) {
+            obtain_offer_instruction(bytes, domain->offer_legacy_sites[index].displacement, !legacy);
+            obtain_offer_write((void *)(base + domain->offer_legacy_sites[index].rva), bytes);
         }
-        memcpy(site, wanted, OBTAIN_OFFER_LEGACY_BYTES);
-        VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, old, &old);
-        FlushInstructionCache(GetCurrentProcess(), site, OBTAIN_OFFER_LEGACY_BYTES);
+        return 0;
     }
     return 1;
 }

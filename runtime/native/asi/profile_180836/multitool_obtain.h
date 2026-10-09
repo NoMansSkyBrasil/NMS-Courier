@@ -15,9 +15,12 @@ static const obtain_model multitool_obtain_models[] = {
     {"staff", "COURIER_TOOL_STF", 9}
 };
 
-// The two places where the game builds the offered multi-tool's colours without the legacy flag
-// (inside 8e58e0, before each call of the palette builder 1149f50).
-static const uint32_t multitool_offer_legacy_sites[] = {0x8e5b78u, 0x8e5e0du};
+// The places where the game builds the offered multi-tool without the legacy colours flag, all
+// inside 8e58e0: before each call of the palette builder 1149f50 (taken when a part description is
+// given) and before the scene loader 639be0 (taken by the reward, which gives none).
+static const obtain_offer_site multitool_offer_legacy_sites[] = {
+    {0x8e5b78u, 0x20}, {0x8e5e0du, 0x20}, {0x8e5c7eu, 0x60}
+};
 
 static obtain_domain multitool_obtain = {
     .file_kind = L"weapon",

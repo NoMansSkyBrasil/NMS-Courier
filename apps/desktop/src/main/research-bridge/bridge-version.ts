@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.12.0'
+export const bridgeVersion = '1.13.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -18,7 +18,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.9.0',
   '1.10.0',
   '1.11.0',
-  '1.12.0'
+  '1.12.0',
+  '1.13.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -59,5 +60,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   '083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da': '1.11.0',
   // 1.12.0 (2026-10-09): the legacy colours change of the offer stays until the offered tool is
   // accepted or the watch ends; the game builds the offered model again after the reward call.
-  '50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0': '1.12.0'
+  '50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0': '1.12.0',
+  // 1.13.0 (2026-10-09): the legacy colours change also covers the scene loader call the reward
+  // really takes; an offer also waits until the game holds the mouse (system arrow hidden).
+  cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2: '1.13.0'
 }

@@ -26,10 +26,10 @@
 > screen); the first live offer lost the legacy choice in the application
 > (fixed in 1.19.2, direct write still not exercised) and left the game's
 > cursor missing on offers until bridge 1.11.0 made them wait for the
-> game's window to be in front (confirmed live); bridge 1.12.0 (installed,
-> not exercised) keeps the legacy colours code change until the offered
-> tool is resolved, because the game builds the offered model twice; the
-> ships of
+> game's window to be in front (confirmed live); bridge 1.13.0 (installed,
+> not exercised) also waits until the game holds the mouse and changes the
+> instruction the reward really uses for the legacy colours (`8e5c7e`,
+> argument of the scene loader `639be0`); the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

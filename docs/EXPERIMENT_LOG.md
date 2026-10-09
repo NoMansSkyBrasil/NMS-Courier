@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.12.0 live: colours still standard, cursor depends on a click; bridge 1.13.0 installed
+
+Live, from the application 1.20.2. Build 180836 (`13d5060d...cc3499`),
+bridge 1.12.0 (`50e0f9e4...eca0`), game process 17944, slot not identified
+(the owner's test slot is 3). Request: `model=rifle`,
+`seed=0xA1FA0E890FC18255`, `class=s`, `legacy=1`; result `result=offered`,
+`legacy=1`, `offer_colours=legacy`.
+
+Observed by the owner: the offer again in the standard colours. The cursor
+works only if the game was clicked before the offer opened; otherwise the
+system's arrow stays on screen and the mouse turns the camera.
+
+Rejected: "the offered model is built again after the reward call" as the
+reason for the colours. Found instead: the reward takes another branch of
+the builder; see the
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#the-branch-the-reward-takes-and-the-mouse-bridge-1130).
+
+Then, game closed (process list checked): bridge 1.13.0 (`cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2`) built,
+fixture passed, installed in place of 1.12.0 (kept under
+`native-builds/bridge-1.12.0`). Application 1.20.3. Not proven: both fixes.
+To undo: copy the 1.12.0 file back.
+
 ## 2026-10-09: cursor back with bridge 1.11.0; offer colours still standard; bridge 1.12.0 installed
 
 Live, from the application 1.20.1. Build 180836 (`13d5060d...cc3499`),
