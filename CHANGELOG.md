@@ -28,6 +28,21 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.24.1 (2026-10-09)
+
+- Fixed: expedition rewards and quicksilver items were listed by their
+  identifiers. Both are entries of the game's product table, so they now
+  take the game's own names and icons from the catalogue, in the interface
+  language (283 of 293 expedition rewards and 464 of 466 quicksilver items
+  have a name in the game's files; the rest keep the identifier). Titles are
+  not products and still show their identifiers.
+- Changed: the selection lists show up to 600 entries at once instead of
+  100, so a whole area (263 appearance entries, 293 expedition rewards) is
+  visible without searching.
+- Confirmed live with bridge 1.19.0: a new starship offered with 120 cargo
+  and 120 supercharged technology slots.
+- Bridge unchanged (1.19.0).
+
 ## Application 1.24.0 and bridge 1.19.0 (2026-10-09)
 
 Bridge 1.19.0, SHA-256 `238495a51ad06190d492bc47d5ff9913837b62df9593d0ef8c436cc7805cd4d2`.

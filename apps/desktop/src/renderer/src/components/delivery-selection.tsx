@@ -10,7 +10,7 @@ import { formatMessage, useLocale } from '@renderer/i18n/locale'
 export type DeliveryOption = Awaited<ReturnType<typeof window.nms.getDeliveryOptions>>[number]
 
 // Rows drawn at once; the search narrows a longer list.
-const shownLimit = 100
+const shownLimit = 600
 
 // The entries of one area with a search box and a checkbox each. The chosen identifiers live in
 // the delivery card, which sends them.

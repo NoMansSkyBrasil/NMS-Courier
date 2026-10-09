@@ -38,12 +38,14 @@ const product = (
   step
 })
 
-const account = (kind: string): Source => ({
+// Season rewards and specials are entries of the game's product table, so the catalogue names them
+// in the interface language; titles are not.
+const account = (kind: string, domain: DeliveryOption['domain'] = null): Source => ({
   table: 'account-unlocks.md',
   idColumn: 1,
   groupColumn: 2,
   accept: (cells) => cells[0] === kind && cells[3] === 'yes',
-  domain: null,
+  domain,
   changesAccount: true,
   step: (ids) => steps.account(ids.map((id) => `${kind}=${id}`))
 })
@@ -64,8 +66,8 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
   buildParts: product(['catalogue_construction', 'research_tree'], false, steps.product),
   customisation: product(['customisation'], true, (ids) => steps.redeem(ids)),
   titles: account('title'),
-  expeditions: account('season'),
-  quicksilver: account('special')
+  expeditions: account('season', 'product'),
+  quicksilver: account('special', 'product')
 }
 
 const identifier = /^[A-Z0-9_]{1,15}$/
