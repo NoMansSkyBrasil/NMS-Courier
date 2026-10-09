@@ -343,7 +343,19 @@ export type Messages = {
     category: Record<'starship' | 'multitool' | 'freighter', string>
     kindLabel: string
     toolKind: Record<
-      'standard' | 'royal' | 'sentinel' | 'sentinelB' | 'atlas' | 'staff' | 'atlasSceptre',
+      | 'standard'
+      | 'royal'
+      | 'sentinel'
+      | 'sentinelB'
+      | 'atlas'
+      | 'staff'
+      | 'atlasSceptre'
+      | 'staffRuin'
+      | 'staffBone'
+      | 'staffNpc'
+      | 'switch'
+      | 'retro'
+      | 'swarm',
       string
     >
     seedLabel: string

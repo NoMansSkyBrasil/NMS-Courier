@@ -17,6 +17,8 @@ notification.
 | `COURIER_QS` | 1 quicksilver | Quicksilver of any amount |
 | `COURIER_SUBST` | 1 Carbon (`FUEL1`), multiplier off | Any substance, with the game's notification |
 | `COURIER_PRODUCT` | 1 Metal Plating (`CASING`) | Any product, with the game's notification |
+| `COURIER_SHIP_*` (8) | a starship of one kind, seed 1, class S | A new starship of that kind |
+| `COURIER_TOOL_*` (16) | a multi-tool of one scene and class, seed 1, class S | A new multi-tool of that kind |
 
 The desktop application also writes the corvette layout it prepares from a
 `.nmsship` file into the same folder (`METADATA/SIMULATION/SHIPBASES` and the

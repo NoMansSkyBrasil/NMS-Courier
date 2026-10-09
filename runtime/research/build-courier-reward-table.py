@@ -45,6 +45,22 @@ WEAPONS = [
     ("alien", "COURIER_TOOL_ALN", "Alien", "MODELS/COMMON/WEAPONS/MULTITOOL/MULTITOOL.SCENE.MBIN"),
     ("staff", "COURIER_TOOL_STF", "Staff", "MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOL.SCENE.MBIN"),
 ]
+# The other multi-tool scenes of the game. The fifth value is the class of the shipped reward that
+# is copied: no reward ships with the classes Royal, Robot and Atlas, so those carriers copy a
+# pistol reward and take the class by name. A scene some reward ships with gets that reward.
+WEAPONS += [
+    ("royal", "COURIER_TOOL_ROY", "Royal", "MODELS/COMMON/WEAPONS/MULTITOOL/ROYALMULTITOOL.SCENE.MBIN", "Pistol"),
+    ("sentinel", "COURIER_TOOL_SNT", "Robot", "MODELS/COMMON/WEAPONS/MULTITOOL/SENTINELMULTITOOL.SCENE.MBIN", "Pistol"),
+    ("sentinelb", "COURIER_TOOL_SNB", "Robot", "MODELS/COMMON/WEAPONS/MULTITOOL/SENTINELMULTITOOLB.SCENE.MBIN", "Pistol"),
+    ("atlas", "COURIER_TOOL_ATL", "Atlas", "MODELS/COMMON/WEAPONS/MULTITOOL/ATLASMULTITOOL.SCENE.MBIN", "Pistol"),
+    ("switch", "COURIER_TOOL_SWT", "Rifle", "MODELS/COMMON/WEAPONS/MULTITOOL/SWITCHMULTITOOL.SCENE.MBIN", "Rifle"),
+    ("retro", "COURIER_TOOL_RET", "Pistol", "MODELS/COMMON/WEAPONS/MULTITOOL/RETROMULTITOOL.SCENE.MBIN", "Pistol"),
+    ("swarm", "COURIER_TOOL_SWM", "Rifle", "MODELS/COMMON/WEAPONS/MULTITOOL/SWARMMULTITOOL.SCENE.MBIN", "Rifle"),
+    ("staffnpc", "COURIER_TOOL_SNP", "Staff", "MODELS/COMMON/WEAPONS/MULTITOOL/STAFFNPCMULTITOOL.SCENE.MBIN", "Staff"),
+    ("staffruin", "COURIER_TOOL_SRU", "Staff", "MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLRUIN.SCENE.MBIN", "Staff"),
+    ("staffbone", "COURIER_TOOL_SBO", "Staff", "MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLBONE.SCENE.MBIN", "Staff"),
+    ("atlasstaff", "COURIER_TOOL_SAT", "Staff", "MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLATLAS.SCENE.MBIN", "Staff"),
+]
 
 
 def child(node: ET.Element, path: str) -> ET.Element:
@@ -158,10 +174,11 @@ def main() -> None:
                 else:
                     slot.attrib.pop("_index", None)
         entries.append(entry(identifier, reward))
-    for _, identifier, stat_class, scene in WEAPONS:
-        reward = copy.deepcopy(shipped(root, "GcRewardSpecificWeapon", "WeaponType/WeaponStatClass", stat_class,
-                                       "WeaponResource/Filename", scene))
+    for _, identifier, stat_class, scene, *source in WEAPONS:
+        reward = copy.deepcopy(shipped(root, "GcRewardSpecificWeapon", "WeaponType/WeaponStatClass",
+                                       source[0] if source else stat_class, "WeaponResource/Filename", scene))
         body = child(reward, "GcRewardSpecificWeapon")
+        child(body, "WeaponType/WeaponStatClass").set("value", stat_class)
         child(body, "WeaponResource/Filename").set("value", scene)
         child(body, "WeaponResource/GenerationSeed").set("value", "1")
         child(body, "WeaponLayout/Seed").set("value", "1")

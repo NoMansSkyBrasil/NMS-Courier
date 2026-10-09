@@ -498,7 +498,13 @@ export const frFR: Messages = {
       sentinelB: 'Sentinelle B',
       atlasSceptre: 'Sceptre d’Atlas',
       atlas: 'Atlantide',
-      staff: 'Bâton'
+      staff: 'Bâton',
+      staffRuin: 'Pilier de Titan',
+      staffBone: 'Couronne de basilic',
+      switch: 'Néon Infini Mark XXII',
+      retro: 'Starbound v0.27',
+      swarm: 'Désintégrateur de guêpe sinistre',
+      staffNpc: 'Bâton de PNJ'
     },
     seedLabel: 'Graine',
     homeSeedHint:

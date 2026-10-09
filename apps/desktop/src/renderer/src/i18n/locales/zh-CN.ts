@@ -441,7 +441,13 @@ export const zhCN: Messages = {
       sentinelB: '哨兵 B',
       atlasSceptre: '阿特拉斯权杖',
       atlas: '亚特兰蒂德',
-      staff: '法杖'
+      staff: '法杖',
+      staffRuin: '泰坦之柱',
+      staffBone: '蛇怪之冠',
+      switch: '无尽霓虹MK XXII',
+      retro: '星界v0.27',
+      swarm: '狂蜂崩解枪',
+      staffNpc: 'NPC 法杖'
     },
     seedLabel: '种子',
     homeSeedHint:

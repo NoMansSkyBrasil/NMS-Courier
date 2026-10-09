@@ -150,6 +150,7 @@ reader can start from Markdown and reach every data file.
 | [reddit-seed-observations.md](../runtime/research/reddit-seed-observations.md) | Markdown table | 64 rows, 6 columns | columns: post_id, published_date, category, seed, image_review, observation | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [MODEL_PREVIEW_RESEARCH.md](../docs/MODEL_PREVIEW_RESEARCH.md), [README.md](../runtime/research/README.md) |
 | [reward-fields-180383.md](../runtime/research/reward-fields-180383.md) | Markdown table | 2 rows, 2 columns | SpecificShip field serializer candidate called by 24ed8d0 | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md) |
 | [reward-flags-180383.md](../runtime/research/reward-flags-180383.md) | Markdown table | 3 rows, 2 columns | SpecificShip serializer candidate reached by tagged metadata getter | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md) |
+| [seed-fields-180836.md](../runtime/research/seed-fields-180836.md) | Markdown table | 122 rows, 4 columns | columns: Field, Offset, Size, Elements | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_ORIGINS.md](../docs/SEED_ORIGINS.md) |
 | [sentinel-parts-example.json](../runtime/research/sentinel-parts-example.json) | JSON object | 5 top-level keys | keys: source, resource, required_descriptor_ids, seed, seed_reachability_verified | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [PROCEDURAL_SEED_RESEARCH.md](../docs/PROCEDURAL_SEED_RESEARCH.md) |
 | [technology-delivery-classification.md](../runtime/research/technology-delivery-classification.md) | Markdown table | 393 rows, 9 columns | columns: ID, Category, Class, BrokenSlotTech, IsTemplate, Procedural, RepairTech, Teach, WikiEnabled | [TECHNOLOGY_DELIVERY_NOTES.md](../docs/TECHNOLOGY_DELIVERY_NOTES.md) |
 | [tool-palette-callers-180383.md](../runtime/research/tool-palette-callers-180383.md) | Markdown table | 2 rows, 2 columns | Direct owned-tool initializer caller fragment; argument 7 reads context byte; identity and ABI unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
@@ -205,4 +206,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 129 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 130 data files in 4 folders; 42 not mentioned outside this catalog.

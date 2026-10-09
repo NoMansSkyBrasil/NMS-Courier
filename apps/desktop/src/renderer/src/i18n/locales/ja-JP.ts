@@ -478,7 +478,13 @@ export const jaJP: Messages = {
       sentinelB: 'センチネル B',
       atlasSceptre: 'アトラスの笏',
       atlas: 'アトランティド',
-      staff: '杖'
+      staff: '杖',
+      staffRuin: 'タイタンの柱',
+      staffBone: 'バジリスククラウン',
+      switch: 'インフィニットネオン マークXXII',
+      retro: 'Starbound v0.27',
+      swarm: 'ダイアーワスプディスインテグレーター',
+      staffNpc: 'NPCの杖'
     },
     seedLabel: 'シード値',
     homeSeedHint:

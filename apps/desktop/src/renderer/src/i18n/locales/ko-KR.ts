@@ -464,7 +464,13 @@ export const koKR: Messages = {
       sentinelB: '센티넬 B',
       atlasSceptre: '아틀라스 홀',
       atlas: '아틀란티드',
-      staff: '지팡이'
+      staff: '지팡이',
+      staffRuin: '타이탄의 기둥',
+      staffBone: '바실리스크 크라운',
+      switch: '무한 네온 마크 XXII',
+      retro: '스타바운드 v0.27',
+      swarm: '다이어와스프 분해기',
+      staffNpc: 'NPC 지팡이'
     },
     seedLabel: '시드',
     homeSeedHint:

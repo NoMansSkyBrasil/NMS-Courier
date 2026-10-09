@@ -484,7 +484,13 @@ export const ruRU: Messages = {
       sentinelB: 'Страж B',
       atlasSceptre: 'Скипетр Атласа',
       atlas: 'Атлантид',
-      staff: 'Посох'
+      staff: 'Посох',
+      staffRuin: 'Столп титана',
+      staffBone: 'Корона василиска',
+      switch: 'Бесконечный неон м. XXII',
+      retro: 'Starbound в. 0.27',
+      swarm: 'Дезинтегратор Лютооса',
+      staffNpc: 'Посох NPC'
     },
     seedLabel: 'Сид',
     homeSeedHint:

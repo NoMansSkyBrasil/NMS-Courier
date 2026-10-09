@@ -492,7 +492,13 @@ export const itIT: Messages = {
       sentinelB: 'Sentinella B',
       atlasSceptre: 'Scettro di Atlas',
       atlas: 'Atlantide',
-      staff: 'Bastone'
+      staff: 'Bastone',
+      staffRuin: 'Pilastro di Titano',
+      staffBone: 'Corona di basilisco',
+      switch: 'Infinite Neon Mark XXII',
+      retro: 'Stellare v0.27',
+      swarm: 'Disintegratore della Vespa funesta',
+      staffNpc: 'Bastone dei PNG'
     },
     seedLabel: 'Seme',
     homeSeedHint:

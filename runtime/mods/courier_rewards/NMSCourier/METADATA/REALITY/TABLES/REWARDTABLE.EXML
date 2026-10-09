@@ -2313,5 +2313,2057 @@
         </Property>
       </Property>
     </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_ROY">
+      <Property name="Id" value="COURIER_TOOL_ROY" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="GROUND_SHIELD">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="GROUND_SHIELD" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="14" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/ROYALMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Royal" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="SciSmall" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SNT">
+      <Property name="Id" value="COURIER_TOOL_SNT" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="GROUND_SHIELD">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="GROUND_SHIELD" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="14" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/SENTINELMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Robot" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="SciSmall" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SNB">
+      <Property name="Id" value="COURIER_TOOL_SNB" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="GROUND_SHIELD">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="GROUND_SHIELD" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="14" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/SENTINELMULTITOOLB.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Robot" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="SciSmall" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_ATL">
+      <Property name="Id" value="COURIER_TOOL_ATL" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="GROUND_SHIELD">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="GROUND_SHIELD" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="14" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/ATLASMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Atlas" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="SciSmall" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SWT">
+      <Property name="Id" value="COURIER_TOOL_SWT" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="RAILGUN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="RAILGUN" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="50" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_RAIL">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_RAIL" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCOPE">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCOPE" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="18" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/SWITCHMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Rifle" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="SciSmall" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_RET">
+      <Property name="Id" value="COURIER_TOOL_RET" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_MINER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_MINER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4" _index="1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAIN_GREN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAIN_GREN" />
+                      <Property name="Amount" value="20" />
+                      <Property name="MaxAmount" value="20" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/RETROMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Pistol" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SWM">
+      <Property name="Id" value="COURIER_TOOL_SWM" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_MINER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_MINER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4" _index="1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAIN_GREN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAIN_GREN" />
+                      <Property name="Amount" value="20" />
+                      <Property name="MaxAmount" value="20" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/SWARMMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Rifle" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SNP">
+      <Property name="Id" value="COURIER_TOOL_SNP" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BUI_SCAN2">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BUI_SCAN2" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="RAILGUN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="RAILGUN" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="50" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_RAIL_STUN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_RAIL_STUN" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STEALTH">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STEALTH" />
+                      <Property name="Amount" value="100" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/STAFFNPCMULTITOOL.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Staff" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SRU">
+      <Property name="Id" value="COURIER_TOOL_SRU" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_MINER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_MINER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="RAILGUN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="RAILGUN" />
+                      <Property name="Amount" value="50" />
+                      <Property name="MaxAmount" value="50" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_RAIL">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_RAIL" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_RAIL4">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_RAIL4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_RAIL4" _index="1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_RAIL4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_RAIL_STUN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_RAIL_STUN" />
+                      <Property name="Amount" value="20" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLRUIN.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Staff" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SBO">
+      <Property name="Id" value="COURIER_TOOL_SBO" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_MINER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_MINER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_SCAN4" _index="1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_SCAN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAIN_GREN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAIN_GREN" />
+                      <Property name="Amount" value="20" />
+                      <Property name="MaxAmount" value="20" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_BOLT">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_BOLT" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLBONE.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Staff" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
+    <Property name="GenericTable" value="GcGenericRewardTableEntry" _id="COURIER_TOOL_SAT">
+      <Property name="Id" value="COURIER_TOOL_SAT" />
+      <Property name="List" value="GcRewardTableItemList">
+        <Property name="RewardChoice" value="GiveAll" />
+        <Property name="OverrideZeroSeed" value="false" />
+        <Property name="UseInventoryChoiceOverride" value="false" />
+        <Property name="IncrementStat" value="" />
+        <Property name="List">
+          <Property name="List" value="GcRewardTableItem" _index="0">
+            <Property name="PercentageChance" value="100.000000" />
+            <Property name="LabelID" value="" />
+            <Property name="Reward" value="GcRewardSpecificWeapon">
+              <Property name="GcRewardSpecificWeapon">
+                <Property name="WeaponInventory" value="GcInventoryContainer">
+                  <Property name="Slots">
+                    <Property name="Slots" value="GcInventoryElement" _id="ATLAS_LASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="ATLAS_LASER" />
+                      <Property name="Amount" value="200" />
+                      <Property name="MaxAmount" value="200" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCANBINOC1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCANBINOC1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="SCAN1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="SCAN1" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STRONGLASER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STRONGLASER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_MINER">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_MINER" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="TERRAINEDITOR">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="TERRAINEDITOR" />
+                      <Property name="Amount" value="600" />
+                      <Property name="MaxAmount" value="600" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="CANNON">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="CANNON" />
+                      <Property name="Amount" value="500" />
+                      <Property name="MaxAmount" value="500" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_CANNON">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_CANNON" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_CANN4">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_CANN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UP_CANN4" _index="1">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UP_CANN4" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="STUN_GREN">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="STUN_GREN" />
+                      <Property name="Amount" value="20" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                    <Property name="Slots" value="GcInventoryElement" _id="UT_STUNDMG">
+                      <Property name="Type" value="GcInventoryType">
+                        <Property name="InventoryType" value="Technology" />
+                      </Property>
+                      <Property name="Id" value="UT_STUNDMG" />
+                      <Property name="Amount" value="0" />
+                      <Property name="MaxAmount" value="100" />
+                      <Property name="DamageFactor" value="0.000000" />
+                      <Property name="FullyInstalled" value="true" />
+                      <Property name="AddedAutomatically" value="false" />
+                      <Property name="Index" value="GcInventoryIndex">
+                        <Property name="X" value="-1" />
+                        <Property name="Y" value="-1" />
+                      </Property>
+                    </Property>
+                  </Property>
+                  <Property name="ValidSlotIndices" />
+                  <Property name="Class" value="GcInventoryClass">
+                    <Property name="InventoryClass" value="S" />
+                  </Property>
+                  <Property name="StackSizeGroup" value="GcInventoryStackSizeGroup">
+                    <Property name="InventoryStackSizeGroup" value="Default" />
+                  </Property>
+                  <Property name="BaseStatValues" />
+                  <Property name="SpecialSlots" />
+                  <Property name="Width" value="0" />
+                  <Property name="Height" value="0" />
+                  <Property name="IsCool" value="false" />
+                  <Property name="Name" value="" />
+                  <Property name="Version" value="0" />
+                  <Property name="NumSlotsFromTech" value="0" />
+                </Property>
+                <Property name="WeaponLayout" value="GcInventoryLayout">
+                  <Property name="Slots" value="19" />
+                  <Property name="Seed" value="1" />
+                  <Property name="Level" value="1" />
+                </Property>
+                <Property name="WeaponResource" value="GcExactResource">
+                  <Property name="Filename" value="MODELS/COMMON/WEAPONS/MULTITOOL/STAFFMULTITOOLATLAS.SCENE.MBIN" />
+                  <Property name="GenerationSeed" value="1" />
+                </Property>
+                <Property name="WeaponType" value="GcWeaponClasses">
+                  <Property name="WeaponStatClass" value="Staff" />
+                </Property>
+                <Property name="InventorySizeOverride" value="GcInventoryLayoutSizeType">
+                  <Property name="SizeType" value="WeaponLarge" />
+                </Property>
+                <Property name="NameOverride" value="" />
+                <Property name="IsGift" value="true" />
+                <Property name="IsRewardWeapon" value="true" />
+                <Property name="FormatAsSeasonal" value="false" />
+              </Property>
+            </Property>
+          </Property>
+        </Property>
+      </Property>
+    </Property>
   </Property>
 </Data>

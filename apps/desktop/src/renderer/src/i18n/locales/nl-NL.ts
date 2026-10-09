@@ -493,7 +493,13 @@ export const nlNL: Messages = {
       sentinelB: 'Sentinel B',
       atlasSceptre: 'Atlas-scepter',
       atlas: 'Atlantid',
-      staff: 'Staf'
+      staff: 'Staf',
+      staffRuin: 'Pijler van Titan',
+      staffBone: 'Kroon van basilisk',
+      switch: 'Infinite Neon Mark XXII',
+      retro: 'Starbound v0.27',
+      swarm: 'Reuzenwesp-desintegrator',
+      staffNpc: 'NPC-staf'
     },
     seedLabel: 'Seed',
     homeSeedHint:

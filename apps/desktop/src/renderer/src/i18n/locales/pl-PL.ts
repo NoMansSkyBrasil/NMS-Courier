@@ -477,7 +477,13 @@ export const plPL: Messages = {
       sentinelB: 'Strażnicze B',
       atlasSceptre: 'Berło Atlasu',
       atlas: 'Atlantydzkie',
-      staff: 'Laska'
+      staff: 'Laska',
+      staffRuin: 'Filar Tytana',
+      staffBone: 'Korona bazyliszka',
+      switch: 'Nieskończony Neon XXII',
+      retro: 'Starbound v0.27',
+      swarm: 'Dezintegrator grosy',
+      staffNpc: 'Kostur NPC'
     },
     seedLabel: 'Ziarno',
     homeSeedHint:

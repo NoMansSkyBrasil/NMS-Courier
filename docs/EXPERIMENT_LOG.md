@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.14.0 live: legacy offer colours confirmed, slots not applied; all multi-tool scenes added
+
+Live, from the application 1.21.0. Build 180836 (`13d5060d...cc3499`),
+bridge 1.14.0 (`8a7a1e01...5444`), game process 748, slot not identified
+(the owner's test slot is 3). Request: `model=rifle`,
+`seed=0xA1FA0E890FC18255`, `class=s`, `legacy=1`, `slots=1`, `super=1`;
+result `result=offered`, `legacy=1`, `offer_colours=legacy`. A starship
+request followed four minutes later (`result=offered`).
+
+Observed by the owner: the offer in the legacy colours (orange decal, purple
+crystals), with a cursor. The tool was accepted. Failed: its technology
+slots were not opened and not supercharged. No `native-weapon-legacy` file
+was written while the game ran, so the watch never found the seed in the six
+owned multi-tool records (seed expected at record `+0x2b0`, in-use byte at
+`+0x2b8`). Cause open; that also means the legacy mark was not written on
+the owned tool. To be read from the running game with the tool owned.
+
+Offline afterwards, game closed (process list checked): bridge 1.15.0
+(`3ab0e7f06195dccb0e18218d65c2cc2de399a5de45dbd7d2375a0d2720757090`) built, fixture passed and installed; data file regenerated
+(`0cc8535141edc4ff9c96045f9a190ffc2b17a51b2affd6c8fe9211c31d677752`, 29 entries) and copied to the game's mod folder; application 1.22.0.
+Eleven more multi-tool models and six more workshop kinds:
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#every-multi-tool-scene-offered-bridge-1150-application-1220).
+Not proven: every new model. To undo: copy bridge 1.14.0 and the earlier
+data file (`2f55b139...37d6`, in the repository history) back.
+
 ## 2026-10-09: bridge 1.14.0 built and installed; multi-tool kinds checked against the data
 
 No live action. Build 180836, game closed (process list checked). Bridge

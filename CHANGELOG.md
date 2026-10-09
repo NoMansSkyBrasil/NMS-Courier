@@ -28,6 +28,28 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.22.0 and bridge 1.15.0 (2026-10-09)
+
+Bridge 1.15.0, SHA-256 `3ab0e7f06195dccb0e18218d65c2cc2de399a5de45dbd7d2375a0d2720757090`. Data file (reward table of the mod folder)
+SHA-256 `0cc8535141edc4ff9c96045f9a190ffc2b17a51b2affd6c8fe9211c31d677752`; the folder must be copied to the game again.
+
+- Confirmed live with bridge 1.14.0: the offer of a new multi-tool is drawn
+  with the legacy colours. Failed in the same test: the slots and
+  supercharged slots were not applied after accepting; cause open.
+- New: every multi-tool scene of the game in the model workshop: six more
+  (Pillar of Titan, Basilisk Crown, NPC staff, Infinite Neon Mark XXII,
+  Starbound v0.27, Direwasp Disintegrator), with the game's own names in the
+  14 languages.
+- New: eleven more kinds under "Get a new one" for multi-tools, one per
+  scene: royal, sentinel, sentinel B, Atlantid, Atlas Sceptre, the three
+  staffs above and the three expedition tools. Each has its own carrier in
+  the data file. None was sent to the game yet; for royal, sentinel and
+  Atlantid the stat class is one no reward of the game uses.
+- "Get this one in the game" in the workshop now works for every multi-tool
+  kind.
+- Checked: freighters have no legacy colours setting in the save; starships
+  have one per ship. Nothing was added for either yet.
+
 ## Application 1.21.0 and bridge 1.14.0 (2026-10-09)
 
 Bridge 1.14.0, SHA-256 `8a7a1e018f44009cee1061aeac6649a3bb46a3939383e62783d3bb9577515444`.

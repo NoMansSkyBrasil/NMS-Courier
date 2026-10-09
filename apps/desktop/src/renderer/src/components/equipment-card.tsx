@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import type { WorkshopToolKind } from '../../../shared/model-workshop'
 import { CircleAlertIcon, CircleCheckIcon, CircleHelpIcon, SendIcon } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import {
@@ -78,7 +79,38 @@ const shipModels = [
   'living',
   'interceptor'
 ] as const
-const toolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
+const toolModels = [
+  'pistol',
+  'rifle',
+  'experimental',
+  'alien',
+  'staff',
+  'royal',
+  'sentinel',
+  'sentinelb',
+  'atlas',
+  'switch',
+  'retro',
+  'swarm',
+  'staffnpc',
+  'staffruin',
+  'staffbone',
+  'atlasstaff'
+] as const
+// The models that are one scene of the workshop each take the workshop's name for it.
+const toolModelKind: Partial<Record<(typeof toolModels)[number], WorkshopToolKind>> = {
+  royal: 'royal',
+  sentinel: 'sentinel',
+  sentinelb: 'sentinelB',
+  atlas: 'atlas',
+  switch: 'switch',
+  retro: 'retro',
+  swarm: 'swarm',
+  staffnpc: 'staffNpc',
+  staffruin: 'staffRuin',
+  staffbone: 'staffBone',
+  atlasstaff: 'atlasSceptre'
+}
 
 // Freighter models a player can own, by the game scene of each; the first leaves the choice to the
 // game. Only the pirate model was delivered so far (2026-10-06).
@@ -198,13 +230,19 @@ export function EquipmentCard({
       label: formatMessage(text.equipTargetSlot, { number: index + 1 })
     }))
   ]
+  const toolName = (model: (typeof toolModels)[number]): string => {
+    const kind = toolModelKind[model]
+    return kind
+      ? copy.workshop.toolKind[kind]
+      : text.toolModel[model as keyof typeof text.toolModel]
+  }
   // A new starship or multi-tool is described by kind, seed and class only.
   const isNew = action === 'offer' && area !== 'freighters'
   const kinds = (area === 'multitools' ? toolModels : shipModels).map((value) => ({
     value,
     label:
       area === 'multitools'
-        ? text.toolModel[value as (typeof toolModels)[number]]
+        ? toolName(value as (typeof toolModels)[number])
         : text.shipModel[value as (typeof shipModels)[number]]
   }))
   const hasOptions = action !== 'classStep' && action !== 'slotReward' && !isNew

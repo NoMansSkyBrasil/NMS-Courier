@@ -148,6 +148,23 @@ function reachable(
   return { pins: kept, wanted }
 }
 
+// The model "get a new one" takes for each multi-tool scene of the workshop.
+const toolModelOfKind: Record<string, string> = {
+  standard: 'pistol',
+  staff: 'staff',
+  royal: 'royal',
+  sentinel: 'sentinel',
+  sentinelB: 'sentinelb',
+  atlas: 'atlas',
+  atlasSceptre: 'atlasstaff',
+  staffRuin: 'staffruin',
+  staffBone: 'staffbone',
+  staffNpc: 'staffnpc',
+  switch: 'switch',
+  retro: 'retro',
+  swarm: 'swarm'
+}
+
 export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.workshop
@@ -273,13 +290,13 @@ function WorkshopModel({
   const [glyphs, setGlyphs] = useState('')
   const [galaxy, setGalaxy] = useState('1')
   const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
-  // Where the seed can be got in the game: any starship type; of the multi-tools the standard
-  // scene (the game's pistol, rifle, experimental and alien tools) and the staff.
+  // Where the seed can be got in the game: any starship type and any multi-tool scene (the standard
+  // scene is the game's pistol, rifle, experimental and alien tools; the link names the pistol).
   const getLink =
     category === 'starship'
       ? `#starships/obtain?kind=${kind}&seed=${encodeURIComponent(typed.trim())}`
-      : category === 'multitool' && (kind === 'standard' || kind === 'staff')
-        ? `#multitools/obtain?kind=${kind === 'staff' ? 'staff' : 'pistol'}&seed=${encodeURIComponent(typed.trim())}&legacy=${legacy ? 1 : 0}`
+      : category === 'multitool' && toolModelOfKind[kind]
+        ? `#multitools/obtain?kind=${toolModelOfKind[kind]}&seed=${encodeURIComponent(typed.trim())}&legacy=${legacy ? 1 : 0}`
         : null
   // The star system a typed ship seed was drawn in, when it has one.
   const origin = useMemo(() => {

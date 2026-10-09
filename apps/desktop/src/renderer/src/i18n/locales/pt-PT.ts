@@ -487,7 +487,13 @@ export const ptPT: Messages = {
       sentinelB: 'Sentinela B',
       atlasSceptre: 'Cetro Atlas',
       atlas: 'Atlântida',
-      staff: 'Bastão'
+      staff: 'Bastão',
+      staffRuin: 'Pilar de Titã',
+      staffBone: 'Coroa de Basilisco',
+      switch: 'Néon Infinito Mark XXII',
+      retro: 'Invólucro das Estrelas v0.27',
+      swarm: 'Desintegrador de Vespa Nefasta',
+      staffNpc: 'Cajado de NPC'
     },
     seedLabel: 'Seed',
     homeSeedHint:

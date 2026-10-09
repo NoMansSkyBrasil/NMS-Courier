@@ -482,7 +482,13 @@ export const ptBR: Messages = {
       sentinelB: 'Sentinela B',
       atlasSceptre: 'Cetro Atlas',
       atlas: 'Atlântida',
-      staff: 'Cajado'
+      staff: 'Cajado',
+      staffRuin: 'Pilar de Titã',
+      staffBone: 'Coroa de basilisco',
+      switch: 'Rifle Neon Infinito XXII',
+      retro: 'Starbound v0.27',
+      swarm: 'Desintegrador de vespatroz',
+      staffNpc: 'Cajado de NPC'
     },
     seedLabel: 'Seed',
     homeSeedHint:

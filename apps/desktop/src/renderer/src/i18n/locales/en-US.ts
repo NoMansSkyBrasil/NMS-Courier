@@ -473,7 +473,13 @@ export const enUS: Messages = {
       sentinelB: 'Sentinel B',
       atlasSceptre: 'Atlas Sceptre',
       atlas: 'Atlantid',
-      staff: 'Staff'
+      staff: 'Staff',
+      staffRuin: 'Pillar of Titan',
+      staffBone: 'Basilisk Crown',
+      switch: 'Infinite Neon Mark XXII',
+      retro: 'Starbound v0.27',
+      swarm: 'Direwasp Disintegrator',
+      staffNpc: 'NPC staff'
     },
     seedLabel: 'Seed',
     homeSeedHint:

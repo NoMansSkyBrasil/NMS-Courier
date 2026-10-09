@@ -484,7 +484,13 @@ export const esES: Messages = {
       sentinelB: 'Centinela B',
       atlasSceptre: 'Cetro Atlas',
       atlas: 'Atlántida',
-      staff: 'Bastón'
+      staff: 'Bastón',
+      staffRuin: 'Pilar de Titán',
+      staffBone: 'Corona Basilisco',
+      switch: 'Neón infinito XXII',
+      retro: 'Estelar v0.27',
+      swarm: 'Desintegrador Avispa feroz',
+      staffNpc: 'Bastón de PNJ'
     },
     seedLabel: 'Semilla',
     homeSeedHint:

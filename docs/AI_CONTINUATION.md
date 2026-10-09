@@ -29,9 +29,11 @@
 > game's window to be in front (confirmed live); bridge 1.13.0 (installed,
 > not exercised) also waits until the game holds the mouse and changes the
 > instruction the reward really uses for the legacy colours (`8e5c7e`,
-> argument of the scene loader `639be0`); bridge 1.14.0 (installed, not
-> exercised) gives an accepted multi-tool all technology slots and
-> supercharged slots; the ships of
+> argument of the scene loader `639be0`, confirmed live); the slots of an
+> accepted multi-tool (bridge 1.14.0) were NOT applied live: the watch did
+> not find the seed in the owned records, to be read from the running
+> game; bridge 1.15.0 (installed, not exercised) offers every multi-tool
+> scene; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point
@@ -47,7 +49,7 @@
 > (1.12.1 corrected the already-chosen rule of the part selection).
 
 > Checkpoint 2026-10-08 (end of day): application 1.9.0, bridge 1.7.0
-> (`7b8a83be...0509`), data file `2f55b139...37d6` (eight starship kinds) in
+> (`7b8a83be...0509`), data file `0cc85351...7752` (eight starship kinds, sixteen multi-tool models) in
 > `GAMEDATA/MODS/NMSCourier`. Every carrier request (currencies, items with
 > notification, new starship, new multi-tool) is still unproven live; the
 > first one that answers `given`, `rewarded` or `offered` confirms the

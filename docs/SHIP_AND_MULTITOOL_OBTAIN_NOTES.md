@@ -235,47 +235,77 @@ the running game keeps a ship's seed is not known.
 The owner sent the type list of a save editor: Standard, Rifle, Royal,
 Alien, Pristine, Experimental, Sentinel, Sentinel B, Switch, Staff, Staff
 NPC, Staff Ruin, Staff Bone, Atlantid, Voltaic Staff, Direwasp
-Disintegrator, Starbound V0.27. Checked in build 180836:
+Disintegrator, Starbound V0.27. Checked in build 180836 (this replaces a
+first table written the same day, which had Atlantid and Voltaic Staff
+wrong):
 
-- The game has no such list. It has two things: the stat class
-  (`GcWeaponClasses`, in the executable beside `WeaponStatClass`; rewards use
-  `Pistol` 0, `Rifle` 1, `Pristine` 2, `Alien` 3 and `Staff` 9, and the
-  enumeration also names `AtlasYellow` and `AtlasBlue`; the reward routine
-  treats 10 as "none"), and the model scene file.
+- The game has no such list. It has the stat class and the model scene.
+- Stat class, `GcWeaponClasses` in the executable beside `WeaponStatClass`:
+  `Pistol` 0, `Rifle` 1, `Pristine` 2, `Alien` 3, then three values, then
+  `AtlasYellow` 7, `AtlasBlue` 8, `Staff` 9; the reward routine treats 10 as
+  "none". The names of 4, 5 and 6 are not stored beside the others (the
+  executable shares equal strings); they are taken as `Royal`, `Robot` and
+  `Atlas`, the names the ship classes use, **not proven**. The rewards of the
+  game use only `Pistol`, `Rifle`, `Pristine`, `Alien` and `Staff`.
 - Fourteen multi-tool scene files exist in
-  `models/common/weapons/multitool`: `MULTITOOL`, `ROYALMULTITOOL`,
-  `SENTINELMULTITOOL`, `SENTINELMULTITOOLB`, `ATLASMULTITOOL`,
-  `SWITCHMULTITOOL`, `RETROMULTITOOL`, `SWARMMULTITOOL`, `RODMULTITOOL`,
-  `STAFFMULTITOOL`, `STAFFNPCMULTITOOL`, `STAFFMULTITOOLRUIN`,
-  `STAFFMULTITOOLBONE`, `STAFFMULTITOOLATLAS`.
-- The editor's list is those scene files under friendly names, plus the stat
-  classes that share the scene `MULTITOOL`:
+  `models/common/weapons/multitool`. One of them, `RODMULTITOOL`, is the
+  fishing rod (`FishingRodResource`), not a multi-tool.
 
-| Editor name | Scene | Stat class in the rewards that use it |
-| --- | --- | --- |
-| Standard | `MULTITOOL` | `Pistol` |
-| Rifle | `MULTITOOL` | `Rifle` |
-| Alien | `MULTITOOL` | `Alien` |
-| Pristine, Experimental | `MULTITOOL` | `Pristine` (the game calls this kind experimental; one class, two names in the editor) |
-| Royal | `ROYALMULTITOOL` | no reward uses it |
-| Sentinel, Sentinel B | `SENTINELMULTITOOL`, `SENTINELMULTITOOLB` | no reward uses them |
-| Switch | `SWITCHMULTITOOL` | `Rifle` (`UI_SWIT_GUN_01_NAME_L`) |
-| Starbound V0.27 | `RETROMULTITOOL` | `Pistol` (`UI_EXPD_GUN_23_NAME_L`) |
-| Direwasp Disintegrator | `SWARMMULTITOOL` | `Rifle` (`UI_EXPD_SWARM_GUN_NAME_L`) |
-| Voltaic Staff | `RODMULTITOOL` | named in the data once, outside the rewards |
-| Staff | `STAFFMULTITOOL` | `Staff` |
-| Staff NPC | `STAFFNPCMULTITOOL` | no reward uses it |
-| Staff Ruin | `STAFFMULTITOOLRUIN` | `Staff` (`UI_EXPED_STAFF_17_NAME_L`) |
-| Staff Bone | `STAFFMULTITOOLBONE` | `Staff` (`UI_EXPED_STAFF_18_NAME_L`) |
-| Atlantid | `STAFFMULTITOOLATLAS` | `Staff` (`UI_EXPD_ATLASSTAFF_NAME_L`) |
+| Editor name | What it is in the game |
+| --- | --- |
+| Standard, Rifle, Alien | scene `MULTITOOL` with class `Pistol`, `Rifle`, `Alien` |
+| Pristine, Experimental | scene `MULTITOOL` with class `Pristine`; the game's name for the kind is experimental. Why the editor lists two is not known |
+| Royal | scene `ROYALMULTITOOL` (pool type `Exotic`) |
+| Sentinel, Sentinel B | scenes `SENTINELMULTITOOL` (pool type `Sentinel`) and `SENTINELMULTITOOLB` |
+| Atlantid | scene `ATLASMULTITOOL` (pool type `Atlas`) |
+| Switch | scene `SWITCHMULTITOOL`, the game's "Infinite Neon Mark XXII" (`UI_SWIT_GUN_01_NAME_L`), class `Rifle` |
+| Starbound V0.27 | scene `RETROMULTITOOL` (`UI_EXPD_GUN_23_NAME_L`), class `Pistol` |
+| Direwasp Disintegrator | scene `SWARMMULTITOOL` (`UI_EXPD_SWARM_GUN_NAME_L`), class `Rifle` |
+| Staff | scene `STAFFMULTITOOL`, class `Staff` |
+| Voltaic Staff | the same scene `STAFFMULTITOOL`: a reward with the name `UI_ROBOT_STAFF_NAME` ("Voltaic Staff") |
+| Staff NPC | scene `STAFFNPCMULTITOOL`; no reward uses it |
+| Staff Ruin | scene `STAFFMULTITOOLRUIN`, "Pillar of Titan" (`UI_EXPED_STAFF_17_NAME_L`) |
+| Staff Bone | scene `STAFFMULTITOOLBONE`, "Basilisk Crown" (`UI_EXPED_STAFF_18_NAME_L`) |
 
-  The editor's names for Voltaic Staff, Direwasp and Starbound are taken
-  from the pairing of names and scenes, not read from the language files
-  here. `ATLASMULTITOOL` (the pool type `Atlas`) has no entry in the editor's
-  list as sent.
-- The application offers five of them through the reward (pistol, rifle,
-  experimental, alien, staff). The others need a carrier per scene in the
-  data file; listed in `TODO.md`.
+Not in the editor's list as sent: scene `STAFFMULTITOOLATLAS`, the "Atlas
+Sceptre" (`UI_EXPD_ATLASSTAFF_NAME_L`).
+
+### Every multi-tool scene offered (bridge 1.15.0, application 1.22.0)
+
+The workshop shows all thirteen multi-tool scenes (all build from the
+installed files; seed-dependent colours exist for seven of them). "Get a new
+one" has sixteen models: the five of bridge 1.6.0 and one per remaining
+scene, each with its own carrier in the data file:
+
+| Model in a request | Carrier | Scene | Class written in the carrier | Copied from a shipped reward of |
+| --- | --- | --- | --- | --- |
+| `royal` | `COURIER_TOOL_ROY` | `ROYALMULTITOOL` | `Royal` (4) | a pistol reward |
+| `sentinel` | `COURIER_TOOL_SNT` | `SENTINELMULTITOOL` | `Robot` (5) | a pistol reward |
+| `sentinelb` | `COURIER_TOOL_SNB` | `SENTINELMULTITOOLB` | `Robot` (5) | a pistol reward |
+| `atlas` | `COURIER_TOOL_ATL` | `ATLASMULTITOOL` | `Atlas` (6) | a pistol reward |
+| `switch` | `COURIER_TOOL_SWT` | `SWITCHMULTITOOL` | `Rifle` | the reward that ships with the scene |
+| `retro` | `COURIER_TOOL_RET` | `RETROMULTITOOL` | `Pistol` | the reward that ships with the scene |
+| `swarm` | `COURIER_TOOL_SWM` | `SWARMMULTITOOL` | `Rifle` | the reward that ships with the scene |
+| `staffnpc` | `COURIER_TOOL_SNP` | `STAFFNPCMULTITOOL` | `Staff` | a staff reward |
+| `staffruin` | `COURIER_TOOL_SRU` | `STAFFMULTITOOLRUIN` | `Staff` | the reward that ships with the scene |
+| `staffbone` | `COURIER_TOOL_SBO` | `STAFFMULTITOOLBONE` | `Staff` | the reward that ships with the scene |
+| `atlasstaff` | `COURIER_TOOL_SAT` | `STAFFMULTITOOLATLAS` | `Staff` | the reward that ships with the scene |
+
+Not proven: all eleven live. Open in particular: whether the game accepts the
+classes `Royal`, `Robot` and `Atlas` in a specific-weapon reward and reads
+those names from the data file; whether the fixed-model scenes (expedition
+tools) change at all with the seed; the installed technologies of the copied
+expedition rewards. Names shown are the game's own in the 14 languages for
+the five expedition tools; "NPC staff" is this project's wording.
+
+### Legacy colours: which domains have them
+
+Read from the owner's save (slot 3, 2026-10-09): multi-tools have
+`UseLegacyColours` each; starships have one flag each
+(`ShipUsesLegacyColours`, and `UsesLegacyColours` on archived ships);
+**freighters have none**, so no legacy option is offered for them. For
+starships the option is not built yet: the offered ship is built by another
+routine (`8e75d0`) and where its legacy argument is written was not found.
 
 ### Legacy colours on the offer itself (bridge 1.10.0)
 

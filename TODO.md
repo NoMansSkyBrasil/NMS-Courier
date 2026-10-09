@@ -136,7 +136,9 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Live test: legacy colours on the offer and after accepting (bridge 1.13.0); the cursor without a click before the offer; the starship offer.
 - [ ] Other requests that open a game window (slot window, freighter offer) should wait for the game's window like the offers do.
 - [ ] Obtain: "All slots", "Supercharged slots" and "Extra technology rows" when getting a new starship (owner request 2026-10-09); done for multi-tools in bridge 1.14.0, not exercised live. Needs the place where the running game keeps a ship's seed.
-- [ ] Obtain: the multi-tool scenes the application does not offer yet (royal, sentinel, sentinel B, atlas, switch, retro, swarm, rod, NPC staff, ruin, bone and atlas staffs): one carrier per scene in the data file, and their names in the 14 languages.
+- [ ] Obtain (failing): slots and legacy mark of an accepted multi-tool are not applied; the watch does not find the seed in the owned records. Read the records from the running game with the tool owned.
+- [ ] Live test: the eleven multi-tool models added in bridge 1.15.0, one by one (royal, sentinel and Atlantid use classes no shipped reward uses).
+- [ ] Legacy colours for a new starship: find where the offered ship's legacy argument is written (`8e75d0` path). Freighters have no such setting.
 - [ ] Live test from the application: a multi-tool with "Use legacy colours" (bridge 1.9.0): the offer, the file `native-weapon-legacy-...`, and the tool's colours after accepting.
 - [ ] Legacy colours for a starship got through the application: find where the running game keeps `ShipUsesLegacyColours`.
 - [ ] Model workshop: multi-tool types as the game names them, from the owner's list: Pistol, Rifle, Experimental, Alien (standard scene), Starbound v0.27 (`retromultitool`), Infinite Neon Mark XXII (`switchmultitool`), Direwasp Disintegrator, Exotic (royal), Sentinel, Atlantid, Voltaic Staff, Atlas Sceptre, Pillar of Titan, Basilisk Crown; the last ones still to be matched to `swarmmultitool`, `staffmultitoolbone` and `staffmultitoolruin`.

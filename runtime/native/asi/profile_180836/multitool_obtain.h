@@ -12,7 +12,20 @@ static const obtain_model multitool_obtain_models[] = {
     {"rifle", "COURIER_TOOL_RFL", 1},
     {"experimental", "COURIER_TOOL_EXP", 2},
     {"alien", "COURIER_TOOL_ALN", 3},
-    {"staff", "COURIER_TOOL_STF", 9}
+    {"staff", "COURIER_TOOL_STF", 9},
+    // The other scenes (bridge 1.15.0). Types 4, 5 and 6 are the classes Royal, Robot and Atlas,
+    // which no shipped reward uses; whether the game accepts them in this reward is not proven.
+    {"royal", "COURIER_TOOL_ROY", 4},
+    {"sentinel", "COURIER_TOOL_SNT", 5},
+    {"sentinelb", "COURIER_TOOL_SNB", 5},
+    {"atlas", "COURIER_TOOL_ATL", 6},
+    {"switch", "COURIER_TOOL_SWT", 1},
+    {"retro", "COURIER_TOOL_RET", 0},
+    {"swarm", "COURIER_TOOL_SWM", 1},
+    {"staffnpc", "COURIER_TOOL_SNP", 9},
+    {"staffruin", "COURIER_TOOL_SRU", 9},
+    {"staffbone", "COURIER_TOOL_SBO", 9},
+    {"atlasstaff", "COURIER_TOOL_SAT", 9}
 };
 
 // The places where the game builds the offered multi-tool without the legacy colours flag, all

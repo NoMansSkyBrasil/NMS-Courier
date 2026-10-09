@@ -76,7 +76,24 @@ export const shipModels = [
   'living',
   'interceptor'
 ] as const
-export const multitoolModels = ['pistol', 'rifle', 'experimental', 'alien', 'staff'] as const
+export const multitoolModels = [
+  'pistol',
+  'rifle',
+  'experimental',
+  'alien',
+  'staff',
+  'royal',
+  'sentinel',
+  'sentinelb',
+  'atlas',
+  'switch',
+  'retro',
+  'swarm',
+  'staffnpc',
+  'staffruin',
+  'staffbone',
+  'atlasstaff'
+] as const
 
 // A new starship or multi-tool of a kind, seed and class: the bridge writes them into its own reward
 // table entry and the game shows its offer screen. `randomSeed` supplies the seed when none is given.

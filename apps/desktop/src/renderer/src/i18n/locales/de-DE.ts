@@ -500,7 +500,13 @@ export const deDE: Messages = {
       sentinelB: 'Wächter B',
       atlasSceptre: 'Atlas-Zepter',
       atlas: 'Atlantid',
-      staff: 'Stab'
+      staff: 'Stab',
+      staffRuin: 'Säule von Titan',
+      staffBone: 'Basiliskenkrone',
+      switch: 'Unendliches Neon Mark XXII',
+      retro: 'Sternwärts v0.27',
+      swarm: 'Schreckenswespen-Desintegrator',
+      staffNpc: 'NPC-Stab'
     },
     seedLabel: 'Seed',
     homeSeedHint:

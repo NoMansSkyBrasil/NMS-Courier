@@ -441,7 +441,13 @@ export const zhTW: Messages = {
       sentinelB: '哨兵 B',
       atlasSceptre: '阿特拉斯權杖',
       atlas: '亞特蘭蒂德',
-      staff: '法杖'
+      staff: '法杖',
+      staffRuin: '泰坦之柱',
+      staffBone: '蛇怪王冠',
+      switch: '無限氖標記 XXII',
+      retro: '奔赴星空 v0.27',
+      swarm: '恐蜂分解槍',
+      staffNpc: 'NPC 法杖'
     },
     seedLabel: '種子',
     homeSeedHint:

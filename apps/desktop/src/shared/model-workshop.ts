@@ -28,7 +28,13 @@ export const workshopKinds = {
     sentinelB: multitool + 'sentinelmultitoolb.scene.mbin',
     atlas: multitool + 'atlasmultitool.scene.mbin',
     staff: multitool + 'staffmultitool.scene.mbin',
-    atlasSceptre: multitool + 'staffmultitoolatlas.scene.mbin'
+    atlasSceptre: multitool + 'staffmultitoolatlas.scene.mbin',
+    staffRuin: multitool + 'staffmultitoolruin.scene.mbin',
+    staffBone: multitool + 'staffmultitoolbone.scene.mbin',
+    staffNpc: multitool + 'staffnpcmultitool.scene.mbin',
+    switch: multitool + 'switchmultitool.scene.mbin',
+    retro: multitool + 'retromultitool.scene.mbin',
+    swarm: multitool + 'swarmmultitool.scene.mbin'
   },
   freighter: {
     regular: spacecraft + 'industrial/freighter_proc.scene.mbin',
@@ -38,6 +44,8 @@ export const workshopKinds = {
     pirate: spacecraft + 'industrial/piratefreighter.scene.mbin'
   }
 } as const
+
+export type WorkshopToolKind = keyof (typeof workshopKinds)['multitool']
 
 export type WorkshopKind = {
   [Category in WorkshopCategory]: keyof (typeof workshopKinds)[Category]
