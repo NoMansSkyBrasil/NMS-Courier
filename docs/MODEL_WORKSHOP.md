@@ -314,3 +314,52 @@ what the workshop still does not draw.
 
 The order of work this gives: the masks map, the colourise mask and the
 multi-texture sets, each checked on a seed seen in the game.
+
+## How the game combines the layers of a texture (2026-10-09)
+
+Read from the game's own shader, not inferred. The shaders of build 180836
+are compiled SPIR-V in `NMSARC.Shaders` (25,859 files); the one that builds a
+procedural diffuse texture is `shaders/code/bin/pc/texture_frag_combine_diffuse_0.spv`.
+It was decompiled to GLSL with Khronos SPIRV-Cross, built from source into
+`%LOCALAPPDATA%\NMSCourier\research-tools\spirv-cross`:
+
+```bash
+spirv-cross texture_frag_combine_diffuse_0.spv --version 450 --vulkan-semantics --output combine.glsl
+```
+
+The shader takes up to eight source textures and, per layer, a recolour
+value (`gRecolourNVec4`, its fourth number is 1 when the layer is tinted), the
+layer's average colour (`gAverageColourNVec4`), a multiply switch
+(`gMultiplyLayer`) and which layer is the base alpha layer
+(`gBaseAlphaLayer`). For each layer in use, source 1 first:
+
+1. Hue, saturation and brightness of the texel, of the average and of the
+   recolour are taken from the stored values (no conversion first).
+2. Tinted colour: hue = `fract(texel hue - average hue + recolour hue)`;
+   saturation = `min(texel, recolour)`; brightness =
+   `texel + 10^(-10 * (texel - 0.5)^2) * 0.47662675 * (recolour - average)`.
+3. Texel, recolour and tinted colour are turned to linear light (power 2.2;
+   2.4 above 1).
+4. Layer colour = `mix(texel, mix(tinted, texel * recolour, multiply), recolour.w)`.
+5. Layer alpha = `clamp(alpha - 0.004, 0, 1) * 1.00401604`.
+6. The base alpha layer replaces what is below and sets the picture's alpha;
+   any other layer is mixed over the result by its alpha and leaves the
+   picture's alpha.
+7. At the end the picture is turned back (power 1 / 2.2).
+
+`apps/desktop/src/renderer/src/lib/model-surface-painter.ts` does exactly
+this from application 1.17.1, with two inputs it cannot take from the game:
+
+- **The average colour.** The routine that sets the shader's inputs
+  (`1bf170`, called from `6358f0`) copies eight averages from the texture
+  build job (job `+0x160`); what fills them is not traced. The workshop uses
+  the alpha-weighted mean of the layer.
+- **The multiply switch.** Eight bytes of the same job (`+0x1e0`); what sets
+  them is not traced. The workshop never multiplies.
+
+Also not established: which layer of a texture list the game passes as
+source 1 (the workshop draws the last used layer first, which gives the
+expected pictures), how the ubershader lays a second diffuse texture over the
+first, and its use of the masks map. Those decide the remaining differences
+seen on the multi-tool `0x81E18111081140E1` (top housing beige and front flap
+black in the game, grey in the workshop; band colours).

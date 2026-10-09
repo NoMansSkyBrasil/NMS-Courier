@@ -5,9 +5,14 @@
 // it is and drawn by a small program on one hidden canvas, and the finished picture is handed
 // back as a bitmap.
 //
-// The tint is the research rule (hue moved by the difference between the tint and the layer's
-// average, saturation capped by the tint's, brightness moved toward the tint's). It follows the
-// community's description of the game's recolouring; it was not read from the game's shaders.
+// The arithmetic of a layer is the game's own, read from its shader that combines the layers of
+// a procedural texture (texture_frag_combine_diffuse of build 180836, decompiled; see
+// docs/MODEL_WORKSHOP.md): hue, saturation and brightness are taken from the stored colour
+// values; the hue is moved by the difference between the tint and the layer's average, the
+// saturation is capped by the tint's, the brightness is moved toward the tint's with a weight
+// that peaks at mid grey; the result is turned to linear light, laid over the layers below by
+// the layer's alpha, and the finished picture is turned back at the end. The layer's average
+// colour is computed here; how the game computes the one it passes to the shader is not known.
 
 const ddsMagic = 0x20534444
 const fourCcDx10 = 0x30315844
@@ -72,8 +77,9 @@ void main() {
   gl_Position = vec4(corner * 2.0 - 1.0, 0.0, 1.0);
 }`
 
-// Draws one layer over what is already there. `mode` 0 copies the layer (for averaging), 1 lays
-// it over the picture, tinted when `tinted` is set.
+// Draws one layer over what is already there, tinted when `tinted` is set. `linear` is set when
+// the target holds linear light (the normal case); without it the layer is written as stored,
+// for averaging and for graphics cards that cannot draw to a half-float picture.
 const fragmentSource = `#version 300 es
 precision highp float;
 uniform sampler2D layer;
@@ -81,37 +87,56 @@ uniform vec3 tint;
 uniform vec3 average;
 uniform bool tinted;
 uniform bool opaque;
+uniform bool linear;
 in vec2 uv;
 out vec4 colour;
-vec3 toHsv(vec3 c) {
-  float high = max(c.r, max(c.g, c.b));
-  float low = min(c.r, min(c.g, c.b));
-  float spread = high - low;
-  float hue = 0.0;
-  if (spread > 0.0) {
-    if (high == c.r) hue = mod((c.g - c.b) / spread, 6.0);
-    else if (high == c.g) hue = (c.b - c.r) / spread + 2.0;
-    else hue = (c.r - c.g) / spread + 4.0;
-  }
-  return vec3(hue / 6.0, high == 0.0 ? 0.0 : spread / high, high);
+float toLinear(float value) {
+  float side = value < 0.0 ? -1.0 : 1.0;
+  float size = value * side;
+  return side * (size > 1.0 ? pow(size, 2.4) : (size > 0.0 ? pow(size, 2.2) : size));
 }
-vec3 toRgb(vec3 c) {
-  vec3 k = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
-  return c.z * mix(vec3(1.0), k, c.y);
+vec3 toLinear(vec3 c) {
+  return vec3(toLinear(c.r), toLinear(c.g), toLinear(c.b));
+}
+// Hue, saturation and brightness the way the game's shader takes them.
+vec3 toHsv(vec3 c) {
+  vec4 p = c.g < c.b ? vec4(c.b, c.g, -1.0, 2.0 / 3.0) : vec4(c.g, c.b, 0.0, -1.0 / 3.0);
+  vec4 q = c.r < p.x ? vec4(p.xyw, c.r) : vec4(c.r, p.yzx);
+  float spread = q.x - min(q.w, q.y);
+  return vec3(abs(q.z + (q.w - q.y) / (6.0 * spread + 1e-10)), spread / (q.x + 1e-10), q.x);
 }
 void main() {
   vec4 texel = texture(layer, uv);
   vec3 rgb = texel.rgb;
   if (tinted) {
-    vec3 hsv = toHsv(rgb);
+    vec3 own = toHsv(rgb);
     vec3 target = toHsv(tint);
     vec3 base = toHsv(average);
-    hsv.x = fract(hsv.x - base.x + target.x);
-    hsv.y = min(hsv.y, target.y);
-    hsv.z = clamp(hsv.z + sin(3.14159265 * hsv.z) * (target.z - base.z), 0.0, 1.0);
-    rgb = toRgb(hsv);
+    float hue = fract(own.x - base.x + target.x);
+    float saturation = min(own.y, target.y);
+    float middle = own.z - 0.5;
+    float value = own.z + pow(10.0, -10.0 * middle * middle) * 0.47662675 * (target.z - base.z);
+    vec3 pure = clamp(abs(fract(vec3(hue) + vec3(1.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0) - 1.0, 0.0, 1.0);
+    rgb = clamp(mix(vec3(1.0), pure, saturation) * value, 0.0, 1.0);
   }
-  colour = vec4(rgb, opaque ? 1.0 : texel.a);
+  float alpha = clamp(texel.a - 0.004, 0.0, 1.0) * 1.00401604;
+  colour = vec4(linear ? toLinear(rgb) : rgb, opaque ? 1.0 : alpha);
+}`
+
+// Turns the finished picture from linear light back to stored values.
+const finishSource = `#version 300 es
+precision highp float;
+uniform sampler2D layer;
+in vec2 uv;
+out vec4 colour;
+float toStored(float value) {
+  float side = value < 0.0 ? -1.0 : 1.0;
+  float size = value * side;
+  return side * (size < 1.0 ? pow(size, 1.0 / 2.2) : pow(size, 1.0 / 2.4));
+}
+void main() {
+  vec4 texel = texture(layer, uv);
+  colour = vec4(toStored(texel.r), toStored(texel.g), toStored(texel.b), texel.a);
 }`
 
 type Painter = {
@@ -143,15 +168,41 @@ function createPainter(): Painter | null {
     gl.compileShader(shader)
     return gl.getShaderParameter(shader, gl.COMPILE_STATUS) ? shader : null
   }
-  const vertex = compile(gl.VERTEX_SHADER, vertexSource)
-  const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource)
-  const program = gl.createProgram()
-  if (!vertex || !fragment || !program) return null
-  gl.attachShader(program, vertex)
-  gl.attachShader(program, fragment)
-  gl.linkProgram(program)
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null
+  const link = (source: string): WebGLProgram | null => {
+    const vertex = compile(gl.VERTEX_SHADER, vertexSource)
+    const fragment = compile(gl.FRAGMENT_SHADER, source)
+    const linked = gl.createProgram()
+    if (!vertex || !fragment || !linked) return null
+    gl.attachShader(linked, vertex)
+    gl.attachShader(linked, fragment)
+    gl.linkProgram(linked)
+    return gl.getProgramParameter(linked, gl.LINK_STATUS) ? linked : null
+  }
+  const program = link(fragmentSource)
+  const finish = link(finishSource)
+  if (!program || !finish) return null
   gl.useProgram(program)
+  // The layers are laid over each other in linear light, in a half-float picture; a graphics
+  // card that cannot draw to one gets the layers laid over each other as stored.
+  let stage: { buffer: WebGLFramebuffer; picture: WebGLTexture } | null = null
+  if (gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float')) {
+    const picture = gl.createTexture()
+    const buffer = gl.createFramebuffer()
+    gl.bindTexture(gl.TEXTURE_2D, picture)
+    gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA16F, pictureSize, pictureSize)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+    gl.bindFramebuffer(gl.FRAMEBUFFER, buffer)
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, picture, 0)
+    if (
+      picture &&
+      buffer &&
+      gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE
+    ) {
+      stage = { buffer, picture }
+    }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+  }
   const uniform = (name: string): WebGLUniformLocation | null =>
     gl.getUniformLocation(program, name)
   const texture = gl.createTexture()
@@ -175,10 +226,12 @@ function createPainter(): Painter | null {
   }
   // The layer's average colour, weighted by its alpha, from a small drawing of it.
   const averageOf = (): [number, number, number] => {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, averageSize, averageSize)
     gl.disable(gl.BLEND)
     gl.uniform1i(uniform('tinted'), 0)
     gl.uniform1i(uniform('opaque'), 0)
+    gl.uniform1i(uniform('linear'), 0)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
     const pixels = new Uint8Array(averageSize * averageSize * 4)
     gl.readPixels(0, 0, averageSize, averageSize, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
@@ -200,11 +253,15 @@ function createPainter(): Painter | null {
         const file = files.get(layer.texture)
         return file ? readLevel(file, pictureSize, formats) : null
       })
+      gl.useProgram(program)
+      gl.bindTexture(gl.TEXTURE_2D, texture)
       const averages: ([number, number, number] | null)[] = []
       for (let index = 0; index < layers.length; index += 1) {
         const picture = pictures[index]
         averages.push(picture && layers[index].tint && upload(picture) ? averageOf() : null)
       }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, stage ? stage.buffer : null)
+      gl.uniform1i(uniform('linear'), stage ? 1 : 0)
       gl.viewport(0, 0, pictureSize, pictureSize)
       gl.clearColor(0, 0, 0, 0)
       gl.clear(gl.COLOR_BUFFER_BIT)
@@ -222,14 +279,27 @@ function createPainter(): Painter | null {
         }
         // The bottom layer fills the picture; a decal keeps its own alpha instead.
         gl.uniform1i(uniform('opaque'), !drawn && !cutout ? 1 : 0)
+        // A later layer is mixed in by its alpha and leaves the picture's own alpha as it is.
         if (drawn) {
           gl.enable(gl.BLEND)
-          gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+          gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE)
         } else gl.disable(gl.BLEND)
         gl.drawArrays(gl.TRIANGLES, 0, 3)
         drawn = true
       }
-      if (!drawn) return null
+      if (!drawn) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+        return null
+      }
+      if (stage) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+        gl.disable(gl.BLEND)
+        gl.useProgram(finish)
+        gl.bindTexture(gl.TEXTURE_2D, stage.picture)
+        gl.drawArrays(gl.TRIANGLES, 0, 3)
+        gl.useProgram(program)
+        gl.bindTexture(gl.TEXTURE_2D, texture)
+      }
       // The canvas's first row is its bottom; the model's textures have their first row at v = 0.
       return createImageBitmap(canvas, { imageOrientation: 'flipY' })
     }

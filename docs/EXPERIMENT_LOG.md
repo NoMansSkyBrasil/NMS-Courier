@@ -1,5 +1,26 @@
 # Runtime experiment log
 
+## 2026-10-09: the game's texture layer shader decompiled; the workshop's painter follows it
+
+Offline, game closed. Build 180836 shaders (`NMSARC.Shaders`, SPIR-V).
+`texture_frag_combine_diffuse_0.spv` decompiled with SPIRV-Cross (built from
+source in the research tools folder; `naga` could not read the file). Owning
+note: [model workshop](MODEL_WORKSHOP.md#how-the-game-combines-the-layers-of-a-texture-2026-10-09).
+
+Observed: the exact recolour arithmetic and layer mixing (listed in the
+note). The routine that feeds the shader is `1bf170`; its inputs come from a
+texture build job prepared in `6358f0`.
+
+Changed: application 1.17.1 paints with that arithmetic. The multi-tool
+`0x81E18111081140E1` and the reference fighter were rendered again; both draw,
+the fighter's yellow is darker than before.
+
+Rejected: the earlier brightness rule (a sine weight of full strength).
+
+Not proven: the layer average and the multiply switch the game passes (not
+traced), so colours can still differ from the game; no new comparison with
+the running game was made after this change.
+
 ## 2026-10-09: ship models of a system and the origin of a seed, ported from NMS Shipwright
 
 Offline, game closed. Application 1.17.0. Source read: NMS Shipwright commit

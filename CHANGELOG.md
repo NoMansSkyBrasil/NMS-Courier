@@ -28,6 +28,18 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.17.1 (2026-10-09)
+
+- Fixed: the model workshop tints and stacks texture layers with the game's
+  own arithmetic, read from the game's shader that combines the layers of a
+  procedural texture, instead of an approximation: the brightness step uses
+  the game's weight, layers are mixed in linear light, and a later layer
+  leaves the picture's alpha as it is.
+- Known differences that remain: unpainted metal, the colours of the bands of
+  a multi-tool's second texture, and two inputs of the shader the game
+  computes elsewhere (a layer's average colour and its multiply switch).
+- Bridge unchanged (1.8.0).
+
 ## Application 1.17.0 (2026-10-09)
 
 Two things taken from the study of NMS Shipwright (MIT licence), ported and
