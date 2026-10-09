@@ -378,3 +378,43 @@ expected pictures), how the ubershader lays a second diffuse texture over the
 first, and its use of the masks map. Those decide the remaining differences
 seen on the multi-tool `0x81E18111081140E1` (top housing beige and front flap
 black in the game, grey in the workshop; band colours).
+
+## What the game's surface shader does with a material (2026-10-09)
+
+The ubershader has 704 variants per pass, numbered by the material's flags as
+bits (1 diffuse map, 2 skinned, 4 normal map, `0x8000` second diffuse map,
+`0x1000000` masks map). All 704 of the deferred pass were decompiled and
+indexed by the textures they read; the multi-tool's body is variant
+`16777223` and its body with decals `16809991`
+(`ubershader_frag_lit_defer_<n>.spv`).
+
+Read from `16809991`:
+
+- The second diffuse texture is sampled with the second pair of texture
+  coordinates and laid over the first by its own alpha:
+  `colour = mix(diffuse, diffuse2, diffuse2.a)`. The second masks map is mixed
+  in the same way. This is what the workshop does since 1.16.1.
+- **The masks map does not change the colour.** The colour written out is the
+  diffuse colour. The masks go to the lighting pass: red times
+  `gMaterialParamsVec4.x`, green as one or two surface terms depending on the
+  material's dynamic flags, blue into a glow term, alpha times
+  `gMaterialParamsVec4.y`. Which of them is metal and which roughness, and
+  how the lighting pass uses them, is not read yet.
+
+So the two differences left on the multi-tool `0x81E18111081140E1` are not a
+missing texture step:
+
+- **Front flap, black in the game, light grey in the workshop.** Its part of
+  the body texture is bare light metal with a high green mask value. A
+  surface the lighting pass treats as metal shows its surroundings instead of
+  its own colour, which in the game's dark scene is black. The workshop
+  lights every surface as painted. Needs the lighting pass.
+- **Top housing, beige in the game, grey-blue in the workshop.** In the
+  workshop it is the coating layer tinted with the Undercoat colour of the
+  palette (first sample, `#b8bec7` for this tool). A beige there would be
+  another Undercoat sample (the fourth is `#c8c4b9`) or another palette. Not
+  established; a second multi-tool seen in the game would decide it.
+
+Rejected by rendering: the two halves of the body texture being swapped (a
+shift of half its width) gives large orange areas on top that the game does
+not have.

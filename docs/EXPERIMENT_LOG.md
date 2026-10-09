@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-09: the surface shader read; two differences on the multi-tool remain
+
+Offline, game closed. Build 180836 shaders: the 704 variants of
+`ubershader_frag_lit_defer` decompiled with SPIRV-Cross; variants `16777223`
+and `16809991` read. Owning note:
+[model workshop](MODEL_WORKSHOP.md#what-the-games-surface-shader-does-with-a-material-2026-10-09).
+
+Observed: the second diffuse texture is mixed over the first by its alpha
+with the second texture coordinates; the masks map goes to the lighting pass
+and does not change the colour.
+
+Rejected: a half-width shift of the body texture (rendered, does not look
+like the game).
+
+Not proven: how the lighting pass uses the masks (the black front flap);
+which Undercoat sample or palette gives the beige top housing. Application
+unchanged by this entry (1.17.2).
+
 ## 2026-10-09: where the layer average and the multiply switch come from
 
 Offline, game closed. Build 180836 executable and game files. Owning note:
