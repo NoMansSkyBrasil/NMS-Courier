@@ -13,7 +13,9 @@
 > memory was read with `runtime/research/read-live-star-system.py`: stream
 > layout station, 21 characters, 258 draws, ships; planet seeds reproduced
 > from the address; multi-tool seed origin still open; a second system
-> gave 447 steps, so that number varies and comes from `164da40`); then
+> gave 447 steps, so that number varies and comes from `164da40`; a bought
+> station multi-tool, seed `0x81E18111081140E1`, has the shape the workshop
+> builds but other colours, origin unknown); then
 > multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the

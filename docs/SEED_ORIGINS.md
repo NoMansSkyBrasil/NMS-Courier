@@ -336,6 +336,33 @@ record). The second is exact by construction but works only with the game
 running and needs its own safety review, because the routine also writes
 the generator state in its context object.
 
+### The station's multi-tool, bought, 2026-10-09
+
+The owner bought the tool offered in the second station (a class B pistol
+the game names "Choque Caçador A96/BE0-OK0" in Brazilian Portuguese). The
+player state then held, for the current weapon, the file name
+`MODELS/COMMON/WEAPONS/MULTITOOL/MULTITOOL.SCENE.MBIN` at `+0x8d8` and the
+seed **`0x81E18111081140E1`** at `+0x8e8` (in-use byte after it).
+
+- **First comparison of the workshop with the running game.** The workshop,
+  given that seed and the standard multi-tool type, builds the same tool the
+  game showed in its purchase screen: same body, barrel, round side part,
+  grip with guard and top stripe (`Multitool NORMAL`, `Gunmode 2`,
+  `Barrel 3`, `Magslot 1`, `Toolstock 1`). Part selection for multi-tools is
+  therefore confirmed against the game for one seed.
+- **The colours differ.** The game shows a white body with orange stripes
+  and a yellow grip; the workshop draws red stripes and a teal grip. The
+  palette rule taken from starships does not hold for multi-tools as it is;
+  the colour roles or the palette families of the multi-tool are still to be
+  found.
+- **The origin of the seed is not established.** It is not a child seed of
+  the system stream, of the stream of the mixed address, of any planet seed
+  or of any seed drawn from the system stream (walked back three million
+  steps), nor the finalizer of any of them. Only 20 of its 64 bits are set,
+  which a child seed (the output of the finalizer) would show about once in
+  a thousand; it may be built from packed fields instead. Finding the code
+  that fills the offered tool is the next step for multi-tools.
+
 ### Next step, bounded
 
 Read `164a4a0` from its start to `164b700` and list every use of the

@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-09: the station's multi-tool bought; its seed read; the workshop builds the same tool
+
+Live. Process 17044, build and bridge as the entries below, slot 3 by the
+owner's statement, system `0x0000E800F669E14C`. The owner bought the offered
+multi-tool in the game by hand (a normal purchase in the test save; nothing
+was sent by the application or the bridge). The seed was then read from the
+player state with the read-only research tooling. To undo: none needed; the
+save holds one more multi-tool. Owning note:
+[where each seed comes from](SEED_ORIGINS.md#the-stations-multi-tool-bought-2026-10-09).
+
+Observed: current weapon seed `0x81E18111081140E1`; the application
+(1.16.0, test instance, "View a seed", multi-tool, standard) builds the same
+shape as the game's purchase screen. Colours differ (game: white, orange,
+yellow grip; workshop: red stripes, teal grip).
+
+Rejected: the seed as a child seed of the system stream, of the mixed
+address, of the planet seeds or of the seeds drawn from the system stream.
+
+Not proven: the seed's origin; multi-tool colours.
+
 ## 2026-10-09: second system; the steps before the first ship vary
 
 Live, read only, same tool, process 17044, build and bridge as the entry
