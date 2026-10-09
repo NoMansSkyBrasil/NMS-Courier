@@ -134,7 +134,13 @@ describe('item, currency and equipment requests', () => {
       model: 'staff',
       modelSeed: '0x12'
     })
-    expect(tool?.steps[0].request?.lines).toEqual(['model=staff', 'seed=0x12', 'class=s'])
+    expect(tool?.steps[0].request?.lines).toEqual([
+      'model=staff',
+      'seed=0x12',
+      'class=s',
+      'slots=1',
+      'super=1'
+    ])
     expect(tool?.steps[0].signals).toEqual(['weapon'])
     expect(
       getEquipmentPlan({ ...base, area: 'starships', action: 'offer', model: 'freighter' })
