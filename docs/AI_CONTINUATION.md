@@ -35,7 +35,10 @@
 > the watch works); since bridges 1.16.0 to 1.18.0 the offer itself carries
 > the slots, up to 10 x 12 supercharged, confirmed live; every multi-tool
 > scene is offered (bridge 1.15.0), of the new ones only `sentinel` was seen;
-> the ships of
+> a new starship takes the same slot options (120 + 120, confirmed live on a
+> fighter); every delivery page lets entries be chosen; a teleport request
+> exists (bridge 1.21.0, [teleport notes](TELEPORT_NOTES.md)), NOT exercised
+> live; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

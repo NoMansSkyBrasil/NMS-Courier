@@ -1,5 +1,26 @@
 # Runtime experiment log
 
+## 2026-10-09: teleport request built (bridge 1.21.0); galaxy names by emulation
+
+No live action. Build 180836 (`13d5060d...cc3499`), offline reading of the
+executable and emulation; bridge 1.21.0 (`9a9312fb8713e4adced72c53e00f84c559ccfcb44b0b61899b534c372e8a41de`) built, fixture passed.
+Application 1.26.0. Owning note: [teleport notes](TELEPORT_NOTES.md).
+
+Found: the teleport reward handler `f3a910` fills a pending request at
+manager `+0x72f120` (state at `+0x72f1e0`) whose endpoint is a
+`GcTeleportEndpoint`; the game then travels. The bridge calls the handler and
+writes the destination into the request. The galaxy name routine `135a2a0`
+was run under emulation for all 256 galaxies without error.
+
+Rejected on the way: the debug "UA & Portal Code Checker" as a way to travel
+(it only converts addresses); a hand-written list of galaxy names.
+
+Not proven: everything live. The first test should be a station in the same
+galaxy, from the application, with a save made just before.
+Installed afterwards with the game closed (process list checked), in place
+of 1.20.0 (kept under `native-builds/bridge-1.20.0`). To undo: copy that
+file back.
+
 ## 2026-10-09: selection on every delivery page; bridge 1.20.0 built and installed
 
 No live action. Build 180836, game closed (process list checked). Bridge

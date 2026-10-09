@@ -41,6 +41,7 @@ export const zhTW: Messages = {
       summary: '放入已載入存檔的物品欄中的物質和產品。'
     },
     currencies: { title: '貨幣', summary: '單位、奈米機械和水銀。' },
+    teleport: { title: '傳送', summary: '依星系與傳送門位址前往一個恆星系，無需傳送門。' },
     exosuit: {
       title: '外骨骼裝甲',
       summary: '外骨骼裝甲的等級、貨物與科技欄位以及超充能欄位。'
@@ -397,6 +398,30 @@ export const zhTW: Messages = {
     matching: '{count} 個相符的定義',
     loading: '正在載入定義…',
     languages: '{count} 種遊戲語言'
+  },
+  teleport: {
+    hint: '旅程由執行中的遊戲自己完成：請求方式與遊戲自己的傳送器相同。你會抵達該恆星系的太空站，或位址第一個符文所指的行星。實驗性功能。',
+    galaxy: '星系',
+    galaxyHint: '遊戲中的全部星系，依編號與名稱列出。輸入即可搜尋。',
+    galaxyEmpty: '找不到星系。',
+    galaxyNumber: '星系 {number}',
+    address: '傳送門位址',
+    addressHint:
+      '十二個符文，以 0 到 F 的數字表示：行星、恆星系，接著是三個座標。點擊輸入或貼上代碼。',
+    erase: '刪除最後一個符文',
+    destination: '抵達位置',
+    destinationHint: '太空站是穩妥的選擇。行星使用位址的第一個符文。',
+    toStation: '恆星系的太空站',
+    toPlanet: '位址中的行星',
+    action: '傳送',
+    confirmBody: '你將離開目前位置，遊戲會載入另一個恆星系。如果想回到這個確切位置，請先存檔。',
+    favourites: '已儲存的目的地',
+    favouritesHint: '由本應用程式儲存在這台電腦上；遊戲看不到它們。',
+    favouriteName: '目的地名稱',
+    addFavourite: '儲存此位址',
+    useFavourite: '使用',
+    removeFavourite: '移除',
+    noFavourites: '尚未儲存任何內容。'
   },
   workshop: {
     title: '模型工坊',

@@ -43,6 +43,11 @@ export const ptBR: Messages = {
       summary: 'Substâncias e produtos colocados em um inventário do save carregado.'
     },
     currencies: { title: 'Moedas', summary: 'Unidades, nanitos e mercúrio.' },
+    teleport: {
+      title: 'Teleporte',
+      summary:
+        'Viaje para um sistema estelar por galáxia e endereço de portal, sem precisar de um portal.'
+    },
     exosuit: {
       title: 'Exotraje',
       summary: 'Classe, espaços de carga e de tecnologia e espaços sobrecarregados do exotraje.'
@@ -429,6 +434,32 @@ export const ptBR: Messages = {
     matching: '{count} definições encontradas',
     loading: 'Carregando definições…',
     languages: '{count} idiomas do jogo'
+  },
+  teleport: {
+    hint: 'Quem faz a viagem é o próprio jogo em execução: o pedido é feito do mesmo jeito que os teleportadores dele fazem. Você chega na estação espacial do sistema ou no planeta indicado pelo primeiro glifo. Experimental.',
+    galaxy: 'Galáxia',
+    galaxyHint: 'Todas as galáxias do jogo, por número e nome. Digite para buscar.',
+    galaxyEmpty: 'Nenhuma galáxia encontrada.',
+    galaxyNumber: 'Galáxia {number}',
+    address: 'Endereço de portal',
+    addressHint:
+      'Doze glifos, como dígitos de 0 a F: planeta, sistema e depois as três coordenadas. Clique neles ou cole o código.',
+    erase: 'Apagar o último glifo',
+    destination: 'Chegar em',
+    destinationHint:
+      'A estação espacial é a opção segura. O planeta usa o primeiro glifo do endereço.',
+    toStation: 'Estação espacial do sistema',
+    toPlanet: 'Planeta do endereço',
+    action: 'Teleportar',
+    confirmBody:
+      'Você sai de onde está agora e o jogo carrega o outro sistema. Salve antes se quiser voltar exatamente a este ponto.',
+    favourites: 'Destinos salvos',
+    favouritesHint: 'Guardados por esta aplicação neste computador; o jogo não os vê.',
+    favouriteName: 'Nome do destino',
+    addFavourite: 'Salvar este endereço',
+    useFavourite: 'Usar',
+    removeFavourite: 'Remover',
+    noFavourites: 'Nada salvo ainda.'
   },
   workshop: {
     title: 'Oficina de modelos',

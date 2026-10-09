@@ -45,6 +45,10 @@ export const plPL: Messages = {
       summary: 'Substancje i produkty umieszczane w ekwipunku wczytanego zapisu.'
     },
     currencies: { title: 'Waluty', summary: 'Jednostki, nanity i rtęć.' },
+    teleport: {
+      title: 'Teleport',
+      summary: 'Podróżuj do układu gwiezdnego według galaktyki i adresu portalu, bez portalu.'
+    },
     exosuit: {
       title: 'Egzoskafander',
       summary: 'Klasa, miejsca ładunkowe i technologiczne oraz doładowane miejsca egzoskafandra.'
@@ -425,6 +429,32 @@ export const plPL: Messages = {
     matching: 'Pasujące definicje: {count}',
     loading: 'Wczytywanie definicji…',
     languages: 'Języki gry: {count}'
+  },
+  teleport: {
+    hint: 'Podróż wykonuje sama uruchomiona gra: prośba jest składana tak, jak robią to jej teleportery. Trafiasz na stację kosmiczną układu albo na planetę wskazaną przez pierwszy glif. Eksperymentalne.',
+    galaxy: 'Galaktyka',
+    galaxyHint: 'Wszystkie galaktyki gry, według numeru i nazwy. Pisz, aby szukać.',
+    galaxyEmpty: 'Nie znaleziono galaktyki.',
+    galaxyNumber: 'Galaktyka {number}',
+    address: 'Adres portalu',
+    addressHint:
+      'Dwanaście glifów jako cyfry od 0 do F: planeta, układ, potem trzy współrzędne. Klikaj je lub wklej kod.',
+    erase: 'Usuń ostatni glif',
+    destination: 'Miejsce przybycia',
+    destinationHint:
+      'Stacja kosmiczna to bezpieczny wybór. Planeta korzysta z pierwszego glifu adresu.',
+    toStation: 'Stacja kosmiczna układu',
+    toPlanet: 'Planeta z adresu',
+    action: 'Teleportuj',
+    confirmBody:
+      'Opuszczasz obecne miejsce, a gra wczytuje inny układ. Zapisz wcześniej, jeśli chcesz wrócić dokładnie tutaj.',
+    favourites: 'Zapisane cele',
+    favouritesHint: 'Przechowywane przez tę aplikację na tym komputerze; gra ich nie widzi.',
+    favouriteName: 'Nazwa celu',
+    addFavourite: 'Zapisz ten adres',
+    useFavourite: 'Użyj',
+    removeFavourite: 'Usuń',
+    noFavourites: 'Nic jeszcze nie zapisano.'
   },
   workshop: {
     title: 'Warsztat modeli',

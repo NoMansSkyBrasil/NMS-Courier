@@ -41,6 +41,7 @@ export const zhCN: Messages = {
       summary: '放入已加载存档的库存中的物质和产品。'
     },
     currencies: { title: '货币', summary: '单位、纳米机械和水银。' },
+    teleport: { title: '传送', summary: '按星系和传送门地址前往一个恒星系，无需传送门。' },
     exosuit: {
       title: '外骨骼套装',
       summary: '外骨骼套装的等级、货物与科技栏位以及超充能栏位。'
@@ -397,6 +398,30 @@ export const zhCN: Messages = {
     matching: '{count} 个匹配的定义',
     loading: '正在加载定义…',
     languages: '{count} 种游戏语言'
+  },
+  teleport: {
+    hint: '旅程由运行中的游戏自己完成：请求方式与游戏自己的传送器相同。你会到达该恒星系的空间站，或地址第一个符文所指的行星。实验性功能。',
+    galaxy: '星系',
+    galaxyHint: '游戏中的全部星系，按编号和名称列出。输入即可搜索。',
+    galaxyEmpty: '未找到星系。',
+    galaxyNumber: '星系 {number}',
+    address: '传送门地址',
+    addressHint:
+      '十二个符文，用 0 到 F 的数字表示：行星、恒星系，然后是三个坐标。点击输入或粘贴代码。',
+    erase: '删除最后一个符文',
+    destination: '到达位置',
+    destinationHint: '空间站是稳妥的选择。行星使用地址的第一个符文。',
+    toStation: '恒星系的空间站',
+    toPlanet: '地址中的行星',
+    action: '传送',
+    confirmBody: '你将离开当前位置，游戏会加载另一个恒星系。如果想回到这个确切位置，请先存档。',
+    favourites: '已保存的目的地',
+    favouritesHint: '由本应用保存在这台电脑上；游戏看不到它们。',
+    favouriteName: '目的地名称',
+    addFavourite: '保存此地址',
+    useFavourite: '使用',
+    removeFavourite: '移除',
+    noFavourites: '还没有保存任何内容。'
   },
   workshop: {
     title: '模型工坊',

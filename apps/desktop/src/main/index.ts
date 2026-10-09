@@ -1,4 +1,6 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { glyphDigits, glyphIcon } from '../shared/portal-address'
+import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -347,6 +349,19 @@ app.whenReady().then(() => {
       await gameStatusService.observe(root)
     )
   })
+  // The 256 galaxies by number, named in the interface language (runtime/research/galaxy-names.md).
+  ipcMain.handle('nms:get-galaxy-names', (_, locale: unknown) =>
+    typeof locale === 'string' ? getResearchBridgeService().getGalaxyNames(locale) : []
+  )
+  ipcMain.handle('nms:teleport', async (_, request: unknown) => {
+    if (!isTeleportRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().teleport(
+      { glyphs: request.glyphs, galaxyNumber: request.galaxyNumber, to: request.to },
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
   ipcMain.handle('nms:deliver-currency', async (_, request: unknown) => {
     const value = request as { currency?: unknown; amount?: unknown; notify?: unknown } | null
     if (!value || typeof value.currency !== 'string' || typeof value.amount !== 'number') {
@@ -363,11 +378,10 @@ app.whenReady().then(() => {
   // The texture of one catalogue icon, as the game stores it; the renderer draws it.
   ipcMain.handle('nms:get-game-icon', (_, locator: unknown) => {
     if (typeof locator !== 'string' || locator.length > 260) return null
-    return iconSource.read(
-      getInstallationService().getSelectedRootPath(),
-      locator,
-      getCatalogRepository().iconLocators()
-    )
+    // Catalogue icons, and the sixteen portal glyphs of the teleport page.
+    const allowed = new Set(getCatalogRepository().iconLocators())
+    for (const digit of glyphDigits) allowed.add(glyphIcon(digit))
+    return iconSource.read(getInstallationService().getSelectedRootPath(), locator, allowed)
   })
   // A corvette export: the user picks the file, the application reads it; nothing is installed yet.
   ipcMain.handle('nms:choose-corvette-file', async () => {

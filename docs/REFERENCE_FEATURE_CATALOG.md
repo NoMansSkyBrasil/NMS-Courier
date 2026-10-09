@@ -27,7 +27,7 @@ No row is a supported capability of the currently installed build 180836.
 
 | Reference service | Client command | Main inputs visible in the client | Courier status |
 | --- | --- | --- | --- |
-| Location Transfer | `LOCATION_TRANSFER` | Ship warp or teleport; portal address book, galaxy, fixed destinations | Not started |
+| Location Transfer | `LOCATION_TRANSFER` | Ship warp or teleport; portal address book, galaxy, fixed destinations | Built 2026-10-09, not exercised live ([teleport notes](TELEPORT_NOTES.md)) |
 | Item Delivery | `ITEM_DELIVERY` | Substance, product, procedural product or tech box; amounts | Verified (old build) for one item; catalog not built |
 | Units / Nanites / Quicksilver | `CURRENCY_DELIVERY` | Currency type and amount | Verified (old build) |
 | Ship Delivery | `SHIP_DELIVERY` | Type or variant, seed, delivery mode (NPC purchase, free/reskin, exchange screen), location, optional color, class override, S-class flag, connected supercharged slots, legacy colors | Research: seed and class algorithms; no delivery |

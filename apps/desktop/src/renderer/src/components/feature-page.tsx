@@ -2,6 +2,7 @@ import { CheckIcon, InfoIcon } from 'lucide-react'
 import { DeliveryCard } from '@renderer/components/delivery-card'
 import { CorvetteFileCard } from '@renderer/components/corvette-file-card'
 import { CurrencyCard } from '@renderer/components/currency-card'
+import { TeleportCard } from '@renderer/components/teleport-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
 import { ItemsCard } from '@renderer/components/items-card'
@@ -79,6 +80,8 @@ export function FeaturePage({
         <ItemsCard />
       ) : feature.id === 'currencies' ? (
         <CurrencyCard />
+      ) : feature.id === 'teleport' ? (
+        <TeleportCard />
       ) : isEquipmentArea(feature.id) ? (
         <>
           {feature.id === 'corvettes' && <CorvetteFileCard />}

@@ -43,6 +43,11 @@ export const esES: Messages = {
       summary: 'Sustancias y productos colocados en un inventario de la partida cargada.'
     },
     currencies: { title: 'Monedas', summary: 'Unidades, nanitos y azogue.' },
+    teleport: {
+      title: 'Teletransporte',
+      summary:
+        'Viaja a un sistema estelar por galaxia y dirección de portal, sin necesitar un portal.'
+    },
     exosuit: {
       title: 'Exotraje',
       summary: 'Clase, ranuras de carga y de tecnología y ranuras sobrecargadas del exotraje.'
@@ -431,6 +436,32 @@ export const esES: Messages = {
     matching: '{count} definiciones coincidentes',
     loading: 'Cargando definiciones…',
     languages: '{count} idiomas del juego'
+  },
+  teleport: {
+    hint: 'El viaje lo hace el propio juego en ejecución: se le pide igual que lo piden sus teletransportadores. Llegas a la estación espacial del sistema o al planeta que indica el primer glifo. Experimental.',
+    galaxy: 'Galaxia',
+    galaxyHint: 'Todas las galaxias del juego, por número y nombre. Escribe para buscar.',
+    galaxyEmpty: 'No se encontró ninguna galaxia.',
+    galaxyNumber: 'Galaxia {number}',
+    address: 'Dirección de portal',
+    addressHint:
+      'Doce glifos, como dígitos de 0 a F: planeta, sistema y luego las tres coordenadas. Púlsalos o pega el código.',
+    erase: 'Borrar el último glifo',
+    destination: 'Llegar a',
+    destinationHint:
+      'La estación espacial es la opción segura. El planeta usa el primer glifo de la dirección.',
+    toStation: 'Estación espacial del sistema',
+    toPlanet: 'Planeta de la dirección',
+    action: 'Teletransportar',
+    confirmBody:
+      'Sales de donde estás ahora y el juego carga el otro sistema. Guarda antes si quieres volver exactamente a este punto.',
+    favourites: 'Destinos guardados',
+    favouritesHint: 'Los guarda esta aplicación en este ordenador; el juego no los ve.',
+    favouriteName: 'Nombre del destino',
+    addFavourite: 'Guardar esta dirección',
+    useFavourite: 'Usar',
+    removeFavourite: 'Quitar',
+    noFavourites: 'Aún no hay nada guardado.'
   },
   workshop: {
     title: 'Taller de modelos',

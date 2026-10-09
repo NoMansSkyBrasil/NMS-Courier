@@ -43,6 +43,10 @@ export const jaJP: Messages = {
       summary: '読み込み中のセーブのインベントリに入れる物質と製品。'
     },
     currencies: { title: '通貨', summary: 'ユニット、ナノマシン、水銀。' },
+    teleport: {
+      title: 'テレポート',
+      summary: '銀河とポータルアドレスを指定して、ポータルなしで星系へ移動します。'
+    },
     exosuit: {
       title: 'エクソスーツ',
       summary: 'エクソスーツのクラス、貨物・テクノロジースロット、強化スロット。'
@@ -426,6 +430,31 @@ export const jaJP: Messages = {
     matching: '一致する定義: {count} 件',
     loading: '定義を読み込み中…',
     languages: 'ゲームの言語: {count}'
+  },
+  teleport: {
+    hint: '移動は実行中のゲーム自身が行います。ゲームのテレポーターと同じ方法で依頼します。到着先はその星系の宇宙ステーション、または最初のグリフが示す惑星です。実験的機能。',
+    galaxy: '銀河',
+    galaxyHint: 'ゲーム内のすべての銀河を番号と名前で表示します。入力して検索できます。',
+    galaxyEmpty: '銀河が見つかりません。',
+    galaxyNumber: '銀河 {number}',
+    address: 'ポータルアドレス',
+    addressHint:
+      '0～Fの数字で表した12個のグリフ：惑星、星系、3つの座標の順。クリックするかコードを貼り付けてください。',
+    erase: '最後のグリフを消す',
+    destination: '到着先',
+    destinationHint: '宇宙ステーションが安全な選択です。惑星はアドレスの最初のグリフを使います。',
+    toStation: '星系の宇宙ステーション',
+    toPlanet: 'アドレスの惑星',
+    action: 'テレポート',
+    confirmBody:
+      '現在地を離れ、ゲームが別の星系を読み込みます。この場所に正確に戻りたい場合は先にセーブしてください。',
+    favourites: '保存した目的地',
+    favouritesHint: 'このアプリがこのパソコンに保存します。ゲームからは見えません。',
+    favouriteName: '目的地の名前',
+    addFavourite: 'このアドレスを保存',
+    useFavourite: '使う',
+    removeFavourite: '削除',
+    noFavourites: 'まだ何も保存されていません。'
   },
   workshop: {
     title: 'モデル工房',

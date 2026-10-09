@@ -43,6 +43,9 @@ const nms = {
   deliverEquipment: (request: unknown) => ipcRenderer.invoke('nms:deliver-equipment', request),
   deliverCurrency: (request: { currency: string; amount: number; notify: boolean }) =>
     ipcRenderer.invoke('nms:deliver-currency', request),
+  getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
+  teleport: (request: { glyphs: string; galaxyNumber: number; to: 'station' | 'planet' }) =>
+    ipcRenderer.invoke('nms:teleport', request),
   getStackLimits: () => ipcRenderer.invoke('nms:get-stack-limits'),
   getStarSystem: () => ipcRenderer.invoke('nms:get-star-system'),
   chooseCorvetteFile: () => ipcRenderer.invoke('nms:choose-corvette-file'),

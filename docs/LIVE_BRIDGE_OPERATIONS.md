@@ -384,3 +384,15 @@ A chosen Twitch or platform reward uses the existing requests: redeem in the
 slot, unlock on the account (a direct write for these two kinds) and the
 keep list, to which the application adds the chosen entries after reading
 the list as it was last written (`native-account-keep-180836.txt`).
+
+### Teleport (bridge 1.21.0)
+
+Request `native-teleport-request-180836-<PID>.txt` with `galaxy=`, `system=`,
+`planet=`, `x=`, `y=`, `z=` and `to=station|planet`, event `teleport`; result
+`native-teleport-result-180836-<PID>.txt`. One **native call** (the game's
+teleport reward handler, which fills the game's pending teleport request for
+the current system) followed by a **direct write** of the destination into
+that request (packed address, the endpoint's universe address and teleporter
+type). It moves the player of the loaded slot; there is no undo. Layout and
+limits: [teleport notes](TELEPORT_NOTES.md). Not exercised in the running
+game when written.

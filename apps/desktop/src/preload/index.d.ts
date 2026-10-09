@@ -186,6 +186,12 @@ declare global {
         amount: number
         notify: boolean
       }) => Promise<DeliveryResult>
+      getGalaxyNames: (locale: string) => Promise<string[]>
+      teleport: (request: {
+        glyphs: string
+        galaxyNumber: number
+        to: 'station' | 'planet'
+      }) => Promise<DeliveryResult>
       getGameIcon: (locator: string) => Promise<Uint8Array | null>
       chooseCorvetteFile: () => Promise<
         | {

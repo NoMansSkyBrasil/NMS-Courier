@@ -50,6 +50,10 @@ export const deDE: Messages = {
         'Substanzen und Produkte, die in ein Inventar des geladenen Spielstands gelegt werden.'
     },
     currencies: { title: 'Währungen', summary: 'Units, Naniten und Quecksilber.' },
+    teleport: {
+      title: 'Teleport',
+      summary: 'Reise per Galaxie und Portaladresse in ein Sternsystem, ohne ein Portal.'
+    },
     exosuit: {
       title: 'Exo-Anzug',
       summary: 'Klasse, Fracht- und Technologieplätze sowie aufgeladene Plätze des Exo-Anzugs.'
@@ -446,6 +450,33 @@ export const deDE: Messages = {
     matching: '{count} passende Definitionen',
     loading: 'Definitionen werden geladen…',
     languages: '{count} Spielsprachen'
+  },
+  teleport: {
+    hint: 'Die Reise macht das laufende Spiel selbst: Es wird so gefragt, wie seine eigenen Teleporter fragen. Du kommst an der Raumstation des Systems an oder auf dem Planeten, den die erste Glyphe nennt. Experimentell.',
+    galaxy: 'Galaxie',
+    galaxyHint: 'Alle Galaxien des Spiels, nach Nummer und Name. Tippe, um zu suchen.',
+    galaxyEmpty: 'Keine Galaxie gefunden.',
+    galaxyNumber: 'Galaxie {number}',
+    address: 'Portaladresse',
+    addressHint:
+      'Zwölf Glyphen als Ziffern 0 bis F: Planet, System, dann die drei Koordinaten. Drücke sie oder füge den Code ein.',
+    erase: 'Letzte Glyphe löschen',
+    destination: 'Ankommen bei',
+    destinationHint:
+      'Die Raumstation ist die sichere Wahl. Der Planet nutzt die erste Glyphe der Adresse.',
+    toStation: 'Raumstation des Systems',
+    toPlanet: 'Planet der Adresse',
+    action: 'Teleportieren',
+    confirmBody:
+      'Du verlässt deinen jetzigen Ort und das Spiel lädt das andere System. Speichere vorher, wenn du genau hierher zurück willst.',
+    favourites: 'Gespeicherte Ziele',
+    favouritesHint:
+      'Von dieser Anwendung auf diesem Computer aufbewahrt; das Spiel sieht sie nicht.',
+    favouriteName: 'Name des Ziels',
+    addFavourite: 'Diese Adresse speichern',
+    useFavourite: 'Verwenden',
+    removeFavourite: 'Entfernen',
+    noFavourites: 'Noch nichts gespeichert.'
   },
   workshop: {
     title: 'Modellwerkstatt',

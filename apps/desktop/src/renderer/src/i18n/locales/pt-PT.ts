@@ -49,6 +49,11 @@ export const ptPT: Messages = {
       summary: 'Substâncias e produtos colocados num inventário da gravação carregada.'
     },
     currencies: { title: 'Moedas', summary: 'Unidades, nanites e mercúrio.' },
+    teleport: {
+      title: 'Teletransporte',
+      summary:
+        'Viaje para um sistema estelar por galáxia e endereço de portal, sem precisar de um portal.'
+    },
     exosuit: {
       title: 'Exofato',
       summary: 'Classe, espaços de carga e de tecnologia e espaços sobrecarregados do exofato.'
@@ -434,6 +439,32 @@ export const ptPT: Messages = {
     matching: '{count} definições encontradas',
     loading: 'A carregar definições…',
     languages: '{count} idiomas do jogo'
+  },
+  teleport: {
+    hint: 'Quem faz a viagem é o próprio jogo em execução: o pedido é feito da mesma forma que os teletransportadores dele. Chega à estação espacial do sistema ou ao planeta indicado pelo primeiro glifo. Experimental.',
+    galaxy: 'Galáxia',
+    galaxyHint: 'Todas as galáxias do jogo, por número e nome. Escreva para procurar.',
+    galaxyEmpty: 'Nenhuma galáxia encontrada.',
+    galaxyNumber: 'Galáxia {number}',
+    address: 'Endereço de portal',
+    addressHint:
+      'Doze glifos, como dígitos de 0 a F: planeta, sistema e depois as três coordenadas. Clique neles ou cole o código.',
+    erase: 'Apagar o último glifo',
+    destination: 'Chegar a',
+    destinationHint:
+      'A estação espacial é a opção segura. O planeta usa o primeiro glifo do endereço.',
+    toStation: 'Estação espacial do sistema',
+    toPlanet: 'Planeta do endereço',
+    action: 'Teletransportar',
+    confirmBody:
+      'Sai de onde está agora e o jogo carrega o outro sistema. Guarde antes se quiser voltar exatamente a este ponto.',
+    favourites: 'Destinos guardados',
+    favouritesHint: 'Guardados por esta aplicação neste computador; o jogo não os vê.',
+    favouriteName: 'Nome do destino',
+    addFavourite: 'Guardar este endereço',
+    useFavourite: 'Usar',
+    removeFavourite: 'Remover',
+    noFavourites: 'Ainda nada guardado.'
   },
   workshop: {
     title: 'Oficina de modelos',

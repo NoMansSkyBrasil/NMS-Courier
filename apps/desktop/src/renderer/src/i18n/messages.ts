@@ -12,6 +12,7 @@ export const featureIds = [
   'activity',
   'items',
   'currencies',
+  'teleport',
   'exosuit',
   'starships',
   'multitools',
@@ -308,6 +309,29 @@ export type Messages = {
     matching: string
     loading: string
     languages: string
+  }
+  teleport: {
+    hint: string
+    galaxy: string
+    galaxyHint: string
+    galaxyNumber: string
+    galaxyEmpty: string
+    address: string
+    addressHint: string
+    erase: string
+    destination: string
+    destinationHint: string
+    toStation: string
+    toPlanet: string
+    action: string
+    confirmBody: string
+    favourites: string
+    favouritesHint: string
+    favouriteName: string
+    addFavourite: string
+    useFavourite: string
+    removeFavourite: string
+    noFavourites: string
   }
   workshop: {
     title: string

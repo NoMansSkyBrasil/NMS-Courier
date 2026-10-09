@@ -46,6 +46,10 @@ export const frFR: Messages = {
       summary: 'Substances et produits placés dans un inventaire de la sauvegarde chargée.'
     },
     currencies: { title: 'Monnaies', summary: 'Unités, nanites et vif-argent.' },
+    teleport: {
+      title: 'Téléportation',
+      summary: 'Voyagez vers un système stellaire par galaxie et adresse de portail, sans portail.'
+    },
     exosuit: {
       title: 'Exocombinaison',
       summary:
@@ -444,6 +448,32 @@ export const frFR: Messages = {
     matching: '{count} définitions correspondantes',
     loading: 'Chargement des définitions…',
     languages: '{count} langues du jeu'
+  },
+  teleport: {
+    hint: 'C’est le jeu en cours qui fait le voyage : la demande est faite comme le font ses propres téléporteurs. Vous arrivez à la station spatiale du système ou sur la planète que désigne le premier glyphe. Expérimental.',
+    galaxy: 'Galaxie',
+    galaxyHint: 'Toutes les galaxies du jeu, par numéro et par nom. Tapez pour chercher.',
+    galaxyEmpty: 'Aucune galaxie trouvée.',
+    galaxyNumber: 'Galaxie {number}',
+    address: 'Adresse de portail',
+    addressHint:
+      'Douze glyphes, sous forme de chiffres de 0 à F : planète, système, puis les trois coordonnées. Cliquez dessus ou collez le code.',
+    erase: 'Effacer le dernier glyphe',
+    destination: 'Arriver à',
+    destinationHint:
+      'La station spatiale est le choix sûr. La planète utilise le premier glyphe de l’adresse.',
+    toStation: 'Station spatiale du système',
+    toPlanet: 'Planète de l’adresse',
+    action: 'Téléporter',
+    confirmBody:
+      'Vous quittez l’endroit où vous êtes et le jeu charge l’autre système. Sauvegardez d’abord si vous voulez revenir exactement ici.',
+    favourites: 'Destinations enregistrées',
+    favouritesHint: 'Conservées par cette application sur cet ordinateur ; le jeu ne les voit pas.',
+    favouriteName: 'Nom de la destination',
+    addFavourite: 'Enregistrer cette adresse',
+    useFavourite: 'Utiliser',
+    removeFavourite: 'Retirer',
+    noFavourites: 'Rien d’enregistré pour l’instant.'
   },
   workshop: {
     title: 'Atelier de modèles',

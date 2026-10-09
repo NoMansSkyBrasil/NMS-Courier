@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.20.0'
+export const bridgeVersion = '1.21.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -26,7 +26,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.17.0',
   '1.18.0',
   '1.19.0',
-  '1.20.0'
+  '1.20.0',
+  '1.21.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -87,5 +88,7 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // twelve technology rows.
   '238495a51ad06190d492bc47d5ff9913837b62df9593d0ef8c436cc7805cd4d2': '1.19.0',
   // 1.20.0 (2026-10-09): the fishing request may name the fish to record.
-  '1730dc597a5737657a828407740c7eacb6914274271afc59c75e0d1c8f6fb15b': '1.20.0'
+  '1730dc597a5737657a828407740c7eacb6914274271afc59c75e0d1c8f6fb15b': '1.20.0',
+  // 1.21.0 (2026-10-09): the teleport request, a journey to a system by galaxy and address.
+  '9a9312fb8713e4adced72c53e00f84c559ccfcb44b0b61899b534c372e8a41de': '1.21.0'
 }

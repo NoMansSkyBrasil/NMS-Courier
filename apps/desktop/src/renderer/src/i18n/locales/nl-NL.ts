@@ -49,6 +49,10 @@ export const nlNL: Messages = {
       summary: 'Stoffen en producten die in een inventaris van de geladen save worden geplaatst.'
     },
     currencies: { title: 'Valuta', summary: 'Units, nanieten en kwikzilver.' },
+    teleport: {
+      title: 'Teleporteren',
+      summary: 'Reis naar een sterrenstelsel via melkwegstelsel en portaaladres, zonder portaal.'
+    },
     exosuit: {
       title: 'Exopak',
       summary: 'Klasse, vracht- en technologievakken en superlaadvakken van het exopak.'
@@ -439,6 +443,32 @@ export const nlNL: Messages = {
     matching: '{count} overeenkomende definities',
     loading: 'Definities laden…',
     languages: '{count} speltalen'
+  },
+  teleport: {
+    hint: 'Het draaiende spel maakt de reis zelf: het wordt gevraagd zoals zijn eigen teleporters dat doen. Je komt aan bij het ruimtestation van het systeem of op de planeet die de eerste glyph aanwijst. Experimenteel.',
+    galaxy: 'Melkwegstelsel',
+    galaxyHint: 'Alle melkwegstelsels van het spel, op nummer en naam. Typ om te zoeken.',
+    galaxyEmpty: 'Geen melkwegstelsel gevonden.',
+    galaxyNumber: 'Melkwegstelsel {number}',
+    address: 'Portaaladres',
+    addressHint:
+      'Twaalf glyphs, als cijfers 0 tot F: planeet, systeem en dan de drie coördinaten. Klik erop of plak de code.',
+    erase: 'Laatste glyph wissen',
+    destination: 'Aankomen bij',
+    destinationHint:
+      'Het ruimtestation is de veilige keuze. De planeet gebruikt de eerste glyph van het adres.',
+    toStation: 'Ruimtestation van het systeem',
+    toPlanet: 'Planeet van het adres',
+    action: 'Teleporteren',
+    confirmBody:
+      'Je verlaat waar je nu bent en het spel laadt het andere systeem. Sla eerst op als je precies hier terug wilt komen.',
+    favourites: 'Opgeslagen bestemmingen',
+    favouritesHint: 'Bewaard door deze toepassing op deze computer; het spel ziet ze niet.',
+    favouriteName: 'Naam van de bestemming',
+    addFavourite: 'Dit adres opslaan',
+    useFavourite: 'Gebruiken',
+    removeFavourite: 'Verwijderen',
+    noFavourites: 'Nog niets opgeslagen.'
   },
   workshop: {
     title: 'Modelwerkplaats',

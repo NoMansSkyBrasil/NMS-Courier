@@ -18,6 +18,7 @@
 //   recipe_learn.h                 recipes: learn refiner and cooking recipes
 //   reward_redeem.h                rewards: redeem season, Twitch and platform rewards in the slot
 //   fish_record.h                  fish: fill the slot's fishing record
+//   teleport_request.h             travel: send the player to a system by galaxy and address
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -85,9 +86,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "item_give.h"
 #include "currency_reward.h"
 #include "star_system.h"
+#include "teleport_request.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 19)
+#define EVENT_COUNT (CLASS_COUNT + 20)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -144,6 +146,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&account_state, 0, 0) == 1) account_apply_request();
     if (InterlockedCompareExchange(&item_state, 0, 0) == 1) item_apply_request();
     if (InterlockedCompareExchange(&currency_state, 0, 0) == 1) currency_apply_request();
+    if (InterlockedCompareExchange(&teleport_state, 0, 0) == 1) teleport_apply_request();
     // Offers wait until the game's window is in front; one offer a turn.
     int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
     int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
@@ -278,7 +281,7 @@ static int resolve_targets(void) {
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
            reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base) &&
-           item_resolve(base) && reward_carrier_resolve(base);
+           item_resolve(base) && reward_carrier_resolve(base) && teleport_resolve(base);
 #endif
 }
 
@@ -286,7 +289,8 @@ void courier_probe_after_verified(void) {
     static const wchar_t *const tags[EVENT_COUNT] = {L"c", L"b", L"a", L"s", L"dispatch", L"slots",
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
-                                                     L"account", L"keep", L"item", L"currency", L"ship", L"weapon"};
+                                                     L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
+                                                     L"teleport"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -335,6 +339,7 @@ void courier_probe_after_verified(void) {
         item_limits_write();
         star_system_write();
         currency_write_result();
+        teleport_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -416,6 +421,10 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 17 || index == CLASS_COUNT + 18) {
             obtain_domain *domain = index == CLASS_COUNT + 17 ? &ship_obtain : &multitool_obtain;
             if (obtain_read_request(domain)) InterlockedExchange(&domain->state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 19) {
+            if (teleport_read_request()) InterlockedExchange(&teleport_state, 1);
             else InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {

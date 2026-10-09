@@ -2,6 +2,7 @@ import {
   AnchorIcon,
   CoinsIcon,
   CrosshairIcon,
+  MapPinIcon,
   OrbitIcon,
   PackageIcon,
   PawPrintIcon,
@@ -28,6 +29,16 @@ export const deliverFeatures: readonly Feature[] = [
     group: 'deliver',
     icon: CoinsIcon,
     kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'teleport',
+    group: 'deliver',
+    icon: MapPinIcon,
+    kind: 'delivery',
+    // Built on 2026-10-09 (bridge 1.21.0); not exercised in the running game yet.
     status: 'experimental',
     scope: 'slot',
     rules: ['gameRoutines', 'backup']

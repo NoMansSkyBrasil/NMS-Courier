@@ -31,11 +31,14 @@ BUILDS = {
                'translate': 0x2be1190, 'format': (0x89edd0, 0x1c8bf0), 'manager_pointer': 0x6e89688},
     '180836': {'sha256': '13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499',
                'routines': {'ship': 0xe8ed50, 'weapon': 0xe90b10, 'place': 0xe879c0, 'code-a': 0xe8f9b0,
-                            'code-b': 0xe90070},
+                            'code-b': 0xe90070, 'galaxy': 0x135a2a0},
                'state_init': 0x2d6f410, 'stack_probe': 0x33e2ed0, 'language_object': 0x1cb3b0,
                'translate': 0x2be4e20, 'format': (0x8a0ca0, 0x1c8bf0), 'manager_pointer': 0x6e8d708},
 }
-KINDS = ('ship', 'weapon', 'place', 'code-a', 'code-b')
+# 'galaxy' (build 180836 only) is the routine that names a galaxy from its number, counted from 0: the
+# first five take a language string, the others the procedural word generator with a seed made from the number.
+# Its seed argument is that number; the type argument is not used.
+KINDS = ('ship', 'weapon', 'place', 'code-a', 'code-b', 'galaxy')
 STUBS, MANAGER, OBJECTS, OUTPUT, HEAP, STACK, RETURN = (0x200000000, 0x210000000, 0x220000000, 0x221000000,
                                                          0x222000000, 0x230000000, 0x240000000)
 
@@ -85,6 +88,8 @@ def main():
     raw = exe.read_bytes()
     build = BUILDS[args.build]
     HASH, ROUTINES = build['sha256'], build['routines']
+    if args.kind not in ROUTINES:
+        parser.error('This routine was not located in build ' + args.build)
     STATE_INIT, STACK_PROBE, LANGUAGE_OBJECT = build['state_init'], build['stack_probe'], build['language_object']
     TRANSLATE, FORMAT_ROUTINES, MANAGER_POINTER = build['translate'], build['format'], build['manager_pointer']
     if len(raw) > 128 * 1024**2 or hashlib.sha256(raw).hexdigest() != HASH:
@@ -257,7 +262,11 @@ def main():
         machine.mem_write(stack, struct.pack('<Q', RETURN))
         machine.reg_write(RSP, stack)
         machine.reg_write(RCX, OBJECTS)
-        if kind in ('ship', 'code-a', 'code-b'):
+        if kind == 'galaxy':
+            # (galaxy number, generate flag, name buffer, second buffer for the name alone)
+            machine.reg_write(RCX, seed)
+            values = (1, OUTPUT, OUTPUT + 0x800)
+        elif kind in ('ship', 'code-a', 'code-b'):
             values = (seed, OUTPUT, 0)
             machine.mem_write(stack + 0x28, struct.pack('<Q', type_argument))
         elif kind == 'place':

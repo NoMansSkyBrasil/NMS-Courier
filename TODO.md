@@ -309,6 +309,8 @@ in [native acquisition research](docs/NATIVE_ACQUISITION_RESEARCH.md) and
   unlock/claim as separate operations after the core reward path is validated.
 
 The exact-build native XInput bridge has a live callback, one confirmed Carbon ×500 insertion, and three confirmed local currency rewards on Steam build 179666. Carbon remained after a normal save reload. The user also confirmed +1,000,000,000 each of Units, Nanites, and Quicksilver, native reward notifications, and all three balances after saving and reloading. The installed `CurrencyTest` DLL SHA-256 is `f20d9b41344fc7460471979f56598108ed8f750327a202b879a0716d651a441d`; it is a narrow development probe, not the authenticated product bridge. A specific-freighter reward opens a free offer from gameplay. The explicit inventory variant reached a 120-position cargo grid, but class and technology remain C/30; locate the particular offer's native initialization before claiming S/120/60 delivery. Keep multiplayer targeting separate from local delivery; the EXML planter patch remains inactive.
+- [ ] Live test (first): teleport to a space station in the same galaxy from the application (bridge 1.21.0), with a save made just before; then a planet, then another galaxy.
+- [ ] Teleport: export and import of the saved destinations; the rewriting of generated galaxy names for one language.
 - [ ] Live tests from the application: a chosen recipe, a chosen fish (bridge 1.20.0), a chosen Twitch reward (check that the kept list grew and nothing was dropped).
 - [ ] Recipes are named by what they make, so several rows share a name; show the ingredients as well.
 - [ ] The catalogue is not imported again by itself when a new application version reads more tables; the user has to start the import.

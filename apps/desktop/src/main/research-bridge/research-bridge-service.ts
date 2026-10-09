@@ -1,4 +1,6 @@
 import { parseStarSystemReport } from '../../shared/star-system'
+import { readClassification } from './delivery-plan'
+import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import type { StarSystemReport } from '../../shared/star-system'
 import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
 import { createHash } from 'node:crypto'
@@ -54,7 +56,7 @@ export type StackLimits = {
 export type DeliveryStepResult = BridgeStepResult
 
 export type DeliveryResult = {
-  feature: DeliveryFeatureId | 'items' | 'currencies' | EquipmentArea
+  feature: DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
   reason:
@@ -85,6 +87,24 @@ export type ResearchBridgeContext = {
 
 // Sends the deliveries of the research profile on behalf of the interface. It owns the order of
 // work the project requires around a live change: check, back up, send once, report, never retry.
+// Columns of runtime/research/galaxy-names.md after the number, in the table's order.
+const galaxyNameLocales = [
+  'pt-BR',
+  'pt-PT',
+  'ja-JP',
+  'en-US',
+  'fr-FR',
+  'it-IT',
+  'de-DE',
+  'es-ES',
+  'nl-NL',
+  'ko-KR',
+  'pl-PL',
+  'ru-RU',
+  'zh-CN',
+  'zh-TW'
+]
+
 export class ResearchBridgeService {
   private busy = false
   private readonly activity: DeliveryResult[] = []
@@ -232,6 +252,25 @@ export class ResearchBridgeService {
       })
     }
     return this.run('currencies', getCurrencyPlan(request, notify), installationRoot, game)
+  }
+
+  // Names of the galaxies in order, the first being galaxy 1; empty when the table cannot be read.
+  async getGalaxyNames(locale: string): Promise<string[]> {
+    const column = galaxyNameLocales.indexOf(locale)
+    const rows = await readClassification(this.context.researchDirectory, 'galaxy-names.md')
+    if (rows.length !== 256) return []
+    return rows.map(
+      (cells) => cells[(column < 0 ? galaxyNameLocales.indexOf('en-US') : column) + 1]
+    )
+  }
+
+  // One journey of the player to a star system, made by the running game.
+  teleport(
+    request: TeleportRequest,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run('teleport', getTeleportPlan(request), installationRoot, game)
   }
 
   private async run(

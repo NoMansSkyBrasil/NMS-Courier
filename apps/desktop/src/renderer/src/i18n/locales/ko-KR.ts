@@ -42,6 +42,7 @@ export const koKR: Messages = {
       summary: '불러온 세이브의 인벤토리에 넣는 물질과 제품.'
     },
     currencies: { title: '통화', summary: '유닛, 나노 머신, 수은.' },
+    teleport: { title: '텔레포트', summary: '은하와 포털 주소로, 포털 없이 항성계로 이동합니다.' },
     exosuit: {
       title: '엑소슈트',
       summary: '엑소슈트의 등급, 화물·기술 슬롯, 과충전 슬롯.'
@@ -412,6 +413,31 @@ export const koKR: Messages = {
     matching: '일치하는 정의 {count}개',
     loading: '정의를 불러오는 중…',
     languages: '게임 언어 {count}개'
+  },
+  teleport: {
+    hint: '이동은 실행 중인 게임이 직접 수행합니다. 게임의 텔레포터와 같은 방식으로 요청합니다. 해당 항성계의 우주 정거장이나 첫 번째 글리프가 가리키는 행성에 도착합니다. 실험적 기능.',
+    galaxy: '은하',
+    galaxyHint: '게임의 모든 은하를 번호와 이름으로 보여줍니다. 입력해서 검색하세요.',
+    galaxyEmpty: '은하를 찾을 수 없습니다.',
+    galaxyNumber: '은하 {number}',
+    address: '포털 주소',
+    addressHint:
+      '0~F 숫자로 된 글리프 12개: 행성, 항성계, 그다음 세 좌표. 눌러서 입력하거나 코드를 붙여넣으세요.',
+    erase: '마지막 글리프 지우기',
+    destination: '도착 위치',
+    destinationHint: '우주 정거장이 안전한 선택입니다. 행성은 주소의 첫 번째 글리프를 사용합니다.',
+    toStation: '항성계의 우주 정거장',
+    toPlanet: '주소의 행성',
+    action: '텔레포트',
+    confirmBody:
+      '지금 있는 곳을 떠나고 게임이 다른 항성계를 불러옵니다. 정확히 이 지점으로 돌아오려면 먼저 저장하세요.',
+    favourites: '저장한 목적지',
+    favouritesHint: '이 애플리케이션이 이 컴퓨터에 보관합니다. 게임에서는 보이지 않습니다.',
+    favouriteName: '목적지 이름',
+    addFavourite: '이 주소 저장',
+    useFavourite: '사용',
+    removeFavourite: '삭제',
+    noFavourites: '아직 저장된 것이 없습니다.'
   },
   workshop: {
     title: '모델 작업실',

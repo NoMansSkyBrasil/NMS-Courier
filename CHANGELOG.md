@@ -28,6 +28,23 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.26.0 and bridge 1.21.0 (2026-10-09)
+
+Bridge 1.21.0, SHA-256 `9a9312fb8713e4adced72c53e00f84c559ccfcb44b0b61899b534c372e8a41de`.
+
+- New, experimental: "Teleport". Travel to a star system by galaxy and portal
+  address without a portal: choose one of the 256 galaxies by number and
+  name, press the twelve glyphs (the game's own pictures) or paste the code,
+  arrive at the system's space station or on the planet of the first glyph,
+  and keep a list of saved destinations in the application. The bridge has
+  the game fill its own pending teleport request (a native call of the
+  game's teleport reward handler) and writes the destination into it (a
+  direct write of the address fields). **Not exercised in the running game
+  yet.** See `docs/TELEPORT_NOTES.md`.
+- The galaxy names are the game's own: five from its language files, the
+  other 251 made by its name routine, run under emulation, in the format of
+  each of the 14 languages (`runtime/research/galaxy-names.md`).
+
 ## Application 1.25.2 (2026-10-09)
 
 - Changed (owner request): the game catalogue lists every entry. Its results

@@ -46,6 +46,11 @@ export const itIT: Messages = {
       summary: 'Sostanze e prodotti inseriti in un inventario del salvataggio caricato.'
     },
     currencies: { title: 'Valute', summary: 'Unità, naniti e argento vivo.' },
+    teleport: {
+      title: 'Teletrasporto',
+      summary:
+        'Viaggia verso un sistema stellare per galassia e indirizzo del portale, senza un portale.'
+    },
     exosuit: {
       title: 'Exotuta',
       summary: 'Classe, slot di carico e di tecnologia e slot sovraccaricati dell’exotuta.'
@@ -438,6 +443,32 @@ export const itIT: Messages = {
     matching: '{count} definizioni corrispondenti',
     loading: 'Caricamento delle definizioni…',
     languages: '{count} lingue del gioco'
+  },
+  teleport: {
+    hint: 'Il viaggio lo fa il gioco in esecuzione: la richiesta è fatta come la fanno i suoi teletrasporti. Arrivi alla stazione spaziale del sistema o sul pianeta indicato dal primo glifo. Sperimentale.',
+    galaxy: 'Galassia',
+    galaxyHint: 'Tutte le galassie del gioco, per numero e nome. Scrivi per cercare.',
+    galaxyEmpty: 'Nessuna galassia trovata.',
+    galaxyNumber: 'Galassia {number}',
+    address: 'Indirizzo del portale',
+    addressHint:
+      'Dodici glifi, come cifre da 0 a F: pianeta, sistema e poi le tre coordinate. Premili o incolla il codice.',
+    erase: 'Cancella l’ultimo glifo',
+    destination: 'Arriva a',
+    destinationHint:
+      'La stazione spaziale è la scelta sicura. Il pianeta usa il primo glifo dell’indirizzo.',
+    toStation: 'Stazione spaziale del sistema',
+    toPlanet: 'Pianeta dell’indirizzo',
+    action: 'Teletrasporta',
+    confirmBody:
+      'Lasci il punto in cui ti trovi e il gioco carica l’altro sistema. Salva prima se vuoi tornare esattamente qui.',
+    favourites: 'Destinazioni salvate',
+    favouritesHint: 'Conservate da questa applicazione su questo computer; il gioco non le vede.',
+    favouriteName: 'Nome della destinazione',
+    addFavourite: 'Salva questo indirizzo',
+    useFavourite: 'Usa',
+    removeFavourite: 'Rimuovi',
+    noFavourites: 'Ancora niente di salvato.'
   },
   workshop: {
     title: 'Officina dei modelli',

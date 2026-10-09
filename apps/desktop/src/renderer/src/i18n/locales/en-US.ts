@@ -43,6 +43,10 @@ export const enUS: Messages = {
       summary: 'Substances and products placed in an inventory of the loaded save.'
     },
     currencies: { title: 'Currencies', summary: 'Units, nanites and quicksilver.' },
+    teleport: {
+      title: 'Teleport',
+      summary: 'Travel to a star system by galaxy and portal address, without a portal.'
+    },
     exosuit: {
       title: 'Exosuit',
       summary: 'Class, cargo and technology slots and supercharged slots of the exosuit.'
@@ -420,6 +424,32 @@ export const enUS: Messages = {
     matching: '{count} matching definitions',
     loading: 'Loading definitions…',
     languages: '{count} game languages'
+  },
+  teleport: {
+    hint: 'The running game makes the journey: it is asked the way its own teleporters ask. You arrive at the space station of the system, or on the planet the first glyph names. Experimental.',
+    galaxy: 'Galaxy',
+    galaxyHint: 'Every galaxy of the game, by number and name. Type to search.',
+    galaxyEmpty: 'No galaxy found.',
+    galaxyNumber: 'Galaxy {number}',
+    address: 'Portal address',
+    addressHint:
+      'Twelve glyphs, as digits 0 to F: planet, system, then the three coordinates. Press them or paste the code.',
+    erase: 'Erase the last glyph',
+    destination: 'Arrive at',
+    destinationHint:
+      'The space station is the safe choice. The planet uses the first glyph of the address.',
+    toStation: 'Space station of the system',
+    toPlanet: 'Planet of the address',
+    action: 'Teleport',
+    confirmBody:
+      'You leave where you are now and the game loads the other system. Save first if you want to come back to this exact spot.',
+    favourites: 'Saved destinations',
+    favouritesHint: 'Kept by this application on this computer; the game does not see them.',
+    favouriteName: 'Name of the destination',
+    addFavourite: 'Save this address',
+    useFavourite: 'Use',
+    removeFavourite: 'Remove',
+    noFavourites: 'Nothing saved yet.'
   },
   workshop: {
     title: 'Model workshop',
