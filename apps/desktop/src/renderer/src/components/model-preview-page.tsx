@@ -6,6 +6,7 @@ import { useLocale } from '@renderer/i18n/locale'
 import { ModelPreviewCanvas, type PreviewPart } from './model-preview-canvas'
 import { ModelPaletteControls } from './model-palette-controls'
 import { ModelWorkshopCard } from './model-workshop-card'
+import { StarSystemCard } from './star-system-card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { AppearanceRecipeControls } from './appearance-recipe-controls'
 import { Button } from './ui/button'
@@ -25,7 +26,9 @@ export function ModelPreviewPage(): React.JSX.Element {
     <main className="flex flex-1 flex-col gap-4 p-4 md:p-6">
       <Tabs
         defaultValue={
-          ['build', 'view', 'file'].includes(hashParameters(window.location.hash).get('tab') ?? '')
+          ['build', 'view', 'system', 'file'].includes(
+            hashParameters(window.location.hash).get('tab') ?? ''
+          )
             ? (hashParameters(window.location.hash).get('tab') as string)
             : 'build'
         }
@@ -33,6 +36,7 @@ export function ModelPreviewPage(): React.JSX.Element {
         <TabsList>
           <TabsTrigger value="build">{copy.workshop.tabBuild}</TabsTrigger>
           <TabsTrigger value="view">{copy.workshop.tabView}</TabsTrigger>
+          <TabsTrigger value="system">{copy.workshop.tabSystem}</TabsTrigger>
           <TabsTrigger value="file">{copy.workshop.tabFile}</TabsTrigger>
         </TabsList>
         <TabsContent value="build">
@@ -40,6 +44,9 @@ export function ModelPreviewPage(): React.JSX.Element {
         </TabsContent>
         <TabsContent value="view">
           <ModelWorkshopCard mode="view" />
+        </TabsContent>
+        <TabsContent value="system">
+          <StarSystemCard />
         </TabsContent>
         <TabsContent value="file">
           <ModelFileTools />

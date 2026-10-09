@@ -206,6 +206,7 @@ declare global {
       getCorvetteLayout: () => Promise<{
         installed: { name: string; partCount: number; installedAt: string } | null
       }>
+      getStarSystem: () => Promise<import('../shared/star-system').StarSystemReport>
       getStackLimits: () => Promise<{
         substanceBase: number
         substanceCap: number

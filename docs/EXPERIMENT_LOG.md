@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: bridge 1.8.0 reports the current star system and its ships (built, not run live)
+
+Build 180836. Owning note: [where each seed comes from](SEED_ORIGINS.md#reading-a-system-from-the-running-game).
+Counting the system generator's draws by hand was given up: it calls about
+thirty routines whose number of draws depends on the system's data. The
+running game already holds the result, so bridge 1.8.0
+(`b4950c6e...41f8`) reads it: system seed at `+0x2480` and the ship list at
+`+0x24a0` of the object at manager `+0x72afb0`, every 300 frames, written to
+`native-star-system-180836-<PID>.txt` when it changes. Read only, no game
+routine called, every address checked as readable first. The profile fixture
+passes and writes `state=no_system`. Application 1.15.0 lists the report in a
+new workshop tab. Installed in the game folder with the game closed; undo by
+restoring bridge 1.7.0 (`7b8a83be...0509`). Not proven: everything live. The
+first live reading will show whether the offsets hold, whether these are the
+ships a player can buy, and gives real seeds to compare with the workshop.
+
 ## 2026-10-08: where a system's ship seeds come from (offline, located, not reproduced)
 
 Offline reading of the build 180836 executable (`13d5060d...cc3499`); no game

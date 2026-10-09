@@ -5,8 +5,10 @@
 > the freighter home system seed is the system's 52-bit universe address.
 > A system's ships are located: each takes a child seed of the system
 > generator's stream (`164c2a0` in generator `164a4a0`). Next there: count
-> the generator's draws before the ships, then port "ship seeds of a system
-> address"; then multi-tools, slots, stats and names.
+> the generator's draws before the ships (given up by hand; bridge 1.8.0
+> now reads the seed and ship list of the current system from the running
+> game, application 1.15.0 shows them; first live reading pending); then
+> multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the
 > installation's own files (two screens, twenty types). Owner:

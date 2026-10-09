@@ -38,6 +38,7 @@ const nms = {
   deliverCurrency: (request: { currency: string; amount: number; notify: boolean }) =>
     ipcRenderer.invoke('nms:deliver-currency', request),
   getStackLimits: () => ipcRenderer.invoke('nms:get-stack-limits'),
+  getStarSystem: () => ipcRenderer.invoke('nms:get-star-system'),
   chooseCorvetteFile: () => ipcRenderer.invoke('nms:choose-corvette-file'),
   installCorvetteLayout: () => ipcRenderer.invoke('nms:install-corvette-layout'),
   getCorvetteLayout: () => ipcRenderer.invoke('nms:get-corvette-layout'),

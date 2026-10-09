@@ -17,6 +17,7 @@ The page has three tabs.
 | --- | --- |
 | Build | Choose category, type, parts, any colour the model takes from the game's palettes and any texture layer in which a seed chooses (base texture, decals). The application looks for a seed that has them and shows the model. |
 | View a seed | Choose category and type, type a seed or draw a random one, and see the model, its paint colours and the parts it drew. |
+| Current system | With the game running: the seed of the star system the player is in and the ships the game generated for it, read by the bridge; each opens in "View a seed". |
 | Model file | The earlier tools for a GLB file the user brings (part visibility, tints, palettes, appearance recipes). |
 
 For a starship, "Get this one in the game" opens Starships, "Get a new one",

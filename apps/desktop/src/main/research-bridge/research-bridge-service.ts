@@ -1,3 +1,5 @@
+import { parseStarSystemReport } from '../../shared/star-system'
+import type { StarSystemReport } from '../../shared/star-system'
 import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
 import { createHash } from 'node:crypto'
 import { cp, mkdir, readFile, stat } from 'node:fs/promises'
@@ -144,6 +146,16 @@ export class ResearchBridgeService {
       productCap: value('product_cap')
     }
     return Object.values(limits).every((entry) => entry > 0) ? limits : null
+  }
+
+  // The star system the player is in and its ships, as the running bridge last reported them.
+  async getStarSystem(processId: number | null): Promise<StarSystemReport> {
+    if (processId === null) return { state: 'unavailable' }
+    const text = await readFile(
+      join(this.context.diagnosticsDirectory, `native-star-system-180836-${processId}.txt`),
+      'utf8'
+    ).catch(() => '')
+    return parseStarSystemReport(text)
   }
 
   getActivity(): DeliveryResult[] {

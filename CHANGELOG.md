@@ -28,6 +28,16 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.15.0 and bridge 1.8.0 (2026-10-08)
+
+- New: "Current system" tab in the model workshop. The bridge reads, without
+  changing anything, the seed of the star system the player is in and the
+  ships the game generated for it; the application lists them and each opens
+  in the workshop. Bridge 1.8.0, file SHA-256
+  `b4950c6eb5ca14b38d5f49f3605c83d301908561b2f60529c1fb2a4f317041f8`; new file
+  `native-star-system-180836-<PID>.txt`, no request needed.
+- Not exercised live yet.
+
 ## Application 1.14.0 (2026-10-08)
 
 - New: the workshop explains a freighter's home system seed and converts it.

@@ -371,6 +371,11 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-corvette-layout', () =>
     getCorvetteLayoutService().status(getInstallationService().getSelectedRootPath())
   )
+  // Read only: the star system the player is in and its ships, as the bridge reports them.
+  ipcMain.handle('nms:get-star-system', async () => {
+    const game = await gameStatusService.observe(getInstallationService().getSelectedRootPath())
+    return getResearchBridgeService().getStarSystem(game.processId)
+  })
   ipcMain.handle('nms:get-stack-limits', async () => {
     const root = getInstallationService().getSelectedRootPath()
     const game = await gameStatusService.observe(root)

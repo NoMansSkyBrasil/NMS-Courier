@@ -321,6 +321,17 @@ export type Messages = {
     seedColorsTitle: string
     paintLabel: string
     undercoatLabel: string
+    tabSystem: string
+    systemDescription: string
+    systemNone: string
+    systemSeed: string
+    systemShips: string
+    systemClass: string
+    systemRole: string
+    systemShipSeed: string
+    systemView: string
+    systemRefresh: string
+    systemClassNumber: string
     tabFile: string
     categoryLabel: string
     category: Record<'starship' | 'multitool' | 'freighter', string>

@@ -63,6 +63,12 @@ game, and what protects against mistakes. It describes a **research profile
 for build 180836**, not the product bridge; nothing here is a supported
 capability. Results are in the owning notes linked at the end.
 
+Since bridge 1.8.0 the bridge also writes, without being asked,
+`native-star-system-180836-<PID>.txt`: the seed of the star system the player
+is in and the ships the game generated for it. It is a read of the game's
+memory, not a native call and not a write; the format is in
+[where each seed comes from](SEED_ORIGINS.md#reading-a-system-from-the-running-game).
+
 ## The pieces
 
 | Piece | Where | Role |

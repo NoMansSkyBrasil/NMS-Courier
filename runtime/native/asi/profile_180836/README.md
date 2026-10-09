@@ -31,6 +31,7 @@ nothing that belongs to one of them. Built with
 | `ship_obtain.h` | starship | Models and reward fields for getting a new starship |
 | `multitool_obtain.h` | multitool | Models and reward fields for getting a new multi-tool |
 | `currency_reward.h` | currencies | Units, nanites or quicksilver of any amount through the game's reward routine, with the data file's entries as carriers |
+| `star_system.h` | star system | Read only: the seed of the star system the player is in and the ships the game generated for it, written to a file when they change |
 | `item_give.h` | items | Put substances and products into the exosuit cargo through the game's store routines; report the cargo's stack sizes |
 | `account_unlock.h` | account | Unlock titles, specials and season rewards on the account through the game's routines |
 

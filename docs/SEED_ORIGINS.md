@@ -162,6 +162,27 @@ interceptor ([obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md)).
   (standard 2 to 4 draws, royal, sentinel and Atlas 1 each); where their seeds
   come from was not looked at.
 
+### Reading a system from the running game
+
+Bridge 1.8.0 (`star_system.h`) reads the current system every 300 frames and
+writes `native-star-system-180836-<PID>.txt` when the reading changes:
+
+```text
+state=read
+seed=0x<16 hex digits>
+ships=<count>
+ship=<index> class=<n> role=<n> faction=<n> frigate=<n> seed=0x<16 hex digits> hint=<text>
+```
+
+or `state=no_system`. It is a read: nothing is written to the game and no game
+routine is called. The application shows it in the workshop's "Current system"
+tab; a ship of a class the workshop has opens there with its seed, and a
+freighter opens with this system as its home.
+
+Not run live yet. The first reading answers three things at once: whether the
+offsets hold, whether these are the ships that land and can be bought, and
+whether a ship seen in the game equals the workshop's model for its seed.
+
 ### Next step, bounded
 
 Read `164a4a0` from its start to `164b700` and list every use of the

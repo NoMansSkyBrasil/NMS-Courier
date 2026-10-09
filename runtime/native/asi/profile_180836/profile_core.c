@@ -84,6 +84,7 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "multitool_obtain.h"
 #include "item_give.h"
 #include "currency_reward.h"
+#include "star_system.h"
 
 // One event per kind of request, after the four class events.
 #define EVENT_COUNT (CLASS_COUNT + 19)
@@ -146,6 +147,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1) obtain_apply_request(&ship_obtain);
     if (InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1) obtain_apply_request(&multitool_obtain);
     item_limits_tick();
+    star_system_tick();
     account_keep_tick();
     if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) dispatch_requested_reward();
@@ -324,6 +326,7 @@ void courier_probe_after_verified(void) {
         account_write_result();
         item_write_result();
         item_limits_write();
+        star_system_write();
         currency_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
