@@ -245,8 +245,11 @@ wrong):
   `AtlasYellow` 7, `AtlasBlue` 8, `Staff` 9; the reward routine treats 10 as
   "none". The names of 4, 5 and 6 are not stored beside the others (the
   executable shares equal strings); they are taken as `Royal`, `Robot` and
-  `Atlas`, the names the ship classes use, **not proven**. The rewards of the
-  game use only `Pistol`, `Rifle`, `Pristine`, `Alien` and `Staff`.
+  `Atlas`, the names the ship classes use. `Robot` is confirmed as a name of
+  this enumeration: one mission condition of `seasonalmissiontable`
+  (`GcMissionConditionHasMultiTool`, `MustMatchWeaponClass`) asks for the
+  weapon class `Robot`. `Royal` and `Atlas` are **not proven**. The rewards
+  of the game use only `Pistol`, `Rifle`, `Pristine`, `Alien` and `Staff`.
 - Fourteen multi-tool scene files exist in
   `models/common/weapons/multitool`. One of them, `RODMULTITOOL`, is the
   fishing rod (`FishingRodResource`), not a multi-tool.
