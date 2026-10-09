@@ -25,6 +25,7 @@ export const deliveryFeatureIds = [
   'refinerRecipes',
   'customisation',
   'fishing',
+  'words',
   'titles',
   'expeditions',
   'quicksilver',
@@ -76,6 +77,16 @@ const request = (name: string, lines: readonly string[]): BridgeStep['request'] 
 
 // The request each kind of entry travels in. Every builder returns null when the entries do not
 // fit one request of the bridge.
+// The races that have words: the game's name in the word table, the name a request takes, and the
+// prefix of the race's groups.
+export const wordRaces = [
+  { table: 'Traders', request: 'traders', prefix: 'TRA' },
+  { table: 'Warriors', request: 'warriors', prefix: 'WAR' },
+  { table: 'Explorers', request: 'explorers', prefix: 'EXP' },
+  { table: 'Atlas', request: 'atlas', prefix: 'ATLAS' },
+  { table: 'Builders', request: 'builders', prefix: 'BUI' }
+] as const
+
 export const steps = {
   technology: (ids: readonly string[], notify: boolean): BridgeStep | null =>
     ids.length < 1 || ids.length > 256
@@ -158,6 +169,22 @@ export const steps = {
     signals: ['fish'],
     result: { name: 'fish-result', seconds: 12 }
   }),
+  // Word groups of one race, by the suffix the game's reward takes (bridge 1.22.0). The game shows
+  // its message for each word unless silent.
+  words: (race: string, groups: readonly string[], notify: boolean): BridgeStep | null =>
+    groups.length < 1 || groups.length > 4096
+      ? null
+      : {
+          label: `words ${race}`,
+          request: request('word', [
+            `race=${race}`,
+            `silent=${notify ? 0 : 1}`,
+            ...groups.map((group) => `group=${group}`)
+          ]),
+          signals: ['words'],
+          result: { name: 'word-result', seconds: 30 },
+          accept: (lines) => lines.includes('result=given')
+        },
   // Chosen fish, by product identifier (bridge 1.20.0).
   fish: (ids: readonly string[]): BridgeStep | null =>
     ids.length < 1 || ids.length > 512
@@ -261,6 +288,20 @@ export async function getDeliveryPlan(
       return plan(true, [steps.redeem(await products(['customisation']))])
     case 'fishing':
       return plan(false, [steps.fishingRecord()])
+    case 'words': {
+      // Every group of every race: one request a race (columns: group, race, suffix, words, category).
+      const rows = await readClassification(researchDirectory, 'word-delivery.md')
+      return plan(
+        false,
+        wordRaces.map((race) =>
+          steps.words(
+            race.request,
+            rows.filter((cells) => cells[1] === race.table).map((cells) => cells[2]),
+            notify
+          )
+        )
+      )
+    }
     case 'titles':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['title']))])
     case 'expeditions':

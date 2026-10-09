@@ -82,6 +82,11 @@ export const zhTW: Messages = {
       summary: '頭盔、護甲、披風、旗幟、噴射背包尾跡和表情動作。'
     },
     titles: { title: '稱號', summary: '用於旗幟的玩家稱號。' },
+    words: {
+      title: '詞彙',
+      summary: '吉克、維’肯、科爾瓦克斯、阿特拉斯與自噬者語言的詞彙：一個、多個或全部。'
+    },
+    glyphs: { title: '傳送門符文', summary: '開啟傳送門的十六個符文。' },
     fishing: { title: '釣魚紀錄', summary: '每種魚的捕獲紀錄。' },
     expeditions: {
       title: '遠征',
@@ -398,6 +403,15 @@ export const zhTW: Messages = {
     matching: '{count} 個相符的定義',
     loading: '正在載入定義…',
     languages: '{count} 種遊戲語言'
+  },
+  glyphs: {
+    hint: '符文由遊戲自己發放，並帶有遊戲自己的通知，就像旅行者的墳墓給出符文時一樣。遊戲無法發放指定的符文：它們依遊戲的順序到來，如下所示。',
+    order: '遊戲中符文的順序',
+    all: '全部十六個',
+    allHint: '一次獲得所有符文。',
+    count: '數量',
+    countHint: '接下來你還沒有的符文，1 到 {max} 個。',
+    action: '學習符文'
   },
   teleport: {
     hint: '旅程由執行中的遊戲自己完成：請求方式與遊戲自己的傳送器相同。你會抵達該恆星系的太空站，或位址第一個符文所指的行星。實驗性功能。',

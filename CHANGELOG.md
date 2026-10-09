@@ -28,6 +28,25 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.27.0 and bridge 1.22.0 (2026-10-09)
+
+Bridge 1.22.0, SHA-256 `160a95338d10f9307ec40dbf9ff83e7eb1cf2f249a0d0e3d24d0c2a79488e996`. Data file (reward table of the mod folder)
+SHA-256 `4bbfa77c1df715e93fbf87bb5b22a4ffe1d2f7896285c0961aafe7a5f264a518`; the folder must be copied to the game again.
+
+- Confirmed live with bridge 1.21.0: a teleport to a space station in the
+  same galaxy.
+- New, experimental: "Words". The words of the Gek, Vy'keen, Korvax, Atlas
+  and Autophage languages, 3,830 word groups, one, several or all, through
+  the game's own reward for chosen words, with the game's message for each
+  word when notifications are on. Not exercised in the running game yet.
+- New, experimental: "Portal glyphs". All sixteen at once or the next ones
+  in the game's order, through the game's own reward. The game has no reward
+  for a chosen glyph. Not exercised in the running game yet.
+- Three new carriers in the data file: `COURIER_RUNE`, `COURIER_WORD` and
+  `COURIER_WORDS`.
+- The bridge also takes a number of words for the game to choose
+  (`count=`); the application does not offer it yet.
+
 ## Application 1.26.0 and bridge 1.21.0 (2026-10-09)
 
 Bridge 1.21.0, SHA-256 `9a9312fb8713e4adced72c53e00f84c559ccfcb44b0b61899b534c372e8a41de`.

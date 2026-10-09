@@ -87,6 +87,12 @@ export const enUS: Messages = {
       summary: 'Helmets, armour, capes, banners, jetpack trails and emotes.'
     },
     titles: { title: 'Titles', summary: 'Player titles for the banner.' },
+    words: {
+      title: 'Words',
+      summary:
+        'Words of the Gek, Vy’keen, Korvax, Atlas and Autophage languages, one, several or all.'
+    },
+    glyphs: { title: 'Portal glyphs', summary: 'The sixteen glyphs that open portals.' },
     fishing: { title: 'Fishing record', summary: 'The catch record of every fish.' },
     expeditions: {
       title: 'Expeditions',
@@ -424,6 +430,15 @@ export const enUS: Messages = {
     matching: '{count} matching definitions',
     loading: 'Loading definitions…',
     languages: '{count} game languages'
+  },
+  glyphs: {
+    hint: 'The game hands the glyphs over itself, with its own notification, as when a Traveller’s grave gives one. It has no way to give a chosen glyph: they come in the game’s order, shown below.',
+    order: 'The game’s order of the glyphs',
+    all: 'All sixteen',
+    allHint: 'Every glyph at once.',
+    count: 'How many',
+    countHint: 'The next glyphs you do not have yet, 1 to {max}.',
+    action: 'Learn glyphs'
   },
   teleport: {
     hint: 'The running game makes the journey: it is asked the way its own teleporters ask. You arrive at the space station of the system, or on the planet the first glyph names. Experimental.',

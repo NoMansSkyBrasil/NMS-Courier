@@ -95,6 +95,11 @@ export const itIT: Messages = {
       summary: 'Caschi, armature, mantelli, stendardi, scie del jetpack e gesti.'
     },
     titles: { title: 'Titoli', summary: 'Titoli del giocatore per lo stendardo.' },
+    words: {
+      title: 'Parole',
+      summary: 'Parole delle lingue Gek, Vy’keen, Korvax, Atlas e Autofagi: una, alcune o tutte.'
+    },
+    glyphs: { title: 'Glifi del portale', summary: 'I sedici glifi che aprono i portali.' },
     fishing: { title: 'Registro di pesca', summary: 'Il registro delle catture di ogni pesce.' },
     expeditions: {
       title: 'Spedizioni',
@@ -443,6 +448,15 @@ export const itIT: Messages = {
     matching: '{count} definizioni corrispondenti',
     loading: 'Caricamento delle definizioni…',
     languages: '{count} lingue del gioco'
+  },
+  glyphs: {
+    hint: 'È il gioco stesso a consegnare i glifi, con la sua notifica, come quando la tomba di un Viaggiatore ne dà uno. Il gioco non può dare un glifo scelto: arrivano nell’ordine del gioco, mostrato sotto.',
+    order: 'Ordine dei glifi nel gioco',
+    all: 'Tutti e sedici',
+    allHint: 'Tutti i glifi in una volta.',
+    count: 'Quanti',
+    countHint: 'I prossimi glifi che non hai ancora, da 1 a {max}.',
+    action: 'Impara i glifi'
   },
   teleport: {
     hint: 'Il viaggio lo fa il gioco in esecuzione: la richiesta è fatta come la fanno i suoi teletrasporti. Arrivi alla stazione spaziale del sistema o sul pianeta indicato dal primo glifo. Sperimentale.',

@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-09: word and glyph requests built (bridge 1.22.0)
+
+No live action. Build 180836 (`13d5060d...cc3499`), offline reading of the
+executable and the tables; bridge 1.22.0 (`160a95338d10f9307ec40dbf9ff83e7eb1cf2f249a0d0e3d24d0c2a79488e996`) built; data file regenerated
+(`4bbfa77c1df715e93fbf87bb5b22a4ffe1d2f7896285c0961aafe7a5f264a518`, 32 entries: three new carriers). Application 1.27.0. Owning note:
+[words and glyphs](WORD_AND_GLYPH_NOTES.md).
+
+Found: the rewards `GcRewardTeachSpecificWords`, `GcRewardTeachWord` and
+`GcRewardDiscoverRune` with their layouts and handlers; the race numbering;
+3,830 word groups in five races.
+
+Not proven: everything live. Installed afterwards with the game closed
+(process list checked): the bridge in place of 1.21.0 (kept under
+`native-builds/bridge-1.21.0`) and the data file in the game's mod folder
+(the earlier one, `0cc85351...7752`, is in the repository history).
+
 ## 2026-10-09: first live teleport: a space station in the same galaxy
 
 Live, from the application 1.26.0. Build 180836 (`13d5060d...cc3499`),

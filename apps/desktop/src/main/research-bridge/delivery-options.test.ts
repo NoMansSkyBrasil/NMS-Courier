@@ -47,6 +47,26 @@ describe('delivery options', () => {
     const twitch = await listDeliveryOptions(research, 'twitch')
     expect(twitch.find((option) => option.id === 'TWITCH_406')?.catalogId).toBe('S_POSTER29')
     expect(supportsSelection('twitch')).toBe(true)
+    // A word group is named by its words and belongs to one race.
+    const words = await listDeliveryOptions(research, 'words')
+    expect(words.length).toBe(3830)
+    expect(words.find((option) => option.id === 'ATLAS_TRAVELLER')).toEqual({
+      id: 'ATLAS_TRAVELLER',
+      group: 'Atlas',
+      domain: null,
+      name: 'TRAVELLER TRAVELLERS'
+    })
+    // One request a race, each naming its groups without the race prefix.
+    const chosen = getSelectionPlan(
+      'words',
+      ['TRA_YOU', 'ATLAS_TRAVELLER', 'TRA_GEK'],
+      words,
+      false
+    )
+    expect(chosen?.steps.map((step) => step.request?.lines)).toEqual([
+      ['race=traders', 'silent=1', 'group=YOU', 'group=GEK'],
+      ['race=atlas', 'silent=1', 'group=TRAVELLER']
+    ])
   })
 
   it('builds a request for chosen entries and refuses anything else', async () => {

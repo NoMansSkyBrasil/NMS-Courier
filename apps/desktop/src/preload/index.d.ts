@@ -187,6 +187,10 @@ declare global {
         notify: boolean
       }) => Promise<DeliveryResult>
       getGalaxyNames: (locale: string) => Promise<string[]>
+      discoverGlyphs: (request: {
+        count: number | null
+        notify: boolean
+      }) => Promise<DeliveryResult>
       teleport: (request: {
         glyphs: string
         galaxyNumber: number

@@ -97,6 +97,12 @@ export const deDE: Messages = {
       summary: 'Helme, Rüstungen, Umhänge, Banner, Jetpack-Spuren und Gesten.'
     },
     titles: { title: 'Titel', summary: 'Spielertitel für das Banner.' },
+    words: {
+      title: 'Wörter',
+      summary:
+        'Wörter der Sprachen der Gek, Vy’keen, Korvax, des Atlas und der Autophagen: eines, mehrere oder alle.'
+    },
+    glyphs: { title: 'Portalglyphen', summary: 'Die sechzehn Glyphen, die Portale öffnen.' },
     fishing: { title: 'Angelrekorde', summary: 'Der Fangrekord jedes Fisches.' },
     expeditions: {
       title: 'Expeditionen',
@@ -450,6 +456,15 @@ export const deDE: Messages = {
     matching: '{count} passende Definitionen',
     loading: 'Definitionen werden geladen…',
     languages: '{count} Spielsprachen'
+  },
+  glyphs: {
+    hint: 'Das Spiel übergibt die Glyphen selbst, mit seiner eigenen Benachrichtigung, so wie das Grab eines Reisenden eine gibt. Eine bestimmte Glyphe kann das Spiel nicht geben: Sie kommen in der Reihenfolge des Spiels, die unten steht.',
+    order: 'Reihenfolge der Glyphen im Spiel',
+    all: 'Alle sechzehn',
+    allHint: 'Alle Glyphen auf einmal.',
+    count: 'Wie viele',
+    countHint: 'Die nächsten Glyphen, die du noch nicht hast, 1 bis {max}.',
+    action: 'Glyphen lernen'
   },
   teleport: {
     hint: 'Die Reise macht das laufende Spiel selbst: Es wird so gefragt, wie seine eigenen Teleporter fragen. Du kommst an der Raumstation des Systems an oder auf dem Planeten, den die erste Glyphe nennt. Experimentell.',

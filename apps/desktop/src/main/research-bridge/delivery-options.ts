@@ -1,4 +1,4 @@
-import { readClassification, steps } from './delivery-plan'
+import { readClassification, steps, wordRaces } from './delivery-plan'
 import type { DeliveryFeatureId, DeliveryPlan, DeliveryStep } from './delivery-plan'
 
 // The entries of an area that may be sent one by one. The list is the same generated table the
@@ -16,6 +16,8 @@ export type DeliveryOption = {
   // The catalogue entry that names this one when it is not the identifier itself: what a recipe
   // makes, the product of a Twitch or platform reward.
   catalogId?: string
+  // A name the table itself gives, for entries the catalogue does not hold (the words of a group).
+  name?: string
 }
 
 // What a selection needs besides the chosen entries.
@@ -34,6 +36,8 @@ type Source = {
   domain: CatalogDomain | null | ((cells: readonly string[]) => CatalogDomain | null)
   // Column that holds the catalogue entry naming the row, when it is not the identifier.
   catalogColumn?: number
+  // Column that holds the row's own name, shown as it is.
+  nameColumn?: number
   // Identifiers of the table when they are not 1 to 15 characters.
   idPattern?: RegExp
   changesAccount: boolean
@@ -124,6 +128,27 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     changesAccount: false,
     steps: (ids) => [steps.fish(ids)]
   },
+  // A word group is named by the words it teaches; the request takes one race at a time.
+  words: {
+    table: 'word-delivery.md',
+    idColumn: 0,
+    groupColumn: 1,
+    accept: (cells) => wordRaces.some((race) => race.table === cells[1]),
+    domain: null,
+    nameColumn: 3,
+    idPattern: /^[A-Z0-9_'-]{1,31}$/,
+    changesAccount: false,
+    steps: (ids, notify) =>
+      wordRaces
+        .map((race) => ({
+          race,
+          groups: ids
+            .filter((id) => id.startsWith(`${race.prefix}_`))
+            .map((id) => id.slice(race.prefix.length + 1))
+        }))
+        .filter((entry) => entry.groups.length > 0)
+        .map((entry) => steps.words(entry.race.request, entry.groups, notify))
+  },
   titles: account('title'),
   expeditions: account('season', 'product'),
   quicksilver: account('special', 'product'),
@@ -153,7 +178,10 @@ export async function listDeliveryOptions(
         id: cells[source.idColumn],
         group: cells[source.groupColumn],
         domain: typeof source.domain === 'function' ? source.domain(cells) : source.domain,
-        ...(named && identifier.test(named) ? { catalogId: named } : {})
+        ...(named && identifier.test(named) ? { catalogId: named } : {}),
+        ...(source.nameColumn !== undefined && cells[source.nameColumn]
+          ? { name: cells[source.nameColumn] }
+          : {})
       }
     })
 }

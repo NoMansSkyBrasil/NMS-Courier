@@ -62,7 +62,10 @@ describe('delivery plan', () => {
       expect(plan?.steps.length).toBeGreaterThan(0)
       for (const step of plan?.steps ?? []) {
         for (const signal of step.signals) expect(signal).toMatch(/^[a-z]+$/)
-        for (const line of step.request?.lines ?? []) expect(line).toMatch(/^[a-z]+=[A-Z0-9_]+$/)
+        for (const line of step.request?.lines ?? [])
+          // Values are identifiers; a word request also names a race in small letters and word groups
+          // that hold a hyphen or an apostrophe.
+          expect(line).toMatch(/^[a-z]+=[A-Za-z0-9_'-]+$/)
       }
     }
     const technologies = await getDeliveryPlan('technologies', research, true)

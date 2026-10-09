@@ -92,6 +92,12 @@ export const plPL: Messages = {
       summary: 'Hełmy, pancerze, peleryny, sztandary, smugi plecaka odrzutowego i gesty.'
     },
     titles: { title: 'Tytuły', summary: 'Tytuły gracza na sztandarze.' },
+    words: {
+      title: 'Słowa',
+      summary:
+        'Słowa języków Geków, Vy’keenów, Korvaxów, Atlasu i Autofagów: jedno, kilka lub wszystkie.'
+    },
+    glyphs: { title: 'Glify portalu', summary: 'Szesnaście glifów otwierających portale.' },
     fishing: { title: 'Rekordy wędkarskie', summary: 'Rekord połowu każdej ryby.' },
     expeditions: {
       title: 'Ekspedycje',
@@ -429,6 +435,15 @@ export const plPL: Messages = {
     matching: 'Pasujące definicje: {count}',
     loading: 'Wczytywanie definicji…',
     languages: 'Języki gry: {count}'
+  },
+  glyphs: {
+    hint: 'Glify przekazuje sama gra, z własnym powiadomieniem, tak jak wtedy, gdy grób Podróżnika daje jeden. Gra nie potrafi dać wybranego glifu: przychodzą w kolejności gry, pokazanej poniżej.',
+    order: 'Kolejność glifów w grze',
+    all: 'Wszystkie szesnaście',
+    allHint: 'Wszystkie glify naraz.',
+    count: 'Ile',
+    countHint: 'Kolejne glify, których jeszcze nie masz, od 1 do {max}.',
+    action: 'Poznaj glify'
   },
   teleport: {
     hint: 'Podróż wykonuje sama uruchomiona gra: prośba jest składana tak, jak robią to jej teleportery. Trafiasz na stację kosmiczną układu albo na planetę wskazaną przez pierwszy glif. Eksperymentalne.',

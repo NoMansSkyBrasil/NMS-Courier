@@ -1,4 +1,5 @@
 import { parseStarSystemReport } from '../../shared/star-system'
+import { getGlyphPlan, type GlyphRequest } from './glyph-plan'
 import { readClassification } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import type { StarSystemReport } from '../../shared/star-system'
@@ -56,7 +57,7 @@ export type StackLimits = {
 export type DeliveryStepResult = BridgeStepResult
 
 export type DeliveryResult = {
-  feature: DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | EquipmentArea
+  feature: DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | 'glyphs' | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
   reason:
@@ -262,6 +263,15 @@ export class ResearchBridgeService {
     return rows.map(
       (cells) => cells[(column < 0 ? galaxyNameLocales.indexOf('en-US') : column) + 1]
     )
+  }
+
+  // Portal glyphs through the game's own reward: all, or the next ones in the game's order.
+  discoverGlyphs(
+    request: GlyphRequest,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run('glyphs', getGlyphPlan(request), installationRoot, game)
   }
 
   // One journey of the player to a star system, made by the running game.

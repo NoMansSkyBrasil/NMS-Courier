@@ -124,6 +124,25 @@ def shipped(root: ET.Element, kind: str, type_path: str, type_value: str, scene_
     return found
 
 
+# Word groups of the specific-words carrier: the bridge writes the requested groups over these and
+# sets the count, so the list must be as long as one request may be (word_teach.h).
+WORD_CARRIER_GROUPS = 64
+
+
+def specific_words() -> ET.Element:
+    reward = ET.Element("Property", name="Reward", value="GcRewardTeachSpecificWords")
+    body = ET.SubElement(reward, "Property", name="GcRewardTeachSpecificWords")
+    race = ET.SubElement(body, "Property", name="Race", value="GcAlienRace")
+    ET.SubElement(race, "Property", name="AlienRace", value="Traders")
+    groups = ET.SubElement(body, "Property", name="SpecificWordGroups")
+    for index in range(WORD_CARRIER_GROUPS):
+        ET.SubElement(groups, "Property", name="SpecificWordGroups", value="COURIER%02d" % index, _index=str(index))
+    ET.SubElement(body, "Property", name="OSDMessageTime", value="3.000000")
+    ET.SubElement(body, "Property", name="CustomOSDMessage", value="")
+    ET.SubElement(body, "Property", name="SuppressOSDMessage", value="false")
+    return reward
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--corpus", type=Path, required=True)
@@ -146,6 +165,13 @@ def main() -> None:
             ("ID", "CASING"), ("AmountMin", "1"), ("AmountMax", "1"), ("HideAmountInMessage", "false"),
             ("ForceSpecialMessage", "false"), ("HideInSeasonRewards", "false"), ("Silent", "false"),
             ("SeasonRewardListFormat", ""), ("RequiresTech", "")])),
+        # Portal glyphs and alien words (rune_discover.h, word_teach.h).
+        entry("COURIER_RUNE", simple("GcRewardDiscoverRune", [("AllRunes", "false")])),
+        entry("COURIER_WORD", simple("GcRewardTeachWord", [
+            ("Race", "GcAlienRace", [("AlienRace", "Traders")]), ("UseCategory", "false"),
+            ("Category", "GcWordCategoryTableEnum", [("wordcategorytableEnum", "MISC")]),
+            ("AmountMin", "1"), ("AmountMax", "1")])),
+        entry("COURIER_WORDS", specific_words()),
     ]
     for _, identifier, ship_class, scene, keep in SHIPS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificShip", "ShipType/ShipClass", ship_class,

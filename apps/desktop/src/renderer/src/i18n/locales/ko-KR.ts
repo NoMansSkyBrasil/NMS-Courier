@@ -83,6 +83,11 @@ export const koKR: Messages = {
       summary: '헬멧, 갑옷, 망토, 배너, 제트팩 궤적, 감정 표현.'
     },
     titles: { title: '칭호', summary: '배너에 표시되는 플레이어 칭호.' },
+    words: {
+      title: '단어',
+      summary: '게크, 바이킨, 코벡스, 아틀라스, 오토파지 언어의 단어를 하나, 여러 개 또는 전부.'
+    },
+    glyphs: { title: '포털 글리프', summary: '포털을 여는 열여섯 개의 글리프.' },
     fishing: { title: '낚시 기록', summary: '모든 물고기의 포획 기록.' },
     expeditions: {
       title: '탐험',
@@ -413,6 +418,15 @@ export const koKR: Messages = {
     matching: '일치하는 정의 {count}개',
     loading: '정의를 불러오는 중…',
     languages: '게임 언어 {count}개'
+  },
+  glyphs: {
+    hint: '글리프는 게임이 직접, 여행자의 무덤이 줄 때와 같은 알림과 함께 건넵니다. 게임에는 원하는 글리프를 골라 주는 방법이 없어, 아래에 보이는 게임의 순서대로 옵니다.',
+    order: '게임의 글리프 순서',
+    all: '열여섯 개 전부',
+    allHint: '모든 글리프를 한 번에.',
+    count: '개수',
+    countHint: '아직 없는 다음 글리프, 1~{max}개.',
+    action: '글리프 배우기'
   },
   teleport: {
     hint: '이동은 실행 중인 게임이 직접 수행합니다. 게임의 텔레포터와 같은 방식으로 요청합니다. 해당 항성계의 우주 정거장이나 첫 번째 글리프가 가리키는 행성에 도착합니다. 실험적 기능.',

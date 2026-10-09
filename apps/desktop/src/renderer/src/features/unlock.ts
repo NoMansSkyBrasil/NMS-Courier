@@ -5,6 +5,8 @@ import {
   CpuIcon,
   FishIcon,
   FlaskConicalIcon,
+  LanguagesIcon,
+  ShapesIcon,
   PaletteIcon
 } from 'lucide-react'
 import type { Feature } from './types'
@@ -96,6 +98,28 @@ export const unlockFeatures: readonly Feature[] = [
       { row: 'total', count: 346 }
     ],
     rules: ['gameRoutines', 'accountShared', 'backup']
+  },
+  {
+    id: 'words',
+    wired: true,
+    group: 'unlock',
+    icon: LanguagesIcon,
+    kind: 'delivery',
+    // Built on 2026-10-09 (bridge 1.22.0); not exercised in the running game yet.
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'deliverable', count: 3830 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'glyphs',
+    group: 'unlock',
+    icon: ShapesIcon,
+    kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'deliverable', count: 16 }],
+    rules: ['gameRoutines', 'backup']
   },
   {
     id: 'fishing',

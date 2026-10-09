@@ -95,6 +95,11 @@ export const frFR: Messages = {
       summary: 'Casques, armures, capes, bannières, traînées de jetpack et gestes.'
     },
     titles: { title: 'Titres', summary: 'Titres de joueur pour la bannière.' },
+    words: {
+      title: 'Mots',
+      summary: 'Mots des langues Gek, Vy’keen, Korvax, Atlas et Autophage : un, plusieurs ou tous.'
+    },
+    glyphs: { title: 'Glyphes de portail', summary: 'Les seize glyphes qui ouvrent les portails.' },
     fishing: { title: 'Registre de pêche', summary: 'Le registre de prise de chaque poisson.' },
     expeditions: {
       title: 'Expéditions',
@@ -448,6 +453,15 @@ export const frFR: Messages = {
     matching: '{count} définitions correspondantes',
     loading: 'Chargement des définitions…',
     languages: '{count} langues du jeu'
+  },
+  glyphs: {
+    hint: 'C’est le jeu lui-même qui remet les glyphes, avec sa notification, comme lorsque la tombe d’un Voyageur en donne un. Le jeu ne peut pas donner un glyphe choisi : ils arrivent dans l’ordre du jeu, affiché ci-dessous.',
+    order: 'Ordre des glyphes dans le jeu',
+    all: 'Les seize',
+    allHint: 'Tous les glyphes d’un coup.',
+    count: 'Combien',
+    countHint: 'Les prochains glyphes que vous n’avez pas encore, de 1 à {max}.',
+    action: 'Apprendre les glyphes'
   },
   teleport: {
     hint: 'C’est le jeu en cours qui fait le voyage : la demande est faite comme le font ses propres téléporteurs. Vous arrivez à la station spatiale du système ou sur la planète que désigne le premier glyphe. Expérimental.',

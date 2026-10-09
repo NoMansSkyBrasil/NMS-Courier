@@ -82,6 +82,11 @@ export const zhCN: Messages = {
       summary: '头盔、护甲、披风、旗帜、喷气背包尾迹和表情动作。'
     },
     titles: { title: '称号', summary: '用于旗帜的玩家称号。' },
+    words: {
+      title: '词汇',
+      summary: '吉克、维’肯、科尔瓦克斯、阿特拉斯和自噬者语言的词汇：一个、多个或全部。'
+    },
+    glyphs: { title: '传送门符文', summary: '开启传送门的十六个符文。' },
     fishing: { title: '钓鱼记录', summary: '每种鱼的捕获记录。' },
     expeditions: {
       title: '远征',
@@ -398,6 +403,15 @@ export const zhCN: Messages = {
     matching: '{count} 个匹配的定义',
     loading: '正在加载定义…',
     languages: '{count} 种游戏语言'
+  },
+  glyphs: {
+    hint: '符文由游戏自己发放，并带有游戏自己的通知，就像旅行者的坟墓给出符文时一样。游戏无法发放指定的符文：它们按游戏的顺序到来，如下所示。',
+    order: '游戏中符文的顺序',
+    all: '全部十六个',
+    allHint: '一次获得所有符文。',
+    count: '数量',
+    countHint: '接下来你还没有的符文，1 到 {max} 个。',
+    action: '学习符文'
   },
   teleport: {
     hint: '旅程由运行中的游戏自己完成：请求方式与游戏自己的传送器相同。你会到达该恒星系的空间站，或地址第一个符文所指的行星。实验性功能。',

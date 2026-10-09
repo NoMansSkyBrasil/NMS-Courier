@@ -1,4 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { isGlyphRequest } from './research-bridge/glyph-plan'
 import { glyphDigits, glyphIcon } from '../shared/portal-address'
 import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { join } from 'path'
@@ -353,6 +354,15 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-galaxy-names', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getGalaxyNames(locale) : []
   )
+  ipcMain.handle('nms:discover-glyphs', async (_, request: unknown) => {
+    if (!isGlyphRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().discoverGlyphs(
+      { count: request.count, notify: request.notify },
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
   ipcMain.handle('nms:teleport', async (_, request: unknown) => {
     if (!isTeleportRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()
@@ -442,7 +452,7 @@ app.whenReady().then(() => {
       return {
         id: option.id,
         group: option.group,
-        name: (key && names.get(key)) || '',
+        name: option.name || (key && names.get(key)) || '',
         icon: (key && icons.get(key)) || null
       }
     })

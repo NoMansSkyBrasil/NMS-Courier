@@ -96,6 +96,12 @@ export const nlNL: Messages = {
       summary: 'Helmen, pantsers, capes, banieren, jetpacksporen en gebaren.'
     },
     titles: { title: 'Titels', summary: 'Spelerstitels voor de banier.' },
+    words: {
+      title: 'Woorden',
+      summary:
+        'Woorden van de talen van de Gek, Vy’keen, Korvax, Atlas en Autofagen: één, meerdere of alle.'
+    },
+    glyphs: { title: 'Portaalglyphs', summary: 'De zestien glyphs die portalen openen.' },
     fishing: { title: 'Visrecords', summary: 'Het vangstrecord van elke vis.' },
     expeditions: {
       title: 'Expedities',
@@ -443,6 +449,15 @@ export const nlNL: Messages = {
     matching: '{count} overeenkomende definities',
     loading: 'Definities laden…',
     languages: '{count} speltalen'
+  },
+  glyphs: {
+    hint: 'Het spel geeft de glyphs zelf, met zijn eigen melding, zoals wanneer het graf van een Reiziger er één geeft. Een gekozen glyph kan het spel niet geven: ze komen in de volgorde van het spel, hieronder getoond.',
+    order: 'Volgorde van de glyphs in het spel',
+    all: 'Alle zestien',
+    allHint: 'Alle glyphs in één keer.',
+    count: 'Hoeveel',
+    countHint: 'De volgende glyphs die je nog niet hebt, 1 tot {max}.',
+    action: 'Glyphs leren'
   },
   teleport: {
     hint: 'Het draaiende spel maakt de reis zelf: het wordt gevraagd zoals zijn eigen teleporters dat doen. Je komt aan bij het ruimtestation van het systeem of op de planeet die de eerste glyph aanwijst. Experimenteel.',

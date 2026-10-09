@@ -87,6 +87,12 @@ export const jaJP: Messages = {
       summary: 'ヘルメット、アーマー、ケープ、バナー、ジェットパックの軌跡、ジェスチャー。'
     },
     titles: { title: '称号', summary: 'バナーに表示するプレイヤーの称号。' },
+    words: {
+      title: '単語',
+      summary:
+        'ゲック、ヴァイキーン、コーバックス、アトラス、オートファジーの言語の単語を、1つ、複数、またはすべて。'
+    },
+    glyphs: { title: 'ポータルグリフ', summary: 'ポータルを開く16個のグリフ。' },
     fishing: { title: '釣りの記録', summary: 'すべての魚の釣果記録。' },
     expeditions: {
       title: '探検',
@@ -430,6 +436,15 @@ export const jaJP: Messages = {
     matching: '一致する定義: {count} 件',
     loading: '定義を読み込み中…',
     languages: 'ゲームの言語: {count}'
+  },
+  glyphs: {
+    hint: 'グリフはゲーム自身が、トラベラーの墓がくれるときと同じ通知つきで渡します。ゲームには特定のグリフを渡す方法がなく、下に示すゲームの順番で届きます。',
+    order: 'ゲーム内のグリフの順番',
+    all: '16個すべて',
+    allHint: 'すべてのグリフを一度に。',
+    count: '個数',
+    countHint: 'まだ持っていない次のグリフ、1～{max}個。',
+    action: 'グリフを習得'
   },
   teleport: {
     hint: '移動は実行中のゲーム自身が行います。ゲームのテレポーターと同じ方法で依頼します。到着先はその星系の宇宙ステーション、または最初のグリフが示す惑星です。実験的機能。',

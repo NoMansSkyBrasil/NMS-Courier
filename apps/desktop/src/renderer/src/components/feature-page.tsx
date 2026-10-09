@@ -3,6 +3,7 @@ import { DeliveryCard } from '@renderer/components/delivery-card'
 import { CorvetteFileCard } from '@renderer/components/corvette-file-card'
 import { CurrencyCard } from '@renderer/components/currency-card'
 import { TeleportCard } from '@renderer/components/teleport-card'
+import { GlyphsCard } from '@renderer/components/glyphs-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
 import { ItemsCard } from '@renderer/components/items-card'
@@ -82,6 +83,8 @@ export function FeaturePage({
         <CurrencyCard />
       ) : feature.id === 'teleport' ? (
         <TeleportCard />
+      ) : feature.id === 'glyphs' ? (
+        <GlyphsCard />
       ) : isEquipmentArea(feature.id) ? (
         <>
           {feature.id === 'corvettes' && <CorvetteFileCard />}

@@ -91,6 +91,12 @@ export const esES: Messages = {
       summary: 'Cascos, armaduras, capas, estandartes, estelas de mochila propulsora y gestos.'
     },
     titles: { title: 'Títulos', summary: 'Títulos de jugador para el estandarte.' },
+    words: {
+      title: 'Palabras',
+      summary:
+        'Palabras de las lenguas Gek, Vy’keen, Korvax, Atlas y Autófago: una, varias o todas.'
+    },
+    glyphs: { title: 'Glifos de portal', summary: 'Los dieciséis glifos que abren portales.' },
     fishing: { title: 'Registro de pesca', summary: 'El registro de capturas de cada pez.' },
     expeditions: {
       title: 'Expediciones',
@@ -436,6 +442,15 @@ export const esES: Messages = {
     matching: '{count} definiciones coincidentes',
     loading: 'Cargando definiciones…',
     languages: '{count} idiomas del juego'
+  },
+  glyphs: {
+    hint: 'Es el propio juego el que entrega los glifos, con su notificación, como cuando la tumba de un Viajero da uno. El juego no puede dar un glifo elegido: llegan en el orden del juego, que se muestra abajo.',
+    order: 'Orden de los glifos en el juego',
+    all: 'Los dieciséis',
+    allHint: 'Todos los glifos a la vez.',
+    count: 'Cuántos',
+    countHint: 'Los siguientes glifos que aún no tienes, de 1 a {max}.',
+    action: 'Aprender glifos'
   },
   teleport: {
     hint: 'El viaje lo hace el propio juego en ejecución: se le pide igual que lo piden sus teletransportadores. Llegas a la estación espacial del sistema o al planeta que indica el primer glifo. Experimental.',

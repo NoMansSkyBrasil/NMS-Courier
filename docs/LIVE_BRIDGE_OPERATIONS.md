@@ -396,3 +396,14 @@ that request (packed address, the endpoint's universe address and teleporter
 type). It moves the player of the loaded slot; there is no undo. Layout and
 limits: [teleport notes](TELEPORT_NOTES.md). Not exercised in the running
 game when written.
+
+### Words and portal glyphs (bridge 1.22.0)
+
+Requests `native-word-request-…` (event `words`) and `native-rune-request-…`
+(event `runes`), each with its result file; formats in the
+[word and glyph notes](WORD_AND_GLYPH_NOTES.md). Both are **native calls** of
+the game's reward routine on a carrier of the data file; the only writes are
+to the carrier (race, groups, count and message switch, or the "all" byte),
+put back after the calls. The words and glyphs themselves are added by the
+game, in the loaded slot. To undo: load the save from before. Not exercised
+in the running game when written.

@@ -12,7 +12,7 @@ means the request was sent by hand with the research scripts that existed
 until 2026-10-08; *app* means sent from the desktop application. Since
 2026-10-08 only *app* counts as verified for the product.
 
-Current versions: application 1.26.0, bridge 1.21.0, game build 180836.
+Current versions: application 1.27.0, bridge 1.22.0, game build 180836.
 
 ## History in five steps
 
@@ -51,6 +51,8 @@ Current versions: application 1.26.0, bridge 1.21.0, game build 180836.
 | Starship: all slots, supercharged, current ship or a ship slot | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Starship: class step, slot reward | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Read the current star system: seed and ships | 2026-10-09 (file read directly) | Model workshop, "Current system" (2026-10-08, bridge 1.8.0) | Not yet seen in the application by the owner | [seed origins](SEED_ORIGINS.md#reading-a-system-from-the-running-game) |
+| Alien words of a race, chosen groups or all | Never | Words page (2026-10-09, bridge 1.22.0) | No | [words and glyphs](WORD_AND_GLYPH_NOTES.md) |
+| Portal glyphs, all or the next ones | Never | Portal glyphs page (2026-10-09, bridge 1.22.0) | No | [words and glyphs](WORD_AND_GLYPH_NOTES.md) |
 | Travel to a system by galaxy and portal address | Station in the same galaxy reached (2026-10-09); exact address, planet and other galaxies not checked | Teleport page (2026-10-09, bridge 1.21.0) | Yes, station in the same galaxy | [teleport](TELEPORT_NOTES.md) |
 | New starship: kind (eight), seed, class | Fighter offered with chosen seed, 120 cargo and 120 supercharged technology slots (2026-10-09, bridge 1.19.0); other kinds and persistence not checked | Starships, "Get a new one" (2026-10-08, bridge 1.7.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
 | New multi-tool: kind, seed, class | Offer with chosen seed, legacy colours, up to 120 supercharged slots and a working cursor (2026-10-09, bridges 1.11.0 to 1.18.0); persistence of the accepted tool not checked | Multi-tools, "Get a new one" (2026-10-08, bridge 1.6.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |

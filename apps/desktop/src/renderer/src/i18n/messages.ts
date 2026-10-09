@@ -27,6 +27,8 @@ export const featureIds = [
   'customisation',
   'titles',
   'fishing',
+  'words',
+  'glyphs',
   'expeditions',
   'twitch',
   'platform',
@@ -309,6 +311,15 @@ export type Messages = {
     matching: string
     loading: string
     languages: string
+  }
+  glyphs: {
+    hint: string
+    order: string
+    all: string
+    allHint: string
+    count: string
+    countHint: string
+    action: string
   }
   teleport: {
     hint: string
