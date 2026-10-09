@@ -23,6 +23,12 @@ import {
   readBasePalette
 } from '../nms-adapters/base-palette-preview'
 import type { Family } from '../nms-adapters/base-palette-preview'
+import {
+  readShipModelTable,
+  shipModel,
+  shipModelTablePath
+} from '../research-bridge/system-ship-models'
+import type { StarSystemReport } from '../../shared/star-system'
 import { ModelFileError } from './binary-table'
 import type { ModelFiles } from './game-model-files'
 import { partListPath, readPartList } from './part-list'
@@ -233,6 +239,25 @@ export class ModelWorkshopService {
       }
     }
     return result
+  }
+
+  // Adds to a star system report the model each ship uses, from the game's own table.
+  withShipModels(report: StarSystemReport): StarSystemReport {
+    if (report.state !== 'read' || !this.root()) return report
+    try {
+      const data = this.files.read(shipModelTablePath)
+      const table = data ? readShipModelTable(data) : null
+      if (!table) return report
+      return {
+        ...report,
+        ships: report.ships.map((ship) => {
+          const record = shipModel(table, ship)
+          return record ? { ...ship, model: record.id, scene: record.scene } : ship
+        })
+      }
+    } catch {
+      return report
+    }
   }
 
   // `colorSeed` is the seed the colours are drawn with when it is not the model seed: a

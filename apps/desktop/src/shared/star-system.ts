@@ -11,6 +11,10 @@ export type StarSystemShip = {
   seed: string
   // The game's texture hint for the ship; often empty.
   hint: string
+  // The model the game uses for the ship, from its table of ship models: the record's name
+  // and its scene file. Absent when the game files could not be read.
+  model?: string
+  scene?: string
 }
 
 export type StarSystemReport =

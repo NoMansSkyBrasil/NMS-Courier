@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { childSeedsOfSystem, stepsBeforeChildSeed } from './star-system-stream'
+import { childSeedsOfSystem, originsOfSeed, stepsBeforeChildSeed } from './star-system-stream'
 
 // A live reading of build 180836 on 2026-10-09 (bridge 1.8.0, slot 3 by the owner's statement):
 // the star system with seed 0x0001DB00F769C14E and the first ships the game generated for it.
@@ -39,6 +39,14 @@ describe('star system stream', () => {
 
   it('finds the first ship of a second system after a different number of steps', () => {
     expect(stepsBeforeChildSeed('0x0000E800F669E14C', '0xDDCF152DA3DD87F7')).toBe(447)
+  })
+
+  it('finds the system a ship seed was drawn in', () => {
+    expect(originsOfSeed(firstShips[0])).toContainEqual({ systemSeed, steps: 302 })
+    expect(originsOfSeed('0xDDCF152DA3DD87F7')).toContainEqual({
+      systemSeed: '0x0000E800F669E14C',
+      steps: 447
+    })
   })
 
   it('does not place a foreign seed on the stream', () => {

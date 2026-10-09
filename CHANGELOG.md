@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.17.0 (2026-10-09)
+
+Two things taken from the study of NMS Shipwright (MIT licence), ported and
+tested against the systems read from the running game.
+
+- New: "View a seed" says which star system the game draws a ship or
+  freighter seed in (portal address and galaxy), when the seed has one.
+- New: the "Current system" tab names the model of every ship of the system
+  (freighter, capital freighter, small, tiny, pirate dreadnought, each kind of
+  frigate, sentinel and swarm ships) from the game's own table, and "View"
+  opens a freighter as the right type instead of always the regular one.
+- Bridge unchanged (1.8.0).
+
 ## Application 1.16.1 (2026-10-09)
 
 Fixes to the model workshop found by comparing a multi-tool bought in the

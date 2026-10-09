@@ -234,4 +234,37 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
       }
     }
   })
+
+  // Ships of the system 0x0001DB00F769C14E as read from the running game on 2026-10-09:
+  // entry, owner, kind, class, frigate class, seed and the model the game's table gives.
+  it('names the model of each ship of a star system', () => {
+    const rows: [number, number, number, number, number, string, string][] = [
+      [21, 1, 2, 0, 11, '0xF3092FBA82AD7A45', 'FREIGHTER'],
+      [24, 1, 3, 0, 11, '0x6F4F20D39F13C80E', 'FREIGHTER_CAPTIAL'],
+      [25, 1, 4, 0, 11, '0x65A2981F5380676E', 'FREIGHTER_SMALL'],
+      [26, 1, 5, 0, 11, '0x26877DDA87AF61A9', 'FREIGHTER_TINY'],
+      [27, 1, 6, 0, 0, '0x85F0AE86A0028E02', 'FRIGATE_COMBAT'],
+      [34, 1, 6, 0, 7, '0x79D64D7AD8BDC093', 'FRIGATE_LIVING_PROC'],
+      [35, 3, 0, 9, 11, '0x0B6A5D5C6ECDED6A', 'ROBOT'],
+      [43, 2, 3, 0, 11, '0xE75B4F26089732A3', 'FREIGHTER_CAPITAL_PIRATE'],
+      [20, 1, 0, 6, 11, '0x8EEF1C10CD8A8062', 'ROYAL']
+    ]
+    const report = service.withShipModels({
+      state: 'read',
+      seed: '0x0001DB00F769C14E',
+      ships: rows.map(([index, faction, shipRole, shipClass, frigateClass, seed]) => ({
+        index,
+        faction,
+        shipRole,
+        shipClass,
+        frigateClass,
+        seed,
+        hint: ''
+      }))
+    })
+    if (report.state !== 'read') throw new Error('unavailable')
+    expect(report.ships.map((ship) => ship.model)).toEqual(rows.map((row) => row[6]))
+    expect(report.ships[1].scene).toBe(workshopKinds.freighter.capital)
+    expect(report.ships[7].scene).toBe(workshopKinds.freighter.pirate)
+  })
 })

@@ -488,6 +488,8 @@ export const esES: Messages = {
     glyphsLabel: 'Dirección de portal (12 glifos como 0–9, A–F)',
     galaxyLabel: 'Número de galaxia',
     useAddress: 'Usar este sistema',
+    seedOrigin:
+      'El juego saca esta semilla en el sistema con dirección de portal {glyphs} en la galaxia {galaxy} (tras {steps} pasos de su flujo de números). Es una pista, no una prueba.',
     seedHint: 'Dieciséis dígitos hexadecimales después de 0x. Pulsa Intro o Mostrar para verla.',
     show: 'Mostrar',
     generate: 'Generar una semilla',

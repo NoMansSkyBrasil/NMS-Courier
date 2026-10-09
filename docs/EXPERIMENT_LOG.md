@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-09: ship models of a system and the origin of a seed, ported from NMS Shipwright
+
+Offline, game closed. Application 1.17.0. Source read: NMS Shipwright commit
+`a9320fc` (MIT). Owning note:
+[where each seed comes from](SEED_ORIGINS.md#what-else-nms-shipwright-has-and-what-was-taken-2026-10-09).
+
+Observed: for nine ships of the system `0x0001DB00F769C14E` read live the
+ported rule names the same model as Shipwright's own code (regular, capital,
+small and tiny freighter, two frigates, the sentinel ship, the pirate
+dreadnought, the exotic). The origin search returns the right system and
+step count for the first ship of both systems read live (302 and 447).
+
+Not proven: the models against what flies in the game (no ship was looked at
+for this); the false origin rate, taken from Shipwright's note (about one in
+eight random seeds at 3,000 steps).
+
 ## 2026-10-09: the star system generator emulated offline; draws before the ships explained
 
 Offline, game closed. Build 180836 executable (`13d5060d...cc3499`) run in

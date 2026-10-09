@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { EyeIcon, OrbitIcon, RotateCwIcon } from 'lucide-react'
+import { workshopKinds } from '../../../shared/model-workshop'
 import { workshopKindOfShipClass } from '../../../shared/star-system'
-import type { StarSystemReport } from '../../../shared/star-system'
+import type { StarSystemReport, StarSystemShip } from '../../../shared/star-system'
 import { stepsBeforeChildSeed } from '../../../shared/star-system-stream'
 import { glyphsFromSystemSeed } from '../../../shared/system-address'
 import { Button } from '@renderer/components/ui/button'
@@ -66,12 +67,23 @@ export function StarSystemCard(): React.JSX.Element {
   }
   // A freighter is shown with this system as its home; any other class the workshop has opens
   // as that type of starship.
-  const viewLink = (shipClass: number, seed: string): string | null => {
+  // The game's table says which scene a ship uses; the workshop type with that scene is opened.
+  const viewLink = (ship: StarSystemShip): string | null => {
     if (report.state !== 'read') return null
-    const kind = workshopKindOfShipClass[shipClass]
-    if (kind) return `#models?tab=view&category=starship&kind=${kind}&seed=${seed}`
-    return shipClass === 0
-      ? `#models?tab=view&category=freighter&kind=regular&seed=${seed}&home=${report.seed}`
+    if (ship.scene) {
+      for (const [category, kinds] of Object.entries(workshopKinds)) {
+        for (const [kind, scene] of Object.entries(kinds)) {
+          if (scene !== ship.scene) continue
+          const home = category === 'freighter' ? `&home=${report.seed}` : ''
+          return `#models?tab=view&category=${category}&kind=${kind}&seed=${ship.seed}${home}`
+        }
+      }
+      return null
+    }
+    const kind = workshopKindOfShipClass[ship.shipClass]
+    if (kind) return `#models?tab=view&category=starship&kind=${kind}&seed=${ship.seed}`
+    return ship.shipClass === 0
+      ? `#models?tab=view&category=freighter&kind=regular&seed=${ship.seed}&home=${report.seed}`
       : null
   }
 
@@ -132,11 +144,18 @@ export function StarSystemCard(): React.JSX.Element {
                 </TableHeader>
                 <TableBody>
                   {report.ships.map((ship) => {
-                    const link = viewLink(ship.shipClass, ship.seed)
+                    const link = viewLink(ship)
                     return (
                       <TableRow key={ship.index}>
                         <TableCell>{ship.index + 1}</TableCell>
-                        <TableCell>{classLabel(ship.shipClass)}</TableCell>
+                        <TableCell>
+                          {classLabel(ship.shipClass)}
+                          {ship.model && (
+                            <span className="text-muted-foreground ml-2 font-mono text-xs">
+                              {ship.model}
+                            </span>
+                          )}
+                        </TableCell>
                         <TableCell>{ship.shipRole}</TableCell>
                         <TableCell className="font-mono">{ship.seed}</TableCell>
                         <TableCell>

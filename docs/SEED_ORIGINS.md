@@ -436,6 +436,26 @@ and the planet seeds are ported and tested; the count of steps before the
 ships is not. The emulator is the reference to test each further piece
 against, system by system.
 
+### What else NMS Shipwright has, and what was taken (2026-10-09)
+
+Read at commit `a9320fc`. Its texture and palette rules are the same as this
+project's (layers merged by name and group, one step for the chance and one
+for the choice, colour channels above 3 take sample 3), which is a second
+independent reading of the executable agreeing with ours.
+
+| Their module | What it does | Here |
+| --- | --- | --- |
+| `emu.py`, `systemgen.py`, `exeaddr.py` | The star system generator run in an emulator; addresses found by byte signature per build | Used through `runtime/research/emulate-star-system.py`; not in the application |
+| `aiships.py` | Which model a ship of a system uses: the owner's list in `AISPACESHIPMANAGER.MBIN` is shuffled with the ship's seed and the first record of the ship's kind and class is taken | Ported: `apps/desktop/src/main/research-bridge/system-ship-models.ts`, application 1.17.0, with a test on nine ships read live |
+| `locate.py` | The system a ship seed was drawn in, by walking the stream backwards to a state that is the start of an address | Ported: `originsOfSeed` in `apps/desktop/src/shared/star-system-stream.ts`, application 1.17.0 |
+| `names/*.json` | Player-made names of parts (fighter, hauler, sentinel and a few more) | Not taken yet |
+| `fastsearch.py`, designer page | Rarity of a chosen set of parts ("1 in N seeds"), a time estimate, a search of real systems near the player for a design, saved designs | Not taken yet; listed in `TODO.md` |
+| Save editing ("put this design in my save") | Writes the save file | Not taken: this project delivers through the running game only |
+
+The ship list fields, in their names and ours: the owner (`role`: frigates 0,
+traders 1, pirates 2, police 3, swarm 5) is our `faction`; the kind
+(`ai`: 0 ship, 2 to 5 freighter sizes, 6 frigate) is our `shipRole`.
+
 ### Next step, bounded
 
 The draws are listed (above). The next piece of the hand port is the number

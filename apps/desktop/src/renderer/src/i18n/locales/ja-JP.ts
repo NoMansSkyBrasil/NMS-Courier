@@ -481,6 +481,8 @@ export const jaJP: Messages = {
     glyphsLabel: 'ポータルアドレス（12 グリフ、0–9・A–F）',
     galaxyLabel: '銀河番号',
     useAddress: 'この星系を使う',
+    seedOrigin:
+      'ゲームはこのシード値を、銀河 {galaxy} のポータルアドレス {glyphs} の星系で（その数列の {steps} ステップ後に）引きます。手がかりであり、確証ではありません。',
     seedHint: '0x に続く 16 桁の 16 進数。Enter キーまたは「表示」で確認できます。',
     show: '表示',
     generate: 'シード値を生成',

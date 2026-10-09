@@ -468,6 +468,8 @@ export const koKR: Messages = {
     glyphsLabel: '포털 주소 (12개 문양, 0–9, A–F)',
     galaxyLabel: '은하 번호',
     useAddress: '이 항성계 사용',
+    seedOrigin:
+      '게임은 은하 {galaxy}의 포털 주소 {glyphs} 항성계에서 (그 수열의 {steps}단계 뒤에) 이 시드를 뽑습니다. 단서일 뿐 증거는 아닙니다.',
     seedHint: '0x 뒤에 16자리 16진수. Enter 키나 표시를 눌러 확인하세요.',
     show: '표시',
     generate: '시드 생성',

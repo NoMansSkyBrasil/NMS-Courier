@@ -503,6 +503,8 @@ export const deDE: Messages = {
     glyphsLabel: 'Portaladresse (12 Glyphen als 0–9, A–F)',
     galaxyLabel: 'Galaxienummer',
     useAddress: 'Dieses System verwenden',
+    seedOrigin:
+      'Das Spiel zieht diesen Seed im System mit der Portaladresse {glyphs} in Galaxie {galaxy} (nach {steps} Schritten seines Zahlenstroms). Ein Hinweis, kein Beweis.',
     seedHint: 'Sechzehn Hexadezimalziffern nach 0x. Drücke die Eingabetaste oder „Anzeigen“.',
     show: 'Anzeigen',
     generate: 'Seed erzeugen',

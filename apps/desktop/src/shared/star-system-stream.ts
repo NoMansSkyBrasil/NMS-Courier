@@ -65,6 +65,52 @@ function stateBefore(child: bigint): State {
   return stepBack([first, carry])
 }
 
+export type SeedOrigin = { systemSeed: string; steps: number }
+
+// The star systems whose stream yields `seed` as a child seed within `limit` steps, nearest
+// first: the stream is walked backwards and every state that is the initial state of an address
+// is kept. A seed the game did not draw from a system usually has none; a random seed has a
+// false one about once in eight at 3,000 steps, so a result is a lead and not a proof. The
+// method is that of NMS Shipwright's locate.py (MIT licence, Shikhar Tiwari).
+export function originsOfSeed(seed: string, limit = 3000): SeedOrigin[] {
+  let value = BigInt(seed)
+  value ^= value >> 33n
+  value = (value * unmixB) & mask64
+  value ^= value >> 33n
+  value = (value * unmixA) & mask64
+  value ^= value >> 33n
+  const first = value & mask32
+  const carry = ((value >> 32n) - first * multiplier) & mask32
+  if (carry > multiplier) return []
+  let state: State = [first, carry]
+  const origins: SeedOrigin[] = []
+  for (let steps = 0; steps < limit; steps += 1) {
+    const whole = (state[1] << 32n) | state[0]
+    const low = whole / multiplier
+    const rest = whole % multiplier
+    // An initial state may hold a carry at or above the multiplier, which a division does not
+    // give back: the neighbouring splits of the same number are tried too.
+    for (let shift = 0n; shift < 3n; shift += 1n) {
+      const candidateLow = low - shift
+      const candidateCarry = rest + shift * multiplier
+      if (candidateLow < 0n || candidateCarry > mask32) break
+      // A low word of 1 also stands for an address whose low word is 0.
+      for (const addressLow of candidateLow === 1n ? [1n, 0n] : [candidateLow]) {
+        const rotated = ((addressLow >> 16n) | (addressLow << 16n)) & mask32
+        const address = ((candidateCarry ^ rotated ^ addressLow) << 32n) | addressLow
+        if (address >> 52n === 0n && ((address >> 40n) & 0xfffn) < 0x300n) {
+          origins.push({
+            systemSeed: '0x' + address.toString(16).toUpperCase().padStart(16, '0'),
+            steps
+          })
+        }
+      }
+    }
+    state = [low, rest]
+  }
+  return origins
+}
+
 // The child seeds a system's stream yields from a position on: `count` seeds, the first taken
 // after `stepsBefore` steps.
 export function childSeedsOfSystem(

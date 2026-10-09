@@ -485,6 +485,8 @@ export const ptBR: Messages = {
     glyphsLabel: 'Endereço de portal (12 glifos como 0–9, A–F)',
     galaxyLabel: 'Número da galáxia',
     useAddress: 'Usar este sistema',
+    seedOrigin:
+      'O jogo sorteia esta seed no sistema de endereço de portal {glyphs} na galáxia {galaxy} (após {steps} sorteios do fluxo de números dele). É uma pista, não uma prova.',
     seedHint: 'Dezesseis dígitos hexadecimais depois de 0x. Pressione Enter ou Mostrar para ver.',
     show: 'Mostrar',
     generate: 'Gerar uma seed',

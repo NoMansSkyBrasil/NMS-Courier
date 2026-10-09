@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useMemo, useCallback, useEffect, useRef, useState } from 'react'
 import { BoxIcon, DicesIcon, EraserIcon, EyeIcon, SendIcon } from 'lucide-react'
 import type { PreviewModel, PreviewColor } from '../../../shared/model-preview'
 import {
@@ -48,6 +48,7 @@ import {
 } from '@renderer/components/ui/select'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { ToggleGroup, ToggleGroupItem } from '@renderer/components/ui/toggle-group'
+import { originsOfSeed } from '../../../shared/star-system-stream'
 import { glyphsFromSystemSeed, systemSeedFromGlyphs } from '../../../shared/system-address'
 import { hashParameters } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
@@ -262,6 +263,13 @@ function WorkshopModel({
   const [glyphs, setGlyphs] = useState('')
   const [galaxy, setGalaxy] = useState('1')
   const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
+  // The star system a typed ship seed was drawn in, when it has one.
+  const origin = useMemo(() => {
+    if (category === 'multitool' || !/^0x[0-9a-f]{16}$/i.test(typed.trim())) return null
+    const found = originsOfSeed(typed.trim())[0]
+    const address = found ? glyphsFromSystemSeed(found.systemSeed) : null
+    return found && address ? { ...address, steps: found.steps } : null
+  }, [category, typed])
   const fromGlyphs = systemSeedFromGlyphs(glyphs, Number(galaxy))
   const [model, setModel] = useState<PreviewModel | null>(null)
   const [parts, setParts] = useState<WorkshopPart[]>([])
@@ -528,6 +536,15 @@ function WorkshopModel({
           )}
         </div>
         {mode === 'view' && <FieldDescription>{text.seedHint}</FieldDescription>}
+        {origin && (
+          <FieldDescription>
+            {formatMessage(text.seedOrigin, {
+              glyphs: origin.glyphs,
+              galaxy: origin.galaxyNumber,
+              steps: origin.steps
+            })}
+          </FieldDescription>
+        )}
       </Field>
       {category === 'freighter' && (
         <Field>

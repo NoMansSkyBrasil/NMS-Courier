@@ -374,7 +374,8 @@ app.whenReady().then(() => {
   // Read only: the star system the player is in and its ships, as the bridge reports them.
   ipcMain.handle('nms:get-star-system', async () => {
     const game = await gameStatusService.observe(getInstallationService().getSelectedRootPath())
-    return getResearchBridgeService().getStarSystem(game.processId)
+    const report = await getResearchBridgeService().getStarSystem(game.processId)
+    return getModelWorkshopService().withShipModels(report)
   })
   ipcMain.handle('nms:get-stack-limits', async () => {
     const root = getInstallationService().getSelectedRootPath()
