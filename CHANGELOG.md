@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.20.2 and bridge 1.12.0 (2026-10-09)
+
+Bridge 1.12.0, SHA-256 `50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0`.
+
+- Confirmed live with bridge 1.11.0: an offer opened once the game's window
+  is in front has its cursor again.
+- Fixed: the offer still showed the standard colours with "Use legacy
+  colours" on. The game builds the offered model again after the reward
+  call, when the two instructions were already put back. The change of the
+  game's code now stays until the offered tool is accepted (the mark is
+  written on it) or about ten minutes pass; during that time any multi-tool
+  the game offers through the same routine is built with the legacy colours.
+  Not exercised in the running game yet.
+
 ## Application 1.20.1 and bridge 1.11.0 (2026-10-09)
 
 Bridge 1.11.0, SHA-256 `083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da`.

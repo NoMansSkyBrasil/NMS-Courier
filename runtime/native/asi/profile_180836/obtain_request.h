@@ -18,9 +18,15 @@
 // The offer itself (bridge 1.10.0): the game builds the offered multi-tool's model inside the reward
 // call and passes a constant "no legacy colours" to its palette builder at two places (8e5b78 and
 // 8e5e0d, "mov byte ptr [rsp+0x20], r14b" with r14b zero). For a request with "legacy=1" those five
-// bytes are REPLACED by "mov byte ptr [rsp+0x20], 1" for the length of the call and put back: a
-// temporary change of the game's code, not a native call. Both places must hold the expected
-// bytes or nothing is changed. The result file says "offer_colours=legacy" or "standard".
+// bytes are REPLACED by "mov byte ptr [rsp+0x20], 1": a temporary change of the game's code, not a
+// native call. Both places must hold the expected bytes or nothing is changed. The result file says
+// "offer_colours=legacy" or "standard".
+//
+// Bridge 1.10.0 put the bytes back right after the reward call and the offer still showed the
+// standard colours (live, 2026-10-09): the game builds the offered model again later (8e58e0 is also
+// called from 8e6bf0). From 1.12.0 the change stays until the watch for the accepted tool ends: the
+// flag was written on the owned record, or OBTAIN_LEGACY_FRAMES frames passed. While it stays, any
+// multi-tool the game offers through this routine is built with the legacy colours.
 
 #define OBTAIN_CLASS_COUNT 4          // C, B, A, S as the game numbers them
 #define OBTAIN_CARRIER_SEED 1         // seed and class the data file gives every carrier
@@ -52,6 +58,7 @@ typedef struct {
     const uint32_t *offer_legacy_sites;
     int offer_legacy_site_count;
     volatile LONG offer_legacy;    // 1 when the last offer was built with the legacy colours
+    int offer_patched;             // game thread only: the game's code currently holds the change
 } obtain_domain;
 
 enum {
@@ -151,10 +158,11 @@ static void obtain_apply_request(obtain_domain *domain) {
     if (reward) {
         *(uint64_t *)(reward + domain->seed_offset) = domain->seed;
         *(int32_t *)(reward + domain->class_offset) = (int32_t)InterlockedCompareExchange(&domain->item_class, 0, 0);
-        int offer_legacy = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1 && obtain_offer_colours(domain, 1);
+        int wanted = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1;
+        if (wanted && !domain->offer_patched) domain->offer_patched = obtain_offer_colours(domain, 1);
+        else if (!wanted && domain->offer_patched) domain->offer_patched = !obtain_offer_colours(domain, 0);
         reward_carrier_give(domain->models[model].carrier, 0);
-        if (offer_legacy) obtain_offer_colours(domain, 0);
-        InterlockedExchange(&domain->offer_legacy, offer_legacy);
+        InterlockedExchange(&domain->offer_legacy, wanted && domain->offer_patched);
         *(uint64_t *)(reward + domain->seed_offset) = OBTAIN_CARRIER_SEED;
         *(int32_t *)(reward + domain->class_offset) = OBTAIN_CARRIER_CLASS;
     }
@@ -176,7 +184,12 @@ static int obtain_path(const obtain_domain *domain, wchar_t *path, const wchar_t
 // Runs on the game's update thread every frame while a legacy colours flag is waited for: a direct
 // write of one byte of the owned record that holds the requested seed.
 static void obtain_legacy_tick(obtain_domain *domain) {
-    if (InterlockedCompareExchange(&domain->legacy_state, 0, 0) != 1) return;
+    if (InterlockedCompareExchange(&domain->legacy_state, 0, 0) != 1) {
+        // The watch ended (or never started): the game's code goes back to what it was.
+        if (domain->offer_patched && InterlockedCompareExchange(&domain->state, 0, 0) != 1)
+            domain->offer_patched = !obtain_offer_colours(domain, 0);
+        return;
+    }
     uintptr_t manager = *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA);
     uint8_t wanted = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1;
     for (size_t slot = 0; manager && slot < domain->record_count; ++slot) {

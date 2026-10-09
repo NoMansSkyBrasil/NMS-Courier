@@ -133,7 +133,8 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Model workshop: read the game's lighting pass to light metal as the game does (the black front flap of multi-tool `0x81E18111081140E1`; the surface shader is read, it only passes the masks on).
 - [ ] Model workshop: compare a starship with legacy colours with the game (the choice exists since 1.18.0, checked on multi-tools only).
 - [ ] Model workshop: confirm the pristine multi-tool `0xA1FA0E890FC18255` in the current game (get it from the application); the workshop agrees with the owner's picture since 1.19.2. Find a model with two second-texture lists to decide whether they are merged or drawn one by one.
-- [ ] Obtain (blocking): an offer opened while walking around has no cursor. Test an offer sent with a menu open and during a conversation; then make the bridge open the offer in a state that has the cursor (obtain notes).
+- [ ] Live test: legacy colours on the offer and after accepting (bridge 1.12.0); the starship offer's cursor with the focus wait.
+- [ ] Other requests that open a game window (slot window, freighter offer) should wait for the game's window like the offers do.
 - [ ] Obtain: "All slots", "Supercharged slots" and "Extra technology rows" when getting a new starship or multi-tool (owner request 2026-10-09; a multi-tool has technology slots only). Needs the accepted item to be upgraded after the offer.
 - [ ] Live test from the application: a multi-tool with "Use legacy colours" (bridge 1.9.0): the offer, the file `native-weapon-legacy-...`, and the tool's colours after accepting.
 - [ ] Legacy colours for a starship got through the application: find where the running game keeps `ShipUsesLegacyColours`.

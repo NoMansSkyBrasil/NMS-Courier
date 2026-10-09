@@ -173,6 +173,25 @@ window is in front. Bridge 1.11.0 therefore keeps a starship or multi-tool
 request waiting on the game thread until the game's window has been the
 foreground window for 45 frames in a row. Not proven.
 
+### Focus confirmed; the offer is built twice (bridge 1.12.0)
+
+Live with bridge 1.11.0 on 2026-10-09: the offer of `0xA1FA0E890FC18255`
+opened after the owner returned to the game and the cursor worked. The focus
+hypothesis holds; the reading "an interaction page has no cursor outside an
+interaction" above is wrong as an explanation of the failure.
+
+The same offer showed the standard colours although the result said
+`offer_colours=legacy`. Read live (read only): the two instructions were
+back to their original bytes and the pending tool (manager `+0x874030`:
+node at `+0x08`, seed at `+0x10`, flags at `+0x20`) held the seed. The
+builder `8e58e0` has two more callers (`8e6bf0` from `f29d54`, and
+`173b357`), so the offered model is built again after the reward call,
+then without the change. Bridge 1.12.0 keeps the change in place until the
+watch for the accepted tool ends (mark written, or 36,000 frames).
+
+Wrong in the 1.10.0 record: its `offer_colours=legacy` line said only that
+the bytes were changed for the call, not what the screen showed.
+
 ### Legacy colours on the offer itself (bridge 1.10.0)
 
 The pending tool's model is built inside the reward call: `8e58e0` calls the

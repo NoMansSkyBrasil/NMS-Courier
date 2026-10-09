@@ -318,7 +318,10 @@ the reward call**: at `0x8e5b78` and `0x8e5e0d` the five bytes
 `44 88 74 24 20` become `c6 44 24 20 01`, so the offered model is built with
 the legacy colours, and are restored right after. Both places must hold the
 expected bytes or neither is touched. This is not a native call and not a
-data write; it is a temporary code change on the game thread. The result file
+data write; it is a temporary code change on the game thread. From bridge
+1.12.0 the bytes are not restored right after the call but when the watch
+for the accepted tool ends (mark written, or 36,000 frames), because the
+game builds the offered model again later. The result file
 gains `offer_colours=legacy` or `offer_colours=standard`. Not exercised in
 the running game when written.
 

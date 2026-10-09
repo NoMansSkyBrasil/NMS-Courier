@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-09: cursor back with bridge 1.11.0; offer colours still standard; bridge 1.12.0 installed
+
+Live, from the application 1.20.1. Build 180836 (`13d5060d...cc3499`),
+bridge 1.11.0 (`083774d1...60da`), game process 16884, slot not identified
+(the owner's test slot is 3). Request: `model=pistol`,
+`seed=0xA1FA0E890FC18255`, `class=s`, `legacy=1`; result
+`result=offered`, `legacy=1`, `offer_colours=legacy`.
+
+Observed by the owner: the offer opened with a working cursor ("it works
+again"). Failed: the tool on the offer has the standard colours (pale green
+decal, yellow and magenta crystals), not the legacy ones. Whether it was
+accepted is not recorded; no `native-weapon-legacy` file was written.
+
+Read from the running game (read only) and from the executable: see the
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#focus-confirmed-the-offer-is-built-twice-bridge-1120).
+
+Then, game closed (process list checked): bridge 1.12.0 (`50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0`) built,
+fixture passed, installed in place of 1.11.0 (kept under
+`native-builds/bridge-1.11.0`). Application 1.20.2. Not proven: that the
+offer now shows the legacy colours, and the tool's colours after acceptance.
+To undo: copy the 1.11.0 file back.
+
 ## 2026-10-09: bridge 1.11.0 built and installed; offers wait for the game's window
 
 No live action. Build 180836, game closed (process list checked). Bridge
