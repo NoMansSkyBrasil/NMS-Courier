@@ -37,6 +37,10 @@ describe('star system stream', () => {
     expect(childSeedsOfSystem(systemSeed, 302, firstShips.length)).toEqual(firstShips)
   })
 
+  it('finds the first ship of a second system after a different number of steps', () => {
+    expect(stepsBeforeChildSeed('0x0000E800F669E14C', '0xDDCF152DA3DD87F7')).toBe(447)
+  })
+
   it('does not place a foreign seed on the stream', () => {
     expect(stepsBeforeChildSeed(systemSeed, '0x5EEDC0DE70FAE007', 5000)).toBeNull()
   })

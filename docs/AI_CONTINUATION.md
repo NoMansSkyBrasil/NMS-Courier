@@ -12,7 +12,8 @@
 > steps; open: is 302 the same in other systems; the same day the game's
 > memory was read with `runtime/research/read-live-star-system.py`: stream
 > layout station, 21 characters, 258 draws, ships; planet seeds reproduced
-> from the address; multi-tool seed origin still open); then
+> from the address; multi-tool seed origin still open; a second system
+> gave 447 steps, so that number varies and comes from `164da40`); then
 > multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the

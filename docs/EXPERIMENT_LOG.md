@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-09: second system; the steps before the first ship vary
+
+Live, read only, same tool, process 17044, build and bridge as the entry
+below, slot 3 by the owner's statement. The owner warped twice and opened the
+station's multi-tool cabinet. System `0x0000E800F669E14C`. Nothing written
+to the game. Owning note:
+[where each seed comes from](SEED_ORIGINS.md#second-system-2026-10-09).
+
+Observed: fifty ships, consecutive child seeds as before, first ship after
+447 steps (302 in the first system); station at 0, characters at 2 to 42,
+sentinel crash site ship 84 steps after the first ship, in both. The 35
+multi-tool seeds in memory are identical in both systems.
+
+Rejected: a fixed number of steps before the ships; the multi-tool seeds in
+memory as the station's offer; the offered tool's seed as a child seed of the
+first 60,000 positions of the system stream.
+
+Not proven: what sets the number of plain draws (258 and 403); the origin of
+the offered multi-tool's seed.
+
 ## 2026-10-09: the game's memory read from outside; layout of the system stream; planet seeds reproduced
 
 Live, read only. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0

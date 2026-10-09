@@ -294,6 +294,48 @@ offers: `retromultitool`, `switchmultitool`, `swarmmultitool`, `rodmultitool`
 (fishing rod), `staffmultitoolbone`, `staffmultitoolruin`, `gravitygun` and
 `staffnpcmultitool`. They are listed in `TODO.md`.
 
+### Second system, 2026-10-09
+
+Same process, after two warps by the owner: system `0x0000E800F669E14C`
+(`Planets` 4, `PrimePlanets` 2, `InhabitingRace` 2, `ConflictData` 1).
+
+| | First system | Second system |
+| --- | --- | --- |
+| Station | 0 | 0 |
+| Characters | 2 to 42 (21) | 2 to 42 (21) |
+| Plain draws | 258 | 403 |
+| First ship | **302** | **447** |
+| Sentinel crash site ship | 386 (first ship + 84) | 531 (first ship + 84) |
+| Ships in the list | 50 | 50 |
+| Ships 1 to 21 | 3 haulers, 3 fighters, 7 explorers, 7 shuttles (2 solar), 1 exotic | 3 haulers, 3 fighters, 7 explorers, 7 shuttles (1 solar), 1 exotic |
+
+- **The number of steps before the first ship is not fixed.** Everything
+  else has the same layout, so one number per system is what is missing to
+  list the ships of an address. It is produced by the routine at `164da40`
+  (1,147 instructions, twelve places that step the generator, 38 calls),
+  which runs between the characters and the ships. Two readings do not
+  determine it (258 and 403 with three and four planets).
+- Position 522 holds a child seed in both systems although the ships start
+  at different places, so it belongs to a second walk of the same stream
+  from its start (child seed number 262), left on the stack; its user is not
+  identified.
+- The multi-tool seeds found beside `MULTITOOL.SCENE.MBIN` are the same 35
+  in both systems, so they are a fixed set the game keeps loaded, not the
+  tool a station offers.
+- The tool offered in the second station (a class B pistol; the owner sent
+  the screen) was searched for while shown: its name is in memory only as
+  interface text, and no node seed of it was found among child seeds of the
+  first 60,000 positions of the system stream. Its seed is not a child seed
+  of the system stream. Buying it puts the seed in the player state, which
+  gives a known value to test origins against.
+
+Two ways to the ships of any address remain: port `164da40` far enough to
+count its draws, or have the bridge ask the game to generate the record for
+an address (the routine at `164a190` takes the address and fills a system
+record). The second is exact by construction but works only with the game
+running and needs its own safety review, because the routine also writes
+the generator state in its context object.
+
 ### Next step, bounded
 
 Read `164a4a0` from its start to `164b700` and list every use of the

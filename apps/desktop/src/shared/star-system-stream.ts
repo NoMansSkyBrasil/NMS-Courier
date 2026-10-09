@@ -4,7 +4,8 @@
 // system as a "child seed": two steps of the generator mixed by a fixed finalizer. This was read
 // in the executable and then confirmed on a live reading of build 180836 (docs/SEED_ORIGINS.md):
 // all fifty ship seeds of a system were consecutive child seeds, and walking the stream back
-// from the first one reached the system seed's initial state after 302 steps.
+// from the first one reached the system seed's initial state after 302 steps. A second system
+// gave 447: the number of steps before the ships differs per system.
 
 const multiplier = 0x5a76f899n
 const mask32 = 0xffffffffn
