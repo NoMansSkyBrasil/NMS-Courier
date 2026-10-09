@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.21.0 and bridge 1.14.0 (2026-10-09)
+
+Bridge 1.14.0, SHA-256 `8a7a1e018f44009cee1061aeac6649a3bb46a3939383e62783d3bb9577515444`.
+
+- New: "All technology slots" and "Supercharged slots" when getting a new
+  multi-tool, each on its own switch. The bridge waits until the offered
+  tool is accepted, then about two seconds, and changes its technology grid
+  in place (direct writes, the same as "Upgrade"). The file
+  `native-weapon-legacy-...` gains `upgrade=0|1|3`. Not exercised in the
+  running game yet.
+- Not yet for a new starship: where the running game keeps an accepted
+  ship's seed is not known, so the bridge cannot tell which ship to change.
+
 ## Application 1.20.3 and bridge 1.13.0 (2026-10-09)
 
 Bridge 1.13.0, SHA-256 `cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2`.

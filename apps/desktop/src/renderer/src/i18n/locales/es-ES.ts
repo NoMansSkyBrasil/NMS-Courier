@@ -278,6 +278,9 @@ export const esES: Messages = {
     equipSlots: 'Todos los espacios del inventario',
     equipSlotsHint:
       'Hace utilizables todas las posiciones de las cuadrículas de carga y de tecnología.',
+    equipToolSlots: 'Todas las ranuras de tecnología',
+    equipToolSlotsHint:
+      'Habilita todas las posiciones de la cuadrícula de tecnología de la multiherramienta, justo después de aceptar la oferta.',
     equipSupercharge: 'Espacios supercargados',
     equipSuperchargeHint:
       'Convierte cada espacio de tecnología utilizable en un espacio supercargado.',

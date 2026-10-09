@@ -22,6 +22,31 @@ static const obtain_offer_site multitool_offer_legacy_sites[] = {
     {0x8e5b78u, 0x20}, {0x8e5e0du, 0x20}, {0x8e5c7eu, 0x60}
 };
 
+// The accepted multi-tool, in place: every position of its technology grid usable and/or every
+// usable slot supercharged, with the routines of the "owned" request. The record is changed, and so
+// is the equipped multi-tool's active store when its grid is the record's: the game equips a tool it
+// has just handed over and copies the active store over the record, so a change of the record alone
+// would be lost. Returns 0 nothing, 1 the record, 3 both.
+static LONG multitool_obtain_upgrade(uintptr_t manager, LONG slot, int slots, int supercharge) {
+    LONG done = 0;
+#ifndef COURIER_NATIVE_CALLBACK_FIXTURE
+    uint8_t *record = multitool_record_store(manager, slot), *active = multitool_equipped_store(manager);
+    if (!record || !consistent_store(record, 0)) return 0;
+    int same = active && consistent_store(active, 0) && memcmp(record + 0x80, active + 0x80, 3 * sizeof(int16_t)) == 0;
+    if (slots) fill_store_grid(record);
+    if (supercharge) add_special_slots(record);
+    done = 1;
+    if (same) {
+        if (slots) fill_store_grid(active);
+        if (supercharge) add_special_slots(active);
+        done = 3;
+    }
+#else
+    (void)manager; (void)slot; (void)slots; (void)supercharge;
+#endif
+    return done;
+}
+
 static obtain_domain multitool_obtain = {
     .file_kind = L"weapon",
     .class_hash = 0x5f82ff34u,
@@ -40,6 +65,7 @@ static obtain_domain multitool_obtain = {
     .record_seed_offset = 0x2b0,
     .record_legacy_offset = 0x2ad,
     .legacy = -1,
+    .upgrade = multitool_obtain_upgrade,
     .offer_legacy_sites = multitool_offer_legacy_sites,
     .offer_legacy_site_count = sizeof(multitool_offer_legacy_sites) / sizeof(multitool_offer_legacy_sites[0])
 };

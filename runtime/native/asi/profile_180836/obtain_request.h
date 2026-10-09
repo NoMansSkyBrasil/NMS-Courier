@@ -34,6 +34,13 @@
 // ("mov byte ptr [rsp+0x60], r14b"); 639be0 hands it to the texture job (639610, job +0x1c9). From
 // 1.13.0 that third place is changed as well.
 
+// A request may also say "slots=1" and/or "super=1" for a domain that can change the accepted item
+// in place (multi-tools, bridge 1.14.0): once the owned record holds the requested seed, and after
+// OBTAIN_UPGRADE_FRAMES more frames, the domain's upgrade routine makes every position of the grid
+// usable and/or every usable technology slot supercharged. These are the same direct writes as the
+// "owned" request (owned_inventory_request.h), not native calls.
+
+#define OBTAIN_UPGRADE_FRAMES 120
 #define OBTAIN_CLASS_COUNT 4          // C, B, A, S as the game numbers them
 #define OBTAIN_CARRIER_SEED 1         // seed and class the data file gives every carrier
 #define OBTAIN_CARRIER_CLASS 3
@@ -64,7 +71,12 @@ typedef struct {
     // Owned records that keep the legacy colours flag; record_stride 0 when the domain has none.
     size_t record_offset, record_stride, record_count, record_seed_offset, record_legacy_offset;
     volatile LONG legacy;          // requested flag: -1 not asked, 0 or 1
-    volatile LONG legacy_state;    // 0 none, 1 watching, 2 written, 3 gave up; 2 and 3 await the file
+    // 0 none, 1 watching, 2 done, 3 gave up, 4 found and waiting to upgrade; 2 and 3 await the file
+    volatile LONG legacy_state;
+    // Upgrade of the accepted item: the routine (NULL when the domain has none), what was asked,
+    // the frames left before it runs and what it reported.
+    LONG (*upgrade)(uintptr_t manager, LONG slot, int slots, int supercharge);
+    volatile LONG want_slots, want_super, upgrade_frames, upgraded;
     volatile LONG legacy_frames, legacy_slot;
     uint64_t legacy_seed;
     // Where the game passes "no legacy colours" when it builds the offered model; count 0 for none.
@@ -190,7 +202,10 @@ static void obtain_apply_request(obtain_domain *domain) {
         *(int32_t *)(reward + domain->class_offset) = OBTAIN_CARRIER_CLASS;
     }
     LONG legacy = InterlockedCompareExchange(&domain->legacy, 0, 0);
-    if (reward && legacy >= 0 && domain->record_stride) {
+    int upgrade = domain->upgrade && (InterlockedCompareExchange(&domain->want_slots, 0, 0) ||
+                                      InterlockedCompareExchange(&domain->want_super, 0, 0));
+    InterlockedExchange(&domain->upgraded, 0);
+    if (reward && (legacy >= 0 || upgrade) && domain->record_stride) {
         domain->legacy_seed = domain->seed;
         InterlockedExchange(&domain->legacy_frames, OBTAIN_LEGACY_FRAMES);
         InterlockedExchange(&domain->legacy_state, 1);
@@ -207,6 +222,18 @@ static int obtain_path(const obtain_domain *domain, wchar_t *path, const wchar_t
 // Runs on the game's update thread every frame while a legacy colours flag is waited for: a direct
 // write of one byte of the owned record that holds the requested seed.
 static void obtain_legacy_tick(obtain_domain *domain) {
+    if (InterlockedCompareExchange(&domain->legacy_state, 0, 0) == 4) {
+        // The accepted item was found; the game is given some frames to finish taking it over.
+        if (InterlockedDecrement(&domain->upgrade_frames) > 0) return;
+        uintptr_t manager = *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA);
+        if (manager && domain->upgrade)
+            InterlockedExchange(&domain->upgraded,
+                                domain->upgrade(manager, InterlockedCompareExchange(&domain->legacy_slot, 0, 0),
+                                                InterlockedCompareExchange(&domain->want_slots, 0, 0) != 0,
+                                                InterlockedCompareExchange(&domain->want_super, 0, 0) != 0));
+        InterlockedExchange(&domain->legacy_state, 2);
+        return;
+    }
     if (InterlockedCompareExchange(&domain->legacy_state, 0, 0) != 1) {
         // The watch ended (or never started): the game's code goes back to what it was.
         if (domain->offer_patched && InterlockedCompareExchange(&domain->state, 0, 0) != 1)
@@ -214,7 +241,10 @@ static void obtain_legacy_tick(obtain_domain *domain) {
         return;
     }
     uintptr_t manager = *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA);
-    uint8_t wanted = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1;
+    LONG asked = InterlockedCompareExchange(&domain->legacy, 0, 0);
+    uint8_t wanted = asked == 1;
+    int upgrade = domain->upgrade && (InterlockedCompareExchange(&domain->want_slots, 0, 0) ||
+                                      InterlockedCompareExchange(&domain->want_super, 0, 0));
     for (size_t slot = 0; manager && slot < domain->record_count; ++slot) {
         uint8_t *record = (uint8_t *)(manager + domain->record_offset + slot * domain->record_stride);
         if (!writable_range((uintptr_t)record, domain->record_stride)) break;
@@ -222,9 +252,10 @@ static void obtain_legacy_tick(obtain_domain *domain) {
         if (*(const uint64_t *)(record + domain->record_seed_offset) != domain->legacy_seed ||
             record[domain->record_seed_offset + 8] != 1) continue;
         if (record[domain->record_legacy_offset] > 1) continue;
-        record[domain->record_legacy_offset] = wanted;
+        if (asked >= 0) record[domain->record_legacy_offset] = wanted;
         InterlockedExchange(&domain->legacy_slot, (LONG)slot);
-        InterlockedExchange(&domain->legacy_state, 2);
+        InterlockedExchange(&domain->upgrade_frames, OBTAIN_UPGRADE_FRAMES);
+        InterlockedExchange(&domain->legacy_state, upgrade ? 4 : 2);
         return;
     }
     if (InterlockedDecrement(&domain->legacy_frames) <= 0) InterlockedExchange(&domain->legacy_state, 3);
@@ -238,9 +269,12 @@ static void obtain_write_legacy(obtain_domain *domain) {
     if (obtain_path(domain, path, L"legacy")) {
         FILE *file = _wfopen(path, L"w");
         if (file) {
-            fprintf(file, "seed=0x%llX\nlegacy=%ld\nresult=%s\nslot=%ld\n", (unsigned long long)domain->legacy_seed,
-                    InterlockedCompareExchange(&domain->legacy, 0, 0), state == 2 ? "written" : "not_found",
-                    state == 2 ? InterlockedCompareExchange(&domain->legacy_slot, 0, 0) : -1L);
+            // "upgrade": 0 nothing, 1 the owned record, 3 the record and the equipped item's store.
+            fprintf(file, "seed=0x%llX\nlegacy=%ld\nresult=%s\nslot=%ld\nupgrade=%ld\n",
+                    (unsigned long long)domain->legacy_seed, InterlockedCompareExchange(&domain->legacy, 0, 0),
+                    state == 2 ? "written" : "not_found",
+                    state == 2 ? InterlockedCompareExchange(&domain->legacy_slot, 0, 0) : -1L,
+                    InterlockedCompareExchange(&domain->upgraded, 0, 0));
             fclose(file);
         }
     }
@@ -265,7 +299,7 @@ static int obtain_read_request(obtain_domain *domain) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     char line[64];
-    LONG model = -1, item_class = -1, legacy = -1;
+    LONG model = -1, item_class = -1, legacy = -1, slots = 0, supercharge = 0;
     uint64_t seed = 0;
     int ok = 1, have_seed = 0;
     while (ok && fgets(line, sizeof(line), file)) {
@@ -282,6 +316,10 @@ static int obtain_read_request(obtain_domain *domain) {
         } else if (strncmp(line, "legacy=", 7) == 0 && legacy < 0 && domain->record_stride &&
                    (line[7] == '0' || line[7] == '1') && !line[8]) {
             legacy = line[7] - '0';
+        } else if (strcmp(line, "slots=1") == 0 && !slots && domain->upgrade) {
+            slots = 1;
+        } else if (strcmp(line, "super=1") == 0 && !supercharge && domain->upgrade) {
+            supercharge = 1;
         } else if (strncmp(line, "seed=0x", 7) == 0 && !have_seed) {
             const char *digit = line + 7;
             size_t length = strlen(digit);
@@ -301,6 +339,8 @@ static int obtain_read_request(obtain_domain *domain) {
     InterlockedExchange(&domain->model, model);
     InterlockedExchange(&domain->item_class, item_class);
     InterlockedExchange(&domain->legacy, legacy);
+    InterlockedExchange(&domain->want_slots, slots);
+    InterlockedExchange(&domain->want_super, supercharge);
     InterlockedExchange(&domain->result, OBTAIN_PENDING);
     return 1;
 }

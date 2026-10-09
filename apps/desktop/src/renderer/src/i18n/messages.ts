@@ -207,6 +207,8 @@ export type Messages = {
     equipClass: string
     equipSlots: string
     equipSlotsHint: string
+    equipToolSlots: string
+    equipToolSlotsHint: string
     equipSupercharge: string
     equipSuperchargeHint: string
     equipExtended: string

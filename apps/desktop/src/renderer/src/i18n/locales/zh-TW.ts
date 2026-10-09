@@ -259,6 +259,8 @@ export const zhTW: Messages = {
     equipClass: '等級',
     equipSlots: '全部物品欄格子',
     equipSlotsHint: '讓貨艙和科技網格的每個位置都可使用。',
+    equipToolSlots: '全部科技欄位',
+    equipToolSlotsHint: '在你接受報價後，立即讓多功能工具科技網格的每個位置都可用。',
     equipSupercharge: '超載格子',
     equipSuperchargeHint: '將每個可用的科技格子變為超載格子。',
     equipExtended: '額外科技列',

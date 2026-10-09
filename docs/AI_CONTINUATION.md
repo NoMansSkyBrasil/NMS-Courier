@@ -29,7 +29,9 @@
 > game's window to be in front (confirmed live); bridge 1.13.0 (installed,
 > not exercised) also waits until the game holds the mouse and changes the
 > instruction the reward really uses for the legacy colours (`8e5c7e`,
-> argument of the scene loader `639be0`); the ships of
+> argument of the scene loader `639be0`); bridge 1.14.0 (installed, not
+> exercised) gives an accepted multi-tool all technology slots and
+> supercharged slots; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

@@ -103,7 +103,10 @@ function obtain(
             `seed=0x${seed.slice(2).toUpperCase()}`,
             `class=${request.itemClass.toLowerCase()}`,
             // Bridge 1.9.0 onwards; an older bridge rejects a request with this line.
-            ...(kind === 'weapon' && request.legacyColours === true ? ['legacy=1'] : [])
+            ...(kind === 'weapon' && request.legacyColours === true ? ['legacy=1'] : []),
+            // Bridge 1.14.0 onwards: applied in place to the tool once the offer is accepted.
+            ...(kind === 'weapon' && request.slots ? ['slots=1'] : []),
+            ...(kind === 'weapon' && request.supercharge ? ['super=1'] : [])
           ]
         },
         signals: [kind],

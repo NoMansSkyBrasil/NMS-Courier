@@ -285,6 +285,9 @@ export const itIT: Messages = {
     equipSlots: 'Tutti gli slot dell’inventario',
     equipSlotsHint:
       'Rende utilizzabili tutte le posizioni delle griglie di carico e di tecnologia.',
+    equipToolSlots: 'Tutti gli slot tecnologia',
+    equipToolSlotsHint:
+      'Rende utilizzabili tutte le posizioni della griglia tecnologica del multi-attrezzo, subito dopo aver accettato l’offerta.',
     equipSupercharge: 'Slot sovraccaricati',
     equipSuperchargeHint: 'Trasforma ogni slot tecnologia utilizzabile in uno slot sovraccaricato.',
     equipExtended: 'Righe di tecnologia aggiuntive',

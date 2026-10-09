@@ -259,6 +259,8 @@ export const zhCN: Messages = {
     equipClass: '等级',
     equipSlots: '全部物品栏格子',
     equipSlotsHint: '让货舱和科技网格的每个位置都可用。',
+    equipToolSlots: '全部科技栏位',
+    equipToolSlotsHint: '在你接受报价后，立即让多功能工具科技网格的每个位置都可用。',
     equipSupercharge: '超载格子',
     equipSuperchargeHint: '把每个可用的科技格子变为超载格子。',
     equipExtended: '额外科技行',

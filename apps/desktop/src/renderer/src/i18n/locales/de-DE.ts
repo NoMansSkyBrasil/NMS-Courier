@@ -290,6 +290,9 @@ export const deDE: Messages = {
     equipClass: 'Klasse',
     equipSlots: 'Alle Inventarplätze',
     equipSlotsHint: 'Macht jede Position der Fracht- und Technologieraster nutzbar.',
+    equipToolSlots: 'Alle Technologie-Plätze',
+    equipToolSlotsHint:
+      'Macht jede Position des Technologie-Rasters des Multi-Werkzeugs nutzbar, direkt nachdem du das Angebot angenommen hast.',
     equipSupercharge: 'Aufgeladene Plätze',
     equipSuperchargeHint: 'Macht jeden nutzbaren Technologieplatz zu einem aufgeladenen Platz.',
     equipExtended: 'Zusätzliche Technologiereihen',

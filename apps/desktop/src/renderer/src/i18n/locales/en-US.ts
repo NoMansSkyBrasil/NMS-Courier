@@ -271,6 +271,9 @@ export const enUS: Messages = {
     equipClass: 'Class',
     equipSlots: 'All inventory slots',
     equipSlotsHint: 'Makes every position of the cargo and technology grids usable.',
+    equipToolSlots: 'All technology slots',
+    equipToolSlotsHint:
+      'Makes every position of the multi-tool’s technology grid usable, right after you accept the offer.',
     equipSupercharge: 'Supercharged slots',
     equipSuperchargeHint: 'Turns every usable technology slot into a supercharged slot.',
     equipExtended: 'Extra technology rows',

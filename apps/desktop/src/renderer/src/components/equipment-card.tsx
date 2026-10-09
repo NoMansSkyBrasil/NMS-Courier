@@ -209,6 +209,8 @@ export function EquipmentCard({
   }))
   const hasOptions = action !== 'classStep' && action !== 'slotReward' && !isNew
   const hasClass = action === 'offer' || action === 'build'
+  // A new multi-tool has a technology grid only; its slots are set once the offer is accepted.
+  const newTool = isNew && area === 'multitools'
   const hasExtended = hasClass && !isNew
   const ready = status?.state === 'ready'
   const sendable = ready && !sending && (action !== 'grid' || slots || supercharge)
@@ -437,12 +439,16 @@ export function EquipmentCard({
               </Field>
             </>
           )}
-          {hasOptions && (
+          {(hasOptions || newTool) && (
             <>
               <Field orientation="horizontal">
                 <FieldContent>
-                  <FieldLabel htmlFor="equipment-slots">{text.equipSlots}</FieldLabel>
-                  <FieldDescription>{text.equipSlotsHint}</FieldDescription>
+                  <FieldLabel htmlFor="equipment-slots">
+                    {newTool ? text.equipToolSlots : text.equipSlots}
+                  </FieldLabel>
+                  <FieldDescription>
+                    {newTool ? text.equipToolSlotsHint : text.equipSlotsHint}
+                  </FieldDescription>
                 </FieldContent>
                 <Switch id="equipment-slots" checked={slots} onCheckedChange={setSlots} />
               </Field>

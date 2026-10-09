@@ -335,3 +335,14 @@ From bridge 1.13.0 the system's mouse arrow must be hidden in those frames
 too: the game holds the mouse only after the first click on its window.
 The result file is written after that, so the application waits up to 90
 seconds for it. Nothing is written to the game for this.
+
+### Slots of a multi-tool got through an offer (bridge 1.14.0)
+
+The multi-tool request may hold `slots=1` and/or `super=1`. Nothing is done
+at the offer. When an owned multi-tool record holds the requested seed, the
+bridge waits 120 frames and then **writes directly**: every position of that
+record's technology grid usable and/or every usable slot supercharged, and
+the same on the equipped multi-tool's active store when its grid header
+equals the record's. `native-weapon-legacy-180836-<PID>.txt` gains
+`upgrade=0`, `1` or `3`. It changes the loaded slot only. To undo: load the
+save from before. Not exercised in the running game when written.

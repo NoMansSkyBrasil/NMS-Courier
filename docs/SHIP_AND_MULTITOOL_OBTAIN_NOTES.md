@@ -213,6 +213,70 @@ the mouse; an offer opened then has no cursor. Bridge 1.13.0 waits for both:
 the game's window in front and the system's arrow hidden (`GetCursorInfo`),
 45 frames in a row.
 
+### Slots of the accepted multi-tool (bridge 1.14.0)
+
+Owner request of 2026-10-09: getting a new multi-tool should also give all
+technology slots and, as a separate choice, supercharged slots (a multi-tool
+has a technology grid only). The request takes `slots=1` and `super=1`. The
+watch that finds the accepted tool by its seed in the owned records (already
+used for the legacy colours mark) waits 120 more frames and then runs the
+routines of the "owned" request on that record, and on the equipped tool's
+active store when its grid header equals the record's (the game copies the
+active store over the record of the equipped tool). These are direct writes.
+`native-weapon-legacy-...` reports `upgrade=0` (nothing), `1` (record) or `3`
+(record and active store). Assumed, not proven: that the game equips the
+tool it has just handed over. Not exercised live.
+
+Starships: not done. The accepted ship cannot be found yet, because where
+the running game keeps a ship's seed is not known.
+
+### Multi-tool kinds: a save editor's list against the game's data
+
+The owner sent the type list of a save editor: Standard, Rifle, Royal,
+Alien, Pristine, Experimental, Sentinel, Sentinel B, Switch, Staff, Staff
+NPC, Staff Ruin, Staff Bone, Atlantid, Voltaic Staff, Direwasp
+Disintegrator, Starbound V0.27. Checked in build 180836:
+
+- The game has no such list. It has two things: the stat class
+  (`GcWeaponClasses`, in the executable beside `WeaponStatClass`; rewards use
+  `Pistol` 0, `Rifle` 1, `Pristine` 2, `Alien` 3 and `Staff` 9, and the
+  enumeration also names `AtlasYellow` and `AtlasBlue`; the reward routine
+  treats 10 as "none"), and the model scene file.
+- Fourteen multi-tool scene files exist in
+  `models/common/weapons/multitool`: `MULTITOOL`, `ROYALMULTITOOL`,
+  `SENTINELMULTITOOL`, `SENTINELMULTITOOLB`, `ATLASMULTITOOL`,
+  `SWITCHMULTITOOL`, `RETROMULTITOOL`, `SWARMMULTITOOL`, `RODMULTITOOL`,
+  `STAFFMULTITOOL`, `STAFFNPCMULTITOOL`, `STAFFMULTITOOLRUIN`,
+  `STAFFMULTITOOLBONE`, `STAFFMULTITOOLATLAS`.
+- The editor's list is those scene files under friendly names, plus the stat
+  classes that share the scene `MULTITOOL`:
+
+| Editor name | Scene | Stat class in the rewards that use it |
+| --- | --- | --- |
+| Standard | `MULTITOOL` | `Pistol` |
+| Rifle | `MULTITOOL` | `Rifle` |
+| Alien | `MULTITOOL` | `Alien` |
+| Pristine, Experimental | `MULTITOOL` | `Pristine` (the game calls this kind experimental; one class, two names in the editor) |
+| Royal | `ROYALMULTITOOL` | no reward uses it |
+| Sentinel, Sentinel B | `SENTINELMULTITOOL`, `SENTINELMULTITOOLB` | no reward uses them |
+| Switch | `SWITCHMULTITOOL` | `Rifle` (`UI_SWIT_GUN_01_NAME_L`) |
+| Starbound V0.27 | `RETROMULTITOOL` | `Pistol` (`UI_EXPD_GUN_23_NAME_L`) |
+| Direwasp Disintegrator | `SWARMMULTITOOL` | `Rifle` (`UI_EXPD_SWARM_GUN_NAME_L`) |
+| Voltaic Staff | `RODMULTITOOL` | named in the data once, outside the rewards |
+| Staff | `STAFFMULTITOOL` | `Staff` |
+| Staff NPC | `STAFFNPCMULTITOOL` | no reward uses it |
+| Staff Ruin | `STAFFMULTITOOLRUIN` | `Staff` (`UI_EXPED_STAFF_17_NAME_L`) |
+| Staff Bone | `STAFFMULTITOOLBONE` | `Staff` (`UI_EXPED_STAFF_18_NAME_L`) |
+| Atlantid | `STAFFMULTITOOLATLAS` | `Staff` (`UI_EXPD_ATLASSTAFF_NAME_L`) |
+
+  The editor's names for Voltaic Staff, Direwasp and Starbound are taken
+  from the pairing of names and scenes, not read from the language files
+  here. `ATLASMULTITOOL` (the pool type `Atlas`) has no entry in the editor's
+  list as sent.
+- The application offers five of them through the reward (pistol, rifle,
+  experimental, alien, staff). The others need a carrier per scene in the
+  data file; listed in `TODO.md`.
+
 ### Legacy colours on the offer itself (bridge 1.10.0)
 
 The pending tool's model is built inside the reward call: `8e58e0` calls the

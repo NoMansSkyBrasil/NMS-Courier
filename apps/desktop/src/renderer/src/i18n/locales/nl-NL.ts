@@ -286,6 +286,9 @@ export const nlNL: Messages = {
     equipClass: 'Klasse',
     equipSlots: 'Alle inventarisvakken',
     equipSlotsHint: 'Maakt elke positie van de vracht- en technologierasters bruikbaar.',
+    equipToolSlots: 'Alle technologievakken',
+    equipToolSlotsHint:
+      'Maakt elke positie van het technologieraster van de multitool bruikbaar, direct nadat je het aanbod accepteert.',
     equipSupercharge: 'Supergeladen vakken',
     equipSuperchargeHint: 'Maakt van elk bruikbaar technologievak een supergeladen vak.',
     equipExtended: 'Extra technologierijen',

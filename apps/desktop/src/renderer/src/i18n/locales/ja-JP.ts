@@ -271,6 +271,9 @@ export const jaJP: Messages = {
     equipClass: 'クラス',
     equipSlots: 'すべてのインベントリスロット',
     equipSlotsHint: '貨物とテクノロジーのグリッドのすべての位置を使用可能にします。',
+    equipToolSlots: 'すべてのテクノロジースロット',
+    equipToolSlotsHint:
+      'オファーを受け取った直後に、マルチツールのテクノロジーグリッドの全マスを使用可能にします。',
     equipSupercharge: 'スーパーチャージスロット',
     equipSuperchargeHint:
       '使用可能なテクノロジースロットをすべてスーパーチャージスロットにします。',

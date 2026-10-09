@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.14.0 built and installed; multi-tool kinds checked against the data
+
+No live action. Build 180836, game closed (process list checked). Bridge
+1.14.0 (`8a7a1e018f44009cee1061aeac6649a3bb46a3939383e62783d3bb9577515444`) built, fixture passed, installed in place of 1.13.0 (kept
+under `native-builds/bridge-1.13.0`; 1.13.0 itself was never run live).
+Application 1.21.0. It adds all technology slots and supercharged slots for
+a multi-tool got through an offer, applied after acceptance (direct writes).
+Offline: a save editor's multi-tool type list compared with the game's stat
+classes and scene files. Both in the
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#slots-of-the-accepted-multi-tool-bridge-1140).
+Not proven: everything live for 1.13.0 and 1.14.0. To undo: copy an earlier
+file back.
+
 ## 2026-10-09: bridge 1.12.0 live: colours still standard, cursor depends on a click; bridge 1.13.0 installed
 
 Live, from the application 1.20.2. Build 180836 (`13d5060d...cc3499`),

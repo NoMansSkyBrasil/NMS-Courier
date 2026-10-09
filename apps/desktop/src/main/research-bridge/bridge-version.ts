@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.13.0'
+export const bridgeVersion = '1.14.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -19,7 +19,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.10.0',
   '1.11.0',
   '1.12.0',
-  '1.13.0'
+  '1.13.0',
+  '1.14.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -63,5 +64,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   '50e0f9e487f5c730ebd59650dd1bf382f2fa0a9a6aa89c245c2793727ba5eca0': '1.12.0',
   // 1.13.0 (2026-10-09): the legacy colours change also covers the scene loader call the reward
   // really takes; an offer also waits until the game holds the mouse (system arrow hidden).
-  cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2: '1.13.0'
+  cfbc42f859566959b67d029eeb56959c7976b1f910436712642045b0fdee9ab2: '1.13.0',
+  // 1.14.0 (2026-10-09): a multi-tool request may ask for all technology slots and supercharged
+  // slots; they are applied to the accepted tool in place (direct writes, as the owned request).
+  '8a7a1e018f44009cee1061aeac6649a3bb46a3939383e62783d3bb9577515444': '1.14.0'
 }

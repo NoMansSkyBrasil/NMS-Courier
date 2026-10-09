@@ -276,6 +276,9 @@ export const plPL: Messages = {
     equipClass: 'Klasa',
     equipSlots: 'Wszystkie miejsca w ekwipunku',
     equipSlotsHint: 'Udostępnia wszystkie pozycje siatek ładunku i technologii.',
+    equipToolSlots: 'Wszystkie miejsca na technologie',
+    equipToolSlotsHint:
+      'Udostępnia każdą pozycję siatki technologii multinarzędzia, zaraz po przyjęciu oferty.',
     equipSupercharge: 'Doładowane miejsca',
     equipSuperchargeHint: 'Zamienia każde dostępne miejsce technologii w miejsce doładowane.',
     equipExtended: 'Dodatkowe rzędy technologii',
