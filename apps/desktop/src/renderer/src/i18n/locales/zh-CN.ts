@@ -404,6 +404,20 @@ export const zhCN: Messages = {
     loading: '正在加载定义…',
     languages: '{count} 种游戏语言'
   },
+  words: {
+    hint: '每一行是游戏中的一个词，每一列是一种语言；只有该语言拥有这个词时才有格子。游戏按组学习词汇，因此勾选一个词也会勾选该语言中同组的其他词形（放弃与废弃）。被勾选的格子就是将要发送的内容：不会向游戏查询你已经掌握了哪些词。',
+    id: 'ID',
+    marked: '已勾选 {count} / {total}',
+    word: '词',
+    raceAll: '显示中的全部{race}词汇',
+    race: {
+      Traders: '吉克',
+      Warriors: '维’肯',
+      Explorers: '科尔瓦克斯',
+      Atlas: '阿特拉斯',
+      Builders: '自噬者'
+    }
+  },
   glyphs: {
     hint: '符文由游戏自己发放，并带有游戏自己的通知，就像旅行者的坟墓给出符文时一样。游戏无法发放指定的符文：它们按游戏的顺序到来，如下所示。',
     order: '游戏中符文的顺序',

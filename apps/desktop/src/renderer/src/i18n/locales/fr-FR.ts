@@ -454,6 +454,20 @@ export const frFR: Messages = {
     loading: 'Chargement des définitions…',
     languages: '{count} langues du jeu'
   },
+  words: {
+    hint: 'Chaque ligne est un mot du jeu et chaque colonne une langue ; une case n’existe que là où cette langue possède le mot. Le jeu apprend les mots par groupes : cocher un mot coche aussi les autres formes de son groupe dans cette langue (abandonner et abandonné). Une case cochée est ce qui sera envoyé : le jeu n’est pas interrogé sur les mots que vous connaissez déjà.',
+    id: 'ID',
+    marked: '{count} sur {total} cochées',
+    word: 'Mot',
+    raceAll: 'Tous les mots de {race} affichés',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autophage'
+    }
+  },
   glyphs: {
     hint: 'C’est le jeu lui-même qui remet les glyphes, avec sa notification, comme lorsque la tombe d’un Voyageur en donne un. Le jeu ne peut pas donner un glyphe choisi : ils arrivent dans l’ordre du jeu, affiché ci-dessous.',
     order: 'Ordre des glyphes dans le jeu',

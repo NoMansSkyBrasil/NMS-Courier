@@ -404,6 +404,20 @@ export const zhTW: Messages = {
     loading: '正在載入定義…',
     languages: '{count} 種遊戲語言'
   },
+  words: {
+    hint: '每一列是遊戲中的一個詞，每一欄是一種語言；只有該語言擁有這個詞時才有格子。遊戲按組學習詞彙，因此勾選一個詞也會勾選該語言中同組的其他詞形（放棄與廢棄）。被勾選的格子就是將要傳送的內容：不會向遊戲查詢你已經掌握了哪些詞。',
+    id: 'ID',
+    marked: '已勾選 {count} / {total}',
+    word: '詞',
+    raceAll: '顯示中的全部{race}詞彙',
+    race: {
+      Traders: '吉克',
+      Warriors: '維’肯',
+      Explorers: '科爾瓦克斯',
+      Atlas: '阿特拉斯',
+      Builders: '自噬者'
+    }
+  },
   glyphs: {
     hint: '符文由遊戲自己發放，並帶有遊戲自己的通知，就像旅行者的墳墓給出符文時一樣。遊戲無法發放指定的符文：它們依遊戲的順序到來，如下所示。',
     order: '遊戲中符文的順序',

@@ -1,6 +1,6 @@
 import { parseStarSystemReport } from '../../shared/star-system'
 import { getGlyphPlan, type GlyphRequest } from './glyph-plan'
-import { readClassification } from './delivery-plan'
+import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import type { StarSystemReport } from '../../shared/star-system'
 import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
@@ -88,7 +88,8 @@ export type ResearchBridgeContext = {
 
 // Sends the deliveries of the research profile on behalf of the interface. It owns the order of
 // work the project requires around a live change: check, back up, send once, report, never retry.
-// Columns of runtime/research/galaxy-names.md after the number, in the table's order.
+// Columns of runtime/research/galaxy-names.md after the number, in the table's order; the word
+// names table has the same columns after its five race columns.
 const galaxyNameLocales = [
   'pt-BR',
   'pt-PT',
@@ -263,6 +264,23 @@ export class ResearchBridgeService {
     return rows.map(
       (cells) => cells[(column < 0 ? galaxyNameLocales.indexOf('en-US') : column) + 1]
     )
+  }
+
+  // Every alien word: its identifier, its text in the interface language and, for the five races
+  // in the order of wordRaces, the group that teaches it (empty where the race lacks the word).
+  async getWordRows(
+    locale: string
+  ): Promise<Array<{ id: string; text: string; groups: string[] }>> {
+    const column = galaxyNameLocales.indexOf(locale)
+    const rows = await readClassification(this.context.researchDirectory, 'word-names.md')
+    const text = 1 + wordRaces.length + (column < 0 ? galaxyNameLocales.indexOf('en-US') : column)
+    return rows
+      .filter((cells) => cells.length === 1 + wordRaces.length + galaxyNameLocales.length)
+      .map((cells) => ({
+        id: cells[0],
+        text: cells[text],
+        groups: cells.slice(1, 1 + wordRaces.length)
+      }))
   }
 
   // Portal glyphs through the game's own reward: all, or the next ones in the game's order.

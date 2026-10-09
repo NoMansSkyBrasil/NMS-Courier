@@ -354,6 +354,11 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-galaxy-names', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getGalaxyNames(locale) : []
   )
+  // Every alien word with its text in the interface language and the group that teaches it for
+  // each race (runtime/research/word-names.md).
+  ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
+    typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
+  )
   ipcMain.handle('nms:discover-glyphs', async (_, request: unknown) => {
     if (!isGlyphRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()

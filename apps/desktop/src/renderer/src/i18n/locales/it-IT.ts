@@ -449,6 +449,20 @@ export const itIT: Messages = {
     loading: 'Caricamento delle definizioni…',
     languages: '{count} lingue del gioco'
   },
+  words: {
+    hint: 'Ogni riga è una parola del gioco e ogni colonna una lingua; la casella esiste solo dove quella lingua ha la parola. Il gioco impara le parole a gruppi, quindi spuntare una parola spunta anche le altre forme del suo gruppo in quella lingua (abbandono e abbandonato). Una casella spuntata è ciò che verrà inviato: al gioco non viene chiesto quali parole conosci già.',
+    id: 'ID',
+    marked: '{count} di {total} spuntate',
+    word: 'Parola',
+    raceAll: 'Tutte le parole di {race} mostrate',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autofago'
+    }
+  },
   glyphs: {
     hint: 'È il gioco stesso a consegnare i glifi, con la sua notifica, come quando la tomba di un Viaggiatore ne dà uno. Il gioco non può dare un glifo scelto: arrivano nell’ordine del gioco, mostrato sotto.',
     order: 'Ordine dei glifi nel gioco',

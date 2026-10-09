@@ -443,6 +443,20 @@ export const esES: Messages = {
     loading: 'Cargando definiciones…',
     languages: '{count} idiomas del juego'
   },
+  words: {
+    hint: 'Cada fila es una palabra del juego y cada columna un idioma; solo hay casilla donde ese idioma tiene la palabra. El juego aprende las palabras por grupos, así que marcar una palabra marca también las demás formas de su grupo en ese idioma (abandonar y abandonado). Una casilla marcada es lo que se enviará: no se pregunta al juego qué palabras conoces ya.',
+    id: 'ID',
+    marked: '{count} de {total} marcadas',
+    word: 'Palabra',
+    raceAll: 'Todas las palabras de {race} mostradas',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autófago'
+    }
+  },
   glyphs: {
     hint: 'Es el propio juego el que entrega los glifos, con su notificación, como cuando la tumba de un Viajero da uno. El juego no puede dar un glifo elegido: llegan en el orden del juego, que se muestra abajo.',
     order: 'Orden de los glifos en el juego',

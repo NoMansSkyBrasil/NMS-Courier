@@ -436,6 +436,20 @@ export const plPL: Messages = {
     loading: 'Wczytywanie definicji…',
     languages: 'Języki gry: {count}'
   },
+  words: {
+    hint: 'Każdy wiersz to słowo z gry, a każda kolumna to język; pole istnieje tylko tam, gdzie dany język ma to słowo. Gra uczy słów grupami, więc zaznaczenie słowa zaznacza też pozostałe formy jego grupy w tym języku (porzucić i opuszczony). Zaznaczone pole to to, co zostanie wysłane: gra nie jest pytana, które słowa już znasz.',
+    id: 'ID',
+    marked: 'Zaznaczono {count} z {total}',
+    word: 'Słowo',
+    raceAll: 'Wszystkie pokazane słowa: {race}',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autofag'
+    }
+  },
   glyphs: {
     hint: 'Glify przekazuje sama gra, z własnym powiadomieniem, tak jak wtedy, gdy grób Podróżnika daje jeden. Gra nie potrafi dać wybranego glifu: przychodzą w kolejności gry, pokazanej poniżej.',
     order: 'Kolejność glifów w grze',

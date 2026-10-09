@@ -1,0 +1,103 @@
+"""List every alien word of the game table with its text in the 14 interface languages.
+
+Reads the converted alien speech table and language files of the existing corpus, read-only. The
+table holds one entry per word and race; a save and the game's rewards know words by group, and a
+group of a race may hold several words (ABANDON and ABANDONED are both in the Warriors' group
+WAR_ABANDON). One row per word identifier: the group that teaches it for each of the five races
+that have words (empty where the race does not have the word) and the word's text in each
+interface language, taken from the text identifier of the first race that has it. The desktop
+application draws its word grid from this table; word-delivery.md stays the list of groups.
+"""
+import argparse
+from pathlib import Path
+import re
+import sys
+import xml.etree.ElementTree as ElementTree
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import markdown_data  # noqa: E402
+
+TABLE = 'metadata/reality/tables/nms_dialog_gcalienspeechtable.MXML'
+# Prefix the game puts before a group for each race (handler of the specific-words reward, f35d30).
+PREFIXES = {'Traders': 'TRA', 'Warriors': 'WAR', 'Explorers': 'EXP', 'Atlas': 'ATLAS', 'Builders': 'BUI'}
+# Interface language and the name of the game's language files for it.
+LANGUAGES = {'pt-BR': 'brazilianportuguese', 'pt-PT': 'portuguese', 'ja-JP': 'japanese', 'en-US': 'english',
+             'fr-FR': 'french', 'it-IT': 'italian', 'de-DE': 'german', 'es-ES': 'spanish', 'nl-NL': 'dutch',
+             'ko-KR': 'korean', 'pl-PL': 'polish', 'ru-RU': 'russian', 'zh-CN': 'simplifiedchinese',
+             'zh-TW': 'traditionalchinese'}
+ENTRY = re.compile(r'<Property name="Id" value="([^"]+)" />(.*?)</Property>', re.S)
+VALUE = re.compile(r'<Property name="\w+" value="([^"]+)" />')
+
+
+def field(node, *names):
+    for name in names:
+        node = next(child for child in node if child.get('name') == name)
+    return node
+
+
+def strings(corpus, language, wanted):
+    folder = next((corpus / 'archives').glob('NMSARC.MetadataEtc-*/language'))
+    found = {}
+    for path in sorted(folder.glob('nms_*_%s.MXML' % language)):
+        for identifier, body in ENTRY.findall(path.read_text(encoding='utf-8')):
+            if identifier in wanted and identifier not in found:
+                value = VALUE.search(body)
+                if value:
+                    found[identifier] = (value.group(1).replace('&quot;', '"').replace('&apos;', "'")
+                                         .replace('&amp;', '&').replace('|', '/').strip())
+    return found
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--corpus', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    source = sorted(args.corpus.glob('archives/*/' + TABLE))
+    if not source:
+        raise SystemExit('missing ' + TABLE)
+    words, skipped, entries = {}, [], 0
+    for entry in field(ElementTree.parse(source[0]).getroot(), 'Table'):
+        entries += 1
+        race = field(entry, 'Race', 'AlienRace').get('value')
+        group = field(entry, 'Group').get('value')
+        word = field(entry, 'Id').get('value')
+        prefix = PREFIXES.get(race)
+        row = words.setdefault(word, {'groups': {}, 'texts': []})
+        if not prefix or not group.startswith(prefix + '_') or len(group) > 31:
+            skipped.append('%s (race %s, group %s)' % (word, race, group))
+            continue
+        row['groups'].setdefault(race, group)
+        row['texts'].append(field(entry, 'Text').get('value'))
+    wanted = {text for row in words.values() for text in row['texts']}
+    texts = {locale: strings(args.corpus, language, wanted) for locale, language in LANGUAGES.items()}
+    rows, untranslated = [], {locale: 0 for locale in LANGUAGES}
+    for word, row in words.items():
+        if not row['groups']:
+            continue
+        cells = [word] + [row['groups'].get(race, '') for race in PREFIXES]
+        for locale in LANGUAGES:
+            text = next((texts[locale][t] for t in row['texts'] if t in texts[locale]), '')
+            if not text:
+                untranslated[locale] += 1
+                text = next((texts['en-US'][t] for t in row['texts'] if t in texts['en-US']), word.lower())
+            cells.append(text)
+        rows.append(cells)
+    rows.sort(key=lambda cells: cells[0])
+    pairs = sum(1 for cells in rows for group in cells[1:6] if group)
+    groups = len({group for cells in rows for group in cells[1:6] if group})
+    markdown_data.write_table(
+        args.output, 'Word names',
+        'Every alien word of the game table `nms_dialog_gcalienspeechtable` (%d entries): the word identifier, '
+        'the group that teaches it for each race (empty where the race does not have the word) and its text in '
+        'the 14 interface languages, from the game\'s language files. %d words, %d word and race pairs, %d '
+        'groups. Generated by `list-word-names.py`; do not edit by hand. Entries left out because the game '
+        'gives them no race that has words: %s. Words without a text in a language take the English one: %s.'
+        % (entries, len(rows), pairs, groups, '; '.join(skipped) or 'none',
+           ', '.join('%s %d' % item for item in untranslated.items())),
+        ['Word'] + list(PREFIXES) + list(LANGUAGES), rows)
+    print(len(rows), 'words', pairs, 'pairs', groups, 'groups', 'skipped', skipped, untranslated)
+
+
+if __name__ == '__main__':
+    main()

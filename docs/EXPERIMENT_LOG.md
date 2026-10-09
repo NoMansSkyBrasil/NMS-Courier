@@ -1,5 +1,30 @@
 # Runtime experiment log
 
+## 2026-10-09: word table checked against a save editor's export (offline)
+
+Offline only; no request reached the game. Build 180836, executable
+`13d5060d…`, bridge 1.22.0 unchanged, application 1.27.1. Owning note:
+[words and glyphs](WORD_AND_GLYPH_NOTES.md).
+
+- Source: `nms_dialog_gcalienspeechtable` of the corpus and the language
+  files, read by `runtime/research/list-word-names.py`; the owner's export
+  of all known words from a save editor (2,151 identifiers, not committed).
+- Found: 4,833 entries, 2,151 distinct word identifiers, 3,831 groups. The
+  export and the table hold the same 2,151 identifiers, none missing either
+  way. 4,829 word and race pairs in 3,830 groups belong to the five races
+  that have words; one entry (`MINING`, group `BUI_MINE`) has race `None`.
+  Every word has a text in all 14 interface languages.
+- Found: the learn routine `5ac740` compares the group text with the known
+  list (stride 0x30, a flag per race at `+0x20`) and adds it without looking
+  at the speech table, so what is known is a group and a race, never one
+  word of a group.
+- Rejected: the first grid of the Words page, one row a group suffix (1,752
+  rows). It hid words that share a group (`ABANDONED` under `ABANDON`) and
+  showed identifiers instead of the game's texts. Replaced by one row a word.
+- Not proven: whether the specific-words reward would accept `BUI_MINE` for
+  the Builders; it is not offered. Nothing about words was exercised live.
+- Rollback: none needed.
+
 ## 2026-10-09: word and glyph requests built (bridge 1.22.0)
 
 No live action. Build 180836 (`13d5060d...cc3499`), offline reading of the

@@ -81,9 +81,23 @@ reads.
 
 ## The application (1.27.0)
 
-"Words" under "Unlock" uses the shared selection list: every group, named by
-the words it teaches, with its race; "Deliver all" sends five requests, one a
-race. "Portal glyphs" has its own page: the game's sixteen glyph pictures in
+"Words" under "Unlock" is a grid (application 1.27.1, at the owner's
+suggestion): one row for each of the 2,151 word identifiers of the table,
+with its text in the interface language and its identifier, one column a
+race, a box where the race has that word (4,829 boxes over 3,830 groups),
+and a box in each column header for the whole column. The rows come from
+[word-names.md](../runtime/research/word-names.md) (`list-word-names.py`).
+A group of one race may hold several words (`WAR_ABANDON` holds `ABANDON`
+and `ABANDONED`; `EXP_A` holds `A` and `AN`), and the learn routine
+(`5ac740`) stores the group with a flag per race, so those boxes are
+marked together. Checked on 2026-10-09 against a save editor's export of
+every known word: the same 2,151 identifiers, none missing either way; its
+count of 3,831 is the number of groups including `BUI_MINE`, whose only
+entry there (`MINING`) has race `None`. That entry is not offered: no race
+that has words owns it, and whether the reward would accept it is unproven. A marked box is a group to send; the page does not show what the
+player already knows, because that is not read from the game, and there is
+no "unlearn", because nothing is written into a save. "Deliver all" sends
+five requests, one a race. "Portal glyphs" has its own page: the game's sixteen glyph pictures in
 the game's order, a switch for all of them, or how many of the next ones.
 
 ## Not proven, and open

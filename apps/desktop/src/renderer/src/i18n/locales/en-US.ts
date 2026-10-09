@@ -431,6 +431,20 @@ export const enUS: Messages = {
     loading: 'Loading definitions…',
     languages: '{count} game languages'
   },
+  words: {
+    hint: 'Each row is a word of the game and each column a language; a box exists only where that language has the word. The game learns words in groups, so marking a word also marks the other forms of its group in that language (abandon and abandoned). A marked box is what will be sent: the game is not asked which words you already know.',
+    id: 'ID',
+    marked: '{count} of {total} marked',
+    word: 'Word',
+    raceAll: 'All words of {race} shown',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autophage'
+    }
+  },
   glyphs: {
     hint: 'The game hands the glyphs over itself, with its own notification, as when a Traveller’s grave gives one. It has no way to give a chosen glyph: they come in the game’s order, shown below.',
     order: 'The game’s order of the glyphs',

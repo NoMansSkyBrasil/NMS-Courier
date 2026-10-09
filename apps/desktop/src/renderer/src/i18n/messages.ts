@@ -312,6 +312,14 @@ export type Messages = {
     loading: string
     languages: string
   }
+  words: {
+    hint: string
+    word: string
+    id: string
+    marked: string
+    raceAll: string
+    race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
   glyphs: {
     hint: string
     order: string

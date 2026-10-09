@@ -187,6 +187,9 @@ declare global {
         notify: boolean
       }) => Promise<DeliveryResult>
       getGalaxyNames: (locale: string) => Promise<string[]>
+      getWordRows: (
+        locale: string
+      ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
       discoverGlyphs: (request: {
         count: number | null
         notify: boolean

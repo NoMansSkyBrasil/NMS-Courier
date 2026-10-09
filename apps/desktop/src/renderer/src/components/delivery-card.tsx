@@ -29,6 +29,7 @@ import {
 } from '@renderer/components/ui/card'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { DeliverySelection, type DeliveryOption } from '@renderer/components/delivery-selection'
+import { WordMatrix } from '@renderer/components/word-matrix'
 import type { Feature } from '@renderer/features'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
@@ -116,9 +117,13 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
-        {options.length > 0 && (
-          <DeliverySelection options={options} chosen={chosen} onChange={setChosen} />
-        )}
+        {options.length > 0 &&
+          // Words are a grid of word by race; every other area is a list.
+          (feature.id === 'words' ? (
+            <WordMatrix options={options} chosen={chosen} onChange={setChosen} />
+          ) : (
+            <DeliverySelection options={options} chosen={chosen} onChange={setChosen} />
+          ))}
         {result && OutcomeIcon && (
           <Alert variant={result.outcome === 'failed' ? 'destructive' : 'default'}>
             <OutcomeIcon />

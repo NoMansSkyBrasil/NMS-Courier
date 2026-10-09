@@ -450,6 +450,20 @@ export const nlNL: Messages = {
     loading: 'Definities laden…',
     languages: '{count} speltalen'
   },
+  words: {
+    hint: 'Elke rij is een woord uit het spel en elke kolom een taal; een vakje bestaat alleen waar die taal het woord heeft. Het spel leert woorden in groepen, dus een woord aanvinken vinkt ook de andere vormen van zijn groep in die taal aan (in de steek laten en verlaten). Een aangevinkt vakje is wat wordt verzonden: het spel wordt niet gevraagd welke woorden je al kent.',
+    id: 'ID',
+    marked: '{count} van {total} aangevinkt',
+    word: 'Woord',
+    raceAll: 'Alle getoonde woorden van {race}',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autofaag'
+    }
+  },
   glyphs: {
     hint: 'Het spel geeft de glyphs zelf, met zijn eigen melding, zoals wanneer het graf van een Reiziger er één geeft. Een gekozen glyph kan het spel niet geven: ze komen in de volgorde van het spel, hieronder getoond.',
     order: 'Volgorde van de glyphs in het spel',

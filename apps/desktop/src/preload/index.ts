@@ -44,6 +44,7 @@ const nms = {
   deliverCurrency: (request: { currency: string; amount: number; notify: boolean }) =>
     ipcRenderer.invoke('nms:deliver-currency', request),
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
+  getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   discoverGlyphs: (request: { count: number | null; notify: boolean }) =>
     ipcRenderer.invoke('nms:discover-glyphs', request),
   teleport: (request: { glyphs: string; galaxyNumber: number; to: 'station' | 'planet' }) =>

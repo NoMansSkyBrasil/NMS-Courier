@@ -457,6 +457,20 @@ export const deDE: Messages = {
     loading: 'Definitionen werden geladen…',
     languages: '{count} Spielsprachen'
   },
+  words: {
+    hint: 'Jede Zeile ist ein Wort des Spiels, jede Spalte eine Sprache; ein Kästchen gibt es nur dort, wo diese Sprache das Wort hat. Das Spiel lernt Wörter in Gruppen: Wer ein Wort markiert, markiert auch die anderen Formen seiner Gruppe in dieser Sprache (verlassen als Verb und als Partizip). Ein markiertes Kästchen wird gesendet: Das Spiel wird nicht gefragt, welche Wörter du schon kennst.',
+    id: 'ID',
+    marked: '{count} von {total} markiert',
+    word: 'Wort',
+    raceAll: 'Alle angezeigten Wörter von {race}',
+    race: {
+      Traders: 'Gek',
+      Warriors: 'Vy’keen',
+      Explorers: 'Korvax',
+      Atlas: 'Atlas',
+      Builders: 'Autophage'
+    }
+  },
   glyphs: {
     hint: 'Das Spiel übergibt die Glyphen selbst, mit seiner eigenen Benachrichtigung, so wie das Grab eines Reisenden eine gibt. Eine bestimmte Glyphe kann das Spiel nicht geben: Sie kommen in der Reihenfolge des Spiels, die unten steht.',
     order: 'Reihenfolge der Glyphen im Spiel',
