@@ -1,5 +1,32 @@
 # Runtime experiment log
 
+## 2026-10-09: the game's memory read from outside; layout of the system stream; planet seeds reproduced
+
+Live, read only. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0
+(`b4950c6e...41f8`) installed but not used for this, game process 17044, slot
+3 by the owner's statement, system `0x0001DB00F769C14E`. Done with a research
+tool outside the application, with the owner's authorisation to inspect the
+game: `runtime/research/read-live-star-system.py` opens the process with
+query and read rights and calls `ReadProcessMemory`. Nothing was written to
+the game; nothing to undo. Owning note:
+[where each seed comes from](SEED_ORIGINS.md#reading-the-games-memory-2026-10-09).
+
+Observed: the system record; a scan of 5 GiB of writable memory for child
+seeds of the system stream (7,253 copies at 75 positions): station at 0,
+twenty-one characters at 2 to 42, ships from 302, the sentinel crash site
+ship at 386 (the gap in the ship list). The three planet seeds were then
+reproduced offline from the address with the routine at `132bf90`.
+
+Rejected: planet seeds as child seeds of the system stream, of the address
+with a planet index mixed in, or of any seed drawn from the system stream.
+Multi-tool seeds found in memory as child seeds of the system stream or of
+the seeds drawn from it.
+
+Not proven: that the 258 plain draws before the ships are the same in every
+system; the origin of the multi-tool seeds; the role of position 522. The
+Threefry routine at `132aee0` (planet counts, star type) is identified, not
+ported.
+
 ## 2026-10-09: first live reading of a star system; ship seeds reproduced from the system seed
 
 Live, read only. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0

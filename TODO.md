@@ -126,6 +126,9 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Read the core catalogue from the user's installation without external tools (2026-10-08): archive, table and language readers in `apps/desktop/src/main/game-data/`.
 - [ ] Catalogue import: other tables (recipes, rewards, parts, titles), relations, icons from the stored locators, progress and cancel, a worker, several layouts per table for older builds.
 - [x] Model workshop reads palettes, part lists, scenes and geometry from the game's archives (2026-10-08, application 1.10.0, [model workshop](docs/MODEL_WORKSHOP.md)).
+- [ ] Model workshop: add the procedural multi-tool scenes it lacks (`retromultitool`, `switchmultitool`, `swarmmultitool`, `rodmultitool`, `staffmultitoolbone`, `staffmultitoolruin`, `gravitygun`, `staffnpcmultitool`), each named as the game names it in all 14 languages.
+- [ ] Seeds: port the planet seed derivation and the Threefry routine at `132aee0` (planet counts, star type) so a system can be described from its address; bridge reading of planets for the "Current system" tab.
+- [ ] Seeds: origin of multi-tool seeds; whether the 258 draws before a system's ships are fixed (second system reading).
 - [ ] Model workshop: compare an obtained starship with the workshop's model for its seed; more seeds compared with an independent source; part names are game identifiers in English (the game has no display text for parts).
 - [x] Per-entry selection in the delivery card (2026-10-08) for technologies, crafting recipes, build parts, appearance, titles, expedition rewards and Quicksilver items.
 - [ ] Per-entry selection still missing: fishing, refiner recipes, Twitch and platform rewards (needs a per-entry keep list). First live "send selected" from the application is not done.

@@ -9,7 +9,10 @@
 > now reads the seed and ship list of the current system from the running
 > game, application 1.16.0 shows them; the first live reading on 2026-10-09
 > reproduced all ship seeds from the system seed, first ship after 302
-> steps; open: is 302 the same in other systems); then
+> steps; open: is 302 the same in other systems; the same day the game's
+> memory was read with `runtime/research/read-live-star-system.py`: stream
+> layout station, 21 characters, 258 draws, ships; planet seeds reproduced
+> from the address; multi-tool seed origin still open); then
 > multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the

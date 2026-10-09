@@ -220,6 +220,80 @@ backward, child seed and its inverse) with this reading as its test, and the
 Still open after it: whether 302 is the same in other systems. The tab shows
 the number for each system visited, so a few visits answer it.
 
+### Reading the game's memory, 2026-10-09
+
+Same process and system as the first reading. `runtime/research/read-live-star-system.py`
+opens the game with read rights only and reads the system record and, with
+`scan`, every 8-byte value in writable memory that is a child seed of the
+system's stream. It is a research tool for Windows; the application does not
+use it.
+
+Layout of the system's stream, from a scan of the first 20,000 positions
+(7,253 copies found, at 75 positions):
+
+| Steps before | Child seeds | What they are | How it was identified |
+| --- | --- | --- | --- |
+| 0 | 1 | The space station (`SpaceStationSpawn`, record `+0x1f00`) | Field of the record |
+| 2 to 42 | 21 | Characters of the system (station staff and visitors) | Copies sit beside player character part names (`_HEAD_KORVAX`, `_CHEST_VANILLA`, NPC chairs, `STAFFNPCMULTITOOL`) |
+| 44 to 301 | none | 258 plain draws, no child seed | No copy of any child seed at these positions |
+| 302 to 384 | 42 | Ships 1 to 42 of the list | The ship list |
+| 386 | 1 | `SentinelCrashSiteShipSeed` (record `+0x2490`) | Field of the record; this is the gap of two steps in the ship list |
+| 388 to 402 | 8 | Ships 43 to 50 | The ship list |
+| 522 | 1 | Used while loading destroyed freighter parts | Copies beside `..._DESTROYED.SCENE.MBIN` names; role not established |
+
+So the freighters and frigates of a system are in the same list as its ships
+and have the same origin: child seeds of the system stream.
+
+Record fields of this system: `Planets` 3, `PrimePlanets` 2, `StarType` 0,
+`Class` 1, `InhabitingRace` 2, `ConflictData` 0, `MaxNumFreighters` 2,
+`NumTradeRoutes` 3.
+
+#### Planet seeds come from another stream of the same address
+
+The planet seeds are not on the system stream. The generator copies them
+from the result of the routine at `132bf90`, which takes the address and:
+
+1. Applies the finalizer (the two multiplications of the child seed formula)
+   to the address and seeds a stream with the result.
+2. For each ordinary planet draws once: size class = `(draw * 3) >> 32`. A
+   size class of 0 draws once more for a number of moons (0 to 2, limited by
+   the room left).
+3. Takes one child seed per ordinary planet.
+4. For each prime planet draws once for the size class, takes a child seed,
+   and on size class 0 draws once more for moons, each moon taking a child
+   seed.
+
+Emulated for this system with one ordinary and two prime planets, it gives
+exactly the three planet seeds the game holds (`0xA6E40ED1C9C7D920`,
+`0x14448EA005643FDE`, `0x69F5341A67A5D068`). The numbers of planets and prime
+planets come from the routine at `132aee0`, which is a Threefry generator
+(constant `0x1BD11BDAA9FC1A22`, the 4x64 rotation set) keyed by the 40 low
+bits of the address (the region, without the system index) and advanced by
+the system index. It is not ported. With it, planets, star type and race of
+any address follow without visiting it, which is what a search for systems
+by their planets needs.
+
+#### The player's own things
+
+The player state is at manager `+0xb940`. Its first eight bytes are the
+current address. The owned ships are resource elements (file name pointer,
+seed 0x20 later, in-use byte after the seed) from `+0x17ef0`, 0x48 apart; the
+ship names follow from `+0x1ad90`, 0x20 apart. The test slot holds reward
+ships with fixed small seeds, so nothing about seed origin follows from them.
+
+#### Multi-tools in memory
+
+About thirty resource elements for `MULTITOOL.SCENE.MBIN` with full 64-bit
+seeds were in memory in the station. None is a child seed of the system
+stream (first 1,200 positions) nor on the stream of any seed drawn from it
+(walking back 2,000 steps). Their origin is not established; a deeper level
+(a part seed inside a character) is the next thing to test.
+
+The game files hold more procedural multi-tool scenes than the workshop
+offers: `retromultitool`, `switchmultitool`, `swarmmultitool`, `rodmultitool`
+(fishing rod), `staffmultitoolbone`, `staffmultitoolruin`, `gravitygun` and
+`staffnpcmultitool`. They are listed in `TODO.md`.
+
 ### Next step, bounded
 
 Read `164a4a0` from its start to `164b700` and list every use of the
@@ -232,7 +306,9 @@ touches.
 ## Open, in the order they would be taken
 
 1. The draws of the system generator before the ships (above), then a port
-   that lists the ship seeds of a system address.
+   that lists the ship seeds of a system address. A reading in a second
+   system (the "Current system" tab shows the step count) says at once
+   whether 302 is fixed.
 2. Multi-tool seeds of a system.
 3. The freighter model seed of a system's freighter.
 4. Slots, stats and name of a seed.
