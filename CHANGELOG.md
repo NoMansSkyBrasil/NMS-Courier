@@ -28,6 +28,18 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.23.1 and bridge 1.18.0 (2026-10-09)
+
+Bridge 1.18.0, SHA-256 `d7effc8e037eb2b73bf584f936719344a16f85807e6d39c253d3bb750fa1a41e`.
+
+- Fixed (not yet confirmed): "Extra technology rows" of a new multi-tool did
+  nothing with bridge 1.17.0; the offered grid stayed 10 x 6. The rows are
+  now asked the way a freighter's are: for the one layout call of the
+  offered tool, the height bound of its size type in the game's inventory
+  table is raised from 6 to 12 and put back. The direct write stays as a
+  fallback and no longer depends on a check that refused the offered item.
+  The result file gains `offer_grid=` and `offer_size_type=`.
+
 ## Application 1.23.0 and bridge 1.17.0 (2026-10-09)
 
 Bridge 1.17.0, SHA-256 `163f59b7254d13c95167c82f8b5d0c081b0a7763d206b92b6064d1ea50694eed`.

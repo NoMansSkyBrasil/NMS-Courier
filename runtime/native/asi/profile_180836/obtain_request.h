@@ -367,6 +367,13 @@ static void obtain_write_result(obtain_domain *domain) {
     if (file) {
         LONG model = InterlockedCompareExchange(&domain->model, 0, 0);
         LONG legacy = InterlockedCompareExchange(&domain->legacy, 0, 0);
+        if (domain->upgrade)
+            // What the offered item's grid was after its last setup, and the size type its layout had.
+            fprintf(file, "offer_grid=%ld,%ld,%ld\noffer_size_type=%ld\n",
+                    InterlockedCompareExchange(&obtain_tool_grid[0], 0, 0),
+                    InterlockedCompareExchange(&obtain_tool_grid[1], 0, 0),
+                    InterlockedCompareExchange(&obtain_tool_grid[2], 0, 0),
+                    InterlockedCompareExchange(&obtain_tool_size_type, 0, 0));
         fprintf(file, "model=%s\nseed=0x%llX\nresult=%s\nlegacy=%s\noffer_colours=%s\noffer_setups=%ld\n",
                 model >= 0 && model < domain->model_count ? domain->models[model].model : "?",
                 (unsigned long long)domain->seed,

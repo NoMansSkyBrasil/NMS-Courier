@@ -270,6 +270,34 @@ are marked supercharged. A direct write; not exercised live. Whether the
 offer screen draws twelve rows and whether the accepted tool keeps them is
 to be seen.
 
+### Twelve rows by the table bound (bridge 1.18.0)
+
+Live with bridge 1.17.0 on 2026-10-09 (`model=pistol`,
+`seed=0x1DA7065C8EB650E9`, `legacy=1`, `slots=1`, `super=1`, `rows=1`;
+`offer_setups=1`): the grid after the setup was still 10 x 6
+(`main_grid=10,6,60`, `layout_overrides=1`, `super_added=56`,
+`table_patches=0`). The direct write did not run: it was guarded by the
+store check of the owned request, which the offered item did not pass (which
+of its conditions failed was not read).
+
+The owner asked for the freighter method. Read from the running game (read
+only): the inventory table entry of a size type is 21 integers; for the
+multi-tool size types `0x18`, `0x19` and `0x1a` it starts
+`6, 3, 3, 10, ...` and repeats `6, 3, 3, 10, ...` at `+0x18`, so both bound
+blocks hold height 6 and width 10, the pair the freighter change looks for
+at `+0x18` and `+0x24`. The reward routine passes size type `0x2d` when the
+reward's own is not one of those three; entry `0x2d` does not look like a
+bound entry, so which size type reaches the layout call is not known and is
+now reported (`offer_size_type=`).
+
+Bridge 1.18.0: during the layout call of an offered multi-tool that asked
+for the rows, each of the two height bounds that holds 6 beside a width of
+10 becomes 12, and both are put back right after the call (a temporary
+change of the game's table, as for freighters). If the grid still has fewer
+than twelve rows after the setup, the full grid is written directly, now
+guarded only by a sane header. `offer_grid=` reports the result. Not
+exercised live.
+
 ### Multi-tool kinds: a save editor's list against the game's data
 
 The owner sent the type list of a save editor: Standard, Rifle, Royal,

@@ -350,5 +350,9 @@ of the hooked setup routine gets the largest slot count, and every slot is
 marked supercharged afterwards: a changed argument of a native call, and a
 direct write); the result file reports `offer_setups=`. From bridge 1.17.0
 `rows=1` (with `slots=1`) also writes the full 10 x 12 grid on the offered
-item's store after the setup, a direct write. It changes the loaded slot only. To undo: load the
+item's store after the setup, a direct write. From bridge 1.18.0 the rows
+are first asked by raising the height bound of the tool's size type in the
+game's inventory table from 6 to 12 for the one layout call (put back right
+after); the direct write remains as a fallback. The result file reports
+`offer_grid=` and `offer_size_type=`. It changes the loaded slot only. To undo: load the
 save from before. Not exercised in the running game when written.

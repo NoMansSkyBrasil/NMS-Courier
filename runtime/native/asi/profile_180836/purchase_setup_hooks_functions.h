@@ -44,9 +44,34 @@ static uintptr_t layout_detour(uintptr_t store, uintptr_t inventory_type, uintpt
             InterlockedIncrement(&layout_overrides);
         }
     }
+    // A multi-tool's only grid: both bound blocks of its size type, when they hold 6 and 10.
+    int32_t *tool_height[2] = {NULL, NULL};
+#ifndef COURIER_NATIVE_CALLBACK_FIXTURE
+    if (item && store == item + MAIN_STORE_OFFSET && InterlockedCompareExchange(&scope_tool_rows, 0, 0) &&
+        (LONG)GetCurrentThreadId() == InterlockedCompareExchange(&scope_thread, 0, 0)) {
+        uintptr_t manager = *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA);
+        InterlockedExchange(&obtain_tool_size_type, (LONG)(uint32_t)size_type);
+        if ((uint32_t)size_type <= 0x40 && writable_range(manager + TABLE_POINTER_OFFSET, sizeof(uintptr_t))) {
+            uintptr_t entry = *(const uintptr_t *)(manager + TABLE_POINTER_OFFSET) + GENERATION_ENTRIES_OFFSET +
+                              (uint32_t)size_type * GENERATION_ENTRY_SIZE;
+            if (writable_range(entry, GENERATION_ENTRY_SIZE)) {
+                if (*(const int32_t *)(entry + ENTRY_MAIN_LARGE_HEIGHT) == 6 &&
+                    *(const int32_t *)(entry + ENTRY_MAIN_LARGE_WIDTH) == 10)
+                    tool_height[0] = (int32_t *)(entry + ENTRY_MAIN_LARGE_HEIGHT);
+                if (*(const int32_t *)(entry + ENTRY_TECH_LARGE_HEIGHT) == 6 &&
+                    *(const int32_t *)(entry + ENTRY_TECH_LARGE_WIDTH) == 10)
+                    tool_height[1] = (int32_t *)(entry + ENTRY_TECH_LARGE_HEIGHT);
+            }
+        }
+        if (!tool_height[0] && !tool_height[1]) InterlockedIncrement(&table_rejected);
+    }
+#endif
     if (height) { *height = EXTENDED_TECHNOLOGY_ROWS; InterlockedIncrement(&table_patches); }
+    for (int index = 0; index < 2; ++index)
+        if (tool_height[index]) { *tool_height[index] = EXTENDED_TECHNOLOGY_ROWS; InterlockedIncrement(&table_patches); }
     uintptr_t result = original_layout(store, inventory_type, slot_count, layout, a5, size_type, a7, a8, use_slot_count);
     if (height) *height = 6;
+    for (int index = 0; index < 2; ++index) if (tool_height[index]) *tool_height[index] = 6;
     return result;
 }
 
@@ -87,6 +112,7 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     int tool_scoped = tool && InterlockedCompareExchange(&obtain_tool_slots, 0, 0);
     if (tool_scoped) {
         scope_item = item;
+        InterlockedExchange(&scope_tool_rows, InterlockedCompareExchange(&obtain_tool_rows, 0, 0));
         InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
     }
     if (scoped) {
@@ -106,14 +132,23 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     if (tool) {
         if (tool_scoped) {
             InterlockedExchange(&scope_thread, 0);
+            InterlockedExchange(&scope_tool_rows, 0);
             scope_item = 0;
         }
-        if (tool_scoped && InterlockedCompareExchange(&obtain_tool_rows, 0, 0) &&
-            writable_range(item, ITEM_READ_SPAN) && consistent_store((uint8_t *)item + MAIN_STORE_OFFSET, 1))
-            fill_store_grid((uint8_t *)item + MAIN_STORE_OFFSET);
+        // Fallback when the table bound did not give twelve rows: the full grid written directly.
+        if (tool_scoped && InterlockedCompareExchange(&obtain_tool_rows, 0, 0) && writable_range(item, ITEM_READ_SPAN)) {
+            uint8_t *tool_store = (uint8_t *)item + MAIN_STORE_OFFSET;
+            int16_t tool_width = *(const int16_t *)(tool_store + 0x80), tool_rows = *(const int16_t *)(tool_store + 0x82);
+            if (tool_width >= 1 && tool_width <= 16 && tool_rows >= 1 && tool_rows < EXTENDED_TECHNOLOGY_ROWS)
+                fill_store_grid(tool_store);
+        }
         if (InterlockedCompareExchange(&obtain_tool_super, 0, 0) && writable_range(item, ITEM_READ_SPAN))
             add_special_slots((uint8_t *)item + MAIN_STORE_OFFSET);
-        if (writable_range(item, ITEM_READ_SPAN)) record_grid(item);
+        if (writable_range(item, ITEM_READ_SPAN)) {
+            const int16_t *tool_header = (const int16_t *)(item + MAIN_STORE_OFFSET + 0x80u);
+            record_grid(item);
+            for (int index = 0; index < 3; ++index) InterlockedExchange(&obtain_tool_grid[index], tool_header[index]);
+        }
         InterlockedIncrement(&obtain_tool_setups);
     }
     if ((uint32_t)kind == SHIP_ITEM_KIND && item && InterlockedCompareExchange(&ship_class_armed, 0, 1) == 1) {

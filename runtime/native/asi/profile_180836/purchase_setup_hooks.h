@@ -55,6 +55,16 @@ static volatile LONG obtain_tool_super;
 // Twelve rows (bridge 1.17.0): the game's own layout gives a multi-tool at most 10 x 6 (seen live),
 // so the full 10 x 12 grid is written after the setup with the routine of the owned request.
 static volatile LONG obtain_tool_rows;
+// Bridge 1.18.0: the write after the setup did not take (live: the grid stayed 10 x 6), so the rows
+// are asked the way a freighter's are: for the one layout call of the offered multi-tool, the height
+// bound 6 of its size type in the game's inventory table becomes 12. A size type entry holds two
+// bound blocks (read live for the multi-tool size types 0x18 to 0x1a: height 6 at +0x00 and +0x18,
+// width 10 at +0x0c and +0x24); both are raised when they hold 6 and 10, and put back after the call.
+#define ENTRY_MAIN_LARGE_HEIGHT 0x00u
+#define ENTRY_MAIN_LARGE_WIDTH 0x0cu
+static volatile LONG scope_tool_rows;      // the scoped setup is a multi-tool that asked for twelve rows
+static volatile LONG obtain_tool_size_type = -1;   // size type the layout call of the last such setup had
+static volatile LONG obtain_tool_grid[3] = {-1, -1, -1};   // the offered grid after the last such setup
 static volatile LONG obtain_tool_setups;    // setups this applied to
 static volatile LONG setup_calls;
 static volatile LONG last_kind = -1;
