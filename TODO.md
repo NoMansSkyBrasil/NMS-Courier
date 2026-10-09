@@ -132,6 +132,7 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Seeds: origin of a space station's multi-tool seed (a planet terminal's tool has the planet's seed).
 - [ ] Model workshop: read the game's lighting pass to light metal as the game does (the black front flap of multi-tool `0x81E18111081140E1`; the surface shader is read, it only passes the masks on).
 - [ ] Model workshop: compare a starship with legacy colours with the game (the choice exists since 1.18.0, checked on multi-tools only).
+- [ ] Model workshop: see the pristine multi-tool `0xA1FA0E890FC18255` in the current game (get it from the application) and compare its overlay and decals with the workshop; a 2019 picture differs.
 - [ ] Live test from the application: a multi-tool with "Use legacy colours" (bridge 1.9.0): the offer, the file `native-weapon-legacy-...`, and the tool's colours after accepting.
 - [ ] Legacy colours for a starship got through the application: find where the running game keeps `ShipUsesLegacyColours`.
 - [ ] Model workshop: multi-tool types as the game names them, from the owner's list: Pistol, Rifle, Experimental, Alien (standard scene), Starbound v0.27 (`retromultitool`), Infinite Neon Mark XXII (`switchmultitool`), Direwasp Disintegrator, Exotic (royal), Sentinel, Atlantid, Voltaic Staff, Atlas Sceptre, Pillar of Titan, Basilisk Crown; the last ones still to be matched to `swarmmultitool`, `staffmultitoolbone` and `staffmultitoolruin`.

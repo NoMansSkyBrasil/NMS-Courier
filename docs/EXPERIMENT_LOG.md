@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-09: second texture lists take part in the texture choices
+
+Offline, game closed. Application 1.19.1. Owning note:
+[model workshop](MODEL_WORKSHOP.md#second-texture-lists-in-the-seeds-choices-2026-10-09).
+Prompted by the owner: seeds of a public multi-tool list look right with
+legacy colours, but a pristine tool (`0xA1FA0E890FC18255`) had no decals.
+
+Observed: its decal list was left out of the merge and, having five
+alternatives, was not drawn. With the list merged the tool gets decal
+pattern 4; the two tools bought in the game and all game-file tests are
+unchanged.
+
+Rejected: choosing per material (breaks the fighter seed's texture choices
+against the independent table).
+
+Not proven: that pattern 4 and no painted overlay is what the current game
+shows for this seed; the only picture is from a 2019 version and differs.
+
 ## 2026-10-09: bridge 1.9.0 built and installed; legacy colours on a new multi-tool
 
 No live action. Build 180836 (`13d5060d...cc3499`), game closed (checked in

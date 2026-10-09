@@ -465,3 +465,24 @@ compared with the game yet (`ShipUsesLegacyColours` in the save, per ship).
 
 Not done: the six families the legacy generator redraws from a child
 seed (none is used by a starship or multi-tool layer).
+
+## Second texture lists in the seed's choices (2026-10-09)
+
+From application 1.19.1 the texture list of a material's second diffuse
+texture is merged with the others, right after the list of the same
+material's first texture, and its layers draw the alternative the seed
+chose. Before, only lists of first textures were merged and a second texture
+was drawn only when each of its layers had a single alternative.
+
+Case: the pristine multi-tool `0xA1FA0E890FC18255`. Its decal material has
+`prestinetiled` (layer `OVERLAY`: `PAINTED`, `DEFAULT`; layer `BASE`) and, as
+second texture, `prestinedecals` (`OVERLAY`: `ICONS`; `BASE`: five decal
+patterns); the crystal material has its own `OVERLAY` (`OBSIDIAN`,
+`GRADIENT`). Merged, the seed chooses `OVERLAY` = `GRADIENT` and `BASE` =
+`4`: the crystal takes its gradient, the body no overlay, the decals pattern
+4. A screenshot of this seed from a 2019 version of the game shows the body
+with the painted overlay instead. The lists may have changed since, or the
+merge may be narrower than the whole model; a variant that merges per
+material was tried and rejected because it breaks the six texture choices of
+the fighter seed checked against an independent table. Open until the seed
+is seen in the current game.

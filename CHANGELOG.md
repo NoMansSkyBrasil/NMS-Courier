@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.19.1 (2026-10-09)
+
+- Fixed: the list of a material's second texture (its decals) now takes part
+  in the seed's texture choices, and the alternative the seed chooses is the
+  one drawn. Before, a second texture with more than one alternative was
+  drawn as its plain file or not at all (seen on a pristine multi-tool,
+  `0xA1FA0E890FC18255`, which had no decals).
+- Not settled: for that seed the workshop now draws a decal, but not the one
+  of a screenshot from a 2019 version of the game. Whether the current game
+  agrees with the workshop or with the old picture is to be checked in the
+  game.
+- Bridge unchanged (1.9.0).
+
 ## Application 1.19.0 and bridge 1.9.0 (2026-10-09)
 
 Bridge 1.9.0, SHA-256 `bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794`.
