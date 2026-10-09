@@ -51,8 +51,8 @@ Current versions: application 1.20.0, bridge 1.10.0, game build 180836.
 | Starship: all slots, supercharged, current ship or a ship slot | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Starship: class step, slot reward | Yes (2026-10-07) | Starships page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Read the current star system: seed and ships | 2026-10-09 (file read directly) | Model workshop, "Current system" (2026-10-08, bridge 1.8.0) | Not yet seen in the application by the owner | [seed origins](SEED_ORIGINS.md#reading-a-system-from-the-running-game) |
-| New starship: kind (eight), seed, class | Never | Starships, "Get a new one" (2026-10-08, bridge 1.7.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
-| New multi-tool: kind, seed, class | Never | Multi-tools, "Get a new one" (2026-10-08, bridge 1.6.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
+| New starship: kind (eight), seed, class | Offer shown (2026-10-09); cannot be accepted, no cursor | Starships, "Get a new one" (2026-10-08, bridge 1.7.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
+| New multi-tool: kind, seed, class | Offer shown with chosen seed and legacy colours (2026-10-09); cannot be accepted, no cursor | Multi-tools, "Get a new one" (2026-10-08, bridge 1.6.0) | No | [obtain](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md) |
 | Starship from a plain `.nmsship` file | Never; no route known | File is recognised by the reader only | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Multi-tool: all slots, supercharged, class step, slot reward | Yes (2026-10-07) | Multi-tools page | No | [owned upgrades](OWNED_INVENTORY_UPGRADE_NOTES.md) |
 | Freighter offer: class, 120 + 120 slots, supercharged | Yes, owned and persistent (2026-10-06) | Freighters page | No | [inventory class](INVENTORY_CLASS_RESEARCH.md) |

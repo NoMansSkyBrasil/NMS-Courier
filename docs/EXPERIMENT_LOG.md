@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-09: first live offer with bridge 1.10.0; legacy colours on the offer, still no cursor
+
+Live, from the application 1.20.0. Build 180836 (`13d5060d...cc3499`),
+bridge 1.10.0 (`d0a7e555...1bee`), game process 24112, slot not identified
+(the owner's test slot is 3). Nothing was accepted.
+
+Request: `model=pistol`, `seed=0xE9696210974B8694`, `class=s`, `legacy=1`.
+Result: `result=offered`, `legacy=1`, `offer_colours=legacy`. The owner's
+recording shows the offer screen with a yellow and blue tool, sent while
+walking around.
+
+Observed: the temporary code change was applied and restored (the result
+line), and the game went on running. Still failing: no cursor on the offer;
+the mouse turns the camera, so the tool could not be accepted and the write
+of the owned record is still not exercised.
+
+The owner asked why it "worked before". The diagnostics folder holds no
+ship or weapon request before 2026-10-09 09:52: offers opened by the bridge
+were first used today. What worked on 2026-10-07 and 08 was the redeem
+request, which only marks a reward as redeemed; the tools were then claimed
+in the game at a vendor, inside a conversation, where the cursor exists.
+
+More reading, same day: when the offer page opens from the closed interface,
+the opener (`8fe180`) starts the interaction mode through the current
+interaction object (`8f2430`, then `1000800`), and there is none while
+walking around. Not proven; the test of an offer sent during a conversation
+or with a menu open was not done yet.
+
 ## 2026-10-09: offers without cursor explained offline; bridge 1.10.0 built and installed
 
 Owner's second live report (application, bridge 1.9.0, build 180836, slot
