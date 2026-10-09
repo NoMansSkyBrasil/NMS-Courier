@@ -28,6 +28,16 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.23.2 (2026-10-09)
+
+- Changed (owner decision): "Use legacy colours" is off by default, in the
+  model workshop and when getting a new multi-tool. It comes on in "Get a
+  new one" only when the workshop hands over a tool it was showing with the
+  legacy colours.
+- Confirmed live with bridge 1.18.0: a new multi-tool offered with 10 x 12
+  technology slots, all supercharged.
+- Bridge unchanged (1.18.0).
+
 ## Application 1.23.1 and bridge 1.18.0 (2026-10-09)
 
 Bridge 1.18.0, SHA-256 `d7effc8e037eb2b73bf584f936719344a16f85807e6d39c253d3bb750fa1a41e`.

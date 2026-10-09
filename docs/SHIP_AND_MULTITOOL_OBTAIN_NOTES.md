@@ -374,6 +374,10 @@ the five expedition tools; "NPC staff" is this project's wording.
 
 ### Legacy colours: which domains have them
 
+Owner decision of 2026-10-09 (application 1.23.2): the option is off by
+default in the workshop and in "Get a new one"; it is on there only when the
+workshop's link carries `legacy=1`.
+
 Read from the owner's save (slot 3, 2026-10-09): multi-tools have
 `UseLegacyColours` each; starships have one flag each
 (`ShipUsesLegacyColours`, and `UsesLegacyColours` on archived ships);

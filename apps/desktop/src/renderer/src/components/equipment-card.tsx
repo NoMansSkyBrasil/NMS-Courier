@@ -170,8 +170,9 @@ export function EquipmentCard({
     /^0x[0-9a-f]{1,16}$/i.test(handed.get('seed') ?? '') ? (handed.get('seed') as string) : ''
   )
   const [homeSeed, setHomeSeed] = useState('')
-  // Multi-tools the game hands out use the legacy colours; the workshop may hand over its choice.
-  const [legacyColours, setLegacyColours] = useState(handed.get('legacy') !== '0')
+  // Off unless the workshop hands over a tool it showed with the legacy colours (owner decision,
+  // 2026-10-09).
+  const [legacyColours, setLegacyColours] = useState(handed.get('legacy') === '1')
   const [confirming, setConfirming] = useState(false)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<DeliveryResult | null>(null)

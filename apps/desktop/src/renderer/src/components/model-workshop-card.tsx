@@ -284,9 +284,10 @@ function WorkshopModel({
   // A freighter's colours come from the seed of its home star system, typed beside its own.
   const [homeSeed, setHomeSeed] = useState(firstHomeSeed ?? '')
   const homeSeedRef = useRef(firstHomeSeed ?? '')
-  // The game draws a palette in one of two ways; multi-tools it hands out use the legacy one.
-  const [legacy, setLegacy] = useState(firstLegacy ?? category === 'multitool')
-  const legacyRef = useRef(firstLegacy ?? category === 'multitool')
+  // The game draws a palette in one of two ways. Off unless a link asks for it (owner decision,
+  // 2026-10-09); multi-tools the game hands out use the legacy one, which the hint says.
+  const [legacy, setLegacy] = useState(firstLegacy ?? false)
+  const legacyRef = useRef(firstLegacy ?? false)
   const [glyphs, setGlyphs] = useState('')
   const [galaxy, setGalaxy] = useState('1')
   const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
