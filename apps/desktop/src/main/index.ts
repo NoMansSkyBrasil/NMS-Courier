@@ -98,7 +98,7 @@ function parseCatalogSearchRequest(value: unknown): {
     throw new Error('Invalid catalog query.')
   if (typeof request.locale !== 'string' || request.locale.length > 32)
     throw new Error('Invalid catalog locale.')
-  if (typeof limit !== 'number' || !Number.isInteger(limit) || limit < 1 || limit > 100) {
+  if (typeof limit !== 'number' || !Number.isInteger(limit) || limit < 1 || limit > 20000) {
     throw new Error('Invalid catalog limit.')
   }
   if (request.domain !== undefined && !catalogDomains.includes(request.domain as CatalogDomain)) {

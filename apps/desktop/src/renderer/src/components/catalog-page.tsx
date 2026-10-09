@@ -30,11 +30,16 @@ type ImportResult = Awaited<ReturnType<typeof window.nms.importCatalog>>
 
 const domains: Array<Domain | undefined> = [undefined, 'substance', 'product', 'technology']
 
+// Entries the list opens with and adds when it is scrolled near its end, down to the last one.
+const pageSize = 60
+
 export function CatalogPage(): React.JSX.Element {
   const { copy, locale } = useLocale()
   const text = copy.catalogPage
   const [status, setStatus] = useState<Status | null>(null)
   const [query, setQuery] = useState('')
+  // Entries asked for; raised each time the list is scrolled near its end.
+  const [limit, setLimit] = useState(pageSize)
   const [domain, setDomain] = useState<Domain | undefined>()
   const [result, setResult] = useState<SearchResult | null>(null)
   const [importing, setImporting] = useState(false)
@@ -82,10 +87,10 @@ export function CatalogPage(): React.JSX.Element {
   useEffect(() => {
     if (status?.state !== 'available') return
     const timer = window.setTimeout(() => {
-      void window.nms.searchCatalog({ query, locale, domain, limit: 50 }).then(setResult)
+      void window.nms.searchCatalog({ query, locale, domain, limit }).then(setResult)
     }, 150)
     return () => window.clearTimeout(timer)
-  }, [domain, locale, query, status?.state])
+  }, [domain, limit, locale, query, status?.state])
 
   if (!status) {
     return (
@@ -143,7 +148,10 @@ export function CatalogPage(): React.JSX.Element {
               aria-label={text.searchLabel}
               className="pl-8"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => {
+                setQuery(event.target.value)
+                setLimit(pageSize)
+              }}
               placeholder={text.searchPlaceholder}
             />
           </div>
@@ -153,7 +161,10 @@ export function CatalogPage(): React.JSX.Element {
                 key={value ?? 'all'}
                 variant={domain === value ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => setDomain(value)}
+                onClick={() => {
+                  setDomain(value)
+                  setLimit(pageSize)
+                }}
               >
                 {value ? text[value] : text.all}
               </Button>
@@ -175,28 +186,43 @@ export function CatalogPage(): React.JSX.Element {
         </span>
         <span>{formatMessage(text.languages, { count: status.locales.length })}</span>
       </div>
-      <div className="grid gap-3 lg:grid-cols-2">
-        {result?.entries.map((entry) => (
-          <Card key={entry.entryKey}>
-            <CardHeader className="gap-1">
-              <div className="flex items-start gap-3">
-                <GameIcon locator={entry.icon} size="lg" />
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <div className="flex items-start justify-between gap-3">
-                    <CardTitle className="text-base">{entry.name || entry.gameId}</CardTitle>
-                    <Badge variant="outline">{text[entry.domain]}</Badge>
+      <div
+        className="h-[40rem] overflow-auto rounded-xl border p-3"
+        onScroll={(event) => {
+          const list = event.currentTarget
+          if (
+            result &&
+            result.entries.length >= limit &&
+            limit < result.total &&
+            list.scrollTop + list.clientHeight > list.scrollHeight - 600
+          ) {
+            setLimit(limit + pageSize)
+          }
+        }}
+      >
+        <div className="grid gap-3 lg:grid-cols-2">
+          {result?.entries.map((entry) => (
+            <Card key={entry.entryKey}>
+              <CardHeader className="gap-1">
+                <div className="flex items-start gap-3">
+                  <GameIcon locator={entry.icon} size="lg" />
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <CardTitle className="text-base">{entry.name || entry.gameId}</CardTitle>
+                      <Badge variant="outline">{text[entry.domain]}</Badge>
+                    </div>
+                    <CardDescription>{entry.subtitle || entry.gameId}</CardDescription>
                   </div>
-                  <CardDescription>{entry.subtitle || entry.gameId}</CardDescription>
                 </div>
-              </div>
-            </CardHeader>
-            {entry.description && (
-              <CardContent className="text-sm text-muted-foreground">
-                {entry.description}
-              </CardContent>
-            )}
-          </Card>
-        ))}
+              </CardHeader>
+              {entry.description && (
+                <CardContent className="text-sm text-muted-foreground">
+                  {entry.description}
+                </CardContent>
+              )}
+            </Card>
+          ))}
+        </div>
       </div>
     </main>
   )

@@ -28,6 +28,13 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.25.2 (2026-10-09)
+
+- Changed (owner request): the game catalogue lists every entry. Its results
+  are in a card of fixed height that scrolls and draws more entries as it is
+  scrolled, instead of stopping at fifty.
+- Bridge unchanged (1.20.0).
+
 ## Application 1.25.1 (2026-10-09)
 
 - Changed (owner request): the selection lists have no limit any more. The

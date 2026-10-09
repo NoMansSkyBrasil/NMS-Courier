@@ -12,7 +12,7 @@ means the request was sent by hand with the research scripts that existed
 until 2026-10-08; *app* means sent from the desktop application. Since
 2026-10-08 only *app* counts as verified for the product.
 
-Current versions: application 1.25.1, bridge 1.20.0, game build 180836.
+Current versions: application 1.25.2, bridge 1.20.0, game build 180836.
 
 ## History in five steps
 
