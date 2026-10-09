@@ -1,7 +1,9 @@
 # Travel to a star system by galaxy and portal address
 
-Status on 2026-10-09: **built in bridge 1.21.0 and application 1.26.0, not
-exercised against the running game.** Build 180836 only. It is a change of
+Status on 2026-10-09: **built in bridge 1.21.0 and application 1.26.0; one
+journey to a space station in the same galaxy worked from the application
+the same day. Planet arrival, other galaxies and the exactness of the
+address reached are not checked.** Build 180836 only. It is a change of
 the loaded slot (where the player is).
 
 Owner request: travel in real time to any address in any galaxy without a

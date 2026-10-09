@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-09: first live teleport: a space station in the same galaxy
+
+Live, from the application 1.26.0. Build 180836 (`13d5060d...cc3499`),
+bridge 1.21.0 (`9a9312fb...41de`), game process 31456, slot not identified
+(the owner's test slot is 3). Request: `galaxy=0`, `system=54`, `planet=1`,
+`x=531`, `y=39`, `z=-1702`, `to=station` (glyphs `103627 95A 213`, galaxy 1).
+Result: `result=requested`; `request_errors=0`.
+
+Observed by the owner: "it worked perfectly": the game made the journey.
+
+Not proven: that the system reached is exactly the one of the address (the
+owner will check the precision); arrival on a planet (`to=planet`); another
+galaxy; an address whose system or planet does not exist. No undo; the save
+folder was copied by the application before the request.
+
 ## 2026-10-09: teleport request built (bridge 1.21.0); galaxy names by emulation
 
 No live action. Build 180836 (`13d5060d...cc3499`), offline reading of the
