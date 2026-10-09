@@ -1,6 +1,6 @@
 {
   "name": "@nms-courier/desktop",
-  "version": "1.22.1",
+  "version": "1.23.0",
   "description": "NMS Courier desktop application",
   "main": "./out/main/index.js",
   "author": "NMS Courier contributors",

@@ -123,7 +123,9 @@ function obtain(
             ...(kind === 'weapon' && request.legacyColours === true ? ['legacy=1'] : []),
             // Bridge 1.14.0 onwards: applied in place to the tool once the offer is accepted.
             ...(kind === 'weapon' && request.slots ? ['slots=1'] : []),
-            ...(kind === 'weapon' && request.supercharge ? ['super=1'] : [])
+            ...(kind === 'weapon' && request.supercharge ? ['super=1'] : []),
+            // Bridge 1.17.0 onwards: twelve rows (120 slots) instead of the game's six.
+            ...(kind === 'weapon' && request.slots && request.extendedTechnology ? ['rows=1'] : [])
           ]
         },
         signals: [kind],

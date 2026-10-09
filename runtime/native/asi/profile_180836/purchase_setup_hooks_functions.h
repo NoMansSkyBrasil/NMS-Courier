@@ -108,6 +108,9 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
             InterlockedExchange(&scope_thread, 0);
             scope_item = 0;
         }
+        if (tool_scoped && InterlockedCompareExchange(&obtain_tool_rows, 0, 0) &&
+            writable_range(item, ITEM_READ_SPAN) && consistent_store((uint8_t *)item + MAIN_STORE_OFFSET, 1))
+            fill_store_grid((uint8_t *)item + MAIN_STORE_OFFSET);
         if (InterlockedCompareExchange(&obtain_tool_super, 0, 0) && writable_range(item, ITEM_READ_SPAN))
             add_special_slots((uint8_t *)item + MAIN_STORE_OFFSET);
         if (writable_range(item, ITEM_READ_SPAN)) record_grid(item);

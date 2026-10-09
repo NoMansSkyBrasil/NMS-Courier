@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.16.0'
+export const bridgeVersion = '1.17.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -22,7 +22,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.13.0',
   '1.14.0',
   '1.15.0',
-  '1.16.0'
+  '1.16.0',
+  '1.17.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -73,5 +74,7 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // 1.15.0 (2026-10-09): eleven more multi-tool models, one per scene of the game.
   '3ab0e7f06195dccb0e18218d65c2cc2de399a5de45dbd7d2375a0d2720757090': '1.15.0',
   // 1.16.0 (2026-10-09): the slots of a new multi-tool are set while the game builds the offer.
-  d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2: '1.16.0'
+  d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2: '1.16.0',
+  // 1.17.0 (2026-10-09): a new multi-tool may get twelve rows (120 slots) on the offer.
+  '163f59b7254d13c95167c82f8b5d0c081b0a7763d206b92b6064d1ea50694eed': '1.17.0'
 }

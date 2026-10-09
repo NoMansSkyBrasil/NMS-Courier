@@ -76,7 +76,7 @@ typedef struct {
     // Upgrade of the accepted item: the routine (NULL when the domain has none), what was asked,
     // the frames left before it runs and what it reported.
     LONG (*upgrade)(uintptr_t manager, LONG slot, int slots, int supercharge);
-    volatile LONG want_slots, want_super, upgrade_frames, upgraded;
+    volatile LONG want_slots, want_super, want_rows, upgrade_frames, upgraded;
     volatile LONG legacy_frames, legacy_slot;
     uint64_t legacy_seed;
     // Where the game passes "no legacy colours" when it builds the offered model; count 0 for none.
@@ -200,6 +200,7 @@ static void obtain_apply_request(obtain_domain *domain) {
             LONG supercharge = InterlockedCompareExchange(&domain->want_super, 0, 0);
             InterlockedExchange(&obtain_tool_slots, slots);
             InterlockedExchange(&obtain_tool_super, supercharge);
+            InterlockedExchange(&obtain_tool_rows, slots && InterlockedCompareExchange(&domain->want_rows, 0, 0));
             InterlockedExchange64(&obtain_tool_seed, slots || supercharge ? (LONG64)domain->seed : 0);
         }
         int wanted = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1;
@@ -308,7 +309,7 @@ static int obtain_read_request(obtain_domain *domain) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     char line[64];
-    LONG model = -1, item_class = -1, legacy = -1, slots = 0, supercharge = 0;
+    LONG model = -1, item_class = -1, legacy = -1, slots = 0, supercharge = 0, rows = 0;
     uint64_t seed = 0;
     int ok = 1, have_seed = 0;
     while (ok && fgets(line, sizeof(line), file)) {
@@ -329,6 +330,9 @@ static int obtain_read_request(obtain_domain *domain) {
             slots = 1;
         } else if (strcmp(line, "super=1") == 0 && !supercharge && domain->upgrade) {
             supercharge = 1;
+        } else if (strcmp(line, "rows=1") == 0 && !rows && domain->upgrade) {
+            // Twelve rows instead of the game's six; only together with "slots=1".
+            rows = 1;
         } else if (strncmp(line, "seed=0x", 7) == 0 && !have_seed) {
             const char *digit = line + 7;
             size_t length = strlen(digit);
@@ -350,6 +354,7 @@ static int obtain_read_request(obtain_domain *domain) {
     InterlockedExchange(&domain->legacy, legacy);
     InterlockedExchange(&domain->want_slots, slots);
     InterlockedExchange(&domain->want_super, supercharge);
+    InterlockedExchange(&domain->want_rows, rows);
     InterlockedExchange(&domain->result, OBTAIN_PENDING);
     return 1;
 }

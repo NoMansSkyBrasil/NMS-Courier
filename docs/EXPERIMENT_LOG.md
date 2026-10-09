@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.16.0 live: offer with 60 supercharged slots; bridge 1.17.0 installed
+
+Live, from the application 1.22.1. Build 180836 (`13d5060d...cc3499`),
+bridge 1.16.0 (`d801c260...a1c2`), slot not identified (the owner's test
+slot is 3). The owner's screenshot shows the offer of a class S Atlas
+Sceptre with a 10 x 6 technology grid, all sixty slots supercharged, and a
+working cursor. First confirmed result of the slot options on a new
+multi-tool. Not recorded: the request file of that run, whether the tool was
+accepted.
+
+Then, game closed (process list checked): bridge 1.17.0 (`163f59b7254d13c95167c82f8b5d0c081b0a7763d206b92b6064d1ea50694eed`) built,
+fixture passed, installed in place of 1.16.0 (kept under
+`native-builds/bridge-1.16.0`). Application 1.23.0. It adds twelve rows:
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#sixty-slots-confirmed-twelve-rows-bridge-1170).
+Not proven: the twelve rows. To undo: copy the 1.16.0 file back.
+
 ## 2026-10-09: owned multi-tool records read live; bridge 1.16.0 built (slots on the offer)
 
 Live reading only, no change: build 180836, bridge 1.15.0

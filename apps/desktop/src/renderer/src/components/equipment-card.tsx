@@ -249,7 +249,7 @@ export function EquipmentCard({
   const hasClass = action === 'offer' || action === 'build'
   // A new multi-tool has a technology grid only; its slots are set once the offer is accepted.
   const newTool = isNew && area === 'multitools'
-  const hasExtended = hasClass && !isNew
+  const hasExtended = hasClass && (!isNew || newTool)
   const ready = status?.state === 'ready'
   const sendable = ready && !sending && (action !== 'grid' || slots || supercharge)
   const stateText = status

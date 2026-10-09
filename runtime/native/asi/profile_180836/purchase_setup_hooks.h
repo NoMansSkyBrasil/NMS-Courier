@@ -52,6 +52,9 @@ static volatile LONG requested_class = -1;
 static volatile LONG64 obtain_tool_seed;
 static volatile LONG obtain_tool_slots;
 static volatile LONG obtain_tool_super;
+// Twelve rows (bridge 1.17.0): the game's own layout gives a multi-tool at most 10 x 6 (seen live),
+// so the full 10 x 12 grid is written after the setup with the routine of the owned request.
+static volatile LONG obtain_tool_rows;
 static volatile LONG obtain_tool_setups;    // setups this applied to
 static volatile LONG setup_calls;
 static volatile LONG last_kind = -1;

@@ -28,6 +28,17 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.23.0 and bridge 1.17.0 (2026-10-09)
+
+Bridge 1.17.0, SHA-256 `163f59b7254d13c95167c82f8b5d0c081b0a7763d206b92b6064d1ea50694eed`.
+
+- Confirmed live with bridge 1.16.0: the offer of a new multi-tool shows all
+  technology slots, supercharged. The game's own layout stops at 10 x 6 (60).
+- New: "Extra technology rows" for a new multi-tool: twelve rows, 120 slots.
+  The game's layout does not go that far for a multi-tool, so the full grid
+  is written on the offered item after the game set it up (a direct write,
+  as "Upgrade" does on an owned tool). Not exercised in the running game yet.
+
 ## Application 1.22.1 and bridge 1.16.0 (2026-10-09)
 
 Bridge 1.16.0, SHA-256 `d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2`.

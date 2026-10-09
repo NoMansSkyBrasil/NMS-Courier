@@ -254,6 +254,22 @@ acceptance (1.14.0) is still in place and harmless. Not exercised live.
 With six tools owned the game makes the player exchange one; which record the
 accepted tool then takes was not observed.
 
+### Sixty slots confirmed; twelve rows (bridge 1.17.0)
+
+Live with bridge 1.16.0 on 2026-10-09: the offer of an Atlas Sceptre
+("Sobrecarga de Infinito" on the owner's screen) showed a 10 x 6 technology
+grid, every slot supercharged. So the layout call with the largest slot
+count gives a multi-tool sixty slots, its table bound, not 120.
+
+The owner asked for 120. An owned multi-tool already holds 10 x 12 in this
+save (record 0, written by the owned request on 2026-10-07 and shown by the
+game). Bridge 1.17.0 takes `rows=1` together with `slots=1` and, after the
+game's setup of the offered item, writes the full 10 x 12 grid on its store
+with the routine of the owned request (`fill_store_grid`), before the slots
+are marked supercharged. A direct write; not exercised live. Whether the
+offer screen draws twelve rows and whether the accepted tool keeps them is
+to be seen.
+
 ### Multi-tool kinds: a save editor's list against the game's data
 
 The owner sent the type list of a save editor: Standard, Rifle, Royal,
