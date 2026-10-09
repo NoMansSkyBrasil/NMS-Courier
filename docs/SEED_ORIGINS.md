@@ -5,7 +5,25 @@ and how does the game arrive at it", one seed per section, with the evidence
 for each. What a seed *produces* (parts, colours, textures) is in
 [model workshop](MODEL_WORKSHOP.md) and the older research it links.
 
-Everything here is offline reading of the build 180836 executable
+## The algorithm, layer by layer
+
+How far each layer is understood on 2026-10-08. "Checked" names what the claim
+was compared with; nothing was compared with the running game.
+
+| Layer | What it is | State | Checked against |
+| --- | --- | --- | --- |
+| Number generator | Two 32-bit words; a step is `low * 0x5A76F899 + carry`; a child seed is two steps mixed by a fixed finalizer | Known exactly | The game's instructions, 3,120 cases ([inversion and emulation](SEED_INVERSION_AND_EMULATION.md)) |
+| Seed to parts | One weighted draw per group of a model's part lists, in list order; a child seed for every nested list and referenced scene | Known for the plain case | 64 fighter seeds of an independent table ([model workshop](MODEL_WORKSHOP.md#checked-against-a-table-of-fighter-seeds)) |
+| Seed to texture layers and decals | Layers of all texture lists merged by name and group, one draw per merged layer | Known for the plain case | One fighter seed, six choices ([model workshop](MODEL_WORKSHOP.md#compared-with-an-independent-tool)) |
+| Seed to colours | Five samples per palette family, drawn family by family from the 64 colours of each | Known for the base palette | One fighter seed, five colours; one pirate freighter home seed |
+| Seed to class, slots, stats, name | Separate draws of the same seed | Class known; slots, stats and names not ported | Class: the game's instructions, 619 cases ([inventory class](INVENTORY_CLASS_RESEARCH.md)) |
+| Where a seed comes from | The system's address, then the system generator's stream | System seed known; a system's ships located, not reproduced | The executable only (this note) |
+
+"Plain case" means no caller context: the part selection can be told to force,
+exclude or prefer alternatives, and which callers do so for which entity is
+not established.
+
+Everything below is offline reading of the build 180836 executable
 (SHA-256 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`)
 unless a section says otherwise. Nothing was run in the game for it.
 
@@ -101,12 +119,66 @@ python runtime/research/read-class-members.py --executable <NMS.exe> --class cGc
 python runtime/research/read-class-members.py --executable <NMS.exe> --field-name Seed
 ```
 
+## Ships of a star system
+
+**Answer so far: each ship of a system has its own seed, and that seed is a
+child seed taken from the system generator's number stream, in the order the
+ships are created. A ship's seed is used as it is: it is the seed the
+workshop shows.** Which seeds a given system gets is not reproduced yet,
+because that needs every draw the generator makes before the ships.
+
+### What the game does
+
+| Step | Where (RVA) | What |
+| --- | --- | --- |
+| A system keeps a list of ships | field table of `cGcSolarSystemData` | `SystemShips`, offset `0x24a0`, elements of `0x40` bytes |
+| One element | field table of `cGcAISpaceshipPreloadCacheData` | `TextureDescriptorHint` `+0x00` (32 bytes), `Seed` `+0x20`, `Faction` `+0x30`, `FrigateClass` `+0x34`, `ShipClass` `+0x38`, `ShipRole` `+0x3c` |
+| The system generator builds the list | `164b700` to `164baf8`, inside the generator `164a4a0` | a run of calls to `164c2a0`, one loop of five that does the same inline, then the list is sized (`1654160`) and the elements copied to `+0x24a0` |
+| One call creates one ship | `164c2a0` | arguments: generator context, faction, role, ship class, frigate class, texture hint; the element is filled and appended |
+| The ship's seed | `164c343` to `164c3c1` | two steps of the generator whose words are at `+0x510` and `+0x514` of the generator's state, then the child seed finalizer (`>> 33`, `* 0x64DD81482CBD31D7`, `>> 33`, `* 0xE36AA5C613612997`, `>> 33`); stored with its in-use flag |
+| A ship may become a solar ship | `164c3d3` to `164c4ab` | only for faction 1, role 0 and a class other than 6: the ship seed and the system seed are combined (`0x9DDFEA08EB382D69` mix, the one the planet research found), turned into a fraction, and when it is below a threshold the class becomes 8 (`Sail`). A flag of the system (`+0x2e17`) and class 4 (`Shuttle`) choose between two thresholds |
+
+The child seed is the same routine the part selection uses for nested lists,
+already ported (`childSeed` in the application, `child_seed` in
+`runtime/research/procedural-seed-primitives.py`).
+
+Ship class numbers are the game's `cGcSpaceshipClasses`: 0 freighter, 1
+hauler, 2 fighter, 3 explorer, 4 shuttle, 6 exotic, 7 living, 8 solar, 9
+interceptor ([obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md)).
+
+### Not established
+
+- The list of calls with their arguments, in order. They were seen (about
+  twelve calls and a loop of five) but not all of their arguments were read
+  with certainty, so no table is given here.
+- The two solar ship thresholds. They are read from data that is filled when
+  the game starts; the public wiki gives 10% and 85% (outlaw systems).
+- The state of the generator's stream when the ships are created. The
+  generator (`164a4a0`, `0x1e00` bytes, about thirty routines called) draws
+  for the star, the planets and more before it reaches the ships.
+- That the ships a player can buy in a system are these elements, and how a
+  landing ship picks one. The public wiki describes 21 designs per system.
+- Multi-tools of a system: the table `gcsimulationglobals` has the pools
+  (standard 2 to 4 draws, royal, sentinel and Atlas 1 each); where their seeds
+  come from was not looked at.
+
+### Next step, bounded
+
+Read `164a4a0` from its start to `164b700` and list every use of the
+generator words at `+0x510` and `+0x514` (each is one draw) and every routine
+called that receives the state. That gives the number of draws before the
+first ship, which with the system seed gives every ship seed of a system.
+`runtime/research/read-class-members.py` names any structure the code
+touches.
+
 ## Open, in the order they would be taken
 
-1. Starship and multi-tool seeds of the ones a system offers: how the game
-   gets them from the system (the workshop can already show any seed).
-2. The freighter model seed of a system's freighter.
-3. The owning class of each of the 122 seed fields.
-4. Planet, creature and building seeds: partly covered by the older planet
+1. The draws of the system generator before the ships (above), then a port
+   that lists the ship seeds of a system address.
+2. Multi-tool seeds of a system.
+3. The freighter model seed of a system's freighter.
+4. Slots, stats and name of a seed.
+5. The owning class of each of the 122 seed fields.
+6. Planet, creature and building seeds: partly covered by the older planet
    research ([planet and fauna seed flow](PLANET_FAUNA_SEED_FLOW.md)), not
    joined to this note yet.

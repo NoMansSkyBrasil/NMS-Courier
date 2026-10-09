@@ -3,8 +3,10 @@
 > Seed origins, 2026-10-08: [where each seed comes from](SEED_ORIGINS.md) is
 > the owning note for "what is this seed and how does the game get it". Done:
 > the freighter home system seed is the system's 52-bit universe address.
-> Next there: how a system's starships, multi-tools and freighter get their
-> model seeds; the owning class of each seed field.
+> A system's ships are located: each takes a child seed of the system
+> generator's stream (`164c2a0` in generator `164a4a0`). Next there: count
+> the generator's draws before the ships, then port "ship seeds of a system
+> address"; then multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the
 > installation's own files (two screens, twenty types). Owner:

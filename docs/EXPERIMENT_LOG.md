@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-08: where a system's ship seeds come from (offline, located, not reproduced)
+
+Offline reading of the build 180836 executable (`13d5060d...cc3499`); no game
+process. Owning note: [where each seed comes from](SEED_ORIGINS.md#ships-of-a-star-system).
+The owner asked for the seed research to go beyond freighters. Observed: a
+system keeps `SystemShips`, elements of `0x40` bytes with a `Seed`, a ship
+class, a role and a faction; the system generator `164a4a0` creates them
+with `164c2a0`, one ship per call, and each ship's seed is a child seed (two
+steps and the finalizer) of the generator's stream at `+0x510`/`+0x514`; the
+same routine turns some ships into solar ships by a threshold. Failed on the
+way: searching by the displacement `0x24a0` alone led to three unrelated
+objects before the generator was found through its callers. Not established:
+the calls' arguments in order, the thresholds, the stream's state when the
+ships are created, and whether these are the ships a player can buy. Nothing
+was changed in the application.
+
 ## 2026-10-08: freighter home system seed traced to the system's address (application 1.14.0), offline
 
 Offline reading of the build 180836 executable (`13d5060d...cc3499`); no game
