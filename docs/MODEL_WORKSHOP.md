@@ -292,3 +292,25 @@ game (the palette of a multi-tool is drawn with the first child seed of its
 seed) and the bands of its second diffuse texture are in place. Unpainted
 metal is still shaded plainly. Details and what was rejected:
 [where each seed comes from](SEED_ORIGINS.md#the-stations-multi-tool-bought-2026-10-09).
+
+## What the game's ship and multi-tool materials use (2026-10-09)
+
+Counted over the 7,792 material files under `models/common/spacecraft` and
+`models/common/weapons/multitool` of build 180836 (decoded corpus), to know
+what the workshop still does not draw.
+
+| Material feature | Materials | In the workshop |
+| --- | --- | --- |
+| Diffuse map (`_F01_DIFFUSEMAP`, `gDiffuseMap`) | 5,849 | Drawn, with the seed's texture layers and palette |
+| Normal map (`_F03_NORMALMAP`) | 3,682 | Not used |
+| Masks map (`_F25_MASKS_MAP`, `gMasksMap`): metal and roughness | 3,546 | Not used; unpainted metal looks grey (seen on a multi-tool) |
+| Unlit (`_F07_UNLIT`): lights and glows | 2,227 | Shaded like any surface |
+| Vertex data (`_F21_VERTEXCUSTOM`) | 1,564 | Not used |
+| Colourisable (`_F53_COLOURISABLE`, `gColouriseMaskMap`) | 773 | Not used; the mask says where a colour goes |
+| Several textures in one (`_F55_MULTITEXTURE`) | 630 | Not used; which picture of the set a part shows is not established |
+| Occlusion map (`_F22_OCCLUSION_MAP`) | 510 | Not used |
+| Parallax (`_F20_PARALLAX`) | 500 | Not used |
+| Second diffuse map (`_F16_DIFFUSE2MAP`, `gDiffuse2Map`) | 57 | Drawn from application 1.16.1, tinted as a whole |
+
+The order of work this gives: the masks map, the colourise mask and the
+multi-texture sets, each checked on a seed seen in the game.
