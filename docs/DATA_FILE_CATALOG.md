@@ -164,6 +164,7 @@ reader can start from Markdown and reach every data file.
 | [weapon-metadata-180383.md](../runtime/research/weapon-metadata-180383.md) | Markdown table | 2 rows, 2 columns | SpecificWeapon metadata-name reference candidate from pinned PE scan | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [weapon-serializer-180383.md](../runtime/research/weapon-serializer-180383.md) | Markdown table | 1 rows, 2 columns | SpecificWeapon serialization wrapper called by named metadata reference | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [word-delivery.md](../runtime/research/word-delivery.md) | Markdown table | 3830 rows, 5 columns | columns: Group, Race, Suffix, Words, Category | [WORD_AND_GLYPH_NOTES.md](../docs/WORD_AND_GLYPH_NOTES.md) |
+| [word-names.md](../runtime/research/word-names.md) | Markdown table | 2151 rows, 20 columns | columns: Word, Traders, Warriors, Explorers, Atlas, Builders, pt-BR, pt-PT, ja-JP, en-US, fr-FR, it-IT, de-DE… | [CHANGELOG.md](../CHANGELOG.md), [WORD_AND_GLYPH_NOTES.md](../docs/WORD_AND_GLYPH_NOTES.md) |
 
 ## Files no other document mentions
 
@@ -210,4 +211,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 134 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 135 data files in 4 folders; 42 not mentioned outside this catalog.
