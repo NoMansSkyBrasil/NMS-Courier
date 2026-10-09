@@ -136,7 +136,8 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Live test: legacy colours on the offer and after accepting (bridge 1.13.0); the cursor without a click before the offer; the starship offer.
 - [ ] Other requests that open a game window (slot window, freighter offer) should wait for the game's window like the offers do.
 - [ ] Obtain: "All slots", "Supercharged slots" and "Extra technology rows" when getting a new starship (owner request 2026-10-09); done for multi-tools in bridge 1.14.0, not exercised live. Needs the place where the running game keeps a ship's seed.
-- [ ] Obtain (failing): slots and legacy mark of an accepted multi-tool are not applied; the watch does not find the seed in the owned records. Read the records from the running game with the tool owned.
+- [ ] Live test: slots and supercharged slots on the multi-tool offer (bridge 1.16.0). Still open: the legacy mark on the accepted tool (no accepted tool was seen in the owned records yet).
+- [ ] Obtain: the NPC staff model does not work (owner, 2026-10-09); find out what the game does with it.
 - [ ] Live test: the eleven multi-tool models added in bridge 1.15.0, one by one (royal, sentinel and Atlantid use classes no shipped reward uses).
 - [ ] Legacy colours for a new starship: find where the offered ship's legacy argument is written (`8e75d0` path). Freighters have no such setting.
 - [ ] Live test from the application: a multi-tool with "Use legacy colours" (bridge 1.9.0): the offer, the file `native-weapon-legacy-...`, and the tool's colours after accepting.

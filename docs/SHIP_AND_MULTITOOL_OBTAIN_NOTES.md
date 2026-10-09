@@ -230,6 +230,30 @@ tool it has just handed over. Not exercised live.
 Starships: not done. The accepted ship cannot be found yet, because where
 the running game keeps a ship's seed is not known.
 
+### Slots on the offer itself (bridge 1.16.0)
+
+Live with bridges 1.14.0 and 1.15.0 the slots were never applied. Read from
+the running game on 2026-10-09 (read only, process 20472): the six owned
+multi-tool records are laid out as assumed (seed at `+0x2b0`, in-use byte at
+`+0x2b8`, legacy mark at `+0x2ad`, grid header at `+0x80`), all six were in
+use, and none held a requested seed; so the watch had nothing to find. The
+owner also expects the offer screen to show the slots.
+
+The offered tool is the item at manager `+0x874030`; the setup routine
+`8e58e0` (already hooked for freighter offers and corvette builds) lays out
+its only grid in the store at item `+0x980` with inventory type 3 (read
+live: grid 8 x 3, 20 slots). From bridge 1.16.0, a multi-tool request with
+`slots=1` and/or `super=1` arms the hook with the requested seed: a setup of
+a multi-tool item (kind 1) whose seed argument is that seed gets the layout
+call changed to the largest slot count (as for freighters) and/or every slot
+marked supercharged after the setup. The seed stays armed until the next
+multi-tool request. The result file reports `offer_setups=`, the number of
+setups this was applied to since the bridge started. The change after
+acceptance (1.14.0) is still in place and harmless. Not exercised live.
+
+With six tools owned the game makes the player exchange one; which record the
+accepted tool then takes was not observed.
+
 ### Multi-tool kinds: a save editor's list against the game's data
 
 The owner sent the type list of a save editor: Standard, Rifle, Royal,

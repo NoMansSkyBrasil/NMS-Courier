@@ -81,6 +81,14 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
             InterlockedIncrement(&model_applied);
         }
     }
+    // Native meaning of argument 2: the model seed pair. An offered multi-tool is recognised by it.
+    int tool = (uint32_t)kind == WEAPON_ITEM_KIND && item && a2 && obtain_tool_seed &&
+               *(const uint64_t *)a2 == (uint64_t)obtain_tool_seed;
+    int tool_scoped = tool && InterlockedCompareExchange(&obtain_tool_slots, 0, 0);
+    if (tool_scoped) {
+        scope_item = item;
+        InterlockedExchange(&scope_thread, (LONG)GetCurrentThreadId());
+    }
     if (scoped) {
         InterlockedExchange(&scope_rows, InterlockedExchange(&tech_rows_armed, 0));
         scope_item = item;
@@ -95,6 +103,16 @@ static uintptr_t setup_detour(uintptr_t item, uintptr_t a2, uintptr_t a3, uintpt
     }
     InterlockedIncrement(&setup_calls);
     InterlockedExchange(&last_kind, (LONG)(uint32_t)kind);
+    if (tool) {
+        if (tool_scoped) {
+            InterlockedExchange(&scope_thread, 0);
+            scope_item = 0;
+        }
+        if (InterlockedCompareExchange(&obtain_tool_super, 0, 0) && writable_range(item, ITEM_READ_SPAN))
+            add_special_slots((uint8_t *)item + MAIN_STORE_OFFSET);
+        if (writable_range(item, ITEM_READ_SPAN)) record_grid(item);
+        InterlockedIncrement(&obtain_tool_setups);
+    }
     if ((uint32_t)kind == SHIP_ITEM_KIND && item && InterlockedCompareExchange(&ship_class_armed, 0, 1) == 1) {
         // Corvette build start: apply the armed class once to the ship item the game just set up.
         LONG ship_class = InterlockedCompareExchange(&requested_class, 0, 0);

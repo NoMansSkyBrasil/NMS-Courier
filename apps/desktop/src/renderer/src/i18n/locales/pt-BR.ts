@@ -279,7 +279,7 @@ export const ptBR: Messages = {
     equipSlotsHint: 'Torna utilizáveis todas as posições das grades de carga e de tecnologia.',
     equipToolSlots: 'Todos os slots de tecnologia',
     equipToolSlotsHint:
-      'Libera todas as posições da grade de tecnologia da multiferramenta, logo depois que você aceita a oferta.',
+      'Libera todas as posições da grade de tecnologia da multiferramenta, já na oferta.',
     equipSupercharge: 'Espaços supercarregados',
     equipSuperchargeHint:
       'Transforma todo espaço de tecnologia utilizável em espaço supercarregado.',

@@ -28,6 +28,17 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.22.1 and bridge 1.16.0 (2026-10-09)
+
+Bridge 1.16.0, SHA-256 `d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2`.
+
+- Fixed: "All technology slots" and "Supercharged slots" of a new multi-tool
+  did nothing. They were applied after acceptance to a tool the bridge then
+  never found. They are now set while the game builds the offered tool, with
+  the hook already used for freighter offers, so the offer screen itself
+  shows them. The result file gains `offer_setups=`. Not exercised in the
+  running game yet.
+
 ## Application 1.22.0 and bridge 1.15.0 (2026-10-09)
 
 Bridge 1.15.0, SHA-256 `3ab0e7f06195dccb0e18218d65c2cc2de399a5de45dbd7d2375a0d2720757090`. Data file (reward table of the mod folder)

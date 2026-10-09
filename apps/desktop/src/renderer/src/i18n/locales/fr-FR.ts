@@ -288,7 +288,7 @@ export const frFR: Messages = {
     equipSlotsHint: 'Rend utilisables toutes les positions des grilles de soute et de technologie.',
     equipToolSlots: 'Tous les emplacements de technologie',
     equipToolSlotsHint:
-      'Rend utilisables toutes les positions de la grille de technologie du multi-outil, juste après l’acceptation de l’offre.',
+      'Rend utilisables toutes les positions de la grille de technologie du multi-outil, dès l’offre.',
     equipSupercharge: 'Emplacements surchargés',
     equipSuperchargeHint:
       'Transforme chaque emplacement de technologie utilisable en emplacement surchargé.',

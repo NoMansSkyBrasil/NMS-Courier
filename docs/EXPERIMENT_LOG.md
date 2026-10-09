@@ -1,5 +1,19 @@
 # Runtime experiment log
 
+## 2026-10-09: owned multi-tool records read live; bridge 1.16.0 built (slots on the offer)
+
+Live reading only, no change: build 180836, bridge 1.15.0
+(`3ab0e7f0...7090`), game process 20472, slot not identified. The owner
+reported that the slot options still do nothing (request `model=atlasstaff`,
+`seed=0xA80FF6D188F7CAC6`, `class=s`, `slots=1`, `super=1`, result
+`offered`) and that the NPC staff model does not work (not looked at yet).
+The records and the pending item were read; see the
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#slots-on-the-offer-itself-bridge-1160).
+
+Bridge 1.16.0 (`d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2`) built, fixture passed. Application 1.22.1. Not proven:
+that the offer now shows the slots. Installation is recorded where it
+happens below or in the next entry.
+
 ## 2026-10-09: bridge 1.14.0 live: legacy offer colours confirmed, slots not applied; all multi-tool scenes added
 
 Live, from the application 1.21.0. Build 180836 (`13d5060d...cc3499`),

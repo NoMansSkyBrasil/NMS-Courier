@@ -266,7 +266,7 @@ export const koKR: Messages = {
     equipSlots: '모든 인벤토리 슬롯',
     equipSlotsHint: '화물 및 기술 격자의 모든 위치를 사용할 수 있게 합니다.',
     equipToolSlots: '모든 기술 슬롯',
-    equipToolSlotsHint: '제안을 수락한 직후 멀티툴 기술 격자의 모든 칸을 사용할 수 있게 합니다.',
+    equipToolSlotsHint: '제안 단계에서부터 멀티툴 기술 격자의 모든 칸을 사용할 수 있게 합니다.',
     equipSupercharge: '과충전 슬롯',
     equipSuperchargeHint: '사용 가능한 모든 기술 슬롯을 과충전 슬롯으로 만듭니다.',
     equipExtended: '추가 기술 줄',

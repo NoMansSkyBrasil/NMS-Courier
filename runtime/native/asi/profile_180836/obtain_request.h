@@ -193,6 +193,15 @@ static void obtain_apply_request(obtain_domain *domain) {
     if (reward) {
         *(uint64_t *)(reward + domain->seed_offset) = domain->seed;
         *(int32_t *)(reward + domain->class_offset) = (int32_t)InterlockedCompareExchange(&domain->item_class, 0, 0);
+        if (domain->upgrade) {
+            // The offer itself is built with the slots (purchase_setup_hooks.h); the seed stays armed
+            // because the game may set the offered item up again before it is accepted.
+            LONG slots = InterlockedCompareExchange(&domain->want_slots, 0, 0);
+            LONG supercharge = InterlockedCompareExchange(&domain->want_super, 0, 0);
+            InterlockedExchange(&obtain_tool_slots, slots);
+            InterlockedExchange(&obtain_tool_super, supercharge);
+            InterlockedExchange64(&obtain_tool_seed, slots || supercharge ? (LONG64)domain->seed : 0);
+        }
         int wanted = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1;
         if (wanted && !domain->offer_patched) domain->offer_patched = obtain_offer_colours(domain, 1);
         else if (!wanted && domain->offer_patched) domain->offer_patched = !obtain_offer_colours(domain, 0);
@@ -353,13 +362,15 @@ static void obtain_write_result(obtain_domain *domain) {
     if (file) {
         LONG model = InterlockedCompareExchange(&domain->model, 0, 0);
         LONG legacy = InterlockedCompareExchange(&domain->legacy, 0, 0);
-        fprintf(file, "model=%s\nseed=0x%llX\nresult=%s\nlegacy=%s\noffer_colours=%s\n",
+        fprintf(file, "model=%s\nseed=0x%llX\nresult=%s\nlegacy=%s\noffer_colours=%s\noffer_setups=%ld\n",
                 model >= 0 && model < domain->model_count ? domain->models[model].model : "?",
                 (unsigned long long)domain->seed,
                 obtain_result_names[InterlockedCompareExchange(&domain->result, 0, 0)],
                 legacy < 0 ? "not_asked" : legacy ? "1" : "0",
                 InterlockedCompareExchange(&domain->result, 0, 0) == OBTAIN_OFFERED &&
-                    InterlockedCompareExchange(&domain->offer_legacy, 0, 0) ? "legacy" : "standard");
+                    InterlockedCompareExchange(&domain->offer_legacy, 0, 0) ? "legacy" : "standard",
+                // Setups of the offered item that got the asked slots, counted since the bridge started.
+                domain->upgrade ? InterlockedCompareExchange(&obtain_tool_setups, 0, 0) : 0L);
         fclose(file);
     }
     InterlockedExchange(&domain->state, 0);

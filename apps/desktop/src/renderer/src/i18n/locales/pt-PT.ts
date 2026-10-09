@@ -284,7 +284,7 @@ export const ptPT: Messages = {
     equipSlotsHint: 'Torna utilizáveis todas as posições das grelhas de carga e de tecnologia.',
     equipToolSlots: 'Todos os espaços de tecnologia',
     equipToolSlotsHint:
-      'Liberta todas as posições da grelha de tecnologia da multiferramenta, logo depois de aceitar a oferta.',
+      'Liberta todas as posições da grelha de tecnologia da multiferramenta, já na oferta.',
     equipSupercharge: 'Espaços sobrecarregados',
     equipSuperchargeHint:
       'Transforma cada espaço de tecnologia utilizável num espaço sobrecarregado.',

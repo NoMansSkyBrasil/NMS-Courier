@@ -44,5 +44,14 @@ static volatile LONG layout_overrides;
 static volatile LONG scope_thread;
 static volatile uintptr_t scope_item;
 static volatile LONG requested_class = -1;
+// A new multi-tool asked with all slots and/or supercharged slots (obtain_request.h, bridge 1.16.0):
+// the setup of a multi-tool item whose seed is this one gets its grid at the largest count and/or
+// every slot supercharged, while the game builds the offer. Zero seed: nothing asked. The game's
+// setup routine takes kind 1 for a multi-tool and lays its only grid out in the store at +0x980.
+#define WEAPON_ITEM_KIND 1
+static volatile LONG64 obtain_tool_seed;
+static volatile LONG obtain_tool_slots;
+static volatile LONG obtain_tool_super;
+static volatile LONG obtain_tool_setups;    // setups this applied to
 static volatile LONG setup_calls;
 static volatile LONG last_kind = -1;

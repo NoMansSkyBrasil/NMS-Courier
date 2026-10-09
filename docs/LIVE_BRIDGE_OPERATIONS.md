@@ -344,5 +344,9 @@ bridge waits 120 frames and then **writes directly**: every position of that
 record's technology grid usable and/or every usable slot supercharged, and
 the same on the equipped multi-tool's active store when its grid header
 equals the record's. `native-weapon-legacy-180836-<PID>.txt` gains
-`upgrade=0`, `1` or `3`. It changes the loaded slot only. To undo: load the
+`upgrade=0`, `1` or `3`. From bridge 1.16.0 the same two options are also
+applied earlier, to the item the game sets up for the offer (the layout call
+of the hooked setup routine gets the largest slot count, and every slot is
+marked supercharged afterwards: a changed argument of a native call, and a
+direct write); the result file reports `offer_setups=`. It changes the loaded slot only. To undo: load the
 save from before. Not exercised in the running game when written.
