@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-09: the star system generator emulated offline; draws before the ships explained
+
+Offline, game closed. Build 180836 executable (`13d5060d...cc3499`) run in
+the Unicorn emulator with the harness of NMS Shipwright (MIT, commit
+`a9320fc`, cloned outside the repository; its code was read before it was
+run). Tool: `runtime/research/emulate-star-system.py`. Owning note:
+[where each seed comes from](SEED_ORIGINS.md#the-generator-run-in-an-emulator-2026-10-09).
+
+Observed: the emulated generator reproduces both live readings of the same
+day exactly (fifty ships with seed and class, sentinel crash site ship,
+planet seeds). A trace of the stream writes gives the layout before the
+ships: 39 fixed steps, then per planet one draw for 30 to 65 tries of 4 or 5
+draws, then 3 steps. Constant over 120 systems of one region.
+
+Rejected: a fixed count; a count that follows from the number of planets
+alone (a rejected try takes one draw less, and rejection is a distance test
+in single precision).
+
+Not proven: that the 39 fixed steps hold for every kind of system (all 120
+surveyed had fifty ships); other builds. The hand port of the count is not
+done.
+
 ## 2026-10-09: multi-tool colours corrected against the bought tool
 
 Offline, game closed. Application 1.16.1 (test instance, "View a seed",

@@ -378,14 +378,71 @@ seed **`0x81E18111081140E1`** at `+0x8e8` (in-use byte after it).
   a thousand; it may be built from packed fields instead. Finding the code
   that fills the offered tool is the next step for multi-tools.
 
+### The generator run in an emulator, 2026-10-09
+
+[NMS Shipwright](https://github.com/S-T-0-7/NMS-Shipwright) (MIT licence,
+Shikhar Tiwari, commit `a9320fc`) runs the game's own star system generator
+without the game: it maps `NMS.exe` into the Unicorn emulator, stands in for
+imports, heap and the application object, and calls the generator for an
+address. Its addresses for build 180836 are the ones found here
+independently (generator `164a4a0`, application pointer `6e8d708`, current
+system slot `0x72afb0`, ship list at `+0x24a0`). Its seed arithmetic, option
+weights and palette families are also the same as this project's.
+
+`runtime/research/emulate-star-system.py` drives that harness (not included
+in this repository; the packages `unicorn`, `pefile` and `hgpaktool` are kept
+in `%LOCALAPPDATA%\NMSCourier\research-tools\python-emulation`).
+
+- **Checked against both live readings:** for `0x0001DB00F769C14E` and
+  `0x0000E800F669E14C` the emulated generator gives the same fifty ships
+  (seed and class), the same sentinel crash site ship and the same planet
+  seeds the running game held. About 0.03 s per system once started.
+- So the ships of any address can be listed offline, exactly, by emulation.
+  What the record calls `PrimePlanets` are the moons.
+
+#### What the draws before the ships are
+
+`emulate-star-system.py draws` hooks every write of the generator's stream
+word and places it on the stream. The generator walks the stream twice: a
+first walk (planets and their layout), then the state is set again from the
+seed and the second walk produces everything up to the ships. For the second
+walk, over 120 systems of one region:
+
+| Part | Steps | Notes |
+| --- | --- | --- |
+| Fixed start | 39 | the same instructions and positions in all 120 systems |
+| Points of interest, per planet that is not a moon | 1 + 4 or 5 per try | one draw for the number of tries, 30 to 65 (`30 + ((36 * draw) >> 32)`); each try draws 4 times, and a fifth time unless it was rejected |
+| Before the ships | 3 | three single draws (`164acbf`, `164ad20`, `164ad71`) |
+| Ships | 2 each | the list; the sentinel crash site ship after the 42nd |
+
+A try is a point on a sphere around the planet (two draws for the direction,
+one for the distance), a draw for its kind (`(draw * 100) >> 32 < 5`), then a
+distance test against every point placed so far: too close and the try is
+dropped without its fifth draw. The fifth draw (`< 20` of 100) adds a
+companion point. The limits are fields of `GCSOLARGENERATIONGLOBALS` (30, 65,
+5, 20, and a distance of 40000). About 3 in 100 tries are rejected (807 of
+25,913), so almost every system has some.
+
+This is why the number differs per system (302 = 39 + 1 + 52 * 5 + 2 for the
+first system, which has one planet and no rejected try) and why it cannot be
+had without the geometry: **a hand port must reproduce the positions of the
+planets and of every point in the game's single-precision arithmetic,
+including its sine and cosine routines (`206e60`, `206d80`), or the count is
+wrong after the first rejected try.** It also needs the number of planets of
+the address, from the Threefry routine (`132aee0`, called through `132d5e0`).
+
+State of the hand port: the stream, the child seeds, the ship list layout
+and the planet seeds are ported and tested; the count of steps before the
+ships is not. The emulator is the reference to test each further piece
+against, system by system.
+
 ### Next step, bounded
 
-Read `164a4a0` from its start to `164b700` and list every use of the
-generator words at `+0x510` and `+0x514` (each is one draw) and every routine
-called that receives the state. That gives the number of draws before the
-first ship, which with the system seed gives every ship seed of a system.
-`runtime/research/read-class-members.py` names any structure the code
-touches.
+The draws are listed (above). The next piece of the hand port is the number
+of planets of an address: port the Threefry routine at `132aee0` and compare
+`planets` and `moons` with `emulate-star-system.py survey` over a region.
+After it, the planet positions of the first walk, then the points of
+interest loop at `1653030` to `16535e9`.
 
 ## Open, in the order they would be taken
 

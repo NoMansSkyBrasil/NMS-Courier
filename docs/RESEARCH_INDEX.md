@@ -109,7 +109,9 @@ Seed questions ("what is this seed, where does the game get it") start at
 [where each seed comes from](SEED_ORIGINS.md); class field offsets of the
 executable come from `runtime/research/read-class-members.py`. The running
 game's star system record and the seeds of its stream found in memory come
-from `runtime/research/read-live-star-system.py` (read only, Windows).
+from `runtime/research/read-live-star-system.py` (read only, Windows). A
+star system generated offline from its address, and the trace of its
+draws, come from `runtime/research/emulate-star-system.py`.
 
 ## Function lookup
 

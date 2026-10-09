@@ -15,7 +15,11 @@
 > from the address; multi-tool seed origin still open; a second system
 > gave 447 steps, so that number varies and comes from `164da40`; a bought
 > station multi-tool, seed `0x81E18111081140E1`, has the shape the workshop
-> builds but other colours, origin unknown); then
+> builds, colours fixed in application 1.16.1, origin unknown; the ships of
+> any address are now had offline by emulating the generator with
+> `runtime/research/emulate-star-system.py`, checked against both live
+> readings; the hand port of the step count needs planet and point
+> geometry, see `docs/SEED_ORIGINS.md`); then
 > multi-tools, slots, stats and names.
 
 > Model workshop, 2026-10-08: application 1.10.0 builds models from the
