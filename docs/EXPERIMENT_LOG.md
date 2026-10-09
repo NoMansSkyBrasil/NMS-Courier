@@ -22,6 +22,13 @@ this seed are crystal `#febb24` and `#ff19fc` and decal paint `#537157`; the
 owner reports the decal colour as slightly different (which checkbox state
 was compared is not recorded).
 
+Follow-up the same day: the owner had compared the offer with the workshop's
+legacy colours. With "Use legacy colours" off the workshop draws the same
+pale green decal and yellow-to-magenta crystals as the offer screen (the
+crystals are duller in the workshop: lighting). So for this seed the
+non-legacy palette agrees with the current game and the legacy palette with
+the public list's older picture.
+
 Failure 1 (application, fixed in 1.19.2): the legacy colours choice was
 dropped by the `nms:deliver-equipment` handler. The direct write of bridge
 1.9.0 is therefore still **not exercised**.
