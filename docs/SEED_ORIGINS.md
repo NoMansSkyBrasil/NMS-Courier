@@ -350,11 +350,26 @@ seed **`0x81E18111081140E1`** at `+0x8e8` (in-use byte after it).
   grip with guard and top stripe (`Multitool NORMAL`, `Gunmode 2`,
   `Barrel 3`, `Magslot 1`, `Toolstock 1`). Part selection for multi-tools is
   therefore confirmed against the game for one seed.
-- **The colours differ.** The game shows a white body with orange stripes
-  and a yellow grip; the workshop draws red stripes and a teal grip. The
-  palette rule taken from starships does not hold for multi-tools as it is;
-  the colour roles or the palette families of the multi-tool are still to be
-  found.
+- **The colours differed, and why.** The game shows a white body with
+  orange stripes and a yellow grip; the workshop drew red stripes and a teal
+  grip. With the palette drawn from the **first child seed** of the tool's
+  seed, and nothing else changed, the Paint samples become yellow (sample 0,
+  the grip's `PAINT1` layer) and orange-red (sample 3, the trim's `PAINTALT`
+  and the decals), and the Undercoat stays white: the game's colours. The
+  texture layers still follow the tool's own seed: drawn with the child seed
+  the coating would be `DEFAULT` (a yellow body), with the own seed it is
+  `CLEAN` (white), as in the game. Application 1.16.1 uses this rule for
+  multi-tools. It rests on this one tool; the other multi-tool types are
+  not compared.
+- Two more faults showed in the same comparison and are fixed in 1.16.1: a
+  layer whose chance is not met was still drawn when its alternative has no
+  name (the rust layer, chance 0.2), and the second diffuse texture of a
+  material (`gDiffuse2Map`, here `multitooldecals_1`, laid out with the
+  second pair of texture coordinates of each vertex) was not drawn at all.
+- Still different: unpainted metal (the top housing, the front flap) is grey
+  in the workshop and beige or black in the game. The trim texture has no
+  coating there; the game's look comes from its metal shading (the masks
+  map), which the workshop does not do.
 - **The origin of the seed is not established.** It is not a child seed of
   the system stream, of the stream of the mixed address, of any planet seed
   or of any seed drawn from the system stream (walked back three million

@@ -28,6 +28,9 @@ export type MeshStream = {
   indices: Uint32Array
   // u v per vertex (first row of a texture is v = 0), or null when the mesh has none.
   coordinates: Float32Array | null
+  // The second pair of texture coordinates of the same vertex, which a material's second
+  // diffuse texture is laid out with; null when the vertex holds one pair only.
+  secondCoordinates: Float32Array | null
   low: [number, number, number]
   high: [number, number, number]
 }
@@ -38,7 +41,7 @@ type Layout = {
   type: number
   stride: number
   // Offset and type of the texture coordinates in the same vertex, when present.
-  coordinates: { offset: number; type: number } | null
+  coordinates: { offset: number; type: number; pairs: number } | null
 }
 
 function halfToFloat(value: number): number {
@@ -74,7 +77,11 @@ function positionLayout(description: Buffer): Layout {
           (candidateType === halfFloat || candidateType === float) &&
           description[candidate + 11] >= 2
         ) {
-          coordinates = { offset: description[candidate + 9], type: candidateType }
+          coordinates = {
+            offset: description[candidate + 9],
+            type: candidateType,
+            pairs: description[candidate + 11] >= 4 ? 2 : 1
+          }
         }
       }
       return { separate, offset: description[element + 9], type, stride, coordinates }
@@ -156,20 +163,23 @@ export function readMeshStreams(description: Buffer, streams: Buffer): Map<numbe
       indices[index] = value
     }
     let coordinates: Float32Array | null = null
+    let secondCoordinates: Float32Array | null = null
     if (layout.coordinates) {
       coordinates = new Float32Array(count * 2)
+      if (layout.coordinates.pairs === 2) secondCoordinates = new Float32Array(count * 2)
       for (let vertex = 0; vertex < count; vertex += 1) {
         const at = source + vertex * layout.stride + layout.coordinates.offset
-        for (let axis = 0; axis < 2; axis += 1) {
+        for (let axis = 0; axis < layout.coordinates.pairs * 2; axis += 1) {
           const value =
             layout.coordinates.type === halfFloat
               ? halfToFloat(streams.readUInt16LE(at + axis * 2))
               : streams.readFloatLE(at + axis * 4)
-          coordinates[vertex * 2 + axis] = Number.isFinite(value) ? value : 0
+          const target = axis < 2 ? coordinates : secondCoordinates!
+          target[vertex * 2 + (axis % 2)] = Number.isFinite(value) ? value : 0
         }
       }
     }
-    result.set(hash, { positions, indices, low, high, coordinates })
+    result.set(hash, { positions, indices, low, high, coordinates, secondCoordinates })
   }
   return result
 }

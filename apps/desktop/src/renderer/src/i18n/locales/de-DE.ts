@@ -518,7 +518,7 @@ export const deDE: Messages = {
     anyPart: 'Beliebig',
     rare: 'selten',
     detailsTitle: 'Vom Seed ausgeloste Details',
-    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturschichten, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht. Für einen bekannten Seed stimmt all das mit dem Ergebnis eines unabhängigen Werkzeugs überein, aber nichts wurde bisher mit dem laufenden Spiel verglichen.',
+    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturebenen, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht, daher sehen Metall und Schattierung anders aus als im Spiel. Die Teile wurden mit einem unabhängigen Werkzeug und mit einem im laufenden Spiel gekauften Multi-Werkzeug verglichen; die Farben sind ähnlich, nicht exakt.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Wähle zuerst unter „Brücke“ den Spielordner aus.',
       UNKNOWN_KIND: 'Dieser Typ ist nicht verfügbar.',

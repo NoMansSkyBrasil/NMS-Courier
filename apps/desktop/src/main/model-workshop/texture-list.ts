@@ -76,13 +76,15 @@ export function readTextureList(data: Buffer): TextureList {
 }
 
 // The diffuse texture a material names, as a lower-case game path; null when it has none.
-export function readMaterialDiffuse(data: Buffer): string | null {
+// `sampler` picks the map: a material may name a second diffuse texture (gDiffuse2Map) that the
+// game lays over the first.
+export function readMaterialDiffuse(data: Buffer, sampler = 'gDiffuseMap'): string | null {
   expectStructure(data, materialStructure)
   const samplers = listAt(data, 0x70, 0x50, 64)
   for (let index = 0; index < samplers.count; index += 1) {
-    const sampler = samplers.start + index * 0x50
-    if (listText(data, sampler + 0x30, 256) === 'gDiffuseMap') {
-      const map = listText(data, sampler + 0x20, 1024)
+    const entry = samplers.start + index * 0x50
+    if (listText(data, entry + 0x30, 256) === sampler) {
+      const map = listText(data, entry + 0x20, 1024)
         .replace(/\\/g, '/')
         .toLowerCase()
       return map.endsWith('.dds') ? map : null

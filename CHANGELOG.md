@@ -28,6 +28,24 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.16.1 (2026-10-09)
+
+Fixes to the model workshop found by comparing a multi-tool bought in the
+game (seed `0x81E18111081140E1`) with the workshop's model.
+
+- Fixed: a multi-tool's colours are drawn with the first child seed of its
+  seed, not with the seed itself (grip and stripes now have the game's
+  colours for that tool). The seed search uses the same rule.
+- Fixed: a texture layer whose chance was not met is no longer drawn (the
+  rust layer appeared on every multi-tool).
+- New: a material's second diffuse texture is drawn over the first with the
+  model's second texture coordinates (the bands and stripes on a multi-tool's
+  body).
+- Known difference: metal surfaces without paint (the top housing, the front
+  flap) are shaded plainly, so they look grey where the game shows beige or
+  black.
+- Bridge unchanged (1.8.0).
+
 ## Application 1.16.0 (2026-10-09)
 
 - First live reading of a star system worked (bridge 1.8.0): system seed

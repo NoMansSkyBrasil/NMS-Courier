@@ -16,7 +16,9 @@ import type {
 import { validatePreviewGlb } from '../model-preview-import'
 import {
   familyNames,
+  childSeed,
   generateBasePalette,
+  seedState,
   leadingPaletteSamples,
   readBasePalette
 } from '../nms-adapters/base-palette-preview'
@@ -32,6 +34,7 @@ import { readTextureList, textureListPath } from './texture-list'
 import type { TextureList } from './texture-list'
 import {
   chosenTextureName,
+  textureLayerDrawn,
   collectTextureGroups,
   selectTextures,
   texturesSupported
@@ -87,6 +90,13 @@ function distinct(colors: readonly WorkshopColor[]): WorkshopColor[] {
 // for the channels above it, and channels 6 and 7 take no palette colour.
 function sampleOf(channel: number): number | null {
   return channel < 6 ? Math.min(channel, 3) : null
+}
+
+// The seed a model's palette is drawn with. A starship draws it with its own seed. A multi-tool
+// draws it with the first child seed of its own, while its texture layers still follow its own
+// seed: seen on one tool bought in the game (docs/MODEL_WORKSHOP.md).
+function paletteSeedOf(category: string, seed: bigint): bigint {
+  return category === 'multitool' ? childSeed(seedState(seed))[1] : seed
 }
 
 // The texture side of a model for one seed: the lists in walk order, the seed's choices, and the
@@ -260,7 +270,7 @@ export class ModelWorkshopService {
           ? BigInt(colorSeed)
           : freighter
             ? null
-            : value
+            : paletteSeedOf(String(category), value)
       const families = paletteSeed === null ? null : this.families()
       const samples =
         families && paletteSeed !== null
@@ -273,6 +283,7 @@ export class ModelWorkshopService {
         const list = texturing.lists.get(textureListPath(surface.diffuse))
         const layers: WorkshopSurface['layers'] = []
         for (const layer of texturing.rows.length && list ? list.layers : []) {
+          if (!textureLayerDrawn(texturing.rows, layer.name, layer.group)) continue
           const chosen = chosenTextureName(texturing.rows, layer.name, layer.group)
           const option = layer.options.find((entry) => entry.name === chosen)
           if (!option || !option.texture.endsWith('.dds')) continue
@@ -295,7 +306,29 @@ export class ModelWorkshopService {
           layers.push({ texture: option.texture, tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null })
         }
         if (!layers.length) layers.push({ texture: surface.diffuse, tint: null })
-        surfaces.push({ material: surface.material, cutout: /DECAL/.test(surface.name), layers })
+        const overlay: WorkshopSurface['overlay'] = []
+        // A second diffuse texture lies over the first. Its list is taken as it is when each of
+        // its layers has a single alternative; a list with choices is not evaluated here.
+        if (surface.overlay) {
+          const overlayList = this.textureList(textureListPath(surface.overlay))
+          const over: WorkshopSurface['layers'] = []
+          for (const layer of overlayList ? overlayList.layers : []) {
+            if (layer.options.length !== 1 || !layer.options[0].texture.endsWith('.dds')) continue
+            const option = layer.options[0]
+            const sample = sampleOf(option.channel)
+            const rgba =
+              samples && sample !== null ? samples[option.family]?.colors[sample]?.rgba : undefined
+            over.push({ texture: option.texture, tint: rgba ? [rgba[0], rgba[1], rgba[2]] : null })
+          }
+          if (!over.length) over.push({ texture: surface.overlay, tint: null })
+          overlay.push(...over)
+        }
+        surfaces.push({
+          material: surface.material,
+          cutout: /DECAL/.test(surface.name) && !overlay.length,
+          layers,
+          overlay
+        })
       }
       // Then the colours the model's textures could take with other choices, so that every
       // colour of the kind can be seen and chosen.
@@ -321,7 +354,9 @@ export class ModelWorkshopService {
         }
       }
       this.allowedTextures = new Set(
-        surfaces.flatMap((surface) => surface.layers.map((layer) => layer.texture))
+        surfaces.flatMap((surface) =>
+          [...surface.layers, ...surface.overlay].map((layer) => layer.texture)
+        )
       )
       return {
         state: 'built',
@@ -502,9 +537,10 @@ export class ModelWorkshopService {
             selectedIds = selection.selectedIds
           }
           if (families) {
+            const paletteSeed = paletteSeedOf(String(category), seed)
             const drawn = early
-              ? leadingPaletteSamples(seed, families, highest + 1)
-              : generateBasePalette(seed, families).families.map((family) =>
+              ? leadingPaletteSamples(paletteSeed, families, highest + 1)
+              : generateBasePalette(paletteSeed, families).families.map((family) =>
                   family.colors.map((color) => color.rgba)
                 )
             if (

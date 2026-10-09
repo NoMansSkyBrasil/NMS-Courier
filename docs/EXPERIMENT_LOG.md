@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-09: multi-tool colours corrected against the bought tool
+
+Offline, game closed. Application 1.16.1 (test instance, "View a seed",
+multi-tool, standard, seed `0x81E18111081140E1`) compared by eye with the
+owner's screenshots of the same tool in the game. Owning note:
+[where each seed comes from](SEED_ORIGINS.md#the-stations-multi-tool-bought-2026-10-09).
+
+Observed after the change: yellow grip, orange-red stripes and bands in the
+places the game has them, white body, no rust. The owner pointed out the top
+housing (beige in the game) and the front flap (black in the game), both
+grey in the workshop; these remain.
+
+Rejected: the tool's own seed as palette seed with shifted samples (needs two
+special cases and gives an orange grip); the child seed for the texture
+layers (gives a yellow body).
+
+Not proven: the rule for other multi-tool types and for any second seed;
+whether starships have materials with a second diffuse texture that now
+draw differently (the game-file tests pass; no ship was compared by eye).
+
 ## 2026-10-09: the station's multi-tool bought; its seed read; the workshop builds the same tool
 
 Live. Process 17044, build and bridge as the entries below, slot 3 by the

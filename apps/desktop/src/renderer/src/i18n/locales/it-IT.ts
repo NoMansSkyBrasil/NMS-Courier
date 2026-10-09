@@ -511,7 +511,7 @@ export const itIT: Messages = {
     anyPart: 'Qualsiasi',
     rare: 'raro',
     detailsTitle: 'Dettagli estratti dal seme',
-    note: 'Il modello viene letto dai tuoi file di gioco. Pezzi, strati di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati. Per un seme noto tutto questo è uguale al risultato di uno strumento indipendente, ma nulla è stato ancora confrontato con il gioco in esecuzione.',
+    note: 'Il modello viene letto dai tuoi file di gioco. Parti, livelli di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati, quindi metallo e ombreggiatura appaiono diversi dal gioco. Le parti sono state verificate con uno strumento indipendente e con un multi-attrezzo comprato nel gioco in esecuzione; i colori sono simili, non esatti.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Seleziona prima la cartella del gioco, in Ponte.',
       UNKNOWN_KIND: 'Questo tipo non è disponibile.',

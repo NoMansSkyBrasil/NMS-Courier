@@ -99,6 +99,9 @@ export type WorkshopSurface = {
   material: number
   cutout: boolean
   layers: { texture: string; tint: [number, number, number] | null }[]
+  // The layers of the material's second diffuse texture, laid over the first with the model's
+  // second texture coordinates; empty when the material has none.
+  overlay: { texture: string; tint: [number, number, number] | null }[]
 }
 
 export type WorkshopFailure =

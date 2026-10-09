@@ -495,7 +495,7 @@ export const plPL: Messages = {
     anyPart: 'Dowolna',
     rare: 'rzadka',
     detailsTitle: 'Szczegóły wylosowane przez ziarno',
-    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone. Dla jednego znanego ziarna wszystko to zgadza się z wynikiem niezależnego narzędzia, ale nic nie zostało jeszcze porównane z działającą grą.',
+    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone, więc metal i cieniowanie wyglądają inaczej niż w grze. Części porównano z niezależnym narzędziem i z multinarzędziem kupionym w uruchomionej grze; kolory są zbliżone, nie dokładne.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Najpierw wybierz folder gry w sekcji Most.',
       UNKNOWN_KIND: 'Ten typ jest niedostępny.',

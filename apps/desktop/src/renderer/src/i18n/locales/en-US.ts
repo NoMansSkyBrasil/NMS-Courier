@@ -491,7 +491,7 @@ export const enUS: Messages = {
     anyPart: 'Any',
     rare: 'rare',
     detailsTitle: 'Details drawn by the seed',
-    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified. For one known seed all of this equals the result of an independent tool, but nothing was compared with the running game yet.',
+    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified, so metal and shading look different from the game. Parts were checked against an independent tool and against one multi-tool bought in the running game; colours are close, not exact.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Select the game folder first, in Bridge.',
       UNKNOWN_KIND: 'This type is not available.',

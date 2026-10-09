@@ -517,7 +517,7 @@ export const frFR: Messages = {
     anyPart: 'Indifférent',
     rare: 'rare',
     detailsTitle: 'Détails tirés par la graine',
-    note: 'Le modèle est lu dans vos propres fichiers du jeu. Les pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matière sont simplifiés. Pour une graine connue, tout cela est identique au résultat d’un outil indépendant, mais rien n’a encore été comparé au jeu en cours d’exécution.',
+    note: 'Le modèle est lu dans vos propres fichiers du jeu. Pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matériau sont simplifiés, le métal et les ombres diffèrent donc du jeu. Les pièces ont été vérifiées avec un outil indépendant et avec un multi-outil acheté dans le jeu en cours ; les couleurs sont proches, pas exactes.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Sélectionnez d’abord le dossier du jeu, dans Passerelle.',
       UNKNOWN_KIND: 'Ce type n’est pas disponible.',

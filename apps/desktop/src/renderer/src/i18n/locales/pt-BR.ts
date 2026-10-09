@@ -500,7 +500,7 @@ export const ptBR: Messages = {
     anyPart: 'Qualquer',
     rare: 'rara',
     detailsTitle: 'Detalhes sorteados pela seed',
-    note: 'O modelo é lido dos seus próprios arquivos do jogo. Peças, camadas de textura, decalques e cores seguem a seed; iluminação e efeitos de material são simplificados. Para uma seed conhecida, tudo isso é igual ao resultado de uma ferramenta independente, mas nada foi comparado ainda com o jogo rodando.',
+    note: 'O modelo é lido dos seus próprios arquivos do jogo. Peças, camadas de textura, decalques e cores seguem a seed; iluminação e efeitos de material são simplificados, então metal e sombreamento ficam diferentes do jogo. As peças foram conferidas com uma ferramenta independente e com uma multiferramenta comprada no jogo rodando; as cores ficam próximas, não exatas.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecione primeiro a pasta do jogo, em Ponte.',
       UNKNOWN_KIND: 'Este tipo não está disponível.',

@@ -503,7 +503,7 @@ export const esES: Messages = {
     anyPart: 'Cualquiera',
     rare: 'rara',
     detailsTitle: 'Detalles sorteados por la semilla',
-    note: 'El modelo se lee de tus propios archivos del juego. Las piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados. Para una semilla conocida, todo esto coincide con el resultado de una herramienta independiente, pero nada se ha comparado todavía con el juego en ejecución.',
+    note: 'El modelo se lee de tus propios archivos del juego. Piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados, por lo que el metal y el sombreado se ven distintos del juego. Las piezas se comprobaron con una herramienta independiente y con una multiherramienta comprada en el juego en ejecución; los colores son parecidos, no exactos.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecciona primero la carpeta del juego, en Puente.',
       UNKNOWN_KIND: 'Este tipo no está disponible.',

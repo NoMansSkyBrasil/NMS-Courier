@@ -283,3 +283,12 @@ cd apps/desktop && NMS_COURIER_GAME_ROOT="<game folder>" npx vitest run src/main
   of that stat class (see above).
 - Class, slots, stats and the generated name of a seed.
 - Glyph location search, which the customizer site offers.
+
+## Compared with the running game (2026-10-09)
+
+One multi-tool bought in a station, seed `0x81E18111081140E1`, standard type:
+the parts are the same; from application 1.16.1 the colours are those of the
+game (the palette of a multi-tool is drawn with the first child seed of its
+seed) and the bands of its second diffuse texture are in place. Unpainted
+metal is still shaded plainly. Details and what was rejected:
+[where each seed comes from](SEED_ORIGINS.md#the-stations-multi-tool-bought-2026-10-09).

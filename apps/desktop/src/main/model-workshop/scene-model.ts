@@ -33,15 +33,23 @@ export class SceneModelError extends Error {
 export type SceneModelCache = {
   scenes: Map<string, { root: SceneNode; geometryBase: string | null } | null>
   diffuse: Map<string, string | null>
+  overlay: Map<string, string | null>
 }
 
 export function emptySceneModelCache(): SceneModelCache {
-  return { scenes: new Map(), diffuse: new Map() }
+  return { scenes: new Map(), diffuse: new Map(), overlay: new Map() }
 }
 
 // One material of a built model, in the order materials are first met while walking the model:
 // its number in the model, its game path and the diffuse texture it names.
-export type SceneSurface = { material: number; path: string; name: string; diffuse: string | null }
+// `overlay` is the second diffuse texture, which the game lays over the first.
+export type SceneSurface = {
+  material: number
+  path: string
+  name: string
+  diffuse: string | null
+  overlay: string | null
+}
 
 // What was left out while a model was built, for checks: nothing here stops the build.
 export type SceneModelReport = {
@@ -121,6 +129,8 @@ export function buildSceneModel(
   const accessorIndex = new Map<string, number>()
   // First accessors of the meshes that carry texture coordinates.
   const textured = new Set<number>()
+  // Those that also carry a second pair.
+  const overlaid = new Set<number>()
   const sceneCache = new Map<string, { root: SceneNode; geometry: string | null } | null>()
   const streamCache = new Map<string, Map<number, MeshStream> | null>()
 
@@ -153,16 +163,20 @@ export function buildSceneModel(
     materialIndex.set(key, materials.length - 1)
     if (surfaces) {
       let diffuse = cache?.diffuse.get(key)
-      if (diffuse === undefined) {
+      let overlay = cache?.overlay.get(key)
+      if (diffuse === undefined || overlay === undefined) {
         try {
           const data = files.read(key)
           diffuse = data ? readMaterialDiffuse(data) : null
+          overlay = data ? readMaterialDiffuse(data, 'gDiffuse2Map') : null
         } catch {
           diffuse = null
+          overlay = null
         }
         cache?.diffuse.set(key, diffuse)
+        cache?.overlay.set(key, overlay)
       }
-      surfaces.push({ material: materials.length - 1, path: key, name, diffuse })
+      surfaces.push({ material: materials.length - 1, path: key, name, diffuse, overlay })
     }
     return materials.length - 1
   }
@@ -215,10 +229,28 @@ export function buildSceneModel(
         elements += count
         textured.add(first)
       }
+      if (stream.coordinates && stream.secondCoordinates) {
+        accessors.push({
+          bufferView: view(
+            Buffer.from(
+              stream.secondCoordinates.buffer,
+              stream.secondCoordinates.byteOffset,
+              stream.secondCoordinates.byteLength
+            ),
+            34962
+          ),
+          componentType: 5126,
+          count,
+          type: 'VEC2'
+        })
+        elements += count
+        overlaid.add(first)
+      }
       accessorIndex.set(`${geometry}|${hash}`, first)
     }
     const attributes: Record<string, number> = { POSITION: first }
     if (textured.has(first)) attributes.TEXCOORD_0 = first + 2
+    if (overlaid.has(first)) attributes.TEXCOORD_1 = first + 3
     meshes.push({
       primitives: [{ attributes, indices: first + 1, material: materialNumber }]
     })

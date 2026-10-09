@@ -128,7 +128,7 @@ This file is the operational source of truth for implementation order. Update it
 - [x] Model workshop reads palettes, part lists, scenes and geometry from the game's archives (2026-10-08, application 1.10.0, [model workshop](docs/MODEL_WORKSHOP.md)).
 - [ ] Model workshop: add the procedural multi-tool scenes it lacks (`retromultitool`, `switchmultitool`, `swarmmultitool`, `rodmultitool`, `staffmultitoolbone`, `staffmultitoolruin`, `gravitygun`, `staffnpcmultitool`), each named as the game names it in all 14 languages.
 - [ ] Seeds: port the planet seed derivation and the Threefry routine at `132aee0` (planet counts, star type) so a system can be described from its address; bridge reading of planets for the "Current system" tab.
-- [ ] Model workshop: multi-tool colours do not match the game (seed `0x81E18111081140E1`: game white, orange, yellow grip); find the multi-tool's palette roles.
+- [ ] Model workshop: shade metal from the masks map (unpainted metal is grey where the game shows beige or black, seen on multi-tool seed `0x81E18111081140E1`); tint decals by their own masks; compare a second multi-tool and the other multi-tool types with the game.
 - [ ] Seeds: origin of multi-tool seeds; whether the 258 draws before a system's ships are fixed (second system reading).
 - [ ] Model workshop: compare an obtained starship with the workshop's model for its seed; more seeds compared with an independent source; part names are game identifiers in English (the game has no display text for parts).
 - [x] Per-entry selection in the delivery card (2026-10-08) for technologies, crafting recipes, build parts, appearance, titles, expedition rewards and Quicksilver items.

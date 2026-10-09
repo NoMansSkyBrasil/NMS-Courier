@@ -511,7 +511,7 @@ export const nlNL: Messages = {
     anyPart: 'Willekeurig',
     rare: 'zeldzaam',
     detailsTitle: 'Details die de seed heeft getrokken',
-    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd. Voor één bekende seed komt dit alles overeen met het resultaat van een onafhankelijk hulpmiddel, maar er is nog niets met het draaiende spel vergeleken.',
+    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd, dus metaal en schaduw zien er anders uit dan in het spel. De onderdelen zijn vergeleken met een onafhankelijk hulpmiddel en met een multitool die in het draaiende spel is gekocht; de kleuren komen dichtbij, maar zijn niet exact.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecteer eerst de spelmap, bij Brug.',
       UNKNOWN_KIND: 'Dit type is niet beschikbaar.',

@@ -34,6 +34,9 @@ export type SelectedTexture = {
   layer: string
   group: string
   name: string
+  // False when the layer's chance was not met: nothing of it is drawn. An alternative without a
+  // name also has an empty name, so the name alone cannot say this.
+  drawn: boolean
   family: number
   channel: number
 }
@@ -135,6 +138,7 @@ export function selectTextures(seed: bigint, lists: readonly TextureList[]): Sel
     layer: group.layer,
     group: group.group,
     name: option.name,
+    drawn: true,
     family: option.family,
     channel: option.channel
   })
@@ -153,7 +157,7 @@ export function selectTextures(seed: bigint, lists: readonly TextureList[]): Sel
     }
     rows.push(
       selected === null
-        ? { layer: group.layer, group: group.group, name: '', family: 4, channel: 0 }
+        ? { layer: group.layer, group: group.group, name: '', drawn: false, family: 4, channel: 0 }
         : rowOf(group, group.options[selected])
     )
   }
@@ -174,6 +178,7 @@ export function selectTextures(seed: bigint, lists: readonly TextureList[]): Sel
           layer: eligible.name,
           group: eligible.group,
           name: option.name,
+          drawn: true,
           family: option.family,
           channel: option.channel
         }
@@ -187,6 +192,7 @@ export function selectTextures(seed: bigint, lists: readonly TextureList[]): Sel
           layer: eligible.name,
           group: eligible.group,
           name: first.name,
+          drawn: true,
           family: first.family,
           channel: first.channel
         }
@@ -220,4 +226,13 @@ export function chosenTextureName(
   group: string
 ): string {
   return rows.find((row) => row.layer === layer && row.group === group && row.name)?.name ?? ''
+}
+
+// Whether a layer of one list is drawn at all for the seed.
+export function textureLayerDrawn(
+  rows: readonly SelectedTexture[],
+  layer: string,
+  group: string
+): boolean {
+  return rows.some((row) => row.layer === layer && row.group === group && row.drawn)
 }

@@ -210,6 +210,49 @@ export function ModelPreviewCanvas({
                   }
                   material.needsUpdate = true
                 }
+                // The second diffuse texture is drawn as a second skin over the same meshes,
+                // with their second texture coordinates.
+                if (!plan.overlay.length) continue
+                const overlayKey = JSON.stringify([plan.overlay, 'overlay'])
+                if (!pictures.has(overlayKey)) {
+                  const bitmap = await paintSurface(plan.overlay, true, fetch).catch(() => null)
+                  if (!active) {
+                    bitmap?.close()
+                    return
+                  }
+                  let texture: THREE.Texture | null = null
+                  if (bitmap) {
+                    texture = new THREE.Texture(bitmap)
+                    texture.colorSpace = THREE.SRGBColorSpace
+                    texture.wrapS = THREE.RepeatWrapping
+                    texture.wrapT = THREE.RepeatWrapping
+                    texture.flipY = false
+                    texture.channel = 1
+                    texture.needsUpdate = true
+                    painted.add(texture)
+                  }
+                  pictures.set(overlayKey, texture)
+                }
+                const overlayTexture = pictures.get(overlayKey)
+                if (!overlayTexture) continue
+                for (const mesh of meshes) {
+                  const own = Array.isArray(mesh.material) ? mesh.material : [mesh.material]
+                  if (!own.some((material) => targets.includes(material as never))) continue
+                  if (!mesh.geometry.getAttribute('uv1')) continue
+                  const skin = new THREE.Mesh(
+                    mesh.geometry,
+                    new THREE.MeshStandardMaterial({
+                      map: overlayTexture,
+                      transparent: true,
+                      depthWrite: false,
+                      polygonOffset: true,
+                      polygonOffsetFactor: -2,
+                      roughness: 0.8,
+                      metalness: 0
+                    })
+                  )
+                  mesh.add(skin)
+                }
               }
             })()
           }
