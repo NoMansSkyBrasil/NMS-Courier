@@ -118,6 +118,14 @@ flag after the offer is accepted
 ([live bridge operations](LIVE_BRIDGE_OPERATIONS.md#legacy-colours-of-a-new-multi-tool-bridge-190)).
 Not exercised live. Starships: not available.
 
+### First live offer with bridge 1.9.0 (2026-10-09)
+
+The request reached the bridge without the `legacy` line because the
+application dropped the choice (fixed in application 1.19.2), so the write
+was not exercised. A starship offer was sent in the same minute and the
+owner then could not move the game's cursor to confirm; cause open. Details
+in the [experiment log](EXPERIMENT_LOG.md).
+
 ## Not proven, and open
 
 - For the exotic, living and interceptor kinds specifically: whether the game

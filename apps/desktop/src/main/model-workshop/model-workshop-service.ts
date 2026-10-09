@@ -113,11 +113,12 @@ function usesLegacyColours(category: string, asked?: unknown): boolean {
 type Texturing = {
   surfaces: SceneSurface[]
   lists: Map<string, TextureList>
+  // The lists of first textures and what the seed chooses among them.
   ordered: TextureList[]
-  // Every material's choices one after another; the first row of a layer is what lists show.
   rows: SelectedTexture[]
-  // The choices of one material, by its number in the model.
-  rowsOf: Map<number, SelectedTexture[]>
+  // The same for the lists of second textures, which the seed draws apart.
+  overlayOrdered: TextureList[]
+  overlayRows: SelectedTexture[]
 }
 
 export class ModelWorkshopService {
@@ -203,29 +204,33 @@ export class ModelWorkshopService {
   }
 
   // What a seed chooses for the texture layers of a model whose materials were walked. The lists
-  // are merged in the order their materials are first met while walking the model, a material's
-  // diffuse texture before its second diffuse texture, and drawn once with the seed.
+  // of the materials' first textures are merged in the order they are first met and drawn once
+  // with the seed. The lists of second textures (decals) are merged and drawn apart, with the
+  // seed from its start: drawn together with the first textures (1.19.1) a pristine multi-tool
+  // got decal 4 where the game shows decal 3 with its icons.
   private texturing(seed: bigint, surfaces: SceneSurface[]): Texturing {
     const lists = new Map<string, TextureList>()
-    const ordered: TextureList[] = []
-    for (const surface of surfaces) {
-      for (const texture of [surface.diffuse, surface.overlay]) {
+    const collect = (textures: (string | null | undefined)[]): TextureList[] => {
+      const ordered: TextureList[] = []
+      for (const texture of textures) {
         if (!texture) continue
         const path = textureListPath(texture)
-        if (lists.has(path)) continue
-        const list = this.textureList(path)
+        const list = lists.get(path) ?? this.textureList(path)
         if (!list) continue
         lists.set(path, list)
-        ordered.push(list)
+        if (!ordered.includes(list)) ordered.push(list)
       }
+      return ordered
     }
-    const rows = texturesSupported(ordered) ? selectTextures(seed, ordered) : []
+    const ordered = collect(surfaces.map((surface) => surface.diffuse))
+    const overlayOrdered = collect(surfaces.map((surface) => surface.overlay))
     return {
       surfaces,
       lists,
       ordered,
-      rows,
-      rowsOf: new Map(surfaces.map((surface) => [surface.material, rows]))
+      rows: texturesSupported(ordered) ? selectTextures(seed, ordered) : [],
+      overlayOrdered,
+      overlayRows: texturesSupported(overlayOrdered) ? selectTextures(seed, overlayOrdered) : []
     }
   }
 
@@ -337,7 +342,7 @@ export class ModelWorkshopService {
         if (!surface.diffuse) continue
         const list = texturing.lists.get(textureListPath(surface.diffuse))
         const layers: WorkshopSurface['layers'] = []
-        const own = texturing.rowsOf.get(surface.material) ?? []
+        const own = texturing.rows
         for (const layer of own.length && list ? list.layers : []) {
           if (!textureLayerDrawn(own, layer.name, layer.group)) continue
           const chosen = chosenTextureName(own, layer.name, layer.group)
@@ -368,13 +373,14 @@ export class ModelWorkshopService {
           layers.push({ texture: surface.diffuse, tint: null, multiply: false, average: null })
         }
         const overlay: WorkshopSurface['overlay'] = []
-        // A second diffuse texture lies over the first, with the choices of the same material.
+        // A second diffuse texture lies over the first, with the choices of the second textures.
         if (surface.overlay) {
           const overlayList = texturing.lists.get(textureListPath(surface.overlay))
           const over: WorkshopSurface['layers'] = []
-          for (const layer of own.length && overlayList ? overlayList.layers : []) {
-            if (!textureLayerDrawn(own, layer.name, layer.group)) continue
-            const chosen = chosenTextureName(own, layer.name, layer.group)
+          const upper = texturing.overlayRows
+          for (const layer of upper.length && overlayList ? overlayList.layers : []) {
+            if (!textureLayerDrawn(upper, layer.name, layer.group)) continue
+            const chosen = chosenTextureName(upper, layer.name, layer.group)
             const option = layer.options.find((entry) => entry.name === chosen)
             if (!option || !option.texture.endsWith('.dds')) continue
             const sample = sampleOf(option.channel)
@@ -400,7 +406,9 @@ export class ModelWorkshopService {
       }
       // Then the colours the model's textures could take with other choices, so that every
       // colour of the kind can be seen and chosen.
-      for (const list of samples && families ? texturing.ordered : []) {
+      for (const list of samples && families
+        ? [...texturing.ordered, ...texturing.overlayOrdered]
+        : []) {
         for (const layer of list.layers) {
           for (const option of layer.options) {
             const sample = sampleOf(option.channel)

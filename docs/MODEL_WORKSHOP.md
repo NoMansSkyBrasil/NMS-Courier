@@ -486,3 +486,30 @@ merge may be narrower than the whole model; a variant that merges per
 material was tried and rejected because it breaks the six texture choices of
 the fighter seed checked against an independent table. Open until the seed
 is seen in the current game.
+
+### Corrected the same day: second textures are drawn apart (1.19.2)
+
+The merge of 1.19.1 was wrong. The owner sent a picture of the tool: the
+decal is the hexagonal panel with a glyph, which is pattern `3` of
+`prestinedecals` with its `ICONS` overlay, not pattern `4`.
+
+Choices of seed `0xA1FA0E890FC18255` under each reading (walk order of the
+lists: `multitoolalttrim`, `prestinetiled`, `prestinedecals`, `crystal`):
+
+| Reading | Decal list `OVERLAY` | Decal list `BASE` |
+| --- | --- | --- |
+| All lists merged (1.19.1) | `GRADIENT` (not in the list: nothing) | `4` |
+| Lists of second textures merged apart, seed from its start | `ICONS` | `3` |
+| The decal list alone | `ICONS` | `3` |
+
+From 1.19.2 the lists of first textures are merged and drawn as before, and
+the lists of second textures are merged among themselves and drawn with the
+seed from its start. This model has one such list, so "apart as a set" and
+"each list alone" give the same answer here; which of the two the game does
+is not decided. The fighter check against the independent table is
+unaffected (its lists are all first textures).
+
+Not proven: whether the picture is of the current build (it matches the
+public list's older picture); the body's `OVERLAY` (the merged first
+textures choose `GRADIENT`, which the body's list does not have, so the
+workshop draws none; the body in the picture is plain, which agrees).

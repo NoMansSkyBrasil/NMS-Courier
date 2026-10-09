@@ -19,10 +19,13 @@
 > two tools agree with the game); a planet terminal's tool has the planet's
 > seed, a station's tool origin unknown; bridge 1.9.0 (installed, not
 > exercised live) marks a new multi-tool for legacy colours by a direct
-> write after the offer is accepted; from application 1.19.1 the list of a
-> material's second texture (decals) takes part in the seed's texture
-> choices, and the pristine tool `0xA1FA0E890FC18255` is to be compared with
-> the current game (a 2019 picture shows another overlay); the ships of
+> write after the offer is accepted; from application 1.19.2 the lists of
+> second textures (decals) are drawn apart from the first textures, seed from
+> its start, which gives the pristine tool `0xA1FA0E890FC18255` the decals
+> of the owner's picture (merging them, 1.19.1, was wrong; pattern confirmed on the game's offer
+> screen); the first live offer lost the legacy choice in the application
+> (fixed in 1.19.2, direct write still not exercised) and left the game's
+> cursor stuck after two offers in one minute (open); the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

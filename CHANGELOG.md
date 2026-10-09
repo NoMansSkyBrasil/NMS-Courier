@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.19.2 (2026-10-09)
+
+- Fixed: the lists of second textures (decals) are drawn apart from the lists
+  of first textures, each set with the seed from its start. Drawn together
+  (1.19.1) the pristine multi-tool `0xA1FA0E890FC18255` got decal pattern 4
+  and no icons; apart it gets pattern 3 with its icons, which is what the
+  owner's picture of the tool shows.
+- Fixed: the "Use legacy colours" choice of a new multi-tool never reached
+  the bridge. The main process dropped the field between the interface and
+  the request, so the request had no `legacy=1` line (seen in the first live
+  offer: result `legacy=not_asked`).
+- Bridge unchanged (1.9.0).
+
 ## Application 1.19.1 (2026-10-09)
 
 - Fixed: the list of a material's second texture (its decals) now takes part

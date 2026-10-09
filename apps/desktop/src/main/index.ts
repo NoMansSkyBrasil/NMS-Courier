@@ -327,7 +327,7 @@ app.whenReady().then(() => {
     if (!isEquipmentRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()
     const { area, action, slots, supercharge, extendedTechnology, itemClass, shipIndex } = request
-    const { model, scene, modelSeed, homeSeed } = request
+    const { model, scene, modelSeed, homeSeed, legacyColours } = request
     return getResearchBridgeService().deliverEquipment(
       {
         area,
@@ -340,7 +340,8 @@ app.whenReady().then(() => {
         model,
         scene,
         modelSeed,
-        homeSeed
+        homeSeed,
+        legacyColours: legacyColours === true
       },
       root,
       await gameStatusService.observe(root)

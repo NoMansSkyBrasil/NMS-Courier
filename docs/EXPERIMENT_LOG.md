@@ -1,5 +1,56 @@
 # Runtime experiment log
 
+## 2026-10-09: live offer of the pristine multi-tool; legacy choice lost; cursor stuck
+
+Live, from the application (1.19.x development run). Build 180836
+(`13d5060d...cc3499`), bridge 1.9.0 (`bb109463...3794`, installed file
+checked), game process 25464. Slot: not identified in this session; the
+owner's test slot is 3. Nothing was accepted, so no save change is known.
+
+Requests the bridge received, both at 09:52, both answered `result=offered`:
+
+- multi-tool: `model=pistol`, `seed=0xA1FA0E890FC18255`, `class=s`, with
+  **no** `legacy` line; result `legacy=not_asked`.
+- starship: `model=exotic`, `seed=0x39E7771DBBA61717`, `class=s`.
+
+What the owner saw: the game's offer screen with the tool. Its decal is the
+hexagonal pattern 3 with icons, as the workshop draws since 1.19.2, so the
+decal choice is confirmed on the current build. Colours on the offer are the
+non-legacy ones (expected, the offer never shows the legacy mark): crystals
+yellow and magenta, decal pale green. The workshop's non-legacy samples for
+this seed are crystal `#febb24` and `#ff19fc` and decal paint `#537157`; the
+owner reports the decal colour as slightly different (which checkbox state
+was compared is not recorded).
+
+Failure 1 (application, fixed in 1.19.2): the legacy colours choice was
+dropped by the `nms:deliver-equipment` handler. The direct write of bridge
+1.9.0 is therefore still **not exercised**.
+
+Failure 2 (open): the owner could not press the confirm button; the game's
+cursor stayed in the middle of the screen, also on the starship screen that
+followed. Cause not known. Two offers were sent in the same minute, which no
+earlier test did; whether that is the cause is not proven. The bridge's
+status file shows no error (`request_errors=0`). Do not send the same seeds
+again automatically; the next test sends one offer only, after a restart of
+the game and of the application.
+
+## 2026-10-09: second texture lists are drawn apart from first texture lists
+
+Offline. Application 1.19.2. Owning note:
+[model workshop](MODEL_WORKSHOP.md#corrected-the-same-day-second-textures-are-drawn-apart-1192).
+The owner compared the workshop (1.19.1) with a picture of the pristine
+multi-tool `0xA1FA0E890FC18255`, legacy colours on: the decals differed.
+
+Observed: the picture has decal pattern 3 with icons. Merging the decal list
+with the first-texture lists gives pattern 4 without icons (rejected);
+drawing the second-texture lists apart, seed from its start, gives pattern 3
+with icons. After the change the owner saw the workshop agree with the
+picture. A game-file test holds the two decal files of this seed.
+
+Not proven: that the picture is of build 180836; whether several
+second-texture lists of one model are merged or drawn one by one (no model
+with two was checked).
+
 ## 2026-10-09: second texture lists take part in the texture choices
 
 Offline, game closed. Application 1.19.1. Owning note:

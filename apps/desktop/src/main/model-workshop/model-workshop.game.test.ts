@@ -296,4 +296,18 @@ describe.skipIf(!root)('model workshop against the installed game', () => {
     expect(second['Paint 0']).toBe('#ec5f4f')
     expect(second['Paint 3']).toBe('#fbc85f')
   })
+
+  // The owner's picture of this pristine tool shows the hexagonal decal (pattern 3) with icons.
+  // Lists of second textures are drawn apart from the first textures; merged they gave pattern 4.
+  it('draws the decals of a pristine multi-tool from their own list', () => {
+    const result = service.build('multitool', 'standard', '0xA1FA0E890FC18255')
+    if (result.state !== 'built') throw new Error(JSON.stringify(result))
+    const decals = new Set(
+      result.surfaces.flatMap((surface) => surface.overlay.map((layer) => layer.texture))
+    )
+    expect([...decals].sort()).toEqual([
+      'textures/common/weapons/multitool/prestinedecals.base.3.dds',
+      'textures/common/weapons/multitool/prestinedecals.overlay.icons.dds'
+    ])
+  })
 })
