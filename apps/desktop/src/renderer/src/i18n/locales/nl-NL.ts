@@ -472,6 +472,10 @@ export const nlNL: Messages = {
     systemView: 'Bekijken',
     systemRefresh: 'Vernieuwen',
     systemClassNumber: 'Klasse {number}',
+    systemStream:
+      'Gecontroleerd: de scheepsseeds liggen op de getallenstroom van de stelselseed; de eerste wordt na {steps} stappen getrokken.',
+    systemStreamUnknown:
+      'De scheepsseeds zijn niet gevonden op de getallenstroom van de stelselseed.',
     tabFile: 'Modelbestand',
     categoryLabel: 'Categorie',
     category: { starship: 'Sterrenschip', multitool: 'Multi-tool', freighter: 'Vrachtschip' },
@@ -482,7 +486,7 @@ export const nlNL: Messages = {
       sentinel: 'Sentinel',
       sentinelB: 'Sentinel B',
       atlasSceptre: 'Atlas-scepter',
-      atlas: 'Atlas',
+      atlas: 'Atlantid',
       staff: 'Staf'
     },
     seedLabel: 'Seed',

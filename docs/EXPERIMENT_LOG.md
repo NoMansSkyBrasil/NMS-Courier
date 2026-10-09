@@ -1,5 +1,35 @@
 # Runtime experiment log
 
+## 2026-10-09: first live reading of a star system; ship seeds reproduced from the system seed
+
+Live, read only. Build 180836 (`13d5060d...cc3499`), bridge 1.8.0
+(`b4950c6e...41f8`), game process 17044, slot 3 by the owner's statement
+(not identified by the bridge). No request was sent: the bridge wrote
+`native-star-system-180836-17044.txt` by itself and the file was read, also
+directly, to diagnose this first run. Nothing in the game was changed; nothing
+to undo. Owning note: [where each seed comes from](SEED_ORIGINS.md#first-live-reading-2026-10-09).
+
+Observed: `state=read`, system seed `0x0001DB00F769C14E`, 50 ships. The first
+21 have faction 1 and role 0: 3 haulers, 3 fighters, 7 explorers, 7 shuttles
+of which 2 became solar ships, 1 exotic, which is the composition the public
+wiki gives for the ships a system offers. Then freighters (roles 2 to 5),
+frigates (role 6, frigate classes 0 to 10), an interceptor with the hint
+`POLICE` and faction 3, five fighters of faction 2, and two entries of
+classes 10 and 11.
+
+Computed from it offline: every ship seed is the child seed that follows the
+previous one on one number stream, with a single gap of two steps between
+ships 41 and 42; and walking that stream backwards from the first ship
+reaches exactly the initial state of the system seed after 302 steps. The
+application's port reproduces the 21 seeds from the system seed and 302 (a
+test).
+
+Not proven: that 302 holds for other systems (it should depend on what the
+generator draws before the ships, for example the number of planets); that
+the first 21 are the ships that land and can be bought (they match in number
+and kind, no ship was compared by eye yet); the portal address of this system
+against what the game shows.
+
 ## 2026-10-08: bridge 1.8.0 reports the current star system and its ships (built, not run live)
 
 Build 180836. Owning note: [where each seed comes from](SEED_ORIGINS.md#reading-a-system-from-the-running-game).

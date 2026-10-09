@@ -458,6 +458,9 @@ export const jaJP: Messages = {
     systemView: '表示',
     systemRefresh: '更新',
     systemClassNumber: 'クラス {number}',
+    systemStream:
+      '確認済み: 宇宙船のシード値は星系シード値の数列上にあり、最初のものは {steps} ステップ後に引かれます。',
+    systemStreamUnknown: '宇宙船のシード値は星系シード値の数列上に見つかりませんでした。',
     tabFile: 'モデルファイル',
     categoryLabel: 'カテゴリ',
     category: { starship: '宇宙船', multitool: 'マルチツール', freighter: '貨物船' },
@@ -468,7 +471,7 @@ export const jaJP: Messages = {
       sentinel: 'センチネル',
       sentinelB: 'センチネル B',
       atlasSceptre: 'アトラスの笏',
-      atlas: 'アトラス',
+      atlas: 'アトランティド',
       staff: '杖'
     },
     seedLabel: 'シード値',

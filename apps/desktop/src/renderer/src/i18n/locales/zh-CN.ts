@@ -423,6 +423,8 @@ export const zhCN: Messages = {
     systemView: '查看',
     systemRefresh: '刷新',
     systemClassNumber: '类别 {number}',
+    systemStream: '已核对：飞船种子位于星系种子的数列上，第一个在 {steps} 步之后抽出。',
+    systemStreamUnknown: '未在星系种子的数列上找到飞船种子。',
     tabFile: '模型文件',
     categoryLabel: '类别',
     category: { starship: '星际飞船', multitool: '多功能工具', freighter: '货船' },
@@ -433,7 +435,7 @@ export const zhCN: Messages = {
       sentinel: '哨兵',
       sentinelB: '哨兵 B',
       atlasSceptre: '阿特拉斯权杖',
-      atlas: '阿特拉斯',
+      atlas: '亚特兰蒂德',
       staff: '法杖'
     },
     seedLabel: '种子',

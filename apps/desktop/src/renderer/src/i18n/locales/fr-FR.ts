@@ -477,6 +477,10 @@ export const frFR: Messages = {
     systemView: 'Voir',
     systemRefresh: 'Actualiser',
     systemClassNumber: 'Classe {number}',
+    systemStream:
+      'Vérifié : les graines des vaisseaux sont sur le flux de nombres de la graine du système ; la première sort après {steps} pas.',
+    systemStreamUnknown:
+      'Les graines des vaisseaux n’ont pas été trouvées sur le flux de nombres de la graine du système.',
     tabFile: 'Fichier de modèle',
     categoryLabel: 'Catégorie',
     category: { starship: 'Vaisseau', multitool: 'Multi-outil', freighter: 'Cargo' },
@@ -487,7 +491,7 @@ export const frFR: Messages = {
       sentinel: 'Sentinelle',
       sentinelB: 'Sentinelle B',
       atlasSceptre: 'Sceptre d’Atlas',
-      atlas: 'Atlas',
+      atlas: 'Atlantide',
       staff: 'Bâton'
     },
     seedLabel: 'Graine',

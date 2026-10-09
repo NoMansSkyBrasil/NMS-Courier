@@ -46,7 +46,7 @@ with the game.
 | Multi-tool | Royal | `weapons/multitool/royalmultitool` |
 | Multi-tool | Sentinel | `weapons/multitool/sentinelmultitool` |
 | Multi-tool | Sentinel B | `weapons/multitool/sentinelmultitoolb` |
-| Multi-tool | Atlas | `weapons/multitool/atlasmultitool` |
+| Multi-tool | Atlantid (the Atlas-styled one) | `weapons/multitool/atlasmultitool` |
 | Multi-tool | Staff | `weapons/multitool/staffmultitool` |
 | Multi-tool | Atlas sceptre | `weapons/multitool/staffmultitoolatlas` |
 | Freighter | Regular | `spacecraft/industrial/freighter_proc` |

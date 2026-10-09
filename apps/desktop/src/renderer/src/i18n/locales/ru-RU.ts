@@ -464,6 +464,9 @@ export const ruRU: Messages = {
     systemView: 'Показать',
     systemRefresh: 'Обновить',
     systemClassNumber: 'Класс {number}',
+    systemStream:
+      'Проверено: сиды кораблей лежат в числовом потоке сида системы; первый выпадает через {steps} шагов.',
+    systemStreamUnknown: 'Сиды кораблей не найдены в числовом потоке сида системы.',
     tabFile: 'Файл модели',
     categoryLabel: 'Категория',
     category: { starship: 'Звездолёт', multitool: 'Мультитул', freighter: 'Грузовой корабль' },
@@ -474,7 +477,7 @@ export const ruRU: Messages = {
       sentinel: 'Страж',
       sentinelB: 'Страж B',
       atlasSceptre: 'Скипетр Атласа',
-      atlas: 'Атлас',
+      atlas: 'Атлантид',
       staff: 'Посох'
     },
     seedLabel: 'Сид',

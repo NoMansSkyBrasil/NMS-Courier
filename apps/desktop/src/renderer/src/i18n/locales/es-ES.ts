@@ -463,6 +463,10 @@ export const esES: Messages = {
     systemView: 'Ver',
     systemRefresh: 'Actualizar',
     systemClassNumber: 'Clase {number}',
+    systemStream:
+      'Comprobado: las semillas de las naves están en el flujo de números de la semilla del sistema; la primera sale tras {steps} pasos.',
+    systemStreamUnknown:
+      'Las semillas de las naves no se encontraron en el flujo de números de la semilla del sistema.',
     tabFile: 'Archivo de modelo',
     categoryLabel: 'Categoría',
     category: { starship: 'Nave', multitool: 'Multiherramienta', freighter: 'Carguero' },
@@ -473,7 +477,7 @@ export const esES: Messages = {
       sentinel: 'Centinela',
       sentinelB: 'Centinela B',
       atlasSceptre: 'Cetro Atlas',
-      atlas: 'Atlas',
+      atlas: 'Atlántida',
       staff: 'Bastón'
     },
     seedLabel: 'Semilla',

@@ -471,6 +471,10 @@ export const itIT: Messages = {
     systemView: 'Vedi',
     systemRefresh: 'Aggiorna',
     systemClassNumber: 'Classe {number}',
+    systemStream:
+      'Verificato: i semi delle astronavi sono nel flusso di numeri del seme del sistema; il primo esce dopo {steps} passi.',
+    systemStreamUnknown:
+      'I semi delle astronavi non sono stati trovati nel flusso di numeri del seme del sistema.',
     tabFile: 'File del modello',
     categoryLabel: 'Categoria',
     category: { starship: 'Astronave', multitool: 'Multi-attrezzo', freighter: 'Mercantile' },
@@ -481,7 +485,7 @@ export const itIT: Messages = {
       sentinel: 'Sentinella',
       sentinelB: 'Sentinella B',
       atlasSceptre: 'Scettro di Atlas',
-      atlas: 'Atlas',
+      atlas: 'Atlantide',
       staff: 'Bastone'
     },
     seedLabel: 'Seme',

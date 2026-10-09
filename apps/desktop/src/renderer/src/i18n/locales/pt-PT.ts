@@ -466,6 +466,10 @@ export const ptPT: Messages = {
     systemView: 'Ver',
     systemRefresh: 'Atualizar',
     systemClassNumber: 'Classe {number}',
+    systemStream:
+      'Verificado: as seeds das naves estão no fluxo de números da seed do sistema; a primeira sai após {steps} sorteios.',
+    systemStreamUnknown:
+      'As seeds das naves não foram encontradas no fluxo de números da seed do sistema.',
     tabFile: 'Ficheiro de modelo',
     categoryLabel: 'Categoria',
     category: { starship: 'Nave', multitool: 'Multiferramenta', freighter: 'Cargueiro' },
@@ -476,7 +480,7 @@ export const ptPT: Messages = {
       sentinel: 'Sentinela',
       sentinelB: 'Sentinela B',
       atlasSceptre: 'Cetro Atlas',
-      atlas: 'Atlas',
+      atlas: 'Atlântida',
       staff: 'Bastão'
     },
     seedLabel: 'Seed',

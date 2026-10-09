@@ -479,6 +479,10 @@ export const deDE: Messages = {
     systemView: 'Ansehen',
     systemRefresh: 'Aktualisieren',
     systemClassNumber: 'Klasse {number}',
+    systemStream:
+      'Geprüft: Die Schiffs-Seeds liegen auf dem Zahlenstrom des System-Seeds; der erste wird nach {steps} Schritten gezogen.',
+    systemStreamUnknown:
+      'Die Schiffs-Seeds wurden auf dem Zahlenstrom des System-Seeds nicht gefunden.',
     tabFile: 'Modelldatei',
     categoryLabel: 'Kategorie',
     category: { starship: 'Raumschiff', multitool: 'Multi-Werkzeug', freighter: 'Frachter' },
@@ -489,7 +493,7 @@ export const deDE: Messages = {
       sentinel: 'Wächter',
       sentinelB: 'Wächter B',
       atlasSceptre: 'Atlas-Zepter',
-      atlas: 'Atlas',
+      atlas: 'Atlantid',
       staff: 'Stab'
     },
     seedLabel: 'Seed',

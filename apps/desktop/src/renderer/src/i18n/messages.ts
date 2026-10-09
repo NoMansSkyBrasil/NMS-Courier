@@ -332,6 +332,8 @@ export type Messages = {
     systemView: string
     systemRefresh: string
     systemClassNumber: string
+    systemStream: string
+    systemStreamUnknown: string
     tabFile: string
     categoryLabel: string
     category: Record<'starship' | 'multitool' | 'freighter', string>

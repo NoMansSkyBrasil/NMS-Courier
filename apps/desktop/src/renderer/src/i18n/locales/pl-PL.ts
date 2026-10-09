@@ -457,6 +457,9 @@ export const plPL: Messages = {
     systemView: 'Zobacz',
     systemRefresh: 'Odśwież',
     systemClassNumber: 'Klasa {number}',
+    systemStream:
+      'Sprawdzono: ziarna statków leżą w strumieniu liczb ziarna układu; pierwsze jest losowane po {steps} krokach.',
+    systemStreamUnknown: 'Ziaren statków nie znaleziono w strumieniu liczb ziarna układu.',
     tabFile: 'Plik modelu',
     categoryLabel: 'Kategoria',
     category: { starship: 'Statek', multitool: 'Multinarzędzie', freighter: 'Frachtowiec' },
@@ -467,7 +470,7 @@ export const plPL: Messages = {
       sentinel: 'Strażnicze',
       sentinelB: 'Strażnicze B',
       atlasSceptre: 'Berło Atlasu',
-      atlas: 'Atlas',
+      atlas: 'Atlantydzkie',
       staff: 'Laska'
     },
     seedLabel: 'Ziarno',

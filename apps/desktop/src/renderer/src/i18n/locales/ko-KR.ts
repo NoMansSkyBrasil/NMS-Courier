@@ -445,6 +445,9 @@ export const koKR: Messages = {
     systemView: '보기',
     systemRefresh: '새로 고침',
     systemClassNumber: '등급 {number}',
+    systemStream:
+      '확인됨: 우주선 시드는 항성계 시드의 수열 위에 있으며, 첫 번째는 {steps}단계 뒤에 뽑힙니다.',
+    systemStreamUnknown: '우주선 시드를 항성계 시드의 수열에서 찾지 못했습니다.',
     tabFile: '모델 파일',
     categoryLabel: '분류',
     category: { starship: '우주선', multitool: '멀티툴', freighter: '화물선' },
@@ -455,7 +458,7 @@ export const koKR: Messages = {
       sentinel: '센티넬',
       sentinelB: '센티넬 B',
       atlasSceptre: '아틀라스 홀',
-      atlas: '아틀라스',
+      atlas: '아틀란티드',
       staff: '지팡이'
     },
     seedLabel: '시드',

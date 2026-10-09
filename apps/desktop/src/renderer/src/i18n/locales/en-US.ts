@@ -453,6 +453,9 @@ export const enUS: Messages = {
     systemView: 'View',
     systemRefresh: 'Refresh',
     systemClassNumber: 'Class {number}',
+    systemStream:
+      'Checked: the ship seeds are on the number stream of the system seed; the first is drawn after {steps} steps.',
+    systemStreamUnknown: 'The ship seeds were not found on the number stream of the system seed.',
     tabFile: 'Model file',
     categoryLabel: 'Category',
     category: { starship: 'Starship', multitool: 'Multi-tool', freighter: 'Freighter' },
@@ -463,7 +466,7 @@ export const enUS: Messages = {
       sentinel: 'Sentinel',
       sentinelB: 'Sentinel B',
       atlasSceptre: 'Atlas Sceptre',
-      atlas: 'Atlas',
+      atlas: 'Atlantid',
       staff: 'Staff'
     },
     seedLabel: 'Seed',

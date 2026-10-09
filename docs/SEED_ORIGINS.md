@@ -183,6 +183,43 @@ Not run live yet. The first reading answers three things at once: whether the
 offsets hold, whether these are the ships that land and can be bought, and
 whether a ship seen in the game equals the workshop's model for its seed.
 
+### First live reading, 2026-10-09
+
+Bridge 1.8.0, build 180836, one system (seed `0x0001DB00F769C14E`, which as an
+address is system `1DB`, galaxy 1, portal `01DBF769C14E`).
+
+| Entries | Faction | Role | Classes |
+| --- | --- | --- | --- |
+| 1 to 21 | 1 | 0 | 3 haulers, 3 fighters, 7 explorers, 7 shuttles (2 became solar), 1 exotic |
+| 22 to 27 | 1 | 2, 2, 2, 3, 4, 5 | freighter (class 0) |
+| 28 to 35 | 1 | 6 | freighter class with frigate classes 0 to 7 |
+| 36 | 3 | 0 | interceptor (class 9), hint `POLICE` |
+| 37 | 3 | 2 | freighter |
+| 38 to 42 | 2 | 0 | 5 fighters |
+| 43 to 48 | 1, 2, 5 | 6 and 3 | frigates (frigate classes 8, 9, 10) and freighters |
+| 49, 50 | 5, 1 | 8, 7 | classes 11 and 10 |
+
+What it settles:
+
+- The offsets hold: the seed has the shape of an address and the list is
+  well formed.
+- **Every ship seed is the next child seed of one number stream**, with one
+  gap of two steps (between entries 42 and 43).
+- **That stream starts at the system seed**: walking it backwards from the
+  first ship reaches the initial state of the system seed after exactly 302
+  steps. So for this system the ship seeds follow from the address alone:
+  child seeds number 1 to 21 after 302 steps are the 21 ships above.
+- The first 21 entries have the composition the public wiki gives for the
+  ships a system offers (seven shuttles, three of each specialist type, four
+  more of one type, one exotic); the four extra here are explorers.
+
+`apps/desktop/src/shared/star-system-stream.ts` holds the stream (forward,
+backward, child seed and its inverse) with this reading as its test, and the
+"Current system" tab shows the step count for whatever system is loaded.
+
+Still open after it: whether 302 is the same in other systems. The tab shows
+the number for each system visited, so a few visits answer it.
+
 ### Next step, bounded
 
 Read `164a4a0` from its start to `164b700` and list every use of the

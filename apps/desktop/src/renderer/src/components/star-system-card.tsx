@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { EyeIcon, OrbitIcon, RotateCwIcon } from 'lucide-react'
 import { workshopKindOfShipClass } from '../../../shared/star-system'
 import type { StarSystemReport } from '../../../shared/star-system'
+import { stepsBeforeChildSeed } from '../../../shared/star-system-stream'
 import { glyphsFromSystemSeed } from '../../../shared/system-address'
 import { Button } from '@renderer/components/ui/button'
 import {
@@ -51,6 +52,11 @@ export function StarSystemCard(): React.JSX.Element {
   }, [refresh])
 
   const address = report.state === 'read' ? glyphsFromSystemSeed(report.seed) : null
+  // Where on the system's number stream its first ship is drawn; a check of the algorithm.
+  const steps =
+    report.state === 'read' && report.ships.length > 0
+      ? stepsBeforeChildSeed(report.seed, report.ships[0].seed)
+      : null
   const classLabel = (shipClass: number): string => {
     const kind = workshopKindOfShipClass[shipClass]
     if (kind) return copy.delivery.shipModel[kind as keyof typeof copy.delivery.shipModel]
@@ -109,6 +115,11 @@ export function StarSystemCard(): React.JSX.Element {
               <FieldLabel>
                 {text.systemShips} ({report.ships.length})
               </FieldLabel>
+              <FieldDescription>
+                {steps === null
+                  ? text.systemStreamUnknown
+                  : formatMessage(text.systemStream, { steps })}
+              </FieldDescription>
               <Table>
                 <TableHeader>
                   <TableRow>

@@ -28,6 +28,16 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.16.0 (2026-10-09)
+
+- First live reading of a star system worked (bridge 1.8.0): system seed
+  `0x0001DB00F769C14E` and fifty ships.
+- New: the "Current system" tab says whether the ship seeds lie on the number
+  stream of the system seed and after how many steps the first is drawn (302
+  for that system). The check is a test with the live reading.
+- Changed: the Atlas multi-tool type is named Atlantid, as players know it.
+- Bridge unchanged (1.8.0).
+
 ## Application 1.15.0 and bridge 1.8.0 (2026-10-08)
 
 - New: "Current system" tab in the model workshop. The bridge reads, without

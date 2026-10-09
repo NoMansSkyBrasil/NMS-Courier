@@ -423,6 +423,8 @@ export const zhTW: Messages = {
     systemView: '查看',
     systemRefresh: '重新整理',
     systemClassNumber: '類別 {number}',
+    systemStream: '已核對：飛船種子位於星系種子的數列上，第一個在 {steps} 步之後抽出。',
+    systemStreamUnknown: '未在星系種子的數列上找到飛船種子。',
     tabFile: '模型檔案',
     categoryLabel: '類別',
     category: { starship: '星艦', multitool: '多功能工具', freighter: '貨船' },
@@ -433,7 +435,7 @@ export const zhTW: Messages = {
       sentinel: '哨兵',
       sentinelB: '哨兵 B',
       atlasSceptre: '阿特拉斯權杖',
-      atlas: '阿特拉斯',
+      atlas: '亞特蘭蒂德',
       staff: '法杖'
     },
     seedLabel: '種子',
