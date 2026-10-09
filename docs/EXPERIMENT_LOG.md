@@ -11,8 +11,9 @@ The records and the pending item were read; see the
 [obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#slots-on-the-offer-itself-bridge-1160).
 
 Bridge 1.16.0 (`d801c260b062cfed9da6f2ad2925af1dc7a6931ed31865801319efe8cd5ea1c2`) built, fixture passed. Application 1.22.1. Not proven:
-that the offer now shows the slots. Installation is recorded where it
-happens below or in the next entry.
+that the offer now shows the slots. Installed afterwards with the game
+closed (process list checked), in place of 1.15.0 (kept under
+`native-builds/bridge-1.15.0`). To undo: copy that file back.
 
 ## 2026-10-09: bridge 1.14.0 live: legacy offer colours confirmed, slots not applied; all multi-tool scenes added
 
