@@ -274,7 +274,7 @@ export const frFR: Messages = {
     equipModelSeed: 'Graine du modèle',
     equipLegacyColours: 'Utiliser les anciennes couleurs',
     equipLegacyColoursHint:
-      'Marque le multi-outil pour utiliser les anciennes couleurs, comme ceux que le jeu remet. L’offre du jeu n’a pas ce réglage ; la passerelle écrit donc la marque sur l’outil juste après votre acceptation ; l’écran d’offre montre encore les autres couleurs.',
+      'Marque le multi-outil pour utiliser les anciennes couleurs, comme ceux que le jeu remet. L’offre du jeu n’a pas ce réglage ; la passerelle fait donc dessiner l’offre avec elles et écrit la marque sur l’outil juste après votre acceptation.',
     equipHomeSeed: 'Graine du système d’origine',
     currencyAmountHint:
       'N’importe quel montant de 1 à {max}, le plus grand solde que le jeu conserve.',

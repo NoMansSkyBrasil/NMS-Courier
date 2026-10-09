@@ -126,6 +126,54 @@ was not exercised. A starship offer was sent in the same minute and the
 owner then could not move the game's cursor to confirm; cause open. Details
 in the [experiment log](EXPERIMENT_LOG.md).
 
+### Why the offer has no cursor (2026-10-09, read in the executable)
+
+Second live report the same day: both the multi-tool offer and the starship
+offer appear, but the mouse turns the camera instead of moving a cursor, so
+nothing can be pressed. Read in build 180836:
+
+- The specific-weapon reward (`f33340`) builds the pending tool (`8e58e0`,
+  state at manager `+0x874030`) and pushes page `0x26` on a three-entry queue
+  of the interface object (manager `+0x859090`; queue at `+0x5bd48`, write
+  index `+0x5bd78`, read index `+0x5bd7c`). The specific-ship reward
+  (`f32fd0`) does the same when the player has no current interaction
+  (manager `+0x730818` empty); with one it starts page `0x26` on that
+  interaction (`901290`).
+- The queue is emptied by the interface update (`8fbf8c`), which calls the
+  page opener `8fe180(interface, page, 1)`. A request made with `314ad0`
+  ends in the same opener.
+- The opener sets the interface state (`+0x1c408`) to 1, and then to 2 when
+  the page is not a menu page (`6dda10`: three page lists, plus pages `0x2c`
+  and `0x5e`). Page `0x26` is not a menu page. So the offer opens as an
+  interaction page, and the cursor of such a page comes with the interaction
+  the player is in. Opened while walking around there is none.
+- When the interface is already open (state neither 0 nor 2) the opener
+  switches the open interface to the page instead (state 6).
+
+Consequence to test: an offer sent while a menu is open (inventory or the
+pause menu) or during a conversation should have the cursor, as the game's
+own uses of this reward always are. If the menu case works, the bridge can
+open a menu page itself before the reward; the page numbers are run-time
+data and were not read yet. Nothing was changed for this in bridge 1.10.0.
+
+### Legacy colours on the offer itself (bridge 1.10.0)
+
+The pending tool's model is built inside the reward call: `8e58e0` calls the
+palette builder `1149f50` at `8e5b7d` and `8e5e12`, each time with the legacy
+argument written by `mov byte ptr [rsp+0x20], r14b` (`44 88 74 24 20`, r14b
+zero) at `8e5b78` and `8e5e0d`. Bridge 1.10.0 replaces both with
+`mov byte ptr [rsp+0x20], 1` (`c6 44 24 20 01`) for the length of the call
+when the request says `legacy=1`, checks the bytes before and restores them
+after. This is a temporary change of the game's code. The write of the owned
+record after acceptance (1.9.0) stays. Not exercised live.
+
+The specific-weapon reward ends with three flags the notes did not list:
+`FormatAsSeasonal` `+0x1c0`, `IsGift` `+0x1c1`, `IsRewardWeapon` `+0x1c2`
+(read by `f33340`); none is a legacy colours setting.
+
+Starships: the pending ship is built by `8e75d0`, which has no direct call of
+the palette builder; where its legacy argument comes from is not found.
+
 ## Not proven, and open
 
 - For the exotic, living and interceptor kinds specifically: whether the game

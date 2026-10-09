@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.9.0'
+export const bridgeVersion = '1.10.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -15,7 +15,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.6.0',
   '1.7.0',
   '1.8.0',
-  '1.9.0'
+  '1.9.0',
+  '1.10.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -48,5 +49,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   b4950c6eb5ca14b38d5f49f3605c83d301908561b2f60529c1fb2a4f317041f8: '1.8.0',
   // 1.9.0 (2026-10-09): a multi-tool request may ask for the legacy colours; the flag is written
   // on the owned record once the offered tool is accepted (a direct write, not a native call).
-  bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794: '1.9.0'
+  bb10946339433539a290eee8518cf6f458e3a737346161d7bd557f05857b3794: '1.9.0',
+  // 1.10.0 (2026-10-09): with the legacy colours asked, the offered multi-tool itself is built
+  // with them (two instructions of the game are replaced for the length of the reward call).
+  d0a7e555320fe90621b355d779d151d1a5cb5b7dacb517f2b5f82e86d18d1bee: '1.10.0'
 }

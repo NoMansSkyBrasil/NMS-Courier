@@ -264,7 +264,7 @@ export const plPL: Messages = {
     equipModelSeed: 'Ziarno modelu',
     equipLegacyColours: 'Użyj starych kolorów',
     equipLegacyColoursHint:
-      'Oznacza multinarzędzie do użycia starych kolorów, tak jak te wydawane przez grę. Oferta gry nie ma takiego ustawienia, więc most zapisuje oznaczenie na narzędziu zaraz po przyjęciu oferty; ekran oferty nadal pokazuje inne kolory.',
+      'Oznacza multinarzędzie do użycia starych kolorów, tak jak te wydawane przez grę. Oferta gry nie ma takiego ustawienia, więc most sprawia, że gra rysuje ofertę w tych kolorach, i zapisuje oznaczenie na narzędziu zaraz po przyjęciu oferty.',
     equipHomeSeed: 'Ziarno układu macierzystego',
     currencyAmountHint:
       'Dowolna kwota od 1 do {max}, czyli największego salda, jakie przechowuje gra.',

@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-09: offers without cursor explained offline; bridge 1.10.0 built and installed
+
+Owner's second live report (application, bridge 1.9.0, build 180836, slot
+not identified): the multi-tool offer and the starship offer both open, but
+the mouse turns the camera and nothing can be pressed; the offer always
+shows the non-legacy colours. Sent one at a time as well, so two offers at
+once is rejected as the cause.
+
+Offline reading of the executable, game closed (process list checked):
+[obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#why-the-offer-has-no-cursor-2026-10-09-read-in-the-executable).
+The offer is page `0x26`, an interaction page; opened while walking around
+it gets interface state 2 and no cursor. Proposed test, not done: send the
+offer with a menu open or during a conversation.
+
+Bridge 1.10.0 built (`d0a7e555320fe90621b355d779d151d1a5cb5b7dacb517f2b5f82e86d18d1bee`), fixture passed, installed in the game folder in
+place of 1.9.0 (`bb109463...3794`, kept under `native-builds/bridge-1.9.0`).
+It adds the legacy colours on the offer itself by a temporary change of two
+instructions. Application 1.20.0. To undo: copy the 1.9.0 file back.
+
+Not proven: everything live for 1.10.0; the cursor explanation (static
+reading only).
+
 ## 2026-10-09: live offer of the pristine multi-tool; legacy choice lost; cursor stuck
 
 Live, from the application (1.19.x development run). Build 180836

@@ -266,7 +266,7 @@ export const ptBR: Messages = {
     equipModelSeed: 'Semente do modelo',
     equipLegacyColours: 'Usar cores legadas',
     equipLegacyColoursHint:
-      'Marca a multiferramenta para usar as cores legadas, como as que o jogo entrega. A oferta do jogo não tem essa opção, então a ponte grava a marca na arma logo depois que você aceita; a tela da oferta ainda mostra as outras cores.',
+      'Marca a multiferramenta para usar as cores legadas, como as que o jogo entrega. A oferta do jogo não tem essa opção, então a ponte faz o jogo desenhar a oferta com elas e grava a marca na arma logo depois que você aceita.',
     equipHomeSeed: 'Semente do sistema de origem',
     currencyAmountHint: 'Qualquer valor de 1 a {max}, o maior saldo que o jogo mantém.',
     itemsStack: 'Pilha de {count}',

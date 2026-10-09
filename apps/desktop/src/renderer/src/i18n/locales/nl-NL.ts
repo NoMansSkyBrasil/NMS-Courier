@@ -275,7 +275,7 @@ export const nlNL: Messages = {
     equipModelSeed: 'Modelseed',
     equipLegacyColours: 'Oude kleuren gebruiken',
     equipLegacyColoursHint:
-      'Markeert de multitool om de oude kleuren te gebruiken, zoals de tools die het spel uitdeelt. Het aanbod van het spel heeft hier geen instelling voor, dus de brug schrijft de markering op de tool direct nadat je hem accepteert; het aanbodscherm toont nog de andere kleuren.',
+      'Markeert de multitool om de oude kleuren te gebruiken, zoals de tools die het spel uitdeelt. Het aanbod van het spel heeft hier geen instelling voor, dus de brug laat het spel het aanbod ermee tekenen en schrijft de markering op de tool direct nadat je hem accepteert.',
     equipHomeSeed: 'Seed van het thuissysteem',
     currencyAmountHint: 'Elk bedrag van 1 tot {max}, het grootste saldo dat het spel bijhoudt.',
     itemsStack: 'Stapel van {count}',

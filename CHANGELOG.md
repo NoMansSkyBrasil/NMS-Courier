@@ -28,6 +28,24 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.20.0 and bridge 1.10.0 (2026-10-09)
+
+Bridge 1.10.0, SHA-256 `d0a7e555320fe90621b355d779d151d1a5cb5b7dacb517f2b5f82e86d18d1bee`.
+
+- New: with "Use legacy colours" on, the game's offer screen of a new
+  multi-tool is drawn with the legacy colours too. The game passes a constant
+  "no legacy colours" when it builds the offered model, so the bridge
+  **replaces two instructions of the game's code for the length of the reward
+  call** and puts them back (not a native call). The result file gains
+  `offer_colours=legacy|standard`. Not exercised in the running game yet.
+- Known problem, not fixed: an offer opened while walking around has no
+  cursor (the mouse turns the camera), so it cannot be confirmed. The offer
+  page is an interaction page; opened outside an interaction or a menu the
+  game does not give it the cursor. See the obtain notes.
+- Not yet: all slots, supercharged slots and extra technology rows when
+  getting a new starship or multi-tool (they exist for owned ones under
+  "Upgrade"); legacy colours for starships.
+
 ## Application 1.19.2 (2026-10-09)
 
 - Fixed: the lists of second textures (decals) are drawn apart from the lists

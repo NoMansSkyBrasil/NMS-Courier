@@ -25,7 +25,10 @@
 > of the owner's picture (merging them, 1.19.1, was wrong; pattern confirmed on the game's offer
 > screen); the first live offer lost the legacy choice in the application
 > (fixed in 1.19.2, direct write still not exercised) and left the game's
-> cursor stuck after two offers in one minute (open); the ships of
+> cursor unusable on every offer opened while walking around (explained
+> offline: page 0x26 is an interaction page; fix open, see the obtain
+> notes); bridge 1.10.0 (installed, not exercised) also draws the offer
+> with the legacy colours by a temporary code change; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

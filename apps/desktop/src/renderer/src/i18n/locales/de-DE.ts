@@ -278,7 +278,7 @@ export const deDE: Messages = {
     equipModelSeed: 'Modell-Seed',
     equipLegacyColours: 'Alte Farben verwenden',
     equipLegacyColoursHint:
-      'Markiert das Multi-Werkzeug für die alten Farben, wie die vom Spiel vergebenen. Das Angebot des Spiels hat dafür keine Einstellung, daher schreibt die Brücke die Markierung direkt nach deiner Annahme auf das Werkzeug; der Angebotsbildschirm zeigt noch die anderen Farben.',
+      'Markiert das Multi-Werkzeug für die alten Farben, wie die vom Spiel vergebenen. Das Angebot des Spiels hat dafür keine Einstellung, daher lässt die Brücke das Spiel das Angebot damit zeichnen und schreibt die Markierung direkt nach deiner Annahme auf das Werkzeug.',
     equipHomeSeed: 'Seed des Heimatsystems',
     currencyAmountHint:
       'Jeder Betrag von 1 bis {max}, dem größten Guthaben, das das Spiel speichert.',

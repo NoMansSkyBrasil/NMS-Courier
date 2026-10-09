@@ -310,3 +310,14 @@ once or only after it is drawn again is not known.
 
 The starship request does not take the line: where the running game keeps a
 ship's mark (`ShipUsesLegacyColours` in the save) is not found.
+
+### Legacy colours on the offer screen (bridge 1.10.0)
+
+With `legacy=1` the bridge also changes **the game's code for the length of
+the reward call**: at `0x8e5b78` and `0x8e5e0d` the five bytes
+`44 88 74 24 20` become `c6 44 24 20 01`, so the offered model is built with
+the legacy colours, and are restored right after. Both places must hold the
+expected bytes or neither is touched. This is not a native call and not a
+data write; it is a temporary code change on the game thread. The result file
+gains `offer_colours=legacy` or `offer_colours=standard`. Not exercised in
+the running game when written.

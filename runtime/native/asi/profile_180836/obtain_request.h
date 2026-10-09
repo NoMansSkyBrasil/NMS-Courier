@@ -14,6 +14,13 @@
 // OBTAIN_LEGACY_FRAMES frames. The record layout was read in the executable (the game copies the
 // saved UseLegacyColours to record +0x2ad and the saved Seed to +0x2b0 at 5517ae); it was not
 // exercised in the running game when this was written.
+//
+// The offer itself (bridge 1.10.0): the game builds the offered multi-tool's model inside the reward
+// call and passes a constant "no legacy colours" to its palette builder at two places (8e5b78 and
+// 8e5e0d, "mov byte ptr [rsp+0x20], r14b" with r14b zero). For a request with "legacy=1" those five
+// bytes are REPLACED by "mov byte ptr [rsp+0x20], 1" for the length of the call and put back: a
+// temporary change of the game's code, not a native call. Both places must hold the expected
+// bytes or nothing is changed. The result file says "offer_colours=legacy" or "standard".
 
 #define OBTAIN_CLASS_COUNT 4          // C, B, A, S as the game numbers them
 #define OBTAIN_CARRIER_SEED 1         // seed and class the data file gives every carrier
@@ -41,6 +48,10 @@ typedef struct {
     volatile LONG legacy_state;    // 0 none, 1 watching, 2 written, 3 gave up; 2 and 3 await the file
     volatile LONG legacy_frames, legacy_slot;
     uint64_t legacy_seed;
+    // Where the game passes "no legacy colours" when it builds the offered model; count 0 for none.
+    const uint32_t *offer_legacy_sites;
+    int offer_legacy_site_count;
+    volatile LONG offer_legacy;    // 1 when the last offer was built with the legacy colours
 } obtain_domain;
 
 enum {
@@ -65,6 +76,42 @@ static int obtain_is_carrier(const void *reward, int model) {
            *(const int32_t *)(bytes + domain->type_offset) == domain->models[model].type;
 }
 
+#define OBTAIN_OFFER_LEGACY_BYTES 5
+static const uint8_t obtain_offer_standard[OBTAIN_OFFER_LEGACY_BYTES] = {0x44, 0x88, 0x74, 0x24, 0x20};
+static const uint8_t obtain_offer_legacy[OBTAIN_OFFER_LEGACY_BYTES] = {0xc6, 0x44, 0x24, 0x20, 0x01};
+
+// Writes one of the two instructions at every site of the domain; all or none. Game thread only.
+static int obtain_offer_colours(const obtain_domain *domain, int legacy) {
+    const uint8_t *expected = legacy ? obtain_offer_standard : obtain_offer_legacy;
+    const uint8_t *wanted = legacy ? obtain_offer_legacy : obtain_offer_standard;
+    uintptr_t base = (uintptr_t)GetModuleHandleW(NULL);
+    if (domain->offer_legacy_site_count <= 0) return 0;
+    for (int index = 0; index < domain->offer_legacy_site_count; ++index)
+        if (memcmp((const void *)(base + domain->offer_legacy_sites[index]), expected, OBTAIN_OFFER_LEGACY_BYTES) != 0)
+            return 0;
+    for (int index = 0; index < domain->offer_legacy_site_count; ++index) {
+        void *site = (void *)(base + domain->offer_legacy_sites[index]);
+        DWORD old = 0;
+        if (!VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, PAGE_EXECUTE_READWRITE, &old)) {
+            // Undo what was written so far; the earlier sites are still writable in practice.
+            while (--index >= 0) {
+                void *done = (void *)(base + domain->offer_legacy_sites[index]);
+                DWORD again = 0;
+                if (VirtualProtect(done, OBTAIN_OFFER_LEGACY_BYTES, PAGE_EXECUTE_READWRITE, &again)) {
+                    memcpy(done, expected, OBTAIN_OFFER_LEGACY_BYTES);
+                    VirtualProtect(done, OBTAIN_OFFER_LEGACY_BYTES, again, &again);
+                    FlushInstructionCache(GetCurrentProcess(), done, OBTAIN_OFFER_LEGACY_BYTES);
+                }
+            }
+            return 0;
+        }
+        memcpy(site, wanted, OBTAIN_OFFER_LEGACY_BYTES);
+        VirtualProtect(site, OBTAIN_OFFER_LEGACY_BYTES, old, &old);
+        FlushInstructionCache(GetCurrentProcess(), site, OBTAIN_OFFER_LEGACY_BYTES);
+    }
+    return 1;
+}
+
 // Runs on the game's update thread.
 static void obtain_apply_request(obtain_domain *domain) {
     uintptr_t manager = give_reward && reward_manager
@@ -79,7 +126,10 @@ static void obtain_apply_request(obtain_domain *domain) {
     if (reward) {
         *(uint64_t *)(reward + domain->seed_offset) = domain->seed;
         *(int32_t *)(reward + domain->class_offset) = (int32_t)InterlockedCompareExchange(&domain->item_class, 0, 0);
+        int offer_legacy = InterlockedCompareExchange(&domain->legacy, 0, 0) == 1 && obtain_offer_colours(domain, 1);
         reward_carrier_give(domain->models[model].carrier, 0);
+        if (offer_legacy) obtain_offer_colours(domain, 0);
+        InterlockedExchange(&domain->offer_legacy, offer_legacy);
         *(uint64_t *)(reward + domain->seed_offset) = OBTAIN_CARRIER_SEED;
         *(int32_t *)(reward + domain->class_offset) = OBTAIN_CARRIER_CLASS;
     }
@@ -202,11 +252,13 @@ static void obtain_write_result(obtain_domain *domain) {
     if (file) {
         LONG model = InterlockedCompareExchange(&domain->model, 0, 0);
         LONG legacy = InterlockedCompareExchange(&domain->legacy, 0, 0);
-        fprintf(file, "model=%s\nseed=0x%llX\nresult=%s\nlegacy=%s\n",
+        fprintf(file, "model=%s\nseed=0x%llX\nresult=%s\nlegacy=%s\noffer_colours=%s\n",
                 model >= 0 && model < domain->model_count ? domain->models[model].model : "?",
                 (unsigned long long)domain->seed,
                 obtain_result_names[InterlockedCompareExchange(&domain->result, 0, 0)],
-                legacy < 0 ? "not_asked" : legacy ? "1" : "0");
+                legacy < 0 ? "not_asked" : legacy ? "1" : "0",
+                InterlockedCompareExchange(&domain->result, 0, 0) == OBTAIN_OFFERED &&
+                    InterlockedCompareExchange(&domain->offer_legacy, 0, 0) ? "legacy" : "standard");
         fclose(file);
     }
     InterlockedExchange(&domain->state, 0);

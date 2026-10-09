@@ -254,7 +254,7 @@ export const koKR: Messages = {
     equipModelSeed: '모델 시드',
     equipLegacyColours: '이전 색상 사용',
     equipLegacyColoursHint:
-      '게임이 주는 멀티툴처럼 이전 색상을 쓰도록 표시합니다. 게임의 제안에는 이 설정이 없어서, 수락한 직후 브리지가 멀티툴에 표시를 기록합니다. 제안 화면에는 여전히 다른 색상이 보입니다.',
+      '게임이 주는 멀티툴처럼 이전 색상을 쓰도록 표시합니다. 게임의 제안에는 이 설정이 없어서, 브리지가 게임이 제안을 이전 색상으로 그리게 하고 수락한 직후 멀티툴에 표시를 기록합니다.',
     equipHomeSeed: '모항 성계 시드',
     currencyAmountHint: '1부터 {max}(게임이 보관하는 최대 잔액)까지 원하는 금액.',
     itemsStack: '{count}개 묶음',

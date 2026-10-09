@@ -271,7 +271,7 @@ export const ptPT: Messages = {
     equipModelSeed: 'Semente do modelo',
     equipLegacyColours: 'Usar cores antigas',
     equipLegacyColoursHint:
-      'Marca a multiferramenta para usar as cores antigas, como as que o jogo entrega. A oferta do jogo não tem esta opção, por isso a ponte grava a marca na arma logo depois de aceitar; o ecrã da oferta ainda mostra as outras cores.',
+      'Marca a multiferramenta para usar as cores antigas, como as que o jogo entrega. A oferta do jogo não tem esta opção, por isso a ponte faz o jogo desenhar a oferta com elas e grava a marca na arma logo depois de aceitar.',
     equipHomeSeed: 'Semente do sistema de origem',
     currencyAmountHint: 'Qualquer valor de 1 a {max}, o maior saldo que o jogo mantém.',
     itemsStack: 'Pilha de {count}',
