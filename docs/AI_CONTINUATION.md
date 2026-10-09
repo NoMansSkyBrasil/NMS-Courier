@@ -31,9 +31,11 @@
 > instruction the reward really uses for the legacy colours (`8e5c7e`,
 > argument of the scene loader `639be0`, confirmed live); the slots of an
 > accepted multi-tool (bridge 1.14.0) were NOT applied live: the watch did
-> not find the seed in the owned records, to be read from the running
-> game; bridge 1.15.0 (installed, not exercised) offers every multi-tool
-> scene; the ships of
+> not find the seed in the owned records (that tool had not been accepted;
+> the watch works); since bridges 1.16.0 to 1.18.0 the offer itself carries
+> the slots, up to 10 x 12 supercharged, confirmed live; every multi-tool
+> scene is offered (bridge 1.15.0), of the new ones only `sentinel` was seen;
+> the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

@@ -1,5 +1,34 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.18.0 live: a new multi-tool offered with 120 supercharged slots
+
+Live, from the application 1.23.1. Build 180836 (`13d5060d...cc3499`),
+bridge 1.18.0 (`d7effc8e...a41e`), data file `0cc85351...7752`, game process
+3536, slot not identified (the owner's test slot is 3). Request:
+`model=sentinel`, `seed=0xF07897E2916E473B`, `class=s`, `slots=1`,
+`super=1`, `rows=1`. Result: `result=offered`, `offer_grid=10,12,120`,
+`offer_size_type=25`, `offer_setups=1`. Status file: `main_grid=10,12,120`,
+`super_added=116`, `table_patches=2`, `table_rejected=0`,
+`layout_overrides=1`. The owner: "it worked, it got the 120".
+
+What this shows: the layout call of the offered tool has size type `0x19`;
+both height bounds of that entry were raised for the call and the game laid
+out 10 x 12 itself (the direct write fallback was not needed). It is also
+the first of the eleven new models seen offered: `sentinel`, carrier class
+`Robot`.
+
+Also found in the diagnostics folder, from process 22160 at 11:44 (the
+bridge version of that run was not read): a `native-weapon-legacy` file for
+`model=atlasstaff`, `seed=0xB338B070C37FE76A` with `result=written`,
+`slot=2`, `upgrade=0`. So the watch does find an accepted tool in the owned
+records; the earlier "never found" was a tool that had not been accepted.
+`upgrade=0` means the change after acceptance refused the record, which no
+longer matters since the offer itself carries the slots.
+
+Not proven: what the accepted tool keeps after a save and reload; the legacy
+mark on an accepted tool (no run with `legacy=1` was accepted and reported
+yet).
+
 ## 2026-10-09: bridge 1.17.0 live: twelve rows not applied; bridge 1.18.0 built
 
 Live, from the application 1.23.0. Build 180836 (`13d5060d...cc3499`),

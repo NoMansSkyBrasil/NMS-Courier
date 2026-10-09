@@ -295,8 +295,11 @@ for the rows, each of the two height bounds that holds 6 beside a width of
 10 becomes 12, and both are put back right after the call (a temporary
 change of the game's table, as for freighters). If the grid still has fewer
 than twelve rows after the setup, the full grid is written directly, now
-guarded only by a sane header. `offer_grid=` reports the result. Not
-exercised live.
+guarded only by a sane header. `offer_grid=` reports the result.
+
+Confirmed live the same day: `offer_grid=10,12,120`, `offer_size_type=25`
+(`0x19`), two table bounds raised for the call, 116 slots marked
+supercharged on top of the ones the tool had. The fallback was not needed.
 
 ### Multi-tool kinds: a save editor's list against the game's data
 
