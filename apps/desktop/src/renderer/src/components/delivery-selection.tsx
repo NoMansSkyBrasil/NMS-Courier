@@ -9,8 +9,9 @@ import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 export type DeliveryOption = Awaited<ReturnType<typeof window.nms.getDeliveryOptions>>[number]
 
-// Rows drawn at once; the search narrows a longer list.
-const shownLimit = 600
+// Rows drawn at first and added each time the list is scrolled near its end, so a list of any
+// length opens at once and still reaches its last entry.
+const pageSize = 120
 
 // The entries of one area with a search box and a checkbox each. The chosen identifiers live in
 // the delivery card, which sends them.
@@ -26,6 +27,7 @@ export function DeliverySelection({
   const { copy, locale } = useLocale()
   const text = copy.delivery
   const [query, setQuery] = useState('')
+  const [drawn, setDrawn] = useState(pageSize)
 
   const matching = useMemo(() => {
     const wanted = query.trim().toLocaleLowerCase()
@@ -34,7 +36,7 @@ export function DeliverySelection({
       `${option.id} ${option.name} ${option.group}`.toLocaleLowerCase().includes(wanted)
     )
   }, [options, query])
-  const shown = matching.slice(0, shownLimit)
+  const shown = matching.slice(0, drawn)
   // Areas the catalogue cannot name (titles, rewards) have no icons either.
   const hasIcons = options.some((option) => option.icon)
 
@@ -55,7 +57,10 @@ export function DeliverySelection({
         aria-label={text.selectSearch}
         placeholder={text.selectSearch}
         value={query}
-        onChange={(event) => setQuery(event.target.value)}
+        onChange={(event) => {
+          setQuery(event.target.value)
+          setDrawn(pageSize)
+        }}
       />
       <div className="flex flex-wrap items-center gap-2">
         <Button
@@ -77,7 +82,18 @@ export function DeliverySelection({
           {formatMessage(text.selectCount, { count: chosen.size.toLocaleString(locale) })}
         </Badge>
       </div>
-      <div className="max-h-96 overflow-auto rounded-lg border">
+      <div
+        className="h-96 overflow-auto rounded-lg border"
+        onScroll={(event) => {
+          const list = event.currentTarget
+          if (
+            drawn < matching.length &&
+            list.scrollTop + list.clientHeight > list.scrollHeight - 400
+          ) {
+            setDrawn(drawn + pageSize)
+          }
+        }}
+      >
         <Table>
           <TableBody>
             {shown.map((option) => (
@@ -107,14 +123,12 @@ export function DeliverySelection({
       <p className="text-xs text-muted-foreground">
         {matching.length === 0
           ? text.selectNone
-          : matching.length > shown.length
-            ? formatMessage(text.selectShowing, {
-                shown: shown.length.toLocaleString(locale),
-                total: matching.length.toLocaleString(locale)
-              })
-            : options.every((option) => !option.name)
-              ? text.selectNoCatalog
-              : ''}
+          : options.every((option) => !option.name)
+            ? text.selectNoCatalog
+            : formatMessage(text.selectShowing, {
+                shown: matching.length.toLocaleString(locale),
+                total: options.length.toLocaleString(locale)
+              })}
       </p>
     </div>
   )

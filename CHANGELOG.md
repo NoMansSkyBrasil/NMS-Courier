@@ -28,6 +28,14 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.25.1 (2026-10-09)
+
+- Changed (owner request): the selection lists have no limit any more. The
+  list is a card of fixed height that scrolls, and more rows are drawn as it
+  is scrolled, down to the last entry of the area. The line under it says
+  how many entries match the search out of the area's total.
+- Bridge unchanged (1.20.0).
+
 ## Application 1.25.0 and bridge 1.20.0 (2026-10-09)
 
 Bridge 1.20.0, SHA-256 `1730dc597a5737657a828407740c7eacb6914274271afc59c75e0d1c8f6fb15b`.
