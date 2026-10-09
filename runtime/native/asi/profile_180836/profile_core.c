@@ -397,8 +397,12 @@ void courier_probe_after_verified(void) {
             if (reward_read_request()) InterlockedExchange(&reward_state, 1);
             else InterlockedIncrement(&request_errors);
         }
-        // The fish request has no parameters: it fills the record for every fish of the game's table.
-        else if (index == CLASS_COUNT + 11) InterlockedCompareExchange(&fish_state, 1, 0);
+        // The fish request names fish, or every fish of the game's table (fish_record.h).
+        else if (index == CLASS_COUNT + 11) {
+            if (InterlockedCompareExchange(&fish_state, 0, 0) == 0 && fish_read_request())
+                InterlockedExchange(&fish_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
         else if (index == CLASS_COUNT + 12) {
             if (product_read_request()) InterlockedExchange(&product_state, 1);
             else InterlockedIncrement(&request_errors);

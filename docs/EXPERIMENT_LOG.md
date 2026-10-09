@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-09: selection on every delivery page; bridge 1.20.0 built and installed
+
+No live action. Build 180836, game closed (process list checked). Bridge
+1.20.0 (`1730dc597a5737657a828407740c7eacb6914274271afc59c75e0d1c8f6fb15b`) built, fixture passed, installed in place of 1.19.0 (kept
+under `native-builds/bridge-1.19.0`). Application 1.25.0.
+
+What changed: the fishing request can name fish
+([live bridge operations](LIVE_BRIDGE_OPERATIONS.md#chosen-fish-bridge-1200));
+two new generated tables, `runtime/research/recipe-delivery.md` (1,684
+recipes: 1,323 cooking, 361 refiner) and `runtime/research/fish-delivery.md`
+(226 fish, 220 deliverable), made by
+`runtime/research/list-recipes-and-fish.py` from the corpus; the application
+lists recipes, fish, Twitch and platform rewards for selection; the
+catalogue import also reads `nms_basepartproducts` and
+`nms_modularcustomisationproducts`.
+
+Not proven: every one of these live (a recipe request with identifiers was
+sent on 2026-10-07 by script, never from the application; a fishing request
+with identifiers never). To undo: copy the 1.19.0 file back.
+
 ## 2026-10-09: bridge 1.19.0 live: a new starship offered with 120 + 120 supercharged slots
 
 Live, from the application 1.24.0. Build 180836 (`13d5060d...cc3499`),

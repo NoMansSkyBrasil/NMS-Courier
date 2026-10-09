@@ -28,6 +28,24 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.25.0 and bridge 1.20.0 (2026-10-09)
+
+Bridge 1.20.0, SHA-256 `1730dc597a5737657a828407740c7eacb6914274271afc59c75e0d1c8f6fb15b`.
+
+- New: every delivery page that only had "Deliver all" now also lets one or
+  several entries be chosen: refining and cooking (1,684 recipes, each named
+  by what it makes), fishing (220 fish), Twitch drops and platform rewards
+  (each named by the product it gives). A chosen Twitch or platform reward
+  is added to the list the bridge puts back in every session; the list is
+  never replaced by the selection. Not exercised in the running game yet.
+- New in the bridge: the fishing request reads a request file with `all=1`
+  or one `id=<fish>` per line; without a file it records every fish as
+  before. The result gains `not_named=`.
+- Fixed: build parts and modular customisation parts were listed by their
+  identifiers. They are products in two tables of their own, which the
+  catalogue now reads as well (build 180836: 1,820 and 427 entries). **The
+  catalogue has to be imported again** for the names and icons to appear.
+
 ## Application 1.24.1 (2026-10-09)
 
 - Fixed: expedition rewards and quicksilver items were listed by their

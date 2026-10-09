@@ -129,6 +129,18 @@ export class ResearchBridgeService {
     return listDeliveryOptions(this.context.researchDirectory, feature)
   }
 
+  // The list the bridge puts back in every session, as it was last written ("<kind>=<ID>" lines).
+  private async keepEntries(): Promise<string[]> {
+    const text = await readFile(
+      join(this.context.diagnosticsDirectory, 'native-account-keep-180836.txt'),
+      'utf8'
+    ).catch(() => '')
+    return text
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => /^(twitch|platform)=[A-Z0-9_]{1,15}$/.test(line))
+  }
+
   // Stack sizes of the exosuit cargo, as the running bridge last reported them; null before the
   // game has a save loaded or with an older bridge.
   async getStackLimits(processId: number | null): Promise<StackLimits | null> {
@@ -172,7 +184,9 @@ export class ResearchBridgeService {
     notify = true
   ): Promise<DeliveryResult> {
     const plan = chosen
-      ? getSelectionPlan(feature, chosen, await this.getOptions(feature), notify)
+      ? getSelectionPlan(feature, chosen, await this.getOptions(feature), notify, {
+          keepEntries: await this.keepEntries()
+        })
       : await getDeliveryPlan(feature, this.context.researchDirectory, notify)
     return this.run(feature, plan, installationRoot, game)
   }

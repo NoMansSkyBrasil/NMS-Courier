@@ -137,11 +137,40 @@ export const steps = {
     signals: ['recipes'],
     result: { name: 'recipe-result', seconds: 12 }
   }),
+  // Chosen refiner and cooking recipes, by the game's recipe identifiers.
+  recipes: (ids: readonly string[]): BridgeStep | null =>
+    ids.length < 1 || ids.length > 4096
+      ? null
+      : {
+          label: 'recipe',
+          request: request(
+            'recipe',
+            ids.map((id) => `id=${id}`)
+          ),
+          signals: ['recipes'],
+          result: { name: 'recipe-result', seconds: 12 }
+        },
+  // The request file is always written (bridge 1.20.0 reads it), so a selection left over from an
+  // earlier request can never narrow "all".
   fishingRecord: (): BridgeStep => ({
     label: 'fish',
+    request: request('fish', ['all=1']),
     signals: ['fish'],
     result: { name: 'fish-result', seconds: 12 }
-  })
+  }),
+  // Chosen fish, by product identifier (bridge 1.20.0).
+  fish: (ids: readonly string[]): BridgeStep | null =>
+    ids.length < 1 || ids.length > 512
+      ? null
+      : {
+          label: 'fish',
+          request: request(
+            'fish',
+            ids.map((id) => `id=${id}`)
+          ),
+          signals: ['fish'],
+          result: { name: 'fish-result', seconds: 12 }
+        }
 }
 
 async function idsOfClass(

@@ -422,12 +422,16 @@ app.whenReady().then(() => {
     const options = await getResearchBridgeService().getOptions(feature)
     const names = getCatalogRepository().names(locale)
     const icons = getCatalogRepository().icons()
-    return options.map((option) => ({
-      id: option.id,
-      group: option.group,
-      name: (option.domain && names.get(`${option.domain}:${option.id}`)) || '',
-      icon: (option.domain && icons.get(`${option.domain}:${option.id}`)) || null
-    }))
+    return options.map((option) => {
+      // Some entries are named by another one: a recipe by what it makes, a reward by its product.
+      const key = option.domain ? `${option.domain}:${option.catalogId ?? option.id}` : ''
+      return {
+        id: option.id,
+        group: option.group,
+        name: (key && names.get(key)) || '',
+        icon: (key && icons.get(key)) || null
+      }
+    })
   })
   ipcMain.handle('nms:get-delivery-activity', () => getResearchBridgeService().getActivity())
   ipcMain.handle('nms:detect-installation', () => getInstallationService().detect())

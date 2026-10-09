@@ -31,8 +31,22 @@ describe('delivery options', () => {
     expect(products).not.toContain('MYSTERY_BEACON')
     const specials = (await listDeliveryOptions(research, 'quicksilver')).map((option) => option.id)
     expect(specials.some((id) => id.startsWith('SPEC_FIREWORK'))).toBe(false)
-    expect(await listDeliveryOptions(research, 'fishing')).toEqual([])
-    expect(supportsSelection('twitch')).toBe(false)
+    // A fish that only a mission gives is never an option.
+    const fish = (await listDeliveryOptions(research, 'fishing')).map((option) => option.id)
+    expect(fish).toContain('F_JELLYCHILD')
+    expect(fish).not.toContain('F_BOSS_JELLY')
+    // A recipe is named by what it makes; a Twitch reward by its product.
+    const recipes = await listDeliveryOptions(research, 'refinerRecipes')
+    expect(recipes.length).toBe(1684)
+    expect(recipes[0]).toEqual({
+      id: 'RECIPE_1',
+      group: 'cooking',
+      domain: 'product',
+      catalogId: 'FOOD_P_POOP'
+    })
+    const twitch = await listDeliveryOptions(research, 'twitch')
+    expect(twitch.find((option) => option.id === 'TWITCH_406')?.catalogId).toBe('S_POSTER29')
+    expect(supportsSelection('twitch')).toBe(true)
   })
 
   it('builds a request for chosen entries and refuses anything else', async () => {
@@ -46,6 +60,21 @@ describe('delivery options', () => {
     expect(getSelectionPlan('titles', [first, 'NOT_LISTED'], options, true)).toBeNull()
     expect(getSelectionPlan('titles', ['A\r\nid=B'], options, true)).toBeNull()
     expect(getSelectionPlan('fishing', ['ANY'], [], true)).toBeNull()
+    const fish = await listDeliveryOptions(research, 'fishing')
+    expect(getSelectionPlan('fishing', [fish[0].id], fish, true)?.steps[0].request?.lines).toEqual([
+      `id=${fish[0].id}`
+    ])
+    // A Twitch selection is added to the kept list, never put in its place.
+    const twitch = await listDeliveryOptions(research, 'twitch')
+    const kept = getSelectionPlan('twitch', ['TWITCH_406'], twitch, true, {
+      keepEntries: ['twitch=TWITCH_407', 'platform=ANY_ID']
+    })
+    expect(kept?.steps.map((step) => step.label)).toEqual(['redeem', 'account', 'keep'])
+    expect(kept?.steps[2].request?.lines).toEqual([
+      'twitch=TWITCH_407',
+      'platform=ANY_ID',
+      'twitch=TWITCH_406'
+    ])
   })
 })
 

@@ -368,3 +368,19 @@ the game's bounds stopped short, and the supercharged mark on every
 technology slot. The result file gains `offer_cargo=`, `offer_technology=`
 and `ship_setups=`. It changes the loaded slot only, and only if the offer
 is accepted. Not exercised in the running game when written.
+
+### Chosen fish (bridge 1.20.0)
+
+The fishing request may come with `native-fish-request-180836-<PID>.txt`:
+the single line `all=1`, or one `id=<product ID>` per line (at most 512).
+Without the file every fish of the game's table is recorded, as before; a
+malformed file records nothing and counts a request error. Each recorded
+fish is one call of the game's own catch routine (a native call) with a
+random size. The result file gains `not_named=`, the fish left alone because
+the request did not name them. The application always writes the file, with
+`all=1` for the whole area, so an older selection cannot narrow it.
+
+A chosen Twitch or platform reward uses the existing requests: redeem in the
+slot, unlock on the account (a direct write for these two kinds) and the
+keep list, to which the application adds the chosen entries after reading
+the list as it was last written (`native-account-keep-180836.txt`).

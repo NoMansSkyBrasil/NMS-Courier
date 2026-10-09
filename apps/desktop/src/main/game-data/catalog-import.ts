@@ -14,6 +14,12 @@ import type { PakArchive } from './pak-archive'
 // The archives that hold the tables and the language files; the first that has a file wins.
 const sourceArchives = ['NMSARC.Precache.pak', 'NMSARC.MetadataEtc.pak']
 
+// Product tables beside the main one (build 180836: 1,820 base parts and 427 customisation parts).
+const extraProductTables = [
+  'metadata/reality/tables/nms_basepartproducts.mbin',
+  'metadata/reality/tables/nms_modularcustomisationproducts.mbin'
+]
+
 export type CatalogImportResult =
   | { state: 'imported'; generationId: string; entryCount: number; untranslated: number }
   | {
@@ -79,6 +85,20 @@ export class CatalogImporter {
         const data = readFromArchives(archives, coreTablePath(domain))
         if (!data) return { state: 'failed', reason: 'archives_missing', detail: domain }
         const entries = readCoreTable(domain, data)
+        // Build parts and modular customisation parts are products in tables of their own, with the
+        // product table's structure. A missing or changed one is left out, not an error.
+        for (const path of domain === 'product' ? extraProductTables : []) {
+          const extra = readFromArchives(archives, path)
+          if (!extra) continue
+          try {
+            const known = new Set(entries.map((entry) => entry.gameId))
+            entries.push(
+              ...readCoreTable(domain, extra).filter((entry) => !known.has(entry.gameId))
+            )
+          } catch (error) {
+            if (!(error instanceof GameTableError)) throw error
+          }
+        }
         tables.set(domain, entries)
         for (const entry of entries) {
           for (const key of [entry.nameKey, entry.subtitleKey, entry.descriptionKey]) {

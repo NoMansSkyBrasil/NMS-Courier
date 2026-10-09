@@ -26,7 +26,6 @@ typedef uint8_t (*fish_record_fn)(void *fishing, const void *entry, float size);
 static fish_record_fn fish_record;
 static volatile LONG fish_state;           // 0 idle, 1 requested, 2 applied and waiting for the result file
 static volatile LONG fish_result[6] = {-1, -1, -1, -1, -1, -1};  // table, recorded, already, mission, refused, records after
-
 __attribute__((unused)) static int fish_resolve(uintptr_t base) {
     static const unsigned char record_entry[32] = {
         0x48, 0x89, 0x5c, 0x24, 0x08, 0x48, 0x89, 0x74, 0x24, 0x10, 0x57, 0x48,
@@ -57,6 +56,52 @@ static int fish_valid_id(const char *id) {
     return 1;
 }
 
+// Chosen fish (bridge 1.20.0): the per-process request file native-fish-request holds either the
+// single line "all=1" or one "id=<product ID>" per line. Without a file every fish is recorded, as
+// before. A count below zero means every fish.
+#define FISH_REQUEST_CAPACITY 512
+static char fish_requested[FISH_REQUEST_CAPACITY][16];
+static volatile LONG fish_requested_count = -1;
+static volatile LONG fish_not_named;       // fish left alone because the request did not name them
+
+static int fish_named(const char *product) {
+    LONG count = InterlockedCompareExchange(&fish_requested_count, 0, 0);
+    if (count < 0) return 1;
+    for (LONG index = 0; index < count; ++index)
+        if (memcmp(fish_requested[index], product, 16) == 0) return 1;
+    return 0;
+}
+
+// Reads the request; 0 when the file exists and is malformed, so that nothing is recorded.
+static int fish_read_request(void) {
+    wchar_t root[MAX_PATH], path[MAX_PATH];
+    DWORD length = GetEnvironmentVariableW(L"LOCALAPPDATA", root, MAX_PATH);
+    InterlockedExchange(&fish_requested_count, -1);
+    if (!length || length >= MAX_PATH ||
+        swprintf(path, MAX_PATH, L"%ls\\NMSCourier\\diagnostics\\native-fish-request-180836-%lu.txt",
+                 root, (unsigned long)GetCurrentProcessId()) <= 0) return 1;
+    FILE *file = _wfopen(path, L"r");
+    if (!file) return 1;
+    char line[64];
+    LONG count = 0;
+    int all = 0, ok = 1;
+    while (ok && fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\r\n")] = 0;
+        if (!line[0]) continue;
+        if (strcmp(line, "all=1") == 0) { all = 1; continue; }
+        size_t size = strlen(line);
+        if (strncmp(line, "id=", 3) != 0 || size < 4 || size > 3 + 15 || count >= FISH_REQUEST_CAPACITY) { ok = 0; break; }
+        memset(fish_requested[count], 0, 16);
+        memcpy(fish_requested[count], line + 3, size - 3);
+        if (!fish_valid_id(fish_requested[count])) { ok = 0; break; }
+        ++count;
+    }
+    fclose(file);
+    if (!ok || (all && count) || (!all && !count)) return 0;
+    InterlockedExchange(&fish_requested_count, all ? -1 : count);
+    return 1;
+}
+
 // 1 when the fishing record already has this product, 0 when not, -1 when the record is unreadable.
 static int fish_recorded(const uint8_t *fishing, const char *product) {
     uint32_t count = *(const uint32_t *)(fishing + FISH_RECORD_VECTOR_OFFSET + 4);
@@ -70,7 +115,7 @@ static int fish_recorded(const uint8_t *fishing, const char *product) {
 
 // Runs on the game's update thread: record one catch for every fish that has none.
 static void fish_apply_request(void) {
-    LONG table_count = -1, recorded = 0, already = 0, mission = 0, refused = 0, after = -1;
+    LONG table_count = -1, recorded = 0, already = 0, mission = 0, refused = 0, after = -1, not_named = 0;
     // The routine stays unresolved in the fixture build, where no game manager exists.
     uintptr_t manager = fish_record
         ? *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA) : 0;
@@ -94,6 +139,7 @@ static void fish_apply_request(void) {
             if (!fish_valid_id(product) || quality < 0 || quality > 4) { ++refused; continue; }
             // Fish that exist only while a mission runs are not part of the catalogue a player fills.
             if (entry[FISH_ENTRY_MISSION_OFFSET]) { ++mission; continue; }
+            if (!fish_named(product)) { ++not_named; continue; }
             int known = fish_recorded(fishing, product);
             if (known < 0) { ++refused; continue; }
             if (known) { ++already; continue; }
@@ -110,6 +156,7 @@ static void fish_apply_request(void) {
     InterlockedExchange(&fish_result[3], mission);
     InterlockedExchange(&fish_result[4], refused);
     InterlockedExchange(&fish_result[5], after);
+    InterlockedExchange(&fish_not_named, not_named);
     InterlockedExchange(&fish_state, 2);
 }
 
@@ -124,13 +171,14 @@ static void fish_write_result(void) {
         FILE *file = _wfopen(path, L"w");
         if (file) {
             fprintf(file, "table_fish=%ld\nrecorded=%ld\nalready_recorded=%ld\nmission_only_skipped=%ld\n"
-                          "refused_table_entries=%ld\nrecords_after=%ld\n",
+                          "refused_table_entries=%ld\nrecords_after=%ld\nnot_named=%ld\n",
                     (long)InterlockedCompareExchange(&fish_result[0], 0, 0),
                     (long)InterlockedCompareExchange(&fish_result[1], 0, 0),
                     (long)InterlockedCompareExchange(&fish_result[2], 0, 0),
                     (long)InterlockedCompareExchange(&fish_result[3], 0, 0),
                     (long)InterlockedCompareExchange(&fish_result[4], 0, 0),
-                    (long)InterlockedCompareExchange(&fish_result[5], 0, 0));
+                    (long)InterlockedCompareExchange(&fish_result[5], 0, 0),
+                    (long)InterlockedCompareExchange(&fish_not_named, 0, 0));
             fclose(file);
         }
     }
