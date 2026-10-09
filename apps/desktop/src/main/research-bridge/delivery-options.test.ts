@@ -139,7 +139,8 @@ describe('item, currency and equipment requests', () => {
       'seed=0x12',
       'class=s',
       'slots=1',
-      'super=1'
+      'super=1',
+      'rows=1'
     ])
     expect(tool?.steps[0].signals).toEqual(['weapon'])
     expect(
