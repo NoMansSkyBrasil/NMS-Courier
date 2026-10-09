@@ -135,7 +135,7 @@ This file is the operational source of truth for implementation order. Update it
 - [ ] Model workshop: confirm the pristine multi-tool `0xA1FA0E890FC18255` in the current game (get it from the application); the workshop agrees with the owner's picture since 1.19.2. Find a model with two second-texture lists to decide whether they are merged or drawn one by one.
 - [ ] Live test: legacy colours on the offer and after accepting (bridge 1.13.0); the cursor without a click before the offer; the starship offer.
 - [ ] Other requests that open a game window (slot window, freighter offer) should wait for the game's window like the offers do.
-- [ ] Live test: the slot options of a new starship (bridge 1.19.0): `offer_cargo`, `offer_technology`, and what the accepted ship keeps.
+- [ ] Check the slot options of a new starship on the other seven kinds and what an accepted ship keeps after a reload (a fighter was confirmed on the offer with bridge 1.19.0).
 - [ ] Check what an accepted 120-slot multi-tool keeps after a save and reload (the offer was confirmed with bridge 1.18.0). Still open: the legacy mark on the accepted tool (no accepted tool was seen in the owned records yet).
 - [ ] Obtain: the NPC staff model does not work (owner, 2026-10-09); find out what the game does with it.
 - [ ] Live test: the eleven multi-tool models added in bridge 1.15.0, one by one (royal, sentinel and Atlantid use classes no shipped reward uses).

@@ -323,9 +323,12 @@ seed as its seed argument; a corvette build keeps its own arming. Then:
 - with `super=1` every usable technology slot is marked supercharged.
 
 The result file reports `offer_cargo=`, `offer_technology=` and
-`ship_setups=`. Not exercised live. Open: whether the ship reward hands the
-seed on unchanged; what the game's bounds give for each ship size type; what
-the accepted ship keeps.
+`ship_setups=`.
+
+Confirmed live the same day with a fighter: `offer_cargo=10,12,120`,
+`offer_technology=10,12,120`, one setup, one table bound raised, 116 slots
+marked supercharged. Open: the other ship kinds; whether the cargo grid came
+from the game's bounds or from the fallback; what the accepted ship keeps.
 
 ### Multi-tool kinds: a save editor's list against the game's data
 

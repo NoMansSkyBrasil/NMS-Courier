@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-09: bridge 1.19.0 live: a new starship offered with 120 + 120 supercharged slots
+
+Live, from the application 1.24.0. Build 180836 (`13d5060d...cc3499`),
+bridge 1.19.0 (`238495a5...d4d2`), data file `0cc85351...7752`, game process
+816, slot not identified (the owner's test slot is 3). Request:
+`model=fighter`, `seed=0x94C79BF985A5513D`, `class=s`, `slots=1`,
+`super=1`, `rows=1`. Result: `result=offered`, `offer_cargo=10,12,120`,
+`offer_technology=10,12,120`, `ship_setups=1`. Status file: `setup_calls=1`,
+`last_kind=0`, `layout_overrides=2`, `table_patches=1`, `table_rejected=0`,
+`super_added=116`. The owner: "the ships worked".
+
+What this shows: the ship reward reaches the hooked setup routine once, with
+kind 0, inside the reward call; both layout calls took the largest counts and
+the technology height bound was raised for one call. Whether the cargo grid
+came from the game's bounds or from the direct write fallback is not told
+apart by these numbers.
+
+Not proven: other ship kinds than the fighter; what the accepted ship keeps
+after a save and reload; whether it was accepted.
+
 ## 2026-10-09: bridge 1.19.0 built and installed; slot options for a new starship
 
 No live action. Build 180836, game closed (process list checked). Bridge
