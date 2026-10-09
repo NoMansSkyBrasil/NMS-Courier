@@ -16,8 +16,9 @@ multi-tool size types; see the
 [obtain notes](SHIP_AND_MULTITOOL_OBTAIN_NOTES.md#twelve-rows-by-the-table-bound-bridge-1180).
 
 Bridge 1.18.0 (`d7effc8e037eb2b73bf584f936719344a16f85807e6d39c253d3bb750fa1a41e`) built, fixture passed. Application 1.23.1. Not proven:
-that the table bound gives twelve rows. Installation is recorded in the
-line below when it happens.
+that the table bound gives twelve rows. Installed afterwards with the game
+closed (process list checked), in place of 1.17.0 (kept under
+`native-builds/bridge-1.17.0`). To undo: copy that file back.
 
 ## 2026-10-09: bridge 1.16.0 live: offer with 60 supercharged slots; bridge 1.17.0 installed
 
