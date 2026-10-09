@@ -445,6 +445,9 @@ export const zhTW: Messages = {
     glyphsLabel: '傳送門位址（12 個符文，0–9、A–F）',
     galaxyLabel: '銀河編號',
     useAddress: '使用此星系',
+    legacyColours: '使用舊版顏色',
+    legacyColoursHint:
+      '遊戲有兩種為種子抽取顏色的方式。遊戲發放的多功能工具使用舊版方式；飛船在存檔中逐艘標記（使用舊版顏色）。',
     seedOrigin:
       '遊戲在星系 {galaxy} 中傳送門位址為 {glyphs} 的星系裡抽出這個種子（在其數列的第 {steps} 步之後）。這只是線索，不是證明。',
     seedHint: '0x 後接十六位十六進位數字。按 Enter 或「顯示」查看。',

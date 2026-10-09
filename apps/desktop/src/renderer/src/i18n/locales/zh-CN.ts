@@ -445,6 +445,9 @@ export const zhCN: Messages = {
     glyphsLabel: '传送门地址（12 个符文，0–9、A–F）',
     galaxyLabel: '星系编号',
     useAddress: '使用此星系',
+    legacyColours: '使用旧版颜色',
+    legacyColoursHint:
+      '游戏有两种为种子抽取颜色的方式。游戏发放的多功能工具使用旧版方式；飞船在存档中逐艘标记（使用旧版颜色）。',
     seedOrigin:
       '游戏在星系 {galaxy} 中传送门地址为 {glyphs} 的星系里抽出这个种子（在其数列的第 {steps} 步之后）。这只是线索，不是证明。',
     seedHint: '0x 后接十六位十六进制数字。按回车或“显示”查看。',

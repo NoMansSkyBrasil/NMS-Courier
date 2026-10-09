@@ -496,6 +496,9 @@ export const nlNL: Messages = {
     glyphsLabel: 'Portaaladres (12 glyphs als 0–9, A–F)',
     galaxyLabel: 'Nummer van het sterrenstelsel',
     useAddress: 'Dit stelsel gebruiken',
+    legacyColours: 'Oude kleuren gebruiken',
+    legacyColoursHint:
+      'Het spel heeft twee manieren om de kleuren van een seed te trekken. Multitools die het uitdeelt gebruiken de oude; schepen worden één voor één in de save gemarkeerd (Oude kleuren gebruiken).',
     seedOrigin:
       'Het spel trekt deze seed in het stelsel met portaaladres {glyphs} in sterrenstelsel {galaxy} (na {steps} stappen van zijn getallenstroom). Een aanwijzing, geen bewijs.',
     seedHint: 'Zestien hexadecimale cijfers na 0x. Druk op Enter of Tonen om hem te zien.',

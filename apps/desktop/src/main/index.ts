@@ -234,7 +234,13 @@ app.whenReady().then(() => {
   // parts. All three read the selected installation's archives; nothing is written.
   ipcMain.handle('nms:workshop-model', (_, request: unknown) => {
     const value = (request ?? {}) as Record<string, unknown>
-    return getModelWorkshopService().build(value.category, value.kind, value.seed, value.colorSeed)
+    return getModelWorkshopService().build(
+      value.category,
+      value.kind,
+      value.seed,
+      value.colorSeed,
+      value.legacyColours
+    )
   })
   // One texture of the model built last, as the game stores it; the renderer draws it.
   ipcMain.handle('nms:workshop-texture', (_, path: unknown) =>
@@ -246,7 +252,13 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('nms:workshop-find-seed', (_, request: unknown) => {
     const value = (request ?? {}) as Record<string, unknown>
-    return getModelWorkshopService().findSeed(value.category, value.kind, value.parts, value.look)
+    return getModelWorkshopService().findSeed(
+      value.category,
+      value.kind,
+      value.parts,
+      value.look,
+      value.legacyColours
+    )
   })
   ipcMain.handle('nms:get-installation-status', () => getInstallationService().getStatus())
   ipcMain.handle('nms:get-game-status', () =>

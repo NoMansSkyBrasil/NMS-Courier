@@ -476,6 +476,9 @@ export const enUS: Messages = {
     glyphsLabel: 'Portal address (12 glyphs as 0–9, A–F)',
     galaxyLabel: 'Galaxy number',
     useAddress: 'Use this system',
+    legacyColours: 'Use legacy colours',
+    legacyColoursHint:
+      'The game has two ways to draw the colours of a seed. Multi-tools it hands out use the legacy one; starships are marked one by one in the save (Use Old Colours).',
     seedOrigin:
       'The game draws this seed in the system with portal address {glyphs} in galaxy {galaxy} (after {steps} steps of its number stream). A lead, not a proof.',
     seedHint: 'Sixteen hexadecimal digits after 0x. Press Enter or Show to see it.',

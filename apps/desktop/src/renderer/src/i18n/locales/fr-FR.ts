@@ -502,6 +502,9 @@ export const frFR: Messages = {
     glyphsLabel: 'Adresse de portail (12 glyphes en 0–9, A–F)',
     galaxyLabel: 'Numéro de galaxie',
     useAddress: 'Utiliser ce système',
+    legacyColours: 'Utiliser les anciennes couleurs',
+    legacyColoursHint:
+      'Le jeu a deux façons de tirer les couleurs d’une graine. Les multi-outils qu’il remet utilisent l’ancienne ; les vaisseaux sont marqués un par un dans la sauvegarde (Utiliser les anciennes couleurs).',
     seedOrigin:
       'Le jeu tire cette graine dans le système d’adresse de portail {glyphs} de la galaxie {galaxy} (après {steps} pas de son flux de nombres). C’est une piste, pas une preuve.',
     seedHint: 'Seize chiffres hexadécimaux après 0x. Appuyez sur Entrée ou Afficher pour la voir.',

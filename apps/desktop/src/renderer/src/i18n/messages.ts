@@ -348,6 +348,8 @@ export type Messages = {
     glyphsLabel: string
     galaxyLabel: string
     useAddress: string
+    legacyColours: string
+    legacyColoursHint: string
     seedOrigin: string
     seedHint: string
     show: string

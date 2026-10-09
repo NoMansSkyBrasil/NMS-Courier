@@ -468,6 +468,9 @@ export const koKR: Messages = {
     glyphsLabel: '포털 주소 (12개 문양, 0–9, A–F)',
     galaxyLabel: '은하 번호',
     useAddress: '이 항성계 사용',
+    legacyColours: '이전 색상 사용',
+    legacyColoursHint:
+      '게임에는 시드의 색상을 뽑는 방식이 두 가지 있습니다. 게임이 주는 멀티툴은 이전 방식을 쓰고, 우주선은 저장 데이터에서 하나씩 표시됩니다(이전 색상 사용).',
     seedOrigin:
       '게임은 은하 {galaxy}의 포털 주소 {glyphs} 항성계에서 (그 수열의 {steps}단계 뒤에) 이 시드를 뽑습니다. 단서일 뿐 증거는 아닙니다.',
     seedHint: '0x 뒤에 16자리 16진수. Enter 키나 표시를 눌러 확인하세요.',

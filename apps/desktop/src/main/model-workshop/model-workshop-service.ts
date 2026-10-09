@@ -99,11 +99,13 @@ function sampleOf(channel: number): number | null {
   return channel < 6 ? Math.min(channel, 3) : null
 }
 
-// Multi-tools are marked to use the legacy colours (`UseLegacyColours` in their saved data): the
-// game draws their palette with its second generator from its legacy palette file. Seen on two
-// tools bought in the game (docs/MODEL_WORKSHOP.md).
-function usesLegacyColours(category: string): boolean {
-  return category === 'multitool'
+// Whether a model's palette is drawn with the game's legacy colours: its second generator and
+// its legacy palette file (docs/MODEL_WORKSHOP.md). The caller may say; otherwise multi-tools
+// do, as the ones the game hands out are marked (`UseLegacyColours` in their saved data), and
+// starships do not. A freighter's colours come from its home system and are not affected.
+function usesLegacyColours(category: string, asked?: unknown): boolean {
+  if (category === 'freighter') return false
+  return typeof asked === 'boolean' ? asked : category === 'multitool'
 }
 
 // The texture side of a model for one seed: the lists in walk order, the seed's choices, and the
@@ -280,7 +282,13 @@ export class ModelWorkshopService {
 
   // `colorSeed` is the seed the colours are drawn with when it is not the model seed: a
   // freighter takes its colours from its home star system.
-  build(category: unknown, kind: unknown, seed: unknown, colorSeed?: unknown): WorkshopModelResult {
+  build(
+    category: unknown,
+    kind: unknown,
+    seed: unknown,
+    colorSeed?: unknown,
+    legacyColours?: unknown
+  ): WorkshopModelResult {
     const scene = workshopScene(String(category), String(kind))
     if (!scene) return { state: 'failed', reason: 'UNKNOWN_KIND' }
     if (typeof seed !== 'string' || !seedPattern.test(seed)) {
@@ -314,7 +322,7 @@ export class ModelWorkshopService {
           : freighter
             ? null
             : value
-      const legacy = usesLegacyColours(String(category))
+      const legacy = usesLegacyColours(String(category), legacyColours)
       const families = paletteSeed === null ? null : this.families(legacy)
       const samples =
         families && paletteSeed !== null ? this.samples(paletteSeed, families, legacy) : null
@@ -506,7 +514,8 @@ export class ModelWorkshopService {
     category: unknown,
     kind: unknown,
     wantedParts: unknown,
-    wantedLook: unknown
+    wantedLook: unknown,
+    legacyColours?: unknown
   ): Promise<WorkshopSeedResult> {
     const scene = workshopScene(String(category), String(kind))
     if (!scene) return { state: 'failed', reason: 'UNKNOWN_KIND' }
@@ -558,7 +567,7 @@ export class ModelWorkshopService {
     try {
       const resolve = this.lists()
       const root = resolve(scene)
-      const legacy = usesLegacyColours(String(category))
+      const legacy = usesLegacyColours(String(category), legacyColours)
       const families =
         colors.length && String(category) !== 'freighter' ? this.families(legacy) : null
       if (!root || (colors.length && !families)) {

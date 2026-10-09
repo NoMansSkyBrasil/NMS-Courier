@@ -28,6 +28,14 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.18.0 (2026-10-09)
+
+- New: a "Use legacy colours" choice in the model workshop, for starships and
+  multi-tools, in both "Build" and "View a seed". It starts ticked for
+  multi-tools, as the ones the game hands out are marked, and clear for
+  starships. A link can carry it (`legacy=1` or `legacy=0`).
+- Bridge unchanged (1.8.0).
+
 ## Application 1.17.3 (2026-10-09)
 
 - Fixed: multi-tool colours. Multi-tools are marked to use the game's legacy

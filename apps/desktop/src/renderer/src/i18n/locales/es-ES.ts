@@ -488,6 +488,9 @@ export const esES: Messages = {
     glyphsLabel: 'Dirección de portal (12 glifos como 0–9, A–F)',
     galaxyLabel: 'Número de galaxia',
     useAddress: 'Usar este sistema',
+    legacyColours: 'Usar colores antiguos',
+    legacyColoursHint:
+      'El juego tiene dos formas de sacar los colores de una semilla. Las multiherramientas que entrega usan la antigua; las naves se marcan una a una en la partida guardada (Usar colores antiguos).',
     seedOrigin:
       'El juego saca esta semilla en el sistema con dirección de portal {glyphs} en la galaxia {galaxy} (tras {steps} pasos de su flujo de números). Es una pista, no una prueba.',
     seedHint: 'Dieciséis dígitos hexadecimales después de 0x. Pulsa Intro o Mostrar para verla.',

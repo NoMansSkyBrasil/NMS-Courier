@@ -458,6 +458,10 @@ Checked on the two tools bought in the game, standard type:
 game-file test holds these colours. The beige top housing of the first tool,
 open until now, is its Undercoat under this generator.
 
-Not done: the same switch for starships (`ShipUsesLegacyColours` in the
-save, per ship); the six families the legacy generator redraws from a child
+From application 1.18.0 the workshop has a "Use legacy colours" choice for
+starships and multi-tools (ticked by default for multi-tools). For starships
+the legacy generator is the same routine; no starship with legacy colours was
+compared with the game yet (`ShipUsesLegacyColours` in the save, per ship).
+
+Not done: the six families the legacy generator redraws from a child
 seed (none is used by a starship or multi-tool layer).

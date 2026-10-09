@@ -20,6 +20,7 @@ import type {
 import { Alert, AlertDescription } from '@renderer/components/ui/alert'
 import { Badge } from '@renderer/components/ui/badge'
 import { Button } from '@renderer/components/ui/button'
+import { Checkbox } from '@renderer/components/ui/checkbox'
 import {
   Card,
   CardContent,
@@ -229,6 +230,9 @@ export function ModelWorkshopCard({ mode }: { mode: WorkshopMode }): React.JSX.E
           kind={kind}
           firstSeed={mode === 'view' ? handedSeed : null}
           firstHomeSeed={seedShape.test(handed.get('home') ?? '') ? handed.get('home') : null}
+          firstLegacy={
+            handed.get('legacy') === '1' ? true : handed.get('legacy') === '0' ? false : null
+          }
         />
       </CardContent>
       <CardFooter>
@@ -245,7 +249,8 @@ function WorkshopModel({
   category,
   kind,
   firstSeed,
-  firstHomeSeed
+  firstHomeSeed,
+  firstLegacy
 }: {
   mode: WorkshopMode
   category: WorkshopCategory
@@ -253,6 +258,8 @@ function WorkshopModel({
   // The seed to open with; a random one when null.
   firstSeed: string | null
   firstHomeSeed: string | null
+  // Whether to open with the legacy colours; the kind's usual choice when null.
+  firstLegacy: boolean | null
 }): React.JSX.Element {
   const { copy } = useLocale()
   const text = copy.workshop
@@ -260,6 +267,9 @@ function WorkshopModel({
   // A freighter's colours come from the seed of its home star system, typed beside its own.
   const [homeSeed, setHomeSeed] = useState(firstHomeSeed ?? '')
   const homeSeedRef = useRef(firstHomeSeed ?? '')
+  // The game draws a palette in one of two ways; multi-tools it hands out use the legacy one.
+  const [legacy, setLegacy] = useState(firstLegacy ?? category === 'multitool')
+  const legacyRef = useRef(firstLegacy ?? category === 'multitool')
   const [glyphs, setGlyphs] = useState('')
   const [galaxy, setGalaxy] = useState('1')
   const homeAddress = glyphsFromSystemSeed(homeSeed.trim())
@@ -298,7 +308,8 @@ function WorkshopModel({
           category,
           kind,
           seed,
-          ...(category === 'freighter' && seedShape.test(home) ? { colorSeed: home } : {})
+          ...(category === 'freighter' && seedShape.test(home) ? { colorSeed: home } : {}),
+          legacyColours: legacyRef.current
         })
         if (mine !== request.current) return
         if (result.state === 'built') {
@@ -364,7 +375,8 @@ function WorkshopModel({
         category,
         kind,
         parts: wantedParts,
-        look: wanted
+        look: wanted,
+        legacyColours: legacyRef.current
       })
       if (mine !== request.current) return
       if (found.state === 'found') {
@@ -546,6 +558,23 @@ function WorkshopModel({
           </FieldDescription>
         )}
       </Field>
+      {category !== 'freighter' && (
+        <Field orientation="horizontal">
+          <Checkbox
+            id={`workshop-legacy-${mode}`}
+            checked={legacy}
+            onCheckedChange={(checked) => {
+              legacyRef.current = checked === true
+              setLegacy(checked === true)
+              if (seedShape.test(typed.trim())) void show(typed.trim())
+            }}
+          />
+          <div className="flex flex-col gap-1">
+            <FieldLabel htmlFor={`workshop-legacy-${mode}`}>{text.legacyColours}</FieldLabel>
+            <FieldDescription>{text.legacyColoursHint}</FieldDescription>
+          </div>
+        </Field>
+      )}
       {category === 'freighter' && (
         <Field>
           <FieldLabel htmlFor={`workshop-home-seed-${mode}`}>

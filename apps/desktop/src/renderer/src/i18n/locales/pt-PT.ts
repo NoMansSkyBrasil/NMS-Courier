@@ -490,6 +490,9 @@ export const ptPT: Messages = {
     glyphsLabel: 'Endereço de portal (12 glifos como 0–9, A–F)',
     galaxyLabel: 'Número da galáxia',
     useAddress: 'Usar este sistema',
+    legacyColours: 'Usar cores antigas',
+    legacyColoursHint:
+      'O jogo tem duas formas de sortear as cores de uma seed. As multiferramentas que entrega usam a antiga; as naves são marcadas uma a uma na gravação (Usar cores antigas).',
     seedOrigin:
       'O jogo sorteia esta seed no sistema de endereço de portal {glyphs} na galáxia {galaxy} (após {steps} sorteios do respetivo fluxo de números). É uma pista, não uma prova.',
     seedHint: 'Dezasseis dígitos hexadecimais depois de 0x. Prima Enter ou Mostrar para ver.',

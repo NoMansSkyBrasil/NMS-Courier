@@ -481,6 +481,9 @@ export const jaJP: Messages = {
     glyphsLabel: 'ポータルアドレス（12 グリフ、0–9・A–F）',
     galaxyLabel: '銀河番号',
     useAddress: 'この星系を使う',
+    legacyColours: '旧カラーを使用',
+    legacyColoursHint:
+      'ゲームにはシード値から色を決める方法が2つあります。ゲームが渡すマルチツールは旧方式を使い、宇宙船はセーブ内で1隻ずつ指定されます（旧カラーを使用）。',
     seedOrigin:
       'ゲームはこのシード値を、銀河 {galaxy} のポータルアドレス {glyphs} の星系で（その数列の {steps} ステップ後に）引きます。手がかりであり、確証ではありません。',
     seedHint: '0x に続く 16 桁の 16 進数。Enter キーまたは「表示」で確認できます。',

@@ -29,6 +29,7 @@ declare global {
         kind: string
         seed: string
         colorSeed?: string
+        legacyColours?: boolean
       }) => Promise<import('../shared/model-workshop').WorkshopModelResult>
       workshopChoices: (request: {
         category: string
@@ -39,6 +40,7 @@ declare global {
         kind: string
         parts: import('../shared/model-workshop').WorkshopWantedPart[]
         look: import('../shared/model-workshop').WorkshopWantedLook
+        legacyColours?: boolean
       }) => Promise<import('../shared/model-workshop').WorkshopSeedResult>
       workshopTexture: (path: string) => Promise<Uint8Array | null>
       getFoundationStatus: () => Promise<{

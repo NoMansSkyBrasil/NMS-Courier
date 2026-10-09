@@ -480,6 +480,9 @@ export const plPL: Messages = {
     glyphsLabel: 'Adres portalu (12 glifów jako 0–9, A–F)',
     galaxyLabel: 'Numer galaktyki',
     useAddress: 'Użyj tego układu',
+    legacyColours: 'Użyj starych kolorów',
+    legacyColoursHint:
+      'Gra ma dwa sposoby losowania kolorów ziarna. Multinarzędzia, które wydaje, używają starego; statki są oznaczane pojedynczo w zapisie (Użyj starych kolorów).',
     seedOrigin:
       'Gra losuje to ziarno w układzie o adresie portalu {glyphs} w galaktyce {galaxy} (po {steps} krokach jego strumienia liczb). To wskazówka, nie dowód.',
     seedHint: 'Szesnaście cyfr szesnastkowych po 0x. Naciśnij Enter lub Pokaż, aby je zobaczyć.',

@@ -5,8 +5,13 @@ const nms = {
   selectAppearanceRecipe: () => ipcRenderer.invoke('nms:select-appearance-recipe'),
   selectPreviewPalettes: () => ipcRenderer.invoke('nms:select-preview-palettes'),
   previewPaletteSeed: (seed: string) => ipcRenderer.invoke('nms:preview-palette-seed', seed),
-  workshopModel: (request: { category: string; kind: string; seed: string; colorSeed?: string }) =>
-    ipcRenderer.invoke('nms:workshop-model', request),
+  workshopModel: (request: {
+    category: string
+    kind: string
+    seed: string
+    colorSeed?: string
+    legacyColours?: boolean
+  }) => ipcRenderer.invoke('nms:workshop-model', request),
   workshopChoices: (request: { category: string; kind: string }) =>
     ipcRenderer.invoke('nms:workshop-choices', request),
   workshopFindSeed: (request: {
@@ -14,6 +19,7 @@ const nms = {
     kind: string
     parts: Array<{ parent: string; group: string; id: string }>
     look: { colors: Record<string, number[]>; baseTexture: string | null }
+    legacyColours?: boolean
   }) => ipcRenderer.invoke('nms:workshop-find-seed', request),
   workshopTexture: (path: string) => ipcRenderer.invoke('nms:workshop-texture', path),
   getFoundationStatus: (): Promise<{

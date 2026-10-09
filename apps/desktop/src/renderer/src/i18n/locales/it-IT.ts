@@ -496,6 +496,9 @@ export const itIT: Messages = {
     glyphsLabel: 'Indirizzo del portale (12 glifi come 0–9, A–F)',
     galaxyLabel: 'Numero della galassia',
     useAddress: 'Usa questo sistema',
+    legacyColours: 'Usa i colori precedenti',
+    legacyColoursHint:
+      'Il gioco ha due modi di estrarre i colori di un seme. I multi-attrezzi che consegna usano quello precedente; le astronavi sono contrassegnate una per una nel salvataggio (Usa i colori precedenti).',
     seedOrigin:
       'Il gioco estrae questo seme nel sistema con indirizzo del portale {glyphs} nella galassia {galaxy} (dopo {steps} passi del suo flusso di numeri). È un indizio, non una prova.',
     seedHint: 'Sedici cifre esadecimali dopo 0x. Premi Invio o Mostra per vederlo.',
