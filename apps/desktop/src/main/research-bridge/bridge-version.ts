@@ -55,5 +55,5 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // with them (two instructions of the game are replaced for the length of the reward call).
   d0a7e555320fe90621b355d779d151d1a5cb5b7dacb517f2b5f82e86d18d1bee: '1.10.0',
   // 1.11.0 (2026-10-09): a starship or multi-tool offer waits until the game's window is in front.
-  083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da: '1.11.0'
+  '083774d1898fbe3a4ffff969a9e8dc7e5183d2f6e65566545d8db8e17aa460da': '1.11.0'
 }
