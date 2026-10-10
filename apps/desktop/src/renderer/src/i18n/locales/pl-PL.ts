@@ -78,6 +78,15 @@ export const plPL: Messages = {
       title: 'Oczekujące technologie',
       summary: 'Dokończ technologie, które wciąż wymagają komponentów, w każdym ekwipunku.'
     },
+    upkeep: {
+      title: 'Naprawa i ładowanie',
+      summary: 'Napraw uszkodzoną technologię i naładuj to, co się wyczerpało.'
+    },
+    purpleStars: {
+      title: 'Fioletowe gwiazdy na mapie',
+      summary:
+        'Pokazuje na mapie galaktyki układy fioletowych gwiazd, które zwykle odblokowuje fabuła.'
+    },
     corvettes: {
       title: 'Korwety',
       summary: 'Korweta zbudowana na podstawie udostępnionego projektu.'
@@ -558,6 +567,29 @@ export const plPL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofag'
     }
+  },
+  upkeep: {
+    repairTitle: 'Napraw uszkodzoną technologię',
+    repairHint:
+      'Gra naprawia każdą uszkodzoną technologię w wybranym ekwipunku, tak jak po katastrofie w fabule. Nic nie jest zużywane.',
+    repairAll: 'Napraw wszystko',
+    inventories: {
+      exosuit: 'Egzoskafander',
+      ship: 'Statek',
+      multitool: 'Multinarzędzie',
+      freighter: 'Frachtowiec',
+      exocraft: 'Egzopojazd'
+    },
+    rechargeTitle: 'Ładowanie',
+    rechargeHint:
+      'Gra ładuje każdą technologię, która nie jest pełna: ochronę przed zagrożeniami, podtrzymywanie życia, silniki startowe i resztę. Nic nie jest zużywane.',
+    rechargeNow: 'Naładuj wszystko teraz',
+    autoTitle: 'Ładuj samoczynnie',
+    autoHint:
+      'Dopóki ta aplikacja jest otwarta, a gra działa. W grze nie pojawia się żaden komunikat.',
+    autoOn: 'Włączone',
+    autoEvery: 'Ładuj wszystko co (minuty)',
+    autoLow: 'Także od razu, gdy ładunek spadnie poniżej 20%'
   },
   pendingTech: {
     exocraft: {

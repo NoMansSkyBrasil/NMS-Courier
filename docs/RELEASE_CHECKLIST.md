@@ -41,6 +41,8 @@ Each line is one short test from the application, on save slot 3.
 
 | Area | What to do | What to look at |
 | --- | --- | --- |
+| Repair and recharge (bridge 1.33.0) | "Repair everything"; "Recharge everything now"; the automatic recharge with one minute | Damaged technology is repaired; charges are full; the automatic one keeps them so |
+| Purple stars on the map (bridge 1.33.0) | "Send to the game" | Purple systems show on the galaxy map |
 | Search for planets around you (bridge 1.30.0, 1.31.0) | "Find a planet", "Around me", one minute, preset Earth-like | The game keeps its frame rate; planets appear; travel to one and compare biome, weather, sentinels and grass colour |
 | Search in another galaxy | The same after travelling to another galaxy | The planets found are of that galaxy and travel lands there |
 | Purple star and portal-only systems | Travel to one planet with each badge | The system is purple; the portal-only one is not on the galaxy map |

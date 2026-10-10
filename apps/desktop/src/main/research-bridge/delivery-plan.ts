@@ -28,6 +28,7 @@ export const deliveryFeatureIds = [
   'words',
   'guide',
   'nexus',
+  'purpleStars',
   'missions',
   'titles',
   'expeditions',
@@ -213,6 +214,14 @@ export const steps = {
     result: { name: 'nexus-result', seconds: 12 },
     accept: (lines) => lines.includes('result=given') && lines.includes('allowed_after=1')
   }),
+  // Purple star systems on the galaxy map through the game's reward (bridge 1.33.0). Only allowed.
+  purple: (): BridgeStep => ({
+    label: 'purple',
+    request: request('purple', ['allow=1']),
+    signals: ['purple'],
+    result: { name: 'purple-result', seconds: 12 },
+    accept: (lines) => lines.includes('result=given')
+  }),
   // Word groups of one race, by the suffix the game's reward takes (bridge 1.22.0). The game shows
   // its message for each word unless silent.
   words: (race: string, groups: readonly string[], notify: boolean): BridgeStep | null =>
@@ -373,6 +382,8 @@ export async function getDeliveryPlan(
       ])
     case 'nexus':
       return plan(false, [steps.nexus()])
+    case 'purpleStars':
+      return plan(false, [steps.purple()])
     case 'missions':
       return plan(
         false,

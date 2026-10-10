@@ -72,6 +72,11 @@ export const koKR: Messages = {
       title: '대기 중인 기술',
       summary: '아직 부품을 요구하는 기술을 모든 인벤토리에서 완료합니다.'
     },
+    upkeep: { title: '수리 및 충전', summary: '손상된 기술을 수리하고 바닥난 것을 충전합니다.' },
+    purpleStars: {
+      title: '지도에 보라색 별 표시',
+      summary: '보통 스토리가 열어 주는 보라색 별 항성계를 은하 지도에 표시합니다.'
+    },
     corvettes: { title: '코르벳', summary: '공유된 설계로 건조하는 코르벳.' },
     companions: { title: '동료', summary: '동료 알과 생물.' },
     technologies: {
@@ -535,6 +540,28 @@ export const koKR: Messages = {
       Atlas: '아틀라스',
       Builders: '오토파지'
     }
+  },
+  upkeep: {
+    repairTitle: '손상된 기술 수리',
+    repairHint:
+      '선택한 인벤토리의 손상된 기술을 스토리의 추락 뒤처럼 게임이 모두 수리합니다. 아무것도 소모되지 않습니다.',
+    repairAll: '모두 수리',
+    inventories: {
+      exosuit: '엑소슈트',
+      ship: '우주선',
+      multitool: '멀티툴',
+      freighter: '화물선',
+      exocraft: '엑소크래프트'
+    },
+    rechargeTitle: '충전',
+    rechargeHint:
+      '가득 차지 않은 모든 기술을 게임이 충전합니다. 위험 보호, 생명 유지, 이륙 추진기 등. 아무것도 소모되지 않습니다.',
+    rechargeNow: '지금 모두 충전',
+    autoTitle: '자동 충전',
+    autoHint: '이 앱이 열려 있고 게임이 실행 중인 동안. 게임에는 메시지가 표시되지 않습니다.',
+    autoOn: '켜짐',
+    autoEvery: '모두 충전하는 간격(분)',
+    autoLow: '충전량이 20% 아래로 떨어지면 즉시 충전'
   },
   pendingTech: {
     exocraft: {

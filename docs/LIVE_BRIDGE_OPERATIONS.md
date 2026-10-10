@@ -416,6 +416,14 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Requests `native-repair-request-…`, `native-recharge-request-…` and
+`native-purple-request-…` (events `repair`, `recharge`, `purple`, bridge
+1.33.0, experimental): the game's own rewards repair every damaged
+technology of an inventory, recharge the technologies whose charge is under
+a threshold, and allow purple stars on the galaxy map. Native calls; the
+bridge writes only its carrier entry of the reward table and puts it back.
+One slot. See [upkeep](UPKEEP_NOTES.md).
+
 Request `native-planets-request-…` (event `planets`, bridge 1.30.0,
 experimental): `mode=start` with a time, a biome, a subtype mask and limits
 has the bridge ask the game's own system generator (`16a3a50`) and planet

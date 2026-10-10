@@ -76,6 +76,14 @@ export const jaJP: Messages = {
       title: '待機中のテクノロジー',
       summary: 'まだ部品を必要としているテクノロジーを、すべてのインベントリで完成させます。'
     },
+    upkeep: {
+      title: '修理と充電',
+      summary: '壊れたテクノロジーを修理し、切れたものを充電します。'
+    },
+    purpleStars: {
+      title: 'マップに紫の星を表示',
+      summary: '通常はストーリーで解放される紫の星の星系を、銀河マップに表示します。'
+    },
     corvettes: { title: 'コルベット', summary: '共有された設計から組み立てるコルベット。' },
     companions: { title: 'コンパニオン', summary: 'コンパニオンの卵と生物。' },
     technologies: {
@@ -558,6 +566,29 @@ export const jaJP: Messages = {
       Atlas: 'アトラス',
       Builders: 'オートファジー'
     }
+  },
+  upkeep: {
+    repairTitle: '壊れたテクノロジーを修理',
+    repairHint:
+      '選んだインベントリの壊れたテクノロジーを、ストーリーの墜落後と同じようにゲームがすべて修理します。何も消費しません。',
+    repairAll: 'すべて修理',
+    inventories: {
+      exosuit: 'エクソスーツ',
+      ship: '宇宙船',
+      multitool: 'マルチツール',
+      freighter: '貨物船',
+      exocraft: 'エクソクラフト'
+    },
+    rechargeTitle: '充電',
+    rechargeHint:
+      '満タンでないテクノロジーをゲームがすべて充電します。危険防御、生命維持、離陸スラスターなど。何も消費しません。',
+    rechargeNow: '今すぐすべて充電',
+    autoTitle: '自動で充電',
+    autoHint:
+      'このアプリを開いていて、ゲームが実行中のあいだ。ゲーム内にメッセージは表示されません。',
+    autoOn: 'オン',
+    autoEvery: 'すべてを充電する間隔（分）',
+    autoLow: 'チャージが20%を下回ったらすぐにも充電'
   },
   pendingTech: {
     exocraft: {

@@ -38,6 +38,9 @@ nothing that belongs to one of them. Built with
 | `wiki_topic.h` | guide | Unlock topics of the game's guide through the game's reward |
 | `nexus_access.h` | Nexus | Allow the slot to use the Space Anomaly through the game's reward |
 | `mission_complete.h` | missions | Ask the game to complete named missions through the game's reward (experimental) |
+| `inventory_repair.h` | repair | Repair every damaged technology of an inventory through the game's reward |
+| `technology_recharge.h` | recharge | Recharge installed technologies whose charge is low through the game's reward |
+| `galaxy_map_reveal.h` | galaxy map | Let the slot see purple star systems on the galaxy map through the game's reward |
 | `planet_search.h` | planets | Search the star systems around the player, nearest first, with the game's own system and planet generators |
 | `technology_install.h` | waiting technologies | List technologies waiting for components in every inventory and finish them through the game's install routine |
 | `star_system.h` | star system | Read only: the seed of the star system the player is in and the ships the game generated for it, written to a file when they change |

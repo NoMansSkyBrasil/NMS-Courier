@@ -8,6 +8,13 @@ import { isInstallRequest } from '../shared/waiting-technology'
 import { isPlanetSearchRequest } from '../shared/planet-search'
 import { readSavesOverview } from './saves-overview'
 import { PlanetLibraryStore } from './planet-library'
+import {
+  isAutoRecharge,
+  isRechargeThreshold,
+  isRepairRequest,
+  lowChargePercent,
+  type AutoRecharge
+} from '../shared/upkeep'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -384,6 +391,70 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
+  // Repair and recharge through the game's own rewards.
+  ipcMain.handle('nms:repair-inventories', async (_, request: unknown, notify: unknown) => {
+    if (!isRepairRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().repair(
+      [...request.groups],
+      notify !== false,
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  ipcMain.handle('nms:recharge', async (_, threshold: unknown, notify: unknown) => {
+    if (!isRechargeThreshold(threshold)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().recharge(
+      threshold,
+      notify !== false,
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  // The automatic recharge: everything every so many minutes and, when asked, whatever falls
+  // under a fifth of its charge. It runs while the application is open and the game is running,
+  // without the game's message, and backs the saves up once each time it is switched on.
+  let autoRecharge: AutoRecharge = { enabled: false, minutes: 10, whenLow: true }
+  let autoBackedUp = false
+  let lastFullRecharge = 0
+  let autoBusy = false
+  ipcMain.handle('nms:get-auto-recharge', () => autoRecharge)
+  ipcMain.handle('nms:set-auto-recharge', (_, next: unknown) => {
+    if (!isAutoRecharge(next)) throw new Error('Invalid request.')
+    if (next.enabled && !autoRecharge.enabled) {
+      autoBackedUp = false
+      lastFullRecharge = Date.now()
+    }
+    autoRecharge = { enabled: next.enabled, minutes: next.minutes, whenLow: next.whenLow }
+    return autoRecharge
+  })
+  setInterval(() => {
+    if (!autoRecharge.enabled || autoBusy) return
+    const full = Date.now() - lastFullRecharge >= autoRecharge.minutes * 60_000
+    if (!full && !autoRecharge.whenLow) return
+    autoBusy = true
+    void (async () => {
+      const root = getInstallationService().getSelectedRootPath()
+      const game = await gameStatusService.observe(root)
+      if (game.state !== 'running') return
+      const result = await getResearchBridgeService().recharge(
+        full ? 100 : lowChargePercent,
+        false,
+        root,
+        game,
+        { backup: !autoBackedUp }
+      )
+      if (result.outcome === 'completed') {
+        autoBackedUp = true
+        if (full) lastFullRecharge = Date.now()
+      }
+    })()
+      .catch(() => undefined)
+      .finally(() => {
+        autoBusy = false
+      })
+  }, 30_000)
   // The player's own planets: what their searches found, by galaxy, and files to share them.
   const planetLibrary = new PlanetLibraryStore(join(app.getPath('userData'), 'planet-library.json'))
   ipcMain.handle('nms:get-planet-library', () => planetLibrary.read())

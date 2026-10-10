@@ -1,5 +1,33 @@
 # Runtime experiment log
 
+## 2026-10-10: repair, recharge and purple stars built; ships and tool seeds looked at (bridge 1.33.0, application 1.43.0)
+
+Offline reading, a build and an installation; nothing sent to the game.
+Owning notes: [upkeep](UPKEEP_NOTES.md),
+[seed origins](SEED_ORIGINS.md#the-stations-multi-tool-where-its-seed-is-taken-from-2026-10-10).
+
+- Built: three carriers in the data file (`bade6eb7…27c200`), bridge
+  1.33.0 (`fea4a963…541dab`; requests `repair`, `recharge`, `purple`),
+  application 1.43.0. Profile fixture ran; typecheck, lint, 149 tests,
+  build; the page opened in the test instance. Bridge and data file
+  installed with the game closed. Undo: copy
+  `native-builds/bridge-1.32.0/xinput9_1_0.dll` back and the data file of
+  commit `64e9dd5`.
+- Ships in the planet search, tried in the emulator: the game's
+  remote-system routine (`16a3a50`) leaves `SystemShips` empty (0 against
+  the 50 of the full generator). Ships come only from the full generator
+  (`164a4a0`), which fills the live solar system object, so a finder for
+  ships and freighters cannot ride on the planet search as it is.
+- The station multi-tool's seed: not in the generated system data, the info
+  block, the generator block or the ships of its system
+  (`0x0000E800F669E14C`, seed `0x81E18111081140E1`). The offer is built at
+  `173b130`, which takes the seed from 16 bytes at `+0x90` of the terminal
+  object, copied (`173aa19`) from `+0x83f08` of another object. Where that
+  value is first made is not found.
+- Not built: black holes on the map and hazard refill (no usable example
+  in the game's tables), water and the planet's name in the search.
+- Not proven: anything of this in the running game.
+
 ## 2026-10-10: owner's first runs; the player's own planet list (bridge 1.32.0, application 1.42.0)
 
 Owner's reports, then a build and an installation. Build 180836. Slot as

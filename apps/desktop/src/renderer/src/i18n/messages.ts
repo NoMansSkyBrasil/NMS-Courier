@@ -30,6 +30,7 @@ export const featureIds = [
   'multitools',
   'freighters',
   'pendingTech',
+  'upkeep',
   'frigates',
   'corvettes',
   'companions',
@@ -44,6 +45,7 @@ export const featureIds = [
   'glyphs',
   'guide',
   'nexus',
+  'purpleStars',
   'missions',
   'standings',
   'milestones',
@@ -410,6 +412,20 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  upkeep: {
+    repairTitle: string
+    repairHint: string
+    repairAll: string
+    inventories: Record<'exosuit' | 'ship' | 'multitool' | 'freighter' | 'exocraft', string>
+    rechargeTitle: string
+    rechargeHint: string
+    rechargeNow: string
+    autoTitle: string
+    autoHint: string
+    autoOn: string
+    autoEvery: string
+    autoLow: string
   }
   pendingTech: {
     title: string

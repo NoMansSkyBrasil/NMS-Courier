@@ -65,6 +65,11 @@ export const zhTW: Messages = {
     },
     frigates: { title: '護衛艦', summary: '為艦隊招募護衛艦。' },
     pendingTech: { title: '待安裝的科技', summary: '在所有物品欄中完成仍需要元件的科技。' },
+    upkeep: { title: '修理與充能', summary: '修理損壞的科技，並為耗盡的科技充能。' },
+    purpleStars: {
+      title: '地圖上的紫色恆星',
+      summary: '在星系地圖上顯示紫色恆星的星系，通常由劇情解鎖。'
+    },
     corvettes: { title: '輕型護衛艦', summary: '依據共享的配置建造的輕型護衛艦。' },
     companions: { title: '夥伴', summary: '夥伴蛋和生物。' },
     technologies: {
@@ -503,6 +508,26 @@ export const zhTW: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  upkeep: {
+    repairTitle: '修理損壞的科技',
+    repairHint: '遊戲會修理所選物品欄中所有損壞的科技，就像劇情中墜毀之後那樣。不消耗任何東西。',
+    repairAll: '全部修理',
+    inventories: {
+      exosuit: '外骨骼裝甲',
+      ship: '飛船',
+      multitool: '多功能工具',
+      freighter: '貨船',
+      exocraft: '外星載具'
+    },
+    rechargeTitle: '充能',
+    rechargeHint: '遊戲會為所有未滿的科技充能：危險防護、生命維持、起飛推進器等。不消耗任何東西。',
+    rechargeNow: '立即全部充能',
+    autoTitle: '自動充能',
+    autoHint: '在本應用程式開啟且遊戲執行期間。遊戲中不顯示訊息。',
+    autoOn: '已開啟',
+    autoEvery: '全部充能的間隔（分鐘）',
+    autoLow: '電量低於 20% 時也立即充能'
   },
   pendingTech: {
     exocraft: {

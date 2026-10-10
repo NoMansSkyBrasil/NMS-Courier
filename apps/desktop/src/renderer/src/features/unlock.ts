@@ -10,9 +10,10 @@ import {
   LanguagesIcon,
   MedalIcon,
   OrbitIcon,
+  PaletteIcon,
   ScrollTextIcon,
   ShapesIcon,
-  PaletteIcon
+  SparklesIcon
 } from 'lucide-react'
 import type { Feature } from './types'
 
@@ -150,6 +151,16 @@ export const unlockFeatures: readonly Feature[] = [
     status: 'experimental',
     scope: 'slot',
     rows: [{ row: 'deliverable', count: 1 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'purpleStars',
+    wired: true,
+    group: 'progress',
+    icon: SparklesIcon,
+    kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
     rules: ['gameRoutines', 'backup']
   },
   {

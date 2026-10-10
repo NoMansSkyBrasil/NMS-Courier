@@ -11,6 +11,8 @@ import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import { getInstallPlan, installResultName } from './install-plan'
 import { getPlanetSearchPlan, planetSearchResultName } from './planet-search-plan'
+import { getRechargePlan, getRepairPlan } from './upkeep-plan'
+import type { RepairGroup } from '../../shared/upkeep'
 import {
   parsePlanetSearch,
   type PlanetSearchReport,
@@ -106,6 +108,7 @@ export type DeliveryResult = {
     | 'glyphs'
     | 'pendingTech'
     | 'planets'
+    | 'upkeep'
     | LevelPage
     | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
@@ -427,6 +430,37 @@ export class ResearchBridgeService {
     game: GameProcessStatus
   ): Promise<DeliveryResult> {
     return this.run('teleport', getTeleportPlan(request), installationRoot, game)
+  }
+
+  // Has the game repair every damaged technology of the chosen inventories.
+  repair(
+    groups: readonly RepairGroup[],
+    notify: boolean,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run('upkeep', getRepairPlan(groups, notify), installationRoot, game)
+  }
+
+  // Has the game recharge the technologies whose charge is under the threshold. The automatic
+  // recharge calls this often: it backs the saves up once, when it is switched on, and keeps its
+  // runs out of the activity list.
+  async recharge(
+    threshold: number,
+    notify: boolean,
+    installationRoot: string | null,
+    game: GameProcessStatus,
+    automatic: { backup: boolean } | null = null
+  ): Promise<DeliveryResult> {
+    const result = await this.run(
+      'upkeep',
+      getRechargePlan(threshold, notify),
+      installationRoot,
+      game,
+      automatic ? automatic.backup : true
+    )
+    if (automatic && this.activity[this.activity.length - 1] === result) this.activity.pop()
+    return result
   }
 
   // Starts, or stops, the search for planets around the player. The game's generators are only

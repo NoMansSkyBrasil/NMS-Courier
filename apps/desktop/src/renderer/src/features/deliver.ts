@@ -1,5 +1,6 @@
 import {
   AnchorIcon,
+  BatteryChargingIcon,
   CoinsIcon,
   CrosshairIcon,
   GlobeIcon,
@@ -100,6 +101,16 @@ export const deliverFeatures: readonly Feature[] = [
     icon: WrenchIcon,
     kind: 'delivery',
     // Built on 2026-10-10 from an offline reading of the game's install routine; not tried in the game.
+    status: 'experimental',
+    scope: 'slot',
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'upkeep',
+    group: 'equipment',
+    icon: BatteryChargingIcon,
+    kind: 'delivery',
+    // Built on 2026-10-10 from the game's own reward classes; not tried in the game.
     status: 'experimental',
     scope: 'slot',
     rules: ['gameRoutines', 'backup']

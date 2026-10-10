@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Upkeep, 2026-10-10 (bridge 1.33.0, application 1.43.0, data file
+> `bade6eb7…27c200`, all installed): repair a whole inventory, recharge
+> with automatic recharge, purple stars on the map; owning note
+> [upkeep](UPKEEP_NOTES.md). Not tried in the game. Open research for the
+> owner's one-search finder: ships are not in the remote-system data, and
+> the station tool's seed origin is not traced (see `TODO.md`).
+
 > Owner decisions, 2026-10-10 (application 1.42.0, bridge 1.32.0): no
 > shipped planet list, the list is the player's (`planet-library.ts`,
 > export and import); the game stays vanilla (`AGENTS.md`). Waiting

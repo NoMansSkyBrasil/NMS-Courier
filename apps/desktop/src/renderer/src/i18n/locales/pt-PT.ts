@@ -83,6 +83,15 @@ export const ptPT: Messages = {
       title: 'Tecnologias pendentes',
       summary: 'Conclua tecnologias que ainda pedem componentes, em todos os inventários.'
     },
+    upkeep: {
+      title: 'Reparar e recarregar',
+      summary: 'Repare tecnologias danificadas e recarregue o que se esgotou.'
+    },
+    purpleStars: {
+      title: 'Estrelas roxas no mapa',
+      summary:
+        'Mostra no mapa da galáxia os sistemas de estrela roxa, que a história normalmente desbloqueia.'
+    },
     corvettes: {
       title: 'Corvetas',
       summary: 'Uma corveta construída a partir de um projeto partilhado.'
@@ -570,6 +579,29 @@ export const ptPT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  upkeep: {
+    repairTitle: 'Reparar tecnologias danificadas',
+    repairHint:
+      'O jogo repara todas as tecnologias danificadas do inventário escolhido, como faz depois de uma queda na história. Nada é gasto.',
+    repairAll: 'Reparar tudo',
+    inventories: {
+      exosuit: 'Exofato',
+      ship: 'Nave',
+      multitool: 'Multiferramenta',
+      freighter: 'Cargueiro',
+      exocraft: 'Exoveículo'
+    },
+    rechargeTitle: 'Recarregar',
+    rechargeHint:
+      'O jogo recarrega todas as tecnologias que não estão cheias: proteção contra perigos, suporte de vida, propulsores de descolagem e as restantes. Nada é gasto.',
+    rechargeNow: 'Recarregar tudo agora',
+    autoTitle: 'Recarregar sozinho',
+    autoHint:
+      'Enquanto esta aplicação estiver aberta e o jogo a correr. Não aparece nenhuma mensagem no jogo.',
+    autoOn: 'Ligado',
+    autoEvery: 'Recarregar tudo a cada (minutos)',
+    autoLow: 'Também de imediato, quando uma carga descer abaixo de 20%'
   },
   pendingTech: {
     exocraft: {

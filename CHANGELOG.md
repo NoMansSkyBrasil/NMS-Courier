@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.43.0 and bridge 1.33.0 (2026-10-10)
+
+- Added (owner request): page "Repair and recharge" under Equipment. The
+  game repairs every damaged technology of the exosuit, starship,
+  multi-tool, freighter or exocraft, and recharges every technology that is
+  not full. "Recharge by itself" does it every X minutes and, when chosen,
+  as soon as a charge falls under 20%, while the application is open.
+- Added (owner request): page "Purple stars on the map" under Progress.
+- Bridge 1.33.0 (`fea4a9633156b010e7e788e9fa9ce74d2ae036fd4715b95138275d816e541dab`)
+  and a new data file (`bade6eb7…27c200`) with three more carrier rewards;
+  both are installed by the application's "Update" button. See
+  [the notes](docs/UPKEEP_NOTES.md).
+- Not tried in the running game yet.
+
 ## Application 1.42.0 and bridge 1.32.0 (2026-10-10)
 
 Owner decisions after his first runs.

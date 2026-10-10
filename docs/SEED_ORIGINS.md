@@ -378,6 +378,28 @@ seed **`0x81E18111081140E1`** at `+0x8e8` (in-use byte after it).
   a thousand; it may be built from packed fields instead. Finding the code
   that fills the offered tool is the next step for multi-tools.
 
+### The station's multi-tool: where its seed is taken from, 2026-10-10
+
+Offline, build 180836. The owner asked for a finder of multi-tools, which
+needs this origin.
+
+- The emulated generator's data for the system of that station
+  (`0x0000E800F669E14C`) does not hold `0x81E18111081140E1` anywhere: not
+  in the 0x2600 bytes of system data, the info block, the generator's own
+  block or the fifty ships.
+- The offer is built in `173b130` (the caller of the builder `8e58e0` at
+  `173b357`). Its seed is: for an owned tool, the owned record; otherwise
+  the 16 bytes at `+0x90` of the terminal object, replaced by a global
+  default (`72067d8`) when they are still the empty value.
+- `173aa19` fills that `+0x90` from `+0x83f08` of another object (with
+  other fields from `+0x868e0` on). What writes `+0x83f08` was not traced.
+- Known from 2026-10-09: a terminal on a planet offers the tool whose seed
+  is the planet's seed. So planet terminals can already be listed by the
+  planet search; station tools cannot.
+
+Next: with the game running at a station's terminal, read the object that
+holds `+0x83f08` and look for the same value elsewhere in memory.
+
 ### The generator run in an emulator, 2026-10-09
 
 [NMS Shipwright](https://github.com/S-T-0-7/NMS-Shipwright) (MIT licence,

@@ -83,6 +83,15 @@ export const deDE: Messages = {
       title: 'Wartende Technologien',
       summary: 'Schließe Technologien ab, die noch Komponenten verlangen, in jedem Inventar.'
     },
+    upkeep: {
+      title: 'Reparieren und aufladen',
+      summary: 'Repariere beschädigte Technologie und lade auf, was leer ist.'
+    },
+    purpleStars: {
+      title: 'Violette Sterne auf der Karte',
+      summary:
+        'Zeigt auf der Galaxiekarte die Systeme violetter Sterne, die sonst die Geschichte freischaltet.'
+    },
     corvettes: {
       title: 'Korvetten',
       summary: 'Eine Korvette, gebaut nach einem geteilten Bauplan.'
@@ -581,6 +590,29 @@ export const deDE: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  upkeep: {
+    repairTitle: 'Beschädigte Technologie reparieren',
+    repairHint:
+      'Das Spiel repariert jede beschädigte Technologie des gewählten Inventars, wie nach einem Absturz in der Geschichte. Nichts wird verbraucht.',
+    repairAll: 'Alles reparieren',
+    inventories: {
+      exosuit: 'Exo-Anzug',
+      ship: 'Raumschiff',
+      multitool: 'Multiwerkzeug',
+      freighter: 'Frachter',
+      exocraft: 'Exo-Fahrzeug'
+    },
+    rechargeTitle: 'Aufladen',
+    rechargeHint:
+      'Das Spiel lädt jede Technologie auf, die nicht voll ist: Gefahrenschutz, Lebenserhaltung, Startdüsen und den Rest. Nichts wird verbraucht.',
+    rechargeNow: 'Jetzt alles aufladen',
+    autoTitle: 'Von selbst aufladen',
+    autoHint:
+      'Solange diese Anwendung offen ist und das Spiel läuft. Im Spiel erscheint keine Meldung.',
+    autoOn: 'An',
+    autoEvery: 'Alles aufladen alle (Minuten)',
+    autoLow: 'Auch sofort, wenn eine Ladung unter 20 % fällt'
   },
   pendingTech: {
     exocraft: {

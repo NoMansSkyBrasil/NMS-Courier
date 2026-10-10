@@ -82,6 +82,15 @@ export const nlNL: Messages = {
       title: 'Wachtende technologieën',
       summary: 'Rond technologieën af die nog onderdelen vragen, in elke inventaris.'
     },
+    upkeep: {
+      title: 'Repareren en opladen',
+      summary: 'Repareer beschadigde technologie en laad op wat leeg is.'
+    },
+    purpleStars: {
+      title: 'Paarse sterren op de kaart',
+      summary:
+        'Toont op de sterrenkaart de systemen met een paarse ster, die het verhaal normaal opent.'
+    },
     corvettes: {
       title: 'Korvetten',
       summary: 'Een korvet gebouwd op basis van een gedeeld ontwerp.'
@@ -574,6 +583,29 @@ export const nlNL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofaag'
     }
+  },
+  upkeep: {
+    repairTitle: 'Beschadigde technologie repareren',
+    repairHint:
+      'Het spel repareert alle beschadigde technologie van de gekozen inventaris, zoals na een crash in het verhaal. Er wordt niets verbruikt.',
+    repairAll: 'Alles repareren',
+    inventories: {
+      exosuit: 'Exopak',
+      ship: 'Schip',
+      multitool: 'Multitool',
+      freighter: 'Vrachtschip',
+      exocraft: 'Exovoertuig'
+    },
+    rechargeTitle: 'Opladen',
+    rechargeHint:
+      'Het spel laadt elke technologie op die niet vol is: gevarenbescherming, levensonderhoud, startmotoren en de rest. Er wordt niets verbruikt.',
+    rechargeNow: 'Nu alles opladen',
+    autoTitle: 'Vanzelf opladen',
+    autoHint:
+      'Zolang deze toepassing open is en het spel draait. In het spel verschijnt geen bericht.',
+    autoOn: 'Aan',
+    autoEvery: 'Alles opladen elke (minuten)',
+    autoLow: 'Ook meteen wanneer een lading onder 20% zakt'
   },
   pendingTech: {
     exocraft: {

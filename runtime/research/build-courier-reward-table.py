@@ -182,6 +182,11 @@ def main() -> None:
         entry("COURIER_NEXUS", simple("GcRewardNexus", [("Allow", "true"), ("SeasonRewardsString", "")])),
         # Completing a named mission (mission_complete.h).
         entry("COURIER_MISSION", simple("GcRewardCompleteMission", [("Mission", "COURIER")])),
+        # Repair of a whole inventory, recharge of a technology, purple stars on the galaxy map
+        # (inventory_repair.h, technology_recharge.h, galaxy_map_reveal.h).
+        entry("COURIER_REPAIR", simple("GcRewardRepairWholeInventory", [("InventoryToRepair", "Weapon")])),
+        entry("COURIER_RECHARGE", simple("GcRewardRechargeTech", [("TechID", "COURIER"), ("Silent", "false")])),
+        entry("COURIER_PURPLE", simple("GcRewardPurpleSystems", [("Allow", "true")])),
     ]
     for _, identifier, ship_class, scene, keep in SHIPS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificShip", "ShipType/ShipClass", ship_class,

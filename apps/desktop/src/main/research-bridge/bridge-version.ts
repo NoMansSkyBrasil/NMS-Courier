@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.32.0'
+export const bridgeVersion = '1.33.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -38,7 +38,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.29.0',
   '1.30.0',
   '1.31.0',
-  '1.32.0'
+  '1.32.0',
+  '1.33.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -132,5 +133,9 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   '19dd435ca6877383ff82ac42ad3fe785b5ac71484cfc2d41f5633d0a4e7e4103': '1.31.0',
   // 1.32.0 (2026-10-10): a planet search may run for up to 24 hours and also reports each
   // planet's flora, fauna and three resources.
-  '82d610f7117e3a3cfec304b17c68fd5bdf67d5545a34dc5f1251e22f80cb2206': '1.32.0'
+  '82d610f7117e3a3cfec304b17c68fd5bdf67d5545a34dc5f1251e22f80cb2206': '1.32.0',
+  // 1.33.0 (2026-10-10): repair of a whole inventory, recharge of low technologies and purple
+  // stars on the galaxy map, each through the game's own reward. Needs the data file of the
+  // same day.
+  fea4a9633156b010e7e788e9fa9ce74d2ae036fd4715b95138275d816e541dab: '1.33.0'
 }

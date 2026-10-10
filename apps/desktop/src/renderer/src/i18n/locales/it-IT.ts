@@ -81,6 +81,15 @@ export const itIT: Messages = {
       title: 'Tecnologie in attesa',
       summary: 'Completa le tecnologie che chiedono ancora componenti, in tutti gli inventari.'
     },
+    upkeep: {
+      title: 'Ripara e ricarica',
+      summary: 'Ripara la tecnologia danneggiata e ricarica ciò che si è esaurito.'
+    },
+    purpleStars: {
+      title: 'Stelle viola sulla mappa',
+      summary:
+        'Mostra sulla mappa galattica i sistemi con stella viola, che la storia normalmente sblocca.'
+    },
     corvettes: {
       title: 'Corvette',
       summary: 'Una corvetta costruita a partire da un progetto condiviso.'
@@ -573,6 +582,29 @@ export const itIT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofago'
     }
+  },
+  upkeep: {
+    repairTitle: 'Ripara la tecnologia danneggiata',
+    repairHint:
+      "Il gioco ripara tutta la tecnologia danneggiata dell'inventario scelto, come fa dopo uno schianto nella storia. Non si spende nulla.",
+    repairAll: 'Ripara tutto',
+    inventories: {
+      exosuit: 'Exotuta',
+      ship: 'Nave',
+      multitool: 'Multi-attrezzo',
+      freighter: 'Mercantile',
+      exocraft: 'Exoveicolo'
+    },
+    rechargeTitle: 'Ricarica',
+    rechargeHint:
+      'Il gioco ricarica ogni tecnologia non piena: protezione dai pericoli, supporto vitale, propulsori di decollo e le altre. Non si spende nulla.',
+    rechargeNow: 'Ricarica tutto ora',
+    autoTitle: 'Ricarica da sola',
+    autoHint:
+      'Finché questa applicazione è aperta e il gioco è in esecuzione. Nel gioco non compare alcun messaggio.',
+    autoOn: 'Attiva',
+    autoEvery: 'Ricarica tutto ogni (minuti)',
+    autoLow: 'Anche subito quando una carica scende sotto il 20%'
   },
   pendingTech: {
     exocraft: {

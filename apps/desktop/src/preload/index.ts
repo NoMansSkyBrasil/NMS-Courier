@@ -46,6 +46,13 @@ const nms = {
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
+  repairInventories: (request: { groups: string[] }, notify?: boolean) =>
+    ipcRenderer.invoke('nms:repair-inventories', request, notify),
+  recharge: (threshold: number, notify?: boolean) =>
+    ipcRenderer.invoke('nms:recharge', threshold, notify),
+  getAutoRecharge: () => ipcRenderer.invoke('nms:get-auto-recharge'),
+  setAutoRecharge: (next: { enabled: boolean; minutes: number; whenLow: boolean }) =>
+    ipcRenderer.invoke('nms:set-auto-recharge', next),
   getPlanetLibrary: () => ipcRenderer.invoke('nms:get-planet-library'),
   exportPlanetLibrary: () => ipcRenderer.invoke('nms:export-planet-library'),
   importPlanetLibrary: () => ipcRenderer.invoke('nms:import-planet-library'),

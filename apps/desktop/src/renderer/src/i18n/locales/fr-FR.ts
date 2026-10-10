@@ -82,6 +82,15 @@ export const frFR: Messages = {
       summary:
         'Terminez les technologies qui demandent encore des composants, dans tous les inventaires.'
     },
+    upkeep: {
+      title: 'Réparer et recharger',
+      summary: 'Réparez la technologie endommagée et rechargez ce qui est à plat.'
+    },
+    purpleStars: {
+      title: 'Étoiles violettes sur la carte',
+      summary:
+        "Affiche sur la carte galactique les systèmes à étoile violette, que l'histoire ouvre normalement."
+    },
     corvettes: {
       title: 'Corvettes',
       summary: 'Une corvette construite à partir d’un plan partagé.'
@@ -577,6 +586,29 @@ export const frFR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  upkeep: {
+    repairTitle: 'Réparer la technologie endommagée',
+    repairHint:
+      "Le jeu répare toute la technologie endommagée de l'inventaire choisi, comme après un crash dans l'histoire. Rien n'est dépensé.",
+    repairAll: 'Tout réparer',
+    inventories: {
+      exosuit: 'Exocombinaison',
+      ship: 'Vaisseau',
+      multitool: 'Multi-outil',
+      freighter: 'Cargo',
+      exocraft: 'Exovéhicule'
+    },
+    rechargeTitle: 'Recharger',
+    rechargeHint:
+      "Le jeu recharge toute technologie qui n'est pas pleine : protection contre les dangers, survie, propulseurs de décollage et le reste. Rien n'est dépensé.",
+    rechargeNow: 'Tout recharger maintenant',
+    autoTitle: 'Recharger tout seul',
+    autoHint:
+      "Tant que cette application est ouverte et que le jeu tourne. Aucun message n'apparaît dans le jeu.",
+    autoOn: 'Activé',
+    autoEvery: 'Tout recharger toutes les (minutes)',
+    autoLow: 'Aussi immédiatement quand une charge passe sous 20 %'
   },
   pendingTech: {
     exocraft: {

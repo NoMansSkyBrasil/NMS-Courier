@@ -27,6 +27,9 @@
 //   mission_complete.h             missions: ask the game to complete named missions
 //   technology_install.h           waiting technologies: list them and finish them in every inventory
 //   planet_search.h                planets: search the systems around the player with the game's generators
+//   inventory_repair.h             repair: every damaged technology of an inventory
+//   technology_recharge.h          recharge: installed technologies whose charge is low
+//   galaxy_map_reveal.h            galaxy map: let the slot see purple star systems
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -103,9 +106,12 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "mission_complete.h"
 #include "technology_install.h"
 #include "planet_search.h"
+#include "inventory_repair.h"
+#include "technology_recharge.h"
+#include "galaxy_map_reveal.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 28)
+#define EVENT_COUNT (CLASS_COUNT + 31)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -170,6 +176,9 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&nexus_state, 0, 0) == 1) nexus_apply_request();
     if (InterlockedCompareExchange(&mission_state, 0, 0) == 1) mission_apply_request();
     if (InterlockedCompareExchange(&install_state, 0, 0) == 1) install_apply_request();
+    if (InterlockedCompareExchange(&repair_state, 0, 0) == 1) repair_apply_request();
+    if (InterlockedCompareExchange(&recharge_state, 0, 0) == 1) recharge_apply_request();
+    if (InterlockedCompareExchange(&purple_state, 0, 0) == 1) purple_apply_request();
     // Offers wait until the game's window is in front; one offer a turn.
     int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
     int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
@@ -315,7 +324,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets"};
+                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets", L"repair", L"recharge", L"purple"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -376,6 +385,9 @@ void courier_probe_after_verified(void) {
         mission_write_result();
         install_write_result();
         search_write_result();
+        repair_write_result();
+        recharge_write_result();
+        purple_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -494,6 +506,18 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 27) {
             // The request sets the search's own state: a start, or a stop of the one running.
             if (!search_read_request()) InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 28) {
+            if (repair_read_request()) InterlockedExchange(&repair_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 29) {
+            if (recharge_read_request()) InterlockedExchange(&recharge_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 30) {
+            if (purple_read_request()) InterlockedExchange(&purple_state, 1);
+            else InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {
             if (currency_read_request()) InterlockedExchange(&currency_state, 1);

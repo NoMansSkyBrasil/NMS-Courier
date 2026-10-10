@@ -9,6 +9,7 @@ import { MissionsCard } from '@renderer/components/missions-card'
 import { PendingTechCard } from '@renderer/components/pending-tech-card'
 import { SavesCard } from '@renderer/components/saves-card'
 import { SetupNotice } from '@renderer/components/setup-notice'
+import { UpkeepCard } from '@renderer/components/upkeep-card'
 import { useGameState } from '@renderer/hooks/use-game-state'
 import { PlanetFinderCard } from '@renderer/components/planet-finder-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
@@ -100,6 +101,8 @@ export function FeaturePage({
         <PendingTechCard />
       ) : feature.id === 'saves' ? (
         <SavesCard />
+      ) : feature.id === 'upkeep' ? (
+        <UpkeepCard />
       ) : feature.id === 'missions' ? (
         <MissionsCard />
       ) : feature.id === 'standings' || feature.id === 'milestones' ? (

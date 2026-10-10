@@ -76,6 +76,14 @@ export const enUS: Messages = {
       title: 'Waiting technologies',
       summary: 'Finish technologies that still ask for components, in every inventory.'
     },
+    upkeep: {
+      title: 'Repair and recharge',
+      summary: 'Repair damaged technology and recharge what has run down.'
+    },
+    purpleStars: {
+      title: 'Purple stars on the map',
+      summary: 'Show purple star systems on the galaxy map, which the story normally opens.'
+    },
     corvettes: { title: 'Corvettes', summary: 'A corvette built from a shared layout.' },
     companions: { title: 'Companions', summary: 'Companion eggs and creatures.' },
     technologies: {
@@ -555,6 +563,29 @@ export const enUS: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  upkeep: {
+    repairTitle: 'Repair damaged technology',
+    repairHint:
+      'The game repairs every damaged technology of the inventory you choose, as it does after a crash in the story. Nothing is spent.',
+    repairAll: 'Repair everything',
+    inventories: {
+      exosuit: 'Exosuit',
+      ship: 'Starship',
+      multitool: 'Multi-tool',
+      freighter: 'Freighter',
+      exocraft: 'Exocraft'
+    },
+    rechargeTitle: 'Recharge',
+    rechargeHint:
+      'The game recharges every technology that is not full: hazard protection, life support, launch thrusters and the rest. Nothing is spent.',
+    rechargeNow: 'Recharge everything now',
+    autoTitle: 'Recharge by itself',
+    autoHint:
+      'While this application is open and the game is running. No message is shown in the game.',
+    autoOn: 'On',
+    autoEvery: 'Recharge everything every (minutes)',
+    autoLow: 'Also at once when a charge falls under 20%'
   },
   pendingTech: {
     exocraft: {

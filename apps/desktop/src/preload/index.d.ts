@@ -233,6 +233,17 @@ declare global {
       getWordRows: (
         locale: string
       ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
+      repairInventories: (
+        request: { groups: Array<'exosuit' | 'ship' | 'multitool' | 'freighter' | 'exocraft'> },
+        notify?: boolean
+      ) => Promise<DeliveryResult>
+      recharge: (threshold: number, notify?: boolean) => Promise<DeliveryResult>
+      getAutoRecharge: () => Promise<{ enabled: boolean; minutes: number; whenLow: boolean }>
+      setAutoRecharge: (next: {
+        enabled: boolean
+        minutes: number
+        whenLow: boolean
+      }) => Promise<{ enabled: boolean; minutes: number; whenLow: boolean }>
       getPlanetLibrary: () => Promise<{
         galaxies: Array<{ galaxy: number; planets: FoundPlanetEntry[] }>
       }>
