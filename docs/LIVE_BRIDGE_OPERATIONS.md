@@ -416,6 +416,15 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-planets-request-…` (event `planets`, bridge 1.30.0,
+experimental): `mode=start` with a time, a biome, a subtype mask and limits
+has the bridge ask the game's own system generator (`16a3a50`) and planet
+routine (`16a7880`) for the star systems around the player, about 3 ms every
+frame, and keep writing what matches to `native-planets-result-…`;
+`mode=stop` ends it. Native calls that only read: nothing of a save or of
+the player's state changes, and no backup is made. See
+[finding planets](PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400).
+
 Request `native-install-request-…` (event `install`, bridge 1.29.0,
 experimental): `mode=list` reads every inventory of the loaded slot for
 technologies still waiting for components; `mode=finish` with `all=1` or

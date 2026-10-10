@@ -47,6 +47,10 @@ const nms = {
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
   getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
+  startPlanetSearch: (request: { seconds: number; filter: Record<string, unknown> }) =>
+    ipcRenderer.invoke('nms:start-planet-search', request),
+  stopPlanetSearch: () => ipcRenderer.invoke('nms:stop-planet-search'),
+  getPlanetSearch: () => ipcRenderer.invoke('nms:get-planet-search'),
   installBridge: () => ipcRenderer.invoke('nms:install-bridge'),
   getSavesOverview: () => ipcRenderer.invoke('nms:get-saves-overview'),
   openBackupsFolder: () => ipcRenderer.invoke('nms:open-backups-folder'),

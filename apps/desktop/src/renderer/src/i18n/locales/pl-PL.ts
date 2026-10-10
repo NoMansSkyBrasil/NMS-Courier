@@ -598,6 +598,36 @@ export const plPL: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Gotowa lista (Euclid)',
+    sourceLive: 'Wokół mnie (dowolna galaktyka)',
+    liveHint:
+      'Gra sama przegląda układy wokół ciebie, od najbliższych. Im dłużej działa, tym dalej sięga. Graj dalej; wyszukiwanie kończy się, gdy opuścisz układ.',
+    duration: 'Szukaj przez',
+    minutes: '{count} min',
+    start: 'Rozpocznij wyszukiwanie',
+    stop: 'Zatrzymaj',
+    progress: 'Przejrzano układów: {systems}, do {distance} regionów stąd',
+    liveEmpty: 'Jeszcze nic nie znaleziono. Rozpocznij wyszukiwanie lub wymagaj mniej.',
+    grass: 'Kolor trawy',
+    liveState: {
+      running: 'Wyszukiwanie…',
+      done: 'Wyszukiwanie zakończone',
+      stopped: 'Zatrzymano',
+      travelled: 'Zatrzymano: opuszczono układ',
+      failed: 'Gra nie odpowiedziała; niczego więcej nie próbowano',
+      not_ready: 'Nie wczytano jeszcze układu gwiezdnego'
+    },
+    grassHues: {
+      green: 'Zielony',
+      teal: 'Morski',
+      blue: 'Niebieski',
+      purple: 'Fioletowy',
+      pink: 'Różowy',
+      red: 'Czerwony',
+      orange: 'Pomarańczowy',
+      yellow: 'Żółty',
+      pale: 'Blady'
+    },
     title: 'Znajdź planetę',
     hint: 'Wybierz, jaka ma być planeta, a potem podróżuj do wyniku lub skopiuj jego adres portalu.',
     scopeTitle: 'Na razie tylko galaktyka Euclid',

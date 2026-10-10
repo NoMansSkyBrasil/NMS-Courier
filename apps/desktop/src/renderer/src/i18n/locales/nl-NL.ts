@@ -614,6 +614,36 @@ export const nlNL: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Kant-en-klare lijst (Euclid)',
+    sourceLive: 'Om mij heen (elk sterrenstelsel)',
+    liveHint:
+      'Het spel zelf doorzoekt de sterrenstelsels om je heen, de dichtstbijzijnde eerst. Hoe langer het loopt, hoe verder het reikt. Speel intussen door; het zoeken stopt als je het systeem verlaat.',
+    duration: 'Zoeken gedurende',
+    minutes: '{count} min',
+    start: 'Zoeken starten',
+    stop: 'Stoppen',
+    progress: "{systems} systemen bekeken, tot {distance} regio's ver",
+    liveEmpty: 'Nog niets gevonden. Start een zoektocht of vraag minder.',
+    grass: 'Graskleur',
+    liveState: {
+      running: 'Bezig met zoeken…',
+      done: 'Zoeken voltooid',
+      stopped: 'Gestopt',
+      travelled: 'Gestopt: je hebt het systeem verlaten',
+      failed: 'Het spel antwoordde niet; er is niets anders geprobeerd',
+      not_ready: 'Nog geen sterrenstelsel geladen'
+    },
+    grassHues: {
+      green: 'Groen',
+      teal: 'Blauwgroen',
+      blue: 'Blauw',
+      purple: 'Paars',
+      pink: 'Roze',
+      red: 'Rood',
+      orange: 'Oranje',
+      yellow: 'Geel',
+      pale: 'Bleek'
+    },
     title: 'Een planeet vinden',
     hint: 'Kies hoe de planeet moet zijn en reis dan naar een resultaat of kopieer het portaaladres.',
     scopeTitle: 'Voorlopig alleen het Euclid-sterrenstelsel',

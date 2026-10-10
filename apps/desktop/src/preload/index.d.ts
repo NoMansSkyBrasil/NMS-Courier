@@ -267,6 +267,45 @@ declare global {
         notify: boolean
       }) => Promise<DeliveryResult>
       installBridge: () => Promise<BridgeInstallState | null>
+      startPlanetSearch: (request: {
+        seconds: number
+        filter: {
+          biome: string
+          variant: string
+          storms: number
+          sentinels: number
+          allowExtreme: boolean
+          race: string
+          system: string
+          perSystem: number
+        }
+      }) => Promise<DeliveryResult>
+      stopPlanetSearch: () => Promise<DeliveryResult>
+      getPlanetSearch: () => Promise<{
+        state: 'running' | 'done' | 'stopped' | 'travelled' | 'failed' | 'not_ready'
+        galaxy: number
+        regions: number
+        systems: number
+        planets: number
+        distance: number
+        elapsedMilliseconds: number
+        entries: Array<{
+          portal: string
+          biome: string
+          subtype: string
+          weather: string
+          storms: string
+          extreme: boolean
+          sentinels: string
+          race: string
+          star: string
+          economy: string
+          wealth: string
+          conflict: string
+          grass: string
+          distance: number
+        }>
+      } | null>
       getSavesOverview: () => Promise<{
         slots: Array<{ slot: number; lastSaved: string }>
         backups: Array<{ name: string; createdAt: string | null; feature: string }>

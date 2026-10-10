@@ -5,6 +5,7 @@ import { isLevelPage, isLevelRequest } from './research-bridge/level-plan'
 import { glyphDigits, glyphIcon } from '../shared/portal-address'
 import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { isInstallRequest } from '../shared/waiting-technology'
+import { isPlanetSearchRequest } from '../shared/planet-search'
 import { readSavesOverview } from './saves-overview'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
@@ -383,6 +384,43 @@ app.whenReady().then(() => {
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
   ipcMain.handle('nms:get-planet-survey', () => getResearchBridgeService().getPlanetSurvey())
+  // The search for planets around the player: start, stop, and what it has found so far.
+  ipcMain.handle('nms:start-planet-search', async (_, request: unknown) => {
+    if (!isPlanetSearchRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    const filter = request.filter
+    return getResearchBridgeService().planetSearch(
+      {
+        seconds: request.seconds,
+        filter: {
+          biome: filter.biome,
+          variant: filter.variant,
+          storms: filter.storms,
+          sentinels: filter.sentinels,
+          allowExtreme: filter.allowExtreme,
+          race: filter.race,
+          system: filter.system,
+          perSystem: 1
+        }
+      },
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  ipcMain.handle('nms:stop-planet-search', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().planetSearch(
+      'stop',
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  ipcMain.handle('nms:get-planet-search', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().getPlanetSearch(
+      (await gameStatusService.observe(root)).processId
+    )
+  })
   // Read only: when each save slot was last written and the copies made before changes.
   ipcMain.handle('nms:get-saves-overview', () =>
     readSavesOverview(saveDirectory(), backupDirectory())

@@ -257,6 +257,108 @@ systems coloured badges (green good, amber caution, red danger) under the
 lay-user rule of `AGENTS.md`. The list is of Euclid only; travel always
 asks for galaxy 1.
 
+## The search around the player (bridge 1.30.0, application 1.40.0)
+
+Built on 2026-10-10 and installed; **not yet run in the game**. It answers
+the owner's request: search around where the player is, farther the longer
+it runs, in whatever galaxy.
+
+### How the game itself looks at a system it is not in
+
+Read in the executable (build 180836):
+
+- `16a3a50(planet generator, input, biome)` builds an empty
+  `cGcSolarSystemData` on its own stack (66 colour palettes, the defaults of
+  every field), builds an info block (`44f9e0`, then `132d5e0` with the
+  universe address), seeds the generator of the current solar system object
+  (manager `+0x72afb0`, generator at `+0x521180`, seed fields `+0x510` and
+  `+0x514`) from the address, and runs the three stages of the system
+  generator on the stack copy: `164c580`, `164da40`, `164c770`. It then
+  reads the biome subtype of one planet (the planet number from 1 in bits
+  52 to 55 of the address), maps it through `24b270` and frees everything.
+  Its only callers are the planet routine's first part (`16a4a3f`) and
+  `1d6764`.
+- `16a7880(planet generator, planet data, input)`, the full planet routine,
+  is called by the game's own screens for planets of other systems
+  (`75cdd5`, `75d97f`, beside the text `PLANET_BODY`). The caller builds a
+  `cGcPlanetData` in place, calls the routine, and releases it with
+  `1cea50`.
+- `1e0dbd0(handle)` is a factory: it allocates 0x3ae0 bytes with the game's
+  allocator, builds an empty `cGcPlanetData` in them and stores the pointer
+  with the class hash `0x17a032b6` in the handle. Run in the emulator, the
+  fresh object holds no pointer and the heap does not grow, so a byte copy
+  of it is a clean object.
+- `24b270(planet generator, biome, subtype)` looks a biome file up **by
+  subtype number**: the list of a biome is 32 slots (count just before the
+  pointer, at `+0x8c + 16 * biome`; pointer at `+0x90 + 16 * biome`), and a
+  subtype without a file falls back to the first file there is.
+
+### What the bridge does
+
+`planet_search.h`, request `native-planets-request-…`, event `planets`:
+
+- A hook on `164c770` passes every call through. Only while the bridge's own
+  call of `16a3a50` runs on the game thread, it copies the finished system
+  data (`request + 8`) and the info block before the game discards them.
+- Each frame, for about 3 ms: the next star system (regions in cube shells
+  around the player's region, nearest first; systems `001` to `2FF` of each)
+  is asked for through `16a3a50`; an address the info block calls invalid
+  is skipped. Each planet the request's biome and subtype do not rule out
+  is asked for through `16a7880` on an object rebuilt from the factory's
+  bytes, then released with `1cea50`.
+- Read per planet: biome, subtype, weather, storms, extreme flag, sentinel
+  level of the normal preset, the first colour of the first palette
+  (grass), and of the system race, star, economy, wealth and conflict.
+- It stops after the time asked for, at 2,000 planets, on request, or when
+  the player leaves the star system it started in. **Native calls of the
+  game's own generators; nothing of the game's state is written by the
+  bridge** (the game's routine itself seeds the system generator, as it does
+  whenever it runs).
+- Result `native-planets-result-…`, rewritten about every 0.7 s:
+  `result=running|done|stopped|travelled|failed|not_ready`, `galaxy=`,
+  `centre=`, `regions=`, `systems=`, `planets=`, `found=`, `distance=`,
+  `elapsed_ms=`, then `planet=<portal>,<biome>,<subtype>,<weather>,<storms>,
+  <extreme>,<sentinels>,<race>,<star>,<economy>,<wealth>,<conflict>,
+  <grass RRGGBB>,<distance>` with the game's enum numbers.
+
+Application: "Find a planet" has two sources, the ready-made list and
+"Around me". The second starts the search with the chosen filter and time,
+shows progress and the planets as they arrive, names the grass colour by
+hue and filters on it, and travels in the galaxy the search ran in.
+
+### Checked offline
+
+- `16a3a50` run in the emulator exactly as the bridge calls it (planet
+  generator, input with planet 1, biome 0), with the system data read where
+  the hook reads it: for four addresses the planets' seeds, biomes,
+  subtypes and classes and the system's race, star, economy, wealth and
+  conflict equal what the emulated generator gives on the owner object.
+- `16a7880` run on the factory's bytes with the game's own `16a3a50`
+  inside: biome, subtype, weather, storms and sentinels equal the tool's
+  earlier results for the owner's system. It then stops in a later part
+  (`1694190`, a table the emulator does not have), so the colours and the
+  routine's own return were **not** seen offline.
+
+### Not known
+
+- Everything in the running game: that the calls are safe on the update
+  thread while the game generates on its own threads, how many systems a
+  frame slice covers, whether the grass colour is the first colour of the
+  first palette as assumed.
+- Whether every index `001` to `2FF` is a real system of a region (the
+  owner reached `272`).
+
+### A fault this work found in the ready-made list
+
+The research tool had given the emulator each biome's files as a short
+list in file order. The game indexes that list by subtype number, with the
+count before the pointer, so in the emulator `24b270` always answered 0 and
+every planet was worked out with the **first** file of its biome: a swampy
+lush planet got the weather of a plain lush one. The tool now fills 32
+slots a biome. The list was made again: 2,424 of 28,287 planets changed
+weather and 176 changed storm level; Earth-like by the preset went from 268
+to 269; the owner's system reads the same.
+
 ### What the owner asked for beyond it: a search the player runs
 
 The owner wants to choose the conditions, let it search for a time of

@@ -7,8 +7,11 @@ import {
   CopyIcon,
   InfoIcon,
   MapPinIcon,
+  PlayIcon,
+  RadarIcon,
   ShieldIcon,
   SkullIcon,
+  SquareIcon,
   StarIcon,
   TriangleAlertIcon
 } from 'lucide-react'
@@ -42,7 +45,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@renderer/components/ui/select'
+import { Spinner } from '@renderer/components/ui/spinner'
 import { Switch } from '@renderer/components/ui/switch'
+import { tones as stateTones } from '@renderer/features/tones'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
 import {
@@ -60,13 +65,24 @@ import {
   type SurveyBiome,
   type SurveyPlanet
 } from '../../../shared/planet-survey'
+import { grassHue, grassHues, type GrassHue } from '../../../shared/planet-search'
 
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.teleport>>
-type Found = SurveyPlanet & { inSystem: number }
+// A planet found live also has its grass colour and how far it is.
+type Found = SurveyPlanet & { inSystem: number; grass?: string; distance?: number }
+type SearchReport = NonNullable<Awaited<ReturnType<typeof window.nms.getPlanetSearch>>>
+// How long a search around the player may run, in minutes.
+const durations = [1, 5, 15, 30, 60] as const
+const searchTones = {
+  running: stateTones.info,
+  done: stateTones.good,
+  stopped: stateTones.neutral,
+  travelled: stateTones.caution,
+  failed: stateTones.danger,
+  not_ready: stateTones.caution
+} as const
 
-// The survey is of the first galaxy; the travel request counts galaxies from 1.
-const galaxyNumber = 1
 // Where the Travel page keeps its saved destinations.
 const favouritesKey = 'nms-courier-teleport-favourites'
 // Rows drawn at first and added each time the list is scrolled near its end.
@@ -134,6 +150,13 @@ export function PlanetFinderCard(): React.JSX.Element {
   const delivery = copy.delivery
   const [status, setStatus] = useState<BridgeStatus | null>(null)
   const [planets, setPlanets] = useState<SurveyPlanet[]>([])
+  // Where the planets come from: the ready-made list, or a search the game runs around the player.
+  const [source, setSource] = useState<'survey' | 'live'>('survey')
+  const [minutes, setMinutes] = useState<number>(5)
+  const [live, setLive] = useState<SearchReport | null>(null)
+  const [starting, setStarting] = useState(false)
+  const [startFailure, setStartFailure] = useState<DeliveryResult | null>(null)
+  const [grass, setGrass] = useState<'any' | GrassHue>('any')
   const [filter, setFilter] = useState<PlanetFilter>(earthLikeFilter)
   const [query, setQuery] = useState('')
   const [drawn, setDrawn] = useState(pageSize)
@@ -153,6 +176,24 @@ export function PlanetFinderCard(): React.JSX.Element {
     }
   }, [])
 
+  // While the live search is shown, what it has found is read again every second and a half.
+  useEffect(() => {
+    if (source !== 'live') return
+    let active = true
+    const refresh = (): void => {
+      void window.nms
+        .getPlanetSearch()
+        .then((next) => active && setLive(next))
+        .catch(() => undefined)
+    }
+    refresh()
+    const timer = window.setInterval(refresh, 1500)
+    return () => {
+      active = false
+      window.clearInterval(timer)
+    }
+  }, [source])
+
   useEffect(() => {
     let active = true
     const refresh = (): void => {
@@ -171,9 +212,16 @@ export function PlanetFinderCard(): React.JSX.Element {
 
   const found = useMemo(() => {
     const wanted = query.replace(/\s+/g, '').toUpperCase()
-    const passing = filterPlanets(planets, filter)
+    const listed: readonly SurveyPlanet[] = source === 'live' ? (live?.entries ?? []) : planets
+    const passing = (filterPlanets(listed, filter) as Found[]).filter(
+      (planet) =>
+        grass === 'any' || (planet.grass !== undefined && grassHue(planet.grass) === grass)
+    )
     return wanted ? passing.filter((planet) => planet.portal.includes(wanted)) : passing
-  }, [planets, filter, query])
+  }, [planets, live, source, filter, query, grass])
+  // The ready-made list is of the first galaxy; a live search runs in the galaxy the player is in.
+  // The travel request counts galaxies from 1.
+  const galaxyNumber = source === 'live' ? (live?.galaxy ?? 0) + 1 : 1
   const shown = found.slice(0, drawn)
   const systems = useMemo(
     () => new Set(found.map((planet) => planet.portal.slice(1))).size,
@@ -237,7 +285,30 @@ export function PlanetFinderCard(): React.JSX.Element {
     }
   }
 
+  const startSearch = async (): Promise<void> => {
+    setStarting(true)
+    setStartFailure(null)
+    try {
+      const started = await window.nms.startPlanetSearch({ seconds: minutes * 60, filter })
+      setStartFailure(started.outcome === 'completed' ? null : started)
+      setLive(await window.nms.getPlanetSearch())
+    } finally {
+      setStarting(false)
+    }
+  }
+
+  const stopSearch = async (): Promise<void> => {
+    setStarting(true)
+    try {
+      await window.nms.stopPlanetSearch()
+      setLive(await window.nms.getPlanetSearch())
+    } finally {
+      setStarting(false)
+    }
+  }
+
   const ready = status?.state === 'ready'
+  const searching = live?.state === 'running'
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
   const preset =
@@ -254,13 +325,105 @@ export function PlanetFinderCard(): React.JSX.Element {
         <CardDescription>{text.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Alert>
-          <InfoIcon />
-          <AlertTitle>{text.scopeTitle}</AlertTitle>
-          <AlertDescription>
-            {formatMessage(text.scope, { count: number(planets.length) })}
-          </AlertDescription>
-        </Alert>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            variant={source === 'survey' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setSource('survey')
+              setDrawn(pageSize)
+            }}
+          >
+            {text.sourceSurvey}
+          </Button>
+          <Button
+            variant={source === 'live' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setSource('live')
+              setDrawn(pageSize)
+            }}
+          >
+            <RadarIcon data-icon="inline-start" />
+            {text.sourceLive}
+          </Button>
+        </div>
+        {source === 'survey' ? (
+          <Alert>
+            <InfoIcon />
+            <AlertTitle>{text.scopeTitle}</AlertTitle>
+            <AlertDescription>
+              {formatMessage(text.scope, { count: number(planets.length) })}
+            </AlertDescription>
+          </Alert>
+        ) : (
+          <div className="flex flex-col gap-3 rounded-lg border p-4">
+            <p className="text-sm text-muted-foreground">{text.liveHint}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium">{text.duration}</span>
+              <Select
+                value={String(minutes)}
+                onValueChange={(value) => value && setMinutes(Number(value))}
+              >
+                <SelectTrigger aria-label={text.duration} className="w-28">
+                  <SelectValue>
+                    {formatMessage(text.minutes, { count: number(minutes) })}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {durations.map((count) => (
+                      <SelectItem key={count} value={String(count)}>
+                        {formatMessage(text.minutes, { count: number(count) })}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Button disabled={!ready || starting} onClick={() => void startSearch()}>
+                {starting ? (
+                  <Spinner data-icon="inline-start" />
+                ) : (
+                  <PlayIcon data-icon="inline-start" />
+                )}
+                {text.start}
+              </Button>
+              {searching && (
+                <Button variant="outline" disabled={starting} onClick={() => void stopSearch()}>
+                  <SquareIcon data-icon="inline-start" />
+                  {text.stop}
+                </Button>
+              )}
+            </div>
+            {live && (
+              <div className="flex flex-wrap items-center gap-2 text-sm">
+                <Badge variant="secondary" className={searchTones[live.state]}>
+                  {searching && <Spinner />}
+                  {text.liveState[live.state]}
+                </Badge>
+                <span className="text-muted-foreground">
+                  {formatMessage(text.progress, {
+                    systems: number(live.systems),
+                    distance: number(live.distance)
+                  })}
+                </span>
+              </div>
+            )}
+            {startFailure && (
+              <Alert variant="destructive">
+                <CircleAlertIcon />
+                <AlertTitle>{delivery.outcome[startFailure.outcome]}</AlertTitle>
+                <AlertDescription>
+                  {startFailure.reason && startFailure.reason in delivery.state
+                    ? formatMessage(delivery.state[startFailure.reason as DeliveryStateId], {
+                        id: ''
+                      })
+                    : delivery.outcomeHint[startFailure.outcome]}
+                </AlertDescription>
+              </Alert>
+            )}
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-2">
           <Button
             variant={preset === 'earth' ? 'default' : 'outline'}
@@ -421,6 +584,29 @@ export function PlanetFinderCard(): React.JSX.Element {
               </SelectContent>
             </Select>
           </Field>
+          {source === 'live' && (
+            <Field>
+              <FieldLabel htmlFor="planets-grass">{text.grass}</FieldLabel>
+              <Select
+                value={grass}
+                onValueChange={(value) => value && setGrass(value as 'any' | GrassHue)}
+              >
+                <SelectTrigger id="planets-grass" className="w-full">
+                  <SelectValue>{grass === 'any' ? text.any : text.grassHues[grass]}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="any">{text.any}</SelectItem>
+                    {grassHues.map((hue) => (
+                      <SelectItem key={hue} value={hue}>
+                        {text.grassHues[hue]}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </Field>
+          )}
           <Field>
             <FieldLabel htmlFor="planets-per-system">{text.perSystem}</FieldLabel>
             <Select
@@ -488,6 +674,13 @@ export function PlanetFinderCard(): React.JSX.Element {
                 <span className="flex items-center gap-2 font-medium" title={planet.subtype}>
                   <BiomeDot biome={planet.biome} />
                   <span className="truncate">{describe(planet)}</span>
+                  {planet.grass !== undefined && (
+                    <span
+                      className="inline-block size-3.5 shrink-0 rounded-sm border"
+                      style={{ backgroundColor: `#${planet.grass}` }}
+                      title={`${text.grass}: ${text.grassHues[grassHue(planet.grass) ?? 'pale']}`}
+                    />
+                  )}
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
                   <Badge variant="secondary" className={stormTones[planet.storms]}>
@@ -564,7 +757,11 @@ export function PlanetFinderCard(): React.JSX.Element {
           ))}
           {found.length === 0 && (
             <p className="p-4 text-sm text-muted-foreground">
-              {planets.length === 0 ? text.empty : delivery.selectNone}
+              {source === 'live'
+                ? text.liveEmpty
+                : planets.length === 0
+                  ? text.empty
+                  : delivery.selectNone}
             </p>
           )}
         </div>

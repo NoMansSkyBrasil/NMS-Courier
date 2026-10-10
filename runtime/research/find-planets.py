@@ -20,7 +20,8 @@ What the harness alone does not do, and this tool adds (docs/PLANET_FINDER_NOTES
   - the routine asks the system again for the planet's biome subtype (16a3a50), which does not work
     in the emulator; the subtype is taken from the generated system record instead;
   - the fauna chances (GcCreatureGenerationData at planet generator +0x50), the biome files of each
-    biome (+0x90 onwards) and the weather files with their count (+0x508, +0x504) are loaded;
+    biome (+0x90 onwards, one slot a subtype, count before the pointer) and the weather files with
+    their count (+0x508, +0x504) are loaded;
   - the scrap chance table read through the generator's first pointer is a blank block; it only
     feeds HasScrap;
   - the system generator is given the archive list of biome files (+0x78), which decides which
@@ -84,11 +85,16 @@ class Planets:
         self.biome_files = []
         for biome in next(iter(ElementTree.parse(solar / 'biomes' / 'biomefilenames.MXML').getroot())):
             options = [o for o in biome.iter('Property') if o.get('value') == 'GcBiomeFileListOption']
-            array = e.alloc(8 * max(64, len(options)))
-            for index, option in enumerate(options):
-                path = game_file(next(c.get('value') for c in option if c.get('name') == 'Filename'))
-                e.wq(array + 8 * index, e.load_mbin(str(path)) if path.exists() else 0)
-            self.biome_files.append((array, len(options)))
+            # One slot a subtype, empty where the biome has no file for it: the game looks a planet's
+            # biome file up by its subtype number (24b270) and falls back to the first file there is.
+            array = e.alloc(8 * 64)
+            for option in options:
+                fields = {c.get('name'): c for c in option}
+                subtype = SUBTYPES.index(fields['SubType'].find('Property').get('value'))
+                path = game_file(fields['Filename'].get('value') or '')
+                if fields['Filename'].get('value') and path.exists() and not e.rq(array + 8 * subtype):
+                    e.wq(array + 8 * subtype, e.load_mbin(str(path)))
+            self.biome_files.append((array, len(SUBTYPES)))
         listed = [c.get('value') for c in next(iter(ElementTree.parse(solar / 'weather' / 'weatherlist.MXML').getroot()))]
         self.weather = e.alloc(8 * 32)
         self.weather_count = len(listed)
@@ -124,8 +130,9 @@ class Planets:
             return None
         e.wq(pg + 0x50, self.creature)
         for biome, (array, length) in enumerate(self.biome_files):
+            # The count sits just before the pointer (24b270 reads it at +0x8c + 16 * biome).
             e.wq(pg + (biome + 9) * 16, array)
-            e.wi(pg + (biome + 9) * 16 + 8, length)
+            e.wi(pg + (biome + 9) * 16 - 4, length)
         e.wi(pg + 0x504, self.weather_count)
         e.wq(pg + 0x508, self.weather)
         if e.rq(pg) == 0:

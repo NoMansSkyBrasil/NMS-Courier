@@ -429,6 +429,21 @@ export type Messages = {
     states: Record<'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id', string>
   }
   planets: {
+    sourceSurvey: string
+    sourceLive: string
+    liveHint: string
+    duration: string
+    minutes: string
+    start: string
+    stop: string
+    progress: string
+    liveEmpty: string
+    grass: string
+    liveState: Record<'running' | 'done' | 'stopped' | 'travelled' | 'failed' | 'not_ready', string>
+    grassHues: Record<
+      'green' | 'teal' | 'blue' | 'purple' | 'pink' | 'red' | 'orange' | 'yellow' | 'pale',
+      string
+    >
     title: string
     hint: string
     scopeTitle: string

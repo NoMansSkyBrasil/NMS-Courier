@@ -598,6 +598,36 @@ export const jaJP: Messages = {
     }
   },
   planets: {
+    sourceSurvey: '用意済みリスト（ユークリッド）',
+    sourceLive: '自分の周囲（どの銀河でも）',
+    liveHint:
+      'ゲーム自身が、近い順に周囲の星系を調べます。時間をかけるほど遠くまで届きます。その間も遊び続けられます。星系を離れると検索は止まります。',
+    duration: '検索時間',
+    minutes: '{count}分',
+    start: '検索を開始',
+    stop: '停止',
+    progress: '{systems}星系を確認、{distance}リージョン先まで',
+    liveEmpty: 'まだ見つかっていません。検索を開始するか、条件をゆるめてください。',
+    grass: '草の色',
+    liveState: {
+      running: '検索中…',
+      done: '検索完了',
+      stopped: '停止しました',
+      travelled: '停止：星系を離れました',
+      failed: 'ゲームから応答がなく、それ以上は何も行っていません',
+      not_ready: '星系がまだ読み込まれていません'
+    },
+    grassHues: {
+      green: '緑',
+      teal: '青緑',
+      blue: '青',
+      purple: '紫',
+      pink: 'ピンク',
+      red: '赤',
+      orange: 'オレンジ',
+      yellow: '黄',
+      pale: '淡色'
+    },
     title: '惑星を探す',
     hint: 'どんな惑星がよいかを選び、結果へ移動するかポータルアドレスをコピーします。',
     scopeTitle: '今のところユークリッド銀河のみ',

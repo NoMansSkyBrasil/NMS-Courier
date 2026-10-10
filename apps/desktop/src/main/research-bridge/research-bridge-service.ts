@@ -11,6 +11,12 @@ import {
 import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import { getInstallPlan, installResultName } from './install-plan'
+import { getPlanetSearchPlan, planetSearchResultName } from './planet-search-plan'
+import {
+  parsePlanetSearch,
+  type PlanetSearchReport,
+  type PlanetSearchRequest
+} from '../../shared/planet-search'
 import { getBridgeInstallState, installBridge, type BridgeInstallState } from './bridge-installer'
 import {
   parseInstallResult,
@@ -100,6 +106,7 @@ export type DeliveryResult = {
     | 'teleport'
     | 'glyphs'
     | 'pendingTech'
+    | 'planets'
     | LevelPage
     | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
@@ -444,6 +451,29 @@ export class ResearchBridgeService {
     game: GameProcessStatus
   ): Promise<DeliveryResult> {
     return this.run('teleport', getTeleportPlan(request), installationRoot, game)
+  }
+
+  // Starts, or stops, the search for planets around the player. The game's generators are only
+  // read from, so no backup is made.
+  planetSearch(
+    request: PlanetSearchRequest | 'stop',
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run('planets', getPlanetSearchPlan(request), installationRoot, game, false)
+  }
+
+  // What the search has found so far, as the bridge last wrote it; null when none ran.
+  async getPlanetSearch(processId: number | null): Promise<PlanetSearchReport | null> {
+    if (processId === null) return null
+    const text = await readFile(
+      join(
+        this.context.diagnosticsDirectory,
+        `native-${planetSearchResultName}-180836-${processId}.txt`
+      ),
+      'utf8'
+    ).catch(() => '')
+    return parsePlanetSearch(text)
   }
 
   // Technologies waiting for their components in every inventory of the loaded save. A listing

@@ -541,6 +541,36 @@ export const zhCN: Messages = {
     }
   },
   planets: {
+    sourceSurvey: '现成列表（欧几里得）',
+    sourceLive: '我的周围（任意星系）',
+    liveHint:
+      '由游戏自己查看你周围的恒星系，由近到远。运行越久，范围越远。期间可以继续游玩；离开当前恒星系时搜索会停止。',
+    duration: '搜索时长',
+    minutes: '{count} 分钟',
+    start: '开始搜索',
+    stop: '停止',
+    progress: '已查看 {systems} 个恒星系，最远 {distance} 个区域',
+    liveEmpty: '还没有找到。开始一次搜索，或放宽要求。',
+    grass: '草的颜色',
+    liveState: {
+      running: '搜索中…',
+      done: '搜索完成',
+      stopped: '已停止',
+      travelled: '已停止：你离开了恒星系',
+      failed: '游戏没有回应；未再尝试其他操作',
+      not_ready: '尚未载入恒星系'
+    },
+    grassHues: {
+      green: '绿色',
+      teal: '青色',
+      blue: '蓝色',
+      purple: '紫色',
+      pink: '粉色',
+      red: '红色',
+      orange: '橙色',
+      yellow: '黄色',
+      pale: '浅色'
+    },
     title: '查找行星',
     hint: '选择想要的星球特征，然后前往某个结果或复制其传送门地址。',
     scopeTitle: '目前仅限欧几里得星系',

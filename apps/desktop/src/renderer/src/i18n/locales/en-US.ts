@@ -595,6 +595,36 @@ export const enUS: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Ready-made list (Euclid)',
+    sourceLive: 'Around me (any galaxy)',
+    liveHint:
+      'The game itself looks through the star systems around you, nearest first. The longer it runs, the farther it reaches. Keep playing meanwhile; it stops if you leave the system.',
+    duration: 'Search for',
+    minutes: '{count} min',
+    start: 'Start search',
+    stop: 'Stop',
+    progress: '{systems} systems looked at, up to {distance} regions away',
+    liveEmpty: 'Nothing found yet. Start a search, or ask for less.',
+    grass: 'Grass colour',
+    liveState: {
+      running: 'Searching…',
+      done: 'Search finished',
+      stopped: 'Stopped',
+      travelled: 'Stopped: you left the system',
+      failed: 'The game did not answer; nothing else was tried',
+      not_ready: 'No star system is loaded yet'
+    },
+    grassHues: {
+      green: 'Green',
+      teal: 'Teal',
+      blue: 'Blue',
+      purple: 'Purple',
+      pink: 'Pink',
+      red: 'Red',
+      orange: 'Orange',
+      yellow: 'Yellow',
+      pale: 'Pale'
+    },
     title: 'Find a planet',
     hint: 'Choose what the planet should be like, then travel to a result or copy its portal address.',
     scopeTitle: 'Euclid galaxy only, for now',

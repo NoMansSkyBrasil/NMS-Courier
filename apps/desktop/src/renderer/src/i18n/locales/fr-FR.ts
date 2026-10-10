@@ -617,6 +617,36 @@ export const frFR: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Liste prête (Euclide)',
+    sourceLive: 'Autour de moi (toute galaxie)',
+    liveHint:
+      "Le jeu parcourt lui-même les systèmes autour de vous, des plus proches aux plus lointains. Plus il tourne longtemps, plus il va loin. Continuez à jouer ; la recherche s'arrête si vous quittez le système.",
+    duration: 'Chercher pendant',
+    minutes: '{count} min',
+    start: 'Lancer la recherche',
+    stop: 'Arrêter',
+    progress: "{systems} systèmes examinés, jusqu'à {distance} régions de distance",
+    liveEmpty: "Rien trouvé pour l'instant. Lancez une recherche ou demandez moins.",
+    grass: "Couleur de l'herbe",
+    liveState: {
+      running: 'Recherche en cours…',
+      done: 'Recherche terminée',
+      stopped: 'Arrêtée',
+      travelled: 'Arrêtée : vous avez quitté le système',
+      failed: "Le jeu n'a pas répondu ; rien d'autre n'a été tenté",
+      not_ready: "Aucun système stellaire chargé pour l'instant"
+    },
+    grassHues: {
+      green: 'Vert',
+      teal: 'Sarcelle',
+      blue: 'Bleu',
+      purple: 'Violet',
+      pink: 'Rose',
+      red: 'Rouge',
+      orange: 'Orange',
+      yellow: 'Jaune',
+      pale: 'Pâle'
+    },
     title: 'Trouver une planète',
     hint: 'Choisissez à quoi la planète doit ressembler, puis voyagez vers un résultat ou copiez son adresse de portail.',
     scopeTitle: "Galaxie Euclide uniquement, pour l'instant",

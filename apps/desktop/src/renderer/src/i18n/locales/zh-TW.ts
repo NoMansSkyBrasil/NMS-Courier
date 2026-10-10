@@ -541,6 +541,36 @@ export const zhTW: Messages = {
     }
   },
   planets: {
+    sourceSurvey: '現成清單（歐幾里得）',
+    sourceLive: '我的周圍（任意星系）',
+    liveHint:
+      '由遊戲自己查看你周圍的恆星系，由近到遠。執行越久，範圍越遠。期間可以繼續遊玩；離開目前恆星系時搜尋會停止。',
+    duration: '搜尋時長',
+    minutes: '{count} 分鐘',
+    start: '開始搜尋',
+    stop: '停止',
+    progress: '已查看 {systems} 個恆星系，最遠 {distance} 個區域',
+    liveEmpty: '還沒有找到。開始一次搜尋，或放寬要求。',
+    grass: '草的顏色',
+    liveState: {
+      running: '搜尋中…',
+      done: '搜尋完成',
+      stopped: '已停止',
+      travelled: '已停止：你離開了恆星系',
+      failed: '遊戲沒有回應；未再嘗試其他操作',
+      not_ready: '尚未載入恆星系'
+    },
+    grassHues: {
+      green: '綠色',
+      teal: '青色',
+      blue: '藍色',
+      purple: '紫色',
+      pink: '粉色',
+      red: '紅色',
+      orange: '橙色',
+      yellow: '黃色',
+      pale: '淺色'
+    },
     title: '尋找行星',
     hint: '選擇想要的星球特徵，然後前往某個結果或複製其傳送門位址。',
     scopeTitle: '目前僅限歐幾里得星系',

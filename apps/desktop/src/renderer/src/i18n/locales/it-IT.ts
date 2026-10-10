@@ -613,6 +613,36 @@ export const itIT: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Elenco pronto (Euclide)',
+    sourceLive: 'Intorno a me (qualsiasi galassia)',
+    liveHint:
+      'È il gioco stesso a esaminare i sistemi intorno a te, dai più vicini ai più lontani. Più a lungo cerca, più lontano arriva. Continua a giocare; la ricerca si ferma se lasci il sistema.',
+    duration: 'Cerca per',
+    minutes: '{count} min',
+    start: 'Avvia ricerca',
+    stop: 'Ferma',
+    progress: '{systems} sistemi esaminati, fino a {distance} regioni di distanza',
+    liveEmpty: 'Ancora nulla. Avvia una ricerca o chiedi meno.',
+    grass: "Colore dell'erba",
+    liveState: {
+      running: 'Ricerca in corso…',
+      done: 'Ricerca terminata',
+      stopped: 'Fermata',
+      travelled: 'Fermata: hai lasciato il sistema',
+      failed: 'Il gioco non ha risposto; non è stato tentato altro',
+      not_ready: 'Nessun sistema stellare ancora caricato'
+    },
+    grassHues: {
+      green: 'Verde',
+      teal: 'Verde acqua',
+      blue: 'Blu',
+      purple: 'Viola',
+      pink: 'Rosa',
+      red: 'Rosso',
+      orange: 'Arancione',
+      yellow: 'Giallo',
+      pale: 'Pallido'
+    },
     title: 'Trovare un pianeta',
     hint: 'Scegli come deve essere il pianeta, poi viaggia verso un risultato o copia il suo indirizzo del portale.',
     scopeTitle: 'Solo la galassia Euclide, per ora',

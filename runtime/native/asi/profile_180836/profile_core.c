@@ -26,6 +26,7 @@
 //   nexus_access.h                 Nexus: allow the slot to use the Space Anomaly
 //   mission_complete.h             missions: ask the game to complete named missions
 //   technology_install.h           waiting technologies: list them and finish them in every inventory
+//   planet_search.h                planets: search the systems around the player with the game's generators
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -101,9 +102,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "nexus_access.h"
 #include "mission_complete.h"
 #include "technology_install.h"
+#include "planet_search.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 27)
+#define EVENT_COUNT (CLASS_COUNT + 28)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -179,6 +181,7 @@ static void WINAPI update_detour(void *application) {
     obtain_legacy_tick(&multitool_obtain);
     item_limits_tick();
     star_system_tick();
+    search_tick();
     account_keep_tick();
     if (InterlockedCompareExchange(&owned_state, 0, 1) == 1) apply_owned_request();
     if (InterlockedCompareExchange(&dispatch_state, 2, 1) == 1) dispatch_requested_reward();
@@ -303,7 +306,7 @@ static int resolve_targets(void) {
            writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
            reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base) &&
            item_resolve(base) && reward_carrier_resolve(base) && teleport_resolve(base) &&
-           stat_resolve(base) && install_resolve(base);
+           stat_resolve(base) && install_resolve(base) && search_resolve(base);
 #endif
 }
 
@@ -312,7 +315,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install"};
+                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -322,6 +325,9 @@ void courier_probe_after_verified(void) {
     if (result == MH_OK) result = MH_CreateHook(layout_target, (void *)layout_detour, (void **)&original_layout);
     if (result == MH_OK) result = MH_CreateHook(special_target, (void *)special_detour, (void **)&original_special);
     if (result == MH_OK) result = MH_CreateHook(home_target, (void *)home_detour, (void **)&original_home);
+    // The planet search copies a system the game generates for it; absent in the fixture build.
+    if (result == MH_OK && search_stage_target)
+        result = MH_CreateHook(search_stage_target, (void *)search_stage_detour, (void **)&search_stage_original);
     if (result != MH_OK) { write_status("hook_create_failed", result); return; }
     unsigned long random[4];
     if (BCryptGenRandom(NULL, (PUCHAR)random, sizeof(random), BCRYPT_USE_SYSTEM_PREFERRED_RNG) < 0 ||
@@ -369,6 +375,7 @@ void courier_probe_after_verified(void) {
         nexus_write_result();
         mission_write_result();
         install_write_result();
+        search_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -483,6 +490,10 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 26) {
             if (install_read_request()) InterlockedExchange(&install_state, 1);
             else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 27) {
+            // The request sets the search's own state: a start, or a stop of the one running.
+            if (!search_read_request()) InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {
             if (currency_read_request()) InterlockedExchange(&currency_state, 1);

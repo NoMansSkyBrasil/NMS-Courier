@@ -28,6 +28,24 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.40.0 and bridge 1.30.0 (2026-10-10)
+
+- Added (owner request): "Find a planet" can search **around you, in any
+  galaxy**. Choose what the planet should be like and for how long to
+  search; the game itself looks through the star systems around you,
+  nearest first, a little every frame while you keep playing, and the
+  planets appear as they are found. It stops when the time is up, when you
+  press Stop or when you leave the system.
+- Added: a planet found this way shows its grass colour, and the colour can
+  be filtered (green, teal, blue, purple, pink, red, orange, yellow, pale).
+- Bridge 1.30.0 (`fcc396a542bd77ec51fcf8f2be527bb82484db779eb5389d735a22d4485be0cb`): request `planets`. It calls the game's own system
+  and planet generators and reads their answers; it writes nothing. See
+  [the notes](docs/PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400).
+- Fixed: the ready-made list gave most variants the weather of their
+  biome's plain variant (a swampy lush planet read as a plain lush one).
+  2,424 of its 28,287 planets changed weather.
+- Not tried in the running game yet.
+
 ## Application 1.39.0 (2026-10-10)
 
 Every page was opened and read again; these are the faults found.

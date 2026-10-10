@@ -605,6 +605,36 @@ export const ptBR: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Lista pronta (Euclid)',
+    sourceLive: 'Ao meu redor (qualquer galáxia)',
+    liveHint:
+      'O próprio jogo percorre os sistemas ao seu redor, dos mais próximos aos mais distantes. Quanto mais tempo, mais longe ele chega. Continue jogando; a busca para se você sair do sistema.',
+    duration: 'Buscar por',
+    minutes: '{count} min',
+    start: 'Iniciar busca',
+    stop: 'Parar',
+    progress: '{systems} sistemas vistos, até {distance} regiões de distância',
+    liveEmpty: 'Nada encontrado ainda. Inicie uma busca ou peça menos.',
+    grass: 'Cor da grama',
+    liveState: {
+      running: 'Buscando…',
+      done: 'Busca concluída',
+      stopped: 'Parada',
+      travelled: 'Parada: você saiu do sistema',
+      failed: 'O jogo não respondeu; nada mais foi tentado',
+      not_ready: 'Nenhum sistema estelar carregado ainda'
+    },
+    grassHues: {
+      green: 'Verde',
+      teal: 'Verde-azulado',
+      blue: 'Azul',
+      purple: 'Roxo',
+      pink: 'Rosa',
+      red: 'Vermelho',
+      orange: 'Laranja',
+      yellow: 'Amarelo',
+      pale: 'Pálido'
+    },
     title: 'Encontrar um planeta',
     hint: 'Escolha como o planeta deve ser e viaje até um resultado ou copie o endereço de portal.',
     scopeTitle: 'Só a galáxia Euclid, por enquanto',

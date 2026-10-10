@@ -574,6 +574,36 @@ export const koKR: Messages = {
     }
   },
   planets: {
+    sourceSurvey: '준비된 목록(유클리드)',
+    sourceLive: '내 주변(모든 은하)',
+    liveHint:
+      '게임이 직접 주변 항성계를 가까운 곳부터 살펴봅니다. 오래 실행할수록 더 멀리까지 닿습니다. 그동안 계속 플레이하세요. 항성계를 떠나면 검색이 멈춥니다.',
+    duration: '검색 시간',
+    minutes: '{count}분',
+    start: '검색 시작',
+    stop: '중지',
+    progress: '항성계 {systems}개 확인, {distance}개 지역 거리까지',
+    liveEmpty: '아직 찾은 것이 없습니다. 검색을 시작하거나 조건을 줄여 보세요.',
+    grass: '풀 색상',
+    liveState: {
+      running: '검색 중…',
+      done: '검색 완료',
+      stopped: '중지됨',
+      travelled: '중지됨: 항성계를 떠났습니다',
+      failed: '게임이 응답하지 않아 더 시도하지 않았습니다',
+      not_ready: '아직 불러온 항성계가 없습니다'
+    },
+    grassHues: {
+      green: '녹색',
+      teal: '청록색',
+      blue: '파란색',
+      purple: '보라색',
+      pink: '분홍색',
+      red: '빨간색',
+      orange: '주황색',
+      yellow: '노란색',
+      pale: '옅은 색'
+    },
     title: '행성 찾기',
     hint: '원하는 행성의 모습을 고른 뒤 결과로 이동하거나 포털 주소를 복사하세요.',
     scopeTitle: '지금은 유클리드 은하만',

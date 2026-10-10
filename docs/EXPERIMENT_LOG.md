@@ -1,5 +1,41 @@
 # Runtime experiment log
 
+## 2026-10-10: planet search around the player built and installed (bridge 1.30.0, application 1.40.0)
+
+A build and an installation; nothing sent to the game. Build 180836
+(executable `13d5060d…cc3499`). Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400).
+
+- Read: how the game looks at a system it is not in (`16a3a50`), its full
+  planet routine (`16a7880`), the factory and release of the planet data
+  (`1e0dbd0`, `1cea50`), the biome file lookup (`24b270`).
+- Checked in the emulator: `16a3a50` called as the bridge calls it gives
+  the same system as the emulated generator for four addresses; `16a7880`
+  on the factory's bytes gives the same biome, subtype, weather, storms and
+  sentinels, then stops in a later part for want of a table.
+- Built bridge 1.30.0 (`fcc396a542bd77ec51fcf8f2be527bb82484db779eb5389d735a22d4485be0cb`), request `planets`; profile fixture ran.
+  Application 1.40.0: typecheck, lint, 142 tests, build, the finder's
+  "Around me" mode opened in the test instance (game closed).
+- Installed bridge 1.30.0 over 1.29.0 (`77f4876d…fc46e3`) with the game
+  closed. Undo: copy `native-builds/bridge-1.29.0/xinput9_1_0.dll` back.
+- Not proven: anything in the running game.
+
+## 2026-10-10: the research tool used the wrong biome file for most variants; survey made again (offline)
+
+Offline. Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#a-fault-this-work-found-in-the-ready-made-list).
+
+- Found while testing the bridge's sequence: `24b270` answered 0 for every
+  biome and subtype in the emulator, because the tool's biome file lists
+  were short lists in file order with the count after the pointer; the game
+  wants 32 slots by subtype number with the count before the pointer.
+- Fixed in `find-planets.py`; `planet-survey.md` made again (6,000 systems,
+  28,287 planets, 0 failed): 2,424 planets changed weather, 176 changed
+  storm level, Earth-like 268 to 269.
+- Rejected: the earlier reading that the parts take their file from the
+  subtype directly. They ask `24b270` each time.
+- Rollback: none needed.
+
 ## 2026-10-10: installer of the application's files, interface colours and groups (application 1.38.0)
 
 A build; nothing sent to the game. Owning note:

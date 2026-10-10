@@ -622,6 +622,36 @@ export const deDE: Messages = {
     }
   },
   planets: {
+    sourceSurvey: 'Fertige Liste (Euklid)',
+    sourceLive: 'Um mich herum (jede Galaxie)',
+    liveHint:
+      'Das Spiel selbst sieht die Sternsysteme um dich herum durch, die nächsten zuerst. Je länger es läuft, desto weiter reicht es. Spiel inzwischen weiter; die Suche endet, wenn du das System verlässt.',
+    duration: 'Suchen für',
+    minutes: '{count} Min.',
+    start: 'Suche starten',
+    stop: 'Stoppen',
+    progress: '{systems} Systeme durchgesehen, bis zu {distance} Regionen entfernt',
+    liveEmpty: 'Noch nichts gefunden. Starte eine Suche oder verlange weniger.',
+    grass: 'Grasfarbe',
+    liveState: {
+      running: 'Suche läuft…',
+      done: 'Suche beendet',
+      stopped: 'Gestoppt',
+      travelled: 'Gestoppt: Du hast das System verlassen',
+      failed: 'Das Spiel hat nicht geantwortet; nichts weiter wurde versucht',
+      not_ready: 'Noch kein Sternsystem geladen'
+    },
+    grassHues: {
+      green: 'Grün',
+      teal: 'Blaugrün',
+      blue: 'Blau',
+      purple: 'Violett',
+      pink: 'Rosa',
+      red: 'Rot',
+      orange: 'Orange',
+      yellow: 'Gelb',
+      pale: 'Blass'
+    },
     title: 'Einen Planeten finden',
     hint: 'Wähle, wie der Planet sein soll, und reise dann zu einem Ergebnis oder kopiere seine Portaladresse.',
     scopeTitle: 'Vorerst nur die Euklid-Galaxie',
