@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Delivery state, 2026-10-10: [release checklist](RELEASE_CHECKLIST.md)
+> lists what was seen working in the game, what is built and never tried
+> (one short test each) and what a player must be told. Mission rewards are
+> classified (`mission-rewards.md`, 213 of 824 only hand something over);
+> new feature candidates are in
+> [feature ideas](FEATURE_IDEAS.md#found-on-2026-10-10-while-reading-the-mission-rewards-and-the-planet-routines).
+
 > Planet search around the player, 2026-10-10: built in bridge 1.30.0
 > (1.31.0 installed, `19dd435c…7e4103`) and application 1.41.0; owning note
 > [finding planets](PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400).

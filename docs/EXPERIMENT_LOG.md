@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-10: mission rewards classified; release checklist written (offline)
+
+Offline; nothing sent to the game. Owning notes:
+[completing missions](MISSION_COMPLETION_NOTES.md#the-rewards-of-the-missions-classified-2026-10-10-offline),
+[feature ideas](FEATURE_IDEAS.md#found-on-2026-10-10-while-reading-the-mission-rewards-and-the-planet-routines),
+[release checklist](RELEASE_CHECKLIST.md).
+
+- Built: `classify-mission-rewards.py` and `mission-rewards.md`: 824 reward
+  entries, 213 that only hand something over, 609 that steer the game, 2
+  empty.
+- Rejected: looking the entries up in the game's reward table alone (695
+  looked missing; each mission table carries its own).
+- Found for later: reward classes that would make new features (repair a
+  whole inventory, recharge, refill hazard protection, show purple stars
+  and black holes on the map, sentinels off for a while).
+- Not built: the request that would give the 213 entries.
+
 ## 2026-10-10: purple stars and portal-only systems found; bridge 1.31.0, application 1.41.0
 
 Offline reading, a build and an installation; nothing sent to the game.

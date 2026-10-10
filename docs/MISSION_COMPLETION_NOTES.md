@@ -179,6 +179,36 @@ one small mission that is active and visible in the log (not the main
 story), then read the log, the inventory and the result lines; then save,
 reload and look again. Only after that a story mission.
 
+## The rewards of the missions, classified (2026-10-10, offline)
+
+The owner asked for a way to collect what a quest gives.
+[mission-rewards.md](../runtime/research/mission-rewards.md)
+(`runtime/research/classify-mission-rewards.py`) lists the 824 reward
+entries the mission stages name, with the reward classes inside each.
+
+- The entries are not all in the game's reward table: every mission table
+  carries a `Rewards` list of its own (`atlaspathtable` has 14), which the
+  first pass missed (695 entries looked missing).
+- 213 entries only hand something over: products, substances, money,
+  blueprints (single or several), a special, a word.
+- 609 entries hold at least one class that steers the game and must never
+  be given outside its mission: `GcRewardModifyStat` (108 entries),
+  `GcRewardMissionMessage` (66), `GcRewardMission` (59, starts a mission),
+  `GcRewardActivateFiends` (50), `GcRewardInstallTech` (45),
+  `GcRewardSetMissionStat` (33), `GcRewardRepairWholeInventory` (27),
+  `GcRewardActivateEncounterSentinels` (27), `GcRewardCompleteMultiMission`
+  (24), `GcRewardWantedLevel` (21), `GcRewardDamageTech` (8),
+  `GcRewardFillInventoryWithBrokenSlots` (4), `GcRewardTeleport`,
+  `GcRewardTimeWarp`, `GcRewardReinitialise` and more.
+- 2 entries are empty.
+
+Plan, not built: a bridge request that gives the chosen entries through the
+game's own reward routine (`give_reward`, already used by the bridge), and
+that refuses by structure, in the running game, any entry whose list holds
+a class outside the short "hands over" set, the same way the technology
+rules refuse by structure first. The page would offer "collect what this
+quest gives" only for the 213 entries. Nothing was sent to the game.
+
 ## Reproduce
 
 ```text

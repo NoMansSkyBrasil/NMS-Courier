@@ -107,6 +107,7 @@ reader can start from Markdown and reach every data file.
 | [freighter-accept-180383.md](../runtime/research/freighter-accept-180383.md) | Markdown table | 4 rows, 2 columns | Ownership routine called after the reward-acceptance home seed write | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
 | [galaxy-names.md](../runtime/research/galaxy-names.md) | Markdown table | 256 rows, 15 columns | columns: Number, pt-BR, pt-PT, ja-JP, en-US, fr-FR, it-IT, de-DE, es-ES, nl-NL, ko-KR, pl-PL, ru-RU, zh-CN, z… | [CHANGELOG.md](../CHANGELOG.md), [TELEPORT_NOTES.md](../docs/TELEPORT_NOTES.md) |
 | [guide-topics.md](../runtime/research/guide-topics.md) | Markdown table | 58 rows, 32 columns | columns: Topic, Category, Open, Rewarded, pt-BR, pt-PT, ja-JP, en-US, fr-FR, it-IT, de-DE, es-ES, nl-NL, ko-K… | [EXPEDITION_HISTORY_NOTES.md](../docs/EXPEDITION_HISTORY_NOTES.md) |
+| [mission-rewards.md](../runtime/research/mission-rewards.md) | Markdown table | 824 rows, 5 columns | columns: Reward, Verdict, Classes, Missions, Used by | [AI_CONTINUATION.md](../docs/AI_CONTINUATION.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [MISSION_COMPLETION_NOTES.md](../docs/MISSION_COMPLETION_NOTES.md) |
 | [missions.md](../runtime/research/missions.md) | Markdown table | 1786 rows, 38 columns | columns: Mission, Table, Class, Quest, Stages, Rewards, After, Next, Auto, Message, pt-BR, pt-PT, ja-JP, en-U… | [CHANGELOG.md](../CHANGELOG.md), [TODO.md](../TODO.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [MISSION_COMPLETION_NOTES.md](../docs/MISSION_COMPLETION_NOTES.md) |
 | [name-generation-180383.md](../runtime/research/name-generation-180383.md) | Markdown table | 8 rows, 2 columns | Freighter name routine referencing FREIGHTER_NAME_%i; ABI unverified | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NAME_GENERATION_RESEARCH.md](../docs/NAME_GENERATION_RESEARCH.md) |
 | [npc-input-fixtures-180383.json](../runtime/research/npc-input-fixtures-180383.json) | JSON array | 11 items |  | [ENTITY_INPUT_PIPELINE.md](../docs/ENTITY_INPUT_PIPELINE.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
@@ -217,4 +218,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 141 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 142 data files in 4 folders; 42 not mentioned outside this catalog.

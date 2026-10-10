@@ -1,0 +1,74 @@
+# Release checklist: what is built, what was seen working, what is left
+
+Written on 2026-10-10 after a re-read of every page of the application
+(1.41.0, bridge 1.31.0, game build 180836). It answers one question: what
+still has to be fixed or tried before this can be handed to a player. The
+[capability status table](CAPABILITY_STATUS.md) stays the full record; this
+is the short working list.
+
+A capability counts as verified only when it worked **from the application**
+in the running game (`AGENTS.md`). "Checked offline" means an emulator or a
+reading of the executable, which is not the same thing.
+
+## Tried in the game and working
+
+| Area | Seen by the owner |
+| --- | --- |
+| Items | Delivered with the game's message |
+| Currencies | Units, nanites and quicksilver arrived |
+| Technologies, crafting recipes, build parts, refiner and cooking recipes | Learned |
+| Appearance, titles | Unlocked |
+| Fishing record | Filled |
+| Expedition rewards, quicksilver shop | Unlocked on the account; claimed at the Quicksilver companion |
+| Standings and milestones | Levels arrive (the full milestone screen for silent entries was not seen) |
+| Travel to a system | Reached a space station; reached a planet from the planet finder |
+| Planet finder, ready-made list | One system compared with the game and matching |
+| Exosuit, starship, multi-tool, freighter upgrades and offers | Worked, marked "in testing" for the cases not tried |
+
+## Built, never tried in the game
+
+Each line is one short test from the application, on save slot 3.
+
+| Area | What to do | What to look at |
+| --- | --- | --- |
+| Waiting technologies (bridge 1.29.0) | "Check my inventories", then "Finish" on one technology | The list equals the gears seen in the game; the technology works; it is still installed after save and reload |
+| Search for planets around you (bridge 1.30.0, 1.31.0) | "Find a planet", "Around me", one minute, preset Earth-like | The game keeps its frame rate; planets appear; travel to one and compare biome, weather, sentinels and grass colour |
+| Search in another galaxy | The same after travelling to another galaxy | The planets found are of that galaxy and travel lands there |
+| Purple star and portal-only systems | Travel to one planet with each badge | The system is purple; the portal-only one is not on the galaxy map |
+| Install button | Rename the bridge file in the game folder, open the application, press "Install" | The file is back and the game connects |
+| Milestone screen for silent entries (bridge 1.24.0) | Raise one "no message" milestone with the switch on | The full "milestone reached" screen |
+| Fractional milestones (bridge 1.25.0) | Raise one of them | The value and the message |
+| Guide topics | Unlock a few | They are in the guide |
+| Space Anomaly | "Send to the game" on a save that has not reached it | The Anomaly can be summoned |
+| Missions (bridge 1.27.0, 1.28.0) | Complete one small secondary mission | Whether the next one starts and what the skipped steps gave |
+| Words | Teach a few words of each race | They are known in a conversation |
+| Portal glyphs | Learn the next glyphs | They are in the portal screen |
+| Corvettes | Start a build from a shared file | The ship is assembled in the build screen |
+
+## Known limits to say plainly to a player
+
+- The application works with game build 180836 only; another build gets no
+  change at all, by design.
+- It is a development build: a packaged, installable application has not
+  been verified on a clean machine (`docs/DISTRIBUTION.md`).
+- Finishing a waiting technology does not spend its components.
+- Completing a mission does not hand over what its steps would have given.
+- The ready-made planet list is a prediction for one part of Euclid; the
+  search around you asks the game itself.
+- Item names are in capitals, as the game's own catalogue has them.
+
+## Found by the re-read and fixed in 1.39.0 to 1.41.0
+
+Cards that should have been hidden, category names in English, an empty
+"Saves" page, a connection page full of internal words, exocraft shown as
+numbers, planned areas looking like working ones, the planet list using the
+wrong biome file for most variants and holding no purple star. See
+[the changelog](../CHANGELOG.md).
+
+## Still open in the interface
+
+- A read-through in languages other than Portuguese.
+- The card title "Send to the game" is the same on every page.
+- Long lists load their icons a moment after the rows.
+- The equipment pages keep a selector called "Action" whose choices could
+  be buttons.

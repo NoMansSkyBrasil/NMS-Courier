@@ -176,6 +176,53 @@ Added the same day at the owner's wish: Earth-like planets found offline
 with the emulated generator and reached with the Travel page. See
 [finding planets](PLANET_FINDER_NOTES.md).
 
+## Found on 2026-10-10 while reading the mission rewards and the planet routines
+
+Each of these is a reward class the game's own missions use, so the game
+has a routine for it and its own message; the carrier method of this
+project (`reward_carrier.h`) reaches it the same way it reaches currencies
+and standings. None is built. Strongest first.
+
+- **Repair a whole inventory.** `GcRewardRepairWholeInventory`
+  (`InventoryToRepair`), used by 27 mission rewards. One press repairs every
+  damaged technology of the ship, the exosuit or the multi-tool, the way the
+  story does after a crash. Fits beside "Waiting technologies".
+- **Recharge a technology.** `GcRewardRechargeTech` (`TechID`, `Silent`):
+  hazard protection, life support, launch thrusters, shields.
+- **Refill hazard protection.** `GcRewardRefreshHazProt` (`Amount`,
+  `SetNotAdd`, `SpecificHazard`).
+- **Show purple stars on the galaxy map.** `GcRewardPurpleSystems`
+  (`Allow`): the switch the story flips; without it a player cannot see
+  the purple systems the planet finder now lists. Slot scope.
+- **Show black holes on the galaxy map.** `GcRewardShowBlackHoles`
+  (`SignalScanType`).
+- **Sentinels off for a while.** `GcRewardDisableSentinels` (`Duration`,
+  messages), with `GcRewardEnableSentinels` to undo it. To weigh against the
+  owner's rule about features that break things: it is the game's own
+  temporary state, used by missions.
+- **Collect what a quest gives**: see
+  [the classification](MISSION_COMPLETION_NOTES.md#the-rewards-of-the-missions-classified-2026-10-10-offline).
+
+From the planet routines, all of them read-only additions to the search
+around the player (the planet data already holds them once the game's
+routine has run):
+
+- **Resources of a planet**: `CommonSubstanceID`, `UncommonSubstanceID`,
+  `RareSubstanceID` (`+0x33d0`, `+0x3430`, `+0x3400`): "find a planet with
+  activated indium".
+- **Flora and fauna level**, **water**, **rings** (`Rings` at `+0x1fd0`).
+- **The planet's own name**: the game's caller fills `PlanetInfo` with
+  `16a4bd0` right after the planet routine, so a result could show the name
+  the player will read on arrival.
+- **Rich systems for class S hunting**: the system's wealth and economy are
+  already in every result; they only need a filter.
+- **Dissonant planets**: sentinel level `Corrupt` is already read; a preset
+  "dissonant" is a filter away.
+- **Ships of a system**: the system data the search captures holds
+  `SystemShips`; "a system with an exotic ship" is what the open-source NMS
+  Shipwright does offline and could be done live.
+- **Phantom and purple systems**: built in bridge 1.31.0.
+
 ## Ideas that are not about a new reward
 
 - **Kits.** A named list of deliveries saved in the application ("start
