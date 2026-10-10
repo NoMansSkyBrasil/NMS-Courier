@@ -422,11 +422,6 @@ export const zhCN: Messages = {
       Builders: '自噬者'
     }
   },
-  expeditions: {
-    claim: '同时在此存档中标记为已领取',
-    claimHint:
-      '关闭：奖励在账号上解锁，并留在水银合成伙伴处，供你在游戏中领取。开启：还会在已载入的存档中记为已领取。'
-  },
   levels: {
     hint: {
       standings:

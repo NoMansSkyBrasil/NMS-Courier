@@ -188,6 +188,7 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 
 - Delivery uses live game functions through verified runtime integration. Never fall back to save editing.
 - Owner rule, repeated on 2026-10-09: nothing is ever written into a save. Everything is delivered through the running game, the way the game itself would hand it over, and the game's own notification is shown wherever its routine has one (the user may switch notifications off; the default is on).
+- Owner rule of 2026-10-09: the application helps the player; it never claims a reward for them. A reward the game lets the player claim (an expedition reward at the Quicksilver companion) is only made available; it is never recorded as claimed or redeemed, and no option may offer that.
 - The future Save Editor is a separate feature area, outside the initial implementation.
 - Never invent game addresses, signatures, function names, layouts, or compatibility claims.
 - Unknown builds must not receive runtime mutations.

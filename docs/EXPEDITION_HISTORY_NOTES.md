@@ -77,6 +77,18 @@ plain rewards, so the carrier method of
 [the data file](../runtime/mods/courier_rewards/README.md) is the expected
 route.
 
+## Owner decision: nothing is claimed for the player (application 1.31.1)
+
+On 2026-10-09 the owner rejected the claim switch outright: the goal is to
+help the player, and every claim is theirs to make. Since application
+1.31.1 the Expeditions page only unlocks on the account, for "send all" and
+for a selection, and has no option to record a reward as claimed. The
+"Expeditions switch" item below describes 1.31.0 only.
+
+Still using the slot's redeem routine, for the owner to rule on: the Twitch
+and platform pages (redeem, account, keep list) and the appearance page
+(where the slot routine is the unlock itself and nothing is left to claim).
+
 ## Built (application 1.31.0, bridge 1.26.0)
 
 - **Expeditions switch.** "Also mark as claimed in this save", off by

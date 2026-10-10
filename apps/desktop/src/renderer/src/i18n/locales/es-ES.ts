@@ -474,11 +474,6 @@ export const esES: Messages = {
       Builders: 'Autófago'
     }
   },
-  expeditions: {
-    claim: 'Marcar también como reclamada en esta partida',
-    claimHint:
-      'Desactivado: las recompensas se desbloquean en la cuenta y quedan en el Compañero de síntesis de azogue para que las reclames en el juego. Activado: además se registran como ya reclamadas en la partida cargada.'
-  },
   levels: {
     hint: {
       standings:

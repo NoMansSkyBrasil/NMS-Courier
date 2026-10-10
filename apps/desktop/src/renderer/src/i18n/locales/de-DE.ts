@@ -487,11 +487,6 @@ export const deDE: Messages = {
       Builders: 'Autophage'
     }
   },
-  expeditions: {
-    claim: 'Auch in diesem Spielstand als eingelöst markieren',
-    claimHint:
-      'Aus: Die Belohnungen werden für das Konto freigeschaltet und bleiben beim Quecksilber-Synthese-Begleiter, damit du sie im Spiel einlöst. Ein: Sie werden zusätzlich im geladenen Spielstand als bereits eingelöst vermerkt.'
-  },
   levels: {
     hint: {
       standings:

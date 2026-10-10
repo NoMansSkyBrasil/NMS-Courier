@@ -32,7 +32,6 @@ import {
 import {
   getDeliveryPlan,
   getItemPlan,
-  redeemableSeasonRewards,
   testedBridgeSha256,
   type DeliveryFeatureId,
   type DeliveryPlan,
@@ -217,16 +216,13 @@ export class ResearchBridgeService {
     // Chosen entries; without them the whole area is sent.
     chosen: readonly string[] | null = null,
     // Let the game show its own notifications where the routine has them.
-    notify = true,
-    // Expedition rewards: also record them as claimed in the loaded slot.
-    claim = false
+    notify = true
   ): Promise<DeliveryResult> {
     const plan = chosen
       ? getSelectionPlan(feature, chosen, await this.getOptions(feature), notify, {
-          keepEntries: await this.keepEntries(),
-          claimEntries: claim ? await redeemableSeasonRewards(this.context.researchDirectory) : []
+          keepEntries: await this.keepEntries()
         })
-      : await getDeliveryPlan(feature, this.context.researchDirectory, notify, claim)
+      : await getDeliveryPlan(feature, this.context.researchDirectory, notify)
     return this.run(feature, plan, installationRoot, game)
   }
 

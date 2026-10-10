@@ -461,11 +461,6 @@ export const enUS: Messages = {
       Builders: 'Autophage'
     }
   },
-  expeditions: {
-    claim: 'Also mark as claimed in this save',
-    claimHint:
-      'Off: the rewards are unlocked on the account and stay at the Quicksilver Synthesis Companion for you to claim in the game. On: they are also recorded as already claimed in the loaded save.'
-  },
   levels: {
     hint: {
       standings:

@@ -162,12 +162,7 @@ declare global {
         bridgeVersion: string
         appVersion: string
       }>
-      deliver: (
-        feature: string,
-        chosen?: string[],
-        notify?: boolean,
-        claim?: boolean
-      ) => Promise<DeliveryResult>
+      deliver: (feature: string, chosen?: string[], notify?: boolean) => Promise<DeliveryResult>
       deliverItems: (
         items: Array<{ id: string; amount: number }>,
         notify?: boolean

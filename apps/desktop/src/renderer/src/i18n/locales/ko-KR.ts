@@ -443,11 +443,6 @@ export const koKR: Messages = {
       Builders: '오토파지'
     }
   },
-  expeditions: {
-    claim: '이 세이브에서도 수령한 것으로 표시',
-    claimHint:
-      '끔: 보상이 계정에서 잠금 해제되고, 게임에서 퀵실버 합성 동반자에게 받을 수 있는 상태로 남습니다. 켬: 불러온 세이브에도 이미 수령한 것으로 기록합니다.'
-  },
   levels: {
     hint: {
       standings:

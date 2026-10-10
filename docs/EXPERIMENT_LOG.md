@@ -1,5 +1,12 @@
 # Runtime experiment log
 
+## 2026-10-09: claim switch removed by owner decision (application 1.31.1)
+
+No request involved. The owner rejected the switch "Also mark as claimed in
+this save" the same day it was added: every claim is the player's. The
+Expeditions page now only unlocks on the account. Rule added to `AGENTS.md`.
+Open for the owner: the redeem step of the Twitch and platform pages.
+
 ## 2026-10-09: guide, Space Anomaly and expeditions switch built (bridge 1.26.0)
 
 A build after the owner's go-ahead; no request of this version reached the

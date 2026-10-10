@@ -314,7 +314,8 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [ ] Words: race icons from the game's textures in the grid's column headers; read which words are already known from the running game so the grid can show them (today a box only says what to send).
 - [ ] Words: decide `BUI_MINE` (its only entry, `MINING`, has race `None`); not offered until the reward is seen to accept it.
 - [ ] Test `bridge client > writes the request, signals it and returns the answer` (`research-bridge-service.test.ts`) failed in two of four full runs on 2026-10-09 while the game was running and passed alone; it depends on timing against a fake bridge and needs a wider margin.
-- [x] Expeditions "completed, not redeemed": switch "Also mark as claimed in this save" (application 1.31.0, [notes](docs/EXPEDITION_HISTORY_NOTES.md)).
+- [x] Expeditions "completed, not redeemed": the page only unlocks on the account; the claim switch of 1.31.0 was removed in 1.31.1 by owner decision ([notes](docs/EXPEDITION_HISTORY_NOTES.md)).
+- [ ] Owner to rule: the Twitch and platform pages still call the slot's redeem routine before the account unlock; under the rule "never claim for the player" that step may have to go.
 - [ ] Still to find: what the game's "Past expeditions" page tests to show an expedition as completed.
 - [ ] Guide and Space Anomaly (bridge 1.26.0): live test from the application, one topic first, then the Space Anomaly; read the result lines and what the game shows.
 - [x] Owner decision 2026-10-09: no named shortcuts for hyperdrives and Atlas Seeds; the Technologies and crafting recipes pages already cover them.

@@ -10,7 +10,8 @@ export const rewardFeatures: readonly Feature[] = [
     icon: FlagIcon,
     kind: 'delivery',
     status: 'verified',
-    scope: 'both',
+    // Only unlocked on the account; the player claims each reward in the game.
+    scope: 'account',
     rows: [
       { row: 'deliverable', count: 293 },
       { row: 'redeemedInSave', count: 112 }

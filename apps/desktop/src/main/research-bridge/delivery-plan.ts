@@ -242,16 +242,6 @@ const rewardTable = 'unlockable-rewards.md'
 const guideTable = 'guide-topics.md'
 const guideTopic = /^[A-Z0-9_]{1,31}$/
 
-// Season rewards the slot's redeem routine takes (columns: ID, kind, expedition, product, flags,
-// deliverable).
-export function redeemableSeasonRewards(researchDirectory: string): Promise<string[]> {
-  return idsOfClass(
-    researchDirectory,
-    rewardTable,
-    0,
-    (cells) => cells[1] === 'season' && cells[5] === 'yes'
-  )
-}
 const productTable = 'product-delivery-classification.md'
 const accountTable = 'account-unlocks.md'
 
@@ -278,9 +268,7 @@ function plan(
 export async function getDeliveryPlan(
   feature: DeliveryFeatureId,
   researchDirectory: string,
-  notify: boolean,
-  // Expedition rewards: also record them as claimed in the loaded slot.
-  claim = false
+  notify: boolean
 ): Promise<DeliveryPlan | null> {
   const products = (classes: readonly string[]): Promise<string[]> =>
     idsOfClass(researchDirectory, productTable, 0, (cells) => classes.includes(cells[1]))
@@ -346,12 +334,9 @@ export async function getDeliveryPlan(
     case 'titles':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['title']))])
     case 'expeditions':
-      // Unlocked on the account, a reward stays to be claimed in the game; claimed in the slot as
-      // well only when asked.
-      return plan(true, [
-        ...(claim ? [await redeem('season')] : []),
-        steps.account(await accountEntries(researchDirectory, ['season']))
-      ])
+      // Only unlocked on the account: the reward stays at the Quicksilver companion and the player
+      // claims it in the game. It is never recorded as claimed for them (owner rule, 2026-10-09).
+      return plan(true, [steps.account(await accountEntries(researchDirectory, ['season']))])
     case 'guide':
       return plan(false, [
         steps.wiki(

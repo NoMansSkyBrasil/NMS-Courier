@@ -482,11 +482,6 @@ export const frFR: Messages = {
       Builders: 'Autophage'
     }
   },
-  expeditions: {
-    claim: 'Marquer aussi comme réclamée dans cette sauvegarde',
-    claimHint:
-      'Désactivé : les récompenses sont débloquées sur le compte et restent auprès du Compagnon de synthèse de vif-argent pour être réclamées en jeu. Activé : elles sont aussi enregistrées comme déjà réclamées dans la sauvegarde chargée.'
-  },
   levels: {
     hint: {
       standings:

@@ -422,11 +422,6 @@ export const zhTW: Messages = {
       Builders: '自噬者'
     }
   },
-  expeditions: {
-    claim: '同時在此存檔中標記為已領取',
-    claimHint:
-      '關閉：獎勵在帳號上解鎖，並留在水銀合成夥伴處，供你在遊戲中領取。開啟：還會在已載入的存檔中記為已領取。'
-  },
   levels: {
     hint: {
       standings:

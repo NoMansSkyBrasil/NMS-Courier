@@ -28,6 +28,15 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.31.1 (2026-10-09)
+
+- Removed (owner decision): the switch "Also mark as claimed in this save"
+  of the Expeditions page, added in 1.31.0. Expedition rewards are only
+  unlocked on the account; the player claims each one in the game. The
+  application never records a reward as claimed, for "send all" or for a
+  selection. The rule is in `AGENTS.md`.
+- Bridge unchanged (1.26.0).
+
 ## Application 1.31.0 and bridge 1.26.0 (2026-10-09)
 
 - Added (owner request): page "Guide" under "Unlock": the 50 topics of the

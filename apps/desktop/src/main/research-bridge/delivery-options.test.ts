@@ -87,8 +87,7 @@ describe('delivery options', () => {
     // A Twitch selection is added to the kept list, never put in its place.
     const twitch = await listDeliveryOptions(research, 'twitch')
     const kept = getSelectionPlan('twitch', ['TWITCH_406'], twitch, true, {
-      keepEntries: ['twitch=TWITCH_407', 'platform=ANY_ID'],
-      claimEntries: []
+      keepEntries: ['twitch=TWITCH_407', 'platform=ANY_ID']
     })
     expect(kept?.steps.map((step) => step.label)).toEqual(['redeem', 'account', 'keep'])
     expect(kept?.steps[2].request?.lines).toEqual([
@@ -228,22 +227,12 @@ describe('item, currency and equipment requests', () => {
     ).toBeNull()
   })
 
-  it('unlocks an expedition reward on the account and claims it in the slot only when asked', async () => {
+  it('only unlocks an expedition reward on the account, never claims it for the player', async () => {
     const options = await listDeliveryOptions(research, 'expeditions')
-    const id = options[0].id
-    const earned = getSelectionPlan('expeditions', [id], options, true)
-    expect(earned?.steps.map((step) => step.label)).toEqual(['account'])
-    const claimed = getSelectionPlan('expeditions', [id], options, true, {
-      keepEntries: [],
-      claimEntries: [id]
-    })
-    expect(claimed?.steps.map((step) => step.label)).toEqual(['redeem', 'account'])
-    expect(
-      (await getDeliveryPlan('expeditions', research, true))?.steps.map((step) => step.label)
-    ).toEqual(['account'])
-    expect(
-      (await getDeliveryPlan('expeditions', research, true, true))?.steps.map((step) => step.label)
-    ).toEqual(['redeem', 'account'])
+    const chosen = getSelectionPlan('expeditions', [options[0].id], options, true)
+    expect(chosen?.steps.map((step) => step.label)).toEqual(['account'])
+    const all = await getDeliveryPlan('expeditions', research, true)
+    expect(all?.steps.map((step) => step.label)).toEqual(['account'])
   })
 
   it('names guide topics in the interface language and sends the chosen ones', async () => {

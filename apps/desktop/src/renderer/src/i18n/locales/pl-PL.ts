@@ -466,11 +466,6 @@ export const plPL: Messages = {
       Builders: 'Autofag'
     }
   },
-  expeditions: {
-    claim: 'Oznacz też jako odebrane w tym zapisie',
-    claimHint:
-      'Wyłączone: nagrody są odblokowane na koncie i czekają u Towarzysza syntezy rtęci do odebrania w grze. Włączone: są także zapisywane jako już odebrane we wczytanym zapisie.'
-  },
   levels: {
     hint: {
       standings:

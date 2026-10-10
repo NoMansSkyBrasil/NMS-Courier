@@ -480,11 +480,6 @@ export const nlNL: Messages = {
       Builders: 'Autofaag'
     }
   },
-  expeditions: {
-    claim: 'Ook als geclaimd markeren in deze save',
-    claimHint:
-      'Uit: de beloningen worden op het account ontgrendeld en blijven bij de Kwikzilver-synthesemetgezel, zodat je ze in het spel kunt claimen. Aan: ze worden ook als al geclaimd vastgelegd in de geladen save.'
-  },
   levels: {
     hint: {
       standings:

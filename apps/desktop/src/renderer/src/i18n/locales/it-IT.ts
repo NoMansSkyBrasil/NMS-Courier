@@ -479,11 +479,6 @@ export const itIT: Messages = {
       Builders: 'Autofago'
     }
   },
-  expeditions: {
-    claim: 'Segna anche come riscattata in questo salvataggio',
-    claimHint:
-      'Disattivato: le ricompense vengono sbloccate sull’account e restano dal Compagno di sintesi dell’argento vivo per essere riscattate nel gioco. Attivato: vengono anche registrate come già riscattate nel salvataggio caricato.'
-  },
   levels: {
     hint: {
       standings:

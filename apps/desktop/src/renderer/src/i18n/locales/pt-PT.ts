@@ -476,11 +476,6 @@ export const ptPT: Messages = {
       Builders: 'Autófago'
     }
   },
-  expeditions: {
-    claim: 'Marcar também como resgatada neste save',
-    claimHint:
-      'Desligado: as recompensas são desbloqueadas na conta e ficam no Companheiro de Síntese de Mercúrio para as resgatar no jogo. Ligado: são também registadas como já resgatadas no save carregado.'
-  },
   levels: {
     hint: {
       standings:

@@ -324,10 +324,6 @@ export type Messages = {
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
   }
-  expeditions: {
-    claim: string
-    claimHint: string
-  }
   levels: {
     hint: Record<'standings' | 'milestones', string>
     mode: string

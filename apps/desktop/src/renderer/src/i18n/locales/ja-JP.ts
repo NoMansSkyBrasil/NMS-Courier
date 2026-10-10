@@ -464,11 +464,6 @@ export const jaJP: Messages = {
       Builders: 'オートファジー'
     }
   },
-  expeditions: {
-    claim: 'このセーブでも受け取り済みにする',
-    claimHint:
-      'オフ：報酬はアカウントでアンロックされ、ゲーム内でクイックシルバー合成コンパニオンから受け取れる状態のままになります。オン：読み込んだセーブでも受け取り済みとして記録します。'
-  },
   levels: {
     hint: {
       standings:

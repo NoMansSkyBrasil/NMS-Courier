@@ -27,9 +27,7 @@ import {
   CardHeader,
   CardTitle
 } from '@renderer/components/ui/card'
-import { Field, FieldContent, FieldDescription, FieldLabel } from '@renderer/components/ui/field'
 import { Spinner } from '@renderer/components/ui/spinner'
-import { Switch } from '@renderer/components/ui/switch'
 import { DeliverySelection, type DeliveryOption } from '@renderer/components/delivery-selection'
 import { WordMatrix } from '@renderer/components/word-matrix'
 import type { Feature } from '@renderer/features'
@@ -57,8 +55,6 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
   const [confirming, setConfirming] = useState<'all' | 'chosen' | null>(null)
   const [options, setOptions] = useState<DeliveryOption[]>([])
   const [chosen, setChosen] = useState<ReadonlySet<string>>(new Set())
-  // Expedition rewards: also record them as claimed in the loaded save.
-  const [claim, setClaim] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -98,8 +94,7 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
         await window.nms.deliver(
           feature.id,
           mode === 'chosen' ? [...chosen] : undefined,
-          readNotifyPreference(),
-          feature.id === 'expeditions' && claim
+          readNotifyPreference()
         )
       )
     } finally {
@@ -122,15 +117,6 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
-        {feature.id === 'expeditions' && (
-          <Field orientation="horizontal">
-            <FieldContent>
-              <FieldLabel htmlFor="expeditions-claim">{copy.expeditions.claim}</FieldLabel>
-              <FieldDescription>{copy.expeditions.claimHint}</FieldDescription>
-            </FieldContent>
-            <Switch id="expeditions-claim" checked={claim} onCheckedChange={setClaim} />
-          </Field>
-        )}
         {options.length > 0 &&
           // Words are a grid of word by race; every other area is a list.
           (feature.id === 'words' ? (

@@ -25,9 +25,6 @@ export type SelectionContext = {
   // Entries the bridge already puts back in every session ("<kind>=<ID>"); a Twitch or platform
   // selection is added to them, never put in their place.
   keepEntries: readonly string[]
-  // Expedition rewards: the ones the slot's redeem routine takes, when they are to be recorded as
-  // claimed in the loaded slot too; empty when they are only unlocked on the account.
-  claimEntries: readonly string[]
 }
 
 type Source = {
@@ -169,18 +166,9 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     steps: (ids, notify) => [steps.wiki(ids, notify)]
   },
   titles: account('title'),
-  // An expedition reward is unlocked on the account; it is recorded as claimed in the slot only
-  // when asked, and only where the slot's routine takes it.
-  expeditions: {
-    ...account('season', 'product'),
-    steps: (ids, _notify, context) => {
-      const claimed = ids.filter((id) => context.claimEntries.includes(id))
-      return [
-        ...(claimed.length > 0 ? [steps.redeem(claimed)] : []),
-        steps.account(ids.map((id) => `season=${id}`))
-      ]
-    }
-  },
+  // An expedition reward is only unlocked on the account. Claiming it is the player's own act in
+  // the game (owner rule of 2026-10-09); it is never recorded as claimed for them.
+  expeditions: account('season', 'product'),
   quicksilver: account('special', 'product'),
   twitch: kept('twitch'),
   platform: kept('platform')
@@ -229,7 +217,7 @@ export function getSelectionPlan(
   chosen: readonly string[],
   options: readonly DeliveryOption[],
   notify: boolean,
-  context: SelectionContext = { keepEntries: [], claimEntries: [] }
+  context: SelectionContext = { keepEntries: [] }
 ): DeliveryPlan | null {
   const source = sources[feature]
   const allowed = new Set(options.map((option) => option.id))
