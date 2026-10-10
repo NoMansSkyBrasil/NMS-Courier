@@ -1,6 +1,7 @@
 import {
   AwardIcon,
   BlocksIcon,
+  BookOpenIcon,
   CookingPotIcon,
   CpuIcon,
   FishIcon,
@@ -8,6 +9,7 @@ import {
   HandshakeIcon,
   LanguagesIcon,
   MedalIcon,
+  OrbitIcon,
   ShapesIcon,
   PaletteIcon
 } from 'lucide-react'
@@ -121,6 +123,32 @@ export const unlockFeatures: readonly Feature[] = [
     status: 'experimental',
     scope: 'slot',
     rows: [{ row: 'deliverable', count: 16 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'guide',
+    wired: true,
+    group: 'unlock',
+    icon: BookOpenIcon,
+    kind: 'delivery',
+    // Built on 2026-10-09 (bridge 1.26.0); not exercised in the running game yet.
+    status: 'experimental',
+    scope: 'slot',
+    rows: [
+      { row: 'deliverable', count: 50 },
+      { row: 'total', count: 58 }
+    ],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'nexus',
+    wired: true,
+    group: 'unlock',
+    icon: OrbitIcon,
+    kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'deliverable', count: 1 }],
     rules: ['gameRoutines', 'backup']
   },
   {

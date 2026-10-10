@@ -28,6 +28,25 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.31.0 and bridge 1.26.0 (2026-10-09)
+
+- Added (owner request): page "Guide" under "Unlock": the 50 topics of the
+  game's guide that are not open from the start, one, several or all, named
+  with their category by the game's texts in the 14 languages.
+- Added (owner request): page "Space Anomaly": access to the Space Anomaly
+  (the Nexus) for the loaded slot.
+- Changed (owner request): the "Expeditions" page has a switch "Also mark
+  as claimed in this save", off by default. Off, a reward is only unlocked
+  on the account and stays to be claimed in the game; on, it is also
+  recorded as claimed in the loaded slot. Before, "send all" always did
+  both and a selection never claimed; now both follow the switch.
+- Bridge 1.26.0 (`73227b43dad8d96f63d5d3765598e135082b6a6bc606798a9d8bd40bcdf76458`): requests `wiki` (`wiki_topic.h`) and `nexus`
+  (`nexus_access.h`), each through the game's own reward on a new carrier
+  (`COURIER_WIKI`, `COURIER_NEXUS`).
+- Data file regenerated with the two carriers (`239ce8efd10a0f0a68e5a199fab611ecafc48be38c2dc6bf3433c3054e0f1058`); it must be installed
+  with the bridge.
+- Guide and Space Anomaly are not exercised in the running game yet.
+
 ## Application 1.30.0 and bridge 1.25.0 (2026-10-09)
 
 - Added (owner asked where they were): the two milestones the game keeps as

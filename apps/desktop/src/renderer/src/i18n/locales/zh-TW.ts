@@ -87,6 +87,8 @@ export const zhTW: Messages = {
       summary: '吉克、維’肯、科爾瓦克斯、阿特拉斯與自噬者語言的詞彙：一個、多個或全部。'
     },
     glyphs: { title: '傳送門符文', summary: '開啟傳送門的十六個符文。' },
+    guide: { title: '指南', summary: '遊戲指南中通常隨遊玩逐步開啟的主題。' },
+    nexus: { title: '太空異常', summary: '通常由劇情開啟的太空異常存取權限。' },
     standings: { title: '聲望', summary: '與所有種族、三個公會和不法之徒的聲望，按等級提升。' },
     milestones: { title: '里程碑', summary: '旅程里程碑和派系獎章，按等級提升。' },
     fishing: { title: '釣魚紀錄', summary: '每種魚的捕獲紀錄。' },
@@ -419,6 +421,11 @@ export const zhTW: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  expeditions: {
+    claim: '同時在此存檔中標記為已領取',
+    claimHint:
+      '關閉：獎勵在帳號上解鎖，並留在水銀合成夥伴處，供你在遊戲中領取。開啟：還會在已載入的存檔中記為已領取。'
   },
   levels: {
     hint: {

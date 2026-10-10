@@ -87,6 +87,8 @@ export const zhCN: Messages = {
       summary: '吉克、维’肯、科尔瓦克斯、阿特拉斯和自噬者语言的词汇：一个、多个或全部。'
     },
     glyphs: { title: '传送门符文', summary: '开启传送门的十六个符文。' },
+    guide: { title: '指南', summary: '游戏指南中通常随游玩逐步开启的主题。' },
+    nexus: { title: '太空异象', summary: '通常由剧情开启的太空异象访问权限。' },
     standings: { title: '声望', summary: '与所有种族、三个公会和不法之徒的声望，按等级提升。' },
     milestones: { title: '里程碑', summary: '旅程里程碑和派系奖章，按等级提升。' },
     fishing: { title: '钓鱼记录', summary: '每种鱼的捕获记录。' },
@@ -419,6 +421,11 @@ export const zhCN: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  expeditions: {
+    claim: '同时在此存档中标记为已领取',
+    claimHint:
+      '关闭：奖励在账号上解锁，并留在水银合成伙伴处，供你在游戏中领取。开启：还会在已载入的存档中记为已领取。'
   },
   levels: {
     hint: {

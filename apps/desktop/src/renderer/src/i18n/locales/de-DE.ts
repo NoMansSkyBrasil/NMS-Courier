@@ -103,6 +103,14 @@ export const deDE: Messages = {
         'Wörter der Sprachen der Gek, Vy’keen, Korvax, des Atlas und der Autophagen: eines, mehrere oder alle.'
     },
     glyphs: { title: 'Portalglyphen', summary: 'Die sechzehn Glyphen, die Portale öffnen.' },
+    guide: {
+      title: 'Anleitung',
+      summary: 'Themen der Spielanleitung, die sich sonst beim Spielen öffnen.'
+    },
+    nexus: {
+      title: 'Weltraumanomalie',
+      summary: 'Zugang zur Weltraumanomalie, den sonst die Geschichte öffnet.'
+    },
     standings: {
       title: 'Ansehen',
       summary: 'Ansehen bei allen Völkern, den drei Gilden und den Gesetzlosen, stufenweise erhöht.'
@@ -478,6 +486,11 @@ export const deDE: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  expeditions: {
+    claim: 'Auch in diesem Spielstand als eingelöst markieren',
+    claimHint:
+      'Aus: Die Belohnungen werden für das Konto freigeschaltet und bleiben beim Quecksilber-Synthese-Begleiter, damit du sie im Spiel einlöst. Ein: Sie werden zusätzlich im geladenen Spielstand als bereits eingelöst vermerkt.'
   },
   levels: {
     hint: {

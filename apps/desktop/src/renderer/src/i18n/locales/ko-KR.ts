@@ -88,6 +88,11 @@ export const koKR: Messages = {
       summary: '게크, 바이킨, 코벡스, 아틀라스, 오토파지 언어의 단어를 하나, 여러 개 또는 전부.'
     },
     glyphs: { title: '포털 글리프', summary: '포털을 여는 열여섯 개의 글리프.' },
+    guide: { title: '가이드', summary: '보통 플레이하면서 열리는 게임 가이드의 주제.' },
+    nexus: {
+      title: '스페이스 아노말리',
+      summary: '보통 스토리로 열리는 스페이스 아노말리 이용 권한.'
+    },
     standings: {
       title: '우호도',
       summary: '모든 종족, 세 길드, 무법자와의 우호도를 레벨 단위로 올립니다.'
@@ -437,6 +442,11 @@ export const koKR: Messages = {
       Atlas: '아틀라스',
       Builders: '오토파지'
     }
+  },
+  expeditions: {
+    claim: '이 세이브에서도 수령한 것으로 표시',
+    claimHint:
+      '끔: 보상이 계정에서 잠금 해제되고, 게임에서 퀵실버 합성 동반자에게 받을 수 있는 상태로 남습니다. 켬: 불러온 세이브에도 이미 수령한 것으로 기록합니다.'
   },
   levels: {
     hint: {

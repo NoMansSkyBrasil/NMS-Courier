@@ -44,8 +44,10 @@
 > through the game's stat reward (bridge 1.23.0, application 1.28.0,
 > [notes](STAT_LEVEL_NOTES.md)), levels seen arriving live, the milestone
 > screen for silent stats (bridge 1.24.0) and fractional stats (1.25.0) NOT
-> exercised; past expeditions, Nexus and wiki topics were only read
-> offline ([notes](EXPEDITION_HISTORY_NOTES.md)); the ships of
+> exercised; guide topics and access to the Space Anomaly are built
+> (bridge 1.26.0, application 1.31.0,
+> [notes](EXPEDITION_HISTORY_NOTES.md)), NOT exercised; expedition rewards
+> are claimed in the slot only when the page's switch is on; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

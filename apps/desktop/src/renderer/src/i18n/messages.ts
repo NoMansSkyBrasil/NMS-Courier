@@ -29,6 +29,8 @@ export const featureIds = [
   'fishing',
   'words',
   'glyphs',
+  'guide',
+  'nexus',
   'standings',
   'milestones',
   'expeditions',
@@ -321,6 +323,10 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  expeditions: {
+    claim: string
+    claimHint: string
   }
   levels: {
     hint: Record<'standings' | 'milestones', string>

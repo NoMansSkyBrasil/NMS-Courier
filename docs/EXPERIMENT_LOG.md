@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-09: guide, Space Anomaly and expeditions switch built (bridge 1.26.0)
+
+A build after the owner's go-ahead; no request of this version reached the
+game. Build 180836. Owning note:
+[past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md#built-application-1310-bridge-1260).
+
+- Owner's statement recorded: rewards of past expeditions unlocked with the
+  application were claimed from the Quicksilver companion in the game.
+- Built: bridge 1.26.0 (`73227b43…`), requests `wiki` and `nexus`; data file with
+  carriers `COURIER_WIKI` and `COURIER_NEXUS` (`239ce8ef…`); application 1.31.0.
+  Fixture passed; typecheck, lint, 121 tests, build; the three pages opened
+  in the test instance. Both installed on 2026-10-09 with the game closed (`tasklist`).
+- Not proven: everything live for the guide and the Space Anomaly.
+- Rollback: copy bridge 1.25.0 `130fc869…` and data file `7633cf80…` back
+  with the game closed.
+
 ## 2026-10-09: past expeditions page and one-off unlocks (offline)
 
 Offline only; nothing built, nothing sent. Build 180836. Owning note:

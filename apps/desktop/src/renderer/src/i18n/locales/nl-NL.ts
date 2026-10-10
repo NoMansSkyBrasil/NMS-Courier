@@ -102,6 +102,14 @@ export const nlNL: Messages = {
         'Woorden van de talen van de Gek, Vy’keen, Korvax, Atlas en Autofagen: één, meerdere of alle.'
     },
     glyphs: { title: 'Portaalglyphs', summary: 'De zestien glyphs die portalen openen.' },
+    guide: {
+      title: 'Handleiding',
+      summary: 'Onderwerpen van de spelhandleiding die normaal tijdens het spelen opengaan.'
+    },
+    nexus: {
+      title: 'Anomalie in de ruimte',
+      summary: 'Toegang tot de Anomalie in de ruimte, die normaal door het verhaal wordt geopend.'
+    },
     standings: {
       title: 'Reputatie',
       summary: 'Reputatie bij alle rassen, de drie gildes en de bandieten, per niveau verhoogd.'
@@ -471,6 +479,11 @@ export const nlNL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofaag'
     }
+  },
+  expeditions: {
+    claim: 'Ook als geclaimd markeren in deze save',
+    claimHint:
+      'Uit: de beloningen worden op het account ontgrendeld en blijven bij de Kwikzilver-synthesemetgezel, zodat je ze in het spel kunt claimen. Aan: ze worden ook als al geclaimd vastgelegd in de geladen save.'
   },
   levels: {
     hint: {

@@ -399,6 +399,13 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Requests `native-wiki-request-…` (event `wiki`) and `native-nexus-request-…`
+(event `nexus`), bridge 1.26.0: topics of the game's guide and access to the
+Space Anomaly, each a native call of the game's reward routine on a carrier
+(`COURIER_WIKI`, whose topic text is written and restored; `COURIER_NEXUS`,
+which is not written). Formats in
+[past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md).
+
 Request `native-stat-request-…` (event `stats`, bridge 1.23.0): levels of
 standings and journey milestones. The current value is read with the game's
 stat routine and the new one is set by the game's reward routine on the

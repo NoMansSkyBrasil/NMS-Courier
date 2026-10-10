@@ -97,6 +97,14 @@ export const esES: Messages = {
         'Palabras de las lenguas Gek, Vy’keen, Korvax, Atlas y Autófago: una, varias o todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Los dieciséis glifos que abren portales.' },
+    guide: {
+      title: 'Guía',
+      summary: 'Temas de la guía del juego que normalmente se abren al jugar.'
+    },
+    nexus: {
+      title: 'Anomalía espacial',
+      summary: 'Acceso a la Anomalía espacial, que la historia abre normalmente.'
+    },
     standings: {
       title: 'Estatus',
       summary:
@@ -465,6 +473,11 @@ export const esES: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  expeditions: {
+    claim: 'Marcar también como reclamada en esta partida',
+    claimHint:
+      'Desactivado: las recompensas se desbloquean en la cuenta y quedan en el Compañero de síntesis de azogue para que las reclames en el juego. Activado: además se registran como ya reclamadas en la partida cargada.'
   },
   levels: {
     hint: {

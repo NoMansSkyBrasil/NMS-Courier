@@ -177,6 +177,9 @@ def main() -> None:
             ("Stat", "COURIER"), ("OtherStat", ""), ("Amount", "0"), ("UseOtherStat", "false"),
             ("ModifyType", "GcStatModifyType", [("ModifyType", "Set")]),
             ("CanSetToValueLowerThanCurrent", "false")])),
+        # Guide topics and access to the Nexus (wiki_topic.h, nexus_access.h).
+        entry("COURIER_WIKI", simple("GcRewardWikiTopic", [("Topic", "COURIER"), ("CentreMessage", "true")])),
+        entry("COURIER_NEXUS", simple("GcRewardNexus", [("Allow", "true"), ("SeasonRewardsString", "")])),
     ]
     for _, identifier, ship_class, scene, keep in SHIPS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificShip", "ShipType/ShipClass", ship_class,

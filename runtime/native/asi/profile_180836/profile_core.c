@@ -22,6 +22,8 @@
 //   word_teach.h                   words: teach alien words of one race
 //   rune_discover.h                glyphs: discover portal glyphs in the game's order
 //   stat_level.h                   levelled stats: raise journey milestones and standings by levels
+//   wiki_topic.h                   guide: unlock topics of the game's guide
+//   nexus_access.h                 Nexus: allow the slot to use the Space Anomaly
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -93,9 +95,11 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "word_teach.h"
 #include "rune_discover.h"
 #include "stat_level.h"
+#include "wiki_topic.h"
+#include "nexus_access.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 23)
+#define EVENT_COUNT (CLASS_COUNT + 25)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -156,6 +160,8 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&word_state, 0, 0) == 1) word_apply_request();
     if (InterlockedCompareExchange(&rune_state, 0, 0) == 1) rune_apply_request();
     if (InterlockedCompareExchange(&stat_state, 0, 0) == 1) stat_apply_request();
+    if (InterlockedCompareExchange(&wiki_state, 0, 0) == 1) wiki_apply_request();
+    if (InterlockedCompareExchange(&nexus_state, 0, 0) == 1) nexus_apply_request();
     // Offers wait until the game's window is in front; one offer a turn.
     int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
     int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
@@ -300,7 +306,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes", L"stats"};
+                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -353,6 +359,8 @@ void courier_probe_after_verified(void) {
         word_write_result();
         rune_write_result();
         stat_write_result();
+        wiki_write_result();
+        nexus_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -450,6 +458,14 @@ void courier_probe_after_verified(void) {
         }
         else if (index == CLASS_COUNT + 22) {
             if (stat_read_request()) InterlockedExchange(&stat_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 23) {
+            if (wiki_read_request()) InterlockedExchange(&wiki_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 24) {
+            if (nexus_read_request()) InterlockedExchange(&nexus_state, 1);
             else InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {

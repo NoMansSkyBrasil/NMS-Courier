@@ -100,6 +100,11 @@ export const frFR: Messages = {
       summary: 'Mots des langues Gek, Vy’keen, Korvax, Atlas et Autophage : un, plusieurs ou tous.'
     },
     glyphs: { title: 'Glyphes de portail', summary: 'Les seize glyphes qui ouvrent les portails.' },
+    guide: {
+      title: 'Guide',
+      summary: 'Sujets du guide du jeu qui s’ouvrent d’ordinaire en jouant.'
+    },
+    nexus: { title: 'Anomalie', summary: 'Accès à l’Anomalie, que l’histoire ouvre d’ordinaire.' },
     standings: {
       title: 'Estime',
       summary:
@@ -476,6 +481,11 @@ export const frFR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  expeditions: {
+    claim: 'Marquer aussi comme réclamée dans cette sauvegarde',
+    claimHint:
+      'Désactivé : les récompenses sont débloquées sur le compte et restent auprès du Compagnon de synthèse de vif-argent pour être réclamées en jeu. Activé : elles sont aussi enregistrées comme déjà réclamées dans la sauvegarde chargée.'
   },
   levels: {
     hint: {

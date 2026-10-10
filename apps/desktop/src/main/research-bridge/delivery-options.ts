@@ -25,6 +25,9 @@ export type SelectionContext = {
   // Entries the bridge already puts back in every session ("<kind>=<ID>"); a Twitch or platform
   // selection is added to them, never put in their place.
   keepEntries: readonly string[]
+  // Expedition rewards: the ones the slot's redeem routine takes, when they are to be recorded as
+  // claimed in the loaded slot too; empty when they are only unlocked on the account.
+  claimEntries: readonly string[]
 }
 
 type Source = {
@@ -38,6 +41,9 @@ type Source = {
   catalogColumn?: number
   // Column that holds the row's own name, shown as it is.
   nameColumn?: number
+  // First of 14 columns holding the row's name, or its group, in each interface language.
+  localeNameColumn?: number
+  localeGroupColumn?: number
   // Identifiers of the table when they are not 1 to 15 characters.
   idPattern?: RegExp
   changesAccount: boolean
@@ -149,8 +155,32 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
         .filter((entry) => entry.groups.length > 0)
         .map((entry) => steps.words(entry.race.request, entry.groups, notify))
   },
+  // A topic of the game's guide, named with its category by the game's own texts.
+  guide: {
+    table: 'guide-topics.md',
+    idColumn: 0,
+    groupColumn: 1,
+    accept: (cells) => cells[2] === 'no',
+    domain: null,
+    localeNameColumn: 4,
+    localeGroupColumn: 18,
+    idPattern: /^[A-Z0-9_]{1,31}$/,
+    changesAccount: false,
+    steps: (ids, notify) => [steps.wiki(ids, notify)]
+  },
   titles: account('title'),
-  expeditions: account('season', 'product'),
+  // An expedition reward is unlocked on the account; it is recorded as claimed in the slot only
+  // when asked, and only where the slot's routine takes it.
+  expeditions: {
+    ...account('season', 'product'),
+    steps: (ids, _notify, context) => {
+      const claimed = ids.filter((id) => context.claimEntries.includes(id))
+      return [
+        ...(claimed.length > 0 ? [steps.redeem(claimed)] : []),
+        steps.account(ids.map((id) => `season=${id}`))
+      ]
+    }
+  },
   quicksilver: account('special', 'product'),
   twitch: kept('twitch'),
   platform: kept('platform')
@@ -164,7 +194,9 @@ export function supportsSelection(feature: DeliveryFeatureId): boolean {
 
 export async function listDeliveryOptions(
   researchDirectory: string,
-  feature: DeliveryFeatureId
+  feature: DeliveryFeatureId,
+  // Position of the interface language among the 14 language columns of a table.
+  localeColumn = 3
 ): Promise<DeliveryOption[]> {
   const source = sources[feature]
   if (!source) return []
@@ -176,12 +208,17 @@ export async function listDeliveryOptions(
       const named = source.catalogColumn === undefined ? '' : cells[source.catalogColumn]
       return {
         id: cells[source.idColumn],
-        group: cells[source.groupColumn],
+        group:
+          source.localeGroupColumn === undefined
+            ? cells[source.groupColumn]
+            : (cells[source.localeGroupColumn + localeColumn] ?? cells[source.groupColumn]),
         domain: typeof source.domain === 'function' ? source.domain(cells) : source.domain,
         ...(named && identifier.test(named) ? { catalogId: named } : {}),
-        ...(source.nameColumn !== undefined && cells[source.nameColumn]
-          ? { name: cells[source.nameColumn] }
-          : {})
+        ...(source.localeNameColumn !== undefined && cells[source.localeNameColumn + localeColumn]
+          ? { name: cells[source.localeNameColumn + localeColumn] }
+          : source.nameColumn !== undefined && cells[source.nameColumn]
+            ? { name: cells[source.nameColumn] }
+            : {})
       }
     })
 }
@@ -192,7 +229,7 @@ export function getSelectionPlan(
   chosen: readonly string[],
   options: readonly DeliveryOption[],
   notify: boolean,
-  context: SelectionContext = { keepEntries: [] }
+  context: SelectionContext = { keepEntries: [], claimEntries: [] }
 ): DeliveryPlan | null {
   const source = sources[feature]
   const allowed = new Set(options.map((option) => option.id))

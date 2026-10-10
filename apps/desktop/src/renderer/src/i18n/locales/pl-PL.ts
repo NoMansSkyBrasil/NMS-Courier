@@ -98,6 +98,14 @@ export const plPL: Messages = {
         'Słowa języków Geków, Vy’keenów, Korvaxów, Atlasu i Autofagów: jedno, kilka lub wszystkie.'
     },
     glyphs: { title: 'Glify portalu', summary: 'Szesnaście glifów otwierających portale.' },
+    guide: {
+      title: 'Przewodnik',
+      summary: 'Tematy przewodnika gry, które zwykle otwierają się podczas gry.'
+    },
+    nexus: {
+      title: 'Kosmiczna anomalia',
+      summary: 'Dostęp do Kosmicznej anomalii, który zwykle otwiera fabuła.'
+    },
     standings: {
       title: 'Reputacja',
       summary: 'Reputacja u wszystkich ras, trzech gildii i banitów, podnoszona o poziomy.'
@@ -457,6 +465,11 @@ export const plPL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofag'
     }
+  },
+  expeditions: {
+    claim: 'Oznacz też jako odebrane w tym zapisie',
+    claimHint:
+      'Wyłączone: nagrody są odblokowane na koncie i czekają u Towarzysza syntezy rtęci do odebrania w grze. Włączone: są także zapisywane jako już odebrane we wczytanym zapisie.'
   },
   levels: {
     hint: {

@@ -310,23 +310,27 @@ app.whenReady().then(() => {
     )
     return { ...status, appVersion: app.getVersion() }
   })
-  ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown, notify: unknown) => {
-    if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')
-    if (
-      chosen != null &&
-      !(Array.isArray(chosen) && chosen.every((id) => typeof id === 'string'))
-    ) {
-      throw new Error('Invalid selection.')
+  ipcMain.handle(
+    'nms:deliver',
+    async (_, feature: unknown, chosen: unknown, notify: unknown, claim: unknown) => {
+      if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')
+      if (
+        chosen != null &&
+        !(Array.isArray(chosen) && chosen.every((id) => typeof id === 'string'))
+      ) {
+        throw new Error('Invalid selection.')
+      }
+      const root = getInstallationService().getSelectedRootPath()
+      return getResearchBridgeService().deliver(
+        feature,
+        root,
+        await gameStatusService.observe(root),
+        (chosen as string[] | null | undefined) ?? null,
+        notify !== false,
+        claim === true
+      )
     }
-    const root = getInstallationService().getSelectedRootPath()
-    return getResearchBridgeService().deliver(
-      feature,
-      root,
-      await gameStatusService.observe(root),
-      (chosen as string[] | null | undefined) ?? null,
-      notify !== false
-    )
-  })
+  )
   ipcMain.handle('nms:deliver-equipment', async (_, request: unknown) => {
     if (!isEquipmentRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()
@@ -470,7 +474,7 @@ app.whenReady().then(() => {
     if (!isDeliveryFeatureId(feature) || typeof locale !== 'string') {
       throw new Error('Invalid delivery area.')
     }
-    const options = await getResearchBridgeService().getOptions(feature)
+    const options = await getResearchBridgeService().getOptions(feature, locale)
     const names = getCatalogRepository().names(locale)
     const icons = getCatalogRepository().icons()
     return options.map((option) => {

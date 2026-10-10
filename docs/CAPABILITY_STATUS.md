@@ -12,7 +12,7 @@ means the request was sent by hand with the research scripts that existed
 until 2026-10-08; *app* means sent from the desktop application. Since
 2026-10-08 only *app* counts as verified for the product.
 
-Current versions: application 1.30.0, bridge 1.25.0, game build 180836.
+Current versions: application 1.31.0, bridge 1.26.0, game build 180836.
 
 ## History in five steps
 
@@ -53,6 +53,8 @@ Current versions: application 1.30.0, bridge 1.25.0, game build 180836.
 | Read the current star system: seed and ships | 2026-10-09 (file read directly) | Model workshop, "Current system" (2026-10-08, bridge 1.8.0) | Not yet seen in the application by the owner | [seed origins](SEED_ORIGINS.md#reading-a-system-from-the-running-game) |
 | Alien words of a race, chosen groups or all | Never | Words page (2026-10-09, bridge 1.22.0) | No | [words and glyphs](WORD_AND_GLYPH_NOTES.md) |
 | Portal glyphs, all or the next ones | Never | Portal glyphs page (2026-10-09, bridge 1.22.0) | No | [words and glyphs](WORD_AND_GLYPH_NOTES.md) |
+| Guide topics (50), chosen or all | Never | Guide page (2026-10-09, bridge 1.26.0) | No | [past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md) |
+| Access to the Space Anomaly | Never | Space Anomaly page (2026-10-09, bridge 1.26.0) | No | [past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md) |
 | Standing with races, guilds and outlaws, by levels | Never | Standing page (2026-10-09, bridge 1.23.0) | No | [levelled stats](STAT_LEVEL_NOTES.md) |
 | Journey milestones (43 counters), by levels | 2026-10-09: level arrived, no message (a silent stat) | Milestones page (2026-10-09, bridge 1.23.0) | Partly: level yes, message unproven | [levelled stats](STAT_LEVEL_NOTES.md) |
 | Travel to a system by galaxy and portal address | Station in the same galaxy reached (2026-10-09); exact address, planet and other galaxies not checked | Teleport page (2026-10-09, bridge 1.21.0) | Yes, station in the same galaxy | [teleport](TELEPORT_NOTES.md) |

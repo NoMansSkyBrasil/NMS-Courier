@@ -32,6 +32,7 @@ import {
 import {
   getDeliveryPlan,
   getItemPlan,
+  redeemableSeasonRewards,
   testedBridgeSha256,
   type DeliveryFeatureId,
   type DeliveryPlan,
@@ -155,8 +156,13 @@ export class ResearchBridgeService {
     return { state: 'ready', processId: game.processId, ...installed }
   }
 
-  getOptions(feature: DeliveryFeatureId): Promise<DeliveryOption[]> {
-    return listDeliveryOptions(this.context.researchDirectory, feature)
+  getOptions(feature: DeliveryFeatureId, locale = 'en-US'): Promise<DeliveryOption[]> {
+    const column = galaxyNameLocales.indexOf(locale)
+    return listDeliveryOptions(
+      this.context.researchDirectory,
+      feature,
+      column < 0 ? galaxyNameLocales.indexOf('en-US') : column
+    )
   }
 
   // The list the bridge puts back in every session, as it was last written ("<kind>=<ID>" lines).
@@ -211,13 +217,16 @@ export class ResearchBridgeService {
     // Chosen entries; without them the whole area is sent.
     chosen: readonly string[] | null = null,
     // Let the game show its own notifications where the routine has them.
-    notify = true
+    notify = true,
+    // Expedition rewards: also record them as claimed in the loaded slot.
+    claim = false
   ): Promise<DeliveryResult> {
     const plan = chosen
       ? getSelectionPlan(feature, chosen, await this.getOptions(feature), notify, {
-          keepEntries: await this.keepEntries()
+          keepEntries: await this.keepEntries(),
+          claimEntries: claim ? await redeemableSeasonRewards(this.context.researchDirectory) : []
         })
-      : await getDeliveryPlan(feature, this.context.researchDirectory, notify)
+      : await getDeliveryPlan(feature, this.context.researchDirectory, notify, claim)
     return this.run(feature, plan, installationRoot, game)
   }
 

@@ -26,6 +26,8 @@ export const deliveryFeatureIds = [
   'customisation',
   'fishing',
   'words',
+  'guide',
+  'nexus',
   'titles',
   'expeditions',
   'quicksilver',
@@ -169,6 +171,28 @@ export const steps = {
     signals: ['fish'],
     result: { name: 'fish-result', seconds: 12 }
   }),
+  // Topics of the game's guide through the game's reward (bridge 1.26.0).
+  wiki: (topics: readonly string[], notify: boolean): BridgeStep | null =>
+    topics.length < 1 || topics.length > 128
+      ? null
+      : {
+          label: 'wiki',
+          request: request('wiki', [
+            `silent=${notify ? 0 : 1}`,
+            ...topics.map((topic) => `topic=${topic}`)
+          ]),
+          signals: ['wiki'],
+          result: { name: 'wiki-result', seconds: 12 },
+          accept: (lines) => lines.includes('result=given')
+        },
+  // Access to the Space Anomaly through the game's reward (bridge 1.26.0). It is only allowed.
+  nexus: (): BridgeStep => ({
+    label: 'nexus',
+    request: request('nexus', ['allow=1']),
+    signals: ['nexus'],
+    result: { name: 'nexus-result', seconds: 12 },
+    accept: (lines) => lines.includes('result=given') && lines.includes('allowed_after=1')
+  }),
   // Word groups of one race, by the suffix the game's reward takes (bridge 1.22.0). The game shows
   // its message for each word unless silent.
   words: (race: string, groups: readonly string[], notify: boolean): BridgeStep | null =>
@@ -204,15 +228,30 @@ async function idsOfClass(
   researchDirectory: string,
   table: string,
   idColumn: number,
-  accept: (cells: readonly string[]) => boolean
+  accept: (cells: readonly string[]) => boolean,
+  // Form of the table's identifiers when they are not 1 to 15 characters.
+  pattern: RegExp = identifier
 ): Promise<string[]> {
   const rows = await readClassification(researchDirectory, table)
   return rows
-    .filter((cells) => accept(cells) && identifier.test(cells[idColumn]))
+    .filter((cells) => accept(cells) && pattern.test(cells[idColumn]))
     .map((cells) => cells[idColumn])
 }
 
 const rewardTable = 'unlockable-rewards.md'
+const guideTable = 'guide-topics.md'
+const guideTopic = /^[A-Z0-9_]{1,31}$/
+
+// Season rewards the slot's redeem routine takes (columns: ID, kind, expedition, product, flags,
+// deliverable).
+export function redeemableSeasonRewards(researchDirectory: string): Promise<string[]> {
+  return idsOfClass(
+    researchDirectory,
+    rewardTable,
+    0,
+    (cells) => cells[1] === 'season' && cells[5] === 'yes'
+  )
+}
 const productTable = 'product-delivery-classification.md'
 const accountTable = 'account-unlocks.md'
 
@@ -239,7 +278,9 @@ function plan(
 export async function getDeliveryPlan(
   feature: DeliveryFeatureId,
   researchDirectory: string,
-  notify: boolean
+  notify: boolean,
+  // Expedition rewards: also record them as claimed in the loaded slot.
+  claim = false
 ): Promise<DeliveryPlan | null> {
   const products = (classes: readonly string[]): Promise<string[]> =>
     idsOfClass(researchDirectory, productTable, 0, (cells) => classes.includes(cells[1]))
@@ -305,10 +346,27 @@ export async function getDeliveryPlan(
     case 'titles':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['title']))])
     case 'expeditions':
+      // Unlocked on the account, a reward stays to be claimed in the game; claimed in the slot as
+      // well only when asked.
       return plan(true, [
-        await redeem('season'),
+        ...(claim ? [await redeem('season')] : []),
         steps.account(await accountEntries(researchDirectory, ['season']))
       ])
+    case 'guide':
+      return plan(false, [
+        steps.wiki(
+          await idsOfClass(
+            researchDirectory,
+            guideTable,
+            0,
+            (cells) => cells[2] === 'no',
+            guideTopic
+          ),
+          notify
+        )
+      ])
+    case 'nexus':
+      return plan(false, [steps.nexus()])
     case 'quicksilver':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['special']))])
     case 'twitch':

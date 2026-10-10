@@ -100,6 +100,14 @@ export const itIT: Messages = {
       summary: 'Parole delle lingue Gek, Vy’keen, Korvax, Atlas e Autofagi: una, alcune o tutte.'
     },
     glyphs: { title: 'Glifi del portale', summary: 'I sedici glifi che aprono i portali.' },
+    guide: {
+      title: 'Guida',
+      summary: 'Argomenti della guida del gioco che di norma si aprono giocando.'
+    },
+    nexus: {
+      title: 'Anomalia spaziale',
+      summary: 'Accesso all’Anomalia spaziale, che di norma la storia sblocca.'
+    },
     standings: {
       title: 'Reputazione',
       summary: 'Reputazione con tutte le razze, le tre gilde e i fuorilegge, aumentata per livelli.'
@@ -470,6 +478,11 @@ export const itIT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofago'
     }
+  },
+  expeditions: {
+    claim: 'Segna anche come riscattata in questo salvataggio',
+    claimHint:
+      'Disattivato: le ricompense vengono sbloccate sull’account e restano dal Compagno di sintesi dell’argento vivo per essere riscattate nel gioco. Attivato: vengono anche registrate come già riscattate nel salvataggio caricato.'
   },
   levels: {
     hint: {

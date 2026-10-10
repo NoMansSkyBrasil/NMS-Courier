@@ -93,6 +93,14 @@ export const enUS: Messages = {
         'Words of the Gek, Vy’keen, Korvax, Atlas and Autophage languages, one, several or all.'
     },
     glyphs: { title: 'Portal glyphs', summary: 'The sixteen glyphs that open portals.' },
+    guide: {
+      title: 'Guide',
+      summary: 'Topics of the game’s guide that normally open as you play.'
+    },
+    nexus: {
+      title: 'Space Anomaly',
+      summary: 'Access to the Space Anomaly, which the story normally opens.'
+    },
     standings: {
       title: 'Standing',
       summary: 'Standing with every race, the three guilds and the outlaws, raised by levels.'
@@ -452,6 +460,11 @@ export const enUS: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  expeditions: {
+    claim: 'Also mark as claimed in this save',
+    claimHint:
+      'Off: the rewards are unlocked on the account and stay at the Quicksilver Synthesis Companion for you to claim in the game. On: they are also recorded as already claimed in the loaded save.'
   },
   levels: {
     hint: {

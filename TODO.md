@@ -314,8 +314,10 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [ ] Words: race icons from the game's textures in the grid's column headers; read which words are already known from the running game so the grid can show them (today a box only says what to send).
 - [ ] Words: decide `BUI_MINE` (its only entry, `MINING`, has race `None`); not offered until the reward is seen to accept it.
 - [ ] Test `bridge client > writes the request, signals it and returns the answer` (`research-bridge-service.test.ts`) failed in two of four full runs on 2026-10-09 while the game was running and passed alone; it depends on timing against a fake bridge and needs a wider margin.
-- [ ] Expeditions "completed, not redeemed" (owner question 2026-10-09, [notes](docs/EXPEDITION_HISTORY_NOTES.md)): add a switch "also mark as claimed in this save" to the Expeditions page so "send all" and a selection behave the same; awaiting the owner's go-ahead. Still to find: what the game's "Past expeditions" page tests.
-- [ ] One-off unlocks not built (same notes): enable the Nexus (`GcRewardNexus`), wiki guide topics (`GcRewardWikiTopic`, 43); named shortcuts for hyperdrives and Atlas Seeds, which the Technologies and crafting recipes pages already cover.
+- [x] Expeditions "completed, not redeemed": switch "Also mark as claimed in this save" (application 1.31.0, [notes](docs/EXPEDITION_HISTORY_NOTES.md)).
+- [ ] Still to find: what the game's "Past expeditions" page tests to show an expedition as completed.
+- [ ] Guide and Space Anomaly (bridge 1.26.0): live test from the application, one topic first, then the Space Anomaly; read the result lines and what the game shows.
+- [x] Owner decision 2026-10-09: no named shortcuts for hyperdrives and Atlas Seeds; the Technologies and crafting recipes pages already cover them.
 - [ ] Milestone screen on silent stats (bridge 1.24.0, application 1.29.0): live test on one outlaw entry with the option on; read `after=` and `announced=` and what the screen shows.
 - [ ] Standings and milestones (bridge 1.23.0, application 1.28.0): live test from the application, one standing by one level first; check the game's journey page, its message, and a save and reload.
 - [ ] Standings and milestones: show the level each entry is on (needs a read request) and the rank names of the levels; the two fractional milestones are offered since bridge 1.25.0 and need a live test; if a set shows no standing message, try the standing rewards (`GcRewardStanding`, `GcRewardFactionStanding`).

@@ -18,7 +18,7 @@ export const currencyDataFile = [
   'TABLES',
   'REWARDTABLE.EXML'
 ] as const
-export const currencyDataSha256 = '7633cf80ff7a9c51206b8912df807d64a79e9180f9fccb8f81efc503bbd7f57a'
+export const currencyDataSha256 = '239ce8efd10a0f0a68e5a199fab611ecafc48be38c2dc6bf3433c3054e0f1058'
 
 export type CurrencyRequest = { currency: string; amount: number }
 

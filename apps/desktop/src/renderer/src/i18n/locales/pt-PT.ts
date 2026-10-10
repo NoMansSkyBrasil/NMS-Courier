@@ -102,6 +102,14 @@ export const ptPT: Messages = {
       summary: 'Palavras das línguas Gek, Vy’keen, Korvax, Atlas e Autófago: uma, várias ou todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Os dezasseis glifos que abrem portais.' },
+    guide: {
+      title: 'Guia',
+      summary: 'Tópicos do guia do jogo que normalmente se abrem à medida que joga.'
+    },
+    nexus: {
+      title: 'Anomalia Espacial',
+      summary: 'Acesso à Anomalia Espacial, que a história normalmente desbloqueia.'
+    },
     standings: {
       title: 'Reputação',
       summary:
@@ -467,6 +475,11 @@ export const ptPT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  expeditions: {
+    claim: 'Marcar também como resgatada neste save',
+    claimHint:
+      'Desligado: as recompensas são desbloqueadas na conta e ficam no Companheiro de Síntese de Mercúrio para as resgatar no jogo. Ligado: são também registadas como já resgatadas no save carregado.'
   },
   levels: {
     hint: {
