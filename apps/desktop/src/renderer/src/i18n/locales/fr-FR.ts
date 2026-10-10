@@ -496,7 +496,16 @@ export const frFR: Messages = {
     untitledHint:
       'Missions auxiliaires que le jeu ne nomme jamais dans le journal. Elles sont listées par identifiant.',
     untitledGroup: 'Sans titre dans le jeu',
+    section: {
+      story: 'Histoire principale',
+      atlas: 'Voie de l’Atlas',
+      secondary: 'Missions secondaires',
+      guide: 'Guide et étapes clés',
+      seasonal: 'Expéditions'
+    },
     part: 'Partie {number}',
+    after: 'Commence après : {quest}',
+    silent: 'aucun message de fin dans le jeu',
     quests: '{shown} quêtes sur {total}',
     count: '{count} missions',
     stages: '{count} étapes',

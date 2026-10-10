@@ -485,7 +485,16 @@ export const ptBR: Messages = {
     untitledHint:
       'Missões auxiliares que o jogo nunca nomeia no registro. Aparecem pelo identificador.',
     untitledGroup: 'Sem título no jogo',
+    section: {
+      story: 'História principal',
+      atlas: 'Caminho do Atlas',
+      secondary: 'Missões secundárias',
+      guide: 'Guia e marcos',
+      seasonal: 'Expedições'
+    },
     part: 'Parte {number}',
+    after: 'Inicia após: {quest}',
+    silent: 'sem mensagem de conclusão no jogo',
     quests: '{shown} de {total} quests',
     count: '{count} missões',
     stages: '{count} etapas',

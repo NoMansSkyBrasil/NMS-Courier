@@ -493,7 +493,16 @@ export const itIT: Messages = {
     untitledHint:
       'Missioni ausiliarie che il gioco non nomina mai nel registro. Sono elencate per identificativo.',
     untitledGroup: 'Senza titolo nel gioco',
+    section: {
+      story: 'Storia principale',
+      atlas: 'Sentiero dell’Atlante',
+      secondary: 'Missioni secondarie',
+      guide: 'Guida e obiettivi',
+      seasonal: 'Spedizioni'
+    },
     part: 'Parte {number}',
+    after: 'Inizia dopo: {quest}',
+    silent: 'nessun messaggio di completamento nel gioco',
     quests: '{shown} di {total} missioni principali',
     count: '{count} missioni',
     stages: '{count} fasi',

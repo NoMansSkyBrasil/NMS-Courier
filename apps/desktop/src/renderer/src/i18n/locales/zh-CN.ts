@@ -431,7 +431,16 @@ export const zhCN: Messages = {
     untitled: '显示游戏中没有标题的任务',
     untitledHint: '游戏从不在日志中命名的辅助任务。它们按标识符列出。',
     untitledGroup: '游戏中无标题',
+    section: {
+      story: '主线剧情',
+      atlas: '阿特拉斯之路',
+      secondary: '支线任务',
+      guide: '指南与里程碑',
+      seasonal: '远征'
+    },
     part: '第 {number} 部分',
+    after: '在此之后开始：{quest}',
+    silent: '游戏中无完成消息',
     quests: '主任务 {shown} / {total}',
     count: '{count} 个任务',
     stages: '{count} 个阶段',

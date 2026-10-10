@@ -28,6 +28,29 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.34.0 and bridge 1.28.0 (2026-10-10)
+
+- Changed (owner request): the quests of the "Missions" page are in the
+  game's order under headings: main story, Atlas Path, secondary missions,
+  guide and milestones, expeditions. Inside a section they follow the
+  game's tables, the story table first.
+- Changed: the parts of a quest are in the order the game starts them (a
+  mission starts when the missions its starting conditions require are
+  complete), and a part that waits for another quest says "Starts after:"
+  with that quest's name. The number of stages is no longer shown; it was
+  the number of script blocks of the mission and said nothing a player
+  could use.
+- Added: a part the game names by its own log line shows that name, with
+  "Part n" dimmed beside it (20 of the 379 parts of multi-mission quests);
+  the others stay "Part n".
+- Added: the tooltip of a part says when the game shows no message for its
+  completion (`MessageComplete` is `Never` for 942 of 1,876 missions).
+- Bridge 1.28.0 (`4322b6bf1b6dadd6bb8ab88232bf1efdab742ff684416fef7a3e5b1834589d5f`): the mission request takes `silent=0|1` and passes it
+  to the game's reward routine instead of always being silent. Data file
+  unchanged.
+- `missions.md` gains what each mission requires, what follows it, when the
+  game starts it and whether it announces completion.
+
 ## Application 1.33.0 (2026-10-10)
 
 - Changed (owner request): the "Missions" page is a list of quest blocks,

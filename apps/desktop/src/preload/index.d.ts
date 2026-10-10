@@ -198,8 +198,11 @@ declare global {
           quest: string
           questTitle: string
           table: string
+          kind: string
           stages: number
           rewards: string[]
+          after: string[]
+          announced: boolean
         }>
       >
       getLevelStats: (

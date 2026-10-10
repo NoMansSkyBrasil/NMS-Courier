@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-10: how missions start and announce; bridge 1.28.0 (offline)
+
+Offline research and a build; nothing sent. Build 180836. Owning note:
+[completing missions](MISSION_COMPLETION_NOTES.md#how-a-quest-starts-what-a-stage-is-what-is-announced-2026-10-10-offline).
+
+- Found: `AutoStart` with `StartingConditions`; the story chained by
+  `MissionCompleted` conditions; `MessageStart` and `MessageComplete` per
+  mission; what a stage is.
+- Rejected: the table's order as the order of a quest's parts in general
+  (2 of 75 quests contradict it, 56 have no stated order).
+- Fixed: bridge 1.27.0 always told the reward routine to be silent. Bridge
+  1.28.0 (`4322b6bf…`) takes the choice. Fixture, typecheck, lint, tests, build.
+  Installed on 2026-10-10 with the game closed (`tasklist`); data file unchanged (`5cab45c3…`).
+- Seen by the owner in the development window while the table and the
+  code were being changed: titles in another language. The table's columns
+  had moved under a running application; not a fault of a released state,
+  checked in the test instance afterwards.
+- Rollback: copy bridge 1.27.0 `39b0c754…` back with the game closed.
+
 ## 2026-10-10: missions page redone; live mission state not located (offline)
 
 Offline; nothing sent. Build 180836, bridge 1.27.0 unchanged, application

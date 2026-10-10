@@ -332,7 +332,10 @@ export type Messages = {
     untitled: string
     untitledHint: string
     untitledGroup: string
+    section: Record<'story' | 'atlas' | 'secondary' | 'guide' | 'seasonal', string>
     part: string
+    after: string
+    silent: string
     quests: string
     count: string
     stages: string

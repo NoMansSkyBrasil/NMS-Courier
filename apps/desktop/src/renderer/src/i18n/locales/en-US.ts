@@ -475,7 +475,16 @@ export const enUS: Messages = {
     untitledHint:
       'Helper missions the game never names in the log. They are listed by their identifier.',
     untitledGroup: 'Without a title in the game',
+    section: {
+      story: 'Main story',
+      atlas: 'Atlas Path',
+      secondary: 'Secondary missions',
+      guide: 'Guide and milestones',
+      seasonal: 'Expeditions'
+    },
     part: 'Part {number}',
+    after: 'Starts after: {quest}',
+    silent: 'no completion message in the game',
     quests: '{shown} of {total} quests',
     count: '{count} missions',
     stages: '{count} stages',

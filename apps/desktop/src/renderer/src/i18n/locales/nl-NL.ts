@@ -494,7 +494,16 @@ export const nlNL: Messages = {
     untitledHint:
       'Hulpmissies die het spel nooit in het logboek noemt. Ze staan er met hun identificatie.',
     untitledGroup: 'Zonder titel in het spel',
+    section: {
+      story: 'Hoofdverhaal',
+      atlas: 'Atlaspad',
+      secondary: 'Nevenmissies',
+      guide: 'Handleiding en mijlpalen',
+      seasonal: 'Expedities'
+    },
     part: 'Deel {number}',
+    after: 'Begint na: {quest}',
+    silent: 'geen voltooiingsmelding in het spel',
     quests: '{shown} van {total} hoofdmissies',
     count: '{count} missies',
     stages: '{count} fasen',

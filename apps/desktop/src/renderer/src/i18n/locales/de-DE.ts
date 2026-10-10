@@ -501,7 +501,16 @@ export const deDE: Messages = {
     untitledHint:
       'Hilfsmissionen, die das Spiel im Logbuch nie benennt. Sie werden mit ihrer Kennung aufgeführt.',
     untitledGroup: 'Ohne Titel im Spiel',
+    section: {
+      story: 'Hauptgeschichte',
+      atlas: 'Atlas-Pfad',
+      secondary: 'Nebenmissionen',
+      guide: 'Anleitung und Meilensteine',
+      seasonal: 'Expeditionen'
+    },
     part: 'Teil {number}',
+    after: 'Beginnt nach: {quest}',
+    silent: 'keine Abschlussmeldung im Spiel',
     quests: '{shown} von {total} Quests',
     count: '{count} Missionen',
     stages: '{count} Abschnitte',

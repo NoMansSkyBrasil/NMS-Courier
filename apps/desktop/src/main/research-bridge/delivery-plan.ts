@@ -190,17 +190,17 @@ export const steps = {
         },
   // Named missions for the game to complete through its own reward (bridge 1.27.0, experimental):
   // one request for every 256 missions.
-  missions: (ids: readonly string[]): Array<BridgeStep | null> =>
+  missions: (ids: readonly string[], notify: boolean): Array<BridgeStep | null> =>
     ids.length < 1
       ? [null]
       : Array.from({ length: Math.ceil(ids.length / missionsPerRequest) }, (_, part) => ({
           label: 'missions',
-          request: request(
-            'mission',
-            ids
+          request: request('mission', [
+            `silent=${notify ? 0 : 1}`,
+            ...ids
               .slice(part * missionsPerRequest, (part + 1) * missionsPerRequest)
               .map((id) => `mission=${id}`)
-          ),
+          ]),
           signals: ['missions'],
           result: { name: 'mission-result', seconds: 20 },
           accept: (lines: readonly string[]) => lines.includes('result=given')
@@ -376,7 +376,7 @@ export async function getDeliveryPlan(
     case 'missions':
       return plan(
         false,
-        steps.missions(await idsOfClass(researchDirectory, missionTable, 0, () => true))
+        steps.missions(await idsOfClass(researchDirectory, missionTable, 0, () => true), notify)
       )
     case 'quicksilver':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['special']))])

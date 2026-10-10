@@ -476,7 +476,16 @@ export const jaJP: Messages = {
     untitled: 'ゲーム内でタイトルのないミッションを表示',
     untitledHint: 'ゲームがログに名前を出さない補助ミッションです。識別子で表示されます。',
     untitledGroup: 'ゲーム内タイトルなし',
+    section: {
+      story: 'メインストーリー',
+      atlas: 'アトラスの道',
+      secondary: 'サブミッション',
+      guide: 'ガイドとマイルストーン',
+      seasonal: '探検'
+    },
     part: 'パート{number}',
+    after: '開始条件：{quest}の完了',
+    silent: 'ゲーム内の完了メッセージなし',
     quests: 'クエスト {total}件中{shown}件',
     count: 'ミッション {count}件',
     stages: '{count}段階',

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import {
   CircleAlertIcon,
   CircleCheckIcon,
@@ -46,8 +46,27 @@ type Quest = {
   key: string
   title: string
   subtitle: string
-  missions: Array<Mission & { part: number }>
+  section: Section
+  // Place of the quest's first mission in the game's tables, which follow the story.
+  place: number
+  // `needs` names the quest that must be finished before this part starts, when it is another one.
+  missions: Array<Mission & { part: number; needs: string }>
 }
+
+// The page's sections, in the order they are shown, and the game's mission classes of each.
+const sections = ['story', 'atlas', 'secondary', 'guide', 'seasonal'] as const
+type Section = (typeof sections)[number]
+const sectionOfClass: Record<string, Section> = {
+  Primary: 'story',
+  Atlas: 'atlas',
+  BlackHole: 'atlas',
+  Milestone: 'guide',
+  Guide: 'guide',
+  Wiki: 'guide',
+  Seasonal: 'seasonal'
+}
+
+const tableRank: Record<string, number> = { coremissiontable: 0, missiontable: 1 }
 
 // Quests drawn at first and added each time the list is scrolled near its end.
 const pageSize = 40
@@ -106,23 +125,61 @@ export function MissionsCard(): React.JSX.Element {
   // a quest belongs to the block of untitled ones.
   const quests = useMemo(() => {
     const byKey = new Map<string, Quest>()
-    for (const mission of missions) {
+    for (const [place, mission] of missions.entries()) {
       const title = mission.title || mission.questTitle
       const key = title ? `t:${title}` : 'untitled'
       const quest = byKey.get(key) ?? {
         key,
         title,
         subtitle: title ? mission.subtitle : '',
+        section: sectionOfClass[mission.kind] ?? 'secondary',
+        // The table of the main story comes first, then the general mission table, then the rest.
+        place: place + (tableRank[mission.table] ?? 2) * missions.length,
         missions: []
       }
-      quest.missions.push({ ...mission, part: quest.missions.length + 1 })
+      quest.missions.push({ ...mission, part: 0, needs: '' })
       byKey.set(key, quest)
     }
-    const order = new Intl.Collator(locale)
-    return [...byKey.values()].sort(
-      (a, b) => Number(!a.title) - Number(!b.title) || order.compare(a.title, b.title)
+    const titleOf = new Map(
+      missions.map((mission) => [mission.id, mission.title || mission.questTitle])
     )
-  }, [missions, locale])
+    for (const quest of byKey.values()) {
+      // The game starts a mission when the ones it requires are complete: parts are put in that
+      // order, and keep the table's order where the game states none between them.
+      const inside = new Set(quest.missions.map((mission) => mission.id))
+      const placed: Quest['missions'] = []
+      const waiting = [...quest.missions]
+      while (waiting.length > 0) {
+        const at = waiting.findIndex((mission) =>
+          mission.after.every(
+            (id) => !inside.has(id) || placed.some((other) => other.id === id) || id === mission.id
+          )
+        )
+        placed.push(...waiting.splice(at < 0 ? 0 : at, 1))
+      }
+      // The log's second line names the quest when every part carries the same one; where the parts
+      // differ, each line is the name of its part.
+      const lines = new Set(placed.map((mission) => mission.subtitle))
+      if (lines.size > 1) quest.subtitle = ''
+      quest.missions = placed.map((mission, index) => ({
+        ...mission,
+        part: index + 1,
+        needs:
+          mission.after
+            .filter((id) => !inside.has(id))
+            .map((id) => titleOf.get(id) ?? '')
+            .find((title) => title && title !== quest.title) ?? ''
+      }))
+    }
+    // Main story first, then the Atlas, the secondary missions, the guide and the expeditions; inside
+    // a section the order of the game's tables, which is the order of the story.
+    return [...byKey.values()].sort(
+      (a, b) =>
+        Number(!a.title) - Number(!b.title) ||
+        sections.indexOf(a.section) - sections.indexOf(b.section) ||
+        a.place - b.place
+    )
+  }, [missions])
 
   const matching = useMemo(() => {
     const wanted = query.trim().toLocaleLowerCase()
@@ -134,7 +191,9 @@ export function MissionsCard(): React.JSX.Element {
           : {
               ...quest,
               missions: quest.missions.filter((mission) =>
-                `${mission.id} ${mission.title}`.toLocaleLowerCase().includes(wanted)
+                `${mission.id} ${mission.title} ${mission.subtitle}`
+                  .toLocaleLowerCase()
+                  .includes(wanted)
               )
             }
       )
@@ -246,17 +305,22 @@ export function MissionsCard(): React.JSX.Element {
             }
           }}
         >
-          {shown.map((quest) => {
+          {shown.map((quest, index) => {
             const ids = quest.missions.map((mission) => mission.id)
             const marked = ids.filter((id) => chosen.has(id)).length
             const title = quest.title || text.untitledGroup
             // A quest of one mission is a single line: its box is the mission's.
             const single = quest.title && quest.missions.length === 1 ? quest.missions[0] : null
-            const details = (mission: Mission): React.JSX.Element => (
+            // Shown on hover: the mission's identifier and whether the game announces its completion.
+            const tip = (mission: Mission): string =>
+              mission.announced ? mission.id : `${mission.id} · ${text.silent}`
+            const details = (mission: Quest['missions'][number]): React.JSX.Element => (
               <>
-                <span className="text-xs text-muted-foreground">
-                  {formatMessage(text.stages, { count: number(mission.stages) })}
-                </span>
+                {mission.needs && (
+                  <span className="truncate text-xs text-muted-foreground">
+                    {formatMessage(text.after, { quest: mission.needs })}
+                  </span>
+                )}
                 {mission.rewards.length > 0 && (
                   <Badge variant="outline" title={mission.rewards.join(', ')}>
                     {formatMessage(text.rewards, { count: number(mission.rewards.length) })}
@@ -264,67 +328,85 @@ export function MissionsCard(): React.JSX.Element {
                 )}
               </>
             )
+            const heading =
+              quest.title && shown[index - 1]?.section !== quest.section
+                ? text.section[quest.section]
+                : null
             return (
-              <section key={quest.key} className="rounded-lg border">
-                <header
-                  className={`flex items-center gap-3 px-4 py-3 ${single ? '' : 'border-b'}`}
-                  title={single?.id}
-                >
-                  <Checkbox
-                    aria-label={title}
-                    checked={marked === ids.length}
-                    onCheckedChange={(checked) => setMany(ids, checked === true)}
-                  />
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate font-medium">{title}</span>
-                    {quest.subtitle && (
-                      <span className="truncate text-xs text-muted-foreground">
-                        {quest.subtitle}
-                      </span>
-                    )}
-                  </div>
-                  {single ? (
-                    details(single)
-                  ) : (
-                    <Badge variant="outline">
-                      {formatMessage(text.count, { count: number(ids.length) })}
-                    </Badge>
-                  )}
-                  {!single && marked > 0 && marked < ids.length && (
-                    <Badge variant="secondary">
-                      {formatMessage(text.chosen, { count: number(marked) })}
-                    </Badge>
-                  )}
-                </header>
-                {!single && (
-                  <ul className="flex flex-col divide-y">
-                    {quest.missions.map((mission) => (
-                      <li
-                        key={mission.id}
-                        className="flex items-center gap-3 px-4 py-2 text-sm"
-                        title={mission.id}
-                      >
-                        <Checkbox
-                          aria-label={mission.id}
-                          checked={chosen.has(mission.id)}
-                          onCheckedChange={(checked) => setMany([mission.id], checked === true)}
-                        />
-                        {quest.title ? (
-                          <span className="flex-1 truncate">
-                            {formatMessage(text.part, { number: number(mission.part) })}
-                          </span>
-                        ) : (
-                          // The game gives these no name at all; the identifier is all there is.
-                          <span className="flex-1 truncate font-mono text-xs text-muted-foreground">
-                            {mission.id}
-                          </span>
-                        )}
-                        {details(mission)}
-                      </li>
-                    ))}
-                  </ul>
+              <Fragment key={quest.key}>
+                {heading && (
+                  <h3 className="pt-2 text-sm font-medium text-muted-foreground">{heading}</h3>
                 )}
-              </section>
+                <section className="rounded-lg border">
+                  <header
+                    className={`flex items-center gap-3 px-4 py-3 ${single ? '' : 'border-b'}`}
+                    title={single ? tip(single) : undefined}
+                  >
+                    <Checkbox
+                      aria-label={title}
+                      checked={marked === ids.length}
+                      onCheckedChange={(checked) => setMany(ids, checked === true)}
+                    />
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      <span className="truncate font-medium">{title}</span>
+                      {quest.subtitle && (
+                        <span className="truncate text-xs text-muted-foreground">
+                          {quest.subtitle}
+                        </span>
+                      )}
+                    </div>
+                    {single ? (
+                      details(single)
+                    ) : (
+                      <Badge variant="outline">
+                        {formatMessage(text.count, { count: number(ids.length) })}
+                      </Badge>
+                    )}
+                    {!single && marked > 0 && marked < ids.length && (
+                      <Badge variant="secondary">
+                        {formatMessage(text.chosen, { count: number(marked) })}
+                      </Badge>
+                    )}
+                  </header>
+                  {!single && (
+                    <ul className="flex flex-col divide-y">
+                      {quest.missions.map((mission) => (
+                        <li
+                          key={mission.id}
+                          className="flex items-center gap-3 px-4 py-2 text-sm"
+                          title={tip(mission)}
+                        >
+                          <Checkbox
+                            aria-label={mission.id}
+                            checked={chosen.has(mission.id)}
+                            onCheckedChange={(checked) => setMany([mission.id], checked === true)}
+                          />
+                          {quest.title ? (
+                            <span className="flex flex-1 items-baseline gap-2 truncate">
+                              {!quest.subtitle && mission.subtitle ? (
+                                <>
+                                  <span className="truncate">{mission.subtitle}</span>
+                                  <span className="text-xs text-muted-foreground">
+                                    {formatMessage(text.part, { number: number(mission.part) })}
+                                  </span>
+                                </>
+                              ) : (
+                                formatMessage(text.part, { number: number(mission.part) })
+                              )}
+                            </span>
+                          ) : (
+                            // The game gives these no name at all; the identifier is all there is.
+                            <span className="flex-1 truncate font-mono text-xs text-muted-foreground">
+                              {mission.id}
+                            </span>
+                          )}
+                          {details(mission)}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              </Fragment>
             )
           })}
           {matching.length === 0 && (

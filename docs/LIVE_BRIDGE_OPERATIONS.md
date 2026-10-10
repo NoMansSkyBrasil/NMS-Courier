@@ -400,7 +400,8 @@ game when written.
 ### Words and portal glyphs (bridge 1.22.0)
 
 Request `native-mission-request-…` (event `missions`, bridge 1.27.0,
-experimental): named missions for the game to complete, a native call of
+experimental; `silent=0|1` since 1.28.0): named missions for the game to
+complete, a native call of
 the game's reward routine on the carrier `COURIER_MISSION` (its identifier
 is written and restored). Format in
 [completing missions](MISSION_COMPLETION_NOTES.md).

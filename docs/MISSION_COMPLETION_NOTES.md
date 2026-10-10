@@ -128,6 +128,52 @@ collect a quest's rewards.
   but some start missions or change state, so which of them may be given
   on their own has to be classified first, as for technologies.
 
+### How a quest starts, what a stage is, what is announced (2026-10-10, offline)
+
+Asked by the owner before testing.
+
+- **Start.** A mission has `AutoStart` (`None` 1,302, `AllModes` 480,
+  `Seasonal` 92, `OnSelected` 2) and `StartingConditions`. With `AllModes`
+  the game starts it by itself once the conditions hold. The commonest
+  condition is `GcMissionConditionMissionCompleted` (388 uses): the main
+  story is a chain of them (`ACT2_STEP12` requires `ACT2_STEP11`,
+  `ACT2_STEP13` requires `ACT2_STEP12`, `ACT3_STEP1` requires
+  `ACT2_STEP13`), and `NextMissionHint` names the follower. So the first
+  part of a quest is the one whose requirement lies outside the quest, and
+  it starts when the previous quest's last mission is complete. Missions
+  with `AutoStart` `None` are started by something else: 81 reward entries
+  hold a `GcRewardMission` and others are started by interactions.
+  Consequence for this feature, still to be seen live: a mission marked
+  complete satisfies the condition of the next one, which the game should
+  then start itself; completing a later part while an earlier one is not
+  complete leaves the earlier one waiting.
+- **Order inside a quest.** Of the 75 titles carried by several missions,
+  the table's order agrees with the completion conditions for 17,
+  disagrees for 2 and has no condition between the missions for 56 (they
+  are alternatives or separately started pieces, such as the versions of
+  "The Space Anomaly"). The page sorts parts by the conditions and keeps
+  the table's order where there is none.
+- **Names of parts.** Of the 74 titles carried by several missions, 10 have
+  missions whose subtitles differ, and 20 of the 379 parts have a subtitle
+  no other part of their quest has ("In Stellar Multitudes": "I: The Seed
+  and the Scaffold", "II: A Star, Manifested", "III: Myriad"). The page shows
+  the subtitle as the part's name in those quests and as the quest's second
+  line in the others.
+- **Stage.** `Stages` is the list of script blocks of a mission; each block
+  is a tree of sequence nodes (go to a place, wait for a condition, show a
+  message, give a reward). `ACT2_STEP13` has 3 blocks and 90 nodes. It is
+  not a count of objectives the player sees, so the page no longer shows
+  it. The other tool's "stage 3 of 38" counts something else, not read.
+- **Announcing.** Every mission has `MessageStart` and `MessageComplete`
+  (`Default`, `Never`, `Always`): completion is `Default` for 933, `Never`
+  for 942, `Always` for 1; start is `Default` for 806, `Never` for 1,061,
+  `Always` for 9. The completion reward has no message of its own and its
+  handler takes no silence flag; if a message appears it is the mission
+  system's, by these settings. Bridge 1.27.0 passed "silent" to the reward
+  routine regardless of the user's choice; 1.28.0 passes the choice.
+  Whether a mission completed through the list shows its message is
+  unproven.
+
 Live test to make first, on slot 3 with the backup the application makes:
 one small mission that is active and visible in the log (not the main
 story), then read the log, the inventory and the result lines; then save,

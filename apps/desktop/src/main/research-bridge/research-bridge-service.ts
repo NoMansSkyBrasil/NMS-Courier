@@ -73,9 +73,15 @@ export type MissionRow = {
   quest: string
   questTitle: string
   table: string
+  // The game's class of the mission (Primary, Secondary, Guide, Seasonal and so on).
+  kind: string
   stages: number
   // Reward table entries the mission's stages hand over.
   rewards: string[]
+  // Missions the game requires complete before it starts this one.
+  after: string[]
+  // Whether the game shows its message when this mission is completed.
+  announced: boolean
 }
 
 export type DeliveryResult = {
@@ -312,10 +318,11 @@ export class ResearchBridgeService {
   }
 
   // Every mission of the list with its quest, for the Missions page (runtime/research/missions.md:
-  // mission, table, class, quest, stages, rewards, then 14 titles and 14 subtitles).
+  // mission, table, class, quest, stages, rewards, after, next, auto, message, then 14 titles and 14
+  // subtitles).
   async getMissions(locale: string): Promise<MissionRow[]> {
     const column = galaxyNameLocales.indexOf(locale)
-    const title = 6 + (column < 0 ? galaxyNameLocales.indexOf('en-US') : column)
+    const title = 10 + (column < 0 ? galaxyNameLocales.indexOf('en-US') : column)
     const rows = await readClassification(this.context.researchDirectory, 'missions.md')
     const titles = new Map(rows.map((cells) => [cells[0], cells[title] ?? '']))
     return rows
@@ -327,8 +334,11 @@ export class ResearchBridgeService {
         quest: cells[3],
         questTitle: titles.get(cells[3]) ?? '',
         table: cells[1],
+        kind: cells[2],
         stages: Number(cells[4]) || 0,
-        rewards: cells[5] ? cells[5].split(' ') : []
+        rewards: cells[5] ? cells[5].split(' ') : [],
+        after: cells[6] ? cells[6].split(' ') : [],
+        announced: cells[9] !== 'Never'
       }))
   }
 

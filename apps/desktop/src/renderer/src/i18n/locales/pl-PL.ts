@@ -479,7 +479,16 @@ export const plPL: Messages = {
     untitledHint:
       'Misje pomocnicze, których gra nigdy nie nazywa w dzienniku. Są wymienione według identyfikatora.',
     untitledGroup: 'Bez tytułu w grze',
+    section: {
+      story: 'Główna fabuła',
+      atlas: 'Ścieżka Atlasu',
+      secondary: 'Misje poboczne',
+      guide: 'Przewodnik i kamienie milowe',
+      seasonal: 'Ekspedycje'
+    },
     part: 'Część {number}',
+    after: 'Zaczyna się po: {quest}',
+    silent: 'brak komunikatu o ukończeniu w grze',
     quests: '{shown} z {total} zadań',
     count: 'Misje: {count}',
     stages: 'Etapy: {count}',

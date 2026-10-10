@@ -268,9 +268,13 @@ describe('item, currency and equipment requests', () => {
     expect(second?.group).toBe(first?.group)
     const plan = getSelectionPlan('missions', ['ACT1_STEP10', 'ACT1_STEP11'], missions, true)
     expect(plan?.steps).toHaveLength(1)
-    expect(plan?.steps[0].request?.lines).toEqual(['mission=ACT1_STEP10', 'mission=ACT1_STEP11'])
+    expect(plan?.steps[0].request?.lines).toEqual([
+      'silent=0',
+      'mission=ACT1_STEP10',
+      'mission=ACT1_STEP11'
+    ])
     const all = await getDeliveryPlan('missions', research, true)
     expect(all?.steps.length).toBe(Math.ceil(missions.length / 256))
-    expect(all?.steps.every((step) => (step.request?.lines.length ?? 0) <= 256)).toBe(true)
+    expect(all?.steps.every((step) => (step.request?.lines.length ?? 0) <= 257)).toBe(true)
   })
 })

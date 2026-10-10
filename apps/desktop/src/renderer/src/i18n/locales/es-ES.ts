@@ -488,7 +488,16 @@ export const esES: Messages = {
     untitledHint:
       'Misiones auxiliares que el juego nunca nombra en el registro. Aparecen por su identificador.',
     untitledGroup: 'Sin título en el juego',
+    section: {
+      story: 'Historia principal',
+      atlas: 'Senda del Atlas',
+      secondary: 'Misiones secundarias',
+      guide: 'Guía y logros',
+      seasonal: 'Expediciones'
+    },
     part: 'Parte {number}',
+    after: 'Empieza tras: {quest}',
+    silent: 'sin mensaje de finalización en el juego',
     quests: '{shown} de {total} misiones principales',
     count: '{count} misiones',
     stages: '{count} etapas',

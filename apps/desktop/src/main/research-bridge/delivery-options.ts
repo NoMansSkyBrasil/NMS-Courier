@@ -174,10 +174,10 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     groupColumn: 1,
     accept: () => true,
     domain: null,
-    localeNameColumn: 6,
+    localeNameColumn: 10,
     groupRowColumn: 3,
     changesAccount: false,
-    steps: (ids) => steps.missions(ids)
+    steps: (ids, notify) => steps.missions(ids, notify)
   },
   titles: account('title'),
   // An expedition reward is only unlocked on the account. Claiming it is the player's own act in

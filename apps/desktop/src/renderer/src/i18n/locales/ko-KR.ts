@@ -455,7 +455,16 @@ export const koKR: Messages = {
     untitled: '게임에서 제목이 없는 임무 표시',
     untitledHint: '게임이 로그에 이름을 표시하지 않는 보조 임무입니다. 식별자로 표시됩니다.',
     untitledGroup: '게임 내 제목 없음',
+    section: {
+      story: '메인 스토리',
+      atlas: '아틀라스의 길',
+      secondary: '보조 임무',
+      guide: '가이드와 이정표',
+      seasonal: '탐험'
+    },
     part: '{number}부',
+    after: '시작 조건: {quest} 완료',
+    silent: '게임 내 완료 메시지 없음',
     quests: '퀘스트 {total}개 중 {shown}개',
     count: '임무 {count}개',
     stages: '{count}단계',

@@ -431,7 +431,16 @@ export const zhTW: Messages = {
     untitled: '顯示遊戲中沒有標題的任務',
     untitledHint: '遊戲從不在日誌中命名的輔助任務。它們依識別碼列出。',
     untitledGroup: '遊戲中無標題',
+    section: {
+      story: '主線劇情',
+      atlas: '阿特拉斯之路',
+      secondary: '支線任務',
+      guide: '指南與里程碑',
+      seasonal: '遠征'
+    },
     part: '第 {number} 部分',
+    after: '在此之後開始：{quest}',
+    silent: '遊戲中無完成訊息',
     quests: '主任務 {shown} / {total}',
     count: '{count} 個任務',
     stages: '{count} 個階段',

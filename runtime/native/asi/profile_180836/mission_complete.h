@@ -22,6 +22,7 @@ static const char *const mission_result_names[] = {"pending", "given", "unknown_
 
 static volatile LONG mission_state;    // 0 idle, 1 requested, 2 applied and waiting for the result file
 static volatile LONG mission_count;
+static volatile LONG mission_silent;
 static volatile LONG mission_result;
 static volatile LONG mission_calls;
 static volatile LONG mission_queued_before = -1, mission_queued_after = -1;
@@ -39,6 +40,9 @@ static void mission_apply_request(void) {
     uintptr_t manager = give_reward && reward_manager
         ? *(const uintptr_t *)((uintptr_t)GetModuleHandleW(NULL) + MANAGER_POINTER_RVA) : 0;
     LONG found = REWARD_CARRIER_NOT_READY, calls = 0, count = InterlockedCompareExchange(&mission_count, 0, 0);
+    // The reward itself has nothing to show; the flag only keeps the reward routine quiet. Whether the
+    // game announces a completed mission is the mission's own setting (MessageComplete).
+    uint8_t silent = InterlockedCompareExchange(&mission_silent, 0, 0) != 0;
     uint8_t *reward = manager
         ? reward_carrier_find(manager, "COURIER_MISSION", MISSION_CLASS_HASH, MISSION_REWARD_SIZE,
                               mission_is_carrier, 0, &found)
@@ -51,7 +55,7 @@ static void mission_apply_request(void) {
         memcpy(original, reward, sizeof(original));
         for (; calls < count; ++calls) {
             memcpy(reward, mission_ids[calls], MISSION_REWARD_SIZE);
-            reward_carrier_give("COURIER_MISSION", 1);
+            reward_carrier_give("COURIER_MISSION", silent);
         }
         memcpy(reward, original, sizeof(original));
     }
@@ -73,7 +77,7 @@ static int mission_path(wchar_t *path, const wchar_t *kind) {
                     root, kind, (unsigned long)GetCurrentProcessId()) > 0;
 }
 
-// Parse the per-process request: 1 to 256 "mission=<ID>" lines, the identifier 1 to 15 capitals,
+// Parse the per-process request: "silent=0|1" once and 1 to 256 "mission=<ID>" lines, the identifier 1 to 15 capitals,
 // digits and underscores, none twice. Anything else rejects the whole request.
 static int mission_read_request(void) {
     wchar_t path[MAX_PATH];
@@ -81,12 +85,16 @@ static int mission_read_request(void) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     char line[48];
-    LONG count = 0;
+    LONG count = 0, silent = -1;
     int ok = 1;
     while (ok && fgets(line, sizeof(line), file)) {
         if (!strchr(line, '\n') && !feof(file)) { ok = 0; break; }
         line[strcspn(line, "\r\n")] = 0;
         if (!line[0]) continue;
+        if ((strcmp(line, "silent=0") == 0 || strcmp(line, "silent=1") == 0) && silent < 0) {
+            silent = line[7] - '0';
+            continue;
+        }
         if (strncmp(line, "mission=", 8) != 0 || count >= MISSION_MAX) { ok = 0; break; }
         const char *id = line + 8;
         size_t length = strlen(id);
@@ -102,8 +110,9 @@ static int mission_read_request(void) {
         ++count;
     }
     fclose(file);
-    if (!ok || count < 1) return 0;
+    if (!ok || count < 1 || silent < 0) return 0;
     InterlockedExchange(&mission_count, count);
+    InterlockedExchange(&mission_silent, silent);
     InterlockedExchange(&mission_result, MISSION_PENDING);
     return 1;
 }
