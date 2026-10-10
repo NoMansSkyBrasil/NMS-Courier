@@ -28,7 +28,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.19.0',
   '1.20.0',
   '1.21.0',
-  '1.22.0'
+  '1.22.0',
+  '1.23.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.

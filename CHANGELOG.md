@@ -28,6 +28,14 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.28.1 (2026-10-09)
+
+- Fix: every page said "The installed bridge is not a tested build" with
+  bridge 1.23.0 installed, so nothing could be sent. Version 1.23.0 had its
+  hash listed but was missing from the versions the application accepts. A
+  test now requires the application's own bridge version to be in that list.
+- Bridge unchanged (1.23.0).
+
 ## Application 1.28.0 and bridge 1.23.0 (2026-10-09)
 
 - Added (owner request): pages "Standing" and "Milestones" under "Unlock".

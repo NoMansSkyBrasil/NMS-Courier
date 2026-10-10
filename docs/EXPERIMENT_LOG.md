@@ -1,5 +1,14 @@
 # Runtime experiment log
 
+## 2026-10-09: application 1.28.0 refused bridge 1.23.0 (owner's report)
+
+The owner opened "Milestones" with the game running (process 29288, bridge
+1.23.0 `a355d9a6…` installed) and the page said "The installed bridge is not
+a tested build"; nothing was sent to the game. Cause: `1.23.0` was added to
+the hash list of `bridge-version.ts` but not to `compatibleBridgeVersions`.
+Fixed in application 1.28.1 with a test that ties the two. No request
+reached the game; nothing to roll back.
+
 ## 2026-10-09: levelled stat request built (bridge 1.23.0), offline
 
 Offline research and a build; no request reached the game. Build 180836,
