@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-10: missions page redone; live mission state not located (offline)
+
+Offline; nothing sent. Build 180836, bridge 1.27.0 unchanged, application
+1.33.0. Owning note: [completing missions](MISSION_COMPLETION_NOTES.md).
+
+- Found: layout of `GcPlayerMissionProgress` and the member
+  `MissionProgress` of the slot's state data (`+0x83d70`); stage rewards of
+  each mission, now in `missions.md`.
+- Rejected: naming a quest's parts from the game's texts; the subtitle is
+  the same for every mission of a quest.
+- Not proven: where the list lives in the running game.
+- Rollback: none needed.
+
 ## 2026-10-09: experimental mission request built (bridge 1.27.0)
 
 A build after the owner named three reaches (all quests, one quest with its

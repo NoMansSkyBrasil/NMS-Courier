@@ -360,6 +360,9 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
+  ipcMain.handle('nms:get-missions', (_, locale: unknown) =>
+    typeof locale === 'string' ? getResearchBridgeService().getMissions(locale) : []
+  )
   // Standings and journey milestones: the stats of a page, and a request to raise them by levels.
   ipcMain.handle('nms:get-level-stats', (_, page: unknown, locale: unknown) =>
     isLevelPage(page) && typeof locale === 'string'

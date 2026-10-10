@@ -28,6 +28,22 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.33.0 (2026-10-10)
+
+- Changed (owner request): the "Missions" page is a list of quest blocks,
+  not a flat list. A block is a quest as the game's log names it, with the
+  game's title and subtitle in the interface language; its missions are
+  inside as "Part 1", "Part 2"…, each with its number of stages and of
+  rewards and a box, and the block's own box marks them all. A quest of one
+  mission is a single line. Mission identifiers are no longer shown (they
+  remain in a tooltip and in the search).
+- Changed: the 849 missions the game gives no title are hidden unless
+  "Show missions without a title in the game" is on; they were the rows
+  that showed a bare identifier as their name.
+- Added: `missions.md` lists, for each mission, the reward table entries its
+  stages hand over and its subtitle in the 14 languages.
+- Bridge unchanged (1.27.0). What is sent is unchanged.
+
 ## Application 1.32.0 and bridge 1.27.0 (2026-10-09)
 
 - Added (owner request), experimental: page "Missions" under "Unlock". The

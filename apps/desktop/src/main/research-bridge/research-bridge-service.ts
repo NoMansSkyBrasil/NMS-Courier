@@ -63,6 +63,21 @@ export type StackLimits = {
 
 export type DeliveryStepResult = BridgeStepResult
 
+export type MissionRow = {
+  id: string
+  // Title in the interface language; empty when the game gives the mission none.
+  title: string
+  // The line the game's log shows under the title.
+  subtitle: string
+  // The titled mission this one is filed under, and its title; empty when there is none.
+  quest: string
+  questTitle: string
+  table: string
+  stages: number
+  // Reward table entries the mission's stages hand over.
+  rewards: string[]
+}
+
 export type DeliveryResult = {
   feature:
     DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | 'glyphs' | LevelPage | EquipmentArea
@@ -293,6 +308,27 @@ export class ResearchBridgeService {
         id: cells[0],
         text: cells[text],
         groups: cells.slice(1, 1 + wordRaces.length)
+      }))
+  }
+
+  // Every mission of the list with its quest, for the Missions page (runtime/research/missions.md:
+  // mission, table, class, quest, stages, rewards, then 14 titles and 14 subtitles).
+  async getMissions(locale: string): Promise<MissionRow[]> {
+    const column = galaxyNameLocales.indexOf(locale)
+    const title = 6 + (column < 0 ? galaxyNameLocales.indexOf('en-US') : column)
+    const rows = await readClassification(this.context.researchDirectory, 'missions.md')
+    const titles = new Map(rows.map((cells) => [cells[0], cells[title] ?? '']))
+    return rows
+      .filter((cells) => /^[A-Z0-9_]{1,15}$/.test(cells[0]))
+      .map((cells) => ({
+        id: cells[0],
+        title: cells[title] ?? '',
+        subtitle: cells[title + galaxyNameLocales.length] ?? '',
+        quest: cells[3],
+        questTitle: titles.get(cells[3]) ?? '',
+        table: cells[1],
+        stages: Number(cells[4]) || 0,
+        rewards: cells[5] ? cells[5].split(' ') : []
       }))
   }
 

@@ -482,7 +482,20 @@ export const esES: Messages = {
   missions: {
     warningTitle: 'Experimental: usa una partida de prueba',
     warning:
-      'Se pide al juego, mediante su propia recompensa, que complete cada misión que elijas. Una misión principal tiene título; sus pasos sin título aparecen bajo su nombre, así que buscar la misión y seleccionar todo lo mostrado incluye la misión con sus pasos. Aún no se sabe si el juego entrega lo que darían los pasos omitidos (planos, objetos) ni si inicia la misión siguiente. Se hace copia de la partida antes de enviar.'
+      'Se pide al juego, mediante su propia recompensa, que complete cada misión que marques. Una misión principal es un título del registro del juego; las misiones que lo llevan aparecen dentro de ella. Aún no se sabe si el juego entrega lo que darían las etapas omitidas ni si inicia la misión siguiente, y la página todavía no puede mostrar qué misiones están activas en tu partida. Se hace copia de la partida antes de enviar.',
+    search: 'Buscar por misión o ID',
+    untitled: 'Mostrar misiones sin título en el juego',
+    untitledHint:
+      'Misiones auxiliares que el juego nunca nombra en el registro. Aparecen por su identificador.',
+    untitledGroup: 'Sin título en el juego',
+    part: 'Parte {number}',
+    quests: '{shown} de {total} misiones principales',
+    count: '{count} misiones',
+    stages: '{count} etapas',
+    rewards: '{count} recompensas',
+    chosen: '{count} marcadas',
+    action: 'Completar todas',
+    actionChosen: 'Completar marcadas ({count})'
   },
   levels: {
     hint: {

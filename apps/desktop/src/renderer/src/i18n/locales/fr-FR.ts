@@ -490,7 +490,20 @@ export const frFR: Messages = {
   missions: {
     warningTitle: 'Expérimental : utilisez une sauvegarde de test',
     warning:
-      'On demande au jeu, par sa propre récompense, de terminer chaque mission choisie. Une quête est une mission avec un titre ; ses étapes sans titre sont listées sous son nom : chercher la quête puis tout sélectionner prend la quête avec ses étapes. On ne sait pas encore si le jeu remet ce que les étapes sautées auraient donné (plans, objets) ni s’il lance la mission suivante. La sauvegarde est copiée avant l’envoi.'
+      'On demande au jeu, par sa propre récompense, de terminer chaque mission cochée. Une quête est un titre du journal du jeu ; les missions qui le portent sont listées dedans. On ne sait pas encore si le jeu remet ce que les étapes sautées auraient donné ni s’il lance la mission suivante, et la page ne peut pas encore montrer quelles missions sont actives dans votre sauvegarde. La sauvegarde est copiée avant l’envoi.',
+    search: 'Chercher par quête, mission ou ID',
+    untitled: 'Afficher les missions sans titre dans le jeu',
+    untitledHint:
+      'Missions auxiliaires que le jeu ne nomme jamais dans le journal. Elles sont listées par identifiant.',
+    untitledGroup: 'Sans titre dans le jeu',
+    part: 'Partie {number}',
+    quests: '{shown} quêtes sur {total}',
+    count: '{count} missions',
+    stages: '{count} étapes',
+    rewards: '{count} récompenses',
+    chosen: '{count} cochées',
+    action: 'Tout terminer',
+    actionChosen: 'Terminer la sélection ({count})'
   },
   levels: {
     hint: {

@@ -484,7 +484,20 @@ export const ptPT: Messages = {
   missions: {
     warningTitle: 'Experimental: use um save de teste',
     warning:
-      'É pedido ao jogo, através da sua recompensa, que conclua cada missão que escolher. Uma missão principal tem título; os passos sem título aparecem sob o nome dela, pelo que procurar pela missão e selecionar todos os apresentados inclui a missão com os passos. Ainda não se sabe se o jogo entrega o que os passos saltados dariam (plantas, itens) nem se inicia a missão seguinte. O save é copiado antes do envio.'
+      'É pedido ao jogo, através da sua recompensa, que conclua cada missão que marcar. Uma missão principal é um título do registo do jogo; as missões que o têm aparecem dentro dela. Ainda não se sabe se o jogo entrega o que os passos saltados dariam nem se inicia a missão seguinte, e a página ainda não consegue mostrar que missões estão ativas no seu save. O save é copiado antes do envio.',
+    search: 'Procurar por missão ou ID',
+    untitled: 'Mostrar missões sem título no jogo',
+    untitledHint:
+      'Missões auxiliares que o jogo nunca nomeia no registo. Aparecem pelo identificador.',
+    untitledGroup: 'Sem título no jogo',
+    part: 'Parte {number}',
+    quests: '{shown} de {total} missões principais',
+    count: '{count} missões',
+    stages: '{count} passos',
+    rewards: '{count} recompensas',
+    chosen: '{count} marcadas',
+    action: 'Concluir todas',
+    actionChosen: 'Concluir marcadas ({count})'
   },
   levels: {
     hint: {

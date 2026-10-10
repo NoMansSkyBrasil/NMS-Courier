@@ -45,6 +45,7 @@ const nms = {
     ipcRenderer.invoke('nms:deliver-currency', request),
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
+  getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
   getLevelStats: (page: 'standings' | 'milestones', locale: string) =>
     ipcRenderer.invoke('nms:get-level-stats', page, locale),
   raiseLevels: (request: {

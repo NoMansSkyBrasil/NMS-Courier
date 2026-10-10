@@ -479,7 +479,20 @@ export const ptBR: Messages = {
   missions: {
     warningTitle: 'Experimental: use um save de teste',
     warning:
-      'O jogo é solicitado, pela recompensa dele, a concluir cada missão que você escolher. Uma quest é uma missão com título; as etapas sem título aparecem sob o nome dela, então buscar pela quest e selecionar todos os exibidos pega a quest com as etapas. Ainda não se sabe se o jogo entrega o que as etapas puladas dariam (plantas, itens) nem se inicia a missão seguinte. O save é copiado antes do envio.'
+      'O jogo é solicitado, pela recompensa dele, a concluir cada missão que você marcar. Uma quest é um título do registro do jogo; as missões que o carregam aparecem dentro dela. Ainda não se sabe se o jogo entrega o que as etapas puladas dariam nem se inicia a missão seguinte, e a página ainda não consegue mostrar quais missões estão ativas no seu save. O save é copiado antes do envio.',
+    search: 'Buscar por quest, missão ou ID',
+    untitled: 'Mostrar missões sem título no jogo',
+    untitledHint:
+      'Missões auxiliares que o jogo nunca nomeia no registro. Aparecem pelo identificador.',
+    untitledGroup: 'Sem título no jogo',
+    part: 'Parte {number}',
+    quests: '{shown} de {total} quests',
+    count: '{count} missões',
+    stages: '{count} etapas',
+    rewards: '{count} recompensas',
+    chosen: '{count} marcadas',
+    action: 'Concluir todas',
+    actionChosen: 'Concluir marcadas ({count})'
   },
   levels: {
     hint: {

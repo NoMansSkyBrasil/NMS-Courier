@@ -174,7 +174,7 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     groupColumn: 1,
     accept: () => true,
     domain: null,
-    localeNameColumn: 5,
+    localeNameColumn: 6,
     groupRowColumn: 3,
     changesAccount: false,
     steps: (ids) => steps.missions(ids)

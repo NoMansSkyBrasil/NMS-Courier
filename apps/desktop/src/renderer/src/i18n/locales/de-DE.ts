@@ -495,7 +495,20 @@ export const deDE: Messages = {
   missions: {
     warningTitle: 'Experimentell: einen Test-Spielstand verwenden',
     warning:
-      'Das Spiel wird über seine eigene Belohnung gebeten, jede gewählte Mission abzuschließen. Eine Quest ist eine Mission mit Titel; ihre Schritte ohne Titel stehen unter ihrem Namen, sodass die Suche nach der Quest und „Alle angezeigten auswählen“ die Quest samt Schritten erfasst. Noch ist unbekannt, ob das Spiel übergibt, was die übersprungenen Schritte gegeben hätten (Baupläne, Gegenstände), und ob es die nächste Mission startet. Der Spielstand wird vor dem Senden gesichert.'
+      'Das Spiel wird über seine eigene Belohnung gebeten, jede markierte Mission abzuschließen. Eine Quest ist ein Titel im Logbuch des Spiels; die Missionen, die ihn tragen, stehen darunter. Noch ist unbekannt, ob das Spiel übergibt, was die übersprungenen Abschnitte gegeben hätten, und ob es die nächste Mission startet; die Seite kann auch noch nicht zeigen, welche Missionen in deinem Spielstand aktiv sind. Der Spielstand wird vor dem Senden gesichert.',
+    search: 'Nach Quest, Mission oder ID suchen',
+    untitled: 'Missionen ohne Titel im Spiel anzeigen',
+    untitledHint:
+      'Hilfsmissionen, die das Spiel im Logbuch nie benennt. Sie werden mit ihrer Kennung aufgeführt.',
+    untitledGroup: 'Ohne Titel im Spiel',
+    part: 'Teil {number}',
+    quests: '{shown} von {total} Quests',
+    count: '{count} Missionen',
+    stages: '{count} Abschnitte',
+    rewards: '{count} Belohnungen',
+    chosen: '{count} markiert',
+    action: 'Alle abschließen',
+    actionChosen: 'Markierte abschließen ({count})'
   },
   levels: {
     hint: {

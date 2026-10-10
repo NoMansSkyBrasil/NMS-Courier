@@ -487,7 +487,20 @@ export const itIT: Messages = {
   missions: {
     warningTitle: 'Sperimentale: usa un salvataggio di prova',
     warning:
-      'Si chiede al gioco, tramite la sua ricompensa, di completare ogni missione scelta. Una missione principale ha un titolo; i suoi passaggi senza titolo sono elencati sotto il suo nome, quindi cercare la missione e selezionare tutto ciò che è mostrato include la missione con i passaggi. Non si sa ancora se il gioco consegni ciò che i passaggi saltati avrebbero dato (progetti, oggetti) né se avvii la missione successiva. Il salvataggio viene copiato prima dell’invio.'
+      'Si chiede al gioco, tramite la sua ricompensa, di completare ogni missione spuntata. Una missione principale è un titolo del registro del gioco; le missioni che lo portano sono elencate al suo interno. Non si sa ancora se il gioco consegni ciò che le fasi saltate avrebbero dato né se avvii la missione successiva, e la pagina non può ancora mostrare quali missioni sono attive nel tuo salvataggio. Il salvataggio viene copiato prima dell’invio.',
+    search: 'Cerca per missione o ID',
+    untitled: 'Mostra le missioni senza titolo nel gioco',
+    untitledHint:
+      'Missioni ausiliarie che il gioco non nomina mai nel registro. Sono elencate per identificativo.',
+    untitledGroup: 'Senza titolo nel gioco',
+    part: 'Parte {number}',
+    quests: '{shown} di {total} missioni principali',
+    count: '{count} missioni',
+    stages: '{count} fasi',
+    rewards: '{count} ricompense',
+    chosen: '{count} spuntate',
+    action: 'Completa tutte',
+    actionChosen: 'Completa le spuntate ({count})'
   },
   levels: {
     hint: {

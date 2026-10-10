@@ -488,7 +488,20 @@ export const nlNL: Messages = {
   missions: {
     warningTitle: 'Experimenteel: gebruik een test-save',
     warning:
-      'Het spel wordt via zijn eigen beloning gevraagd elke gekozen missie te voltooien. Een hoofdmissie heeft een titel; haar stappen zonder titel staan onder haar naam, dus zoeken op de missie en alles wat getoond wordt selecteren neemt de missie met haar stappen. Het is nog niet bekend of het spel geeft wat de overgeslagen stappen zouden geven (blauwdrukken, voorwerpen) en of het de volgende missie start. Van de save wordt vóór het verzenden een kopie gemaakt.'
+      'Het spel wordt via zijn eigen beloning gevraagd elke aangevinkte missie te voltooien. Een hoofdmissie is een titel in het logboek van het spel; de missies die hem dragen staan eronder. Het is nog niet bekend of het spel geeft wat de overgeslagen fasen zouden geven en of het de volgende missie start, en de pagina kan nog niet tonen welke missies in je save actief zijn. Van de save wordt vóór het verzenden een kopie gemaakt.',
+    search: 'Zoeken op missie of ID',
+    untitled: 'Missies zonder titel in het spel tonen',
+    untitledHint:
+      'Hulpmissies die het spel nooit in het logboek noemt. Ze staan er met hun identificatie.',
+    untitledGroup: 'Zonder titel in het spel',
+    part: 'Deel {number}',
+    quests: '{shown} van {total} hoofdmissies',
+    count: '{count} missies',
+    stages: '{count} fasen',
+    rewards: '{count} beloningen',
+    chosen: '{count} aangevinkt',
+    action: 'Alles voltooien',
+    actionChosen: 'Aangevinkte voltooien ({count})'
   },
   levels: {
     hint: {

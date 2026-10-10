@@ -328,6 +328,18 @@ export type Messages = {
   missions: {
     warningTitle: string
     warning: string
+    search: string
+    untitled: string
+    untitledHint: string
+    untitledGroup: string
+    part: string
+    quests: string
+    count: string
+    stages: string
+    rewards: string
+    chosen: string
+    action: string
+    actionChosen: string
   }
   levels: {
     hint: Record<'standings' | 'milestones', string>

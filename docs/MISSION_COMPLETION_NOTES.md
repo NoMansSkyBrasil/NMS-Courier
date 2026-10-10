@@ -98,6 +98,36 @@ reward.
 - The bridge takes any well-formed identifier; it does not check that the
   game knows the mission or that the mission is active.
 
+### Page of application 1.33.0 and what the owner asked next (2026-10-10)
+
+The owner showed another tool's page (one block a storyline, a line a
+mission with "Finished", "stage 3 of 38" or "Not started" and a bar) and
+asked for something of that kind, with clean names, and for a way to
+collect a quest's rewards.
+
+- Done: quest blocks (`components/missions-card.tsx`) named by the game's
+  title and subtitle; missions inside as parts; untitled missions hidden by
+  default. The game gives the parts of a quest no names of their own (the
+  subtitle is the same for all of them), so "Part n" is this application's
+  label, numbered in the table's order.
+- Not done, state of each mission in the save. The slot's list is the
+  member `MissionProgress` of `GcPlayerStateData` (`+0x83d70`, count at
+  `+0x83d78`), elements of `0x2a0` bytes (`GcPlayerMissionProgress`:
+  Participants `+0x000`, Mission `+0x270`, Data `+0x280`, Seed `+0x288`,
+  Stat `+0x290`, Progress `+0x298`); code around `498d00` to `49d800` reads
+  and patches it there. Where that structure sits in the running game was
+  not found: the offsets known for the live player state (words at
+  `+0x18798`, glyph bits at manager `+0x26968`) do not fit this layout, so
+  the game keeps a different live form. Finding it needs the game running
+  with a save loaded (a read-only scan for the list by its stride). The
+  other tool's "stage 3 of 38" also shows that the progress number counts
+  sequence nodes, not the stages of the table (1 to 5 a mission).
+- Not done, rewards. `missions.md` now names the reward table entries each
+  mission hands over (`GcMissionSequenceReward`). Giving them through the
+  game's reward routine is possible in principle (they are shipped entries)
+  but some start missions or change state, so which of them may be given
+  on their own has to be classified first, as for technologies.
+
 Live test to make first, on slot 3 with the backup the application makes:
 one small mission that is active and visible in the log (not the main
 story), then read the log, the inventory and the result lines; then save,

@@ -469,7 +469,20 @@ export const enUS: Messages = {
   missions: {
     warningTitle: 'Experimental: use a test save',
     warning:
-      'The game is asked, through its own reward, to complete each mission you choose. A quest is a titled mission; its untitled steps are listed under its name, so searching for the quest and selecting all shown takes the quest with its steps. It is not yet known whether the game still hands over what the skipped steps give (blueprints, items) or starts the next mission. The save is backed up before sending.'
+      'The game is asked, through its own reward, to complete each mission you mark. A quest is a title of the game’s log; the missions that carry it are listed under it. It is not yet known whether the game still hands over what the skipped stages give or starts the next mission, and the page cannot yet show which missions are active in your save. The save is backed up before sending.',
+    search: 'Search by quest, mission or ID',
+    untitled: 'Show missions without a title in the game',
+    untitledHint:
+      'Helper missions the game never names in the log. They are listed by their identifier.',
+    untitledGroup: 'Without a title in the game',
+    part: 'Part {number}',
+    quests: '{shown} of {total} quests',
+    count: '{count} missions',
+    stages: '{count} stages',
+    rewards: '{count} rewards',
+    chosen: '{count} marked',
+    action: 'Complete all',
+    actionChosen: 'Complete marked ({count})'
   },
   levels: {
     hint: {

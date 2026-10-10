@@ -473,7 +473,20 @@ export const plPL: Messages = {
   missions: {
     warningTitle: 'Eksperymentalne: użyj zapisu testowego',
     warning:
-      'Gra jest proszona, przez własną nagrodę, o ukończenie każdej wybranej misji. Zadanie to misja z tytułem; jego etapy bez tytułu są wymienione pod jego nazwą, więc wyszukanie zadania i zaznaczenie wszystkich pokazanych obejmuje zadanie z etapami. Nie wiadomo jeszcze, czy gra wręcza to, co dałyby pominięte etapy (schematy, przedmioty), ani czy rozpoczyna następną misję. Zapis jest kopiowany przed wysłaniem.'
+      'Gra jest proszona, przez własną nagrodę, o ukończenie każdej zaznaczonej misji. Zadanie to tytuł w dzienniku gry; misje, które go noszą, są wymienione w nim. Nie wiadomo jeszcze, czy gra wręcza to, co dałyby pominięte etapy, ani czy rozpoczyna następną misję, a strona nie potrafi jeszcze pokazać, które misje są aktywne w twoim zapisie. Zapis jest kopiowany przed wysłaniem.',
+    search: 'Szukaj po zadaniu, misji lub ID',
+    untitled: 'Pokaż misje bez tytułu w grze',
+    untitledHint:
+      'Misje pomocnicze, których gra nigdy nie nazywa w dzienniku. Są wymienione według identyfikatora.',
+    untitledGroup: 'Bez tytułu w grze',
+    part: 'Część {number}',
+    quests: '{shown} z {total} zadań',
+    count: 'Misje: {count}',
+    stages: 'Etapy: {count}',
+    rewards: 'Nagrody: {count}',
+    chosen: 'Zaznaczono: {count}',
+    action: 'Ukończ wszystkie',
+    actionChosen: 'Ukończ zaznaczone ({count})'
   },
   levels: {
     hint: {

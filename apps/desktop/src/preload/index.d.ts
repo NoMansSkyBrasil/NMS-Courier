@@ -190,6 +190,18 @@ declare global {
       getWordRows: (
         locale: string
       ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
+      getMissions: (locale: string) => Promise<
+        Array<{
+          id: string
+          title: string
+          subtitle: string
+          quest: string
+          questTitle: string
+          table: string
+          stages: number
+          rewards: string[]
+        }>
+      >
       getLevelStats: (
         page: 'standings' | 'milestones',
         locale: string
