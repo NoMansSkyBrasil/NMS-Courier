@@ -112,6 +112,23 @@ players, pick one, pick an item and an amount, confirm, see the answer.
   ship or multi-tool reward whose seed follows the mission seed, who may
   send `RPCStartMission` (the list of user identifiers suggests a mission
   host), and what the receiving player sees.
+- Limit of the mission route, read the same day: `GcRewardSpecificShip`
+  holds its ship (`ShipResource` with the seed, inventory, type) in the
+  reward table itself, so a mission started in an unmodified game can only
+  hand the ships the game's own tables name. The reference takes any seed,
+  so its ship service must use something else.
+- Leads for a ship or freighter of a chosen seed, from names only, none
+  read yet. The game shares what one player's game spawns with the others:
+  `cGcPlayerExperienceDirector::OnRemoteFreightersSpawned(matrix, int,
+  64-bit value, battle type, faction, flag)` (call object `4ae5000`, made at
+  `1491a37`, sender near `14d60a0`); the message
+  `cGcNetworkPlayerExperienceSpawnMessage` (virtual table `4aac430`, built
+  near `af9686`); and the `cGcAISpaceshipManager` calls. If a spawned ship
+  carries the sender's seed, the receiving player obtains it the ordinary
+  way (buying, or a rescue). The owner's screenshot of the reference
+  (2026-10-10) asks the receiver to wait in the Anomaly with multiplayer
+  open and the service account as a friend; it does not say how a ship
+  arrives.
 - Statistics (`OnReceiveStatRecordInt`) are the candidate for titles and
   standing, which the reference lists as a separate service.
 - The reference's packaged-technology service uses a container that both
