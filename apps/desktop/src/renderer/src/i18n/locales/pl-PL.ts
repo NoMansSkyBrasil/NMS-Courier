@@ -471,6 +471,16 @@ export const plPL: Messages = {
     modeAll: 'Do ostatniego poziomu',
     modeHint:
       'Liczone od poziomu, na którym każda pozycja jest teraz. To, co jest już na ostatnim poziomie, pozostaje bez zmian.',
+    messageHint:
+      'To gra decyduje, które pozycje ogłaszają nowy poziom: reputacje i główne kamienie milowe to robią; pozostałe zmieniają się bez żadnego komunikatu, także podczas zwykłej gry. Każdy wiersz podaje, jak jest.',
+    message: {
+      full: 'pełny komunikat',
+      quick: 'krótki komunikat',
+      silent: 'brak komunikatu w grze'
+    },
+    announce: 'Pokazuj ekran kamienia milowego także dla cichych pozycji',
+    announceHint:
+      'Gra pokazuje pełny ekran „osiągnięto kamień milowy” tylko dla niektórych pozycji. Włączone: gra jest proszona o pokazanie tego samego ekranu, z rangą i nazwą pozycji, także dla tych, które zwykle zmieniają się po cichu. Jej tabela jest zmieniana tylko na czas przyznania poziomu i od razu przywracana.',
     count: 'Poziomy',
     countHint: 'O ile poziomów w górę, od 1 do {max}.',
     action: 'Podnieś wszystkie',

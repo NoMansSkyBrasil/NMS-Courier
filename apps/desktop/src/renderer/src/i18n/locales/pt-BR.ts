@@ -476,6 +476,12 @@ export const ptBR: Messages = {
     modeAll: 'Até o último nível',
     modeHint:
       'Contado a partir do nível em que cada um está agora. Quem já está no último nível não é alterado.',
+    messageHint:
+      'É o jogo que decide quais entradas anunciam um nível novo: as reputações e os marcos principais anunciam; as demais mudam sem mensagem nenhuma, também jogando normalmente. Cada linha diz qual é o caso.',
+    message: { full: 'mensagem completa', quick: 'mensagem curta', silent: 'sem mensagem no jogo' },
+    announce: 'Mostrar a tela de marco também nas entradas silenciosas',
+    announceHint:
+      'O jogo só mostra a tela completa de "marco alcançado" em algumas entradas. Ligado: ele é solicitado a mostrar a mesma tela, com o posto e o nome da entrada, nas que normalmente mudam em silêncio. A tabela dele é alterada só enquanto o nível é entregue e volta ao normal em seguida.',
     count: 'Níveis',
     countHint: 'Quantos níveis subir, de 1 a {max}.',
     action: 'Aumentar todos',

@@ -67,7 +67,8 @@ written into a save and no stat is written directly.
 ```text
 silent=0|1
 raise=<1..10>
-stat=<ID>,<value of level 0>,...,<value of level 10>     (1 to 64 lines)
+announce=0|1                                             (optional, bridge 1.24.0)
+stat=<ID>,<value of level 0>,...,<value of level 10>[,<TEXT>]   (1 to 64 lines)
 ```
 
 For each stat the bridge reads the value, finds the level it is on (-1 when
@@ -96,6 +97,52 @@ empty), recorded in that script.
 Offered: 8 standings and 41 milestones. Not offered: `DIST_WALKED` and
 `LONGEST_LIFE_EX` (their levels are fractions; the stat reward takes whole
 numbers), `NEXUS_STAND` and `NEXUS_MISSIONS` (all levels zero), `TUTORIAL`.
+
+## Which stats announce a level
+
+Each levelled stat has a `StatMessageType`: `Full` (the nine milestones of
+the game's terminal page and `PIRATES_KILLED`), `Quick` (the eight
+standings) or `Silent` (every other one, 31 of the 41 offered milestones,
+whose `NotifyMessage` is empty). The message is built by the game's level
+routine (`5fc700`, reached from `612ea0` and `5fc430` when a stat of
+`GLOBAL_STATS` changes level; text `STAT_MESSAGES_TITLE`, `%STAT%`), which
+the stat reward goes through; it is skipped when the game state value at
+`6e8d714` is 0 or 6. So a silent stat shows nothing, in normal play too. The
+application shows the type on each row (application 1.28.2).
+
+First live use, 2026-10-09 (owner, from the application, bridge 1.23.0;
+slot and entries as the owner stated: the milestone was received, no message
+appeared; the screenshot before it had `PIRATE_MISSIONS` chosen, a silent
+stat). Seen: the level is applied. Not yet seen: a `Full` or `Quick` stat
+raised with notifications on, which is the test that says whether the
+message appears by this route.
+
+## Asking for the message on a silent stat (bridge 1.24.0)
+
+The owner wants the game's full milestone screen (rank, then what the
+milestone is) for every entry. The level routine reads `StatMessageType`
+(0 `Full`, 1 `Quick`, 2 `Silent`) at entry `+0x608` of the loaded levelled
+stat table when the level changes (`5fcd7d`). Entry layout, class
+`GcLeveledStatData`, `0x610` bytes: `StatLevels` `+0x000` (eleven of `0x80`:
+LevelName `+0x00`, LevelNameUpper `+0x20`, OSDLevelName `+0x40`,
+TrophyToUnlock `+0x60`, Value `+0x70`), NotifyMessage `+0x580`,
+NotifyMessageSingular `+0x5a0`, StatTitle `+0x5c0`, Icon `+0x5e0`, StatId
+`+0x5f8`, StatMessageType `+0x608`, ShowInTerminal `+0x60c`, ShowStatLevel
+`+0x60d`, TelemetryUpload `+0x60e`, UseRankNotStats `+0x60f`. The table is
+the pointer at stat store `+0x20`: entries, then their count.
+
+With `announce=1` the bridge, for a stat whose type is 2: writes 0 there,
+copies the text identifier given on the `stat=` line (the stat's title, the
+column `Text` of `stat-levels.md`) into both message texts when they are
+empty, calls the reward, and writes the type and texts back. These are
+direct writes to the game's loaded table (not to a save, and undone in the
+same call), stated as such in
+[live bridge operations](LIVE_BRIDGE_OPERATIONS.md). It relies on the stat
+setter applying the change inside the call, which it does on the game's
+main threads (`610c60` calls `612ea0` directly there); the result line's
+`after=` shows whether the value had changed when the call returned.
+Unproven: that the screen appears, and how it reads with a title as its
+text (the game's own texts hold the number, as "Learnt 20 words").
 
 ## Known limits and what is unproven
 

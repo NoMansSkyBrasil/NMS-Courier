@@ -193,11 +193,20 @@ declare global {
       getLevelStats: (
         page: 'standings' | 'milestones',
         locale: string
-      ) => Promise<Array<{ id: string; name: string; group: string; levels: number[] }>>
+      ) => Promise<
+        Array<{
+          id: string
+          name: string
+          group: string
+          levels: number[]
+          message: 'full' | 'quick' | 'silent'
+        }>
+      >
       raiseLevels: (request: {
         page: 'standings' | 'milestones'
         stats: string[] | null
         levels: number
+        announce: boolean
         notify: boolean
       }) => Promise<DeliveryResult>
       discoverGlyphs: (request: {

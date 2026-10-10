@@ -329,6 +329,10 @@ export type Messages = {
     modeSome: string
     modeAll: string
     modeHint: string
+    messageHint: string
+    announce: string
+    announceHint: string
+    message: Record<'full' | 'quick' | 'silent', string>
     count: string
     countHint: string
     action: string

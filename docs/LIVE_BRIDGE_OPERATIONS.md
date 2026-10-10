@@ -403,7 +403,11 @@ Request `native-stat-request-…` (event `stats`, bridge 1.23.0): levels of
 standings and journey milestones. The current value is read with the game's
 stat routine and the new one is set by the game's reward routine on the
 carrier `COURIER_STAT` (native calls; the only direct write is the carrier
-entry, restored afterwards). Format in [levelled stats](STAT_LEVEL_NOTES.md).
+entry, restored afterwards). With `announce=1` (bridge 1.24.0) two more
+direct writes are made for a stat the game keeps silent, both undone in the
+same call: its message type and, when empty, its message texts in the
+game's loaded levelled stat table. Format in
+[levelled stats](STAT_LEVEL_NOTES.md).
 
 Requests `native-word-request-…` (event `words`) and `native-rune-request-…`
 (event `runes`), each with its result file; formats in the

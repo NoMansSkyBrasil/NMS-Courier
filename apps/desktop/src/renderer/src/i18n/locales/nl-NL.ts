@@ -485,6 +485,16 @@ export const nlNL: Messages = {
     modeAll: 'Tot het laatste niveau',
     modeHint:
       'Geteld vanaf het niveau waarop elk nu staat. Wat al op het laatste niveau staat, blijft ongemoeid.',
+    messageHint:
+      'Het spel bepaalt welke items een nieuw niveau melden: de reputaties en de belangrijkste mijlpalen doen dat; de andere veranderen zonder enige melding, ook bij gewoon spelen. Elke rij zegt wat geldt.',
+    message: {
+      full: 'volledige melding',
+      quick: 'korte melding',
+      silent: 'geen melding in het spel'
+    },
+    announce: 'Het mijlpaalscherm ook tonen voor stille items',
+    announceHint:
+      'Het spel toont zijn volledige scherm “mijlpaal bereikt” alleen bij sommige items. Aan: het wordt gevraagd hetzelfde scherm, met de rang en de naam van het item, ook te tonen bij de items die normaal stil veranderen. De tabel van het spel wordt alleen gewijzigd terwijl het niveau wordt gegeven en meteen teruggezet.',
     count: 'Niveaus',
     countHint: 'Hoeveel niveaus omhoog, 1 tot {max}.',
     action: 'Alles verhogen',

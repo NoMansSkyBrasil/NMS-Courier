@@ -16,8 +16,10 @@ export const levelTop = 10
 const statsPerRequest = 64
 const levelCount = levelTop + 1
 // Columns of stat-levels.md before the 14 titles, and of stat-sections.md before the 14 names.
-const statColumns = 6
+const statColumns = 8
 const sectionColumns = 1
+
+export type LevelMessage = 'full' | 'quick' | 'silent'
 
 export type LevelStat = {
   id: string
@@ -26,6 +28,10 @@ export type LevelStat = {
   group: string
   // Values of levels 0 to 10.
   levels: number[]
+  // How the game announces a new level of this stat; it shows nothing for a silent one.
+  message: LevelMessage
+  // Game text identifier of the stat's title, shown when a silent stat is made to announce.
+  text: string
 }
 
 export type LevelRequest = {
@@ -34,6 +40,8 @@ export type LevelRequest = {
   stats: string[] | null
   // Levels to go up, 1 to 10.
   levels: number
+  // Ask for the game's full milestone message on stats the game keeps silent.
+  announce: boolean
   notify: boolean
 }
 
@@ -49,11 +57,13 @@ export function isLevelRequest(value: unknown): value is LevelRequest {
     (request.stats === null ||
       (Array.isArray(request.stats) && request.stats.every((stat) => typeof stat === 'string'))) &&
     typeof request.levels === 'number' &&
+    typeof request.announce === 'boolean' &&
     typeof request.notify === 'boolean'
   )
 }
 
 const identifier = /^[A-Z0-9_]{1,15}$/
+const textIdentifier = /^[A-Z0-9_]{1,31}$/
 
 // The stats of a page that a request may raise, named in the interface language. `localeColumn` is
 // the position of that language among the 14 language columns of the tables.
@@ -75,12 +85,14 @@ export async function listLevelStats(
     .sort((a, b) => order.indexOf(a[2]) - order.indexOf(b[2]))
     .map((cells) => {
       const levels = cells[5].split(' ').map(Number)
+      const message: LevelMessage =
+        cells[6] === 'Full' ? 'full' : cells[6] === 'Quick' ? 'quick' : 'silent'
       const title = cells[statColumns + localeColumn] ?? cells[0]
       const section = sections.get(cells[2]) ?? cells[2]
       // Every standing has the same title, so its row is named by whom it is with.
       return page === 'standings'
-        ? { id: cells[0], name: section, group: title, levels }
-        : { id: cells[0], name: title, group: section, levels }
+        ? { id: cells[0], name: section, group: title, levels, message, text: cells[7] }
+        : { id: cells[0], name: title, group: section, levels, message, text: cells[7] }
     })
     .filter(
       (stat) =>
@@ -113,9 +125,12 @@ export function getLevelPlan(
         lines: [
           `silent=${request.notify ? 0 : 1}`,
           `raise=${levels}`,
-          ...chosen
-            .slice(start, start + statsPerRequest)
-            .map((id) => `stat=${id},${offered.get(id)!.levels.join(',')}`)
+          `announce=${request.announce ? 1 : 0}`,
+          ...chosen.slice(start, start + statsPerRequest).map((id) => {
+            const stat = offered.get(id)!
+            const shown = textIdentifier.test(stat.text) ? `,${stat.text}` : ''
+            return `stat=${id},${stat.levels.join(',')}${shown}`
+          })
         ]
       },
       signals: ['stats'],

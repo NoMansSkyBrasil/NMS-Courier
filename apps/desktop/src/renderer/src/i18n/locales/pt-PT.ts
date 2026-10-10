@@ -481,6 +481,12 @@ export const ptPT: Messages = {
     modeAll: 'Até ao último nível',
     modeHint:
       'Contado a partir do nível em que cada um está agora. Quem já está no último nível não é alterado.',
+    messageHint:
+      'É o jogo que decide que entradas anunciam um nível novo: as reputações e os objetivos principais anunciam; as restantes mudam sem qualquer mensagem, também a jogar normalmente. Cada linha indica o caso.',
+    message: { full: 'mensagem completa', quick: 'mensagem curta', silent: 'sem mensagem no jogo' },
+    announce: 'Mostrar o ecrã de objetivo também nas entradas silenciosas',
+    announceHint:
+      'O jogo só mostra o ecrã completo de "objetivo alcançado" em algumas entradas. Ligado: é-lhe pedido que mostre o mesmo ecrã, com o posto e o nome da entrada, nas que normalmente mudam em silêncio. A tabela do jogo é alterada apenas enquanto o nível é entregue e reposta de imediato.',
     count: 'Níveis',
     countHint: 'Quantos níveis subir, de 1 a {max}.',
     action: 'Aumentar todos',

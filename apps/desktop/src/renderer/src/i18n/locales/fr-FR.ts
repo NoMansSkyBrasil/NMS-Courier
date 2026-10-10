@@ -490,6 +490,16 @@ export const frFR: Messages = {
     modeAll: 'Jusqu’au dernier niveau',
     modeHint:
       'Compté à partir du niveau actuel de chacun. Ce qui est déjà au dernier niveau n’est pas touché.',
+    messageHint:
+      'C’est le jeu qui décide quelles entrées annoncent un nouveau niveau : les estimes et les étapes clés principales le font ; les autres changent sans aucun message, en jeu normal aussi. Chaque ligne l’indique.',
+    message: {
+      full: 'message complet',
+      quick: 'message bref',
+      silent: 'aucun message dans le jeu'
+    },
+    announce: 'Afficher aussi l’écran d’étape clé pour les entrées silencieuses',
+    announceHint:
+      'Le jeu n’affiche son écran complet « étape clé atteinte » que pour certaines entrées. Activé : on lui demande d’afficher le même écran, avec le rang et le nom de l’entrée, pour celles qui changent d’ordinaire en silence. Sa table n’est modifiée que pendant la remise du niveau et rétablie aussitôt.',
     count: 'Niveaux',
     countHint: 'Nombre de niveaux à monter, de 1 à {max}.',
     action: 'Tout augmenter',

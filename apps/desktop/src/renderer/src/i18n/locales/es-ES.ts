@@ -479,6 +479,16 @@ export const esES: Messages = {
     modeAll: 'Hasta el último nivel',
     modeHint:
       'Se cuenta desde el nivel en que está cada uno ahora. El que ya está en el último nivel no se toca.',
+    messageHint:
+      'Es el juego el que decide qué entradas anuncian un nivel nuevo: los estatus y los logros principales lo hacen; los demás cambian sin ningún mensaje, también jugando con normalidad. Cada fila indica el caso.',
+    message: {
+      full: 'mensaje completo',
+      quick: 'mensaje breve',
+      silent: 'sin mensaje en el juego'
+    },
+    announce: 'Mostrar la pantalla de logro también en las entradas silenciosas',
+    announceHint:
+      'El juego solo muestra su pantalla completa de «logro alcanzado» en algunas entradas. Activado: se le pide que muestre la misma pantalla, con el rango y el nombre de la entrada, en las que normalmente cambian en silencio. Su tabla solo se modifica mientras se entrega el nivel y se restaura enseguida.',
     count: 'Niveles',
     countHint: 'Cuántos niveles subir, de 1 a {max}.',
     action: 'Subir todos',

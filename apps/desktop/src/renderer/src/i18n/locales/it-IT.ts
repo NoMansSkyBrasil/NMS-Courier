@@ -484,6 +484,16 @@ export const itIT: Messages = {
     modeAll: 'Fino all’ultimo livello',
     modeHint:
       'Contato dal livello in cui ciascuno si trova ora. Chi è già all’ultimo livello non viene toccato.',
+    messageHint:
+      'È il gioco a decidere quali voci annunciano un nuovo livello: le reputazioni e gli obiettivi principali lo fanno; le altre cambiano senza alcun messaggio, anche giocando normalmente. Ogni riga lo indica.',
+    message: {
+      full: 'messaggio completo',
+      quick: 'messaggio breve',
+      silent: 'nessun messaggio nel gioco'
+    },
+    announce: 'Mostra la schermata dell’obiettivo anche per le voci silenziose',
+    announceHint:
+      'Il gioco mostra la schermata completa di «obiettivo raggiunto» solo per alcune voci. Attivo: gli viene chiesto di mostrare la stessa schermata, con il grado e il nome della voce, per quelle che di norma cambiano in silenzio. La sua tabella viene modificata solo mentre il livello è consegnato e subito ripristinata.',
     count: 'Livelli',
     countHint: 'Di quanti livelli salire, da 1 a {max}.',
     action: 'Aumenta tutti',

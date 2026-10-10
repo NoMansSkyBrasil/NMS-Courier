@@ -51,6 +51,7 @@ const nms = {
     page: 'standings' | 'milestones'
     stats: string[] | null
     levels: number
+    announce: boolean
     notify: boolean
   }) => ipcRenderer.invoke('nms:raise-levels', request),
   discoverGlyphs: (request: { count: number | null; notify: boolean }) =>

@@ -1,5 +1,46 @@
 # Runtime experiment log
 
+## 2026-10-09: milestone screen for silent stats built (bridge 1.24.0)
+
+Offline research and a build after the owner's report below; no request of
+this version reached the game. Build 180836, executable `13d5060d…`. Owning
+note: [levelled stats](STAT_LEVEL_NOTES.md).
+
+- Owner, with a screenshot of the game's own screen ("FLUENTE", "Aprendeu
+  20 palavras"): the entries raised were of the outlaws page; the levels
+  arrived (the journey page showed them) and no screen appeared. Wanted: the
+  same screen for every entry.
+- Found: the level routine `5fc700` shows the full screen only when the
+  entry's `StatMessageType` (`+0x608`) is 0, a short message when 1, nothing
+  when 2; layout of `GcLeveledStatData` recorded in the note.
+- Built: bridge 1.24.0 (`7e0264c0…`): `announce=1` makes a silent stat
+  announce the one change (type and, when empty, message texts of the
+  loaded table written and put back in the same call). Application 1.29.0
+  with the option, on by default. Fixture passed; typecheck, lint, 117
+  tests, build. Installed on 2026-10-09 with the game closed (`tasklist`);
+  previous bridge 1.23.0 `a355d9a6…`. Data file unchanged (`7633cf80…`).
+- Not proven: that the screen appears and how it reads; `after=` in the
+  result will say whether the change is applied inside the call.
+- Rollback: copy bridge 1.23.0 back with the game closed.
+
+## 2026-10-09: first live level raise; no message (owner's report)
+
+Live, from the application 1.28.1, bridge 1.23.0 `a355d9a6…`, data file
+`7633cf80…`, build 180836, game process 29288; slot not identified (the
+owner did not say). The owner raised a milestone and reported: the level
+arrived, no milestone message appeared. The entry chosen in the screenshot
+sent just before was `PIRATE_MISSIONS`; which entries were sent was not
+recorded by this session (result lines not provided).
+
+- Observed: the stat reward route changes the level in the running game.
+- Found offline afterwards: `StatMessageType` per stat; `PIRATE_MISSIONS`
+  and 30 other milestones are `Silent`, with no message text at all.
+  See [levelled stats](STAT_LEVEL_NOTES.md#which-stats-announce-a-level).
+- Not proven: that a `Full` or `Quick` stat shows its message by this route;
+  persistence after save and reload.
+- Rollback: none by the tool (a stat is never lowered); the save backup the
+  application made before sending is the way back.
+
 ## 2026-10-09: application 1.28.0 refused bridge 1.23.0 (owner's report)
 
 The owner opened "Milestones" with the game running (process 29288, bridge

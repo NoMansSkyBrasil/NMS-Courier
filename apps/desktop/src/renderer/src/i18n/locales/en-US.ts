@@ -466,6 +466,12 @@ export const enUS: Messages = {
     modeAll: 'To the last level',
     modeHint:
       'Counted from the level each one is on now. One already on the last level is left alone.',
+    messageHint:
+      'The game decides which entries announce a new level: the standings and the main milestones do; the others change without any message, in normal play too. Each row says which.',
+    message: { full: 'full message', quick: 'short message', silent: 'no message in the game' },
+    announce: 'Show the milestone screen for silent entries too',
+    announceHint:
+      'The game shows its full "milestone reached" screen only for some entries. On: it is asked to show the same screen, with the rank and the name of the entry, for the ones it normally changes in silence. Its table is changed only while the level is given and put back at once.',
     count: 'Levels',
     countHint: 'How many levels to go up, 1 to {max}.',
     action: 'Raise all',

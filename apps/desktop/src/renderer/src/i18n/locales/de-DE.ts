@@ -492,6 +492,12 @@ export const deDE: Messages = {
     modeAll: 'Bis zur letzten Stufe',
     modeHint:
       'Gezählt ab der Stufe, auf der jeder Eintrag jetzt steht. Was schon auf der letzten Stufe ist, bleibt unverändert.',
+    messageHint:
+      'Das Spiel entscheidet, welche Einträge eine neue Stufe melden: Ansehen und die wichtigsten Meilensteine tun es; die übrigen ändern sich ohne jede Meldung, auch im normalen Spiel. Jede Zeile sagt, was gilt.',
+    message: { full: 'volle Meldung', quick: 'kurze Meldung', silent: 'keine Meldung im Spiel' },
+    announce: 'Meilenstein-Bildschirm auch für stille Einträge zeigen',
+    announceHint:
+      'Das Spiel zeigt seinen vollen Bildschirm „Meilenstein erreicht“ nur bei einigen Einträgen. Ein: Es wird gebeten, denselben Bildschirm mit Rang und Namen des Eintrags auch bei denen zu zeigen, die sich sonst still ändern. Seine Tabelle wird nur während der Übergabe der Stufe geändert und sofort zurückgesetzt.',
     count: 'Stufen',
     countHint: 'Wie viele Stufen aufsteigen, 1 bis {max}.',
     action: 'Alle erhöhen',

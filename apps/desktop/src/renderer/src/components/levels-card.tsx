@@ -37,6 +37,7 @@ import {
 import { DeliverySelection, type DeliveryOption } from '@renderer/components/delivery-selection'
 import { Input } from '@renderer/components/ui/input'
 import { Spinner } from '@renderer/components/ui/spinner'
+import { Switch } from '@renderer/components/ui/switch'
 import { ToggleGroup, ToggleGroupItem } from '@renderer/components/ui/toggle-group'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
@@ -68,6 +69,7 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
   const [chosen, setChosen] = useState<ReadonlySet<string>>(new Set())
   const [mode, setMode] = useState<Mode>('one')
   const [count, setCount] = useState(2)
+  const [announce, setAnnounce] = useState(true)
   // What the open confirmation would send: the whole page or the chosen stats.
   const [confirming, setConfirming] = useState<'all' | 'chosen' | null>(null)
   const [sending, setSending] = useState(false)
@@ -77,12 +79,24 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
     let active = true
     void window.nms
       .getLevelStats(page, locale)
-      .then((stats) => active && setOptions(stats.map((stat) => ({ ...stat, icon: null }))))
+      .then(
+        (stats) =>
+          active &&
+          setOptions(
+            stats.map((stat) => ({
+              id: stat.id,
+              name: stat.name,
+              // The row says whether the game announces a new level of it.
+              group: `${stat.group} · ${text.message[stat.message]}`,
+              icon: null
+            }))
+          )
+      )
       .catch(() => active && setOptions([]))
     return () => {
       active = false
     }
-  }, [page, locale])
+  }, [page, locale, text.message])
 
   useEffect(() => {
     let active = true
@@ -111,6 +125,7 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
           page,
           stats: what === 'chosen' ? [...chosen] : null,
           levels,
+          announce,
           notify: readNotifyPreference()
         })
       )
@@ -151,6 +166,7 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
               <ToggleGroupItem value="all">{text.modeAll}</ToggleGroupItem>
             </ToggleGroup>
             <FieldDescription>{text.modeHint}</FieldDescription>
+            <FieldDescription>{text.messageHint}</FieldDescription>
           </Field>
           {mode === 'some' && (
             <Field orientation="responsive">
@@ -171,6 +187,17 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
               />
             </Field>
           )}
+          <Field orientation="horizontal">
+            <FieldContent>
+              <FieldLabel htmlFor={`levels-announce-${page}`}>{text.announce}</FieldLabel>
+              <FieldDescription>{text.announceHint}</FieldDescription>
+            </FieldContent>
+            <Switch
+              id={`levels-announce-${page}`}
+              checked={announce}
+              onCheckedChange={setAnnounce}
+            />
+          </Field>
         </FieldGroup>
         {options.length > 0 && (
           <DeliverySelection options={options} chosen={chosen} onChange={setChosen} />

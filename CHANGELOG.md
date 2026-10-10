@@ -28,6 +28,23 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.29.0 and bridge 1.24.0 (2026-10-09)
+
+- Added (owner request): "Show the milestone screen for silent entries
+  too", on by default, on "Standing" and "Milestones". The game shows its
+  full "milestone reached" screen only for stats whose `StatMessageType` is
+  `Full`; with the option the bridge sets a silent stat's entry of the
+  game's loaded table to `Full` for the one call, gives it the title of the
+  stat as message text when it has none, and puts both back right after.
+- Bridge 1.24.0 (`7e0264c064071f603e59ed106dd6b1087189ae03c30713c81d725d6ca10068d7`): the stat request takes `announce=0|1` and an
+  optional text identifier at the end of a `stat=` line; the result adds
+  `after=` (the value read back) and `announced=`. Not exercised live yet.
+- Added: each row of "Standing" and "Milestones" says how the game announces
+  a new level of it (full message, short message, no message), from the
+  game's own table (`StatMessageType`). 31 of the 41 milestones are silent
+  in the game itself, which is why a level raised on one of them shows
+  nothing (owner's report after the first live use).
+
 ## Application 1.28.1 (2026-10-09)
 
 - Fix: every page said "The installed bridge is not a tested build" with

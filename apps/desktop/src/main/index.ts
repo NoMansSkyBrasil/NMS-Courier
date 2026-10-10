@@ -370,7 +370,13 @@ app.whenReady().then(() => {
     if (!isLevelRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()
     return getResearchBridgeService().raiseLevels(
-      { page: request.page, stats: request.stats, levels: request.levels, notify: request.notify },
+      {
+        page: request.page,
+        stats: request.stats,
+        levels: request.levels,
+        announce: request.announce,
+        notify: request.notify
+      },
       root,
       await gameStatusService.observe(root)
     )
