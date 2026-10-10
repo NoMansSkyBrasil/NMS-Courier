@@ -158,9 +158,14 @@ HighQuality, Worlds or HugeLush; storms None; not extreme; sentinels Low.
 ### Still open
 
 - One system was compared with the game (below); more are wanted.
-- Grass colour (owner request of 2026-10-10): where the planet's colours are
-  generated was not looked for. They are not in the part of the routine the
-  tool runs.
+- Grass colour (owner request of 2026-10-10): `GcPlanetData.Colours` is at
+  `+0`, 66 palettes of 0x70 bytes (`GcPlanetColourData.Palettes`), `Grass`
+  the first (then `Plant`, `Leaf`, `Wood`, ... as the executable's enum
+  lists them). All 66 are still empty where the tool stops the routine
+  (after weather, `16a7ad4`), so a later part fills them; that part was not
+  identified and the routine does not run to its end in the emulator. Next:
+  read the grass palette of a planet from the running game to know what a
+  filled one looks like, then find the part that writes `+0`.
 - The list has no purple star system, and so no water world, gas giant,
   ocean, island or remix variant. Whether the walked region has none or the
   emulated generator never gives one is not known.

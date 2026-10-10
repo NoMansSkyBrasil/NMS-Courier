@@ -318,7 +318,7 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [ ] Owner to rule: the Twitch and platform pages still call the slot's redeem routine before the account unlock; under the rule "never claim for the player" that step may have to go.
 - [ ] Missions (bridge 1.27.0, application 1.32.0, experimental, [notes](docs/MISSION_COMPLETION_NOTES.md)): live test on slot 3, one small active mission first; record what the game does with skipped stages and with the next mission.
 - [ ] Planet finder ([notes](docs/PLANET_FINDER_NOTES.md)): one system matched the game on 2026-10-10; compare a few more (other biomes, storms, aggressive sentinels).
-- [ ] Planet finder: grass colour as a filter (owner request, 2026-10-10): find where the game generates a planet's colours and whether the emulator can run it.
+- [ ] Planet finder: grass colour as a filter (owner request, 2026-10-10): the palettes are at `GcPlanetData+0` (66 of 0x70 bytes, grass first) and are empty where the tool stops; find the later part that fills them and make the emulator run it.
 - [ ] Planet finder: purple star systems are missing from the list (no water world, gas giant, ocean, island or remix variant); find out why.
 - [ ] Planet finder: star colour and wealth are in the list but not shown or filtered; the lush `Variant_A`/`Variant_B` files (`lushrooma`, `lushroomb`) still read "Other variant".
 - [ ] Planet finder: a search the player runs for a chosen time, inside the running game through the bridge (generation into a separate buffer first); water; moons told apart; other galaxies; the filter and the saved planets in exported files.
