@@ -614,6 +614,22 @@ export const nlNL: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Mijn planeten',
+    mineHint:
+      'Alles wat je zoektochten vonden, per sterrenstelsel bewaard op deze computer. Exporteer de lijst om te delen; importeer er een die een vriend stuurde.',
+    galaxy: 'Sterrenstelsel',
+    exportList: 'Mijn lijst exporteren',
+    importList: 'Een lijst importeren',
+    exported: '{count} planeten naar het bestand geschreven',
+    imported: '{count} nieuwe planeten toegevoegd',
+    importFailed: 'Dat bestand is geen planetenlijst.',
+    durationHint: 'minuten, tot 1.440 (24 uur)',
+    wealth: 'Rijkdom van het systeem',
+    wealthNames: { Poor: 'Arm', Average: 'Gemiddeld', Wealthy: 'Rijk' },
+    presetDissonant: 'Dissonant',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'geen', Low: 'schaars', Mid: 'normaal', Full: 'overvloedig' },
     purple: 'Paarse ster',
     purpleHint: 'Waterwerelden en gasreuzen vind je alleen rond paarse sterren.',
     portalOnly: 'Alleen via portaal',

@@ -196,10 +196,16 @@ and standings. None is built. Strongest first.
   the purple systems the planet finder now lists. Slot scope.
 - **Show black holes on the galaxy map.** `GcRewardShowBlackHoles`
   (`SignalScanType`).
-- **Sentinels off for a while.** `GcRewardDisableSentinels` (`Duration`,
-  messages), with `GcRewardEnableSentinels` to undo it. To weigh against the
-  owner's rule about features that break things: it is the game's own
-  temporary state, used by missions.
+- ~~Sentinels off for a while~~ (`GcRewardDisableSentinels`). **Rejected by
+  the owner on 2026-10-10**: the game stays vanilla; mods exist for that.
+- **Finder for ships, multi-tools and freighters** (owner's idea,
+  2026-10-10). Ships: the system data the planet search already captures
+  holds `SystemShips` (seed, class, role of every ship the game generates
+  for the system), so "systems with an exotic, a living ship or a chosen
+  model" can be searched the same way; the open-source NMS Shipwright does
+  it offline. Freighters: the fleet that warps in is among those ships.
+  Multi-tools: a space station's tool seed has no known origin yet
+  (`SEED_ORIGINS.md`), so that part needs research first.
 - **Collect what a quest gives**: see
   [the classification](MISSION_COMPLETION_NOTES.md#the-rewards-of-the-missions-classified-2026-10-10-offline).
 

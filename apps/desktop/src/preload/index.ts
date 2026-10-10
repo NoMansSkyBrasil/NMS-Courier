@@ -46,7 +46,10 @@ const nms = {
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
-  getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
+  getPlanetLibrary: () => ipcRenderer.invoke('nms:get-planet-library'),
+  exportPlanetLibrary: () => ipcRenderer.invoke('nms:export-planet-library'),
+  importPlanetLibrary: () => ipcRenderer.invoke('nms:import-planet-library'),
+  getSubstanceNames: (locale: string) => ipcRenderer.invoke('nms:get-substance-names', locale),
   startPlanetSearch: (request: { seconds: number; filter: Record<string, unknown> }) =>
     ipcRenderer.invoke('nms:start-planet-search', request),
   stopPlanetSearch: () => ipcRenderer.invoke('nms:stop-planet-search'),

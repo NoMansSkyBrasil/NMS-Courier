@@ -598,6 +598,22 @@ export const plPL: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Moje planety',
+    mineHint:
+      'Wszystko, co znalazły twoje wyszukiwania, zapisane według galaktyk na tym komputerze. Wyeksportuj listę, aby się nią podzielić; zaimportuj listę od znajomego.',
+    galaxy: 'Galaktyka',
+    exportList: 'Eksportuj moją listę',
+    importList: 'Importuj listę',
+    exported: 'Zapisano planet w pliku: {count}',
+    imported: 'Dodano nowych planet: {count}',
+    importFailed: 'Ten plik nie jest listą planet.',
+    durationHint: 'minuty, do 1440 (24 godziny)',
+    wealth: 'Zamożność układu',
+    wealthNames: { Poor: 'Biedny', Average: 'Średni', Wealthy: 'Bogaty' },
+    presetDissonant: 'Dysonansowa',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'brak', Low: 'skąpa', Mid: 'zwykła', Full: 'obfita' },
     purple: 'Fioletowa gwiazda',
     purpleHint: 'Wodne światy i gazowe olbrzymy występują tylko przy fioletowych gwiazdach.',
     portalOnly: 'Tylko portalem',

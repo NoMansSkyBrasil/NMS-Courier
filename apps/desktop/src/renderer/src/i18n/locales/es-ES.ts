@@ -608,6 +608,22 @@ export const esES: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Mis planetas',
+    mineHint:
+      'Todo lo que encontraron tus búsquedas, guardado por galaxia en este equipo. Exporta la lista para compartirla; importa una que te haya enviado un amigo.',
+    galaxy: 'Galaxia',
+    exportList: 'Exportar mi lista',
+    importList: 'Importar una lista',
+    exported: '{count} planetas escritos en el archivo',
+    imported: '{count} planetas nuevos añadidos',
+    importFailed: 'Ese archivo no es una lista de planetas.',
+    durationHint: 'minutos, hasta 1440 (24 horas)',
+    wealth: 'Riqueza del sistema',
+    wealthNames: { Poor: 'Pobre', Average: 'Medio', Wealthy: 'Rico' },
+    presetDissonant: 'Disonante',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'ninguna', Low: 'escasa', Mid: 'normal', Full: 'abundante' },
     purple: 'Estrella púrpura',
     purpleHint:
       'Los mundos acuáticos y los gigantes gaseosos solo existen alrededor de estrellas púrpura.',

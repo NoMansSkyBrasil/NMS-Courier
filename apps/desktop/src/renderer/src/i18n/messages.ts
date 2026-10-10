@@ -429,6 +429,21 @@ export type Messages = {
     states: Record<'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id', string>
   }
   planets: {
+    sourceMine: string
+    mineHint: string
+    galaxy: string
+    exportList: string
+    importList: string
+    exported: string
+    imported: string
+    importFailed: string
+    durationHint: string
+    wealth: string
+    wealthNames: Record<'Poor' | 'Average' | 'Wealthy', string>
+    presetDissonant: string
+    flora: string
+    fauna: string
+    life: Record<'Dead' | 'Low' | 'Mid' | 'Full', string>
     purple: string
     purpleHint: string
     portalOnly: string

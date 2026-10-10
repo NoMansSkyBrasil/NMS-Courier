@@ -1,5 +1,31 @@
 # Runtime experiment log
 
+## 2026-10-10: owner's first runs; the player's own planet list (bridge 1.32.0, application 1.42.0)
+
+Owner's reports, then a build and an installation. Build 180836. Slot as
+loaded by the owner (taken from his statement that he tested; not
+identified by a tool).
+
+- **Waiting technologies: "worked"** (owner, from the application, bridge
+  1.29.0 or later installed). He gave no detail: which technology, whether
+  the game showed a message, whether it survived a reload are not recorded.
+- **Search around the player**: he ran it and asked for custom times up to
+  24 hours. He did not say what it found or how the game behaved, so the
+  search is still not recorded as verified.
+- **Purple star and portal-only systems**: not tried ("still to test").
+- Decisions: no shipped planet list, the list is the player's and is shared
+  by files; the game stays vanilla, so "sentinels off" is dropped; build
+  the repair, recharge (with an automatic recharge), galaxy map and planet
+  search additions; a finder for ships, multi-tools and freighters is
+  wanted.
+- Built: bridge 1.32.0 (`82d610f7117e3a3cfec304b17c68fd5bdf67d5545a34dc5f1251e22f80cb2206`; time up to 86,400 s; flora, fauna, three
+  resources per planet), application 1.42.0 (`planet-library.ts`, "My
+  planets", export and import, custom minutes, wealth filter, dissonant
+  preset). Typecheck, lint, 145 tests, build; the page opened in the test
+  instance. Bridge installed over 1.31.0 with the game closed. Undo: copy
+  `native-builds/bridge-1.31.0/xinput9_1_0.dll` back.
+- Not proven: the new result fields in the game.
+
 ## 2026-10-10: mission rewards classified; release checklist written (offline)
 
 Offline; nothing sent to the game. Owning notes:

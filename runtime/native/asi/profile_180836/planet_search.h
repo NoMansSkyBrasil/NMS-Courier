@@ -88,6 +88,8 @@ typedef struct {
     uint32_t grass;          // 0xRRGGBB of the first colour of the grass palette
     int32_t distance;        // in regions from the start, the largest of the three axes
     int32_t kind;            // 0 a star of the galaxy map, 1 reached by portal only, 2 a purple star
+    int32_t flora, fauna;    // GcPlanetLife of Life and CreatureLife: 0 Dead, 1 Low, 2 Mid, 3 Full
+    char resources[3][17];   // CommonSubstanceID, UncommonSubstanceID, RareSubstanceID
 } search_planet_found;
 
 typedef int32_t (*search_remote_fn)(void *planet_generator, const uint64_t *input, int32_t biome);
@@ -327,6 +329,17 @@ static int search_one_system(uint8_t *generator) {
             .sentinels = *(const int32_t *)(planet + 0x34fc), .race = race, .star = star, .economy = economy,
             .wealth = wealth, .conflict = conflict, .distance = search_distance, .kind = kind
         };
+        found.flora = *(const int32_t *)(planet + 0x3538);
+        found.fauna = *(const int32_t *)(planet + 0x352c);
+        // The three resources, kept only when they read as plain identifiers.
+        static const uint32_t resource_offsets[3] = {0x33d0, 0x3430, 0x3400};
+        for (int resource = 0; resource < 3; ++resource) {
+            const char *id = (const char *)planet + resource_offsets[resource];
+            size_t length = 0;
+            while (length < 16 && ((id[length] >= 'A' && id[length] <= 'Z') || (id[length] >= '0' && id[length] <= '9') ||
+                                   id[length] == '_')) ++length;
+            if (length < 16 && id[length] == 0) memcpy(found.resources[resource], id, length);
+        }
         const float *grass = (const float *)planet;
         found.grass = search_colour_byte(grass[0]) << 16 | search_colour_byte(grass[1]) << 8 | search_colour_byte(grass[2]);
         // What the routine allocated for this planet is handed back before the object is reused.
@@ -380,7 +393,7 @@ static int search_path(wchar_t *path, const wchar_t *kind) {
                     root, kind, (unsigned long)GetCurrentProcessId()) > 0;
 }
 
-// Parse the per-process request: "mode=stop", or "mode=start" with every one of seconds (1 to 3600),
+// Parse the per-process request: "mode=stop", or "mode=start" with every one of seconds (1 to 86400),
 // biome (-1 to 15), subtypes (eight hexadecimal digits), storms and sentinels (0 to 3), extreme (0 or
 // 1), pirate (-1, 0 or 1), race (-1 to 8) and limit (1 to 2000). Anything else rejects the request.
 // A start while a search runs begins again with the new values.
@@ -390,7 +403,7 @@ static int search_read_request(void) {
     FILE *file = _wfopen(path, L"r");
     if (!file) return 0;
     static const char *const keys[] = {"seconds", "biome", "storms", "sentinels", "extreme", "pirate", "race", "limit"};
-    static const int low[] = {1, -1, 0, 0, 0, -1, -1, 1}, high[] = {3600, 15, 3, 3, 1, 1, 8, SEARCH_MAX_FOUND};
+    static const int low[] = {1, -1, 0, 0, 0, -1, -1, 1}, high[] = {86400, 15, 3, 3, 1, 1, 8, SEARCH_MAX_FOUND};
     int values[8], seen = 0, mode = -1, ok = 1, masked = 0;
     unsigned mask = 0;
     char line[64];
@@ -459,12 +472,14 @@ static void search_write_result(void) {
             InterlockedCompareExchange(&search_elapsed, 0, 0));
     for (LONG index = 0; index < count; ++index) {
         const search_planet_found *found = &search_found[index];
-        fprintf(file, "planet=%X%03X%02X%03X%03X,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%06X,%d,%d\n",
+        fprintf(file, "planet=%X%03X%02X%03X%03X,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%06X,%d,%d,%d,%d,%s,%s,%s\n",
                 (unsigned)(found->address >> 52 & 0xf), (unsigned)(found->address >> 40 & 0xfff),
                 (unsigned)(found->address >> 24 & 0xff), (unsigned)(found->address >> 12 & 0xfff),
                 (unsigned)(found->address & 0xfff), found->biome, found->subtype, found->weather, found->storms,
                 found->extreme, found->sentinels, found->race, found->star, found->economy, found->wealth,
-                found->conflict, (unsigned)found->grass, found->distance, found->kind);
+                found->conflict, (unsigned)found->grass, found->distance, found->kind, found->flora, found->fauna,
+                found->resources[0][0] ? found->resources[0] : "-", found->resources[1][0] ? found->resources[1] : "-",
+                found->resources[2][0] ? found->resources[2] : "-");
     }
     fclose(file);
     MoveFileExW(temporary, path, MOVEFILE_REPLACE_EXISTING);

@@ -541,6 +541,22 @@ export const zhCN: Messages = {
     }
   },
   planets: {
+    sourceMine: '我的星球',
+    mineHint:
+      '你的搜索找到的一切，按星系保存在这台电脑上。导出列表即可分享；也可以导入朋友发来的列表。',
+    galaxy: '星系',
+    exportList: '导出我的列表',
+    importList: '导入列表',
+    exported: '已将 {count} 颗星球写入文件',
+    imported: '新增 {count} 颗星球',
+    importFailed: '该文件不是星球列表。',
+    durationHint: '分钟，最多 1,440（24 小时）',
+    wealth: '恒星系财富',
+    wealthNames: { Poor: '贫穷', Average: '一般', Wealthy: '富裕' },
+    presetDissonant: '失谐',
+    flora: '植物',
+    fauna: '动物',
+    life: { Dead: '无', Low: '稀少', Mid: '一般', Full: '丰富' },
     purple: '紫色恒星',
     purpleHint: '水世界和气态巨行星只存在于紫色恒星周围。',
     portalOnly: '仅限传送门',

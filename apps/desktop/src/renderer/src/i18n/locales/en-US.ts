@@ -595,6 +595,22 @@ export const enUS: Messages = {
     }
   },
   planets: {
+    sourceMine: 'My planets',
+    mineHint:
+      'Everything your searches found, kept by galaxy on this computer. Export the list to share it; import one a friend sent.',
+    galaxy: 'Galaxy',
+    exportList: 'Export my list',
+    importList: 'Import a list',
+    exported: '{count} planets written to the file',
+    imported: '{count} new planets added',
+    importFailed: 'That file is not a planet list.',
+    durationHint: 'minutes, up to 1,440 (24 hours)',
+    wealth: 'System wealth',
+    wealthNames: { Poor: 'Poor', Average: 'Average', Wealthy: 'Wealthy' },
+    presetDissonant: 'Dissonant',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'none', Low: 'sparse', Mid: 'regular', Full: 'abundant' },
     purple: 'Purple star',
     purpleHint: 'Water worlds and gas giants are found only around purple stars.',
     portalOnly: 'Portal only',

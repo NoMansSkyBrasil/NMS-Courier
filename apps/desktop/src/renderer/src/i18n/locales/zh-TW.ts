@@ -541,6 +541,22 @@ export const zhTW: Messages = {
     }
   },
   planets: {
+    sourceMine: '我的星球',
+    mineHint:
+      '你的搜尋找到的一切，按星系儲存在這台電腦上。匯出清單即可分享；也可以匯入朋友傳來的清單。',
+    galaxy: '星系',
+    exportList: '匯出我的清單',
+    importList: '匯入清單',
+    exported: '已將 {count} 顆星球寫入檔案',
+    imported: '新增 {count} 顆星球',
+    importFailed: '該檔案不是星球清單。',
+    durationHint: '分鐘，最多 1,440（24 小時）',
+    wealth: '恆星系財富',
+    wealthNames: { Poor: '貧窮', Average: '一般', Wealthy: '富裕' },
+    presetDissonant: '失諧',
+    flora: '植物',
+    fauna: '動物',
+    life: { Dead: '無', Low: '稀少', Mid: '一般', Full: '豐富' },
     purple: '紫色恆星',
     purpleHint: '水世界和氣態巨行星只存在於紫色恆星周圍。',
     portalOnly: '僅限傳送門',

@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.31.0'
+export const bridgeVersion = '1.32.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -37,7 +37,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.28.0',
   '1.29.0',
   '1.30.0',
-  '1.31.0'
+  '1.31.0',
+  '1.32.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -128,5 +129,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   fcc396a542bd77ec51fcf8f2be527bb82484db779eb5389d735a22d4485be0cb: '1.30.0',
   // 1.31.0 (2026-10-10): the planet search also walks the 65 purple stars of each region and
   // says which systems can be reached by portal only.
-  '19dd435ca6877383ff82ac42ad3fe785b5ac71484cfc2d41f5633d0a4e7e4103': '1.31.0'
+  '19dd435ca6877383ff82ac42ad3fe785b5ac71484cfc2d41f5633d0a4e7e4103': '1.31.0',
+  // 1.32.0 (2026-10-10): a planet search may run for up to 24 hours and also reports each
+  // planet's flora, fauna and three resources.
+  '82d610f7117e3a3cfec304b17c68fd5bdf67d5545a34dc5f1251e22f80cb2206': '1.32.0'
 }

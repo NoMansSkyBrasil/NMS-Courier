@@ -6,8 +6,9 @@ included) and finish every technology that is still waiting for its
 components. In the game such a technology shows a gear in its top right corner
 and asks for "required components" before "Install technology" completes it.
 
-Status: **built (bridge 1.29.0, application 1.37.0) and installed; not yet
-tried in the running game.** The reading below was offline.
+Status: **built (bridge 1.29.0, application 1.37.0); the owner reported on
+2026-10-10 that it worked from the application**, without detail (which
+technology, message, reload). The reading below was offline.
 Build 180836 (executable SHA-256
 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`).
 

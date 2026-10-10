@@ -617,6 +617,22 @@ export const frFR: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Mes planètes',
+    mineHint:
+      'Tout ce que vos recherches ont trouvé, conservé par galaxie sur cet ordinateur. Exportez la liste pour la partager ; importez-en une envoyée par un ami.',
+    galaxy: 'Galaxie',
+    exportList: 'Exporter ma liste',
+    importList: 'Importer une liste',
+    exported: '{count} planètes écrites dans le fichier',
+    imported: '{count} nouvelles planètes ajoutées',
+    importFailed: "Ce fichier n'est pas une liste de planètes.",
+    durationHint: "minutes, jusqu'à 1 440 (24 heures)",
+    wealth: 'Richesse du système',
+    wealthNames: { Poor: 'Pauvre', Average: 'Moyen', Wealthy: 'Riche' },
+    presetDissonant: 'Dissonante',
+    flora: 'Flore',
+    fauna: 'Faune',
+    life: { Dead: 'aucune', Low: 'rare', Mid: 'normale', Full: 'abondante' },
     purple: 'Étoile violette',
     purpleHint:
       "Les mondes aquatiques et les géantes gazeuses n'existent qu'autour des étoiles violettes.",

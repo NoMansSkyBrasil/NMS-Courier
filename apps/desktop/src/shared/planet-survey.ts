@@ -162,6 +162,10 @@ export type PlanetFilter = {
   race: string
   // 'any', 'lawful' (no pirate systems) or 'pirate' (only pirate systems).
   system: string
+  // 'any' or a wealth of the system: Poor, Average or Wealthy.
+  wealth: string
+  // True keeps only planets with corrupted sentinels, the ones players call dissonant.
+  dissonant: boolean
   // Only planets of systems that hold at least this many matching planets.
   perSystem: number
 }
@@ -174,6 +178,8 @@ export const earthLikeFilter: PlanetFilter = {
   allowExtreme: false,
   race: 'any',
   system: 'any',
+  wealth: 'any',
+  dissonant: false,
   perSystem: 1
 }
 
@@ -185,8 +191,13 @@ export const openFilter: PlanetFilter = {
   allowExtreme: true,
   race: 'any',
   system: 'any',
+  wealth: 'any',
+  dissonant: false,
   perSystem: 1
 }
+
+// Planets whose sentinels are corrupted, whatever else they are.
+export const dissonantFilter: PlanetFilter = { ...openFilter, dissonant: true }
 
 function passes(planet: SurveyPlanet, filter: PlanetFilter): boolean {
   if (filter.biome !== 'any' && planet.biome !== filter.biome) return false
@@ -204,6 +215,8 @@ function passes(planet: SurveyPlanet, filter: PlanetFilter): boolean {
   if (sentinels < 0 || sentinels > filter.sentinels) return false
   if (planet.extreme && !filter.allowExtreme) return false
   if (filter.race !== 'any' && planet.race !== filter.race) return false
+  if (filter.wealth !== 'any' && planet.wealth !== filter.wealth) return false
+  if (filter.dissonant && planet.sentinels !== 'Corrupt') return false
   if (filter.system !== 'any' && isPirateSystem(planet) !== (filter.system === 'pirate'))
     return false
   return true

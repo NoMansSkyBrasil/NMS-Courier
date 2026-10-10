@@ -21,7 +21,7 @@ As the capability status table and the owner's reports record it.
 | Travel to a system | A space station reached (2026-10-09); a planet reached from the planet finder (2026-10-10) |
 | Standings and milestones | The levels arrive; the game's message for silent entries was not seen |
 | Expedition rewards | Unlocked and claimed at the Quicksilver companion (owner's report, 2026-10-09) |
-| Planet finder, ready-made list | One system read from the running game and matching (2026-10-10) |
+| Waiting technologies | Worked (owner's report, 2026-10-10; no detail) |
 
 ## Worked in the game when sent by hand, not yet tried again from the application
 
@@ -41,7 +41,6 @@ Each line is one short test from the application, on save slot 3.
 
 | Area | What to do | What to look at |
 | --- | --- | --- |
-| Waiting technologies (bridge 1.29.0) | "Check my inventories", then "Finish" on one technology | The list equals the gears seen in the game; the technology works; it is still installed after save and reload |
 | Search for planets around you (bridge 1.30.0, 1.31.0) | "Find a planet", "Around me", one minute, preset Earth-like | The game keeps its frame rate; planets appear; travel to one and compare biome, weather, sentinels and grass colour |
 | Search in another galaxy | The same after travelling to another galaxy | The planets found are of that galaxy and travel lands there |
 | Purple star and portal-only systems | Travel to one planet with each badge | The system is purple; the portal-only one is not on the galaxy map |
@@ -63,8 +62,8 @@ Each line is one short test from the application, on save slot 3.
   been verified on a clean machine (`docs/DISTRIBUTION.md`).
 - Finishing a waiting technology does not spend its components.
 - Completing a mission does not hand over what its steps would have given.
-- The ready-made planet list is a prediction for one part of Euclid; the
-  search around you asks the game itself.
+- The application carries no planet list; "My planets" is what the
+  player's own searches found and what they imported.
 - Item names are in capitals, as the game's own catalogue has them.
 
 ## Found by the re-read and fixed in 1.39.0 to 1.41.0

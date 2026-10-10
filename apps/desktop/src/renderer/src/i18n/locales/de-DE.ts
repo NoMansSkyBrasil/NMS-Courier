@@ -622,6 +622,22 @@ export const deDE: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Meine Planeten',
+    mineHint:
+      'Alles, was deine Suchen gefunden haben, nach Galaxie auf diesem Computer gespeichert. Exportiere die Liste zum Teilen; importiere eine, die dir jemand geschickt hat.',
+    galaxy: 'Galaxie',
+    exportList: 'Meine Liste exportieren',
+    importList: 'Eine Liste importieren',
+    exported: '{count} Planeten in die Datei geschrieben',
+    imported: '{count} neue Planeten hinzugefügt',
+    importFailed: 'Diese Datei ist keine Planetenliste.',
+    durationHint: 'Minuten, bis zu 1.440 (24 Stunden)',
+    wealth: 'Wohlstand des Systems',
+    wealthNames: { Poor: 'Arm', Average: 'Mittel', Wealthy: 'Reich' },
+    presetDissonant: 'Dissonant',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'keine', Low: 'spärlich', Mid: 'normal', Full: 'reichlich' },
     purple: 'Violetter Stern',
     purpleHint: 'Wasserwelten und Gasriesen gibt es nur bei violetten Sternen.',
     portalOnly: 'Nur per Portal',

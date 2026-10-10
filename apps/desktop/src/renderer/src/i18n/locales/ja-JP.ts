@@ -598,6 +598,22 @@ export const jaJP: Messages = {
     }
   },
   planets: {
+    sourceMine: '自分の惑星',
+    mineHint:
+      'これまでの検索で見つけたすべてを、銀河ごとにこのコンピューターに保存しています。リストを書き出して共有したり、友人のリストを取り込んだりできます。',
+    galaxy: '銀河',
+    exportList: 'リストを書き出す',
+    importList: 'リストを取り込む',
+    exported: '{count}個の惑星をファイルに書き出しました',
+    imported: '新しい惑星を{count}個追加しました',
+    importFailed: 'そのファイルは惑星リストではありません。',
+    durationHint: '分（最大1,440分＝24時間）',
+    wealth: '星系の豊かさ',
+    wealthNames: { Poor: '貧困', Average: '平均的', Wealthy: '裕福' },
+    presetDissonant: 'ディソナンス',
+    flora: '植物',
+    fauna: '動物',
+    life: { Dead: 'なし', Low: '少ない', Mid: '普通', Full: '豊富' },
     purple: '紫の星',
     purpleHint: '水の惑星と巨大ガス惑星は、紫の星の周りにしかありません。',
     portalOnly: 'ポータル専用',

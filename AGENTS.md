@@ -191,6 +191,8 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Delivery uses live game functions through verified runtime integration. Never fall back to save editing.
 - Owner rule, repeated on 2026-10-09: nothing is ever written into a save. Everything is delivered through the running game, the way the game itself would hand it over, and the game's own notification is shown wherever its routine has one (the user may switch notifications off; the default is on).
 - Owner rule of 2026-10-09: the application helps the player; it never claims a reward for them. A reward the game lets the player claim (an expedition reward at the Quicksilver companion) is only made available; it is never recorded as claimed or redeemed, and no option may offer that.
+- Owner rule of 2026-10-10: the game stays vanilla. No feature may switch off, weaken or break a part of the game (sentinels off, for example); mods exist for that and a player may install one. The application finds and hands over what the game already has.
+- Owner rule of 2026-10-10: the application ships no list of planets of its own. A planet list is the player's: what their own searches found, kept by galaxy, which players export, share and import.
 - The future Save Editor is a separate feature area, outside the initial implementation.
 - Never invent game addresses, signatures, function names, layouts, or compatibility claims.
 - Unknown builds must not receive runtime mutations.

@@ -122,6 +122,46 @@ export type FoundPlanet = SurveyPlanet & {
   // True for a system that is not a star of the galaxy map: only a portal or the application's
   // travel reaches it.
   portalOnly: boolean
+  // How much plant and animal life: Dead, Low, Mid or Full.
+  flora: string
+  fauna: string
+  // Identifiers of the planet's common, uncommon and rare resource, where the game gave one.
+  resources: string[]
+}
+
+const lifeNames = ['Dead', 'Low', 'Mid', 'Full'] as const
+
+// Whether a value read from a file is a found planet (a list another player exported).
+export function isFoundPlanet(value: unknown): value is FoundPlanet {
+  if (!value || typeof value !== 'object') return false
+  const planet = value as Record<string, unknown>
+  const texts = [
+    'biome',
+    'subtype',
+    'weather',
+    'storms',
+    'sentinels',
+    'race',
+    'star',
+    'economy',
+    'wealth',
+    'conflict',
+    'flora',
+    'fauna'
+  ]
+  return (
+    typeof planet.portal === 'string' &&
+    /^[0-9A-F]{12}$/.test(planet.portal) &&
+    texts.every((key) => typeof planet[key] === 'string' && (planet[key] as string).length <= 24) &&
+    typeof planet.extreme === 'boolean' &&
+    typeof planet.portalOnly === 'boolean' &&
+    typeof planet.grass === 'string' &&
+    /^[0-9A-F]{6}$/.test(planet.grass) &&
+    typeof planet.distance === 'number' &&
+    Array.isArray(planet.resources) &&
+    planet.resources.length <= 3 &&
+    planet.resources.every((id) => typeof id === 'string' && /^[A-Z0-9_]{1,15}$/.test(id))
+  )
 }
 
 export const searchStates = [
@@ -148,8 +188,8 @@ export type PlanetSearchReport = {
 
 // Reads the bridge's answer: "result=", the counters, then one "planet=" line a planet found:
 // portal address, then the numbers of biome, subtype, weather, storms, extreme, sentinels, race,
-// star, economy, wealth and conflict, the grass colour, the distance and the kind of system (0 a
-// star of the galaxy map, 1 reached by portal only, 2 a purple star).
+// star, economy, wealth and conflict, the grass colour, the distance, the kind of system (0 a star
+// of the galaxy map, 1 reached by portal only, 2 a purple star), flora, fauna and three resources.
 export function parsePlanetSearch(text: string): PlanetSearchReport | null {
   const lines = text.split(/\r?\n/).filter((line) => line.trim())
   const field = (name: string): string | undefined =>
@@ -158,7 +198,10 @@ export function parsePlanetSearch(text: string): PlanetSearchReport | null {
   if (!state || !searchStates.includes(state)) return null
   const entries: FoundPlanet[] = []
   for (const line of lines) {
-    const match = /^planet=([0-9A-F]{12})((?:,-?\d+){11}),([0-9A-F]{6}),(\d+),(\d)$/.exec(line)
+    const match =
+      /^planet=([0-9A-F]{12})((?:,-?\d+){11}),([0-9A-F]{6}),(\d+),(\d),(-?\d+),(-?\d+),([A-Z0-9_-]+),([A-Z0-9_-]+),([A-Z0-9_-]+)$/.exec(
+        line
+      )
     if (!match) continue
     const [
       biome,
@@ -188,7 +231,10 @@ export function parsePlanetSearch(text: string): PlanetSearchReport | null {
       conflict: named(conflictNames, conflict),
       grass: match[3],
       distance: Number(match[4]),
-      portalOnly: match[5] === '1'
+      portalOnly: match[5] === '1',
+      flora: named(lifeNames, Number(match[6])),
+      fauna: named(lifeNames, Number(match[7])),
+      resources: [match[8], match[9], match[10]].filter((id) => id !== '-')
     })
   }
   const count = (name: string): number => Number(field(name)) || 0
@@ -218,7 +264,7 @@ export function isPlanetSearchRequest(value: unknown): value is PlanetSearchRequ
     typeof request.seconds === 'number' &&
     Number.isInteger(request.seconds) &&
     request.seconds >= 1 &&
-    request.seconds <= 3600 &&
+    request.seconds <= 86400 &&
     !!filter &&
     typeof filter === 'object' &&
     typeof filter.biome === 'string' &&

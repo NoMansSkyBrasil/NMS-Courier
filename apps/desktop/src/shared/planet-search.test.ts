@@ -20,8 +20,8 @@ describe('planet search', () => {
         'found=2',
         'distance=1',
         'elapsed_ms=4200',
-        'planet=2272F769C14E,0,2,2,0,0,0,2,0,1,3,3,3FA95C,0,0',
-        'planet=1003F769C14F,1,24,4,2,1,1,7,3,0,0,0,AA22CC,1,1',
+        'planet=2272F769C14E,0,2,2,0,0,0,2,0,1,3,3,3FA95C,0,0,3,2,COPPER,-,GOLD',
+        'planet=1003F769C14F,1,24,4,2,1,1,7,3,0,0,0,AA22CC,1,1,0,1,-,-,-',
         'planet=broken'
       ].join('\r\n')
     )
@@ -50,7 +50,10 @@ describe('planet search', () => {
         conflict: 'Pirate',
         grass: '3FA95C',
         distance: 0,
-        portalOnly: false
+        portalOnly: false,
+        flora: 'Full',
+        fauna: 'Mid',
+        resources: ['COPPER', 'GOLD']
       },
       {
         portal: '1003F769C14F',
@@ -67,7 +70,10 @@ describe('planet search', () => {
         conflict: 'Low',
         grass: 'AA22CC',
         distance: 1,
-        portalOnly: true
+        portalOnly: true,
+        flora: 'Dead',
+        fauna: 'Low',
+        resources: []
       }
     ])
     expect(parsePlanetSearch('found=1')).toBeNull()
@@ -114,7 +120,10 @@ describe('planet search', () => {
 
   it('refuses a request the bridge would refuse', () => {
     expect(planetSearchRequestLines({ seconds: 0, filter: openFilter })).toBeNull()
-    expect(planetSearchRequestLines({ seconds: 4000, filter: openFilter })).toBeNull()
+    expect(planetSearchRequestLines({ seconds: 86400, filter: openFilter })?.[1]).toBe(
+      'seconds=86400'
+    )
+    expect(planetSearchRequestLines({ seconds: 86401, filter: openFilter })).toBeNull()
     expect(
       planetSearchRequestLines({ seconds: 60, filter: { ...openFilter, biome: 'Cheese' } })
     ).toBeNull()

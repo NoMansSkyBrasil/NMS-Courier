@@ -1,5 +1,26 @@
 export {}
 
+type FoundPlanetEntry = {
+  portal: string
+  biome: string
+  subtype: string
+  weather: string
+  storms: string
+  extreme: boolean
+  sentinels: string
+  race: string
+  star: string
+  economy: string
+  wealth: string
+  conflict: string
+  grass: string
+  distance: number
+  portalOnly: boolean
+  flora: string
+  fauna: string
+  resources: string[]
+}
+
 type BridgeInstallState = {
   bridge: 'missing' | 'current' | 'older' | 'foreign'
   data: 'missing' | 'current' | 'older' | 'foreign'
@@ -212,22 +233,15 @@ declare global {
       getWordRows: (
         locale: string
       ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
-      getPlanetSurvey: () => Promise<
-        Array<{
-          portal: string
-          biome: string
-          subtype: string
-          weather: string
-          storms: string
-          extreme: boolean
-          sentinels: string
-          race: string
-          star: string
-          economy: string
-          wealth: string
-          conflict: string
-        }>
-      >
+      getPlanetLibrary: () => Promise<{
+        galaxies: Array<{ galaxy: number; planets: FoundPlanetEntry[] }>
+      }>
+      exportPlanetLibrary: () => Promise<number | null>
+      importPlanetLibrary: () => Promise<{
+        state: 'cancelled' | 'invalid' | 'imported'
+        added: number
+      }>
+      getSubstanceNames: (locale: string) => Promise<Record<string, string>>
       getMissions: (locale: string) => Promise<
         Array<{
           id: string
@@ -277,6 +291,8 @@ declare global {
           allowExtreme: boolean
           race: string
           system: string
+          wealth: string
+          dissonant: boolean
           perSystem: number
         }
       }) => Promise<DeliveryResult>
@@ -289,23 +305,7 @@ declare global {
         planets: number
         distance: number
         elapsedMilliseconds: number
-        entries: Array<{
-          portal: string
-          biome: string
-          subtype: string
-          weather: string
-          storms: string
-          extreme: boolean
-          sentinels: string
-          race: string
-          star: string
-          economy: string
-          wealth: string
-          conflict: string
-          grass: string
-          distance: number
-          portalOnly: boolean
-        }>
+        entries: FoundPlanetEntry[]
       } | null>
       getSavesOverview: () => Promise<{
         slots: Array<{ slot: number; lastSaved: string }>

@@ -257,6 +257,25 @@ systems coloured badges (green good, amber caution, red danger) under the
 lay-user rule of `AGENTS.md`. The list is of Euclid only; travel always
 asks for galaxy 1.
 
+## The player's own list (application 1.42.0)
+
+Owner decision of 2026-10-10: the application ships no list. The research
+table `planet-survey.md` stays in the repository as evidence of the offline
+work and is no longer read by the application.
+
+- `main/planet-library.ts` keeps `planet-library.json` in the application's
+  data folder: planets by galaxy (counted from 0), a planet replaced by a
+  newer reading of the same portal address, 20,000 a galaxy at most.
+- Whatever a search reports is added to the galaxy it ran in each time the
+  page reads the search.
+- "Export my list" writes the whole file where the player chooses; "Import
+  a list" adds the planets of such a file and leaves out anything that is
+  not a planet (`isFoundPlanet`).
+- Bridge 1.32.0 adds to each result the flora and fauna level
+  (`GcPlanetLife`: Dead, Low, Mid, Full, at `+0x3538` and `+0x352c`) and
+  the three resources (`CommonSubstanceID` `+0x33d0`, `UncommonSubstanceID`
+  `+0x3430`, `RareSubstanceID` `+0x3400`), and takes a time up to 24 hours.
+
 ## The search around the player (bridge 1.30.0, application 1.40.0)
 
 Built on 2026-10-10 and installed; **not yet run in the game**. It answers

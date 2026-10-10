@@ -613,6 +613,22 @@ export const itIT: Messages = {
     }
   },
   planets: {
+    sourceMine: 'I miei pianeti',
+    mineHint:
+      "Tutto ciò che le tue ricerche hanno trovato, conservato per galassia su questo computer. Esporta l'elenco per condividerlo; importane uno inviato da un amico.",
+    galaxy: 'Galassia',
+    exportList: 'Esporta il mio elenco',
+    importList: 'Importa un elenco',
+    exported: '{count} pianeti scritti nel file',
+    imported: '{count} nuovi pianeti aggiunti',
+    importFailed: 'Quel file non è un elenco di pianeti.',
+    durationHint: 'minuti, fino a 1.440 (24 ore)',
+    wealth: 'Ricchezza del sistema',
+    wealthNames: { Poor: 'Povero', Average: 'Medio', Wealthy: 'Ricco' },
+    presetDissonant: 'Dissonante',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'assente', Low: 'scarsa', Mid: 'normale', Full: 'abbondante' },
     purple: 'Stella viola',
     purpleHint: 'I mondi acquatici e i giganti gassosi si trovano solo attorno alle stelle viola.',
     portalOnly: 'Solo con portale',

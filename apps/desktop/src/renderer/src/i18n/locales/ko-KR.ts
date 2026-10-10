@@ -574,6 +574,22 @@ export const koKR: Messages = {
     }
   },
   planets: {
+    sourceMine: '내 행성',
+    mineHint:
+      '검색으로 찾은 모든 것을 이 컴퓨터에 은하별로 보관합니다. 목록을 내보내 공유하거나 친구가 보낸 목록을 가져오세요.',
+    galaxy: '은하',
+    exportList: '내 목록 내보내기',
+    importList: '목록 가져오기',
+    exported: '행성 {count}개를 파일에 기록했습니다',
+    imported: '새 행성 {count}개를 추가했습니다',
+    importFailed: '그 파일은 행성 목록이 아닙니다.',
+    durationHint: '분, 최대 1,440분(24시간)',
+    wealth: '항성계 부유도',
+    wealthNames: { Poor: '빈곤', Average: '보통', Wealthy: '부유' },
+    presetDissonant: '불협화',
+    flora: '식물',
+    fauna: '동물',
+    life: { Dead: '없음', Low: '희박', Mid: '보통', Full: '풍부' },
     purple: '보라색 별',
     purpleHint: '물의 행성과 가스 행성은 보라색 별 주변에만 있습니다.',
     portalOnly: '포털 전용',

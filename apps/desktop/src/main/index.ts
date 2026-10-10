@@ -7,6 +7,7 @@ import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { isInstallRequest } from '../shared/waiting-technology'
 import { isPlanetSearchRequest } from '../shared/planet-search'
 import { readSavesOverview } from './saves-overview'
+import { PlanetLibraryStore } from './planet-library'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -383,7 +384,39 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
-  ipcMain.handle('nms:get-planet-survey', () => getResearchBridgeService().getPlanetSurvey())
+  // The player's own planets: what their searches found, by galaxy, and files to share them.
+  const planetLibrary = new PlanetLibraryStore(join(app.getPath('userData'), 'planet-library.json'))
+  ipcMain.handle('nms:get-planet-library', () => planetLibrary.read())
+  ipcMain.handle('nms:export-planet-library', async () => {
+    const chosen = await dialog.showSaveDialog({
+      defaultPath: 'nms-courier-planets.json',
+      filters: [{ name: 'JSON', extensions: ['json'] }]
+    })
+    if (chosen.canceled || !chosen.filePath) return null
+    return planetLibrary.exportTo(chosen.filePath).catch(() => null)
+  })
+  ipcMain.handle('nms:import-planet-library', async () => {
+    const chosen = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'JSON', extensions: ['json'] }]
+    })
+    if (chosen.canceled || chosen.filePaths.length === 0)
+      return { state: 'cancelled' as const, added: 0 }
+    const added = await planetLibrary.importFrom(chosen.filePaths[0])
+    return added === null
+      ? { state: 'invalid' as const, added: 0 }
+      : { state: 'imported' as const, added }
+  })
+  // Names of the game's substances in one language, for the resources of a planet.
+  ipcMain.handle('nms:get-substance-names', (_, locale: unknown) => {
+    const names: Record<string, string> = {}
+    for (const [key, name] of getCatalogRepository().names(
+      typeof locale === 'string' ? locale : 'en-US'
+    )) {
+      if (key.startsWith('substance:')) names[key.slice('substance:'.length)] = name
+    }
+    return names
+  })
   // The search for planets around the player: start, stop, and what it has found so far.
   ipcMain.handle('nms:start-planet-search', async (_, request: unknown) => {
     if (!isPlanetSearchRequest(request)) throw new Error('Invalid request.')
@@ -400,6 +433,8 @@ app.whenReady().then(() => {
           allowExtreme: filter.allowExtreme,
           race: filter.race,
           system: filter.system,
+          wealth: 'any',
+          dissonant: false,
           perSystem: 1
         }
       },
@@ -417,9 +452,12 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('nms:get-planet-search', async () => {
     const root = getInstallationService().getSelectedRootPath()
-    return getResearchBridgeService().getPlanetSearch(
+    const report = await getResearchBridgeService().getPlanetSearch(
       (await gameStatusService.observe(root)).processId
     )
+    // Whatever a search finds goes into the player's own list, in the galaxy it ran in.
+    if (report) await planetLibrary.add(report.galaxy, report.entries).catch(() => 0)
+    return report
   })
   // Read only: when each save slot was last written and the copies made before changes.
   ipcMain.handle('nms:get-saves-overview', () =>

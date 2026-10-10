@@ -605,6 +605,22 @@ export const ptBR: Messages = {
     }
   },
   planets: {
+    sourceMine: 'Meus planetas',
+    mineHint:
+      'Tudo o que suas buscas acharam, guardado por galáxia neste computador. Exporte a lista para compartilhar; importe uma que um amigo mandou.',
+    galaxy: 'Galáxia',
+    exportList: 'Exportar minha lista',
+    importList: 'Importar uma lista',
+    exported: '{count} planetas gravados no arquivo',
+    imported: '{count} planetas novos adicionados',
+    importFailed: 'Esse arquivo não é uma lista de planetas.',
+    durationHint: 'minutos, até 1.440 (24 horas)',
+    wealth: 'Riqueza do sistema',
+    wealthNames: { Poor: 'Pobre', Average: 'Médio', Wealthy: 'Rico' },
+    presetDissonant: 'Dissonante',
+    flora: 'Flora',
+    fauna: 'Fauna',
+    life: { Dead: 'nenhuma', Low: 'escassa', Mid: 'regular', Full: 'abundante' },
     purple: 'Estrela roxa',
     purpleHint: 'Mundos aquáticos e gigantes gasosos só existem em torno de estrelas roxas.',
     portalOnly: 'Só por portal',

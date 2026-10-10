@@ -28,6 +28,25 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.42.0 and bridge 1.32.0 (2026-10-10)
+
+Owner decisions after his first runs.
+
+- Changed: the application no longer carries a ready-made planet list.
+  "My planets" is the player's own: everything their searches found, kept
+  by galaxy on their computer, with "Export my list" and "Import a list"
+  to share it with other players.
+- Added: a search may run for any number of minutes up to 1,440 (24 hours).
+- Added: each planet found shows its flora and fauna level and its three
+  resources; the search box also finds a resource by name.
+- Added: a filter for the system's wealth (for class S hunting) and a
+  "Dissonant" preset (corrupted sentinels).
+- Bridge 1.32.0 (`82d610f7117e3a3cfec304b17c68fd5bdf67d5545a34dc5f1251e22f80cb2206`): search time up to 86,400 seconds; flora, fauna and
+  resources in each result.
+- Recorded: "Waiting technologies" worked in the game (owner's report).
+- Decided: no feature that switches a part of the game off (the "sentinels
+  off" idea is dropped); see `AGENTS.md`.
+
 ## Application 1.41.0 and bridge 1.31.0 (2026-10-10)
 
 - Added: purple star systems. The ready-made list and the search around

@@ -87,5 +87,8 @@ describe('planet survey', () => {
     expect(filterPlanets(planets, openFilter)).toHaveLength(5)
     expect(filterPlanets(planets, { ...openFilter, biome: 'Toxic' })).toHaveLength(1)
     expect(filterPlanets(planets, { ...openFilter, sentinels: 1 })).toHaveLength(4)
+    expect(filterPlanets(planets, { ...openFilter, wealth: 'Wealthy' })).toHaveLength(0)
+    expect(filterPlanets(planets, { ...openFilter, wealth: 'Average' })).toHaveLength(5)
+    expect(filterPlanets(planets, { ...openFilter, dissonant: true })).toHaveLength(0)
   })
 })

@@ -5,10 +5,11 @@ import {
   CircleHelpIcon,
   CloudLightningIcon,
   CopyIcon,
-  InfoIcon,
+  DownloadIcon,
   MapPinIcon,
   DoorOpenIcon,
   PlayIcon,
+  UploadIcon,
   RadarIcon,
   ShieldIcon,
   SkullIcon,
@@ -53,6 +54,7 @@ import { tones as stateTones } from '@renderer/features/tones'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 import type { DeliveryStateId } from '@renderer/i18n/messages'
 import {
+  dissonantFilter,
   earthLikeFilter,
   filterPlanets,
   isPirateSystem,
@@ -77,10 +79,16 @@ type Found = SurveyPlanet & {
   grass?: string
   distance?: number
   portalOnly?: boolean
+  flora?: string
+  fauna?: string
+  resources?: string[]
 }
+type Library = Awaited<ReturnType<typeof window.nms.getPlanetLibrary>>
+const wealths = ['Poor', 'Average', 'Wealthy'] as const
+type LifeLevel = 'Dead' | 'Low' | 'Mid' | 'Full'
+// A search may run for a minute or for a whole day.
+const longestMinutes = 1440
 type SearchReport = NonNullable<Awaited<ReturnType<typeof window.nms.getPlanetSearch>>>
-// How long a search around the player may run, in minutes.
-const durations = [1, 5, 15, 30, 60] as const
 const searchTones = {
   running: stateTones.info,
   done: stateTones.good,
@@ -156,9 +164,15 @@ export function PlanetFinderCard(): React.JSX.Element {
   const text = copy.planets
   const delivery = copy.delivery
   const [status, setStatus] = useState<BridgeStatus | null>(null)
-  const [planets, setPlanets] = useState<SurveyPlanet[]>([])
-  // Where the planets come from: the ready-made list, or a search the game runs around the player.
-  const [source, setSource] = useState<'survey' | 'live'>('survey')
+  // Where the planets come from: a search the game runs around the player, or the player's own
+  // list, which is everything earlier searches found and whatever lists they imported.
+  const [source, setSource] = useState<'live' | 'mine'>('live')
+  const [library, setLibrary] = useState<Library>({ galaxies: [] })
+  // The galaxy of the list shown, counted from 0; null until the player or a search chooses one.
+  const [chosenGalaxy, setChosenGalaxy] = useState<number | null>(null)
+  const [galaxyNames, setGalaxyNames] = useState<string[]>([])
+  const [substances, setSubstances] = useState<Record<string, string>>({})
+  const [shared, setShared] = useState<string | null>(null)
   const [minutes, setMinutes] = useState<number>(5)
   const [live, setLive] = useState<SearchReport | null>(null)
   const [starting, setStarting] = useState(false)
@@ -172,16 +186,37 @@ export function PlanetFinderCard(): React.JSX.Element {
   const [result, setResult] = useState<DeliveryResult | null>(null)
   const [noted, setNoted] = useState<{ portal: string; what: 'copied' | 'saved' } | null>(null)
 
+  // The player's list, read again every few seconds: a running search keeps adding to it.
+  useEffect(() => {
+    let active = true
+    const refresh = (): void => {
+      void window.nms
+        .getPlanetLibrary()
+        .then((next) => active && setLibrary(next))
+        .catch(() => undefined)
+    }
+    refresh()
+    const timer = window.setInterval(refresh, 4000)
+    return () => {
+      active = false
+      window.clearInterval(timer)
+    }
+  }, [])
+
   useEffect(() => {
     let active = true
     void window.nms
-      .getPlanetSurvey()
-      .then((rows) => active && setPlanets(rows))
-      .catch(() => active && setPlanets([]))
+      .getGalaxyNames(locale)
+      .then((names) => active && setGalaxyNames(names))
+      .catch(() => undefined)
+    void window.nms
+      .getSubstanceNames(locale)
+      .then((names) => active && setSubstances(names))
+      .catch(() => undefined)
     return () => {
       active = false
     }
-  }, [])
+  }, [locale])
 
   // While the live search is shown, what it has found is read again every second and a half.
   useEffect(() => {
@@ -217,18 +252,35 @@ export function PlanetFinderCard(): React.JSX.Element {
     }
   }, [])
 
+  // The galaxy shown: the one chosen, else the one the last search ran in, else the first with planets.
+  const galaxy = chosenGalaxy ?? live?.galaxy ?? library.galaxies[0]?.galaxy ?? 0
+  const planets = useMemo(
+    () => library.galaxies.find((entry) => entry.galaxy === galaxy)?.planets ?? [],
+    [library, galaxy]
+  )
   const found = useMemo(() => {
     const wanted = query.replace(/\s+/g, '').toUpperCase()
     const listed: readonly SurveyPlanet[] = source === 'live' ? (live?.entries ?? []) : planets
+    const resourceText = (planet: Found): string =>
+      (planet.resources ?? [])
+        .map((id) => `${id} ${substances[id] ?? ''}`)
+        .join(' ')
+        .toUpperCase()
     const passing = (filterPlanets(listed, filter) as Found[]).filter(
       (planet) =>
         grass === 'any' || (planet.grass !== undefined && grassHue(planet.grass) === grass)
     )
-    return wanted ? passing.filter((planet) => planet.portal.includes(wanted)) : passing
-  }, [planets, live, source, filter, query, grass])
-  // The ready-made list is of the first galaxy; a live search runs in the galaxy the player is in.
+    return wanted
+      ? passing.filter(
+          (planet) =>
+            planet.portal.includes(wanted) ||
+            resourceText(planet).replace(/\s+/g, '').includes(wanted)
+        )
+      : passing
+  }, [planets, live, source, filter, query, grass, substances])
+  // A search runs in the galaxy the player is in; the list shown is of the galaxy chosen.
   // The travel request counts galaxies from 1.
-  const galaxyNumber = source === 'live' ? (live?.galaxy ?? 0) + 1 : 1
+  const galaxyNumber = (source === 'live' ? (live?.galaxy ?? 0) : galaxy) + 1
   const shown = found.slice(0, drawn)
   const systems = useMemo(
     () => new Set(found.map((planet) => planet.portal.slice(1))).size,
@@ -296,7 +348,8 @@ export function PlanetFinderCard(): React.JSX.Element {
     setStarting(true)
     setStartFailure(null)
     try {
-      const started = await window.nms.startPlanetSearch({ seconds: minutes * 60, filter })
+      const seconds = Math.min(longestMinutes, Math.max(1, Math.round(minutes) || 1)) * 60
+      const started = await window.nms.startPlanetSearch({ seconds, filter })
       setStartFailure(started.outcome === 'completed' ? null : started)
       setLive(await window.nms.getPlanetSearch())
     } finally {
@@ -323,7 +376,27 @@ export function PlanetFinderCard(): React.JSX.Element {
       ? 'earth'
       : JSON.stringify(filter) === JSON.stringify(openFilter)
         ? 'all'
-        : 'custom'
+        : JSON.stringify(filter) === JSON.stringify(dissonantFilter)
+          ? 'dissonant'
+          : 'custom'
+  const galaxyName = (index: number): string =>
+    galaxyNames[index] ? `${index + 1} - ${galaxyNames[index]}` : String(index + 1)
+
+  const exportList = async (): Promise<void> => {
+    const count = await window.nms.exportPlanetLibrary()
+    if (count !== null) setShared(formatMessage(text.exported, { count: number(count) }))
+  }
+
+  const importList = async (): Promise<void> => {
+    const outcome = await window.nms.importPlanetLibrary()
+    if (outcome.state === 'cancelled') return
+    setShared(
+      outcome.state === 'invalid'
+        ? text.importFailed
+        : formatMessage(text.imported, { count: number(outcome.added) })
+    )
+    setLibrary(await window.nms.getPlanetLibrary())
+  }
 
   return (
     <Card>
@@ -333,16 +406,6 @@ export function PlanetFinderCard(): React.JSX.Element {
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <Button
-            variant={source === 'survey' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => {
-              setSource('survey')
-              setDrawn(pageSize)
-            }}
-          >
-            {text.sourceSurvey}
-          </Button>
           <Button
             variant={source === 'live' ? 'default' : 'outline'}
             size="sm"
@@ -354,39 +417,73 @@ export function PlanetFinderCard(): React.JSX.Element {
             <RadarIcon data-icon="inline-start" />
             {text.sourceLive}
           </Button>
+          <Button
+            variant={source === 'mine' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setSource('mine')
+              setDrawn(pageSize)
+            }}
+          >
+            <StarIcon data-icon="inline-start" />
+            {text.sourceMine}
+          </Button>
         </div>
-        {source === 'survey' ? (
-          <Alert>
-            <InfoIcon />
-            <AlertTitle>{text.scopeTitle}</AlertTitle>
-            <AlertDescription>
-              {formatMessage(text.scope, { count: number(planets.length) })}
-            </AlertDescription>
-          </Alert>
-        ) : (
+        {source === 'mine' ? (
           <div className="flex flex-col gap-3 rounded-lg border p-4">
-            <p className="text-sm text-muted-foreground">{text.liveHint}</p>
+            <p className="text-sm text-muted-foreground">{text.mineHint}</p>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-medium">{text.duration}</span>
+              <span className="text-sm font-medium">{text.galaxy}</span>
               <Select
-                value={String(minutes)}
-                onValueChange={(value) => value && setMinutes(Number(value))}
+                value={String(galaxy)}
+                onValueChange={(value) => {
+                  if (!value) return
+                  setChosenGalaxy(Number(value))
+                  setDrawn(pageSize)
+                }}
               >
-                <SelectTrigger aria-label={text.duration} className="w-28">
-                  <SelectValue>
-                    {formatMessage(text.minutes, { count: number(minutes) })}
-                  </SelectValue>
+                <SelectTrigger aria-label={text.galaxy} className="w-64">
+                  <SelectValue>{galaxyName(galaxy)}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {durations.map((count) => (
-                      <SelectItem key={count} value={String(count)}>
-                        {formatMessage(text.minutes, { count: number(count) })}
+                    {(library.galaxies.length > 0
+                      ? library.galaxies
+                      : [{ galaxy, planets: [] }]
+                    ).map((entry) => (
+                      <SelectItem key={entry.galaxy} value={String(entry.galaxy)}>
+                        {galaxyName(entry.galaxy)} ({number(entry.planets.length)})
                       </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
+              <Button variant="outline" size="sm" onClick={() => void exportList()}>
+                <UploadIcon data-icon="inline-start" />
+                {text.exportList}
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => void importList()}>
+                <DownloadIcon data-icon="inline-start" />
+                {text.importList}
+              </Button>
+            </div>
+            {shared && <p className="text-sm text-muted-foreground">{shared}</p>}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3 rounded-lg border p-4">
+            <p className="text-sm text-muted-foreground">{text.liveHint}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium">{text.duration}</span>
+              <Input
+                aria-label={text.duration}
+                type="number"
+                min={1}
+                max={longestMinutes}
+                className="w-24"
+                value={minutes}
+                onChange={(event) => setMinutes(Number(event.target.value))}
+              />
+              <span className="text-xs text-muted-foreground">{text.durationHint}</span>
               <Button disabled={!ready || starting} onClick={() => void startSearch()}>
                 {starting ? (
                   <Spinner data-icon="inline-start" />
@@ -451,6 +548,16 @@ export function PlanetFinderCard(): React.JSX.Element {
             }}
           >
             {text.presetAll}
+          </Button>
+          <Button
+            variant={preset === 'dissonant' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => {
+              setFilter(dissonantFilter)
+              setDrawn(pageSize)
+            }}
+          >
+            {text.presetDissonant}
           </Button>
           <span className="text-xs text-muted-foreground">{text.presetHint}</span>
         </div>
@@ -591,29 +698,52 @@ export function PlanetFinderCard(): React.JSX.Element {
               </SelectContent>
             </Select>
           </Field>
-          {source === 'live' && (
-            <Field>
-              <FieldLabel htmlFor="planets-grass">{text.grass}</FieldLabel>
-              <Select
-                value={grass}
-                onValueChange={(value) => value && setGrass(value as 'any' | GrassHue)}
-              >
-                <SelectTrigger id="planets-grass" className="w-full">
-                  <SelectValue>{grass === 'any' ? text.any : text.grassHues[grass]}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="any">{text.any}</SelectItem>
-                    {grassHues.map((hue) => (
-                      <SelectItem key={hue} value={hue}>
-                        {text.grassHues[hue]}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </Field>
-          )}
+          <Field>
+            <FieldLabel htmlFor="planets-wealth">{text.wealth}</FieldLabel>
+            <Select
+              value={filter.wealth}
+              onValueChange={(value) => value && change({ wealth: value })}
+            >
+              <SelectTrigger id="planets-wealth" className="w-full">
+                <SelectValue>
+                  {filter.wealth === 'any'
+                    ? text.any
+                    : text.wealthNames[filter.wealth as (typeof wealths)[number]]}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="any">{text.any}</SelectItem>
+                  {wealths.map((wealth) => (
+                    <SelectItem key={wealth} value={wealth}>
+                      {text.wealthNames[wealth]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="planets-grass">{text.grass}</FieldLabel>
+            <Select
+              value={grass}
+              onValueChange={(value) => value && setGrass(value as 'any' | GrassHue)}
+            >
+              <SelectTrigger id="planets-grass" className="w-full">
+                <SelectValue>{grass === 'any' ? text.any : text.grassHues[grass]}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="any">{text.any}</SelectItem>
+                  {grassHues.map((hue) => (
+                    <SelectItem key={hue} value={hue}>
+                      {text.grassHues[hue]}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
           <Field>
             <FieldLabel htmlFor="planets-per-system">{text.perSystem}</FieldLabel>
             <Select
@@ -737,7 +867,14 @@ export function PlanetFinderCard(): React.JSX.Element {
                   <span className="truncate text-xs text-muted-foreground">
                     {[
                       planet.race === 'none' ? text.raceNone : planet.race,
-                      text.economy[planet.economy as Economy] ?? ''
+                      text.economy[planet.economy as Economy] ?? '',
+                      planet.flora
+                        ? `${text.flora}: ${text.life[planet.flora as LifeLevel] ?? planet.flora}`
+                        : '',
+                      planet.fauna
+                        ? `${text.fauna}: ${text.life[planet.fauna as LifeLevel] ?? planet.fauna}`
+                        : '',
+                      (planet.resources ?? []).map((id) => substances[id] ?? id).join(', ')
                     ]
                       .filter(Boolean)
                       .join(' · ')}
@@ -783,13 +920,7 @@ export function PlanetFinderCard(): React.JSX.Element {
             </div>
           ))}
           {found.length === 0 && (
-            <p className="p-4 text-sm text-muted-foreground">
-              {source === 'live'
-                ? text.liveEmpty
-                : planets.length === 0
-                  ? text.empty
-                  : delivery.selectNone}
-            </p>
+            <p className="p-4 text-sm text-muted-foreground">{text.liveEmpty}</p>
           )}
         </div>
         {result && OutcomeIcon && (

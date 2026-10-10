@@ -1,6 +1,5 @@
 import { parseStarSystemReport } from '../../shared/star-system'
 import { getGlyphPlan, type GlyphRequest } from './glyph-plan'
-import type { SurveyPlanet } from '../../shared/planet-survey'
 import {
   getLevelPlan,
   listLevelStats,
@@ -364,29 +363,6 @@ export class ResearchBridgeService {
         id: cells[0],
         text: cells[text],
         groups: cells.slice(1, 1 + wordRaces.length)
-      }))
-  }
-
-  // Every planet of the survey the research tool made with the game's generators
-  // (runtime/research/planet-survey.md: portal, biome, subtype, weather, storms, extreme,
-  // sentinels, race, star, economy, wealth, conflict).
-  async getPlanetSurvey(): Promise<SurveyPlanet[]> {
-    const rows = await readClassification(this.context.researchDirectory, 'planet-survey.md')
-    return rows
-      .filter((cells) => cells.length === 12 && /^[0-9A-F]{12}$/.test(cells[0]))
-      .map((cells) => ({
-        portal: cells[0],
-        biome: cells[1],
-        subtype: cells[2],
-        weather: cells[3],
-        storms: cells[4],
-        extreme: cells[5] === 'yes',
-        sentinels: cells[6],
-        race: cells[7],
-        star: cells[8],
-        economy: cells[9],
-        wealth: cells[10],
-        conflict: cells[11]
       }))
   }
 

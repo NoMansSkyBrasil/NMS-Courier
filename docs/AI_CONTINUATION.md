@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Owner decisions, 2026-10-10 (application 1.42.0, bridge 1.32.0): no
+> shipped planet list, the list is the player's (`planet-library.ts`,
+> export and import); the game stays vanilla (`AGENTS.md`). Waiting
+> technologies worked for the owner. Approved and not built: repair a whole
+> inventory, recharge with automatic recharge, galaxy map switches, a
+> finder for ships and freighters (see `TODO.md`).
+
 > Delivery state, 2026-10-10: [release checklist](RELEASE_CHECKLIST.md)
 > lists what was seen working in the game, what is built and never tried
 > (one short test each) and what a player must be told. Mission rewards are
