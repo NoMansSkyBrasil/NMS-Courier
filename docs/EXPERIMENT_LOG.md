@@ -1,5 +1,20 @@
 # Runtime experiment log
 
+## 2026-10-10: the routine that finishes a waiting technology located (offline)
+
+Offline; nothing sent to the game. Build 180836. Owning note:
+[finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md).
+
+- Found: `FullyInstalled` at element `+0x29`; candidate routine `10b7c80`,
+  which looks an element up by inventory choice, owner index and slot,
+  shows the technology message, sets the flag and the charge and refreshes
+  the store.
+- Not proven: its caller, the full choice-to-store map, that it can be
+  called with a minimal object. Nothing was built.
+- Rejected: five other writers of `+0x29` that belong to other structures
+  or to the load-time `OBSOLETE` swap.
+- Rollback: none needed.
+
 ## 2026-10-10: planet survey compared with the running game; infested planets fixed (application 1.36.0)
 
 Read-only on the game: its memory was read from outside, nothing was sent

@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Waiting technologies, 2026-10-10: owner asked for a feature that finishes
+> technologies still waiting for components in every inventory. Owning note
+> [finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md): candidate
+> game routine `10b7c80` read offline; nothing built. Next: trace its
+> caller, list the inventory choices, then bridge file
+> `technology_install.h` and a page.
+
 > Planet finder, 2026-10-10 (application 1.36.0): owning note
 > [finding planets](PLANET_FINDER_NOTES.md). Done: survey of 28,287 planets
 > with system type; one system compared with the running game and matching
