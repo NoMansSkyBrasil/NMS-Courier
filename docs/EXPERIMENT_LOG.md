@@ -1,5 +1,22 @@
 # Runtime experiment log
 
+## 2026-10-09: past expeditions page and one-off unlocks (offline)
+
+Offline only; nothing built, nothing sent. Build 180836. Owning note:
+[past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md).
+
+- Found: the journey page category `SeasonHistory` and its table
+  `historicalseasondatatable` (23 seasons; `FinalReward` `RS_S<n>_COMPLETE`,
+  `UnlockedTitle`). Reward classes `GcRewardNexus` (entry `R_ENABLENEXUS`)
+  and `GcRewardWikiTopic` (43 topics).
+- Found in this project's own plans: "send all" on the Expeditions page
+  redeems in the slot and unlocks on the account, a selection only unlocks
+  on the account.
+- Not proven: what makes the page show an expedition as completed; that an
+  unlocked, unredeemed reward can be claimed in the game; the handlers of
+  the Nexus and wiki rewards.
+- Rollback: none needed.
+
 ## 2026-10-09: fractional milestones offered (bridge 1.25.0), offline
 
 Offline; no request of this version reached the game. Build 180836. Owning

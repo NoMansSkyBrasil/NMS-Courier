@@ -42,7 +42,10 @@
 > game's rewards (bridge 1.22.0, [notes](WORD_AND_GLYPH_NOTES.md)), NOT
 > exercised live; standings and journey milestones are raised by levels
 > through the game's stat reward (bridge 1.23.0, application 1.28.0,
-> [notes](STAT_LEVEL_NOTES.md)), installed, NOT exercised live; the ships of
+> [notes](STAT_LEVEL_NOTES.md)), levels seen arriving live, the milestone
+> screen for silent stats (bridge 1.24.0) and fractional stats (1.25.0) NOT
+> exercised; past expeditions, Nexus and wiki topics were only read
+> offline ([notes](EXPEDITION_HISTORY_NOTES.md)); the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point
