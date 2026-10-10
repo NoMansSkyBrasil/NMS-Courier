@@ -31,6 +31,10 @@ nothing that belongs to one of them. Built with
 | `ship_obtain.h` | starship | Models and reward fields for getting a new starship |
 | `multitool_obtain.h` | multitool | Models and reward fields for getting a new multi-tool |
 | `currency_reward.h` | currencies | Units, nanites or quicksilver of any amount through the game's reward routine, with the data file's entries as carriers |
+| `teleport_request.h` | travel | Send the player to a star system by galaxy and portal address through the game's teleport reward handler |
+| `word_teach.h` | words | Teach alien word groups of one race through the game's rewards |
+| `rune_discover.h` | glyphs | Discover portal glyphs in the game's order through the game's reward |
+| `stat_level.h` | levelled stats | Raise standings and journey milestones by levels through the game's stat reward |
 | `star_system.h` | star system | Read only: the seed of the star system the player is in and the ships the game generated for it, written to a file when they change |
 | `item_give.h` | items | Put substances and products into the exosuit cargo through the game's store routines; report the cargo's stack sizes |
 | `account_unlock.h` | account | Unlock titles, specials and season rewards on the account through the game's routines |
