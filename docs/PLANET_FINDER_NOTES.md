@@ -64,6 +64,109 @@ Lush planets without sentinels found in that run, as portal addresses
 `2069F769C14F`, `3071F769C14F`, `6072F769C14F`, `1073F769C14F`,
 `1077F769C14F`, `1078F769C14F`, `207BF769C14F`, `407FF769C14F`.
 
+## Second run, same day: the whole planet routine with the game's files
+
+The owner asked for the study to go on. Tool:
+`runtime/research/find-planets.py`. Result table of the run below:
+[planet-candidates.md](../runtime/research/planet-candidates.md) (292
+planets, **not compared with the game**).
+
+### What the planet routine is
+
+The harness calls the short planet routine (`16a7570`) and stops inside its
+levels part (`16956c0`, which the harness calls "planet sentinels"). The
+game's full routine is `16a7880(generator, planet data, input)`: it derives
+26 child seeds from the planet seed, then for each part seeds the
+generator's stream (`+0xba4`, `+0xba8`) from one child and calls the part.
+The parts in order: `16a49d0` (copies the input and asks for the subtype),
+`16a4040`, `16956c0` (flora, fauna, resource and building levels, sentinel
+level per difficulty), `1696760` (weather), then others not read
+(`1696dc0`, `1695420`, `1694280`, `169f4a0`, `16a2870`). The tool runs
+`16a7880` until the weather part has returned (`16a7ad4`).
+
+### What had to be supplied, and what each thing proved to be
+
+- **Subtype.** The input is: count at `+0x30`, seed at `+0x08`, and at
+  `+0x10` the biome in the low byte with the class from bit 16.
+  `16a49d0` then calls `16a3a50`, which generates the planet's whole system
+  again in a local structure, reads the planet's `BiomeSubType` from it and
+  passes it through `24b270`. In the emulator that inner generation gives
+  subtype 0 for every planet. The system record the harness already made
+  has the real one (`+0x34` of each input record), so the tool replaces
+  `16a3a50` by code that returns that value. Mistake on the way, recorded
+  because it cost a run: patching the returned constant for each planet
+  does not work, the emulator keeps its first translation of the code; the
+  replacement now reads a memory cell.
+- **Fauna chances.** The generator's `+0x50` is `GcCreatureGenerationData`
+  (`metadata/simulation/ecosystem/creaturegenerationdata`), whose
+  `LifeChance` at `+0xf74` weighs the four fauna levels. The harness leaves
+  a blank block there, hence the constant 0 of the first run.
+- **Biome files.** The generator's `+0x90 + biome * 0x10` is the array of
+  loaded biome files of that biome with its count, in the order of
+  `biomefilenames`; the weather part takes the weather weights of the
+  planet's star colour from the file (`WeatherOptions`, `+0xf0`, `0x44`
+  bytes a colour).
+- **Weather files.** `+0x508` is the array of the 17 weather files in the
+  order of `weatherlist`, `+0x504` their count. With a count of 0 the
+  weather part skips storms and extremes altogether, which is what the
+  third attempt showed (every planet without storms). Storm thresholds are
+  `HighStormsChance` (`+0xbd4`) and `LowStormsChance` (`+0xbd8`) of the
+  planet's weather file; the extreme draw uses `ExtremePlanetChance` of
+  the solar generation globals by star colour.
+- **Scrap chance.** After the sentinel levels `16956c0` reads a table
+  through the generator's first pointer (`[+0x00] + 0x2670 + building
+  level * 4`) on about half of the planets; unmapped in the harness, it
+  made 1,135 of 2,073 planets fail. A blank block there only makes
+  `HasScrap` false.
+
+### What the game's own tables say about flora and fauna
+
+`LifeChance` of `biomelistperstartype` (flora) and `LifeChance` of
+`creaturegenerationdata` (fauna) are both Dead 0, Low 0, Mid 0, Full 1. The
+routine draws the level from those weights, so **every planet with life has
+flora and fauna at Full**; only dead, gas giant and waterworld biomes are
+set otherwise in code. "Abundant fauna and flora" is therefore not
+something to search by with these two settings: all 4,570 lush planets of
+the run have both at 3. What differs between lush planets is the subtype
+(which file of plants and props), the weather and the sentinels. What the
+planet page of the game prints as flora and fauna was not traced.
+
+### Lush planets, 6,000 systems from `0x0001DB00F769C14E` (28,287 planets, 81 s)
+
+| | |
+| --- | --- |
+| Biome | Lush 4,570; Frozen 3,597; Scorched 3,570; Radioactive 3,329; Toxic 3,311; Weird 3,168; Barren 2,694; Dead 1,780; Swamp 684; Lava 667; Green 317; Blue 314; Red 286 |
+| Lush subtype (file) | Worlds 943 (jungle); HighQuality 688 (`LUSHHQ`); Standard 656; Swamp 524; Variant_C 285 (rocky); Variant_B 216 and Variant_A 200 (mushroom); HugePlant 213 (floral); HydroGarden 152; HugeToxic 140 (tentacle); HugeLush 133 (big props); Infested 122; Variant_D 117; Bubble 99; Structure 82 (ruins) |
+| Weather | Humid 4,275; Swamp 164; Weird 131 |
+| Storms | Low 2,767; None 1,104; High 699 |
+| Extreme | no 3,539; yes 1,031 |
+| Sentinels (normal preset) | Low 2,225; Default 1,776; Aggressive 436; Corrupt 133 |
+
+The storm shares fit the humid weather file (LowStormsChance 0.6,
+HighStormsChance 0.2), which is a sign that the weather part runs as in the
+game. Enum names are the executable's own (`GcBiomeSubType` 32 values,
+`GcWeatherOptions` 17, `GcPlanetSentinelLevel` Low, Default, Aggressive,
+Corrupt; the harness's "none, low, aggressive, corrupted" is one step off).
+The storm field has no enum in the metadata; 0 to 3 are taken as None, Low,
+High, Always.
+
+**Earth-like**, as the tool defines it: Lush; subtype Standard,
+HighQuality, Worlds or HugeLush; storms None; not extreme; sentinels Low.
+292 of the 4,570 lush planets pass: about one system in twenty has one.
+
+### Still open
+
+- Nothing was compared with the game. The first check is the owner
+  visiting a few of the addresses.
+- Water was not read (`GcPlanetData.Water`, the terrain settings of the
+  biome file).
+- The planet number of the portal address is taken as the record's place
+  plus one, as the harness does; moons were not told apart.
+- The game state value at `6e8d714` and the application flags the weather
+  part tests are zero in the emulator; what they stand for is not read.
+- The parts of the routine after weather were not run.
+- Other galaxies, purple systems and abandoned systems were not walked.
+
 ## Plan
 
 1. **Check what exists.** The owner visits two or three of the addresses

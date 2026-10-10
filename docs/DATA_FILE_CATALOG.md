@@ -113,6 +113,7 @@ reader can start from Markdown and reach every data file.
 | [npc-search-fixture-180383.json](../runtime/research/npc-search-fixture-180383.json) | JSON object | 7 top-level keys | keys: input, palette_branch, constraints, start, count, seconds, max_results | [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
 | [offline-tools.json](../runtime/research/offline-tools.json) | JSON object | 2 top-level keys | keys: ghidra, jdk | [README.md](../runtime/research/README.md) |
 | [palette-task-data-180383.md](../runtime/research/palette-task-data-180383.md) | Markdown table | 10 rows, 3 columns | columns: label, rva, purpose | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [PALETTE_TASK_ROUTING.md](../docs/PALETTE_TASK_ROUTING.md) |
+| [planet-candidates.md](../runtime/research/planet-candidates.md) | Markdown table | 292 rows, 8 columns | columns: Portal, System, Planet, Planets, Subtype, Weather, Race, Earth-like in system | [TODO.md](../TODO.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [PLANET_FINDER_NOTES.md](../docs/PLANET_FINDER_NOTES.md) |
 | [planet-resource-seed-flow-180383.md](../runtime/research/planet-resource-seed-flow-180383.md) | Markdown table | 2 rows, 2 columns | Build resource-placement entries from planet child slot 8; identity unverified | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
 | [planet-seed-consumers-180383.md](../runtime/research/planet-seed-consumers-180383.md) | Markdown table | 4 rows, 2 columns | Consumer of planet child slot 7 before creature roles; semantic identity unverified | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
 | [planet-seed-entry-180383.md](../runtime/research/planet-seed-entry-180383.md) | Markdown table | 2 rows, 2 columns | Public cGcPlanetGenerator::Generate signature candidate; identity and ABI unverified | [PLANET_FAUNA_SEED_FLOW.md](../docs/PLANET_FAUNA_SEED_FLOW.md) |
@@ -215,4 +216,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 139 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 140 data files in 4 folders; 42 not mentioned outside this catalog.

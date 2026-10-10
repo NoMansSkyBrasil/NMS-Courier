@@ -1,5 +1,25 @@
 # Runtime experiment log
 
+## 2026-10-10: full planet routine emulated with the game's files (offline)
+
+Offline; nothing sent to the game. Build 180836. Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#second-run-same-day-the-whole-planet-routine-with-the-games-files).
+Tool `runtime/research/find-planets.py`; result
+`runtime/research/planet-candidates.md`.
+
+- Ran `16a7880` to the end of its weather part for 28,287 planets of 6,000
+  systems in 81 seconds, none failing.
+- Found: subtype, weather, storms, extreme flag and sentinel level per
+  planet with shares that fit the game's files; flora and fauna levels are
+  Full for every living planet by the game's own chance tables.
+- Rejected on the way: (1) the harness's blank stand-ins for fauna, biome
+  and weather tables; (2) taking the subtype from the routine's own call,
+  0 in the emulator; (3) rewriting a returned constant per planet, which
+  the emulator's code cache ignores; (4) a weather table without its
+  count, which makes every planet stormless.
+- Not proven: any planet against the game.
+- Rollback: none needed.
+
 ## 2026-10-10: planets by biome and sentinel level, emulated (offline)
 
 Offline; nothing built, nothing sent. Build 180836. Owning note:
