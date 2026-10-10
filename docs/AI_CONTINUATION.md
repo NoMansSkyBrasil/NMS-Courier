@@ -47,7 +47,9 @@
 > exercised; guide topics and access to the Space Anomaly are built
 > (bridge 1.26.0, application 1.31.0,
 > [notes](EXPEDITION_HISTORY_NOTES.md)), NOT exercised; expedition rewards
-> are claimed in the slot only when the page's switch is on; the ships of
+> are only unlocked on the account, never claimed for the player (owner
+> rule, application 1.31.1); completing missions is the owner's next area,
+> first offline pass in [notes](MISSION_COMPLETION_NOTES.md); the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

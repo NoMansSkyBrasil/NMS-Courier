@@ -1,5 +1,18 @@
 # Runtime experiment log
 
+## 2026-10-09: missions, first offline pass
+
+Offline only; nothing built, nothing sent. Build 180836. Owning note:
+[completing missions](MISSION_COMPLETION_NOTES.md).
+
+- Found: 28 mission tables, 1,876 missions; reward classes
+  `GcRewardCompleteMission` (hash `0x0d91902f`, handler `f2b650`, which
+  calls `42d110`), `GcRewardCompleteMultiMission` (`f2b6b0`),
+  `GcRewardMission`, `GcRewardSetCurrentMission`.
+- Not proven: what completing does to the stages it skips; a routine that
+  advances one stage; how to read the active missions.
+- Rollback: none needed.
+
 ## 2026-10-09: claim switch removed by owner decision (application 1.31.1)
 
 No request involved. The owner rejected the switch "Also mark as claimed in
