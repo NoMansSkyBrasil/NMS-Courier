@@ -10,20 +10,30 @@ A capability counts as verified only when it worked **from the application**
 in the running game (`AGENTS.md`). "Checked offline" means an emulator or a
 reading of the executable, which is not the same thing.
 
-## Tried in the game and working
+## Worked from the application, in the game
 
-| Area | Seen by the owner |
+As the capability status table and the owner's reports record it.
+
+| Area | What was seen |
 | --- | --- |
-| Items | Delivered with the game's message |
-| Currencies | Units, nanites and quicksilver arrived |
-| Technologies, crafting recipes, build parts, refiner and cooking recipes | Learned |
-| Appearance, titles | Unlocked |
-| Fishing record | Filled |
-| Expedition rewards, quicksilver shop | Unlocked on the account; claimed at the Quicksilver companion |
-| Standings and milestones | Levels arrive (the full milestone screen for silent entries was not seen) |
-| Travel to a system | Reached a space station; reached a planet from the planet finder |
-| Planet finder, ready-made list | One system compared with the game and matching |
-| Exosuit, starship, multi-tool, freighter upgrades and offers | Worked, marked "in testing" for the cases not tried |
+| Items into the exosuit cargo | Delivered (2026-10-08) |
+| Corvette build mode with class and slots | Worked (2026-10-08, owner's report) |
+| Travel to a system | A space station reached (2026-10-09); a planet reached from the planet finder (2026-10-10) |
+| Standings and milestones | The levels arrive; the game's message for silent entries was not seen |
+| Expedition rewards | Unlocked and claimed at the Quicksilver companion (owner's report, 2026-10-09) |
+| Planet finder, ready-made list | One system read from the running game and matching (2026-10-10) |
+
+## Worked in the game when sent by hand, not yet tried again from the application
+
+These were seen working on 2026-10-06 to 2026-10-08, when requests were
+still sent by scripts. The application now sends the same requests itself;
+each wants one run from its page.
+
+Technologies, crafting recipes, build parts, refiner and cooking recipes,
+appearance, titles, fishing record, quicksilver shop, Twitch and platform
+rewards; exosuit, starship and multi-tool slots, supercharged slots and
+class; freighter offers and slots; new starship and new multi-tool offers;
+currencies (fixed amounts then; any amount has never been run).
 
 ## Built, never tried in the game
 
