@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-10: survey of the game's reward classes for feature ideas (offline)
+
+Offline only; nothing built, nothing sent. Build 180836. Result:
+[feature ideas](FEATURE_IDEAS.md).
+
+- Found: 190 names beginning `GcReward` in the executable's metadata, each
+  with its fields; uses of each in the shipped reward table; 108 scan
+  events named by rewards, 33 upgrade module groups, 27 pages and 11
+  research trees the game opens by reward.
+- Not proven: any handler of the classes listed as ideas.
+- Rollback: none needed.
+
 ## 2026-10-10: how missions start and announce; bridge 1.28.0 (offline)
 
 Offline research and a build; nothing sent. Build 180836. Owning note:

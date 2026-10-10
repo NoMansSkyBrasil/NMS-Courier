@@ -317,6 +317,7 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [x] Expeditions "completed, not redeemed": the page only unlocks on the account; the claim switch of 1.31.0 was removed in 1.31.1 by owner decision ([notes](docs/EXPEDITION_HISTORY_NOTES.md)).
 - [ ] Owner to rule: the Twitch and platform pages still call the slot's redeem routine before the account unlock; under the rule "never claim for the player" that step may have to go.
 - [ ] Missions (bridge 1.27.0, application 1.32.0, experimental, [notes](docs/MISSION_COMPLETION_NOTES.md)): live test on slot 3, one small active mission first; record what the game does with skipped stages and with the next mission.
+- [ ] Owner to choose from [feature ideas](docs/FEATURE_IDEAS.md) (survey of 2026-10-10): find a place, upgrade modules, player condition, open shops and research trees, frigates, companions, kits, "what do I still lack".
 - [ ] Missions page: show each mission's state in the loaded save (finished, stage, not started). Needs the live mission list located with the game running, then a read request of the bridge.
 - [ ] Missions: collect a quest's rewards (owner request 2026-10-10). Classify the reward entries of `missions.md` (items and blueprints against entries that start missions or change state) before any is given on its own.
 - [ ] Interface texts with a count read wrongly for one ("1 missions", "1 rewards", "1 marked"): add singular forms in the 14 languages.
