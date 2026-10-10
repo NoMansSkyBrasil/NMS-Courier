@@ -617,6 +617,12 @@ export const frFR: Messages = {
     }
   },
   planets: {
+    purple: 'Étoile violette',
+    purpleHint:
+      "Les mondes aquatiques et les géantes gazeuses n'existent qu'autour des étoiles violettes.",
+    portalOnly: 'Portail uniquement',
+    portalOnlyHint:
+      "Ce n'est pas une étoile de la carte galactique : seul un portail ou le Voyager de cette page y mène.",
     sourceSurvey: 'Liste prête (Euclide)',
     sourceLive: 'Autour de moi (toute galaxie)',
     liveHint:

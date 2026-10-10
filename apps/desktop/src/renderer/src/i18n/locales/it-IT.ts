@@ -613,6 +613,11 @@ export const itIT: Messages = {
     }
   },
   planets: {
+    purple: 'Stella viola',
+    purpleHint: 'I mondi acquatici e i giganti gassosi si trovano solo attorno alle stelle viola.',
+    portalOnly: 'Solo con portale',
+    portalOnlyHint:
+      'Non è una stella della mappa galattica: ci si arriva solo con un portale o con il Viaggia di questa pagina.',
     sourceSurvey: 'Elenco pronto (Euclide)',
     sourceLive: 'Intorno a me (qualsiasi galassia)',
     liveHint:

@@ -605,6 +605,11 @@ export const ptBR: Messages = {
     }
   },
   planets: {
+    purple: 'Estrela roxa',
+    purpleHint: 'Mundos aquáticos e gigantes gasosos só existem em torno de estrelas roxas.',
+    portalOnly: 'Só por portal',
+    portalOnlyHint:
+      'Não é uma estrela do mapa da galáxia: só um portal ou o Viajar desta página chega lá.',
     sourceSurvey: 'Lista pronta (Euclid)',
     sourceLive: 'Ao meu redor (qualquer galáxia)',
     liveHint:

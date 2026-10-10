@@ -622,6 +622,11 @@ export const deDE: Messages = {
     }
   },
   planets: {
+    purple: 'Violetter Stern',
+    purpleHint: 'Wasserwelten und Gasriesen gibt es nur bei violetten Sternen.',
+    portalOnly: 'Nur per Portal',
+    portalOnlyHint:
+      'Kein Stern der Galaxiekarte: Nur ein Portal oder das Reisen dieser Seite führt dorthin.',
     sourceSurvey: 'Fertige Liste (Euklid)',
     sourceLive: 'Um mich herum (jede Galaxie)',
     liveHint:

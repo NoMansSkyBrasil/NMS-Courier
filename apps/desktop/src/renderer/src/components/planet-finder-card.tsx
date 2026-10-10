@@ -7,10 +7,12 @@ import {
   CopyIcon,
   InfoIcon,
   MapPinIcon,
+  DoorOpenIcon,
   PlayIcon,
   RadarIcon,
   ShieldIcon,
   SkullIcon,
+  SparklesIcon,
   SquareIcon,
   StarIcon,
   TriangleAlertIcon
@@ -70,7 +72,12 @@ import { grassHue, grassHues, type GrassHue } from '../../../shared/planet-searc
 type BridgeStatus = Awaited<ReturnType<typeof window.nms.getResearchBridgeStatus>>
 type DeliveryResult = Awaited<ReturnType<typeof window.nms.teleport>>
 // A planet found live also has its grass colour and how far it is.
-type Found = SurveyPlanet & { inSystem: number; grass?: string; distance?: number }
+type Found = SurveyPlanet & {
+  inSystem: number
+  grass?: string
+  distance?: number
+  portalOnly?: boolean
+}
 type SearchReport = NonNullable<Awaited<ReturnType<typeof window.nms.getPlanetSearch>>>
 // How long a search around the player may run, in minutes.
 const durations = [1, 5, 15, 30, 60] as const
@@ -705,6 +712,26 @@ export function PlanetFinderCard(): React.JSX.Element {
                     <Badge variant="secondary" className={tones.pirate}>
                       <SkullIcon />
                       {text.pirate}
+                    </Badge>
+                  )}
+                  {planet.star === 'Purple' && (
+                    <Badge
+                      variant="secondary"
+                      className="bg-violet-500/15 text-violet-700 dark:text-violet-400"
+                      title={text.purpleHint}
+                    >
+                      <SparklesIcon />
+                      {text.purple}
+                    </Badge>
+                  )}
+                  {planet.portalOnly && (
+                    <Badge
+                      variant="secondary"
+                      className={stateTones.info}
+                      title={text.portalOnlyHint}
+                    >
+                      <DoorOpenIcon />
+                      {text.portalOnly}
                     </Badge>
                   )}
                   <span className="truncate text-xs text-muted-foreground">

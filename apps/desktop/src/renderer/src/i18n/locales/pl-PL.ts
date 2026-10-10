@@ -598,6 +598,11 @@ export const plPL: Messages = {
     }
   },
   planets: {
+    purple: 'Fioletowa gwiazda',
+    purpleHint: 'Wodne światy i gazowe olbrzymy występują tylko przy fioletowych gwiazdach.',
+    portalOnly: 'Tylko portalem',
+    portalOnlyHint:
+      'To nie jest gwiazda z mapy galaktyki: dotrzesz tam tylko portalem lub Podróżą z tej strony.',
     sourceSurvey: 'Gotowa lista (Euclid)',
     sourceLive: 'Wokół mnie (dowolna galaktyka)',
     liveHint:

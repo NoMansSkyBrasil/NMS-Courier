@@ -28,6 +28,11 @@
 // weather +0x1e54; Biome +0x32b8; BiomeSubType +0x32bc; the sentinel level of the normal preset
 // +0x34fc).
 //
+// Which indices of a region hold a system (132b3f0, read 2026-10-10): an index below the region's
+// star count (info block +0x70) is a star of the galaxy map; from there to 2FF the game still
+// generates a system, which can be reached by portal only; 3E9 to 429 are the 65 purple stars of
+// the region (base 1000 at info +0x7c, count at +0x78).
+//
 // Not exercised in the running game when this was written.
 
 #define SEARCH_REMOTE_SYSTEM_RVA 0x16a3a50u
@@ -46,6 +51,9 @@
 #define SEARCH_INPUT_SIZE 0x58u
 #define SEARCH_MAX_PLANETS 8
 #define SEARCH_LAST_SYSTEM 0x2ff
+#define SEARCH_FIRST_PURPLE 0x3e9
+#define SEARCH_LAST_PURPLE 0x429
+#define SEARCH_INFO_STARS_OFFSET 0x70u
 #define SEARCH_MAX_FOUND 2000
 #define SEARCH_SLICE_MICROSECONDS 3000
 #define SEARCH_WRITE_MILLISECONDS 700u
@@ -79,6 +87,7 @@ typedef struct {
     int32_t race, star, economy, wealth, conflict;
     uint32_t grass;          // 0xRRGGBB of the first colour of the grass palette
     int32_t distance;        // in regions from the start, the largest of the three axes
+    int32_t kind;            // 0 a star of the galaxy map, 1 reached by portal only, 2 a purple star
 } search_planet_found;
 
 typedef int32_t (*search_remote_fn)(void *planet_generator, const uint64_t *input, int32_t biome);
@@ -269,7 +278,9 @@ static uint32_t search_colour_byte(float value) {
 // by biome, ask the game for the planet. Returns 0 when the search cannot go on.
 static int search_one_system(uint8_t *generator) {
     const search_filter *filter = &search_active;
-    if (++search_system_index > SEARCH_LAST_SYSTEM) {
+    // The ordinary indices of the region, then its purple stars, then the next region.
+    if (search_system_index == SEARCH_LAST_SYSTEM) search_system_index = SEARCH_FIRST_PURPLE - 1;
+    if (++search_system_index > SEARCH_LAST_PURPLE) {
         search_system_index = 1;
         search_next_region();
         InterlockedIncrement(&search_regions);
@@ -290,6 +301,8 @@ static int search_one_system(uint8_t *generator) {
     int32_t economy = *(const int32_t *)(search_system + 0x2520), wealth = *(const int32_t *)(search_system + 0x2524);
     int32_t conflict = *(const int32_t *)(search_system + 0x2530), race = *(const int32_t *)(search_system + 0x2534);
     int32_t star = *(const int32_t *)(search_system + 0x2550);
+    int32_t stars = *(const int32_t *)(search_info + SEARCH_INFO_STARS_OFFSET);
+    int32_t kind = search_system_index >= SEARCH_FIRST_PURPLE ? 2 : search_system_index >= stars ? 1 : 0;
     int32_t planets = *(const int32_t *)(search_system + 0x2544);
     if (!search_system[0x25d4]) planets += *(const int32_t *)(search_system + 0x2548);
     if (planets < 0 || planets > SEARCH_MAX_PLANETS) return 1;
@@ -312,7 +325,7 @@ static int search_one_system(uint8_t *generator) {
             .subtype = *(const int32_t *)(planet + 0x32bc), .weather = *(const int32_t *)(planet + 0x1e54),
             .storms = *(const int32_t *)(planet + 0x1e48), .extreme = *(const int32_t *)(planet + 0x1e50) != 0,
             .sentinels = *(const int32_t *)(planet + 0x34fc), .race = race, .star = star, .economy = economy,
-            .wealth = wealth, .conflict = conflict, .distance = search_distance
+            .wealth = wealth, .conflict = conflict, .distance = search_distance, .kind = kind
         };
         const float *grass = (const float *)planet;
         found.grass = search_colour_byte(grass[0]) << 16 | search_colour_byte(grass[1]) << 8 | search_colour_byte(grass[2]);
@@ -446,12 +459,12 @@ static void search_write_result(void) {
             InterlockedCompareExchange(&search_elapsed, 0, 0));
     for (LONG index = 0; index < count; ++index) {
         const search_planet_found *found = &search_found[index];
-        fprintf(file, "planet=%X%03X%02X%03X%03X,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%06X,%d\n",
+        fprintf(file, "planet=%X%03X%02X%03X%03X,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%06X,%d,%d\n",
                 (unsigned)(found->address >> 52 & 0xf), (unsigned)(found->address >> 40 & 0xfff),
                 (unsigned)(found->address >> 24 & 0xff), (unsigned)(found->address >> 12 & 0xfff),
                 (unsigned)(found->address & 0xfff), found->biome, found->subtype, found->weather, found->storms,
                 found->extreme, found->sentinels, found->race, found->star, found->economy, found->wealth,
-                found->conflict, (unsigned)found->grass, found->distance);
+                found->conflict, (unsigned)found->grass, found->distance, found->kind);
     }
     fclose(file);
     MoveFileExW(temporary, path, MOVEFILE_REPLACE_EXISTING);

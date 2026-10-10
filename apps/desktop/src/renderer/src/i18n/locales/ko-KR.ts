@@ -574,6 +574,11 @@ export const koKR: Messages = {
     }
   },
   planets: {
+    purple: '보라색 별',
+    purpleHint: '물의 행성과 가스 행성은 보라색 별 주변에만 있습니다.',
+    portalOnly: '포털 전용',
+    portalOnlyHint:
+      '은하 지도에 없는 항성계입니다. 포털이나 이 페이지의 이동으로만 갈 수 있습니다.',
     sourceSurvey: '준비된 목록(유클리드)',
     sourceLive: '내 주변(모든 은하)',
     liveHint:

@@ -20,8 +20,8 @@ describe('planet search', () => {
         'found=2',
         'distance=1',
         'elapsed_ms=4200',
-        'planet=2272F769C14E,0,2,2,0,0,0,2,0,1,3,3,3FA95C,0',
-        'planet=1003F769C14F,1,24,4,2,1,1,7,3,0,0,0,AA22CC,1',
+        'planet=2272F769C14E,0,2,2,0,0,0,2,0,1,3,3,3FA95C,0,0',
+        'planet=1003F769C14F,1,24,4,2,1,1,7,3,0,0,0,AA22CC,1,1',
         'planet=broken'
       ].join('\r\n')
     )
@@ -49,7 +49,8 @@ describe('planet search', () => {
         wealth: 'Pirate',
         conflict: 'Pirate',
         grass: '3FA95C',
-        distance: 0
+        distance: 0,
+        portalOnly: false
       },
       {
         portal: '1003F769C14F',
@@ -65,7 +66,8 @@ describe('planet search', () => {
         wealth: 'Poor',
         conflict: 'Low',
         grass: 'AA22CC',
-        distance: 1
+        distance: 1,
+        portalOnly: true
       }
     ])
     expect(parsePlanetSearch('found=1')).toBeNull()

@@ -119,6 +119,9 @@ export type FoundPlanet = SurveyPlanet & {
   grass: string
   // How many regions from the start, the largest of the three axes.
   distance: number
+  // True for a system that is not a star of the galaxy map: only a portal or the application's
+  // travel reaches it.
+  portalOnly: boolean
 }
 
 export const searchStates = [
@@ -145,7 +148,8 @@ export type PlanetSearchReport = {
 
 // Reads the bridge's answer: "result=", the counters, then one "planet=" line a planet found:
 // portal address, then the numbers of biome, subtype, weather, storms, extreme, sentinels, race,
-// star, economy, wealth and conflict, the grass colour and the distance.
+// star, economy, wealth and conflict, the grass colour, the distance and the kind of system (0 a
+// star of the galaxy map, 1 reached by portal only, 2 a purple star).
 export function parsePlanetSearch(text: string): PlanetSearchReport | null {
   const lines = text.split(/\r?\n/).filter((line) => line.trim())
   const field = (name: string): string | undefined =>
@@ -154,7 +158,7 @@ export function parsePlanetSearch(text: string): PlanetSearchReport | null {
   if (!state || !searchStates.includes(state)) return null
   const entries: FoundPlanet[] = []
   for (const line of lines) {
-    const match = /^planet=([0-9A-F]{12})((?:,-?\d+){11}),([0-9A-F]{6}),(\d+)$/.exec(line)
+    const match = /^planet=([0-9A-F]{12})((?:,-?\d+){11}),([0-9A-F]{6}),(\d+),(\d)$/.exec(line)
     if (!match) continue
     const [
       biome,
@@ -183,7 +187,8 @@ export function parsePlanetSearch(text: string): PlanetSearchReport | null {
       wealth: named(wealthNames, wealth),
       conflict: named(conflictNames, conflict),
       grass: match[3],
-      distance: Number(match[4])
+      distance: Number(match[4]),
+      portalOnly: match[5] === '1'
     })
   }
   const count = (name: string): number => Number(field(name)) || 0

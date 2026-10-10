@@ -595,6 +595,10 @@ export const enUS: Messages = {
     }
   },
   planets: {
+    purple: 'Purple star',
+    purpleHint: 'Water worlds and gas giants are found only around purple stars.',
+    portalOnly: 'Portal only',
+    portalOnlyHint: "Not a star of the galaxy map: only a portal or this page's Travel reaches it.",
     sourceSurvey: 'Ready-made list (Euclid)',
     sourceLive: 'Around me (any galaxy)',
     liveHint:

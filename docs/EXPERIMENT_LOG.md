@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-10: purple stars and portal-only systems found; bridge 1.31.0, application 1.41.0
+
+Offline reading, a build and an installation; nothing sent to the game.
+Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#which-indices-of-a-region-hold-a-system-bridge-1310).
+
+- Found: a region's star count at info `+0x70`; purple stars are indices
+  `3E9` to `429` (65 a region, base 1000); indices from the star count to
+  `2FF` are generated all the same (portal only).
+- Tried in the emulator on three regions: `3E9`, `3EA`, `429` give star
+  type Purple with water worlds, gas giants and remix variants; `3E8` and
+  `42A` do not. A region outside the galaxy gives no system at any index.
+- Rebuilt `planet-survey.md` with the purple indices: 6,656 systems,
+  31,351 planets, 0 failed, 2,452 planets around purple stars.
+- Built bridge 1.31.0 (`19dd435ca6877383ff82ac42ad3fe785b5ac71484cfc2d41f5633d0a4e7e4103`) and application 1.41.0 (typecheck, lint, 142
+  tests, build). Installed the bridge over 1.30.0 with the game closed.
+  Undo: copy `native-builds/bridge-1.30.0/xinput9_1_0.dll` back.
+- Not proven: anything in the running game; the star count the emulator
+  gives (120 for every region) is a stand-in.
+- Rejected: that the survey had no purple system because the emulator
+  cannot make one. It makes them; they were never asked for.
+
 ## 2026-10-10: planet search around the player built and installed (bridge 1.30.0, application 1.40.0)
 
 A build and an installation; nothing sent to the game. Build 180836

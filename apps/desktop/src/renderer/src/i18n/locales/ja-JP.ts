@@ -598,6 +598,10 @@ export const jaJP: Messages = {
     }
   },
   planets: {
+    purple: '紫の星',
+    purpleHint: '水の惑星と巨大ガス惑星は、紫の星の周りにしかありません。',
+    portalOnly: 'ポータル専用',
+    portalOnlyHint: '銀河マップにない星系です。ポータルか、このページの移動でのみ行けます。',
     sourceSurvey: '用意済みリスト（ユークリッド）',
     sourceLive: '自分の周囲（どの銀河でも）',
     liveHint:

@@ -325,7 +325,7 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [ ] Planet search around the player (bridge 1.30.0, application 1.40.0; [notes](docs/PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400)): first live run from the application on slot 3: start a one-minute search, watch the frame rate, compare two found planets with the game (biome, weather, sentinels, grass colour), travel to one. Then a search in another galaxy.
 - [ ] Planet search: confirm that the grass colour read (first colour of the first palette) is the grass the player sees; confirm that system indices up to `2FF` all exist in a region.
 - [ ] Planet finder, ready-made list: it has no grass colour (the emulator stops before the colours, at `1694190`, for want of a table).
-- [ ] Planet finder: purple star systems are missing from the list (no water world, gas giant, ocean, island or remix variant); find out why.
+- [ ] Planet finder: check one purple-star planet and one portal-only system in the game (they are indices `3E9`-`429` and star count-`2FF`; emulator and offline reading only so far).
 - [ ] Planet finder: star colour and wealth are in the list but not shown or filtered; the lush `Variant_A`/`Variant_B` files (`lushrooma`, `lushroomb`) still read "Other variant".
 - [ ] Planet finder: water; moons told apart; the filter and the saved planets in exported files.
 - [ ] Owner to choose from [feature ideas](docs/FEATURE_IDEAS.md) (survey of 2026-10-10): find a place, upgrade modules, player condition, open shops and research trees, frigates, companions, kits, "what do I still lack".

@@ -348,6 +348,30 @@ hue and filters on it, and travels in the galaxy the search ran in.
 - Whether every index `001` to `2FF` is a real system of a region (the
   owner reached `272`).
 
+### Which indices of a region hold a system (bridge 1.31.0)
+
+Read in `132b3f0` and `132ac60` and tried in the emulator on 2026-10-10:
+
+- The info block of a region holds its number of stars at `+0x70`, the
+  count of purple stars (65) at `+0x78` and their base index (1000) at
+  `+0x7c`. An index below the star count is a star of the galaxy map.
+- From the star count up to `2FF` the game still generates a system: the
+  ones players call phantom systems, reached by portal only.
+- `3E9` to `429` are the region's 65 purple stars. In the emulator they
+  come out with star type Purple and with what the biome lists give only
+  there: water worlds, gas giants, ocean, island and remix variants.
+  `3E8` and `42A` are not purple.
+- This is why the list had no purple system: the walk stopped at `2FF`.
+  The walk and the bridge's search now go through `001` to `2FF` and then
+  `3E9` to `429`. The bridge marks each planet's system as a star of the
+  map, portal only or purple; the star count comes out as 120 for every
+  region in the emulator (a stand-in), so the ready-made list cannot mark
+  portal-only systems and only the live search does.
+
+The ready-made list was made again over 8 regions: 6,656 systems, 31,351
+planets, 2,452 of them around purple stars (81 water worlds, 45 gas giants),
+282 Earth-like by the preset.
+
 ### A fault this work found in the ready-made list
 
 The research tool had given the emulator each biome's files as a short

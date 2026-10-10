@@ -541,6 +541,10 @@ export const zhCN: Messages = {
     }
   },
   planets: {
+    purple: '紫色恒星',
+    purpleHint: '水世界和气态巨行星只存在于紫色恒星周围。',
+    portalOnly: '仅限传送门',
+    portalOnlyHint: '不是星系地图上的恒星：只能通过传送门或本页的前往到达。',
     sourceSurvey: '现成列表（欧几里得）',
     sourceLive: '我的周围（任意星系）',
     liveHint:

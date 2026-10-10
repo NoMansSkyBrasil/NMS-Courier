@@ -164,11 +164,16 @@ class Planets:
         return planets
 
 
+# Indices of a region that hold a system: 001 to 2FF, then its 65 purple stars at 3E9 to 429 (the
+# game's routine 132b3f0 takes the purple base, 1000, and count from the region's info block).
+REGION_SYSTEMS = list(range(1, 0x300)) + list(range(0x3E9, 0x42A))
+
+
 def walk(address, count):
     """Addresses of `count` systems: the systems of the address's region, then of the next regions along X."""
     for step in range(count):
-        system = (step % 0x2FF) + 1
-        x = ((address & 0xFFF) + step // 0x2FF) & 0xFFF
+        system = REGION_SYSTEMS[step % len(REGION_SYSTEMS)]
+        x = ((address & 0xFFF) + step // len(REGION_SYSTEMS)) & 0xFFF
         yield (address & ~(0xFFF << 40) & ~0xFFF) | (system << 40) | x
 
 

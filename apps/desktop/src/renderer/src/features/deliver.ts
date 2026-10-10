@@ -53,7 +53,7 @@ export const deliverFeatures: readonly Feature[] = [
     // Built on 2026-10-10 over a survey made offline; one system was compared with the game.
     status: 'experimental',
     scope: 'slot',
-    rows: [{ row: 'total', count: 28287 }],
+    rows: [{ row: 'total', count: 31351 }],
     rules: ['gameRoutines', 'backup']
   },
   {

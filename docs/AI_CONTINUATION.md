@@ -1,11 +1,12 @@
 # AI continuation guide
 
 > Planet search around the player, 2026-10-10: built in bridge 1.30.0
-> (installed, `fcc396a5…5be0cb`) and application 1.40.0; owning note
+> (1.31.0 installed, `19dd435c…7e4103`) and application 1.41.0; owning note
 > [finding planets](PLANET_FINDER_NOTES.md#the-search-around-the-player-bridge-1300-application-1400).
 > The bridge calls the game's `16a3a50` (remote system, captured by a hook
 > on `164c770`) and `16a7880` (planet) on the update thread. Checked in the
-> emulator only. Next: the owner's first live run from "Find a planet",
+> emulator only (bridge 1.31.0 since: purple stars at indices `3E9`-`429`,
+> portal-only systems marked). Next: the owner's first live run from "Find a planet",
 > "Around me". The same work fixed the research tool's biome file lookup
 > and the ready-made list was made again.
 

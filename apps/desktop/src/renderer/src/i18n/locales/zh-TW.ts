@@ -541,6 +541,10 @@ export const zhTW: Messages = {
     }
   },
   planets: {
+    purple: '紫色恆星',
+    purpleHint: '水世界和氣態巨行星只存在於紫色恆星周圍。',
+    portalOnly: '僅限傳送門',
+    portalOnlyHint: '不是星系地圖上的恆星：只能透過傳送門或本頁的前往到達。',
     sourceSurvey: '現成清單（歐幾里得）',
     sourceLive: '我的周圍（任意星系）',
     liveHint:

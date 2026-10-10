@@ -28,6 +28,16 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.41.0 and bridge 1.31.0 (2026-10-10)
+
+- Added: purple star systems. The ready-made list and the search around
+  you now include the 65 purple stars of each region, where water worlds
+  and gas giants are; such a planet carries a "Purple star" badge. The list
+  grew to 31,351 planets.
+- Added: the search around you marks systems that are not on the galaxy
+  map ("Portal only"): only a portal or the page's Travel reaches them.
+- Bridge 1.31.0 (`19dd435ca6877383ff82ac42ad3fe785b5ac71484cfc2d41f5633d0a4e7e4103`).
+
 ## Application 1.40.0 and bridge 1.30.0 (2026-10-10)
 
 - Added (owner request): "Find a planet" can search **around you, in any

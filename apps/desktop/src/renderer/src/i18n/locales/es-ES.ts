@@ -608,6 +608,12 @@ export const esES: Messages = {
     }
   },
   planets: {
+    purple: 'Estrella púrpura',
+    purpleHint:
+      'Los mundos acuáticos y los gigantes gaseosos solo existen alrededor de estrellas púrpura.',
+    portalOnly: 'Solo por portal',
+    portalOnlyHint:
+      'No es una estrella del mapa galáctico: solo se llega con un portal o con el Viajar de esta página.',
     sourceSurvey: 'Lista preparada (Euclid)',
     sourceLive: 'A mi alrededor (cualquier galaxia)',
     liveHint:

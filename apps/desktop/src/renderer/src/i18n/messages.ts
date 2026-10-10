@@ -429,6 +429,10 @@ export type Messages = {
     states: Record<'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id', string>
   }
   planets: {
+    purple: string
+    purpleHint: string
+    portalOnly: string
+    portalOnlyHint: string
     sourceSurvey: string
     sourceLive: string
     liveHint: string

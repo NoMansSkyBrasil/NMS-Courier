@@ -304,6 +304,7 @@ declare global {
           conflict: string
           grass: string
           distance: number
+          portalOnly: boolean
         }>
       } | null>
       getSavesOverview: () => Promise<{

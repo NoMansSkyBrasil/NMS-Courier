@@ -614,6 +614,11 @@ export const nlNL: Messages = {
     }
   },
   planets: {
+    purple: 'Paarse ster',
+    purpleHint: 'Waterwerelden en gasreuzen vind je alleen rond paarse sterren.',
+    portalOnly: 'Alleen via portaal',
+    portalOnlyHint:
+      'Geen ster van de sterrenkaart: alleen een portaal of het Reizen van deze pagina brengt je erheen.',
     sourceSurvey: 'Kant-en-klare lijst (Euclid)',
     sourceLive: 'Om mij heen (elk sterrenstelsel)',
     liveHint:
