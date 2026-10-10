@@ -40,7 +40,9 @@
 > exists (bridge 1.21.0, [teleport notes](TELEPORT_NOTES.md)), a station in
 > the same galaxy reached live; alien words and portal glyphs go through the
 > game's rewards (bridge 1.22.0, [notes](WORD_AND_GLYPH_NOTES.md)), NOT
-> exercised live; the ships of
+> exercised live; standings and journey milestones are raised by levels
+> through the game's stat reward (bridge 1.23.0, application 1.28.0,
+> [notes](STAT_LEVEL_NOTES.md)), installed, NOT exercised live; the ships of
 > any address are now had offline by emulating the generator with
 > `runtime/research/emulate-star-system.py`, checked against both live
 > readings; the hand port of the step count needs planet and point

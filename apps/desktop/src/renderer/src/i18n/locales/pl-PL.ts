@@ -98,6 +98,14 @@ export const plPL: Messages = {
         'Słowa języków Geków, Vy’keenów, Korvaxów, Atlasu i Autofagów: jedno, kilka lub wszystkie.'
     },
     glyphs: { title: 'Glify portalu', summary: 'Szesnaście glifów otwierających portale.' },
+    standings: {
+      title: 'Reputacja',
+      summary: 'Reputacja u wszystkich ras, trzech gildii i banitów, podnoszona o poziomy.'
+    },
+    milestones: {
+      title: 'Kamienie milowe',
+      summary: 'Kamienie milowe podróży i medale frakcji, podnoszone o poziomy.'
+    },
     fishing: { title: 'Rekordy wędkarskie', summary: 'Rekord połowu każdej ryby.' },
     expeditions: {
       title: 'Ekspedycje',
@@ -449,6 +457,24 @@ export const plPL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofag'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'Gra przechowuje każdą reputację jako liczbę i pokazuje ją jako rangę o jedenastu poziomach. Sama gra jest proszona, przez własną nagrodę, o ustawienie liczby wybranego poziomu; nigdy nie jest ona obniżana. Eksperymentalne: jeszcze nie widziano działania w grze.',
+      milestones:
+        'Kamień milowy to licznik gry (poznane słowa, odwiedzone układy, zniszczone statki) o jedenastu poziomach. Sama gra jest proszona, przez własną nagrodę, o ustawienie licznika na wartość wybranego poziomu. Zmienia się tylko licznik: podniesienie zebranych słów nie uczy żadnego słowa. Nic nie jest obniżane. Eksperymentalne: jeszcze nie widziano działania w grze.'
+    },
+    mode: 'Jak daleko',
+    modeOne: '1 poziom',
+    modeSome: 'Kilka poziomów',
+    modeAll: 'Do ostatniego poziomu',
+    modeHint:
+      'Liczone od poziomu, na którym każda pozycja jest teraz. To, co jest już na ostatnim poziomie, pozostaje bez zmian.',
+    count: 'Poziomy',
+    countHint: 'O ile poziomów w górę, od 1 do {max}.',
+    action: 'Podnieś wszystkie',
+    actionChosen: 'Podnieś wybrane ({count})'
   },
   glyphs: {
     hint: 'Glify przekazuje sama gra, z własnym powiadomieniem, tak jak wtedy, gdy grób Podróżnika daje jeden. Gra nie potrafi dać wybranego glifu: przychodzą w kolejności gry, pokazanej poniżej.',

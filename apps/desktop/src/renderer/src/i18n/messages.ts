@@ -29,6 +29,8 @@ export const featureIds = [
   'fishing',
   'words',
   'glyphs',
+  'standings',
+  'milestones',
   'expeditions',
   'twitch',
   'platform',
@@ -319,6 +321,18 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  levels: {
+    hint: Record<'standings' | 'milestones', string>
+    mode: string
+    modeOne: string
+    modeSome: string
+    modeAll: string
+    modeHint: string
+    count: string
+    countHint: string
+    action: string
+    actionChosen: string
   }
   glyphs: {
     hint: string

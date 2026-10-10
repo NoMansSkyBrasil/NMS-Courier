@@ -93,6 +93,14 @@ export const enUS: Messages = {
         'Words of the Gek, Vy’keen, Korvax, Atlas and Autophage languages, one, several or all.'
     },
     glyphs: { title: 'Portal glyphs', summary: 'The sixteen glyphs that open portals.' },
+    standings: {
+      title: 'Standing',
+      summary: 'Standing with every race, the three guilds and the outlaws, raised by levels.'
+    },
+    milestones: {
+      title: 'Milestones',
+      summary: 'Journey milestones and faction medals, raised by levels.'
+    },
     fishing: { title: 'Fishing record', summary: 'The catch record of every fish.' },
     expeditions: {
       title: 'Expeditions',
@@ -444,6 +452,24 @@ export const enUS: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'The game keeps each standing as a number and shows it as a rank with eleven levels. The game itself is asked, through its own reward, to set the number of the level you choose; it is never lowered. Experimental: not yet seen working in the game.',
+      milestones:
+        'A milestone is a counter of the game (words learnt, systems visited, ships destroyed) with eleven levels. The game itself is asked, through its own reward, to set the counter to the value of the level you choose. Only the counter changes: raising Words Collected teaches no word. Nothing is ever lowered. Experimental: not yet seen working in the game.'
+    },
+    mode: 'How far',
+    modeOne: '1 level',
+    modeSome: 'Several levels',
+    modeAll: 'To the last level',
+    modeHint:
+      'Counted from the level each one is on now. One already on the last level is left alone.',
+    count: 'Levels',
+    countHint: 'How many levels to go up, 1 to {max}.',
+    action: 'Raise all',
+    actionChosen: 'Raise chosen ({count})'
   },
   glyphs: {
     hint: 'The game hands the glyphs over itself, with its own notification, as when a Traveller’s grave gives one. It has no way to give a chosen glyph: they come in the game’s order, shown below.',

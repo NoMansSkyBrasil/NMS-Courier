@@ -190,6 +190,16 @@ declare global {
       getWordRows: (
         locale: string
       ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
+      getLevelStats: (
+        page: 'standings' | 'milestones',
+        locale: string
+      ) => Promise<Array<{ id: string; name: string; group: string; levels: number[] }>>
+      raiseLevels: (request: {
+        page: 'standings' | 'milestones'
+        stats: string[] | null
+        levels: number
+        notify: boolean
+      }) => Promise<DeliveryResult>
       discoverGlyphs: (request: {
         count: number | null
         notify: boolean

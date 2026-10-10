@@ -19,6 +19,7 @@ notification.
 | `COURIER_PRODUCT` | 1 Metal Plating (`CASING`) | Any product, with the game's notification |
 | `COURIER_SHIP_*` (8) | a starship of one kind, seed 1, class S | A new starship of that kind |
 | `COURIER_RUNE` | discover the next portal glyph | Portal glyphs, all or the next ones |
+| `COURIER_STAT` | set the placeholder stat `COURIER` to 0 | Levels of standings and journey milestones |
 | `COURIER_WORD` | one word of the Gek the player lacks | A number of words of any race the game chooses |
 | `COURIER_WORDS` | 64 placeholder word groups of the Gek | Chosen word groups of any race |
 | `COURIER_TOOL_*` (16) | a multi-tool of one scene and class, seed 1, class S | A new multi-tool of that kind |

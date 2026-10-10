@@ -5,7 +5,9 @@ import {
   CpuIcon,
   FishIcon,
   FlaskConicalIcon,
+  HandshakeIcon,
   LanguagesIcon,
+  MedalIcon,
   ShapesIcon,
   PaletteIcon
 } from 'lucide-react'
@@ -119,6 +121,30 @@ export const unlockFeatures: readonly Feature[] = [
     status: 'experimental',
     scope: 'slot',
     rows: [{ row: 'deliverable', count: 16 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'standings',
+    group: 'unlock',
+    icon: HandshakeIcon,
+    kind: 'delivery',
+    // Built on 2026-10-09 (bridge 1.23.0); not exercised in the running game yet.
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'deliverable', count: 8 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'milestones',
+    group: 'unlock',
+    icon: MedalIcon,
+    kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
+    rows: [
+      { row: 'deliverable', count: 41 },
+      { row: 'total', count: 43 }
+    ],
     rules: ['gameRoutines', 'backup']
   },
   {

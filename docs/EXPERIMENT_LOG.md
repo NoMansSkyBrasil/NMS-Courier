@@ -1,5 +1,27 @@
 # Runtime experiment log
 
+## 2026-10-09: levelled stat request built (bridge 1.23.0), offline
+
+Offline research and a build; no request reached the game. Build 180836,
+executable `13d5060d…`. Owning note: [levelled stats](STAT_LEVEL_NOTES.md).
+
+- Found: 54 levelled stats with eleven levels each; the standings are among
+  them. Reward classes `GcRewardModifyStat` (`0x1e9efba2`, handler
+  `f2a5a0`), `GcRewardIncrementStat` (`0xebf030d0`, `f2a720`),
+  `GcRewardStanding` (`0x38382b76`, `f30ae0`) and `GcRewardFactionStanding`
+  (`0x6f652b7c`, `f31150`); stat getter `23c680`, queued setter `610c60`,
+  stat store at manager `+0x307880`.
+- Built: bridge 1.23.0 (`a355d9a69b242d24ac9e721a03ed66feb590ed600ad84711ed562bdc0f61438b`), request `stat`; data file with carrier
+  `COURIER_STAT` (`7633cf80ff7a9c51206b8912df807d64a79e9180f9fccb8f81efc503bbd7f57a`). Both installed on 2026-10-09 with the game closed
+  (checked with `tasklist`); previous files: bridge 1.22.0 `160a9533…`, data
+  file `4bbfa77c…`. Fixture run passed; application 1.28.0: typecheck, lint,
+  117 tests, build, both pages opened in the test instance.
+- Rejected: the standing rewards as the route to a chosen level (drawn
+  amount, difficulty factor, refusal for a race never met).
+- Not proven: everything live. See the note's list.
+- Rollback: copy bridge 1.22.0 and the previous data file back with the game
+  closed; nothing was changed in any save.
+
 ## 2026-10-09: word table checked against a save editor's export (offline)
 
 Offline only; no request reached the game. Build 180836, executable

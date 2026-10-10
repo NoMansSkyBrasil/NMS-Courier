@@ -100,6 +100,14 @@ export const itIT: Messages = {
       summary: 'Parole delle lingue Gek, Vy’keen, Korvax, Atlas e Autofagi: una, alcune o tutte.'
     },
     glyphs: { title: 'Glifi del portale', summary: 'I sedici glifi che aprono i portali.' },
+    standings: {
+      title: 'Reputazione',
+      summary: 'Reputazione con tutte le razze, le tre gilde e i fuorilegge, aumentata per livelli.'
+    },
+    milestones: {
+      title: 'Obiettivi',
+      summary: 'Obiettivi del viaggio e medaglie delle fazioni, aumentati per livelli.'
+    },
     fishing: { title: 'Registro di pesca', summary: 'Il registro delle catture di ogni pesce.' },
     expeditions: {
       title: 'Spedizioni',
@@ -462,6 +470,24 @@ export const itIT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofago'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'Il gioco conserva ogni reputazione come un numero e lo mostra come un grado con undici livelli. Si chiede al gioco stesso, tramite la sua ricompensa, di impostare il numero del livello scelto; non viene mai abbassato. Sperimentale: non ancora visto funzionare nel gioco.',
+      milestones:
+        'Un obiettivo è un contatore del gioco (parole imparate, sistemi visitati, navi distrutte) con undici livelli. Si chiede al gioco stesso, tramite la sua ricompensa, di portare il contatore al valore del livello scelto. Cambia solo il contatore: aumentare le parole raccolte non insegna alcuna parola. Nulla viene abbassato. Sperimentale: non ancora visto funzionare nel gioco.'
+    },
+    mode: 'Fino a dove',
+    modeOne: '1 livello',
+    modeSome: 'Più livelli',
+    modeAll: 'Fino all’ultimo livello',
+    modeHint:
+      'Contato dal livello in cui ciascuno si trova ora. Chi è già all’ultimo livello non viene toccato.',
+    count: 'Livelli',
+    countHint: 'Di quanti livelli salire, da 1 a {max}.',
+    action: 'Aumenta tutti',
+    actionChosen: 'Aumenta i selezionati ({count})'
   },
   glyphs: {
     hint: 'È il gioco stesso a consegnare i glifi, con la sua notifica, come quando la tomba di un Viaggiatore ne dà uno. Il gioco non può dare un glifo scelto: arrivano nell’ordine del gioco, mostrato sotto.',

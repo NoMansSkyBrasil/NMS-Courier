@@ -102,6 +102,15 @@ export const ptPT: Messages = {
       summary: 'Palavras das línguas Gek, Vy’keen, Korvax, Atlas e Autófago: uma, várias ou todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Os dezasseis glifos que abrem portais.' },
+    standings: {
+      title: 'Reputação',
+      summary:
+        'Reputação com todas as raças, as três guildas e os foras da lei, aumentada por níveis.'
+    },
+    milestones: {
+      title: 'Objetivos',
+      summary: 'Objetivos da jornada e medalhas das fações, aumentados por níveis.'
+    },
     fishing: { title: 'Registo de pesca', summary: 'O registo de captura de cada peixe.' },
     expeditions: {
       title: 'Expedições',
@@ -458,6 +467,24 @@ export const ptPT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'O jogo guarda cada reputação como um número e mostra-o como um posto com onze níveis. É pedido ao próprio jogo, através da sua recompensa, que defina o número do nível que escolher; nunca é reduzido. Experimental: ainda não foi visto a funcionar no jogo.',
+      milestones:
+        'Um objetivo é um contador do jogo (palavras aprendidas, sistemas visitados, naves destruídas) com onze níveis. É pedido ao próprio jogo, através da sua recompensa, que coloque o contador no valor do nível que escolher. Só o contador muda: aumentar Palavras colecionadas não ensina nenhuma palavra. Nada é reduzido. Experimental: ainda não foi visto a funcionar no jogo.'
+    },
+    mode: 'Até onde',
+    modeOne: '1 nível',
+    modeSome: 'Vários níveis',
+    modeAll: 'Até ao último nível',
+    modeHint:
+      'Contado a partir do nível em que cada um está agora. Quem já está no último nível não é alterado.',
+    count: 'Níveis',
+    countHint: 'Quantos níveis subir, de 1 a {max}.',
+    action: 'Aumentar todos',
+    actionChosen: 'Aumentar escolhidos ({count})'
   },
   glyphs: {
     hint: 'É o próprio jogo que entrega os glifos, com a sua notificação, como quando o túmulo de um Viajante dá um. O jogo não consegue dar um glifo escolhido: vêm pela ordem do jogo, mostrada abaixo.',

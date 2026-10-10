@@ -399,6 +399,12 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-stat-request-…` (event `stats`, bridge 1.23.0): levels of
+standings and journey milestones. The current value is read with the game's
+stat routine and the new one is set by the game's reward routine on the
+carrier `COURIER_STAT` (native calls; the only direct write is the carrier
+entry, restored afterwards). Format in [levelled stats](STAT_LEVEL_NOTES.md).
+
 Requests `native-word-request-…` (event `words`) and `native-rune-request-…`
 (event `runes`), each with its result file; formats in the
 [word and glyph notes](WORD_AND_GLYPH_NOTES.md). Both are **native calls** of

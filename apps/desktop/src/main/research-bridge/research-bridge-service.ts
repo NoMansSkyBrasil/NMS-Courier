@@ -1,5 +1,12 @@
 import { parseStarSystemReport } from '../../shared/star-system'
 import { getGlyphPlan, type GlyphRequest } from './glyph-plan'
+import {
+  getLevelPlan,
+  listLevelStats,
+  type LevelPage,
+  type LevelRequest,
+  type LevelStat
+} from './level-plan'
 import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import type { StarSystemReport } from '../../shared/star-system'
@@ -57,7 +64,8 @@ export type StackLimits = {
 export type DeliveryStepResult = BridgeStepResult
 
 export type DeliveryResult = {
-  feature: DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | 'glyphs' | EquipmentArea
+  feature:
+    DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | 'glyphs' | LevelPage | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
   reason:
@@ -281,6 +289,26 @@ export class ResearchBridgeService {
         text: cells[text],
         groups: cells.slice(1, 1 + wordRaces.length)
       }))
+  }
+
+  // The levelled stats of a page (standings or milestones), named in the interface language.
+  getLevelStats(page: LevelPage, locale: string): Promise<LevelStat[]> {
+    const column = galaxyNameLocales.indexOf(locale)
+    return listLevelStats(
+      this.context.researchDirectory,
+      page,
+      column < 0 ? galaxyNameLocales.indexOf('en-US') : column
+    )
+  }
+
+  // Levels of standings or milestones through the game's own stat reward.
+  async raiseLevels(
+    request: LevelRequest,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    const stats = await this.getLevelStats(request.page, 'en-US')
+    return this.run(request.page, getLevelPlan(request, stats), installationRoot, game)
   }
 
   // Portal glyphs through the game's own reward: all, or the next ones in the game's order.

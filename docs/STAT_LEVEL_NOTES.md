@@ -1,0 +1,125 @@
+# Levelled stats: standings and journey milestones
+
+Owning note for raising the standing with races and guilds and the journey
+milestones by levels. Status on 2026-10-09: built (bridge 1.23.0, application
+1.28.0), installed, **not exercised in the running game yet**.
+
+## What the game has
+
+Read offline in the corpus and in the executable of build 180836
+(`13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`).
+
+- The table `metadata/gamestate/stats/leveledstatstable` holds 54 levelled
+  stats. Each has eleven levels (0 to 10) with a value and a rank name. The
+  journey pages of the game show them as medals. The standing with a race or
+  guild is one of them (`TRA_STANDING`, `WAR_STANDING`, `EXP_STANDING`,
+  `BUI_STANDING`, `TGUILD_STAND`, `WGUILD_STAND`, `EGUILD_STAND`,
+  `PIRATE_STAND`): levels at -5, -2, 0, 3, 8, 14, 21, 30, 40, 60, 100 (the
+  outlaws: -5, -2, 0, 5, 12, 20, 32, 50, 75, 100, 150).
+- `metadata/gamestate/stats/journeymilestonetable`: the total journey rank
+  is unlocked by points; the game derives it, nothing sets it directly.
+- Reward classes found in the reward table and in the executable's metadata
+  (row: name, hash, fields; field: name, size, offset):
+
+| Class | Hash | Size | Fields (offset) | Handler |
+| --- | --- | --- | --- | --- |
+| `GcRewardModifyStat` | `0x1e9efba2` | `0x30` | OtherStat `+0x00`, Stat `+0x10`, Amount `+0x20`, ModifyType `+0x24`, CanSetToValueLowerThanCurrent `+0x28`, UseOtherStat `+0x29` | `f2a5a0` |
+| `GcRewardIncrementStat` | `0xebf030d0` | `0x18` | Stat `+0x00`, Amount `+0x10` | `f2a720` |
+| `GcRewardStanding` | `0x38382b76` | `0x10` | AmountMax `+0x00`, AmountMin `+0x04`, Race `+0x08`, UseExpeditionEventSystemRace `+0x0c` | `f30ae0` |
+| `GcRewardFactionStanding` | `0x6f652b7c` | `0x10` | AmountMax `+0x00`, AmountMin `+0x04`, Faction `+0x08`, SetToMinBeforeAdd `+0x0c`, TryToUseMissionBoardOriginUA `+0x0d` | `f31150` |
+
+- `f2a5a0` (modify stat): reads the stat in the group `GLOBAL_STATS` with
+  `23c680(store, stat id, group id, key)` where the store is the manager
+  object `+0x307880`; ModifyType 0 sets, 1 adds, 2 subtracts; a set to a
+  value not above the current one is dropped unless
+  CanSetToValueLowerThanCurrent; the new value goes to `610c60(store, stat
+  id, value, 0, 0)`, which queues the change (it is not applied inside the
+  call).
+- `f30ae0` (race standing): draws an amount between min and max, refuses
+  when the stat `TRA_MET` / `WAR_MET` / `EXP_MET` / `BUI_MET` is zero (the
+  race was never met), then calls `5acb90(race, amount, 0, flag)`.
+  `5acda0` turns the race into a stat identifier. `f31150` (faction
+  standing) ends in the same `5acb90`; on its way an amount above zero is
+  multiplied by a factor of the difficulty settings.
+
+## Decision: one route, the stat reward
+
+Both pages use `GcRewardModifyStat` with ModifyType Set and
+CanSetToValueLowerThanCurrent false. Reasons: a level is a value, and a set
+reaches it exactly; the standing rewards add a drawn amount that the
+difficulty factor changes and refuse a race never met, so they cannot reach
+a chosen level in one call. The standing rewards stay as the alternative if
+the live test shows that a set does not produce the game's standing message.
+
+This is a native call of the game's reward routine on the project's carrier
+`COURIER_STAT` (data file `runtime/mods/courier_rewards`, see
+[the carrier README](../runtime/mods/courier_rewards/README.md)); the only
+direct writes are to that carrier entry, restored after the calls. The
+current value is read with the game's own routine `23c680`. Nothing is
+written into a save and no stat is written directly.
+
+## Request
+
+`native-stat-request-180836-<pid>.txt`, event `stats`, result
+`native-stat-result-180836-<pid>.txt`
+(`runtime/native/asi/profile_180836/stat_level.h`):
+
+```text
+silent=0|1
+raise=<1..10>
+stat=<ID>,<value of level 0>,...,<value of level 10>     (1 to 64 lines)
+```
+
+For each stat the bridge reads the value, finds the level it is on (-1 when
+below level 0), and sets the value of the level `raise` above, stopping at
+level 10. A stat already there is left alone and nothing is ever lowered.
+Result: `result=given|unknown_reward|bad_layout|not_ready`, `reward_calls=`,
+and one line a stat: `stat=<ID> before=<value> level=<level before>
+to_level=<level asked> value=<value sent>`. `unknown_reward` means the game
+has not loaded the data file. The change is queued by the game, so the
+result reports what was asked, not a value read back.
+
+## Application
+
+Pages "Standing" and "Milestones" under "Unlock"
+(`components/levels-card.tsx`, plan
+`apps/desktop/src/main/research-bridge/level-plan.ts`): one level, several
+levels or to the last level; every stat of the page or the chosen ones.
+Stats, sections, level values and names come from
+[stat-levels.md](../runtime/research/stat-levels.md) and
+[stat-sections.md](../runtime/research/stat-sections.md), generated by
+`runtime/research/list-stat-levels.py`. Titles and section names are the
+game's texts in the 14 languages; which text names which stat is this
+project's reading of the medal texts (the stat table leaves most titles
+empty), recorded in that script.
+
+Offered: 8 standings and 41 milestones. Not offered: `DIST_WALKED` and
+`LONGEST_LIFE_EX` (their levels are fractions; the stat reward takes whole
+numbers), `NEXUS_STAND` and `NEXUS_MISSIONS` (all levels zero), `TUTORIAL`.
+
+## Known limits and what is unproven
+
+- Nothing was sent to the game yet. Unproven: that the queued set is
+  applied for each stat, that the journey pages and the standing shown by
+  NPCs follow it, that the game shows its level message, and that the value
+  survives a save and reload.
+- A milestone is a counter. Raising it gives nothing else: "Words
+  Collected" at level 10 teaches no word, and the word routine (`5ac740`)
+  writes that counter again from the real count when a word is learnt, so it
+  may fall back. Counters the game recomputes can do the same.
+- The standing stats are read and set in `GLOBAL_STATS`. The table also
+  tracks the race and guild standings in `SYSTEM_STATS`; that copy is not
+  touched.
+- The bridge takes the stat identifiers and level values from the request;
+  it checks their form, not that the game knows the stat.
+
+## Reproduce
+
+```text
+python runtime/research/list-stat-levels.py --corpus <corpus> --output runtime/research/stat-levels.md --sections runtime/research/stat-sections.md
+python runtime/research/build-courier-reward-table.py --corpus <corpus> --output runtime/mods/courier_rewards/NMSCourier/METADATA/REALITY/TABLES/REWARDTABLE.EXML
+```
+
+Live test, from the application only: slot 3 loaded, "Standing", one
+entry, "1 level", notifications on; read the result lines and the journey
+page of the game; then save, reload and read again.

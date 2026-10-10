@@ -155,6 +155,8 @@ reader can start from Markdown and reach every data file.
 | [reward-flags-180383.md](../runtime/research/reward-flags-180383.md) | Markdown table | 3 rows, 2 columns | SpecificShip serializer candidate reached by tagged metadata getter | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [NATIVE_ACQUISITION_RESEARCH.md](../docs/NATIVE_ACQUISITION_RESEARCH.md) |
 | [seed-fields-180836.md](../runtime/research/seed-fields-180836.md) | Markdown table | 122 rows, 4 columns | columns: Field, Offset, Size, Elements | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_ORIGINS.md](../docs/SEED_ORIGINS.md) |
 | [sentinel-parts-example.json](../runtime/research/sentinel-parts-example.json) | JSON object | 5 top-level keys | keys: source, resource, required_descriptor_ids, seed, seed_reachability_verified | [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [PROCEDURAL_SEED_RESEARCH.md](../docs/PROCEDURAL_SEED_RESEARCH.md) |
+| [stat-levels.md](../runtime/research/stat-levels.md) | Markdown table | 51 rows, 20 columns | columns: Stat, Page, Section, Type, Deliverable, Levels, pt-BR, pt-PT, ja-JP, en-US, fr-FR, it-IT, de-DE, es-… | [STAT_LEVEL_NOTES.md](../docs/STAT_LEVEL_NOTES.md) |
+| [stat-sections.md](../runtime/research/stat-sections.md) | Markdown table | 11 rows, 15 columns | columns: Section, pt-BR, pt-PT, ja-JP, en-US, fr-FR, it-IT, de-DE, es-ES, nl-NL, ko-KR, pl-PL, ru-RU, zh-CN, … | [STAT_LEVEL_NOTES.md](../docs/STAT_LEVEL_NOTES.md) |
 | [technology-delivery-classification.md](../runtime/research/technology-delivery-classification.md) | Markdown table | 393 rows, 9 columns | columns: ID, Category, Class, BrokenSlotTech, IsTemplate, Procedural, RepairTech, Teach, WikiEnabled | [TECHNOLOGY_DELIVERY_NOTES.md](../docs/TECHNOLOGY_DELIVERY_NOTES.md) |
 | [tool-palette-callers-180383.md](../runtime/research/tool-palette-callers-180383.md) | Markdown table | 2 rows, 2 columns | Direct owned-tool initializer caller fragment; argument 7 reads context byte; identity and ABI unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md), [SEED_CATEGORY_LEDGER.md](../docs/SEED_CATEGORY_LEDGER.md) |
 | [tool-palette-flag-180383.md](../runtime/research/tool-palette-flag-180383.md) | Markdown table | 5 rows, 2 columns | Candidate 2b0 range writer near owned tool selection; record ownership unverified | [CUSTOMISATION_COLOR_RESEARCH.md](../docs/CUSTOMISATION_COLOR_RESEARCH.md), [EXPERIMENT_LOG.md](../docs/EXPERIMENT_LOG.md) |
@@ -211,4 +213,4 @@ reader can start from Markdown and reach every data file.
 - [procedural-task-callees-180383.md](../runtime/research/procedural-task-callees-180383.md)
 - [procedural-task-constructor-180383.md](../runtime/research/procedural-task-constructor-180383.md)
 
-Total: 135 data files in 4 folders; 42 not mentioned outside this catalog.
+Total: 137 data files in 4 folders; 42 not mentioned outside this catalog.

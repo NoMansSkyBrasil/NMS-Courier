@@ -102,6 +102,14 @@ export const nlNL: Messages = {
         'Woorden van de talen van de Gek, Vy’keen, Korvax, Atlas en Autofagen: één, meerdere of alle.'
     },
     glyphs: { title: 'Portaalglyphs', summary: 'De zestien glyphs die portalen openen.' },
+    standings: {
+      title: 'Reputatie',
+      summary: 'Reputatie bij alle rassen, de drie gildes en de bandieten, per niveau verhoogd.'
+    },
+    milestones: {
+      title: 'Mijlpalen',
+      summary: 'Mijlpalen van de reis en medailles van de facties, per niveau verhoogd.'
+    },
     fishing: { title: 'Visrecords', summary: 'Het vangstrecord van elke vis.' },
     expeditions: {
       title: 'Expedities',
@@ -463,6 +471,24 @@ export const nlNL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofaag'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'Het spel bewaart elke reputatie als een getal en toont die als een rang met elf niveaus. Het spel zelf wordt via zijn eigen beloning gevraagd het getal van het gekozen niveau in te stellen; het wordt nooit verlaagd. Experimenteel: nog niet werkend gezien in het spel.',
+      milestones:
+        'Een mijlpaal is een teller van het spel (geleerde woorden, bezochte systemen, vernietigde schepen) met elf niveaus. Het spel zelf wordt via zijn eigen beloning gevraagd de teller op de waarde van het gekozen niveau te zetten. Alleen de teller verandert: meer verzamelde woorden leert geen enkel woord. Niets wordt verlaagd. Experimenteel: nog niet werkend gezien in het spel.'
+    },
+    mode: 'Hoe ver',
+    modeOne: '1 niveau',
+    modeSome: 'Meerdere niveaus',
+    modeAll: 'Tot het laatste niveau',
+    modeHint:
+      'Geteld vanaf het niveau waarop elk nu staat. Wat al op het laatste niveau staat, blijft ongemoeid.',
+    count: 'Niveaus',
+    countHint: 'Hoeveel niveaus omhoog, 1 tot {max}.',
+    action: 'Alles verhogen',
+    actionChosen: 'Gekozen verhogen ({count})'
   },
   glyphs: {
     hint: 'Het spel geeft de glyphs zelf, met zijn eigen melding, zoals wanneer het graf van een Reiziger er één geeft. Een gekozen glyph kan het spel niet geven: ze komen in de volgorde van het spel, hieronder getoond.',

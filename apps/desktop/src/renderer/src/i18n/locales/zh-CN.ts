@@ -87,6 +87,8 @@ export const zhCN: Messages = {
       summary: '吉克、维’肯、科尔瓦克斯、阿特拉斯和自噬者语言的词汇：一个、多个或全部。'
     },
     glyphs: { title: '传送门符文', summary: '开启传送门的十六个符文。' },
+    standings: { title: '声望', summary: '与所有种族、三个公会和不法之徒的声望，按等级提升。' },
+    milestones: { title: '里程碑', summary: '旅程里程碑和派系奖章，按等级提升。' },
     fishing: { title: '钓鱼记录', summary: '每种鱼的捕获记录。' },
     expeditions: {
       title: '远征',
@@ -417,6 +419,23 @@ export const zhCN: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        '游戏把每项声望保存为一个数值，并显示为十一级的头衔。通过游戏自己的奖励请求游戏本身设置你所选等级的数值；绝不会降低。实验性：尚未在游戏中验证。',
+      milestones:
+        '里程碑是游戏的一个计数器（学会的词、访问过的星系、摧毁的飞船），共十一级。通过游戏自己的奖励请求游戏本身把计数器设为你所选等级的数值。只有计数器会变：提高已收集词汇不会教会任何词。任何数值都不会降低。实验性：尚未在游戏中验证。'
+    },
+    mode: '提升幅度',
+    modeOne: '1 级',
+    modeSome: '多级',
+    modeAll: '到最后一级',
+    modeHint: '从每一项当前所在的等级算起。已在最后一级的不会改动。',
+    count: '等级数',
+    countHint: '要提升的等级数，1 到 {max}。',
+    action: '全部提升',
+    actionChosen: '提升所选（{count}）'
   },
   glyphs: {
     hint: '符文由游戏自己发放，并带有游戏自己的通知，就像旅行者的坟墓给出符文时一样。游戏无法发放指定的符文：它们按游戏的顺序到来，如下所示。',

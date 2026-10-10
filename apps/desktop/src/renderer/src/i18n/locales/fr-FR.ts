@@ -100,6 +100,15 @@ export const frFR: Messages = {
       summary: 'Mots des langues Gek, Vy’keen, Korvax, Atlas et Autophage : un, plusieurs ou tous.'
     },
     glyphs: { title: 'Glyphes de portail', summary: 'Les seize glyphes qui ouvrent les portails.' },
+    standings: {
+      title: 'Estime',
+      summary:
+        'Estime auprès de toutes les races, des trois guildes et des hors-la-loi, augmentée par niveaux.'
+    },
+    milestones: {
+      title: 'Étapes clés',
+      summary: 'Étapes clés du voyage et médailles des factions, augmentées par niveaux.'
+    },
     fishing: { title: 'Registre de pêche', summary: 'Le registre de prise de chaque poisson.' },
     expeditions: {
       title: 'Expéditions',
@@ -467,6 +476,24 @@ export const frFR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'Le jeu garde chaque estime sous forme de nombre et l’affiche comme un rang à onze niveaux. On demande au jeu lui-même, par sa propre récompense, de fixer le nombre du niveau choisi ; il n’est jamais abaissé. Expérimental : pas encore vu fonctionner dans le jeu.',
+      milestones:
+        'Une étape clé est un compteur du jeu (mots appris, systèmes visités, vaisseaux détruits) à onze niveaux. On demande au jeu lui-même, par sa propre récompense, de mettre le compteur à la valeur du niveau choisi. Seul le compteur change : augmenter les mots collectés n’apprend aucun mot. Rien n’est abaissé. Expérimental : pas encore vu fonctionner dans le jeu.'
+    },
+    mode: 'Jusqu’où',
+    modeOne: '1 niveau',
+    modeSome: 'Plusieurs niveaux',
+    modeAll: 'Jusqu’au dernier niveau',
+    modeHint:
+      'Compté à partir du niveau actuel de chacun. Ce qui est déjà au dernier niveau n’est pas touché.',
+    count: 'Niveaux',
+    countHint: 'Nombre de niveaux à monter, de 1 à {max}.',
+    action: 'Tout augmenter',
+    actionChosen: 'Augmenter la sélection ({count})'
   },
   glyphs: {
     hint: 'C’est le jeu lui-même qui remet les glyphes, avec sa notification, comme lorsque la tombe d’un Voyageur en donne un. Le jeu ne peut pas donner un glyphe choisi : ils arrivent dans l’ordre du jeu, affiché ci-dessous.',

@@ -172,6 +172,11 @@ def main() -> None:
             ("Category", "GcWordCategoryTableEnum", [("wordcategorytableEnum", "MISC")]),
             ("AmountMin", "1"), ("AmountMax", "1")])),
         entry("COURIER_WORDS", specific_words()),
+        # Levelled stats: journey milestones and standings (stat_level.h).
+        entry("COURIER_STAT", simple("GcRewardModifyStat", [
+            ("Stat", "COURIER"), ("OtherStat", ""), ("Amount", "0"), ("UseOtherStat", "false"),
+            ("ModifyType", "GcStatModifyType", [("ModifyType", "Set")]),
+            ("CanSetToValueLowerThanCurrent", "false")])),
     ]
     for _, identifier, ship_class, scene, keep in SHIPS:
         reward = copy.deepcopy(shipped(root, "GcRewardSpecificShip", "ShipType/ShipClass", ship_class,

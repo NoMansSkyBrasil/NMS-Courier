@@ -21,6 +21,7 @@
 //   teleport_request.h             travel: send the player to a system by galaxy and address
 //   word_teach.h                   words: teach alien words of one race
 //   rune_discover.h                glyphs: discover portal glyphs in the game's order
+//   stat_level.h                   levelled stats: raise journey milestones and standings by levels
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -91,9 +92,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "teleport_request.h"
 #include "word_teach.h"
 #include "rune_discover.h"
+#include "stat_level.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 22)
+#define EVENT_COUNT (CLASS_COUNT + 23)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -153,6 +155,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&teleport_state, 0, 0) == 1) teleport_apply_request();
     if (InterlockedCompareExchange(&word_state, 0, 0) == 1) word_apply_request();
     if (InterlockedCompareExchange(&rune_state, 0, 0) == 1) rune_apply_request();
+    if (InterlockedCompareExchange(&stat_state, 0, 0) == 1) stat_apply_request();
     // Offers wait until the game's window is in front; one offer a turn.
     int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
     int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
@@ -287,7 +290,8 @@ static int resolve_targets(void) {
            memcmp((void *)(base + FREIGHTER_BLOCK_RVA), freighter_block, sizeof(freighter_block)) == 0 &&
            writable_range((uintptr_t)reward_manager, 1) && technology_resolve(base) && recipe_resolve(base) &&
            reward_resolve(base) && fish_resolve(base) && product_resolve(base) && account_resolve(base) &&
-           item_resolve(base) && reward_carrier_resolve(base) && teleport_resolve(base);
+           item_resolve(base) && reward_carrier_resolve(base) && teleport_resolve(base) &&
+           stat_resolve(base);
 #endif
 }
 
@@ -296,7 +300,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes"};
+                                                     L"teleport", L"words", L"runes", L"stats"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -348,6 +352,7 @@ void courier_probe_after_verified(void) {
         teleport_write_result();
         word_write_result();
         rune_write_result();
+        stat_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -441,6 +446,10 @@ void courier_probe_after_verified(void) {
         }
         else if (index == CLASS_COUNT + 21) {
             if (rune_read_request()) InterlockedExchange(&rune_state, 1);
+            else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 22) {
+            if (stat_read_request()) InterlockedExchange(&stat_state, 1);
             else InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {

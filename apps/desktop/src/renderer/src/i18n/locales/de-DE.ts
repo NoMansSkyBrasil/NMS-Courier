@@ -103,6 +103,14 @@ export const deDE: Messages = {
         'Wörter der Sprachen der Gek, Vy’keen, Korvax, des Atlas und der Autophagen: eines, mehrere oder alle.'
     },
     glyphs: { title: 'Portalglyphen', summary: 'Die sechzehn Glyphen, die Portale öffnen.' },
+    standings: {
+      title: 'Ansehen',
+      summary: 'Ansehen bei allen Völkern, den drei Gilden und den Gesetzlosen, stufenweise erhöht.'
+    },
+    milestones: {
+      title: 'Meilensteine',
+      summary: 'Meilensteine der Reise und Medaillen der Fraktionen, stufenweise erhöht.'
+    },
     fishing: { title: 'Angelrekorde', summary: 'Der Fangrekord jedes Fisches.' },
     expeditions: {
       title: 'Expeditionen',
@@ -470,6 +478,24 @@ export const deDE: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'Das Spiel speichert jedes Ansehen als Zahl und zeigt es als Rang mit elf Stufen. Das Spiel selbst wird über seine eigene Belohnung gebeten, die Zahl der gewählten Stufe zu setzen; gesenkt wird nie. Experimentell: im Spiel noch nicht funktionierend gesehen.',
+      milestones:
+        'Ein Meilenstein ist ein Zähler des Spiels (gelernte Wörter, besuchte Systeme, zerstörte Schiffe) mit elf Stufen. Das Spiel selbst wird über seine eigene Belohnung gebeten, den Zähler auf den Wert der gewählten Stufe zu setzen. Nur der Zähler ändert sich: Mehr gesammelte Wörter lehren kein Wort. Gesenkt wird nichts. Experimentell: im Spiel noch nicht funktionierend gesehen.'
+    },
+    mode: 'Wie weit',
+    modeOne: '1 Stufe',
+    modeSome: 'Mehrere Stufen',
+    modeAll: 'Bis zur letzten Stufe',
+    modeHint:
+      'Gezählt ab der Stufe, auf der jeder Eintrag jetzt steht. Was schon auf der letzten Stufe ist, bleibt unverändert.',
+    count: 'Stufen',
+    countHint: 'Wie viele Stufen aufsteigen, 1 bis {max}.',
+    action: 'Alle erhöhen',
+    actionChosen: 'Ausgewählte erhöhen ({count})'
   },
   glyphs: {
     hint: 'Das Spiel übergibt die Glyphen selbst, mit seiner eigenen Benachrichtigung, so wie das Grab eines Reisenden eine gibt. Eine bestimmte Glyphe kann das Spiel nicht geben: Sie kommen in der Reihenfolge des Spiels, die unten steht.',

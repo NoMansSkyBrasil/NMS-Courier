@@ -28,6 +28,23 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.28.0 and bridge 1.23.0 (2026-10-09)
+
+- Added (owner request): pages "Standing" and "Milestones" under "Unlock".
+  The standing with the Gek, Vy'keen, Korvax, Autophage, the three guilds
+  and the outlaws (8 entries) and 41 journey milestones can be raised by one
+  level, several levels or to the last level, for every entry or the chosen
+  ones. Names are the game's own texts in the 14 languages.
+- Bridge 1.23.0 (`a355d9a69b242d24ac9e721a03ed66feb590ed600ad84711ed562bdc0f61438b`): request `stat` (`stat_level.h`). Each stat is read
+  with the game's own routine and the value of the level asked is set
+  through the game's stat reward (`GcRewardModifyStat`) on the new carrier
+  `COURIER_STAT`; nothing is lowered, nothing is written into a save.
+- Data file regenerated with the carrier (`7633cf80ff7a9c51206b8912df807d64a79e9180f9fccb8f81efc503bbd7f57a`); it must be installed with
+  the bridge.
+- Not exercised in the running game yet. Two milestones whose levels are
+  fractions (on-foot exploration, extreme survival) are not offered. Notes:
+  `docs/STAT_LEVEL_NOTES.md`.
+
 ## Application 1.27.1 (2026-10-09)
 
 - Changed (owner request): the Words page is a grid, one row for each of the

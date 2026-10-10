@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { isGlyphRequest } from './research-bridge/glyph-plan'
+import { isLevelPage, isLevelRequest } from './research-bridge/level-plan'
 import { glyphDigits, glyphIcon } from '../shared/portal-address'
 import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { join } from 'path'
@@ -359,6 +360,21 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
+  // Standings and journey milestones: the stats of a page, and a request to raise them by levels.
+  ipcMain.handle('nms:get-level-stats', (_, page: unknown, locale: unknown) =>
+    isLevelPage(page) && typeof locale === 'string'
+      ? getResearchBridgeService().getLevelStats(page, locale)
+      : []
+  )
+  ipcMain.handle('nms:raise-levels', async (_, request: unknown) => {
+    if (!isLevelRequest(request)) throw new Error('Invalid request.')
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().raiseLevels(
+      { page: request.page, stats: request.stats, levels: request.levels, notify: request.notify },
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
   ipcMain.handle('nms:discover-glyphs', async (_, request: unknown) => {
     if (!isGlyphRequest(request)) throw new Error('Invalid request.')
     const root = getInstallationService().getSelectedRootPath()

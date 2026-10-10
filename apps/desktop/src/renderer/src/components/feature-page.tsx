@@ -4,6 +4,7 @@ import { CorvetteFileCard } from '@renderer/components/corvette-file-card'
 import { CurrencyCard } from '@renderer/components/currency-card'
 import { TeleportCard } from '@renderer/components/teleport-card'
 import { GlyphsCard } from '@renderer/components/glyphs-card'
+import { LevelsCard } from '@renderer/components/levels-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
 import { ItemsCard } from '@renderer/components/items-card'
@@ -85,6 +86,8 @@ export function FeaturePage({
         <TeleportCard />
       ) : feature.id === 'glyphs' ? (
         <GlyphsCard />
+      ) : feature.id === 'standings' || feature.id === 'milestones' ? (
+        <LevelsCard key={feature.id} page={feature.id} />
       ) : isEquipmentArea(feature.id) ? (
         <>
           {feature.id === 'corvettes' && <CorvetteFileCard />}

@@ -96,6 +96,15 @@ export const ptBR: Messages = {
       summary: 'Palavras das línguas Gek, Vy’keen, Korvax, Atlas e Autófago: uma, várias ou todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Os dezesseis glifos que abrem portais.' },
+    standings: {
+      title: 'Reputação',
+      summary:
+        'Reputação com todas as raças, as três guildas e os criminosos, aumentada por níveis.'
+    },
+    milestones: {
+      title: 'Marcos',
+      summary: 'Marcos da jornada e medalhas das facções, aumentados por níveis.'
+    },
     fishing: { title: 'Registro de pesca', summary: 'O registro de captura de cada peixe.' },
     expeditions: {
       title: 'Expedições',
@@ -453,6 +462,24 @@ export const ptBR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'O jogo guarda cada reputação como um número e o mostra como um posto com onze níveis. O próprio jogo é solicitado, pela recompensa dele, a definir o número do nível que você escolher; nunca é reduzido. Experimental: ainda não foi visto funcionando no jogo.',
+      milestones:
+        'Um marco é um contador do jogo (palavras aprendidas, sistemas visitados, naves destruídas) com onze níveis. O próprio jogo é solicitado, pela recompensa dele, a colocar o contador no valor do nível que você escolher. Só o contador muda: aumentar Palavras coletadas não ensina nenhuma palavra. Nada é reduzido. Experimental: ainda não foi visto funcionando no jogo.'
+    },
+    mode: 'Até onde',
+    modeOne: '1 nível',
+    modeSome: 'Vários níveis',
+    modeAll: 'Até o último nível',
+    modeHint:
+      'Contado a partir do nível em que cada um está agora. Quem já está no último nível não é alterado.',
+    count: 'Níveis',
+    countHint: 'Quantos níveis subir, de 1 a {max}.',
+    action: 'Aumentar todos',
+    actionChosen: 'Aumentar escolhidos ({count})'
   },
   glyphs: {
     hint: 'É o próprio jogo que entrega os glifos, com a notificação dele, como quando o túmulo de um Viajante dá um. O jogo não tem como dar um glifo escolhido: eles vêm na ordem do jogo, mostrada abaixo.',

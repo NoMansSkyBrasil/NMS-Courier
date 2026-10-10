@@ -97,6 +97,15 @@ export const esES: Messages = {
         'Palabras de las lenguas Gek, Vy’keen, Korvax, Atlas y Autófago: una, varias o todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Los dieciséis glifos que abren portales.' },
+    standings: {
+      title: 'Estatus',
+      summary:
+        'Estatus con todas las razas, los tres gremios y los forajidos, aumentado por niveles.'
+    },
+    milestones: {
+      title: 'Logros',
+      summary: 'Logros del viaje y medallas de las facciones, aumentados por niveles.'
+    },
     fishing: { title: 'Registro de pesca', summary: 'El registro de capturas de cada pez.' },
     expeditions: {
       title: 'Expediciones',
@@ -456,6 +465,24 @@ export const esES: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  levels: {
+    hint: {
+      standings:
+        'El juego guarda cada estatus como un número y lo muestra como un rango con once niveles. Se pide al propio juego, mediante su recompensa, que fije el número del nivel que elijas; nunca se reduce. Experimental: aún no se ha visto funcionar en el juego.',
+      milestones:
+        'Un logro es un contador del juego (palabras aprendidas, sistemas visitados, naves destruidas) con once niveles. Se pide al propio juego, mediante su recompensa, que ponga el contador en el valor del nivel que elijas. Solo cambia el contador: subir las palabras recopiladas no enseña ninguna palabra. Nada se reduce. Experimental: aún no se ha visto funcionar en el juego.'
+    },
+    mode: 'Hasta dónde',
+    modeOne: '1 nivel',
+    modeSome: 'Varios niveles',
+    modeAll: 'Hasta el último nivel',
+    modeHint:
+      'Se cuenta desde el nivel en que está cada uno ahora. El que ya está en el último nivel no se toca.',
+    count: 'Niveles',
+    countHint: 'Cuántos niveles subir, de 1 a {max}.',
+    action: 'Subir todos',
+    actionChosen: 'Subir elegidos ({count})'
   },
   glyphs: {
     hint: 'Es el propio juego el que entrega los glifos, con su notificación, como cuando la tumba de un Viajero da uno. El juego no puede dar un glifo elegido: llegan en el orden del juego, que se muestra abajo.',

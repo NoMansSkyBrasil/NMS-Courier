@@ -45,6 +45,14 @@ const nms = {
     ipcRenderer.invoke('nms:deliver-currency', request),
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
+  getLevelStats: (page: 'standings' | 'milestones', locale: string) =>
+    ipcRenderer.invoke('nms:get-level-stats', page, locale),
+  raiseLevels: (request: {
+    page: 'standings' | 'milestones'
+    stats: string[] | null
+    levels: number
+    notify: boolean
+  }) => ipcRenderer.invoke('nms:raise-levels', request),
   discoverGlyphs: (request: { count: number | null; notify: boolean }) =>
     ipcRenderer.invoke('nms:discover-glyphs', request),
   teleport: (request: { glyphs: string; galaxyNumber: number; to: 'station' | 'planet' }) =>
