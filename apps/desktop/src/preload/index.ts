@@ -47,6 +47,7 @@ const nms = {
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
   getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
+  installBridge: () => ipcRenderer.invoke('nms:install-bridge'),
   listWaitingTechnologies: (locale: string) =>
     ipcRenderer.invoke('nms:list-waiting-technologies', locale),
   finishTechnologies: (

@@ -28,6 +28,27 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.38.0 (2026-10-10)
+
+Owner requests after a review of the interface for lay users.
+
+- Added: the application installs its own files into the game. When the
+  bridge or the data file is missing or older, a notice with an "Install"
+  (or "Update") button appears on the dashboard and on every delivery page
+  and goes away once they are in place. It never installs while the game
+  runs and never replaces a file of the same name that is not ours. The
+  files travel with the application in `apps/desktop/resources/bridge`.
+- Added: setting "Show internal names" (off by default). Identifiers, the
+  raw answer of each request and the "what it covers" card are hidden unless
+  it is on.
+- Changed: the sidebar has more groups, each with its own colour: Items
+  and currencies, Travel, Equipment, Knowledge, Progress, Appearance,
+  Rewards. Status cards, the footer and the "verified / experimental"
+  badges are coloured; the next thing to do (choose the folder, install,
+  open the game) is one coloured notice instead of a grey line.
+- Not done yet: shorter texts on the older pages (milestones, standings,
+  missions, equipment). Listed in `TODO.md`.
+
 ## Application 1.37.0 and bridge 1.29.0 (2026-10-10)
 
 - Added (owner request): page "Waiting technologies" under "Deliver". It

@@ -201,7 +201,9 @@ export function ItemsCard(): React.JSX.Element {
                       <GameIcon locator={entry.icon} />
                     </TableCell>
                     <TableCell className="font-medium">{entry.name || entry.gameId}</TableCell>
-                    <TableCell className="text-muted-foreground">{entry.gameId}</TableCell>
+                    <TableCell className="internal-name text-muted-foreground">
+                      {entry.gameId}
+                    </TableCell>
                     <TableCell>
                       <Badge variant="outline">{copy.catalogPage[entry.domain]}</Badge>
                     </TableCell>
@@ -243,7 +245,7 @@ export function ItemsCard(): React.JSX.Element {
                       <GameIcon locator={item.icon} />
                     </TableCell>
                     <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell className="text-muted-foreground">{item.id}</TableCell>
+                    <TableCell className="internal-name text-muted-foreground">{item.id}</TableCell>
                     <TableCell className="text-muted-foreground">
                       {item.stack !== null &&
                         formatMessage(text.itemsStack, {
@@ -292,7 +294,7 @@ export function ItemsCard(): React.JSX.Element {
         {result && result.steps.length > 0 && (
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">{text.result}</span>
-            <pre className="max-h-64 overflow-auto rounded-lg bg-muted p-3 text-xs">
+            <pre className="internal-name max-h-64 overflow-auto rounded-lg bg-muted p-3 text-xs">
               {result.steps.map((step) => step.lines.join('\n')).join('\n\n')}
             </pre>
           </div>

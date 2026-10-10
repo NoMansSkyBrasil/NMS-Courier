@@ -29,8 +29,12 @@ export const frFR: Messages = {
   },
   groups: {
     overview: 'Vue d’ensemble',
-    deliver: 'Livrer',
-    unlock: 'Débloquer',
+    inventory: 'Objets et monnaies',
+    travel: 'Voyage',
+    equipment: 'Équipement',
+    knowledge: 'Connaissances',
+    progress: 'Progression',
+    style: 'Apparence',
     rewards: 'Récompenses',
     library: 'Bibliothèque',
     system: 'Système'
@@ -233,6 +237,7 @@ export const frFR: Messages = {
     open: 'Ouvrir'
   },
   dashboard: {
+    connection: 'Connexion',
     heroBody:
       'Envoyez des objets, des monnaies et des déblocages à votre propre jeu en cours d’exécution. Tout passe par le jeu lui-même, vos sauvegardes ne sont jamais modifiées, et les noms et icônes affichés ici proviennent de votre installation.',
     game: 'Jeu',
@@ -256,7 +261,34 @@ export const frFR: Messages = {
     entriesCount: '{count} entrées',
     processId: 'Processus {id}'
   },
+  setup: {
+    chooseTitle: 'Choisissez le dossier du jeu',
+    chooseBody: "Courier doit savoir où No Man's Sky est installé.",
+    chooseButton: 'Choisir le dossier',
+    installTitle: 'Installer Courier dans le jeu',
+    updateTitle: 'Mettre à jour Courier dans le jeu',
+    installBody:
+      "Deux petits fichiers sont copiés dans le dossier du jeu. Rien du jeu n'est remplacé et vos sauvegardes ne sont pas touchées. Lancez ensuite le jeu.",
+    installButton: 'Installer',
+    updateButton: 'Mettre à jour',
+    closeGameTitle: 'Fermez le jeu pour terminer',
+    closeGameBody:
+      'Les fichiers ne peuvent pas être remplacés pendant que le jeu tourne. Fermez-le et revenez ici.',
+    foreignTitle: 'Un autre mod utilise le même fichier',
+    foreignBody:
+      "Le dossier du jeu contient déjà un fichier xinput9_1_0.dll qui n'est pas celui de Courier. Courier ne le remplacera pas ; retirez d'abord ce mod pour utiliser Courier.",
+    unavailableTitle: 'Les fichiers de Courier sont absents',
+    unavailableBody:
+      "Cette copie de l'application ne contient pas les fichiers qu'elle installe. Téléchargez de nouveau l'application.",
+    openGameTitle: 'Lancez le jeu et chargez une sauvegarde',
+    openGameBody: 'Courier se connecte tout seul dès que le jeu tourne.',
+    readyTitle: 'Connecté au jeu',
+    readyBody: 'Tout est prêt. Choisissez quoi envoyer.'
+  },
   settings: {
+    internalNames: 'Afficher les noms internes',
+    internalNamesHint:
+      'Affiche les identifiants du jeu et la réponse technique de chaque envoi. Utile pour signaler un problème.',
     notifications: 'Notifications du jeu',
     notificationsHint:
       'Laisse le jeu afficher sa propre notification pour ce qui est livré, lorsqu’il en a une. Désactivez pour livrer en silence. Les améliorations d’inventaire ne demandent jamais de confirmation.',

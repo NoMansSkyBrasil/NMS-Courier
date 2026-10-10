@@ -29,8 +29,12 @@ export const nlNL: Messages = {
   },
   groups: {
     overview: 'Overzicht',
-    deliver: 'Leveren',
-    unlock: 'Ontgrendelen',
+    inventory: 'Voorwerpen en valuta',
+    travel: 'Reizen',
+    equipment: 'Uitrusting',
+    knowledge: 'Kennis',
+    progress: 'Voortgang',
+    style: 'Uiterlijk',
     rewards: 'Beloningen',
     library: 'Bibliotheek',
     system: 'Systeem'
@@ -236,6 +240,7 @@ export const nlNL: Messages = {
     open: 'Openen'
   },
   dashboard: {
+    connection: 'Verbinding',
     heroBody:
       'Stuur voorwerpen, valuta en ontgrendelingen naar je eigen draaiende spel. Alles loopt via het spel zelf, je opgeslagen spellen worden nooit bewerkt, en de namen en pictogrammen die je hier ziet komen uit je eigen installatie.',
     game: 'Spel',
@@ -259,7 +264,34 @@ export const nlNL: Messages = {
     entriesCount: '{count} items',
     processId: 'Proces {id}'
   },
+  setup: {
+    chooseTitle: 'Kies je spelmap',
+    chooseBody: "Courier moet weten waar No Man's Sky is geïnstalleerd.",
+    chooseButton: 'Map kiezen',
+    installTitle: 'Courier in het spel installeren',
+    updateTitle: 'Courier in het spel bijwerken',
+    installBody:
+      'Twee kleine bestanden worden naar de spelmap gekopieerd. Er wordt niets van het spel vervangen en je saves blijven onaangeroerd. Start daarna het spel.',
+    installButton: 'Installeren',
+    updateButton: 'Bijwerken',
+    closeGameTitle: 'Sluit het spel om af te ronden',
+    closeGameBody:
+      'De bestanden kunnen niet worden vervangen terwijl het spel draait. Sluit het en kom hier terug.',
+    foreignTitle: 'Een andere mod gebruikt hetzelfde bestand',
+    foreignBody:
+      'In de spelmap staat al een bestand xinput9_1_0.dll dat niet van Courier is. Courier vervangt het niet; verwijder eerst die mod om Courier te gebruiken.',
+    unavailableTitle: 'De bestanden van Courier ontbreken',
+    unavailableBody:
+      'Deze kopie van de toepassing bevat de bestanden die ze installeert niet. Download de toepassing opnieuw.',
+    openGameTitle: 'Open het spel en laad een save',
+    openGameBody: 'Courier maakt zelf verbinding zodra het spel draait.',
+    readyTitle: 'Verbonden met het spel',
+    readyBody: 'Alles is klaar. Kies wat je wilt versturen.'
+  },
   settings: {
+    internalNames: 'Interne namen tonen',
+    internalNamesHint:
+      'Toont de identificaties van het spel en het technische antwoord van elk verzoek. Handig bij het melden van een probleem.',
     notifications: 'Meldingen van het spel',
     notificationsHint:
       'Laat het spel zijn eigen melding tonen voor wat wordt geleverd, als die er is. Schakel uit om stil te leveren. Inventarisuitbreidingen vragen nooit om bevestiging.',

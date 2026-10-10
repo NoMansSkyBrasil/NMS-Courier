@@ -26,6 +26,7 @@ async function fixture(bridgeBytes: string | null): Promise<{
     diagnosticsDirectory: string
     backupDirectory: string
     saveDirectory: string
+    bridgeResourceDirectory: string
   }
 }> {
   const base = await mkdtemp(join(tmpdir(), 'courier-bridge-'))
@@ -43,7 +44,8 @@ async function fixture(bridgeBytes: string | null): Promise<{
       researchDirectory: research,
       diagnosticsDirectory: base,
       backupDirectory: join(base, 'backups'),
-      saveDirectory
+      saveDirectory,
+      bridgeResourceDirectory: ''
     }
   }
 }

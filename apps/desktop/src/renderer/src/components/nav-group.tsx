@@ -17,6 +17,7 @@ import {
 import { featureHref, type Feature } from '@renderer/features'
 import { useLocale } from '@renderer/i18n/locale'
 import type { GroupId } from '@renderer/i18n/messages'
+import { groupIconTones } from '@renderer/features/tones'
 
 // One group of the sidebar. An area with sections (getting a new one, upgrading the one you own)
 // opens into them, as in the standard collapsible sidebar; the others are plain links.
@@ -54,7 +55,7 @@ export function NavGroup({
                     />
                   }
                 >
-                  <feature.icon />
+                  <feature.icon className={groupIconTones[group]} />
                   <span>{copy.features[feature.id].title}</span>
                   <PlusIcon className="ml-auto group-data-open/collapsible:hidden" />
                   <MinusIcon className="ml-auto group-data-closed/collapsible:hidden" />
@@ -82,7 +83,7 @@ export function NavGroup({
                 tooltip={copy.features[feature.id].title}
                 render={<a href={featureHref(feature.id)} />}
               >
-                <feature.icon />
+                <feature.icon className={groupIconTones[group]} />
                 <span>{copy.features[feature.id].title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>

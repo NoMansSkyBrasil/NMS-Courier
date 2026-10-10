@@ -227,6 +227,23 @@ of each list:
 - Twitch IDs are in both account files, so they are loaded from one of them;
   where they sit in memory is still not found.
 
+## Installing the application's files into the game
+
+Since application 1.38.0 the application copies its two files itself
+(`main/research-bridge/bridge-installer.ts`), at the press of a button that
+is shown only while something is missing or older:
+
+- `Binaries/xinput9_1_0.dll`, the bridge, from
+  `apps/desktop/resources/bridge/`;
+- `GAMEDATA/MODS/NMSCourier/METADATA/REALITY/TABLES/REWARDTABLE.EXML`, the
+  data file, from the same folder.
+
+It refuses while the game is seen running, when a file named
+`xinput9_1_0.dll` that is not one of ours is there (another mod), and when
+the carried files are not the ones the application was built with (checked
+by SHA-256 against `bridge-version.ts` and `currency-plan.ts`). It removes
+nothing. Plain file reads and copies; no script.
+
 ## What protects against mistakes
 
 - Build pinning: the DLL arms nothing unless the executable hash and the

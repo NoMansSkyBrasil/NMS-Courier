@@ -7,6 +7,8 @@ import { GlyphsCard } from '@renderer/components/glyphs-card'
 import { LevelsCard } from '@renderer/components/levels-card'
 import { MissionsCard } from '@renderer/components/missions-card'
 import { PendingTechCard } from '@renderer/components/pending-tech-card'
+import { SetupNotice } from '@renderer/components/setup-notice'
+import { useGameState } from '@renderer/hooks/use-game-state'
 import { PlanetFinderCard } from '@renderer/components/planet-finder-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
@@ -50,6 +52,7 @@ export function FeaturePage({
   section: SectionId | null
 }): React.JSX.Element {
   const { copy, locale } = useLocale()
+  const { bridge } = useGameState()
   const text = copy.features[feature.id]
 
   if (feature.status === 'planned') {
@@ -81,6 +84,7 @@ export function FeaturePage({
           <CardDescription>{text.summary}</CardDescription>
         </CardHeader>
       </Card>
+      {feature.kind === 'delivery' && <SetupNotice bridge={bridge} />}
       {feature.id === 'items' ? (
         <ItemsCard />
       ) : feature.id === 'currencies' ? (
@@ -119,7 +123,7 @@ export function FeaturePage({
       )}
       <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
         {feature.rows && (
-          <Card>
+          <Card className="internal-name">
             <CardHeader>
               <div className="flex flex-wrap items-center gap-2">
                 <CardTitle>{copy.page.includes}</CardTitle>

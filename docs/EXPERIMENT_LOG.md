@@ -1,5 +1,23 @@
 # Runtime experiment log
 
+## 2026-10-10: installer of the application's files, interface colours and groups (application 1.38.0)
+
+A build; nothing sent to the game. Owning note:
+[live bridge operations](LIVE_BRIDGE_OPERATIONS.md#installing-the-applications-files-into-the-game).
+
+- Built: `bridge-installer.ts` (state and copy of `xinput9_1_0.dll` and
+  `REWARDTABLE.EXML`), its test on temporary folders (fresh game, game
+  running, foreign file, missing carried files, carried files equal to the
+  versions the application names), the notice, the internal-names setting,
+  group colours. Typecheck, lint, 135 tests, build; dashboard and one page
+  opened in the test instance.
+- Not proven: the button against the real game folder (both files were
+  already current there, so the notice asked for nothing); a packaged
+  application's resource path; a game that runs without the bridge is not
+  seen as running, so the copy is not refused then (the new file only loads
+  at the next start).
+- Rollback: none needed.
+
 ## 2026-10-10: waiting technologies built and installed (bridge 1.29.0, application 1.37.0)
 
 A build and an installation; nothing sent to the game. Build 180836

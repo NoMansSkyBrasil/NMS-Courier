@@ -3,3 +3,5 @@ runtime/research/priority-*.tsv text eol=lf
 runtime/research/appearance-*.tsv text eol=lf
 # The application checks this data file by its SHA-256, so its bytes must not change on checkout.
 runtime/mods/courier_rewards/**/*.EXML -text
+# The files the application installs into the game are checked by SHA-256 too.
+apps/desktop/resources/bridge/* -text

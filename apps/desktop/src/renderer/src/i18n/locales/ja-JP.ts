@@ -29,8 +29,12 @@ export const jaJP: Messages = {
   },
   groups: {
     overview: '概要',
-    deliver: '配送',
-    unlock: 'アンロック',
+    inventory: 'アイテムと通貨',
+    travel: '移動',
+    equipment: '装備',
+    knowledge: '知識',
+    progress: '進行状況',
+    style: '外見',
     rewards: '報酬',
     library: 'ライブラリ',
     system: 'システム'
@@ -218,6 +222,7 @@ export const jaJP: Messages = {
     open: '開く'
   },
   dashboard: {
+    connection: '接続',
     heroBody:
       'アイテム、通貨、アンロックを、起動中の自分のゲームに送信します。すべてゲーム自身を通して行われ、セーブデータが編集されることはありません。ここに表示される名前とアイコンは、お使いのインストール先から読み込まれます。',
     game: 'ゲーム',
@@ -241,7 +246,34 @@ export const jaJP: Messages = {
     entriesCount: '{count} 件',
     processId: 'プロセス {id}'
   },
+  setup: {
+    chooseTitle: 'ゲームのフォルダーを選択',
+    chooseBody: "CourierはNo Man's Skyのインストール先を知る必要があります。",
+    chooseButton: 'フォルダーを選択',
+    installTitle: 'Courierをゲームにインストール',
+    updateTitle: 'ゲーム内のCourierを更新',
+    installBody:
+      '小さなファイル2つをゲームのフォルダーにコピーします。ゲームのファイルは置き換えず、セーブデータにも触れません。その後ゲームを起動してください。',
+    installButton: 'インストール',
+    updateButton: '更新',
+    closeGameTitle: '完了するにはゲームを閉じてください',
+    closeGameBody:
+      'ゲームの実行中はファイルを置き換えられません。ゲームを閉じてからここに戻ってください。',
+    foreignTitle: '別のModが同じファイルを使っています',
+    foreignBody:
+      'ゲームのフォルダーに、Courierのものではないxinput9_1_0.dllがあります。Courierはこれを置き換えません。Courierを使うには先にそのModを外してください。',
+    unavailableTitle: 'Courierのファイルがありません',
+    unavailableBody:
+      'このアプリにはインストール用のファイルが含まれていません。アプリをもう一度ダウンロードしてください。',
+    openGameTitle: 'ゲームを起動してセーブを読み込む',
+    openGameBody: 'ゲームが起動すると、Courierは自動で接続します。',
+    readyTitle: 'ゲームに接続しました',
+    readyBody: '準備完了です。送るものを選んでください。'
+  },
   settings: {
+    internalNames: '内部名を表示',
+    internalNamesHint:
+      'ゲームの識別子と各リクエストの技術的な応答を表示します。問題を報告するときに役立ちます。',
     notifications: 'ゲームの通知',
     notificationsHint:
       '配信内容について、ゲーム自身の通知がある場合は表示します。オフにすると通知なしで配信します。インベントリの拡張で確認を求められることはありません。',

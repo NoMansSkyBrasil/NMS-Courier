@@ -113,4 +113,9 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Internal names (identifiers, raw answers) stay hidden unless the settings ask for them. */
+  [data-internal-names='off'] .internal-name {
+    display: none;
+  }
 }

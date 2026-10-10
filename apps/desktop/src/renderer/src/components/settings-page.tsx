@@ -20,6 +20,7 @@ import {
 } from '@renderer/components/ui/select'
 import { Switch } from '@renderer/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
+import { useInternalNames } from '@renderer/hooks/use-internal-names'
 import { useNotifyPreference } from '@renderer/hooks/use-notify-preference'
 import { locales, useLocale, type Locale } from '@renderer/i18n/locale'
 
@@ -28,6 +29,7 @@ export function SettingsPage(): React.JSX.Element {
   const { theme, setTheme } = useTheme()
   const text = copy.settings
   const [notify, setNotify] = useNotifyPreference()
+  const [internalNames, setInternalNames] = useInternalNames()
   const themes = [
     { value: 'system', label: copy.controls.system },
     { value: 'light', label: copy.controls.light },
@@ -77,6 +79,17 @@ export function SettingsPage(): React.JSX.Element {
                     <FieldDescription>{text.notificationsHint}</FieldDescription>
                   </FieldContent>
                   <Switch id="settings-notify" checked={notify} onCheckedChange={setNotify} />
+                </Field>
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldLabel htmlFor="settings-internal-names">{text.internalNames}</FieldLabel>
+                    <FieldDescription>{text.internalNamesHint}</FieldDescription>
+                  </FieldContent>
+                  <Switch
+                    id="settings-internal-names"
+                    checked={internalNames}
+                    onCheckedChange={setInternalNames}
+                  />
                 </Field>
               </FieldGroup>
             </CardContent>

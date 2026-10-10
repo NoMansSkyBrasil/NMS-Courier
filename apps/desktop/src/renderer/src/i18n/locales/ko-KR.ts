@@ -28,8 +28,12 @@ export const koKR: Messages = {
   },
   groups: {
     overview: '개요',
-    deliver: '전달',
-    unlock: '잠금 해제',
+    inventory: '아이템과 화폐',
+    travel: '이동',
+    equipment: '장비',
+    knowledge: '지식',
+    progress: '진행',
+    style: '외형',
     rewards: '보상',
     library: '라이브러리',
     system: '시스템'
@@ -205,6 +209,7 @@ export const koKR: Messages = {
     open: '열기'
   },
   dashboard: {
+    connection: '연결',
     heroBody:
       '아이템, 화폐, 잠금 해제를 실행 중인 내 게임으로 보냅니다. 모든 것은 게임 자체를 통해 이루어지고 저장 데이터는 절대 편집되지 않으며, 여기에 보이는 이름과 아이콘은 내 설치 위치에서 가져옵니다.',
     game: '게임',
@@ -228,7 +233,32 @@ export const koKR: Messages = {
     entriesCount: '항목 {count}개',
     processId: '프로세스 {id}'
   },
+  setup: {
+    chooseTitle: '게임 폴더 선택',
+    chooseBody: "Courier는 No Man's Sky가 설치된 위치를 알아야 합니다.",
+    chooseButton: '폴더 선택',
+    installTitle: '게임에 Courier 설치',
+    updateTitle: '게임의 Courier 업데이트',
+    installBody:
+      '작은 파일 두 개가 게임 폴더에 복사됩니다. 게임의 파일은 바뀌지 않으며 저장 데이터도 건드리지 않습니다. 그런 다음 게임을 시작하세요.',
+    installButton: '설치',
+    updateButton: '업데이트',
+    closeGameTitle: '완료하려면 게임을 닫으세요',
+    closeGameBody: '게임이 실행 중일 때는 파일을 바꿀 수 없습니다. 게임을 닫고 여기로 돌아오세요.',
+    foreignTitle: '다른 모드가 같은 파일을 사용합니다',
+    foreignBody:
+      '게임 폴더에 Courier의 것이 아닌 xinput9_1_0.dll 파일이 이미 있습니다. Courier는 이 파일을 바꾸지 않습니다. Courier를 쓰려면 먼저 그 모드를 제거하세요.',
+    unavailableTitle: 'Courier 파일이 없습니다',
+    unavailableBody: '이 앱에는 설치할 파일이 들어 있지 않습니다. 앱을 다시 내려받으세요.',
+    openGameTitle: '게임을 열고 저장 데이터를 불러오세요',
+    openGameBody: '게임이 실행되면 Courier가 알아서 연결합니다.',
+    readyTitle: '게임에 연결됨',
+    readyBody: '모든 준비가 끝났습니다. 보낼 것을 고르세요.'
+  },
   settings: {
+    internalNames: '내부 이름 표시',
+    internalNamesHint:
+      '게임의 식별자와 각 요청의 기술적 응답을 표시합니다. 문제를 신고할 때 유용합니다.',
     notifications: '게임 알림',
     notificationsHint:
       '전달된 항목에 대해 게임 자체 알림이 있으면 표시합니다. 끄면 알림 없이 전달합니다. 인벤토리 업그레이드는 확인을 요구하지 않습니다.',

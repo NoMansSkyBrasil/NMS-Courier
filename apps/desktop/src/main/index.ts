@@ -61,7 +61,10 @@ function getResearchBridgeService(): ResearchBridgeService {
     researchDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'research'),
     diagnosticsDirectory,
     backupDirectory: join(app.getPath('userData'), 'save-backups'),
-    saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS')
+    saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS'),
+    bridgeResourceDirectory: app.isPackaged
+      ? join(process.resourcesPath, 'app.asar.unpacked', 'resources', 'bridge')
+      : join(app.getAppPath(), 'resources', 'bridge')
   })
   return researchBridgeService
 }
@@ -305,11 +308,23 @@ app.whenReady().then(() => {
   })
   ipcMain.handle('nms:get-research-bridge-status', async () => {
     const root = getInstallationService().getSelectedRootPath()
-    const status = await getResearchBridgeService().getStatus(
-      root,
-      await gameStatusService.observe(root)
-    )
-    return { ...status, appVersion: app.getVersion() }
+    const game = await gameStatusService.observe(root)
+    const status = await getResearchBridgeService().getStatus(root, game)
+    return {
+      ...status,
+      appVersion: app.getVersion(),
+      // Whether the application's files still have to be put into the game folder.
+      install:
+        root && status.state !== 'unavailable'
+          ? await getResearchBridgeService().getInstallState(root, game)
+          : null
+    }
+  })
+  // Copies the bridge and the data file into the game folder, at the user's request.
+  ipcMain.handle('nms:install-bridge', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    if (!root) return null
+    return getResearchBridgeService().installIntoGame(root, await gameStatusService.observe(root))
   })
   ipcMain.handle('nms:deliver', async (_, feature: unknown, chosen: unknown, notify: unknown) => {
     if (!isDeliveryFeatureId(feature)) throw new Error('Invalid delivery area.')

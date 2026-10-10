@@ -1,7 +1,18 @@
 // Shape of the interface copy. Every locale resource in ./locales implements it completely, so a
 // missing string is a type error instead of a silent English fallback.
 
-export const groupIds = ['overview', 'deliver', 'unlock', 'rewards', 'library', 'system'] as const
+export const groupIds = [
+  'overview',
+  'inventory',
+  'travel',
+  'equipment',
+  'knowledge',
+  'progress',
+  'style',
+  'rewards',
+  'library',
+  'system'
+] as const
 export type GroupId = (typeof groupIds)[number]
 
 export const sectionIds = ['obtain', 'upgrade'] as const
@@ -154,6 +165,7 @@ export type Messages = {
     open: string
   }
   dashboard: {
+    connection: string
     heroBody: string
     game: string
     build: string
@@ -176,7 +188,29 @@ export type Messages = {
     entriesCount: string
     processId: string
   }
+  setup: {
+    chooseTitle: string
+    chooseBody: string
+    chooseButton: string
+    installTitle: string
+    updateTitle: string
+    installBody: string
+    installButton: string
+    updateButton: string
+    closeGameTitle: string
+    closeGameBody: string
+    foreignTitle: string
+    foreignBody: string
+    unavailableTitle: string
+    unavailableBody: string
+    openGameTitle: string
+    openGameBody: string
+    readyTitle: string
+    readyBody: string
+  }
   settings: {
+    internalNames: string
+    internalNamesHint: string
     notifications: string
     notificationsHint: string
     general: string

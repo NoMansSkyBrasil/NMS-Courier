@@ -29,8 +29,12 @@ export const ptPT: Messages = {
   },
   groups: {
     overview: 'Visão geral',
-    deliver: 'Entregar',
-    unlock: 'Desbloquear',
+    inventory: 'Itens e moedas',
+    travel: 'Viagem',
+    equipment: 'Equipamento',
+    knowledge: 'Conhecimento',
+    progress: 'Progresso',
+    style: 'Visual',
     rewards: 'Recompensas',
     library: 'Biblioteca',
     system: 'Sistema'
@@ -233,6 +237,7 @@ export const ptPT: Messages = {
     open: 'Abrir'
   },
   dashboard: {
+    connection: 'Ligação',
     heroBody:
       'Envie itens, moedas e desbloqueios para o seu próprio jogo em execução. Tudo passa pelo próprio jogo, as suas gravações nunca são editadas, e os nomes e ícones que vê aqui vêm da sua instalação.',
     game: 'Jogo',
@@ -256,7 +261,34 @@ export const ptPT: Messages = {
     entriesCount: '{count} entradas',
     processId: 'Processo {id}'
   },
+  setup: {
+    chooseTitle: 'Escolha a pasta do jogo',
+    chooseBody: "O Courier precisa de saber onde o No Man's Sky está instalado.",
+    chooseButton: 'Escolher pasta',
+    installTitle: 'Instalar o Courier no jogo',
+    updateTitle: 'Atualizar o Courier no jogo',
+    installBody:
+      'Dois ficheiros pequenos são copiados para a pasta do jogo. Nada do jogo é substituído e as suas gravações não são tocadas. Depois, abra o jogo.',
+    installButton: 'Instalar',
+    updateButton: 'Atualizar',
+    closeGameTitle: 'Feche o jogo para concluir',
+    closeGameBody:
+      'Os ficheiros não podem ser trocados com o jogo aberto. Feche o jogo e volte aqui.',
+    foreignTitle: 'Outro mod usa o mesmo ficheiro',
+    foreignBody:
+      'A pasta do jogo já tem um ficheiro xinput9_1_0.dll que não é do Courier. O Courier não o vai substituir; remova esse mod primeiro para usar o Courier.',
+    unavailableTitle: 'Faltam os ficheiros do Courier',
+    unavailableBody:
+      'Esta cópia da aplicação não traz os ficheiros que instala. Transfira a aplicação de novo.',
+    openGameTitle: 'Abra o jogo e carregue uma gravação',
+    openGameBody: 'O Courier liga-se sozinho assim que o jogo estiver aberto.',
+    readyTitle: 'Ligado ao jogo',
+    readyBody: 'Tudo pronto. Escolha o que enviar.'
+  },
   settings: {
+    internalNames: 'Mostrar nomes internos',
+    internalNamesHint:
+      'Mostra os identificadores do jogo e a resposta técnica de cada envio. Útil para comunicar um problema.',
     notifications: 'Notificações do jogo',
     notificationsHint:
       'Permite que o jogo mostre a sua própria notificação do que for entregue, quando existir. Desative para entregar em silêncio. As melhorias de inventário nunca pedem confirmação.',

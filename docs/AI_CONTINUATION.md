@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Interface, 2026-10-10 (application 1.38.0): owner rule in `AGENTS.md`
+> ("The interface is for people who do not know the game's internals").
+> Done: installer notice (`setup-notice.tsx`, `bridge-installer.ts`),
+> "Show internal names" setting (class `internal-name`, hidden by the
+> stylesheet when off), ten sidebar groups with colours
+> (`features/tones.ts`). Next: shorter texts on the older pages.
+
 > Waiting technologies, 2026-10-10: owner asked for a feature that finishes
 > technologies still waiting for components in every inventory. Owning note
 > [finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md): built in

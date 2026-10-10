@@ -28,8 +28,12 @@ export const plPL: Messages = {
   },
   groups: {
     overview: 'Przegląd',
-    deliver: 'Dostarczanie',
-    unlock: 'Odblokowywanie',
+    inventory: 'Przedmioty i waluty',
+    travel: 'Podróż',
+    equipment: 'Wyposażenie',
+    knowledge: 'Wiedza',
+    progress: 'Postępy',
+    style: 'Wygląd',
     rewards: 'Nagrody',
     library: 'Biblioteka',
     system: 'System'
@@ -224,6 +228,7 @@ export const plPL: Messages = {
     open: 'Otwórz'
   },
   dashboard: {
+    connection: 'Połączenie',
     heroBody:
       'Wysyłaj przedmioty, waluty i odblokowania do własnej uruchomionej gry. Wszystko przechodzi przez samą grę, twoje zapisy nigdy nie są edytowane, a nazwy i ikony widoczne tutaj pochodzą z twojej instalacji.',
     game: 'Gra',
@@ -247,7 +252,33 @@ export const plPL: Messages = {
     entriesCount: 'Wpisy: {count}',
     processId: 'Proces {id}'
   },
+  setup: {
+    chooseTitle: 'Wybierz folder gry',
+    chooseBody: "Courier musi wiedzieć, gdzie zainstalowano No Man's Sky.",
+    chooseButton: 'Wybierz folder',
+    installTitle: 'Zainstaluj Courier w grze',
+    updateTitle: 'Zaktualizuj Courier w grze',
+    installBody:
+      'Dwa małe pliki są kopiowane do folderu gry. Nic z gry nie jest zastępowane, a twoje zapisy pozostają nietknięte. Potem uruchom grę.',
+    installButton: 'Zainstaluj',
+    updateButton: 'Zaktualizuj',
+    closeGameTitle: 'Zamknij grę, aby dokończyć',
+    closeGameBody: 'Plików nie można zastąpić, gdy gra jest uruchomiona. Zamknij ją i wróć tutaj.',
+    foreignTitle: 'Inny mod używa tego samego pliku',
+    foreignBody:
+      'W folderze gry jest już plik xinput9_1_0.dll, który nie należy do Couriera. Courier go nie zastąpi; najpierw usuń ten mod, aby używać Couriera.',
+    unavailableTitle: 'Brakuje plików Couriera',
+    unavailableBody:
+      'Ta kopia aplikacji nie zawiera plików, które instaluje. Pobierz aplikację ponownie.',
+    openGameTitle: 'Uruchom grę i wczytaj zapis',
+    openGameBody: 'Courier połączy się sam, gdy tylko gra będzie uruchomiona.',
+    readyTitle: 'Połączono z grą',
+    readyBody: 'Wszystko gotowe. Wybierz, co wysłać.'
+  },
   settings: {
+    internalNames: 'Pokaż nazwy wewnętrzne',
+    internalNamesHint:
+      'Pokazuje identyfikatory gry i techniczną odpowiedź każdego żądania. Przydatne przy zgłaszaniu problemu.',
     notifications: 'Powiadomienia gry',
     notificationsHint:
       'Pozwala grze pokazywać własne powiadomienie o tym, co zostało dostarczone, jeśli takie istnieje. Wyłącz, aby dostarczać po cichu. Ulepszenia ekwipunku nigdy nie proszą o potwierdzenie.',

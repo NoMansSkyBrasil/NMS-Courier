@@ -109,7 +109,7 @@ Current versions: application 1.35.0, bridge 1.28.0, game build 180836.
 | Installation found automatically | Implemented 2026-10-08, Steam on Windows | **Yes** |
 | Running game recognised | From the bridge's status, 2026-10-08 | **Yes**, by the owner's send |
 | Versions of application and bridge shown | Implemented 2026-10-08 | **Yes** |
-| Bridge and data file installed by the application | Not implemented; copied by hand | No |
+| Bridge and data file installed by the application | Implemented 2026-10-10 (application 1.38.0); tested on temporary folders only | No |
 | Packaged build with the bridge | Not implemented | No |
 | macOS and Linux | Requests are portable; installation search and bridge loading are not | No |
 | Delivery to another player | Not researched; later goal | No |

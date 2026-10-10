@@ -29,8 +29,12 @@ export const ptBR: Messages = {
   },
   groups: {
     overview: 'Visão geral',
-    deliver: 'Entregar',
-    unlock: 'Desbloquear',
+    inventory: 'Itens e moedas',
+    travel: 'Viagem',
+    equipment: 'Equipamento',
+    knowledge: 'Conhecimento',
+    progress: 'Progresso',
+    style: 'Visual',
     rewards: 'Recompensas',
     library: 'Biblioteca',
     system: 'Sistema'
@@ -228,6 +232,7 @@ export const ptBR: Messages = {
     open: 'Abrir'
   },
   dashboard: {
+    connection: 'Conexão',
     heroBody:
       'Envie itens, moedas e desbloqueios para o seu próprio jogo em execução. Tudo passa pelo próprio jogo, seus saves nunca são editados, e os nomes e ícones que você vê aqui vêm da sua instalação.',
     game: 'Jogo',
@@ -251,7 +256,34 @@ export const ptBR: Messages = {
     entriesCount: '{count} entradas',
     processId: 'Processo {id}'
   },
+  setup: {
+    chooseTitle: 'Escolha a pasta do jogo',
+    chooseBody: "O Courier precisa saber onde o No Man's Sky está instalado.",
+    chooseButton: 'Escolher pasta',
+    installTitle: 'Instalar o Courier no jogo',
+    updateTitle: 'Atualizar o Courier no jogo',
+    installBody:
+      'Dois arquivos pequenos são copiados para a pasta do jogo. Nada do jogo é substituído e seus saves não são tocados. Depois, abra o jogo.',
+    installButton: 'Instalar',
+    updateButton: 'Atualizar',
+    closeGameTitle: 'Feche o jogo para concluir',
+    closeGameBody:
+      'Os arquivos não podem ser trocados com o jogo aberto. Feche o jogo e volte aqui.',
+    foreignTitle: 'Outro mod usa o mesmo arquivo',
+    foreignBody:
+      'A pasta do jogo já tem um arquivo xinput9_1_0.dll que não é do Courier. O Courier não vai substituí-lo; remova esse mod antes para usar o Courier.',
+    unavailableTitle: 'Os arquivos do Courier estão faltando',
+    unavailableBody:
+      'Esta cópia do aplicativo não traz os arquivos que ele instala. Baixe o aplicativo de novo.',
+    openGameTitle: 'Abra o jogo e carregue um save',
+    openGameBody: 'O Courier se conecta sozinho assim que o jogo estiver aberto.',
+    readyTitle: 'Conectado ao jogo',
+    readyBody: 'Tudo pronto. Escolha o que enviar.'
+  },
   settings: {
+    internalNames: 'Mostrar nomes internos',
+    internalNamesHint:
+      'Mostra os identificadores do jogo e a resposta técnica de cada envio. Útil para relatar um problema.',
     notifications: 'Notificações do jogo',
     notificationsHint:
       'Deixa o jogo mostrar a própria notificação do que for entregue, quando existir. Desative para entregar em silêncio. Melhorias de inventário nunca pedem confirmação.',

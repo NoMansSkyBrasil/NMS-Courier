@@ -146,7 +146,7 @@ export function WordMatrix({
           <TableHeader className="sticky top-0 z-10 bg-card">
             <TableRow>
               <TableHead>{text.word}</TableHead>
-              <TableHead>{text.id}</TableHead>
+              <TableHead className="internal-name">{text.id}</TableHead>
               {races.map((race, index) => {
                 const ids = groupsOf(index)
                 const count = ids.filter((id) => chosen.has(id)).length
@@ -170,7 +170,7 @@ export function WordMatrix({
             {shown.map((row) => (
               <TableRow key={row.id}>
                 <TableCell className="truncate font-medium">{row.text}</TableCell>
-                <TableCell className="truncate font-mono text-xs text-muted-foreground">
+                <TableCell className="internal-name truncate font-mono text-xs text-muted-foreground">
                   {row.id}
                 </TableCell>
                 {races.map((race, index) => {

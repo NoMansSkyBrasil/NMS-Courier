@@ -1,5 +1,12 @@
 export {}
 
+type BridgeInstallState = {
+  bridge: 'missing' | 'current' | 'older' | 'foreign'
+  data: 'missing' | 'current' | 'older' | 'foreign'
+  needed: boolean
+  blocked: 'game_running' | 'foreign_file' | 'files_unavailable' | null
+}
+
 type WaitingTechnologyReport = {
   delivery: DeliveryResult
   truncated: boolean
@@ -175,6 +182,7 @@ declare global {
         installedBridgeVersion: string | null
         bridgeVersion: string
         appVersion: string
+        install: BridgeInstallState | null
       }>
       deliver: (feature: string, chosen?: string[], notify?: boolean) => Promise<DeliveryResult>
       deliverItems: (
@@ -258,6 +266,7 @@ declare global {
         count: number | null
         notify: boolean
       }) => Promise<DeliveryResult>
+      installBridge: () => Promise<BridgeInstallState | null>
       listWaitingTechnologies: (locale: string) => Promise<WaitingTechnologyReport>
       finishTechnologies: (
         request: { slots: Array<{ choice: number; owner: number; x: number; y: number }> | null },

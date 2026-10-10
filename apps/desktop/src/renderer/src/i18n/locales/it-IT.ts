@@ -29,8 +29,12 @@ export const itIT: Messages = {
   },
   groups: {
     overview: 'Panoramica',
-    deliver: 'Consegna',
-    unlock: 'Sblocca',
+    inventory: 'Oggetti e valute',
+    travel: 'Viaggio',
+    equipment: 'Equipaggiamento',
+    knowledge: 'Conoscenza',
+    progress: 'Progressi',
+    style: 'Aspetto',
     rewards: 'Ricompense',
     library: 'Libreria',
     system: 'Sistema'
@@ -234,6 +238,7 @@ export const itIT: Messages = {
     open: 'Apri'
   },
   dashboard: {
+    connection: 'Collegamento',
     heroBody:
       'Invia oggetti, valute e sblocchi al tuo gioco in esecuzione. Tutto passa attraverso il gioco stesso, i tuoi salvataggi non vengono mai modificati, e i nomi e le icone che vedi qui provengono dalla tua installazione.',
     game: 'Gioco',
@@ -257,7 +262,34 @@ export const itIT: Messages = {
     entriesCount: '{count} voci',
     processId: 'Processo {id}'
   },
+  setup: {
+    chooseTitle: 'Scegli la cartella del gioco',
+    chooseBody: "Courier deve sapere dove è installato No Man's Sky.",
+    chooseButton: 'Scegli cartella',
+    installTitle: 'Installa Courier nel gioco',
+    updateTitle: 'Aggiorna Courier nel gioco',
+    installBody:
+      'Due piccoli file vengono copiati nella cartella del gioco. Nulla del gioco viene sostituito e i tuoi salvataggi non vengono toccati. Poi avvia il gioco.',
+    installButton: 'Installa',
+    updateButton: 'Aggiorna',
+    closeGameTitle: 'Chiudi il gioco per completare',
+    closeGameBody:
+      'I file non possono essere sostituiti mentre il gioco è in esecuzione. Chiudilo e torna qui.',
+    foreignTitle: "Un'altra mod usa lo stesso file",
+    foreignBody:
+      'La cartella del gioco contiene già un file xinput9_1_0.dll che non è di Courier. Courier non lo sostituirà; rimuovi prima quella mod per usare Courier.',
+    unavailableTitle: 'Mancano i file di Courier',
+    unavailableBody:
+      "Questa copia dell'applicazione non contiene i file che installa. Scarica di nuovo l'applicazione.",
+    openGameTitle: 'Avvia il gioco e carica un salvataggio',
+    openGameBody: 'Courier si collega da solo appena il gioco è in esecuzione.',
+    readyTitle: 'Collegato al gioco',
+    readyBody: 'Tutto pronto. Scegli cosa inviare.'
+  },
   settings: {
+    internalNames: 'Mostra nomi interni',
+    internalNamesHint:
+      'Mostra gli identificatori del gioco e la risposta tecnica di ogni invio. Utile per segnalare un problema.',
     notifications: 'Notifiche del gioco',
     notificationsHint:
       'Lascia che il gioco mostri la propria notifica per ciò che viene consegnato, quando esiste. Disattiva per consegnare in silenzio. I potenziamenti dell’inventario non chiedono mai conferma.',

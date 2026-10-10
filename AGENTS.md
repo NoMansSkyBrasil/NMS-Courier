@@ -135,7 +135,9 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - **Every change to the bridge gets a new bridge version**, in the same commit: raise
   `runtime/native/asi/profile_180836/bridge_version.h`, build, add the built file's SHA-256 with
   that version to `apps/desktop/src/main/research-bridge/bridge-version.ts`, set `bridgeVersion`
-  there, and add a changelog entry. Never install or commit a changed bridge under an old version.
+  there, copy the built file to `apps/desktop/resources/bridge/` (the application installs it into
+  the game from there; the data file `REWARDTABLE.EXML` beside it must be the one of
+  `runtime/mods/courier_rewards`), and add a changelog entry. Never install or commit a changed bridge under an old version.
 - Raise the application version (`apps/desktop/package.json` and the root `package.json`) whenever
   a change reaches the user, with a changelog entry in the same commit.
 - Meaning of the three numbers, as the owner defined them on 2026-10-08: `x.x.1` patch for bug

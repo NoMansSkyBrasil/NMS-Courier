@@ -9,7 +9,10 @@ import { Badge } from '@renderer/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import { useLocale } from '@renderer/i18n/locale'
 import type { ScopeId, StatusId } from '@renderer/i18n/messages'
+import { tones } from '@renderer/features/tones'
 
+// Green once seen working in the game, amber while it is still being tried.
+const statusTones = { verified: tones.good, experimental: tones.caution, planned: '' } as const
 const statusIcons = {
   verified: CircleCheckIcon,
   experimental: FlaskConicalIcon,
@@ -23,7 +26,14 @@ export function StatusBadge({ status }: { status: StatusId }): React.JSX.Element
 
   return (
     <Tooltip>
-      <TooltipTrigger render={<Badge variant={status === 'verified' ? 'secondary' : 'outline'} />}>
+      <TooltipTrigger
+        render={
+          <Badge
+            variant={status === 'planned' ? 'outline' : 'secondary'}
+            className={statusTones[status]}
+          />
+        }
+      >
         <Icon data-icon="inline-start" />
         {copy.status[status]}
       </TooltipTrigger>

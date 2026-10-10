@@ -584,7 +584,7 @@ export function PlanetFinderCard(): React.JSX.Element {
           </Alert>
         )}
         {result && result.steps.length > 0 && (
-          <pre className="max-h-48 overflow-auto rounded-lg bg-muted p-3 text-xs">
+          <pre className="internal-name max-h-48 overflow-auto rounded-lg bg-muted p-3 text-xs">
             {result.steps.map((step) => step.lines.join('\n')).join('\n\n')}
           </pre>
         )}

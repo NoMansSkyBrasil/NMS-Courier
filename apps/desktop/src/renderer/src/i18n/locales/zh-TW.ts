@@ -27,8 +27,12 @@ export const zhTW: Messages = {
   },
   groups: {
     overview: '總覽',
-    deliver: '遞送',
-    unlock: '解鎖',
+    inventory: '物品與貨幣',
+    travel: '旅行',
+    equipment: '裝備',
+    knowledge: '知識',
+    progress: '進度',
+    style: '外觀',
     rewards: '獎勵',
     library: '資料庫',
     system: '系統'
@@ -185,6 +189,7 @@ export const zhTW: Messages = {
     open: '開啟'
   },
   dashboard: {
+    connection: '連線',
     heroBody:
       '把物品、貨幣和解鎖內容傳送到你自己正在執行的遊戲。一切都透過遊戲本身完成，絕不編輯你的存檔；這裡顯示的名稱和圖示都來自你的遊戲安裝。',
     game: '遊戲',
@@ -208,7 +213,31 @@ export const zhTW: Messages = {
     entriesCount: '{count} 個項目',
     processId: '處理程序 {id}'
   },
+  setup: {
+    chooseTitle: '選擇遊戲資料夾',
+    chooseBody: 'Courier 需要知道《無人深空》安裝在哪裡。',
+    chooseButton: '選擇資料夾',
+    installTitle: '將 Courier 安裝到遊戲',
+    updateTitle: '更新遊戲中的 Courier',
+    installBody:
+      '會把兩個小檔案複製到遊戲資料夾。不會取代遊戲的任何內容，也不會動你的存檔。之後請啟動遊戲。',
+    installButton: '安裝',
+    updateButton: '更新',
+    closeGameTitle: '請關閉遊戲以完成',
+    closeGameBody: '遊戲執行時無法取代檔案。請關閉遊戲後回到這裡。',
+    foreignTitle: '另一個模組使用了同一個檔案',
+    foreignBody:
+      '遊戲資料夾中已有一個不屬於 Courier 的 xinput9_1_0.dll。Courier 不會取代它；要使用 Courier，請先移除那個模組。',
+    unavailableTitle: '缺少 Courier 的檔案',
+    unavailableBody: '此應用程式副本不包含它要安裝的檔案。請重新下載應用程式。',
+    openGameTitle: '開啟遊戲並載入存檔',
+    openGameBody: '遊戲執行後，Courier 會自動連線。',
+    readyTitle: '已連線到遊戲',
+    readyBody: '一切就緒。選擇要傳送的內容。'
+  },
   settings: {
+    internalNames: '顯示內部名稱',
+    internalNamesHint: '顯示遊戲的識別碼和每次請求的技術回應。回報問題時有用。',
     notifications: '遊戲通知',
     notificationsHint:
       '對於交付的內容，如果遊戲有自己的通知，就讓它顯示。關閉後將靜默交付。物品欄升級從不要求確認。',

@@ -111,7 +111,7 @@ export function DeliverySelection({
                   </TableCell>
                 )}
                 <TableCell className="font-medium">{option.name || option.id}</TableCell>
-                <TableCell className="text-muted-foreground">{option.id}</TableCell>
+                <TableCell className="internal-name text-muted-foreground">{option.id}</TableCell>
                 <TableCell className="text-right">
                   <Badge variant="outline">{option.group}</Badge>
                 </TableCell>

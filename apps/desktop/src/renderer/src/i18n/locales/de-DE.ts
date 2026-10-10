@@ -29,8 +29,12 @@ export const deDE: Messages = {
   },
   groups: {
     overview: 'Übersicht',
-    deliver: 'Liefern',
-    unlock: 'Freischalten',
+    inventory: 'Gegenstände und Währungen',
+    travel: 'Reisen',
+    equipment: 'Ausrüstung',
+    knowledge: 'Wissen',
+    progress: 'Fortschritt',
+    style: 'Aussehen',
     rewards: 'Belohnungen',
     library: 'Bibliothek',
     system: 'System'
@@ -239,6 +243,7 @@ export const deDE: Messages = {
     open: 'Öffnen'
   },
   dashboard: {
+    connection: 'Verbindung',
     heroBody:
       'Sende Gegenstände, Währungen und Freischaltungen an dein eigenes laufendes Spiel. Alles läuft über das Spiel selbst, deine Spielstände werden nie bearbeitet, und die Namen und Symbole hier stammen aus deiner Installation.',
     game: 'Spiel',
@@ -262,7 +267,34 @@ export const deDE: Messages = {
     entriesCount: '{count} Einträge',
     processId: 'Prozess {id}'
   },
+  setup: {
+    chooseTitle: 'Wähle deinen Spielordner',
+    chooseBody: "Courier muss wissen, wo No Man's Sky installiert ist.",
+    chooseButton: 'Ordner wählen',
+    installTitle: 'Courier im Spiel installieren',
+    updateTitle: 'Courier im Spiel aktualisieren',
+    installBody:
+      'Zwei kleine Dateien werden in den Spielordner kopiert. Nichts vom Spiel wird ersetzt und deine Spielstände bleiben unberührt. Starte danach das Spiel.',
+    installButton: 'Installieren',
+    updateButton: 'Aktualisieren',
+    closeGameTitle: 'Schließe das Spiel zum Abschließen',
+    closeGameBody:
+      'Die Dateien können nicht ersetzt werden, solange das Spiel läuft. Schließe es und komm hierher zurück.',
+    foreignTitle: 'Eine andere Mod nutzt dieselbe Datei',
+    foreignBody:
+      'Im Spielordner liegt bereits eine Datei xinput9_1_0.dll, die nicht von Courier stammt. Courier ersetzt sie nicht; entferne zuerst diese Mod, um Courier zu nutzen.',
+    unavailableTitle: 'Die Dateien von Courier fehlen',
+    unavailableBody:
+      'Diese Kopie der Anwendung enthält die Dateien nicht, die sie installiert. Lade die Anwendung erneut herunter.',
+    openGameTitle: 'Starte das Spiel und lade einen Spielstand',
+    openGameBody: 'Courier verbindet sich von selbst, sobald das Spiel läuft.',
+    readyTitle: 'Mit dem Spiel verbunden',
+    readyBody: 'Alles bereit. Wähle, was gesendet werden soll.'
+  },
   settings: {
+    internalNames: 'Interne Namen anzeigen',
+    internalNamesHint:
+      'Zeigt die Kennungen des Spiels und die technische Antwort jeder Anfrage. Nützlich beim Melden eines Problems.',
     notifications: 'Benachrichtigungen des Spiels',
     notificationsHint:
       'Lässt das Spiel seine eigene Benachrichtigung für Geliefertes anzeigen, sofern es eine gibt. Ausschalten, um still zu liefern. Inventarerweiterungen fragen nie nach einer Bestätigung.',

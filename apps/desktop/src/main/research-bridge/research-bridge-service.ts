@@ -11,6 +11,7 @@ import {
 import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import { getInstallPlan, installResultName } from './install-plan'
+import { getBridgeInstallState, installBridge, type BridgeInstallState } from './bridge-installer'
 import {
   parseInstallResult,
   type InstallRequest,
@@ -135,6 +136,8 @@ export type ResearchBridgeContext = {
   diagnosticsDirectory: string
   backupDirectory: string
   saveDirectory: string
+  // The bridge and the data file the application carries, to install into the game.
+  bridgeResourceDirectory: string
 }
 
 // Sends the deliveries of the research profile on behalf of the interface. It owns the order of
@@ -196,6 +199,24 @@ export class ResearchBridgeService {
       return { state: 'game_not_running', processId: null, ...installed }
     }
     return { state: 'ready', processId: game.processId, ...installed }
+  }
+
+  // Whether the application's files are in the game folder, and whether they can be put there.
+  getInstallState(installationRoot: string, game: GameProcessStatus): Promise<BridgeInstallState> {
+    return getBridgeInstallState(
+      installationRoot,
+      this.context.bridgeResourceDirectory,
+      game.state === 'running'
+    )
+  }
+
+  // Copies the bridge and the data file into the game folder; never while the game runs.
+  installIntoGame(installationRoot: string, game: GameProcessStatus): Promise<BridgeInstallState> {
+    return installBridge(
+      installationRoot,
+      this.context.bridgeResourceDirectory,
+      game.state === 'running'
+    )
   }
 
   getOptions(feature: DeliveryFeatureId, locale = 'en-US'): Promise<DeliveryOption[]> {

@@ -216,7 +216,7 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
         {result && result.steps.length > 0 && (
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">{delivery.result}</span>
-            <pre className="max-h-64 overflow-auto rounded-lg bg-muted p-3 text-xs">
+            <pre className="internal-name max-h-64 overflow-auto rounded-lg bg-muted p-3 text-xs">
               {result.steps.map((step) => step.lines.join('\n')).join('\n\n')}
             </pre>
           </div>

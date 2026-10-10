@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BookOpenIcon, CableIcon, Gamepad2Icon, HashIcon, SendIcon } from 'lucide-react'
 import { StatusBadge } from '@renderer/components/feature-badges'
+import { SetupNotice } from '@renderer/components/setup-notice'
 import { GameIcon } from '@renderer/components/game-icon'
 import { AvatarGroup } from '@renderer/components/ui/avatar'
 import { Badge } from '@renderer/components/ui/badge'
@@ -16,13 +17,22 @@ import {
 } from '@renderer/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
 import { featureGroups, featureHref } from '@renderer/features'
+import { groupTileTones, toneDots, tones, type Tone } from '@renderer/features/tones'
 import { useGameState } from '@renderer/hooks/use-game-state'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 // Items whose game icons decorate the hero; any that the catalogue does not hold is skipped.
 const heroItems = ['FUEL1', 'LAND1', 'OXYGEN', 'LAUNCHSUB', 'CASING', 'NANOTUBES', 'ASTEROID1']
 // Groups whose areas send something to the game, in the order of the sidebar.
-const areaGroups = ['deliver', 'unlock', 'rewards'] as const
+const areaGroups = [
+  'inventory',
+  'travel',
+  'equipment',
+  'knowledge',
+  'progress',
+  'style',
+  'rewards'
+] as const
 
 // The start page: what the application is, whether something can be sent right now, and every
 // area one click away.
@@ -49,10 +59,17 @@ export function DashboardPage(): React.JSX.Element {
     }
   }, [catalogReady, locale])
 
-  const cards = [
+  const cards: Array<{
+    label: string
+    icon: typeof Gamepad2Icon
+    tone: Tone
+    value: string
+    detail: string
+  }> = [
     {
       label: text.game,
       icon: Gamepad2Icon,
+      tone: game?.state === 'running' ? 'good' : game?.state === 'not_running' ? 'info' : 'caution',
       value:
         game?.state === 'running'
           ? text.running
@@ -69,6 +86,8 @@ export function DashboardPage(): React.JSX.Element {
     {
       label: text.build,
       icon: HashIcon,
+      tone:
+        build?.state === 'supported' ? 'good' : build?.state === 'unknown' ? 'danger' : 'neutral',
       value:
         build?.state === 'supported'
           ? text.supported
@@ -80,14 +99,16 @@ export function DashboardPage(): React.JSX.Element {
       detail: build?.buildLabel ?? ''
     },
     {
-      label: text.bridge,
+      label: text.connection,
       icon: CableIcon,
+      tone: bridge?.state === 'ready' ? 'good' : bridge?.install?.needed ? 'caution' : 'neutral',
       value: bridge?.state === 'ready' ? text.connected : text.notConnected,
       detail: bridge?.installedBridgeVersion ?? ''
     },
     {
       label: text.catalog,
       icon: BookOpenIcon,
+      tone: catalogReady ? 'good' : 'caution',
       value: catalogReady ? text.available : text.unavailable,
       detail: catalogReady
         ? formatMessage(text.entriesCount, { count: catalog.entryCount.toLocaleString(locale) })
@@ -129,11 +150,9 @@ export function DashboardPage(): React.JSX.Element {
           )}
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
-            {bridge
-              ? formatMessage(copy.delivery.state[bridge.state], { id: bridge.processId ?? '' })
-              : copy.delivery.state.unavailable}
-          </p>
+          <div role="status" aria-live="polite">
+            <SetupNotice bridge={bridge} showReady />
+          </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-2">
           <Button render={<a href={featureHref('items')} />}>
@@ -155,11 +174,19 @@ export function DashboardPage(): React.JSX.Element {
           <Card key={card.label} className="@container/card">
             <CardHeader>
               <CardDescription>{card.label}</CardDescription>
-              <CardTitle className="text-2xl font-semibold @[250px]/card:text-3xl">
+              <CardTitle className="flex items-center gap-2 text-2xl font-semibold @[250px]/card:text-3xl">
+                <span
+                  aria-hidden
+                  className={`size-2.5 shrink-0 rounded-full ${toneDots[card.tone]}`}
+                />
                 {card.value}
               </CardTitle>
               <CardAction>
-                <card.icon className="size-4 text-muted-foreground" />
+                <div
+                  className={`flex size-8 items-center justify-center rounded-lg ${tones[card.tone]}`}
+                >
+                  <card.icon className="size-4" />
+                </div>
               </CardAction>
             </CardHeader>
             {card.detail && (
@@ -190,7 +217,11 @@ export function DashboardPage(): React.JSX.Element {
                       <Card size="sm" className="h-full transition-colors hover:bg-muted/50">
                         <CardHeader>
                           <CardTitle className="flex items-center gap-2">
-                            <feature.icon className="size-4 text-muted-foreground" />
+                            <span
+                              className={`flex size-7 shrink-0 items-center justify-center rounded-md ${groupTileTones[group.id]}`}
+                            >
+                              <feature.icon className="size-4" />
+                            </span>
                             {copy.features[feature.id].title}
                           </CardTitle>
                           <CardDescription>{copy.features[feature.id].summary}</CardDescription>

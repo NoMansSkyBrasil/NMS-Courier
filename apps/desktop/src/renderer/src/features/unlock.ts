@@ -21,7 +21,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'technologies',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: CpuIcon,
     kind: 'delivery',
     status: 'verified',
@@ -39,7 +39,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'productRecipes',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: FlaskConicalIcon,
     kind: 'delivery',
     status: 'verified',
@@ -54,7 +54,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'buildParts',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: BlocksIcon,
     kind: 'delivery',
     status: 'verified',
@@ -68,7 +68,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'refinerRecipes',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: CookingPotIcon,
     kind: 'delivery',
     status: 'verified',
@@ -82,7 +82,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'customisation',
     wired: true,
-    group: 'unlock',
+    group: 'style',
     icon: PaletteIcon,
     kind: 'delivery',
     status: 'verified',
@@ -93,7 +93,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'titles',
     wired: true,
-    group: 'unlock',
+    group: 'style',
     icon: AwardIcon,
     kind: 'delivery',
     status: 'verified',
@@ -107,7 +107,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'words',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: LanguagesIcon,
     kind: 'delivery',
     // Built on 2026-10-09 (bridge 1.22.0); not exercised in the running game yet.
@@ -118,7 +118,7 @@ export const unlockFeatures: readonly Feature[] = [
   },
   {
     id: 'glyphs',
-    group: 'unlock',
+    group: 'knowledge',
     icon: ShapesIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -129,7 +129,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'guide',
     wired: true,
-    group: 'unlock',
+    group: 'knowledge',
     icon: BookOpenIcon,
     kind: 'delivery',
     // Built on 2026-10-09 (bridge 1.26.0); not exercised in the running game yet.
@@ -144,7 +144,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'nexus',
     wired: true,
-    group: 'unlock',
+    group: 'progress',
     icon: OrbitIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -155,7 +155,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'missions',
     wired: true,
-    group: 'unlock',
+    group: 'progress',
     icon: ScrollTextIcon,
     kind: 'delivery',
     // Built on 2026-10-09 (bridge 1.27.0) to learn what the game does; not exercised yet.
@@ -166,7 +166,7 @@ export const unlockFeatures: readonly Feature[] = [
   },
   {
     id: 'standings',
-    group: 'unlock',
+    group: 'progress',
     icon: HandshakeIcon,
     kind: 'delivery',
     // Built on 2026-10-09 (bridge 1.23.0); not exercised in the running game yet.
@@ -177,7 +177,7 @@ export const unlockFeatures: readonly Feature[] = [
   },
   {
     id: 'milestones',
-    group: 'unlock',
+    group: 'progress',
     icon: MedalIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -188,7 +188,7 @@ export const unlockFeatures: readonly Feature[] = [
   {
     id: 'fishing',
     wired: true,
-    group: 'unlock',
+    group: 'progress',
     icon: FishIcon,
     kind: 'delivery',
     status: 'verified',

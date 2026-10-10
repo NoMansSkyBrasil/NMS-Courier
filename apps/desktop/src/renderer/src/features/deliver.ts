@@ -18,7 +18,7 @@ import type { Feature } from './types'
 export const deliverFeatures: readonly Feature[] = [
   {
     id: 'items',
-    group: 'deliver',
+    group: 'inventory',
     icon: PackageIcon,
     kind: 'delivery',
     // Sent from the application on 2026-10-08; see docs/CAPABILITY_STATUS.md.
@@ -28,7 +28,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'currencies',
-    group: 'deliver',
+    group: 'inventory',
     icon: CoinsIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -37,7 +37,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'teleport',
-    group: 'deliver',
+    group: 'travel',
     icon: MapPinIcon,
     kind: 'delivery',
     // Built on 2026-10-09 (bridge 1.21.0); not exercised in the running game yet.
@@ -47,7 +47,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'planets',
-    group: 'deliver',
+    group: 'travel',
     icon: GlobeIcon,
     kind: 'delivery',
     // Built on 2026-10-10 over a survey made offline; one system was compared with the game.
@@ -58,7 +58,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'exosuit',
-    group: 'deliver',
+    group: 'equipment',
     icon: ShieldIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -68,7 +68,7 @@ export const deliverFeatures: readonly Feature[] = [
   {
     id: 'starships',
     sections: ['obtain', 'upgrade'],
-    group: 'deliver',
+    group: 'equipment',
     icon: RocketIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -78,7 +78,7 @@ export const deliverFeatures: readonly Feature[] = [
   {
     id: 'multitools',
     sections: ['obtain', 'upgrade'],
-    group: 'deliver',
+    group: 'equipment',
     icon: CrosshairIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -88,7 +88,7 @@ export const deliverFeatures: readonly Feature[] = [
   {
     id: 'freighters',
     sections: ['obtain', 'upgrade'],
-    group: 'deliver',
+    group: 'equipment',
     icon: ShipIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -97,7 +97,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'pendingTech',
-    group: 'deliver',
+    group: 'equipment',
     icon: WrenchIcon,
     kind: 'delivery',
     // Built on 2026-10-10 from an offline reading of the game's install routine; not tried in the game.
@@ -107,7 +107,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'corvettes',
-    group: 'deliver',
+    group: 'equipment',
     icon: OrbitIcon,
     kind: 'delivery',
     status: 'experimental',
@@ -116,7 +116,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'frigates',
-    group: 'deliver',
+    group: 'equipment',
     icon: AnchorIcon,
     kind: 'delivery',
     status: 'planned',
@@ -124,7 +124,7 @@ export const deliverFeatures: readonly Feature[] = [
   },
   {
     id: 'companions',
-    group: 'deliver',
+    group: 'equipment',
     icon: PawPrintIcon,
     kind: 'delivery',
     status: 'planned',

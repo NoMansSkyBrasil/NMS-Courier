@@ -29,8 +29,12 @@ export const enUS: Messages = {
   },
   groups: {
     overview: 'Overview',
-    deliver: 'Deliver',
-    unlock: 'Unlock',
+    inventory: 'Items and currencies',
+    travel: 'Travel',
+    equipment: 'Equipment',
+    knowledge: 'Knowledge',
+    progress: 'Progress',
+    style: 'Appearance',
     rewards: 'Rewards',
     library: 'Library',
     system: 'System'
@@ -221,6 +225,7 @@ export const enUS: Messages = {
     open: 'Open'
   },
   dashboard: {
+    connection: 'Connection',
     heroBody:
       'Send items, currencies and unlocks to your own running game. Everything goes through the game itself, your saves are never edited, and the names and icons you see here come from your installation.',
     game: 'Game',
@@ -244,7 +249,34 @@ export const enUS: Messages = {
     entriesCount: '{count} entries',
     processId: 'Process {id}'
   },
+  setup: {
+    chooseTitle: 'Choose your game folder',
+    chooseBody: "Courier needs to know where No Man's Sky is installed.",
+    chooseButton: 'Choose folder',
+    installTitle: 'Install Courier into the game',
+    updateTitle: 'Update Courier in the game',
+    installBody:
+      'Two small files are copied into the game folder. Nothing of the game is replaced and your saves are not touched. Start the game afterwards.',
+    installButton: 'Install',
+    updateButton: 'Update',
+    closeGameTitle: 'Close the game to finish',
+    closeGameBody:
+      'The files cannot be replaced while the game is running. Close it and come back here.',
+    foreignTitle: 'Another mod uses the same file',
+    foreignBody:
+      "The game folder already has a file named xinput9_1_0.dll that is not Courier's. Courier will not replace it; remove that mod first to use Courier.",
+    unavailableTitle: "Courier's files are missing",
+    unavailableBody:
+      'This copy of the application does not carry the files it installs. Download the application again.',
+    openGameTitle: 'Open the game and load a save',
+    openGameBody: 'Courier connects by itself as soon as the game is running.',
+    readyTitle: 'Connected to the game',
+    readyBody: 'Everything is ready. Choose what to send.'
+  },
   settings: {
+    internalNames: 'Show internal names',
+    internalNamesHint:
+      "Show the game's identifiers and the technical answer of each request. Useful when reporting a problem.",
     notifications: 'Game notifications',
     notificationsHint:
       'Let the game show its own notification for what is delivered, where it has one. Turn off to deliver silently. Inventory upgrades never ask for confirmation.',
