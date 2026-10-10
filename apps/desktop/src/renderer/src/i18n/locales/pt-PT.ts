@@ -75,6 +75,10 @@ export const ptPT: Messages = {
       summary: 'Uma oferta de cargueiro com a classe, o modelo e as sementes escolhidos.'
     },
     frigates: { title: 'Fragatas', summary: 'Recrutamento de fragatas para a frota.' },
+    pendingTech: {
+      title: 'Tecnologias pendentes',
+      summary: 'Conclua tecnologias que ainda pedem componentes, em todos os inventários.'
+    },
     corvettes: {
       title: 'Corvetas',
       summary: 'Uma corveta construída a partir de um projeto partilhado.'
@@ -483,6 +487,35 @@ export const ptPT: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autófago'
+    }
+  },
+  pendingTech: {
+    title: 'Tecnologias a aguardar instalação',
+    hint: 'Uma tecnologia com uma engrenagem no canto ainda pede componentes. Veja o que está pendente e conclua aqui: os componentes não são gastos.',
+    check: 'Verificar os meus inventários',
+    notChecked:
+      'A verificação percorre o exofato, a multiferramenta em uso, todas as naves, o cargueiro e todos os exoveículos.',
+    none: 'Nada pendente. Todas as tecnologias estão instaladas.',
+    finishAll: 'Concluir todas ({count})',
+    finishGroup: 'Concluir estas',
+    finishOne: 'Concluir',
+    confirm:
+      'O jogo conclui {count} tecnologias pendentes. Os componentes que pedem não são gastos, e o jogo pode não mostrar mensagem.',
+    blockedHint: 'Entradas de slot danificado e internas nunca são concluídas aqui.',
+    truncated: 'Há mais de 256 pendentes; só as primeiras 256 são mostradas.',
+    groups: {
+      exosuit: 'Exofato',
+      multitool: 'Multiferramenta em uso',
+      ship: 'Nave {number}',
+      freighter: 'Cargueiro',
+      exocraft: 'Exoveículo {number}'
+    },
+    states: {
+      waiting: 'Pendente',
+      finished: 'Instalada',
+      still_waiting: 'Continua pendente',
+      blocked: 'Não permitida',
+      unknown_id: 'Desconhecida pelo jogo'
     }
   },
   planets: {

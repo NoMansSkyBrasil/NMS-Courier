@@ -399,6 +399,14 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-install-request-…` (event `install`, bridge 1.29.0,
+experimental): `mode=list` reads every inventory of the loaded slot for
+technologies still waiting for components; `mode=finish` with `all=1` or
+`slot=<choice>,<owner>,<x>,<y>` lines has the game's own install routine
+(`10b7c80`) finish them. A native call; the bridge writes nothing into a
+store, and the components are not taken. One slot, not the account. See
+[finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md).
+
 Request `native-mission-request-…` (event `missions`, bridge 1.27.0,
 experimental; `silent=0|1` since 1.28.0): named missions for the game to
 complete, a native call of

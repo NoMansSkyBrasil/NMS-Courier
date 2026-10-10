@@ -47,6 +47,12 @@ const nms = {
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
   getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
+  listWaitingTechnologies: (locale: string) =>
+    ipcRenderer.invoke('nms:list-waiting-technologies', locale),
+  finishTechnologies: (
+    request: { slots: Array<{ choice: number; owner: number; x: number; y: number }> | null },
+    locale: string
+  ) => ipcRenderer.invoke('nms:finish-technologies', request, locale),
   getLevelStats: (page: 'standings' | 'milestones', locale: string) =>
     ipcRenderer.invoke('nms:get-level-stats', page, locale),
   raiseLevels: (request: {

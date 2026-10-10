@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.37.0 and bridge 1.29.0 (2026-10-10)
+
+- Added (owner request): page "Waiting technologies" under "Deliver". It
+  looks through the exosuit, the multi-tool in hand, every ship, the
+  freighter and every exocraft for technologies that still ask for
+  components (the gear in the corner) and has the game finish one, the ones
+  of an inventory, or all. The components are not spent. Damaged-slot and
+  internal entries are never finished. In the 14 languages.
+- Bridge 1.29.0 (`77f4876da12d74168150e32dfdbd84857dcf3aed9b218983959acfc77cfc46e3`): request `install`. Listing only reads; finishing
+  calls the game's own install routine once for each technology (a native
+  call, no direct write). See
+  [the notes](docs/TECHNOLOGY_INSTALL_NOTES.md).
+- Not tried in the running game yet; the page is marked experimental.
+
 ## Application 1.36.0 (2026-10-10)
 
 - Fixed: the planet finder called infested planets something else (the

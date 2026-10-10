@@ -318,7 +318,8 @@ The exact-build native XInput bridge has a live callback, one confirmed Carbon Ã
 - [ ] Owner to rule: the Twitch and platform pages still call the slot's redeem routine before the account unlock; under the rule "never claim for the player" that step may have to go.
 - [ ] Missions (bridge 1.27.0, application 1.32.0, experimental, [notes](docs/MISSION_COMPLETION_NOTES.md)): live test on slot 3, one small active mission first; record what the game does with skipped stages and with the next mission.
 - [ ] Planet finder ([notes](docs/PLANET_FINDER_NOTES.md)): one system matched the game on 2026-10-10; compare a few more (other biomes, storms, aggressive sentinels).
-- [ ] Finish waiting technologies in every inventory (owner request, 2026-10-10; [notes](docs/TECHNOLOGY_INSTALL_NOTES.md)): trace the caller of `10b7c80`, map the inventory choices, build the bridge request and the page, test live on slot 3.
+- [ ] Waiting technologies ([notes](docs/TECHNOLOGY_INSTALL_NOTES.md)): built in bridge 1.29.0 and application 1.37.0, not tried in the game. Live test on slot 3: list, finish one, look in the game, save and reload.
+- [ ] Waiting technologies: name each exocraft instead of numbering it; walk the multi-tools that are not in hand; show the game's "installed" message if a routine for it is found.
 - [ ] Planet finder: grass colour as a filter (owner request, 2026-10-10): the palettes are at `GcPlanetData+0` (66 of 0x70 bytes, grass first) and are empty where the tool stops; find the later part that fills them and make the emulator run it.
 - [ ] Planet finder: purple star systems are missing from the list (no water world, gas giant, ocean, island or remix variant); find out why.
 - [ ] Planet finder: star colour and wealth are in the list but not shown or filtered; the lush `Variant_A`/`Variant_B` files (`lushrooma`, `lushroomb`) still read "Other variant".

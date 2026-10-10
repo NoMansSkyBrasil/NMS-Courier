@@ -68,6 +68,10 @@ export const enUS: Messages = {
       summary: 'A freighter offer with the chosen class, model and seeds.'
     },
     frigates: { title: 'Frigates', summary: 'Recruiting frigates for the fleet.' },
+    pendingTech: {
+      title: 'Waiting technologies',
+      summary: 'Finish technologies that still ask for components, in every inventory.'
+    },
     corvettes: { title: 'Corvettes', summary: 'A corvette built from a shared layout.' },
     companions: { title: 'Companions', summary: 'Companion eggs and creatures.' },
     technologies: {
@@ -468,6 +472,35 @@ export const enUS: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autophage'
+    }
+  },
+  pendingTech: {
+    title: 'Technologies waiting to be installed',
+    hint: 'A technology with a gear in its corner still asks for components. Check what is waiting, then finish it here: the components are not spent.',
+    check: 'Check my inventories',
+    notChecked:
+      'The check looks through the exosuit, the multi-tool in hand, every ship, the freighter and every exocraft.',
+    none: 'Nothing is waiting. Every technology is fully installed.',
+    finishAll: 'Finish all ({count})',
+    finishGroup: 'Finish these',
+    finishOne: 'Finish',
+    confirm:
+      'The game finishes {count} waiting technologies. The components they ask for are not spent, and the game may not show a message.',
+    blockedHint: 'Damaged-slot and internal entries are never finished here.',
+    truncated: 'More than 256 are waiting; only the first 256 are shown.',
+    groups: {
+      exosuit: 'Exosuit',
+      multitool: 'Multi-tool in hand',
+      ship: 'Ship {number}',
+      freighter: 'Freighter',
+      exocraft: 'Exocraft {number}'
+    },
+    states: {
+      waiting: 'Waiting',
+      finished: 'Installed',
+      still_waiting: 'Still waiting',
+      blocked: 'Not allowed',
+      unknown_id: 'Unknown to the game'
     }
   },
   planets: {

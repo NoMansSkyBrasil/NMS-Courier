@@ -4,4 +4,4 @@
 // CHANGELOG.md. Major: a request or file format changed incompatibly. Minor: a new request or
 // option. Patch: a fix. Included once by profile_core.c.
 
-#define BRIDGE_VERSION "1.28.0"
+#define BRIDGE_VERSION "1.29.0"

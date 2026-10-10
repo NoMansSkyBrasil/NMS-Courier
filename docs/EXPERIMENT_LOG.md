@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-10: waiting technologies built and installed (bridge 1.29.0, application 1.37.0)
+
+A build and an installation; nothing sent to the game. Build 180836
+(executable `13d5060d…cc3499`). Owning note:
+[finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md).
+
+- Traced: the caller of `10b7c80` is the install and repair screen's state
+  machine (`7d63ae`); stores come from `47de30`; the routine reads three
+  fields of its argument.
+- Built bridge 1.29.0 (`77f4876da12d74168150e32dfdbd84857dcf3aed9b218983959acfc77cfc46e3`), request `install` (list, finish). Profile
+  fixture ran. Application 1.37.0: typecheck, lint, 130 tests, build, page
+  opened in the test instance (game closed, button disabled as expected).
+- Installed bridge 1.29.0 over 1.28.0 (`4322b6bf…589d5f`) with the game
+  closed. Undo: copy `native-builds/bridge-1.28.0/xinput9_1_0.dll` back.
+- Not proven: anything in the running game.
+
 ## 2026-10-10: the routine that finishes a waiting technology located (offline)
 
 Offline; nothing sent to the game. Build 180836. Owning note:

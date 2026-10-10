@@ -73,6 +73,10 @@ export const itIT: Messages = {
       summary: 'Un’offerta di mercantile con la classe, il modello e i semi scelti.'
     },
     frigates: { title: 'Fregate', summary: 'Reclutamento di fregate per la flotta.' },
+    pendingTech: {
+      title: 'Tecnologie in attesa',
+      summary: 'Completa le tecnologie che chiedono ancora componenti, in tutti gli inventari.'
+    },
     corvettes: {
       title: 'Corvette',
       summary: 'Una corvetta costruita a partire da un progetto condiviso.'
@@ -486,6 +490,35 @@ export const itIT: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autofago'
+    }
+  },
+  pendingTech: {
+    title: 'Tecnologie in attesa di installazione',
+    hint: "Una tecnologia con un ingranaggio nell'angolo chiede ancora componenti. Controlla cosa è in attesa e completalo qui: i componenti non vengono spesi.",
+    check: 'Controlla i miei inventari',
+    notChecked:
+      "Il controllo passa per l'exotuta, il multi-attrezzo in uso, tutte le navi, il mercantile e tutti gli exoveicoli.",
+    none: 'Niente in attesa. Tutte le tecnologie sono installate.',
+    finishAll: 'Completa tutte ({count})',
+    finishGroup: 'Completa queste',
+    finishOne: 'Completa',
+    confirm:
+      'Il gioco completa {count} tecnologie in attesa. I componenti richiesti non vengono spesi e il gioco potrebbe non mostrare un messaggio.',
+    blockedHint: 'Le voci di slot danneggiato e interne non vengono mai completate qui.',
+    truncated: 'Più di 256 sono in attesa; sono mostrate solo le prime 256.',
+    groups: {
+      exosuit: 'Exotuta',
+      multitool: 'Multi-attrezzo in uso',
+      ship: 'Nave {number}',
+      freighter: 'Mercantile',
+      exocraft: 'Exoveicolo {number}'
+    },
+    states: {
+      waiting: 'In attesa',
+      finished: 'Installata',
+      still_waiting: 'Ancora in attesa',
+      blocked: 'Non consentita',
+      unknown_id: 'Sconosciuta al gioco'
     }
   },
   planets: {

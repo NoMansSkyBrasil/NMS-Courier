@@ -2,10 +2,10 @@
 
 > Waiting technologies, 2026-10-10: owner asked for a feature that finishes
 > technologies still waiting for components in every inventory. Owning note
-> [finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md): candidate
-> game routine `10b7c80` read offline; nothing built. Next: trace its
-> caller, list the inventory choices, then bridge file
-> `technology_install.h` and a page.
+> [finishing waiting technologies](TECHNOLOGY_INSTALL_NOTES.md): built in
+> bridge 1.29.0 (installed, `77f4876d…fc46e3`) and application 1.37.0 (page
+> "Waiting technologies"); the bridge calls the game's routine `10b7c80`.
+> Not tried in the game. Next: live test from the page on slot 3.
 
 > Planet finder, 2026-10-10 (application 1.36.0): owning note
 > [finding planets](PLANET_FINDER_NOTES.md). Done: survey of 28,287 planets

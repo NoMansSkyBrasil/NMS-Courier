@@ -3,6 +3,7 @@ import { isGlyphRequest } from './research-bridge/glyph-plan'
 import { isLevelPage, isLevelRequest } from './research-bridge/level-plan'
 import { glyphDigits, glyphIcon } from '../shared/portal-address'
 import { isTeleportRequest } from './research-bridge/teleport-plan'
+import { isInstallRequest } from '../shared/waiting-technology'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -392,6 +393,44 @@ app.whenReady().then(() => {
       { count: request.count, notify: request.notify },
       root,
       await gameStatusService.observe(root)
+    )
+  })
+  // Technologies waiting for components: the listing reads, the finish has the game complete them.
+  const waitingTechnologies = async (
+    request: Parameters<ReturnType<typeof getResearchBridgeService>['waitingTechnologies']>[0],
+    locale: unknown
+  ): Promise<unknown> => {
+    const root = getInstallationService().getSelectedRootPath()
+    const report = await getResearchBridgeService().waitingTechnologies(
+      request,
+      root,
+      await gameStatusService.observe(root)
+    )
+    const names = getCatalogRepository().names(typeof locale === 'string' ? locale : 'en-US')
+    return {
+      ...report,
+      entries: report.entries.map((entry) => ({
+        ...entry,
+        name: names.get(`technology:${entry.id}`) ?? ''
+      }))
+    }
+  }
+  ipcMain.handle('nms:list-waiting-technologies', (_, locale: unknown) =>
+    waitingTechnologies('list', locale)
+  )
+  ipcMain.handle('nms:finish-technologies', (_, request: unknown, locale: unknown) => {
+    if (!isInstallRequest(request)) throw new Error('Invalid request.')
+    return waitingTechnologies(
+      {
+        slots:
+          request.slots?.map((slot) => ({
+            choice: slot.choice,
+            owner: slot.owner,
+            x: slot.x,
+            y: slot.y
+          })) ?? null
+      },
+      locale
     )
   })
   ipcMain.handle('nms:teleport', async (_, request: unknown) => {

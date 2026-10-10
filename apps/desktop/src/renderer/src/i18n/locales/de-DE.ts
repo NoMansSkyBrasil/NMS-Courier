@@ -75,6 +75,10 @@ export const deDE: Messages = {
       summary: 'Ein Frachterangebot mit gewählter Klasse, gewähltem Modell und gewählten Seeds.'
     },
     frigates: { title: 'Fregatten', summary: 'Fregatten für die Flotte anwerben.' },
+    pendingTech: {
+      title: 'Wartende Technologien',
+      summary: 'Schließe Technologien ab, die noch Komponenten verlangen, in jedem Inventar.'
+    },
     corvettes: {
       title: 'Korvetten',
       summary: 'Eine Korvette, gebaut nach einem geteilten Bauplan.'
@@ -494,6 +498,36 @@ export const deDE: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autophage'
+    }
+  },
+  pendingTech: {
+    title: 'Technologien, die auf die Installation warten',
+    hint: 'Eine Technologie mit einem Zahnrad in der Ecke verlangt noch Komponenten. Prüfe, was wartet, und schließe es hier ab: Die Komponenten werden nicht verbraucht.',
+    check: 'Meine Inventare prüfen',
+    notChecked:
+      'Geprüft werden der Exoanzug, das Multiwerkzeug in der Hand, jedes Schiff, der Frachter und jedes Exofahrzeug.',
+    none: 'Nichts wartet. Jede Technologie ist vollständig installiert.',
+    finishAll: 'Alle abschließen ({count})',
+    finishGroup: 'Diese abschließen',
+    finishOne: 'Abschließen',
+    confirm:
+      'Das Spiel schließt {count} wartende Technologien ab. Die verlangten Komponenten werden nicht verbraucht, und das Spiel zeigt möglicherweise keine Meldung.',
+    blockedHint:
+      'Einträge für beschädigte Plätze und interne Einträge werden hier nie abgeschlossen.',
+    truncated: 'Mehr als 256 warten; nur die ersten 256 werden gezeigt.',
+    groups: {
+      exosuit: 'Exoanzug',
+      multitool: 'Multiwerkzeug in der Hand',
+      ship: 'Schiff {number}',
+      freighter: 'Frachter',
+      exocraft: 'Exofahrzeug {number}'
+    },
+    states: {
+      waiting: 'Wartet',
+      finished: 'Installiert',
+      still_waiting: 'Wartet noch',
+      blocked: 'Nicht erlaubt',
+      unknown_id: 'Dem Spiel unbekannt'
     }
   },
   planets: {

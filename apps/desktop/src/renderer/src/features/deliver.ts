@@ -9,7 +9,8 @@ import {
   PawPrintIcon,
   RocketIcon,
   ShieldIcon,
-  ShipIcon
+  ShipIcon,
+  WrenchIcon
 } from 'lucide-react'
 import type { Feature } from './types'
 
@@ -90,6 +91,16 @@ export const deliverFeatures: readonly Feature[] = [
     group: 'deliver',
     icon: ShipIcon,
     kind: 'delivery',
+    status: 'experimental',
+    scope: 'slot',
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'pendingTech',
+    group: 'deliver',
+    icon: WrenchIcon,
+    kind: 'delivery',
+    // Built on 2026-10-10 from an offline reading of the game's install routine; not tried in the game.
     status: 'experimental',
     scope: 'slot',
     rules: ['gameRoutines', 'backup']

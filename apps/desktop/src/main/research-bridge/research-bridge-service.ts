@@ -10,6 +10,12 @@ import {
 } from './level-plan'
 import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
+import { getInstallPlan, installResultName } from './install-plan'
+import {
+  parseInstallResult,
+  type InstallRequest,
+  type WaitingTechnology
+} from '../../shared/waiting-technology'
 import type { StarSystemReport } from '../../shared/star-system'
 import { getSelectionPlan, listDeliveryOptions, type DeliveryOption } from './delivery-options'
 import { createHash } from 'node:crypto'
@@ -87,7 +93,14 @@ export type MissionRow = {
 
 export type DeliveryResult = {
   feature:
-    DeliveryFeatureId | 'items' | 'currencies' | 'teleport' | 'glyphs' | LevelPage | EquipmentArea
+    | DeliveryFeatureId
+    | 'items'
+    | 'currencies'
+    | 'teleport'
+    | 'glyphs'
+    | 'pendingTech'
+    | LevelPage
+    | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
   reason:
@@ -100,6 +113,14 @@ export type DeliveryResult = {
   startedAt: string
   backupPath: string | null
   steps: DeliveryStepResult[]
+}
+
+// What a listing or a finish of waiting technologies gave: how the request went and the
+// technologies the bridge reported, each with what happened to it.
+export type WaitingTechnologyReport = {
+  delivery: DeliveryResult
+  truncated: boolean
+  entries: WaitingTechnology[]
 }
 
 // Sends one request to the bridge of a running game; replaced in tests.
@@ -404,11 +425,42 @@ export class ResearchBridgeService {
     return this.run('teleport', getTeleportPlan(request), installationRoot, game)
   }
 
+  // Technologies waiting for their components in every inventory of the loaded save. A listing
+  // only reads, so it makes no backup; a finish has the game complete the named ones, or all.
+  async waitingTechnologies(
+    request: InstallRequest | 'list',
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<WaitingTechnologyReport> {
+    const delivery = await this.run(
+      'pendingTech',
+      getInstallPlan(request),
+      installationRoot,
+      game,
+      request !== 'list'
+    )
+    // The whole answer is read from the bridge's file: the step keeps only a summary of it.
+    const text =
+      delivery.steps.length > 0 && game.processId !== null
+        ? await readFile(
+            join(
+              this.context.diagnosticsDirectory,
+              `native-${installResultName}-180836-${game.processId}.txt`
+            ),
+            'utf8'
+          ).catch(() => '')
+        : ''
+    const report = parseInstallResult(text)
+    return { delivery, truncated: report?.truncated ?? false, entries: report?.entries ?? [] }
+  }
+
   private async run(
     feature: DeliveryResult['feature'],
     plan: DeliveryPlan | null,
     installationRoot: string | null,
-    game: GameProcessStatus
+    game: GameProcessStatus,
+    // False only for a request that reads and changes nothing.
+    backup = true
   ): Promise<DeliveryResult> {
     const result: DeliveryResult = {
       feature,
@@ -426,8 +478,10 @@ export class ResearchBridgeService {
         return this.record({ ...result, reason: status.state })
       }
       if (!plan) return this.record({ ...result, reason: 'selection_invalid' })
-      result.backupPath = await this.backUp(feature, installationRoot, plan.changesAccount)
-      if (!result.backupPath) return this.record({ ...result, reason: 'backup_failed' })
+      if (backup) {
+        result.backupPath = await this.backUp(feature, installationRoot, plan.changesAccount)
+        if (!result.backupPath) return this.record({ ...result, reason: 'backup_failed' })
+      }
 
       result.outcome = 'completed'
       const running = { processId: status.processId as number, startedAt: game.startedAt ?? '' }

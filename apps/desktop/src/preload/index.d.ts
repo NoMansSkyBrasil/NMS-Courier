@@ -1,5 +1,19 @@
 export {}
 
+type WaitingTechnologyReport = {
+  delivery: DeliveryResult
+  truncated: boolean
+  entries: Array<{
+    choice: number
+    owner: number
+    x: number
+    y: number
+    id: string
+    state: 'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id'
+    name: string
+  }>
+}
+
 type DeliveryResult = {
   feature: string
   outcome: 'completed' | 'unknown' | 'failed' | 'refused'
@@ -244,6 +258,11 @@ declare global {
         count: number | null
         notify: boolean
       }) => Promise<DeliveryResult>
+      listWaitingTechnologies: (locale: string) => Promise<WaitingTechnologyReport>
+      finishTechnologies: (
+        request: { slots: Array<{ choice: number; owner: number; x: number; y: number }> | null },
+        locale: string
+      ) => Promise<WaitingTechnologyReport>
       teleport: (request: {
         glyphs: string
         galaxyNumber: number

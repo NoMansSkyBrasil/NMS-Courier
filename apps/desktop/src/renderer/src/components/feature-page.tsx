@@ -6,6 +6,7 @@ import { TeleportCard } from '@renderer/components/teleport-card'
 import { GlyphsCard } from '@renderer/components/glyphs-card'
 import { LevelsCard } from '@renderer/components/levels-card'
 import { MissionsCard } from '@renderer/components/missions-card'
+import { PendingTechCard } from '@renderer/components/pending-tech-card'
 import { PlanetFinderCard } from '@renderer/components/planet-finder-card'
 import { EquipmentCard } from '@renderer/components/equipment-card'
 import { isEquipmentArea } from '@renderer/features/equipment-areas'
@@ -90,6 +91,8 @@ export function FeaturePage({
         <GlyphsCard />
       ) : feature.id === 'planets' ? (
         <PlanetFinderCard />
+      ) : feature.id === 'pendingTech' ? (
+        <PendingTechCard />
       ) : feature.id === 'missions' ? (
         <MissionsCard />
       ) : feature.id === 'standings' || feature.id === 'milestones' ? (

@@ -6,7 +6,8 @@ included) and finish every technology that is still waiting for its
 components. In the game such a technology shows a gear in its top right corner
 and asks for "required components" before "Install technology" completes it.
 
-Status: **offline reading only, nothing built, nothing sent to the game.**
+Status: **built (bridge 1.29.0, application 1.37.0) and installed; not yet
+tried in the running game.** The reading below was offline.
 Build 180836 (executable SHA-256
 `13d5060d4efb9d2a6a6b1b349bc4257231056cc2a055df4bb15d816262cc3499`).
 
@@ -46,30 +47,78 @@ it is the function at `10b7c80`. Read so far:
 It does not take the components away in what was read; the caller is
 expected to have done that.
 
+## Its caller, and the stores (read the same day)
+
+- The only caller is `7d63ae`, inside the state machine of the game's
+  install and repair screen (`7d6168`..`7d63cc`). When no component of the
+  screen's list is still missing (entries of 0x30 bytes, `+0x1c` above
+  zero means missing) it calls `10b8750` (is the element not yet fully
+  installed?), then `10b7c80`, and moves to the state that later shows
+  `UI_INSTALLED_OSD` or `TECH_REPAIRED` with `%TECH%`. So the on-screen
+  "installed" message belongs to the screen, not to `10b7c80`; a call from
+  the bridge may show nothing.
+- `47de30(holder at manager +0xc240, choice, owner)` returns the store of a
+  `GcInventoryChoice` and `10b7c80` picks stores the same way. Enum, from
+  the executable: `Personal, Personal_TechOnly, Personal_Cargo, Weapon, Ship,
+  Ship_TechOnly, Ship_Cargo, Freighter, Freighter_TechOnly, Freighter_Cargo,
+  Vehicle, Vehicle_TechOnly, Chest1..Chest10, ChestMagic, ChestMagic2,
+  MaintenanceObject, FrontendPage, CookingIngredients, RocketLocker,
+  SeasonTransfer, FishPlatform, FishBaitBox, FoodUnit, CorvetteParts`.
+  Choices 0 to 3 and 7 to 9 are at `+0x10 + choice * 0x248` (3 is the
+  bridge's active multi-tool store, 1 its exosuit technology store); ships
+  are twelve stores each for 4 (`+0x6b58`), 6 (`+0x86c8`) and 5 (`+0xa228`);
+  exocraft seven stores each for 10 (`+0x4b68`) and 11 (`+0x5b60`).
+- A store holds its element count at `+0x8c` and its elements at `+0x90`.
+- The routine reads to its end (`10b82ad`) only the three fields of its
+  argument; for the ship choices it also flags the current ship's display
+  to refresh.
+
+## What was built
+
+Bridge 1.29.0 (`technology_install.h`, SHA-256
+`77f4876da12d74168150e32dfdbd84857dcf3aed9b218983959acfc77cfc46e3`), request
+`native-install-request-180836-<pid>.txt`, event `install`:
+
+- `mode=list`: reads only. Walks the exosuit (choices 0 to 2), the
+  multi-tool in hand (3), the twelve ships (4 to 6), the freighter (7 to 9)
+  and the seven exocraft (10, 11) and reports every technology element with
+  `FullyInstalled` 0.
+- `mode=finish` with `all=1` or `slot=<choice>,<owner>,<x>,<y>` lines: for
+  each wanted element calls `10b7c80` with a blank block holding the three
+  fields, then reads the flag back. **A native call of the game's routine;
+  the bridge writes nothing into a store.** The components are not taken.
+- Never finished: an identifier refused by the technology rules
+  (`technology_learn.h`: damaged-slot, maintenance, template, repair,
+  `OBSOLETE`) or one the running game has no definition for.
+- Result `native-install-result-…`: `result=listed|finished|not_ready`,
+  `entries=`, `finished=`, `truncated=`, then
+  `entry=<choice>,<owner>,<x>,<y>,<ID>,<waiting|finished|still_waiting|blocked|unknown_id>`.
+
+Application 1.37.0: page "Waiting technologies" under "Deliver"
+(`components/pending-tech-card.tsx`, `shared/waiting-technology.ts`,
+`main/research-bridge/install-plan.ts`): a check button, the list by
+inventory with the technology's name, and "finish" for one, for an
+inventory or for all. A listing makes no save backup (it changes nothing);
+a finish does. It changes the loaded slot only.
+
 ## Not known yet
 
-- Who calls `10b7c80` and whether it is really the last step of "Install
-  technology" (not traced).
-- The full map from inventory choice to store (the enum `GcInventoryChoice`
-  has 33 values; only the offsets above were read) and which choice is each
-  exocraft, the freighter and the multi-tool.
-- Whether calling it with a zeroed object that holds only the three fields
-  is safe (the end of the routine was not read past `10b8258`).
+- Everything live: whether the list matches what the game shows, whether a
+  finish works from a blank block, whether the game shows a message, and
+  whether the technology then works and survives a save and reload.
+- Which exocraft is which number (the page says "Exocraft 1" to "7"), and
+  the multi-tools not in hand (only the active one is walked).
+- Undo: none from the application. The save backup made before a finish is
+  the way back.
 - Rejected: the other writers of `+0x29` (`5b4930` swaps a missing
   technology for `OBSOLETE` when a store is read; `1108e40`, `f77c05`,
   `3869c3`, `1372de2` and `4c66eb` belong to other structures).
 
-## Plan
+## Next
 
-1. Trace the caller and read the routine to its end; list the choices.
-2. Bridge: a new domain file `technology_install.h` that walks the stores
-   read-only, lists waiting technologies and calls the game's routine for
-   each chosen one. Native call, the game's own message, nothing written by
-   hand. New bridge version; the game must be closed to install it.
-3. Application: a page listing what is waiting per inventory, with "finish
-   one", "finish this inventory" and "finish all", in the 14 languages.
-4. Live test from the application on slot 3 with a technology placed and
-   left waiting.
+Live test from the application on slot 3: leave a technology waiting (the
+owner's ship has an Emergency Warp Unit waiting), press "Check my
+inventories", finish that one, look at the slot in the game, save, reload.
 
 ## Reproduce
 

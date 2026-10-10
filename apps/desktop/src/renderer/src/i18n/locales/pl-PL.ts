@@ -70,6 +70,10 @@ export const plPL: Messages = {
       summary: 'Oferta frachtowca z wybraną klasą, modelem i ziarnami.'
     },
     frigates: { title: 'Fregaty', summary: 'Werbowanie fregat do floty.' },
+    pendingTech: {
+      title: 'Oczekujące technologie',
+      summary: 'Dokończ technologie, które wciąż wymagają komponentów, w każdym ekwipunku.'
+    },
     corvettes: {
       title: 'Korwety',
       summary: 'Korweta zbudowana na podstawie udostępnionego projektu.'
@@ -472,6 +476,35 @@ export const plPL: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autofag'
+    }
+  },
+  pendingTech: {
+    title: 'Technologie czekające na instalację',
+    hint: 'Technologia z kołem zębatym w rogu wciąż wymaga komponentów. Sprawdź, co czeka, i dokończ to tutaj: komponenty nie są zużywane.',
+    check: 'Sprawdź moje ekwipunki',
+    notChecked:
+      'Sprawdzane są egzoskafander, multinarzędzie w ręku, każdy statek, frachtowiec i każdy egzopojazd.',
+    none: 'Nic nie czeka. Każda technologia jest w pełni zainstalowana.',
+    finishAll: 'Dokończ wszystkie ({count})',
+    finishGroup: 'Dokończ te',
+    finishOne: 'Dokończ',
+    confirm:
+      'Gra dokończy {count} oczekujących technologii. Wymagane komponenty nie są zużywane, a gra może nie pokazać komunikatu.',
+    blockedHint: 'Wpisy uszkodzonych miejsc i wpisy wewnętrzne nigdy nie są tu kończone.',
+    truncated: 'Czeka ponad 256; pokazano tylko pierwsze 256.',
+    groups: {
+      exosuit: 'Egzoskafander',
+      multitool: 'Multinarzędzie w ręku',
+      ship: 'Statek {number}',
+      freighter: 'Frachtowiec',
+      exocraft: 'Egzopojazd {number}'
+    },
+    states: {
+      waiting: 'Czeka',
+      finished: 'Zainstalowana',
+      still_waiting: 'Nadal czeka',
+      blocked: 'Niedozwolona',
+      unknown_id: 'Nieznana grze'
     }
   },
   planets: {

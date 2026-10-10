@@ -18,6 +18,7 @@ export const featureIds = [
   'starships',
   'multitools',
   'freighters',
+  'pendingTech',
   'frigates',
   'corvettes',
   'companions',
@@ -325,6 +326,21 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  pendingTech: {
+    title: string
+    hint: string
+    check: string
+    notChecked: string
+    none: string
+    finishAll: string
+    finishGroup: string
+    finishOne: string
+    confirm: string
+    blockedHint: string
+    truncated: string
+    groups: Record<'exosuit' | 'multitool' | 'ship' | 'freighter' | 'exocraft', string>
+    states: Record<'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id', string>
   }
   planets: {
     title: string

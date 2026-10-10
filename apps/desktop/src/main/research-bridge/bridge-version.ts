@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.28.0'
+export const bridgeVersion = '1.29.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -34,7 +34,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.25.0',
   '1.26.0',
   '1.27.0',
-  '1.28.0'
+  '1.28.0',
+  '1.29.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -116,5 +117,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // (experimental).
   '39b0c754639cadd57f656d3396ad49377f4dc21da0af03528656528d9b136277': '1.27.0',
   // 1.28.0 (2026-10-10): the mission request takes the notification choice (silent=0|1).
-  '4322b6bf1b6dadd6bb8ab88232bf1efdab742ff684416fef7a3e5b1834589d5f': '1.28.0'
+  '4322b6bf1b6dadd6bb8ab88232bf1efdab742ff684416fef7a3e5b1834589d5f': '1.28.0',
+  // 1.29.0 (2026-10-10): lists the technologies waiting for components in every inventory and
+  // finishes them through the game's install routine (request "install").
+  '77f4876da12d74168150e32dfdbd84857dcf3aed9b218983959acfc77cfc46e3': '1.29.0'
 }

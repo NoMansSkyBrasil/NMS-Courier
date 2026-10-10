@@ -68,6 +68,10 @@ export const jaJP: Messages = {
       summary: '選んだクラス、モデル、シードによる貨物船のオファー。'
     },
     frigates: { title: 'フリゲート', summary: '艦隊へのフリゲートの雇用。' },
+    pendingTech: {
+      title: '待機中のテクノロジー',
+      summary: 'まだ部品を必要としているテクノロジーを、すべてのインベントリで完成させます。'
+    },
     corvettes: { title: 'コルベット', summary: '共有された設計から組み立てるコルベット。' },
     companions: { title: 'コンパニオン', summary: 'コンパニオンの卵と生物。' },
     technologies: {
@@ -470,6 +474,35 @@ export const jaJP: Messages = {
       Explorers: 'コーバックス',
       Atlas: 'アトラス',
       Builders: 'オートファジー'
+    }
+  },
+  pendingTech: {
+    title: '取り付け待ちのテクノロジー',
+    hint: '隅に歯車が付いたテクノロジーは、まだ部品を必要としています。待機中のものを確認し、ここで完成させます。部品は消費されません。',
+    check: 'インベントリを確認',
+    notChecked:
+      'エクソスーツ、手持ちのマルチツール、すべての宇宙船、貨物船、すべてのエクソクラフトを調べます。',
+    none: '待機中のものはありません。すべてのテクノロジーが取り付け済みです。',
+    finishAll: 'すべて完成（{count}）',
+    finishGroup: 'これらを完成',
+    finishOne: '完成',
+    confirm:
+      'ゲームが待機中のテクノロジー{count}個を完成させます。必要な部品は消費されず、ゲームがメッセージを表示しない場合があります。',
+    blockedHint: '破損スロット用と内部用の項目は、ここでは完成させません。',
+    truncated: '256個を超えて待機中です。最初の256個のみ表示しています。',
+    groups: {
+      exosuit: 'エクソスーツ',
+      multitool: '手持ちのマルチツール',
+      ship: '宇宙船 {number}',
+      freighter: '貨物船',
+      exocraft: 'エクソクラフト {number}'
+    },
+    states: {
+      waiting: '待機中',
+      finished: '取り付け済み',
+      still_waiting: 'まだ待機中',
+      blocked: '許可されていません',
+      unknown_id: 'ゲームに存在しません'
     }
   },
   planets: {

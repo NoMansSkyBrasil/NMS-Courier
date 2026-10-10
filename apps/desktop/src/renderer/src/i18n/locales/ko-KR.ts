@@ -64,6 +64,10 @@ export const koKR: Messages = {
       summary: '선택한 등급, 모델, 시드로 제시되는 화물선.'
     },
     frigates: { title: '호위함', summary: '함대에 호위함 영입.' },
+    pendingTech: {
+      title: '대기 중인 기술',
+      summary: '아직 부품을 요구하는 기술을 모든 인벤토리에서 완료합니다.'
+    },
     corvettes: { title: '코르벳', summary: '공유된 설계로 건조하는 코르벳.' },
     companions: { title: '동료', summary: '동료 알과 생물.' },
     technologies: {
@@ -449,6 +453,34 @@ export const koKR: Messages = {
       Explorers: '코벡스',
       Atlas: '아틀라스',
       Builders: '오토파지'
+    }
+  },
+  pendingTech: {
+    title: '설치를 기다리는 기술',
+    hint: '모서리에 톱니바퀴가 있는 기술은 아직 부품을 요구합니다. 대기 중인 것을 확인한 뒤 여기서 완료하세요. 부품은 소모되지 않습니다.',
+    check: '내 인벤토리 확인',
+    notChecked: '엑소슈트, 들고 있는 멀티툴, 모든 우주선, 화물선, 모든 엑소크래프트를 살펴봅니다.',
+    none: '대기 중인 것이 없습니다. 모든 기술이 완전히 설치되었습니다.',
+    finishAll: '모두 완료 ({count})',
+    finishGroup: '이것들 완료',
+    finishOne: '완료',
+    confirm:
+      '게임이 대기 중인 기술 {count}개를 완료합니다. 요구하는 부품은 소모되지 않으며, 게임이 메시지를 표시하지 않을 수 있습니다.',
+    blockedHint: '손상된 슬롯용 항목과 내부 항목은 여기서 완료하지 않습니다.',
+    truncated: '256개가 넘게 대기 중입니다. 처음 256개만 표시됩니다.',
+    groups: {
+      exosuit: '엑소슈트',
+      multitool: '들고 있는 멀티툴',
+      ship: '우주선 {number}',
+      freighter: '화물선',
+      exocraft: '엑소크래프트 {number}'
+    },
+    states: {
+      waiting: '대기 중',
+      finished: '설치됨',
+      still_waiting: '여전히 대기 중',
+      blocked: '허용되지 않음',
+      unknown_id: '게임에 없음'
     }
   },
   planets: {

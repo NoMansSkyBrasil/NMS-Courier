@@ -69,6 +69,10 @@ export const esES: Messages = {
       summary: 'Una oferta de carguero con la clase, el modelo y las semillas elegidos.'
     },
     frigates: { title: 'Fragatas', summary: 'Reclutamiento de fragatas para la flota.' },
+    pendingTech: {
+      title: 'Tecnologías pendientes',
+      summary: 'Completa tecnologías que aún piden componentes, en todos los inventarios.'
+    },
     corvettes: {
       title: 'Corbetas',
       summary: 'Una corbeta construida a partir de un diseño compartido.'
@@ -481,6 +485,35 @@ export const esES: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autófago'
+    }
+  },
+  pendingTech: {
+    title: 'Tecnologías pendientes de instalar',
+    hint: 'Una tecnología con un engranaje en la esquina aún pide componentes. Comprueba qué está pendiente y complétalo aquí: los componentes no se gastan.',
+    check: 'Comprobar mis inventarios',
+    notChecked:
+      'La comprobación recorre el exotraje, la multiherramienta en uso, todas las naves, el carguero y todos los exovehículos.',
+    none: 'Nada pendiente. Todas las tecnologías están instaladas.',
+    finishAll: 'Completar todas ({count})',
+    finishGroup: 'Completar estas',
+    finishOne: 'Completar',
+    confirm:
+      'El juego completa {count} tecnologías pendientes. Los componentes que piden no se gastan, y puede que el juego no muestre mensaje.',
+    blockedHint: 'Las entradas de ranura dañada e internas nunca se completan aquí.',
+    truncated: 'Hay más de 256 pendientes; solo se muestran las primeras 256.',
+    groups: {
+      exosuit: 'Exotraje',
+      multitool: 'Multiherramienta en uso',
+      ship: 'Nave {number}',
+      freighter: 'Carguero',
+      exocraft: 'Exovehículo {number}'
+    },
+    states: {
+      waiting: 'Pendiente',
+      finished: 'Instalada',
+      still_waiting: 'Sigue pendiente',
+      blocked: 'No permitida',
+      unknown_id: 'Desconocida para el juego'
     }
   },
   planets: {

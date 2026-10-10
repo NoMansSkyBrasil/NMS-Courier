@@ -60,6 +60,7 @@ export const zhTW: Messages = {
       summary: '依所選等級、型號和種子產生的貨船報價。'
     },
     frigates: { title: '護衛艦', summary: '為艦隊招募護衛艦。' },
+    pendingTech: { title: '待安裝的科技', summary: '在所有物品欄中完成仍需要元件的科技。' },
     corvettes: { title: '輕型護衛艦', summary: '依據共享的配置建造的輕型護衛艦。' },
     companions: { title: '夥伴', summary: '夥伴蛋和生物。' },
     technologies: {
@@ -422,6 +423,33 @@ export const zhTW: Messages = {
       Explorers: '科爾瓦克斯',
       Atlas: '阿特拉斯',
       Builders: '自噬者'
+    }
+  },
+  pendingTech: {
+    title: '等待安裝的科技',
+    hint: '角落帶齒輪的科技仍需要元件。先查看哪些在等待，再在這裡完成：不會消耗元件。',
+    check: '檢查我的物品欄',
+    notChecked: '檢查範圍包括外骨骼裝甲、手持多功能工具、每艘飛船、貨船和每輛外星載具。',
+    none: '沒有等待中的科技。所有科技都已完全安裝。',
+    finishAll: '全部完成（{count}）',
+    finishGroup: '完成這些',
+    finishOne: '完成',
+    confirm: '遊戲將完成 {count} 項等待中的科技。它們需要的元件不會被消耗，遊戲可能不顯示訊息。',
+    blockedHint: '損壞欄位項目和內部項目不會在這裡完成。',
+    truncated: '等待中的超過 256 項；僅顯示前 256 項。',
+    groups: {
+      exosuit: '外骨骼裝甲',
+      multitool: '手持多功能工具',
+      ship: '飛船 {number}',
+      freighter: '貨船',
+      exocraft: '外星載具 {number}'
+    },
+    states: {
+      waiting: '等待中',
+      finished: '已安裝',
+      still_waiting: '仍在等待',
+      blocked: '不允許',
+      unknown_id: '遊戲中不存在'
     }
   },
   planets: {

@@ -74,6 +74,10 @@ export const nlNL: Messages = {
       summary: 'Een vrachtschipaanbod met de gekozen klasse, het gekozen model en de gekozen seeds.'
     },
     frigates: { title: 'Fregatten', summary: 'Fregatten werven voor de vloot.' },
+    pendingTech: {
+      title: 'Wachtende technologieën',
+      summary: 'Rond technologieën af die nog onderdelen vragen, in elke inventaris.'
+    },
     corvettes: {
       title: 'Korvetten',
       summary: 'Een korvet gebouwd op basis van een gedeeld ontwerp.'
@@ -487,6 +491,35 @@ export const nlNL: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autofaag'
+    }
+  },
+  pendingTech: {
+    title: 'Technologieën die op installatie wachten',
+    hint: 'Een technologie met een tandwiel in de hoek vraagt nog onderdelen. Controleer wat wacht en rond het hier af: de onderdelen worden niet verbruikt.',
+    check: 'Mijn inventarissen controleren',
+    notChecked:
+      'De controle loopt door het exopak, de multitool in de hand, elk schip, het vrachtschip en elk exovoertuig.',
+    none: 'Er wacht niets. Elke technologie is volledig geïnstalleerd.',
+    finishAll: 'Alles afronden ({count})',
+    finishGroup: 'Deze afronden',
+    finishOne: 'Afronden',
+    confirm:
+      'Het spel rondt {count} wachtende technologieën af. De gevraagde onderdelen worden niet verbruikt en het spel toont mogelijk geen bericht.',
+    blockedHint: 'Items voor beschadigde vakken en interne items worden hier nooit afgerond.',
+    truncated: 'Er wachten er meer dan 256; alleen de eerste 256 worden getoond.',
+    groups: {
+      exosuit: 'Exopak',
+      multitool: 'Multitool in de hand',
+      ship: 'Schip {number}',
+      freighter: 'Vrachtschip',
+      exocraft: 'Exovoertuig {number}'
+    },
+    states: {
+      waiting: 'Wacht',
+      finished: 'Geïnstalleerd',
+      still_waiting: 'Wacht nog steeds',
+      blocked: 'Niet toegestaan',
+      unknown_id: 'Onbekend bij het spel'
     }
   },
   planets: {
