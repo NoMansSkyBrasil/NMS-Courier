@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-10: planets by biome and sentinel level, emulated (offline)
+
+Offline; nothing built, nothing sent. Build 180836. Owning note:
+[finding planets](PLANET_FINDER_NOTES.md).
+
+- Ran the emulated system and planet routines over 2,000 systems from
+  `0x0001DB00F769C14E`: 9,419 planets in 41 seconds.
+- Found: biome and sentinel level per planet come out varied and
+  plausible (440 lush of 2,789; 219 of them without sentinels).
+- Rejected for now: Life, CreatureLife, BuildingLevel, weather and water
+  from this harness; they are constant or unset because the planet routine
+  is stopped early and fed empty tables.
+- Not proven: biome and sentinel level against the game for any of these
+  planets.
+- Rollback: none needed.
+
 ## 2026-10-10: survey of the game's reward classes for feature ideas (offline)
 
 Offline only; nothing built, nothing sent. Build 180836. Result:

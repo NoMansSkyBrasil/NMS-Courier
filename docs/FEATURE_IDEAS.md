@@ -170,6 +170,12 @@ The table `storiestable` (lore stories) and the stat rewards suggest a
 "read every story" completion like the words; `GcRewardScan` (scan data).
 Not examined. Effort unknown.
 
+### 15. Find planets by what they are like
+
+Added the same day at the owner's wish: Earth-like planets found offline
+with the emulated generator and reached with the Travel page. See
+[finding planets](PLANET_FINDER_NOTES.md).
+
 ## Ideas that are not about a new reward
 
 - **Kits.** A named list of deliveries saved in the application ("start
