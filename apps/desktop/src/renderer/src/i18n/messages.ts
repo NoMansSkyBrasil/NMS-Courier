@@ -188,6 +188,19 @@ export type Messages = {
     entriesCount: string
     processId: string
   }
+  savesPage: {
+    slotsTitle: string
+    slotsHint: string
+    slot: string
+    lastSaved: string
+    noSlots: string
+    backupsTitle: string
+    backupsHint: string
+    backupCount: string
+    noBackups: string
+    openFolder: string
+    before: string
+  }
   setup: {
     chooseTitle: string
     chooseBody: string
@@ -278,6 +291,43 @@ export type Messages = {
     selectCount: string
     selectShowing: string
     selectAction: string
+    actionOne: string
+    expeditionGroup: string
+    groupNames: Record<
+      | 'Weapon'
+      | 'Suit'
+      | 'AllShipsExceptAlien'
+      | 'AllShips'
+      | 'Mech'
+      | 'Exocraft'
+      | 'Freighter'
+      | 'Ship'
+      | 'AlienShip'
+      | 'RobotShip'
+      | 'Submarine'
+      | 'AllVehicles'
+      | 'Colossus'
+      | 'catalogue_item'
+      | 'catalogue_technology'
+      | 'catalogue_construction'
+      | 'research_tree'
+      | 'cooking'
+      | 'refiner'
+      | 'stat'
+      | 'product'
+      | 'mission'
+      | 'interaction'
+      | 'none'
+      | 'trophy'
+      | 'Common'
+      | 'Rare'
+      | 'Epic'
+      | 'Legendary'
+      | 'Junk'
+      | 'shop'
+      | 'customisation',
+      string
+    >
     selectNoCatalog: string
     selectNone: string
     title: string
@@ -374,6 +424,8 @@ export type Messages = {
     blockedHint: string
     truncated: string
     groups: Record<'exosuit' | 'multitool' | 'ship' | 'freighter' | 'exocraft', string>
+    // The seven exocraft by their place in the game's list (GcVehicleType).
+    exocraft: Record<'0' | '1' | '2' | '3' | '4' | '5' | '6', string>
     states: Record<'waiting' | 'finished' | 'still_waiting' | 'blocked' | 'unknown_id', string>
   }
   planets: {

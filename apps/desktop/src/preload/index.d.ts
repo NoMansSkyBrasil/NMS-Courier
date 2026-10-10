@@ -267,6 +267,12 @@ declare global {
         notify: boolean
       }) => Promise<DeliveryResult>
       installBridge: () => Promise<BridgeInstallState | null>
+      getSavesOverview: () => Promise<{
+        slots: Array<{ slot: number; lastSaved: string }>
+        backups: Array<{ name: string; createdAt: string | null; feature: string }>
+        backupCount: number
+      }>
+      openBackupsFolder: () => Promise<boolean>
       listWaitingTechnologies: (locale: string) => Promise<WaitingTechnologyReport>
       finishTechnologies: (
         request: { slots: Array<{ choice: number; owner: number; x: number; y: number }> | null },

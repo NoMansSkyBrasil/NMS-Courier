@@ -264,6 +264,21 @@ export const nlNL: Messages = {
     entriesCount: '{count} items',
     processId: 'Proces {id}'
   },
+  savesPage: {
+    slotsTitle: 'Je saveslots',
+    slotsHint:
+      'Wanneer het spel elk slot voor het laatst opsloeg. Courier wijzigt alleen het slot dat in het spel geladen is.',
+    slot: 'Slot {number}',
+    lastSaved: 'Laatst opgeslagen: {when}',
+    noSlots: 'Nog geen save gevonden.',
+    backupsTitle: 'Veiligheidskopieën',
+    backupsHint:
+      'Voor elke wijziging kopieert Courier je hele savemap. Om terug te gaan sluit je het spel en zet je de bestanden van een kopie terug in de savemap.',
+    backupCount: '{count} kopieën bewaard',
+    noBackups: 'Nog geen kopie. Er wordt er een gemaakt voor de eerste wijziging.',
+    openFolder: 'Map met kopieën openen',
+    before: 'Voor: {feature}'
+  },
   setup: {
     chooseTitle: 'Kies je spelmap',
     chooseBody: "Courier moet weten waar No Man's Sky is geïnstalleerd.",
@@ -307,6 +322,42 @@ export const nlNL: Messages = {
       'NMS Courier is een onofficieel hulpmiddel in ontwikkeling. Het werkt met één exacte spelversie tegelijk.'
   },
   delivery: {
+    actionOne: 'Naar het spel sturen',
+    expeditionGroup: 'Expeditie {number}',
+    groupNames: {
+      Weapon: 'Multitool',
+      Suit: 'Exopak',
+      AllShipsExceptAlien: 'Schepen, behalve levende',
+      AllShips: 'Alle schepen',
+      Mech: 'Minotaur',
+      Exocraft: 'Exocraft',
+      Freighter: 'Vrachtschip',
+      Ship: 'Ruimteschip',
+      AlienShip: 'Levend schip',
+      RobotShip: 'Sentinel-interceptor',
+      Submarine: 'Nautilon',
+      AllVehicles: 'Alle exovoertuigen',
+      Colossus: 'Colossus',
+      catalogue_item: 'Voorwerpen',
+      catalogue_technology: 'Technologie',
+      catalogue_construction: 'Bouwmenu',
+      research_tree: 'Onderzoek',
+      cooking: 'Koken',
+      refiner: 'Raffinaderij',
+      stat: 'Mijlpaal',
+      product: 'Voorwerp',
+      mission: 'Missie',
+      interaction: 'Ontmoeting',
+      none: 'Overig',
+      trophy: 'Trofee',
+      Common: 'Gewoon',
+      Rare: 'Zeldzaam',
+      Epic: 'Episch',
+      Legendary: 'Legendarisch',
+      Junk: 'Rommel',
+      shop: 'Winkel',
+      customisation: 'Uiterlijk'
+    },
     shipModel: {
       fighter: 'Jager',
       hauler: 'Transportschip',
@@ -341,8 +392,7 @@ export const nlNL: Messages = {
       pirate: 'Piratendreadnought'
     },
     equipScene: 'Model',
-    equipSceneHint:
-      'Optioneel. De spelscène van het vrachtschipmodel; leeg behoudt de keuze van het spel.',
+    equipSceneHint: 'Optioneel. Laat leeg om het spel te laten kiezen.',
     equipModelSeed: 'Modelseed',
     equipLegacyColours: 'Oude kleuren gebruiken',
     equipLegacyColoursHint:
@@ -468,8 +518,8 @@ export const nlNL: Messages = {
     installationInvalid: 'De geselecteerde map is geen geldige installatie van No Man’s Sky.',
     select: 'Installatie selecteren',
     verifying: 'Bezig met controleren…',
-    bridgeTitle: 'Onderzoeksbrug',
-    bridgeHint: 'Het onderdeel in het spel dat de leveringen uitvoert.',
+    bridgeTitle: 'Verbinding met het spel',
+    bridgeHint: 'Een klein Courier-bestand in het spel doet wat je hiervandaan stuurt.',
     diagnosticsTitle: 'Alleen-lezen diagnose',
     diagnosticsHint:
       'Verbindt de privé-runtimehost, die geen leveropdracht heeft. Houd dit venster open tot je het spel sluit.',
@@ -526,6 +576,15 @@ export const nlNL: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Roamer',
+      1: 'Nomad',
+      2: 'Colossus',
+      3: 'Pilgrim',
+      4: 'Dragonfly',
+      5: 'Nautilon',
+      6: 'Minotaur'
+    },
     title: 'Technologieën die op installatie wachten',
     hint: 'Een technologie met een tandwiel in de hoek vraagt nog onderdelen. Controleer wat wacht en rond het hier af: de onderdelen worden niet verbruikt.',
     check: 'Mijn inventarissen controleren',

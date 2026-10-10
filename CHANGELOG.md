@@ -28,6 +28,33 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.39.0 (2026-10-10)
+
+Every page was opened and read again; these are the faults found.
+
+- Fixed: the "what it covers" card and the diagnostics card stayed visible
+  with internal names switched off (a component's own display rule won over
+  the hiding rule).
+- Fixed: category badges showed the game's internal words in English
+  (`shop`, `catalogue_technology`, `Suit`, `Legendary`, a bare `23`). They
+  now read in the 14 languages, with the game's own words where it has one
+  (exosuit, multi-tool, starship, freighter, exocraft, Minotaur, Nautilon,
+  living ship, Sentinel interceptor); an expedition reads "Expedition 23";
+  a list with a single category shows no badge.
+- Added: the "Saves" page was empty. It now shows when the game last saved
+  each slot and the safety copies made before changes, with a button that
+  opens their folder. Read only.
+- Changed: "Game and bridge" shows the same coloured notice as the other
+  pages (with the install button when needed), coloured states, and says
+  "Connection with the game"; the developer's diagnostics card is hidden
+  unless internal names are on.
+- Changed: waiting technologies name each exocraft as the game does
+  (Roamer, Nomad, Colossus, Pilgrim, Dragonfly, Nautilon, Minotaur), from
+  the game's exocraft list.
+- Changed: areas not built yet are dimmed and marked "Planned" in the
+  sidebar; a page with a single action says "Send to the game" instead of
+  "Deliver everything".
+
 ## Application 1.38.2 (2026-10-10)
 
 - Changed: shorter, plainer texts on the remaining long pages (corvettes,

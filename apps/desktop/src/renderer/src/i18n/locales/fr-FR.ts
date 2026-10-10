@@ -261,6 +261,21 @@ export const frFR: Messages = {
     entriesCount: '{count} entrées',
     processId: 'Processus {id}'
   },
+  savesPage: {
+    slotsTitle: 'Vos emplacements de sauvegarde',
+    slotsHint:
+      "Quand le jeu a sauvegardé chaque emplacement pour la dernière fois. Courier ne modifie que l'emplacement chargé dans le jeu.",
+    slot: 'Emplacement {number}',
+    lastSaved: 'Dernière sauvegarde : {when}',
+    noSlots: "Aucune sauvegarde trouvée pour l'instant.",
+    backupsTitle: 'Copies de sécurité',
+    backupsHint:
+      "Avant chaque modification, Courier copie tout votre dossier de sauvegardes. Pour revenir en arrière, fermez le jeu et remettez les fichiers d'une copie dans le dossier de sauvegardes.",
+    backupCount: '{count} copies conservées',
+    noBackups: 'Pas encore de copie. Une est faite avant la première modification.',
+    openFolder: 'Ouvrir le dossier des copies',
+    before: 'Avant : {feature}'
+  },
   setup: {
     chooseTitle: 'Choisissez le dossier du jeu',
     chooseBody: "Courier doit savoir où No Man's Sky est installé.",
@@ -304,6 +319,42 @@ export const frFR: Messages = {
       'NMS Courier est un outil non officiel en cours de développement. Il fonctionne avec une seule version exacte du jeu à la fois.'
   },
   delivery: {
+    actionOne: 'Envoyer au jeu',
+    expeditionGroup: 'Expédition {number}',
+    groupNames: {
+      Weapon: 'Multi-Outil',
+      Suit: 'Exocombinaison',
+      AllShipsExceptAlien: 'Vaisseaux, sauf vivants',
+      AllShips: 'Tous les vaisseaux',
+      Mech: 'Minotaure',
+      Exocraft: 'Exonef',
+      Freighter: 'Cargo',
+      Ship: 'Vaisseau',
+      AlienShip: 'Vaisseau vivant',
+      RobotShip: 'Intercepteur sentinelle',
+      Submarine: 'Nautilon',
+      AllVehicles: 'Tous les exovéhicules',
+      Colossus: 'Colosse',
+      catalogue_item: 'Objets',
+      catalogue_technology: 'Technologie',
+      catalogue_construction: 'Menu de construction',
+      research_tree: 'Recherche',
+      cooking: 'Cuisine',
+      refiner: 'Raffineur',
+      stat: 'Jalon',
+      product: 'Objet',
+      mission: 'Mission',
+      interaction: 'Rencontre',
+      none: 'Autre',
+      trophy: 'Trophée',
+      Common: 'Commun',
+      Rare: 'Rare',
+      Epic: 'Épique',
+      Legendary: 'Légendaire',
+      Junk: 'Rebut',
+      shop: 'Boutique',
+      customisation: 'Apparence'
+    },
     shipModel: {
       fighter: 'Combattant',
       hauler: 'Transporteur',
@@ -338,8 +389,7 @@ export const frFR: Messages = {
       pirate: 'Cuirassé pirate'
     },
     equipScene: 'Modèle',
-    equipSceneHint:
-      'Facultatif. La scène du jeu du modèle de cargo ; vide, le jeu fait son propre choix.',
+    equipSceneHint: 'Facultatif. Laissez vide pour laisser le jeu choisir.',
     equipModelSeed: 'Graine du modèle',
     equipLegacyColours: 'Utiliser les anciennes couleurs',
     equipLegacyColoursHint:
@@ -471,8 +521,8 @@ export const frFR: Messages = {
       'Le dossier sélectionné n’est pas une installation valide de No Man’s Sky.',
     select: 'Sélectionner l’installation',
     verifying: 'Vérification…',
-    bridgeTitle: 'Pont de recherche',
-    bridgeHint: 'Le composant à l’intérieur du jeu qui effectue les livraisons.',
+    bridgeTitle: 'Connexion avec le jeu',
+    bridgeHint: "Un petit fichier de Courier dans le jeu fait ce que vous envoyez d'ici.",
     diagnosticsTitle: 'Diagnostic en lecture seule',
     diagnosticsHint:
       'Connecte l’hôte d’exécution privé, qui n’a aucune commande de livraison. Gardez cette fenêtre ouverte jusqu’à la fermeture du jeu.',
@@ -529,6 +579,15 @@ export const frFR: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Vagabond',
+      1: 'Nomade',
+      2: 'Colosse',
+      3: 'Pèlerin',
+      4: 'Libellule',
+      5: 'Nautilon',
+      6: 'Minotaure'
+    },
     title: "Technologies en attente d'installation",
     hint: 'Une technologie avec un engrenage dans le coin demande encore des composants. Vérifiez ce qui attend, puis terminez-le ici : les composants ne sont pas dépensés.',
     check: 'Vérifier mes inventaires',

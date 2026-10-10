@@ -213,6 +213,20 @@ export const zhCN: Messages = {
     entriesCount: '{count} 个条目',
     processId: '进程 {id}'
   },
+  savesPage: {
+    slotsTitle: '你的存档栏位',
+    slotsHint: '游戏最后一次保存每个栏位的时间。Courier 只更改游戏中已载入的栏位。',
+    slot: '栏位 {number}',
+    lastSaved: '最后保存：{when}',
+    noSlots: '尚未找到存档。',
+    backupsTitle: '安全副本',
+    backupsHint:
+      '每次更改前，Courier 都会复制整个存档文件夹。要恢复，请关闭游戏，并把副本中的文件放回存档文件夹。',
+    backupCount: '已保留 {count} 份副本',
+    noBackups: '还没有副本。首次更改前会创建一份。',
+    openFolder: '打开副本文件夹',
+    before: '更改前：{feature}'
+  },
   setup: {
     chooseTitle: '选择游戏文件夹',
     chooseBody: 'Courier 需要知道《无人深空》安装在哪里。',
@@ -252,6 +266,42 @@ export const zhCN: Messages = {
     experimentalBody: 'NMS Courier 是一款开发中的非官方工具。它一次只支持一个确切的游戏版本。'
   },
   delivery: {
+    actionOne: '发送到游戏',
+    expeditionGroup: '远征 {number}',
+    groupNames: {
+      Weapon: '多用途工具',
+      Suit: '套装',
+      AllShipsExceptAlien: '飞船（生物飞船除外）',
+      AllShips: '所有飞船',
+      Mech: '弥诺陶洛斯',
+      Exocraft: '强化艇',
+      Freighter: '货船',
+      Ship: '飞船',
+      AlienShip: '活体飞船',
+      RobotShip: '护卫拦截机',
+      Submarine: '大鹦鹉螺',
+      AllVehicles: '所有外星载具',
+      Colossus: '强化艇',
+      catalogue_item: '物品',
+      catalogue_technology: '科技',
+      catalogue_construction: '建造菜单',
+      research_tree: '研究',
+      cooking: '烹饪',
+      refiner: '精炼机',
+      stat: '里程碑',
+      product: '物品',
+      mission: '任务',
+      interaction: '遭遇',
+      none: '其他',
+      trophy: '奖杯',
+      Common: '普通',
+      Rare: '稀有',
+      Epic: '史诗',
+      Legendary: '传说',
+      Junk: '垃圾',
+      shop: '商店',
+      customisation: '外观'
+    },
     shipModel: {
       fighter: '战士',
       hauler: '拖运船',
@@ -286,7 +336,7 @@ export const zhCN: Messages = {
       pirate: '海盗无畏舰'
     },
     equipScene: '模型',
-    equipSceneHint: '可选。货船模型的游戏场景；留空则保留游戏自己的选择。',
+    equipSceneHint: '可选。留空则由游戏选择。',
     equipModelSeed: '模型种子',
     equipLegacyColours: '使用旧版颜色',
     equipLegacyColoursHint:
@@ -401,8 +451,8 @@ export const zhCN: Messages = {
     installationInvalid: '所选文件夹不是有效的 No Man’s Sky 安装位置。',
     select: '选择安装位置',
     verifying: '正在验证…',
-    bridgeTitle: '研究用桥接',
-    bridgeHint: '游戏内部负责执行投递的组件。',
+    bridgeTitle: '与游戏的连接',
+    bridgeHint: '游戏内的一个 Courier 小文件会执行你从这里发送的内容。',
     diagnosticsTitle: '只读诊断',
     diagnosticsHint: '连接没有任何投递命令的私有运行时主机。在关闭游戏之前，请保持此窗口打开。',
     connect: '连接只读运行时',
@@ -455,6 +505,15 @@ export const zhCN: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: '强化艇 (Roamer)',
+      1: '强化艇 (Nomad)',
+      2: '强化艇 (Colossus)',
+      3: '朝圣者',
+      4: '蜻蜓',
+      5: '大鹦鹉螺',
+      6: '弥诺陶洛斯'
+    },
     title: '等待安装的科技',
     hint: '角上带齿轮的科技仍需要组件。先查看哪些在等待，再在这里完成：不会消耗组件。',
     check: '检查我的物品栏',

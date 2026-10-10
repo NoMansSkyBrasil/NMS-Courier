@@ -130,10 +130,18 @@ export function PendingTechCard(): React.JSX.Element {
     }
   }
 
-  const inventoryName = (entry: Entry): string =>
-    formatMessage(text.groups[inventoryGroup(entry.choice)], {
-      number: (entry.owner + 1).toLocaleString(locale)
-    })
+  // An exocraft is named as the game names it; a ship by its place in the collection.
+  const inventoryName = (entry: Entry): string => {
+    const group = inventoryGroup(entry.choice)
+    const exocraft =
+      group === 'exocraft'
+        ? (text.exocraft as Record<string, string>)[String(entry.owner)]
+        : undefined
+    return (
+      exocraft ??
+      formatMessage(text.groups[group], { number: (entry.owner + 1).toLocaleString(locale) })
+    )
+  }
 
   const ready = status?.state === 'ready'
   const result = report?.delivery ?? null

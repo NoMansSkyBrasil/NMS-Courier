@@ -30,14 +30,23 @@ export function DeliverySelection({
   const [query, setQuery] = useState('')
   const [drawn, setDrawn] = useState(pageSize)
 
+  const names = text.groupNames as Record<string, string>
   const matching = useMemo(() => {
     const wanted = query.trim().toLocaleLowerCase()
     if (!wanted) return options
     return options.filter((option) =>
-      `${option.id} ${option.name} ${option.group}`.toLocaleLowerCase().includes(wanted)
+      `${option.id} ${option.name} ${option.group} ${names[option.group] ?? ''}`
+        .toLocaleLowerCase()
+        .includes(wanted)
     )
-  }, [options, query])
+  }, [options, query, names])
   const shown = matching.slice(0, drawn)
+  // The game's tables name categories by internal words; the player reads the locale's word.
+  const groupLabel = (group: string): string =>
+    names[group] ??
+    (/^\d+$/.test(group) ? formatMessage(text.expeditionGroup, { number: group }) : group)
+  // A list whose entries all share one category says nothing by repeating it on every row.
+  const severalGroups = new Set(options.map((option) => option.group)).size > 1
   // Areas the catalogue cannot name (titles, rewards) have no icons either.
   const hasIcons = options.some((option) => option.icon)
 
@@ -113,11 +122,13 @@ export function DeliverySelection({
                 )}
                 <TableCell className="font-medium">{option.name || option.id}</TableCell>
                 <TableCell className="internal-name text-muted-foreground">{option.id}</TableCell>
-                <TableCell className="text-right">
-                  <Badge variant="secondary" className={categoryTone(option.group)}>
-                    {option.group}
-                  </Badge>
-                </TableCell>
+                {severalGroups && (
+                  <TableCell className="text-right">
+                    <Badge variant="secondary" className={categoryTone(option.group)}>
+                      {groupLabel(option.group)}
+                    </Badge>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

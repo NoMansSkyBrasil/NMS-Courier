@@ -152,7 +152,7 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
         >
           <AlertDialogTrigger render={<Button disabled={!ready || sending} />}>
             {sending ? <Spinner data-icon="inline-start" /> : <SendIcon data-icon="inline-start" />}
-            {sending ? text.sending : text.action}
+            {sending ? text.sending : options.length > 0 ? text.action : text.actionOne}
           </AlertDialogTrigger>
           {options.length > 0 && (
             <Button

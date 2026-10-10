@@ -7,6 +7,7 @@ import { GlyphsCard } from '@renderer/components/glyphs-card'
 import { LevelsCard } from '@renderer/components/levels-card'
 import { MissionsCard } from '@renderer/components/missions-card'
 import { PendingTechCard } from '@renderer/components/pending-tech-card'
+import { SavesCard } from '@renderer/components/saves-card'
 import { SetupNotice } from '@renderer/components/setup-notice'
 import { useGameState } from '@renderer/hooks/use-game-state'
 import { PlanetFinderCard } from '@renderer/components/planet-finder-card'
@@ -97,6 +98,8 @@ export function FeaturePage({
         <PlanetFinderCard />
       ) : feature.id === 'pendingTech' ? (
         <PendingTechCard />
+      ) : feature.id === 'saves' ? (
+        <SavesCard />
       ) : feature.id === 'missions' ? (
         <MissionsCard />
       ) : feature.id === 'standings' || feature.id === 'milestones' ? (

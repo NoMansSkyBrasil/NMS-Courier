@@ -246,6 +246,21 @@ export const jaJP: Messages = {
     entriesCount: '{count} 件',
     processId: 'プロセス {id}'
   },
+  savesPage: {
+    slotsTitle: 'セーブスロット',
+    slotsHint:
+      'ゲームが各スロットを最後に保存した日時です。Courierが変更するのは、ゲームで読み込んでいるスロットだけです。',
+    slot: 'スロット {number}',
+    lastSaved: '最終保存：{when}',
+    noSlots: 'セーブデータはまだ見つかりません。',
+    backupsTitle: 'バックアップ',
+    backupsHint:
+      '変更のたびに、Courierはセーブフォルダー全体をコピーします。元に戻すには、ゲームを閉じて、コピーのファイルをセーブフォルダーに戻します。',
+    backupCount: '{count}件のコピーを保管中',
+    noBackups: 'コピーはまだありません。最初の変更の前に作成されます。',
+    openFolder: 'コピーのフォルダーを開く',
+    before: '変更前：{feature}'
+  },
   setup: {
     chooseTitle: 'ゲームのフォルダーを選択',
     chooseBody: "CourierはNo Man's Skyのインストール先を知る必要があります。",
@@ -289,6 +304,42 @@ export const jaJP: Messages = {
       'NMS Courier は開発中の非公式ツールです。一度に対応するのは、ゲームの特定の 1 ビルドだけです。'
   },
   delivery: {
+    actionOne: 'ゲームに送る',
+    expeditionGroup: '遠征 {number}',
+    groupNames: {
+      Weapon: 'マルチツール',
+      Suit: 'エクソスーツ',
+      AllShipsExceptAlien: '宇宙船（生ける船を除く）',
+      AllShips: 'すべての宇宙船',
+      Mech: 'ミノタウロス',
+      Exocraft: 'エクソクラフト',
+      Freighter: '貨物船',
+      Ship: '宇宙船',
+      AlienShip: '生ける宇宙船',
+      RobotShip: 'センチネル迎撃機',
+      Submarine: 'ノーティロン',
+      AllVehicles: 'すべてのエクソクラフト',
+      Colossus: 'エクソクラフト',
+      catalogue_item: 'アイテム',
+      catalogue_technology: 'テクノロジー',
+      catalogue_construction: '建設メニュー',
+      research_tree: '研究',
+      cooking: '調理',
+      refiner: '精製機',
+      stat: 'マイルストーン',
+      product: 'アイテム',
+      mission: 'ミッション',
+      interaction: '遭遇',
+      none: 'その他',
+      trophy: 'トロフィー',
+      Common: 'コモン',
+      Rare: 'レア',
+      Epic: 'エピック',
+      Legendary: 'レジェンダリー',
+      Junk: 'ジャンク',
+      shop: 'ショップ',
+      customisation: '外見'
+    },
     shipModel: {
       fighter: '戦艦',
       hauler: '輸送船',
@@ -323,7 +374,7 @@ export const jaJP: Messages = {
       pirate: '海賊ドレッドノート'
     },
     equipScene: 'モデル',
-    equipSceneHint: '任意。貨物船モデルのゲームシーン。空欄の場合はゲームの選択のままです。',
+    equipSceneHint: '任意。空欄ならゲームが選びます。',
     equipModelSeed: 'モデルのシード',
     equipLegacyColours: '旧カラーを使用',
     equipLegacyColoursHint:
@@ -452,8 +503,8 @@ export const jaJP: Messages = {
     installationInvalid: '選択したフォルダーは有効な No Man’s Sky のインストール先ではありません。',
     select: 'インストール先を選択',
     verifying: '確認中…',
-    bridgeTitle: '調査用ブリッジ',
-    bridgeHint: '配送を実行する、ゲーム内のコンポーネント。',
+    bridgeTitle: 'ゲームとの接続',
+    bridgeHint: 'ゲーム内にあるCourierの小さなファイルが、ここから送った内容を実行します。',
     diagnosticsTitle: '読み取り専用の診断',
     diagnosticsHint:
       '配送コマンドを持たないプライベートのランタイムホストに接続します。ゲームを閉じるまで、このウィンドウは開いたままにしてください。',
@@ -509,6 +560,15 @@ export const jaJP: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'エクソクラフト (Roamer)',
+      1: 'エクソクラフト (Nomad)',
+      2: 'エクソクラフト (Colossus)',
+      3: 'ピルグリム',
+      4: 'ドラゴンフライ',
+      5: 'ノーティロン',
+      6: 'ミノタウロス'
+    },
     title: '取り付け待ちのテクノロジー',
     hint: '隅に歯車が付いたテクノロジーは、まだ部品を必要としています。待機中のものを確認し、ここで完成させます。部品は消費されません。',
     check: 'インベントリを確認',

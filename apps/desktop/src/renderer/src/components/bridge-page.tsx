@@ -12,6 +12,8 @@ import {
 } from '@renderer/components/ui/card'
 import { Spinner } from '@renderer/components/ui/spinner'
 import { useGameState } from '@renderer/hooks/use-game-state'
+import { SetupNotice } from '@renderer/components/setup-notice'
+import { tones } from '@renderer/features/tones'
 import { formatMessage, useLocale } from '@renderer/i18n/locale'
 
 type Installation = Awaited<ReturnType<typeof window.nms.getInstallationStatus>>
@@ -124,6 +126,7 @@ export function BridgePage(): React.JSX.Element {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
+      <SetupNotice bridge={bridge} showReady />
       <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
@@ -133,11 +136,27 @@ export function BridgePage(): React.JSX.Element {
           <CardContent className="flex flex-col gap-2 text-sm">
             <div className="flex items-center justify-between gap-2">
               <span className="text-muted-foreground">{copy.dashboard.game}</span>
-              <Badge variant="outline">{gameText}</Badge>
+              <Badge
+                variant="secondary"
+                className={game?.state === 'running' ? tones.good : tones.info}
+              >
+                {gameText}
+              </Badge>
             </div>
             <div className="flex items-center justify-between gap-2">
               <span className="text-muted-foreground">{copy.dashboard.build}</span>
-              <Badge variant="outline">{build?.buildLabel ?? buildText}</Badge>
+              <Badge
+                variant="secondary"
+                className={
+                  build?.state === 'supported'
+                    ? tones.good
+                    : build?.state === 'unknown'
+                      ? tones.danger
+                      : undefined
+                }
+              >
+                {build?.buildLabel ?? buildText}
+              </Badge>
             </div>
           </CardContent>
           <CardFooter className="flex flex-wrap gap-2">
@@ -169,11 +188,6 @@ export function BridgePage(): React.JSX.Element {
             <CardDescription>{text.bridgeHint}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 text-sm">
-            <p role="status" aria-live="polite">
-              {bridge
-                ? formatMessage(copy.delivery.state[bridge.state], { id: bridge.processId ?? '' })
-                : copy.delivery.state.unavailable}
-            </p>
             {bridge && (
               <>
                 <div className="flex items-center justify-between gap-2">
@@ -182,7 +196,14 @@ export function BridgePage(): React.JSX.Element {
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-muted-foreground">{text.versionBridge}</span>
-                  <Badge variant="outline">
+                  <Badge
+                    variant="secondary"
+                    className={
+                      bridge.installedBridgeVersion === bridge.bridgeVersion
+                        ? tones.good
+                        : tones.caution
+                    }
+                  >
                     {bridge.bridgeSha256 === null
                       ? text.versionNone
                       : (bridge.installedBridgeVersion ?? text.versionOld)}
@@ -200,7 +221,8 @@ export function BridgePage(): React.JSX.Element {
           </CardContent>
         </Card>
       </div>
-      <Card>
+      {/* A developer's read-only probe; shown only with internal names switched on. */}
+      <Card className="internal-name">
         <CardHeader>
           <CardTitle>{text.diagnosticsTitle}</CardTitle>
           <CardDescription>{text.diagnosticsHint}</CardDescription>

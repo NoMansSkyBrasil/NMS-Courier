@@ -1,9 +1,11 @@
-import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
+import { mkdir } from 'node:fs/promises'
 import { isGlyphRequest } from './research-bridge/glyph-plan'
 import { isLevelPage, isLevelRequest } from './research-bridge/level-plan'
 import { glyphDigits, glyphIcon } from '../shared/portal-address'
 import { isTeleportRequest } from './research-bridge/teleport-plan'
 import { isInstallRequest } from '../shared/waiting-technology'
+import { readSavesOverview } from './saves-overview'
 import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -55,13 +57,17 @@ let researchBridgeService: ResearchBridgeService | null = null
 
 // The research bridge exists only in a development checkout so far: the classification tables it
 // reads are those of the repository and the packaged application does not carry the bridge yet.
+// Where the game keeps its saves and where this application keeps its copies of them.
+const saveDirectory = (): string => join(app.getPath('appData'), 'HelloGames', 'NMS')
+const backupDirectory = (): string => join(app.getPath('userData'), 'save-backups')
+
 function getResearchBridgeService(): ResearchBridgeService {
   researchBridgeService ??= new ResearchBridgeService({
     enabled: is.dev,
     researchDirectory: join(app.getAppPath(), '..', '..', 'runtime', 'research'),
     diagnosticsDirectory,
-    backupDirectory: join(app.getPath('userData'), 'save-backups'),
-    saveDirectory: join(app.getPath('appData'), 'HelloGames', 'NMS'),
+    backupDirectory: backupDirectory(),
+    saveDirectory: saveDirectory(),
     bridgeResourceDirectory: app.isPackaged
       ? join(process.resourcesPath, 'app.asar.unpacked', 'resources', 'bridge')
       : join(app.getAppPath(), 'resources', 'bridge')
@@ -377,6 +383,14 @@ app.whenReady().then(() => {
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
   ipcMain.handle('nms:get-planet-survey', () => getResearchBridgeService().getPlanetSurvey())
+  // Read only: when each save slot was last written and the copies made before changes.
+  ipcMain.handle('nms:get-saves-overview', () =>
+    readSavesOverview(saveDirectory(), backupDirectory())
+  )
+  ipcMain.handle('nms:open-backups-folder', async () => {
+    await mkdir(backupDirectory(), { recursive: true })
+    return (await shell.openPath(backupDirectory())) === ''
+  })
   ipcMain.handle('nms:get-missions', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getMissions(locale) : []
   )

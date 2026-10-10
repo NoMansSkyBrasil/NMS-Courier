@@ -262,6 +262,21 @@ export const itIT: Messages = {
     entriesCount: '{count} voci',
     processId: 'Processo {id}'
   },
+  savesPage: {
+    slotsTitle: 'I tuoi slot di salvataggio',
+    slotsHint:
+      "Quando il gioco ha salvato ogni slot l'ultima volta. Courier modifica solo lo slot caricato nel gioco.",
+    slot: 'Slot {number}',
+    lastSaved: 'Ultimo salvataggio: {when}',
+    noSlots: 'Nessun salvataggio trovato finora.',
+    backupsTitle: 'Copie di sicurezza',
+    backupsHint:
+      "Prima di ogni modifica Courier copia l'intera cartella dei salvataggi. Per tornare indietro, chiudi il gioco e rimetti i file di una copia nella cartella dei salvataggi.",
+    backupCount: '{count} copie conservate',
+    noBackups: 'Ancora nessuna copia. Ne viene fatta una prima della prima modifica.',
+    openFolder: 'Apri la cartella delle copie',
+    before: 'Prima di: {feature}'
+  },
   setup: {
     chooseTitle: 'Scegli la cartella del gioco',
     chooseBody: "Courier deve sapere dove è installato No Man's Sky.",
@@ -305,6 +320,42 @@ export const itIT: Messages = {
       'NMS Courier è uno strumento non ufficiale in fase di sviluppo. Funziona con una sola versione esatta del gioco alla volta.'
   },
   delivery: {
+    actionOne: 'Invia al gioco',
+    expeditionGroup: 'Spedizione {number}',
+    groupNames: {
+      Weapon: 'Multi-Tool',
+      Suit: 'Exotuta',
+      AllShipsExceptAlien: 'Navi, tranne le viventi',
+      AllShips: 'Tutte le navi',
+      Mech: 'Minotauro',
+      Exocraft: 'Exoscafo',
+      Freighter: 'Mercantile',
+      Ship: 'Astronave',
+      AlienShip: 'Living Ship',
+      RobotShip: 'Intercettatore Sentinella',
+      Submarine: 'Nautilon',
+      AllVehicles: 'Tutti gli exoveicoli',
+      Colossus: 'Colosso',
+      catalogue_item: 'Oggetti',
+      catalogue_technology: 'Tecnologia',
+      catalogue_construction: 'Menu di costruzione',
+      research_tree: 'Ricerca',
+      cooking: 'da cuoco',
+      refiner: 'Raffinatore',
+      stat: 'Traguardo',
+      product: 'Oggetto',
+      mission: 'Missione',
+      interaction: 'Incontro',
+      none: 'Altro',
+      trophy: 'Trofeo',
+      Common: 'Comune',
+      Rare: 'Raro',
+      Epic: 'Epico',
+      Legendary: 'Leggendario',
+      Junk: 'Rottame',
+      shop: 'Negozio',
+      customisation: 'Aspetto'
+    },
     shipModel: {
       fighter: 'Caccia',
       hauler: 'Trasportatore',
@@ -339,8 +390,7 @@ export const itIT: Messages = {
       pirate: 'Corazzata pirata'
     },
     equipScene: 'Modello',
-    equipSceneHint:
-      'Facoltativo. La scena di gioco del modello del mercantile; vuoto mantiene la scelta del gioco.',
+    equipSceneHint: 'Facoltativo. Lascia vuoto per far scegliere al gioco.',
     equipModelSeed: 'Seme del modello',
     equipLegacyColours: 'Usa i colori precedenti',
     equipLegacyColoursHint:
@@ -467,8 +517,8 @@ export const itIT: Messages = {
     installationInvalid: 'La cartella selezionata non è un’installazione valida di No Man’s Sky.',
     select: 'Seleziona installazione',
     verifying: 'Verifica in corso…',
-    bridgeTitle: 'Ponte di ricerca',
-    bridgeHint: 'Il componente all’interno del gioco che esegue le consegne.',
+    bridgeTitle: 'Collegamento con il gioco',
+    bridgeHint: 'Un piccolo file di Courier dentro il gioco fa ciò che invii da qui.',
     diagnosticsTitle: 'Diagnostica in sola lettura',
     diagnosticsHint:
       'Collega l’host di runtime privato, che non ha alcun comando di consegna. Tieni aperta questa finestra finché non chiudi il gioco.',
@@ -525,6 +575,15 @@ export const itIT: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Roamer',
+      1: 'Nomade',
+      2: 'Colosso',
+      3: 'Pellegrino',
+      4: 'Libellula',
+      5: 'Nautilon',
+      6: 'Minotauro'
+    },
     title: 'Tecnologie in attesa di installazione',
     hint: "Una tecnologia con un ingranaggio nell'angolo chiede ancora componenti. Controlla cosa è in attesa e completalo qui: i componenti non vengono spesi.",
     check: 'Controlla i miei inventari',

@@ -233,6 +233,21 @@ export const koKR: Messages = {
     entriesCount: '항목 {count}개',
     processId: '프로세스 {id}'
   },
+  savesPage: {
+    slotsTitle: '내 저장 슬롯',
+    slotsHint:
+      '게임이 각 슬롯을 마지막으로 저장한 시각입니다. Courier는 게임에 불러온 슬롯만 변경합니다.',
+    slot: '슬롯 {number}',
+    lastSaved: '마지막 저장: {when}',
+    noSlots: '아직 저장 데이터를 찾지 못했습니다.',
+    backupsTitle: '안전 복사본',
+    backupsHint:
+      '변경할 때마다 Courier가 저장 폴더 전체를 복사합니다. 되돌리려면 게임을 닫고 복사본의 파일을 저장 폴더에 다시 넣으세요.',
+    backupCount: '복사본 {count}개 보관 중',
+    noBackups: '아직 복사본이 없습니다. 첫 변경 전에 만들어집니다.',
+    openFolder: '복사본 폴더 열기',
+    before: '변경 전: {feature}'
+  },
   setup: {
     chooseTitle: '게임 폴더 선택',
     chooseBody: "Courier는 No Man's Sky가 설치된 위치를 알아야 합니다.",
@@ -274,6 +289,42 @@ export const koKR: Messages = {
       'NMS Courier는 개발 중인 비공식 도구입니다. 한 번에 정확히 하나의 게임 빌드에서만 동작합니다.'
   },
   delivery: {
+    actionOne: '게임으로 보내기',
+    expeditionGroup: '원정 {number}',
+    groupNames: {
+      Weapon: '멀티툴',
+      Suit: '엑소슈트',
+      AllShipsExceptAlien: '우주선(생체 함선 제외)',
+      AllShips: '모든 우주선',
+      Mech: '미노타우로스',
+      Exocraft: '엑소크래프트',
+      Freighter: '화물선',
+      Ship: '함선',
+      AlienShip: 'Living Ship',
+      RobotShip: '센티널 요격함',
+      Submarine: '노틸론',
+      AllVehicles: '모든 엑소크래프트',
+      Colossus: '엑소크래프트',
+      catalogue_item: '아이템',
+      catalogue_technology: '기술',
+      catalogue_construction: '건설 메뉴',
+      research_tree: '연구',
+      cooking: '요리용',
+      refiner: '정제기',
+      stat: '마일스톤',
+      product: '아이템',
+      mission: '임무',
+      interaction: '조우',
+      none: '기타',
+      trophy: '트로피',
+      Common: '일반',
+      Rare: '희귀',
+      Epic: '영웅',
+      Legendary: '전설',
+      Junk: '잡동사니',
+      shop: '상점',
+      customisation: '외형'
+    },
     shipModel: {
       fighter: '투사',
       hauler: '화물운송인',
@@ -308,7 +359,7 @@ export const koKR: Messages = {
       pirate: '해적 드레드노트'
     },
     equipScene: '모델',
-    equipSceneHint: '선택 사항. 화물선 모델의 게임 장면이며, 비워 두면 게임의 선택을 따릅니다.',
+    equipSceneHint: '선택 사항. 비워 두면 게임이 고릅니다.',
     equipModelSeed: '모델 시드',
     equipLegacyColours: '이전 색상 사용',
     equipLegacyColoursHint:
@@ -429,8 +480,8 @@ export const koKR: Messages = {
     installationInvalid: '선택한 폴더는 올바른 No Man’s Sky 설치 위치가 아닙니다.',
     select: '설치 위치 선택',
     verifying: '확인 중…',
-    bridgeTitle: '연구용 브리지',
-    bridgeHint: '전달을 수행하는 게임 내부 구성 요소.',
+    bridgeTitle: '게임과의 연결',
+    bridgeHint: '게임 안의 작은 Courier 파일이 여기서 보낸 것을 실행합니다.',
     diagnosticsTitle: '읽기 전용 진단',
     diagnosticsHint:
       '전달 명령이 없는 비공개 런타임 호스트에 연결합니다. 게임을 닫을 때까지 이 창을 열어 두세요.',
@@ -486,6 +537,15 @@ export const koKR: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: '엑소크래프트 (Roamer)',
+      1: '엑소크래프트 (Nomad)',
+      2: '엑소크래프트 (Colossus)',
+      3: '필그림',
+      4: '드래곤플라이',
+      5: '노틸론',
+      6: '미노타우로스'
+    },
     title: '설치를 기다리는 기술',
     hint: '모서리에 톱니바퀴가 있는 기술은 아직 부품을 요구합니다. 대기 중인 것을 확인한 뒤 여기서 완료하세요. 부품은 소모되지 않습니다.',
     check: '내 인벤토리 확인',

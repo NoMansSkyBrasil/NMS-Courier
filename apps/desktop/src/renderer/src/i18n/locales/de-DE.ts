@@ -267,6 +267,21 @@ export const deDE: Messages = {
     entriesCount: '{count} Einträge',
     processId: 'Prozess {id}'
   },
+  savesPage: {
+    slotsTitle: 'Deine Speicherplätze',
+    slotsHint:
+      'Wann das Spiel jeden Platz zuletzt gespeichert hat. Courier ändert nur den Platz, der im Spiel geladen ist.',
+    slot: 'Platz {number}',
+    lastSaved: 'Zuletzt gespeichert: {when}',
+    noSlots: 'Noch kein Spielstand gefunden.',
+    backupsTitle: 'Sicherheitskopien',
+    backupsHint:
+      'Vor jeder Änderung kopiert Courier deinen ganzen Speicherordner. Um zurückzugehen, schließe das Spiel und lege die Dateien einer Kopie zurück in den Speicherordner.',
+    backupCount: '{count} Kopien aufbewahrt',
+    noBackups: 'Noch keine Kopie. Vor der ersten Änderung wird eine erstellt.',
+    openFolder: 'Ordner der Kopien öffnen',
+    before: 'Vor: {feature}'
+  },
   setup: {
     chooseTitle: 'Wähle deinen Spielordner',
     chooseBody: "Courier muss wissen, wo No Man's Sky installiert ist.",
@@ -310,6 +325,42 @@ export const deDE: Messages = {
       'NMS Courier ist ein inoffizielles Werkzeug in Entwicklung. Es funktioniert jeweils mit genau einer Spielversion.'
   },
   delivery: {
+    actionOne: 'An das Spiel senden',
+    expeditionGroup: 'Expedition {number}',
+    groupNames: {
+      Weapon: 'Multiwerkzeug',
+      Suit: 'Exo-Anzug',
+      AllShipsExceptAlien: 'Raumschiffe, außer lebenden',
+      AllShips: 'Alle Raumschiffe',
+      Mech: 'Minotaurus',
+      Exocraft: 'Exo-Fahrzeug',
+      Freighter: 'Frachter',
+      Ship: 'Raumschiff',
+      AlienShip: 'Lebendes Schiff',
+      RobotShip: 'Wächter-Abfangjäger',
+      Submarine: 'Nautilon',
+      AllVehicles: 'Alle Exo-Fahrzeuge',
+      Colossus: 'Koloss',
+      catalogue_item: 'Gegenstände',
+      catalogue_technology: 'Technologie',
+      catalogue_construction: 'Baumenü',
+      research_tree: 'Forschung',
+      cooking: 'Kochen',
+      refiner: 'Raffinerie',
+      stat: 'Meilenstein',
+      product: 'Gegenstand',
+      mission: 'Mission',
+      interaction: 'Begegnung',
+      none: 'Sonstiges',
+      trophy: 'Trophäe',
+      Common: 'Gewöhnlich',
+      Rare: 'Selten',
+      Epic: 'Episch',
+      Legendary: 'Legendär',
+      Junk: 'Schrott',
+      shop: 'Laden',
+      customisation: 'Aussehen'
+    },
     shipModel: {
       fighter: 'Jäger',
       hauler: 'Transporter',
@@ -344,8 +395,7 @@ export const deDE: Messages = {
       pirate: 'Piraten-Dreadnought'
     },
     equipScene: 'Modell',
-    equipSceneHint:
-      'Optional. Die Spielszene des Frachtermodells; leer bleibt es bei der Wahl des Spiels.',
+    equipSceneHint: 'Optional. Leer lassen, damit das Spiel wählt.',
     equipModelSeed: 'Modell-Seed',
     equipLegacyColours: 'Alte Farben verwenden',
     equipLegacyColoursHint:
@@ -475,8 +525,8 @@ export const deDE: Messages = {
     installationInvalid: 'Der gewählte Ordner ist keine gültige Installation von No Man’s Sky.',
     select: 'Installation auswählen',
     verifying: 'Wird geprüft…',
-    bridgeTitle: 'Forschungsbrücke',
-    bridgeHint: 'Die Komponente im Spiel, die die Lieferungen ausführt.',
+    bridgeTitle: 'Verbindung zum Spiel',
+    bridgeHint: 'Eine kleine Courier-Datei im Spiel führt aus, was du von hier sendest.',
     diagnosticsTitle: 'Nur-Lese-Diagnose',
     diagnosticsHint:
       'Verbindet den privaten Laufzeit-Host, der keinen Lieferbefehl hat. Lass dieses Fenster geöffnet, bis du das Spiel schließt.',
@@ -533,6 +583,15 @@ export const deDE: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Roamer',
+      1: 'Nomad',
+      2: 'Koloss',
+      3: 'Pilger',
+      4: 'Libelle',
+      5: 'Nautilon',
+      6: 'Minotaurus'
+    },
     title: 'Technologien, die auf die Installation warten',
     hint: 'Eine Technologie mit einem Zahnrad in der Ecke verlangt noch Komponenten. Prüfe, was wartet, und schließe es hier ab: Die Komponenten werden nicht verbraucht.',
     check: 'Meine Inventare prüfen',

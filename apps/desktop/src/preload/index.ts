@@ -48,6 +48,8 @@ const nms = {
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
   getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
   installBridge: () => ipcRenderer.invoke('nms:install-bridge'),
+  getSavesOverview: () => ipcRenderer.invoke('nms:get-saves-overview'),
+  openBackupsFolder: () => ipcRenderer.invoke('nms:open-backups-folder'),
   listWaitingTechnologies: (locale: string) =>
     ipcRenderer.invoke('nms:list-waiting-technologies', locale),
   finishTechnologies: (

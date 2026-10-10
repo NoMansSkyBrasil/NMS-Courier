@@ -213,6 +213,20 @@ export const zhTW: Messages = {
     entriesCount: '{count} 個項目',
     processId: '處理程序 {id}'
   },
+  savesPage: {
+    slotsTitle: '你的存檔欄位',
+    slotsHint: '遊戲最後一次儲存每個欄位的時間。Courier 只變更遊戲中已載入的欄位。',
+    slot: '欄位 {number}',
+    lastSaved: '最後儲存：{when}',
+    noSlots: '尚未找到存檔。',
+    backupsTitle: '安全副本',
+    backupsHint:
+      '每次變更前，Courier 都會複製整個存檔資料夾。要復原，請關閉遊戲，並把副本中的檔案放回存檔資料夾。',
+    backupCount: '已保留 {count} 份副本',
+    noBackups: '還沒有副本。首次變更前會建立一份。',
+    openFolder: '開啟副本資料夾',
+    before: '變更前：{feature}'
+  },
   setup: {
     chooseTitle: '選擇遊戲資料夾',
     chooseBody: 'Courier 需要知道《無人深空》安裝在哪裡。',
@@ -252,6 +266,42 @@ export const zhTW: Messages = {
     experimentalBody: 'NMS Courier 是一款開發中的非官方工具。它一次只支援一個確切的遊戲版本。'
   },
   delivery: {
+    actionOne: '傳送到遊戲',
+    expeditionGroup: '遠征 {number}',
+    groupNames: {
+      Weapon: '工具組',
+      Suit: '強化套裝',
+      AllShipsExceptAlien: '飛船（生物飛船除外）',
+      AllShips: '所有飛船',
+      Mech: '彌諾陶洛斯',
+      Exocraft: '強化艇',
+      Freighter: '貨船',
+      Ship: '太空船',
+      AlienShip: '活體太空船',
+      RobotShip: '巡警攔截艦',
+      Submarine: '巡洋龍',
+      AllVehicles: '所有外星載具',
+      Colossus: '強化艇',
+      catalogue_item: '物品',
+      catalogue_technology: '科技',
+      catalogue_construction: '建造選單',
+      research_tree: '研究',
+      cooking: '烹飪',
+      refiner: '精煉機',
+      stat: '里程碑',
+      product: '物品',
+      mission: '任務',
+      interaction: '遭遇',
+      none: '其他',
+      trophy: '獎盃',
+      Common: '普通',
+      Rare: '稀有',
+      Epic: '史詩',
+      Legendary: '傳說',
+      Junk: '垃圾',
+      shop: '商店',
+      customisation: '外觀'
+    },
     shipModel: {
       fighter: '戰士',
       hauler: '拖運船',
@@ -286,7 +336,7 @@ export const zhTW: Messages = {
       pirate: '海盜無畏艦'
     },
     equipScene: '模型',
-    equipSceneHint: '選填。貨船模型的遊戲場景；留空則保留遊戲自己的選擇。',
+    equipSceneHint: '選填。留空則由遊戲選擇。',
     equipModelSeed: '模型種子',
     equipLegacyColours: '使用舊版顏色',
     equipLegacyColoursHint:
@@ -401,8 +451,8 @@ export const zhTW: Messages = {
     installationInvalid: '所選資料夾不是有效的 No Man’s Sky 安裝位置。',
     select: '選擇安裝位置',
     verifying: '正在驗證…',
-    bridgeTitle: '研究用橋接',
-    bridgeHint: '遊戲內部負責執行遞送的元件。',
+    bridgeTitle: '與遊戲的連線',
+    bridgeHint: '遊戲內的一個 Courier 小檔案會執行你從這裡傳送的內容。',
     diagnosticsTitle: '唯讀診斷',
     diagnosticsHint: '連線到沒有任何遞送命令的私有執行階段主機。在關閉遊戲之前，請保持此視窗開啟。',
     connect: '連線唯讀執行階段',
@@ -455,6 +505,15 @@ export const zhTW: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: '強化艇 (Roamer)',
+      1: '強化艇 (Nomad)',
+      2: '強化艇 (Colossus)',
+      3: '朝聖者',
+      4: '蜻蜓',
+      5: '巡洋龍',
+      6: '彌諾陶洛斯'
+    },
     title: '等待安裝的科技',
     hint: '角落帶齒輪的科技仍需要元件。先查看哪些在等待，再在這裡完成：不會消耗元件。',
     check: '檢查我的物品欄',

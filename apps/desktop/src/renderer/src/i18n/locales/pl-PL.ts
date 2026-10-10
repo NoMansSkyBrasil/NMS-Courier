@@ -252,6 +252,21 @@ export const plPL: Messages = {
     entriesCount: 'Wpisy: {count}',
     processId: 'Proces {id}'
   },
+  savesPage: {
+    slotsTitle: 'Twoje sloty zapisu',
+    slotsHint:
+      'Kiedy gra ostatnio zapisała każdy slot. Courier zmienia tylko slot wczytany w grze.',
+    slot: 'Slot {number}',
+    lastSaved: 'Ostatni zapis: {when}',
+    noSlots: 'Nie znaleziono jeszcze żadnego zapisu.',
+    backupsTitle: 'Kopie bezpieczeństwa',
+    backupsHint:
+      'Przed każdą zmianą Courier kopiuje cały folder zapisów. Aby wrócić, zamknij grę i włóż pliki z kopii z powrotem do folderu zapisów.',
+    backupCount: 'Zachowane kopie: {count}',
+    noBackups: 'Jeszcze nie ma kopii. Powstaje przed pierwszą zmianą.',
+    openFolder: 'Otwórz folder kopii',
+    before: 'Przed: {feature}'
+  },
   setup: {
     chooseTitle: 'Wybierz folder gry',
     chooseBody: "Courier musi wiedzieć, gdzie zainstalowano No Man's Sky.",
@@ -294,6 +309,42 @@ export const plPL: Messages = {
       'NMS Courier to nieoficjalne narzędzie w trakcie rozwoju. Działa z jedną, dokładnie określoną wersją gry naraz.'
   },
   delivery: {
+    actionOne: 'Wyślij do gry',
+    expeditionGroup: 'Ekspedycja {number}',
+    groupNames: {
+      Weapon: 'Multinarzędzie',
+      Suit: 'Kombinezon',
+      AllShipsExceptAlien: 'Statki, oprócz żywych',
+      AllShips: 'Wszystkie statki',
+      Mech: 'Minotaur',
+      Exocraft: 'Egzopojazd',
+      Freighter: 'Frachtowiec',
+      Ship: 'Statek',
+      AlienShip: 'Living Ship',
+      RobotShip: 'Myśliwiec Strażników',
+      Submarine: 'Nautilon',
+      AllVehicles: 'Wszystkie egzopojazdy',
+      Colossus: 'Kolos',
+      catalogue_item: 'Przedmioty',
+      catalogue_technology: 'Technologia',
+      catalogue_construction: 'Menu budowy',
+      research_tree: 'Badania',
+      cooking: 'Gotowanie',
+      refiner: 'Rafineria',
+      stat: 'Kamień milowy',
+      product: 'Przedmiot',
+      mission: 'Misja',
+      interaction: 'Spotkanie',
+      none: 'Inne',
+      trophy: 'Trofeum',
+      Common: 'Pospolita',
+      Rare: 'Rzadka',
+      Epic: 'Epicka',
+      Legendary: 'Legendarna',
+      Junk: 'Złom',
+      shop: 'Sklep',
+      customisation: 'Wygląd'
+    },
     shipModel: {
       fighter: 'Myśliwiec',
       hauler: 'Transportowiec',
@@ -328,8 +379,7 @@ export const plPL: Messages = {
       pirate: 'Piracki drednot'
     },
     equipScene: 'Model',
-    equipSceneHint:
-      'Opcjonalnie. Scena gry z modelem frachtowca; puste pole pozostawia wybór grze.',
+    equipSceneHint: 'Opcjonalne. Zostaw puste, aby wybrała gra.',
     equipModelSeed: 'Ziarno modelu',
     equipLegacyColours: 'Użyj starych kolorów',
     equipLegacyColoursHint:
@@ -453,8 +503,8 @@ export const plPL: Messages = {
     installationInvalid: 'Wybrany folder nie jest prawidłową instalacją No Man’s Sky.',
     select: 'Wybierz instalację',
     verifying: 'Sprawdzanie…',
-    bridgeTitle: 'Most badawczy',
-    bridgeHint: 'Składnik wewnątrz gry, który wykonuje dostawy.',
+    bridgeTitle: 'Połączenie z grą',
+    bridgeHint: 'Mały plik Couriera w grze wykonuje to, co stąd wysyłasz.',
     diagnosticsTitle: 'Diagnostyka tylko do odczytu',
     diagnosticsHint:
       'Łączy prywatny host środowiska uruchomieniowego, który nie ma żadnego polecenia dostawy. Nie zamykaj tego okna, dopóki nie zamkniesz gry.',
@@ -510,6 +560,15 @@ export const plPL: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Wędrowiec',
+      1: 'Nomada',
+      2: 'Kolos',
+      3: 'Pielgrzym',
+      4: 'Ważka',
+      5: 'Nautilon',
+      6: 'Minotaur'
+    },
     title: 'Technologie czekające na instalację',
     hint: 'Technologia z kołem zębatym w rogu wciąż wymaga komponentów. Sprawdź, co czeka, i dokończ to tutaj: komponenty nie są zużywane.',
     check: 'Sprawdź moje ekwipunki',

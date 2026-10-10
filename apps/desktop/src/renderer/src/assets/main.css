@@ -113,9 +113,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
 
-  /* Internal names (identifiers, raw answers) stay hidden unless the settings ask for them. */
-  [data-internal-names='off'] .internal-name {
-    display: none;
-  }
+/* Internal names (identifiers, raw answers) stay hidden unless the settings ask for them. Outside
+   every layer and marked important, so a component's own display utility cannot bring one back. */
+[data-internal-names='off'] .internal-name {
+  display: none !important;
 }

@@ -106,8 +106,12 @@ a finish does. It changes the loaded slot only.
 - Everything live: whether the list matches what the game shows, whether a
   finish works from a blank block, whether the game shows a message, and
   whether the technology then works and survives a save and reload.
-- Which exocraft is which number (the page says "Exocraft 1" to "7"), and
-  the multi-tools not in hand (only the active one is walked).
+- The multi-tools not in hand (only the active one is walked).
+- Known since application 1.39.0: the owner index of an exocraft is its
+  `GcVehicleType` (read from the executable: Buggy, Bike, Truck,
+  WheeledBike, Hovercraft, Submarine, Mech), which the game's texts name
+  Roamer, Nomad, Colossus, Pilgrim, Dragonfly, Nautilon and Minotaur
+  (`VEHICLE_<TYPE>_TITLE_L`).
 - Undo: none from the application. The save backup made before a finish is
   the way back.
 - Rejected: the other writers of `+0x29` (`5b4930` swaps a missing

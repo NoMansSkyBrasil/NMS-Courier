@@ -249,6 +249,21 @@ export const enUS: Messages = {
     entriesCount: '{count} entries',
     processId: 'Process {id}'
   },
+  savesPage: {
+    slotsTitle: 'Your save slots',
+    slotsHint:
+      'When the game last saved each slot. Courier only changes the slot that is loaded in the game.',
+    slot: 'Slot {number}',
+    lastSaved: 'Last saved {when}',
+    noSlots: 'No save was found yet.',
+    backupsTitle: 'Safety copies',
+    backupsHint:
+      "Before every change Courier copies your whole save folder. To go back, close the game and put a copy's files back in the save folder.",
+    backupCount: '{count} copies kept',
+    noBackups: 'No copy yet. One is made before the first change.',
+    openFolder: 'Open the copies folder',
+    before: 'Before: {feature}'
+  },
   setup: {
     chooseTitle: 'Choose your game folder',
     chooseBody: "Courier needs to know where No Man's Sky is installed.",
@@ -292,6 +307,42 @@ export const enUS: Messages = {
       'NMS Courier is an unofficial tool under development. It works with one exact game build at a time.'
   },
   delivery: {
+    actionOne: 'Send to the game',
+    expeditionGroup: 'Expedition {number}',
+    groupNames: {
+      Weapon: 'Multi-Tool',
+      Suit: 'Exosuit',
+      AllShipsExceptAlien: 'Starships, not living',
+      AllShips: 'All starships',
+      Mech: 'Minotaur',
+      Exocraft: 'Exocraft',
+      Freighter: 'Freighter',
+      Ship: 'Starship',
+      AlienShip: 'Living Ship',
+      RobotShip: 'Sentinel Interceptor',
+      Submarine: 'Nautilon',
+      AllVehicles: 'All exocraft',
+      Colossus: 'Colossus',
+      catalogue_item: 'Items',
+      catalogue_technology: 'Technology',
+      catalogue_construction: 'Build menu',
+      research_tree: 'Research',
+      cooking: 'Cooking',
+      refiner: 'Refiner',
+      stat: 'Milestone',
+      product: 'Item',
+      mission: 'Mission',
+      interaction: 'Encounter',
+      none: 'Other',
+      trophy: 'Trophy',
+      Common: 'Common',
+      Rare: 'Rare',
+      Epic: 'Epic',
+      Legendary: 'Legendary',
+      Junk: 'Junk',
+      shop: 'Shop',
+      customisation: 'Appearance'
+    },
     shipModel: {
       fighter: 'Fighter',
       hauler: 'Hauler',
@@ -326,8 +377,7 @@ export const enUS: Messages = {
       pirate: 'Pirate dreadnought'
     },
     equipScene: 'Model',
-    equipSceneHint:
-      'Optional. The game scene of the freighter model; empty keeps the game’s own choice.',
+    equipSceneHint: 'Optional. Leave empty to let the game choose.',
     equipModelSeed: 'Model seed',
     equipLegacyColours: 'Use legacy colours',
     equipLegacyColoursHint:
@@ -450,8 +500,8 @@ export const enUS: Messages = {
     installationInvalid: 'The selected folder is not a valid No Man’s Sky installation.',
     select: 'Select installation',
     verifying: 'Verifying…',
-    bridgeTitle: 'Research bridge',
-    bridgeHint: 'The component inside the game that performs the deliveries.',
+    bridgeTitle: 'Connection with the game',
+    bridgeHint: 'A small Courier file inside the game does what you send from here.',
     diagnosticsTitle: 'Read-only diagnostics',
     diagnosticsHint:
       'Connects the private runtime host, which has no delivery command. Keep this window open until you close the game.',
@@ -507,6 +557,15 @@ export const enUS: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Roamer',
+      1: 'Nomad',
+      2: 'Colossus',
+      3: 'Pilgrim',
+      4: 'Dragonfly',
+      5: 'Nautilon',
+      6: 'Minotaur'
+    },
     title: 'Technologies waiting to be installed',
     hint: 'A technology with a gear in its corner still asks for components. Check what is waiting, then finish it here: the components are not spent.',
     check: 'Check my inventories',

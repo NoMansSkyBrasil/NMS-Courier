@@ -259,6 +259,21 @@ export const ruRU: Messages = {
     entriesCount: 'Записей: {count}',
     processId: 'Процесс {id}'
   },
+  savesPage: {
+    slotsTitle: 'Ваши слоты сохранений',
+    slotsHint:
+      'Когда игра в последний раз сохраняла каждый слот. Courier меняет только слот, загруженный в игре.',
+    slot: 'Слот {number}',
+    lastSaved: 'Последнее сохранение: {when}',
+    noSlots: 'Сохранения пока не найдены.',
+    backupsTitle: 'Резервные копии',
+    backupsHint:
+      'Перед каждым изменением Courier копирует всю папку сохранений. Чтобы вернуться, закройте игру и верните файлы из копии в папку сохранений.',
+    backupCount: 'Сохранено копий: {count}',
+    noBackups: 'Копий пока нет. Она создаётся перед первым изменением.',
+    openFolder: 'Открыть папку с копиями',
+    before: 'Перед: {feature}'
+  },
   setup: {
     chooseTitle: 'Выберите папку игры',
     chooseBody: "Courier должен знать, где установлена No Man's Sky.",
@@ -301,6 +316,42 @@ export const ruRU: Messages = {
       'NMS Courier — неофициальный инструмент в разработке. Он работает только с одной точной версией игры одновременно.'
   },
   delivery: {
+    actionOne: 'Отправить в игру',
+    expeditionGroup: 'Экспедиция {number}',
+    groupNames: {
+      Weapon: 'Мультитул',
+      Suit: 'Экзокостюм',
+      AllShipsExceptAlien: 'Корабли, кроме живых',
+      AllShips: 'Все корабли',
+      Mech: 'Минотавр',
+      Exocraft: 'Вездеход',
+      Freighter: 'Грузовой корабль',
+      Ship: 'Звездолет',
+      AlienShip: '«Living Ship»',
+      RobotShip: 'Страж-перехватчик',
+      Submarine: 'Наутилон',
+      AllVehicles: 'Все вездеходы',
+      Colossus: 'Вездеход',
+      catalogue_item: 'Предметы',
+      catalogue_technology: 'Технологии',
+      catalogue_construction: 'Меню строительства',
+      research_tree: 'Исследования',
+      cooking: 'Кулинарный',
+      refiner: 'Очиститель',
+      stat: 'Веха',
+      product: 'Предмет',
+      mission: 'Миссия',
+      interaction: 'Встреча',
+      none: 'Другое',
+      trophy: 'Трофей',
+      Common: 'Обычная',
+      Rare: 'Редкая',
+      Epic: 'Эпическая',
+      Legendary: 'Легендарная',
+      Junk: 'Мусор',
+      shop: 'Магазин',
+      customisation: 'Внешний вид'
+    },
     shipModel: {
       fighter: 'Истребитель',
       hauler: 'Тягач',
@@ -335,8 +386,7 @@ export const ruRU: Messages = {
       pirate: 'Пиратский дредноут'
     },
     equipScene: 'Модель',
-    equipSceneHint:
-      'Необязательно. Игровая сцена модели грузового корабля; пустое поле оставляет выбор игре.',
+    equipSceneHint: 'Необязательно. Оставьте пустым, чтобы выбрала игра.',
     equipModelSeed: 'Сид модели',
     equipLegacyColours: 'Использовать старые цвета',
     equipLegacyColoursHint:
@@ -459,8 +509,8 @@ export const ruRU: Messages = {
     installationInvalid: 'Выбранная папка не является корректной установкой No Man’s Sky.',
     select: 'Выбрать установку',
     verifying: 'Проверка…',
-    bridgeTitle: 'Исследовательский мост',
-    bridgeHint: 'Компонент внутри игры, который выполняет доставку.',
+    bridgeTitle: 'Связь с игрой',
+    bridgeHint: 'Небольшой файл Courier внутри игры выполняет то, что вы отправляете отсюда.',
     diagnosticsTitle: 'Диагностика только для чтения',
     diagnosticsHint:
       'Подключает закрытый хост среды выполнения, в котором нет команд доставки. Не закрывайте это окно, пока не закроете игру.',
@@ -516,6 +566,15 @@ export const ruRU: Messages = {
     }
   },
   pendingTech: {
+    exocraft: {
+      0: 'Вездеход (Roamer)',
+      1: 'Вездеход (Nomad)',
+      2: 'Вездеход (Colossus)',
+      3: 'Пилигрим',
+      4: 'Стрекоза',
+      5: 'Наутилон',
+      6: 'Минотавр'
+    },
     title: 'Технологии, ожидающие установки',
     hint: 'Технология с шестерёнкой в углу ещё требует компоненты. Проверьте, что ожидает, и завершите это здесь: компоненты не тратятся.',
     check: 'Проверить мои инвентари',

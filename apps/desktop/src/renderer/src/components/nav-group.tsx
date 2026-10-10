@@ -81,10 +81,16 @@ export function NavGroup({
               <SidebarMenuButton
                 isActive={feature.id === activeId}
                 tooltip={copy.features[feature.id].title}
+                className={feature.status === 'planned' ? 'opacity-60' : undefined}
                 render={<a href={featureHref(feature.id)} />}
               >
                 <feature.icon className={groupIconTones[group]} />
                 <span>{copy.features[feature.id].title}</span>
+                {feature.status === 'planned' && (
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    {copy.status.planned}
+                  </span>
+                )}
               </SidebarMenuButton>
             </SidebarMenuItem>
           )
