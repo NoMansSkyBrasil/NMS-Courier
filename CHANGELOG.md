@@ -28,6 +28,15 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.38.2 (2026-10-10)
+
+- Changed: shorter, plainer texts on the remaining long pages (corvettes,
+  words, missions, glyphs, travel, the model workshop, the dashboard and
+  the legacy colours option), in the 14 languages; the delivery cards no
+  longer mention the "research bridge".
+- Changed: the category badge of every list has a steady colour of its
+  own.
+
 ## Application 1.38.1 (2026-10-10)
 
 - Changed: the grey state line inside every card is gone; the coloured

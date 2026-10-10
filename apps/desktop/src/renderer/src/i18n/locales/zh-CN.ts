@@ -5,7 +5,7 @@ export const zhCN: Messages = {
   sections: { obtain: '获取新的', upgrade: '升级' },
   corvette: {
     title: '从文件创建护卫舰',
-    hint: '选择一个共享的护卫舰文件（.nmsship）。应用会让游戏的护卫舰建造从这艘已组装好的飞船开始；你在游戏中完成建造。准备好文件后需要重新启动游戏。',
+    hint: '选择一个共享的护卫舰文件（.nmsship）。游戏会以那艘已组装好的飞船打开护卫舰建造。选择后请重启游戏。',
     none: '尚未准备任何护卫舰文件。',
     current: '已准备：{name}，{count} 个部件。',
     parts: '{count} 个部件',
@@ -191,7 +191,7 @@ export const zhCN: Messages = {
   dashboard: {
     connection: '连接',
     heroBody:
-      '把物品、货币和解锁内容发送到你自己正在运行的游戏。一切都通过游戏本身完成，绝不编辑你的存档；这里显示的名称和图标都来自你的游戏安装。',
+      '在你自己的游戏运行时向它发送物品、货币和解锁。一切都由游戏自己完成；你的存档从不被编辑。',
     game: '游戏',
     build: '游戏版本',
     bridge: '桥接',
@@ -290,7 +290,7 @@ export const zhCN: Messages = {
     equipModelSeed: '模型种子',
     equipLegacyColours: '使用旧版颜色',
     equipLegacyColoursHint:
-      '将多功能工具标记为使用旧版颜色，与游戏发放的工具一样。游戏的报价中没有这个设置，因此桥接会让游戏用旧版颜色绘制报价，并在你接受后立即把标记写到工具上。',
+      '让多功能工具使用旧版颜色，和游戏发放的工具一样。在你接受报价后立即应用。',
     equipHomeSeed: '母星系种子',
     currencyAmountHint: '1 到 {max}（游戏能保存的最大余额）之间的任意数额。',
     itemsStack: '每堆 {count}',
@@ -345,7 +345,7 @@ export const zhCN: Messages = {
     selectNoCatalog: '从游戏读取目录后会显示名称（资料库 → 游戏目录）。',
     selectNone: '没有与搜索匹配的条目。',
     title: '发送到游戏',
-    hint: '使用此开发版本的研究用桥接。',
+    hint: '由运行中的游戏自己完成，方式与它平时发放时相同。',
     action: '全部投递',
     sending: '正在发送…',
     confirmTitle: '要发送到运行中的游戏吗？',
@@ -441,7 +441,7 @@ export const zhCN: Messages = {
     languages: '{count} 种游戏语言'
   },
   words: {
-    hint: '每一行是游戏中的一个词，每一列是一种语言；只有该语言拥有这个词时才有格子。游戏按组学习词汇，因此勾选一个词也会勾选该语言中同组的其他词形（放弃与废弃）。被勾选的格子就是将要发送的内容：不会向游戏查询你已经掌握了哪些词。',
+    hint: '行是词语，列是语言。勾选你想学的。勾选一个词也会勾选它的其他形式（abandon、abandoned）。',
     id: 'ID',
     marked: '已勾选 {count} / {total}',
     word: '词',
@@ -577,7 +577,7 @@ export const zhCN: Messages = {
   missions: {
     warningTitle: '实验性：请使用测试存档',
     warning:
-      '通过游戏自己的奖励请求游戏完成你勾选的每个任务。主任务是游戏日志中的一个标题；带有该标题的任务列在其中。目前还不清楚游戏是否仍会发放被跳过阶段本应给予的东西、是否会开启下一个任务，页面也还无法显示你的存档中哪些任务正在进行。发送前会备份存档。',
+      '游戏会完成你勾选的每个任务。目前还不清楚你是否能得到被跳过的步骤给的东西。会先备份你的存档。',
     search: '按任务或 ID 搜索',
     untitled: '显示游戏中没有标题的任务',
     untitledHint: '游戏从不在日志中命名的辅助任务。它们按标识符列出。',
@@ -622,7 +622,7 @@ export const zhCN: Messages = {
     actionChosen: '提升所选（{count}）'
   },
   glyphs: {
-    hint: '符文由游戏自己发放，并带有游戏自己的通知，就像旅行者的坟墓给出符文时一样。游戏无法发放指定的符文：它们按游戏的顺序到来，如下所示。',
+    hint: '字符由游戏自己发放，并显示它的通知。它们按游戏的顺序到来（见下方），无法指定某一个。',
     order: '游戏中符文的顺序',
     all: '全部十六个',
     allHint: '一次获得所有符文。',
@@ -631,7 +631,7 @@ export const zhCN: Messages = {
     action: '学习符文'
   },
   teleport: {
-    hint: '旅程由运行中的游戏自己完成：请求方式与游戏自己的传送器相同。你会到达该恒星系的空间站，或地址第一个符文所指的行星。实验性功能。',
+    hint: '游戏会像它自己的传送器那样送你过去。你会到达该星系的空间站，或第一个字符所指的星球。',
     galaxy: '星系',
     galaxyHint: '游戏中的全部星系，按编号和名称列出。输入即可搜索。',
     galaxyEmpty: '未找到星系。',
@@ -707,7 +707,7 @@ export const zhCN: Messages = {
     },
     seedLabel: '种子',
     homeSeedHint:
-      '货船的颜色来自其母星系，而星系的种子就是它在星系中的地址。输入种子、随机生成一个，或在下方填写该星系的传送门地址；留空则货船不带颜色显示。',
+      '货船的颜色来自它的母星系。输入该星系的种子、随机抽一个，或在下方填写它的传送门地址。留空则不显示颜色。',
     homeAddress: '此种子是星系 {galaxy} 中传送门地址为 {glyphs} 的星系。',
     glyphsLabel: '传送门地址（12 个符文，0–9、A–F）',
     galaxyLabel: '星系编号',
@@ -731,7 +731,7 @@ export const zhCN: Messages = {
     anyPart: '任意',
     rare: '稀有',
     detailsTitle: '由种子决定的细节',
-    note: '模型读取自你自己的游戏文件。部件、纹理层、贴花和颜色由种子决定；光照和材质效果经过简化，因此金属和明暗与游戏中不同。部件已与独立工具以及在运行的游戏中购买的一把多功能工具核对；颜色接近，但并不完全一致。',
+    note: '模型来自你自己的游戏文件。形状和颜色由种子决定；光照经过简化，所以看起来与游戏略有不同。',
     errors: {
       INSTALLATION_NOT_SELECTED: '请先在“桥接”中选择游戏文件夹。',
       UNKNOWN_KIND: '此类型不可用。',

@@ -5,7 +5,7 @@ export const nlNL: Messages = {
   sections: { obtain: 'Nieuw verkrijgen', upgrade: 'Verbeteren' },
   corvette: {
     title: 'Korvet uit een bestand',
-    hint: 'Kies een gedeeld korvetbestand (.nmsship). De applicatie bereidt het spel voor zodat de korvetbouw begint met dat schip al in elkaar gezet; je rondt het af in het spel. Het spel moet opnieuw worden gestart nadat het bestand is voorbereid.',
+    hint: 'Kies een gedeeld korvetbestand (.nmsship). Het spel opent het bouwen van korvetten dan met dat schip al in elkaar gezet. Start het spel opnieuw na het kiezen.',
     none: 'Er is nog geen korvetbestand voorbereid.',
     current: 'Voorbereid: {name}, {count} onderdelen.',
     parts: '{count} onderdelen',
@@ -242,7 +242,7 @@ export const nlNL: Messages = {
   dashboard: {
     connection: 'Verbinding',
     heroBody:
-      'Stuur voorwerpen, valuta en ontgrendelingen naar je eigen draaiende spel. Alles loopt via het spel zelf, je opgeslagen spellen worden nooit bewerkt, en de namen en pictogrammen die je hier ziet komen uit je eigen installatie.',
+      'Stuur voorwerpen, valuta en ontgrendelingen naar je eigen spel terwijl het draait. Het spel doet alles zelf; je saves worden nooit bewerkt.',
     game: 'Spel',
     build: 'Spelversie',
     bridge: 'Brug',
@@ -346,7 +346,7 @@ export const nlNL: Messages = {
     equipModelSeed: 'Modelseed',
     equipLegacyColours: 'Oude kleuren gebruiken',
     equipLegacyColoursHint:
-      'Markeert de multitool om de oude kleuren te gebruiken, zoals de tools die het spel uitdeelt. Het aanbod van het spel heeft hier geen instelling voor, dus de brug laat het spel het aanbod ermee tekenen en schrijft de markering op de tool direct nadat je hem accepteert.',
+      'Geeft de multitool de oudere kleuren, zoals bij de tools die het spel uitdeelt. Toegepast direct nadat je het aanbod accepteert.',
     equipHomeSeed: 'Seed van het thuissysteem',
     currencyAmountHint: 'Elk bedrag van 1 tot {max}, het grootste saldo dat het spel bijhoudt.',
     itemsStack: 'Stapel van {count}',
@@ -408,7 +408,7 @@ export const nlNL: Messages = {
       'Namen verschijnen nadat de catalogus uit het spel is gelezen (Bibliotheek, Spelcatalogus).',
     selectNone: 'Niets komt overeen met de zoekopdracht.',
     title: 'Naar het spel sturen',
-    hint: 'Gebruikt de onderzoeksbrug van deze ontwikkelversie.',
+    hint: 'Het draaiende spel doet het zelf, zoals het dit zelf zou uitdelen.',
     action: 'Alles leveren',
     sending: 'Bezig met verzenden…',
     confirmTitle: 'Dit naar het draaiende spel sturen?',
@@ -512,7 +512,7 @@ export const nlNL: Messages = {
     languages: '{count} speltalen'
   },
   words: {
-    hint: 'Elke rij is een woord uit het spel en elke kolom een taal; een vakje bestaat alleen waar die taal het woord heeft. Het spel leert woorden in groepen, dus een woord aanvinken vinkt ook de andere vormen van zijn groep in die taal aan (in de steek laten en verlaten). Een aangevinkt vakje is wat wordt verzonden: het spel wordt niet gevraagd welke woorden je al kent.',
+    hint: 'Rijen zijn woorden, kolommen zijn talen. Vink aan wat je wilt leren. Een woord aanvinken vinkt ook zijn andere vormen aan (verlaten, verliet).',
     id: 'ID',
     marked: '{count} van {total} aangevinkt',
     word: 'Woord',
@@ -661,7 +661,7 @@ export const nlNL: Messages = {
   missions: {
     warningTitle: 'Experimenteel: gebruik een test-save',
     warning:
-      'Het spel wordt via zijn eigen beloning gevraagd elke aangevinkte missie te voltooien. Een hoofdmissie is een titel in het logboek van het spel; de missies die hem dragen staan eronder. Het is nog niet bekend of het spel geeft wat de overgeslagen fasen zouden geven en of het de volgende missie start, en de pagina kan nog niet tonen welke missies in je save actief zijn. Van de save wordt vóór het verzenden een kopie gemaakt.',
+      'Het spel voltooit elke missie die je aanvinkt. Het is nog niet bekend of je krijgt wat de overgeslagen stappen geven. Je save wordt eerst gekopieerd.',
     search: 'Zoeken op missie of ID',
     untitled: 'Missies zonder titel in het spel tonen',
     untitledHint:
@@ -712,7 +712,7 @@ export const nlNL: Messages = {
     actionChosen: 'Gekozen verhogen ({count})'
   },
   glyphs: {
-    hint: 'Het spel geeft de glyphs zelf, met zijn eigen melding, zoals wanneer het graf van een Reiziger er één geeft. Een gekozen glyph kan het spel niet geven: ze komen in de volgorde van het spel, hieronder getoond.',
+    hint: 'Het spel geeft de glyphs zelf, met zijn eigen melding. Ze komen in de volgorde van het spel, hieronder getoond; je kunt er geen kiezen.',
     order: 'Volgorde van de glyphs in het spel',
     all: 'Alle zestien',
     allHint: 'Alle glyphs in één keer.',
@@ -721,7 +721,7 @@ export const nlNL: Messages = {
     action: 'Glyphs leren'
   },
   teleport: {
-    hint: 'Het draaiende spel maakt de reis zelf: het wordt gevraagd zoals zijn eigen teleporters dat doen. Je komt aan bij het ruimtestation van het systeem of op de planeet die de eerste glyph aanwijst. Experimenteel.',
+    hint: 'Het spel brengt je erheen, zoals zijn eigen teleporters doen. Je komt aan bij het ruimtestation van het systeem, of op de planeet van de eerste glyph.',
     galaxy: 'Melkwegstelsel',
     galaxyHint: 'Alle melkwegstelsels van het spel, op nummer en naam. Typ om te zoeken.',
     galaxyEmpty: 'Geen melkwegstelsel gevonden.',
@@ -809,7 +809,7 @@ export const nlNL: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Een vrachtschip haalt zijn kleuren uit zijn thuissterrenstelsel, en de seed van een stelsel is zijn adres in het sterrenstelsel. Typ de seed, trek er een of geef hieronder het portaaladres van het stelsel; leeg toont het vrachtschip zonder kleuren.',
+      'Een vrachtschip neemt zijn kleuren van zijn thuissysteem. Typ de seed van dat systeem, trek er een of geef hieronder het portaaladres. Leeg toont geen kleuren.',
     homeAddress: 'Deze seed is het stelsel met portaaladres {glyphs} in sterrenstelsel {galaxy}.',
     glyphsLabel: 'Portaaladres (12 glyphs als 0–9, A–F)',
     galaxyLabel: 'Nummer van het sterrenstelsel',
@@ -834,7 +834,7 @@ export const nlNL: Messages = {
     anyPart: 'Willekeurig',
     rare: 'zeldzaam',
     detailsTitle: 'Details die de seed heeft getrokken',
-    note: 'Het model wordt uit je eigen spelbestanden gelezen. Onderdelen, textuurlagen, stickers en kleuren volgen de seed; belichting en materiaaleffecten zijn vereenvoudigd, dus metaal en schaduw zien er anders uit dan in het spel. De onderdelen zijn vergeleken met een onafhankelijk hulpmiddel en met een multitool die in het draaiende spel is gekocht; de kleuren komen dichtbij, maar zijn niet exact.',
+    note: 'Het model komt uit je eigen spelbestanden. Vormen en kleuren volgen de seed; de belichting is vereenvoudigd, dus het ziet er iets anders uit dan in het spel.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecteer eerst de spelmap, bij Brug.',
       UNKNOWN_KIND: 'Dit type is niet beschikbaar.',

@@ -5,7 +5,7 @@ export const enUS: Messages = {
   sections: { obtain: 'Get a new one', upgrade: 'Upgrade' },
   corvette: {
     title: 'Corvette from a file',
-    hint: 'Choose a shared corvette file (.nmsship). The application prepares the game so that corvette building starts with that ship already assembled; you finish it in the game. The game must be restarted after the file is prepared.',
+    hint: 'Choose a shared corvette file (.nmsship). The game then starts corvette building with that ship already assembled. Restart the game after choosing.',
     none: 'No corvette file has been prepared yet.',
     current: 'Prepared: {name}, {count} parts.',
     parts: '{count} parts',
@@ -227,7 +227,7 @@ export const enUS: Messages = {
   dashboard: {
     connection: 'Connection',
     heroBody:
-      'Send items, currencies and unlocks to your own running game. Everything goes through the game itself, your saves are never edited, and the names and icons you see here come from your installation.',
+      'Send items, currencies and unlocks to your own game while it runs. The game does everything itself; your saves are never edited.',
     game: 'Game',
     build: 'Game build',
     bridge: 'Bridge',
@@ -331,7 +331,7 @@ export const enUS: Messages = {
     equipModelSeed: 'Model seed',
     equipLegacyColours: 'Use legacy colours',
     equipLegacyColoursHint:
-      'Marks the multi-tool to use the legacy colours, as the tools the game hands out are. The game has no setting for this in its offer, so the bridge makes the game draw the offer with them and writes the mark on the tool right after you accept it.',
+      'Gives the multi-tool the older colours, like the tools the game hands out. Applied right after you accept the offer.',
     equipHomeSeed: 'Home system seed',
     currencyAmountHint: 'Any amount from 1 to {max}, the largest balance the game keeps.',
     itemsStack: 'Stack of {count}',
@@ -391,7 +391,7 @@ export const enUS: Messages = {
       'Names appear after the catalogue is read from the game (Library, Game catalogue).',
     selectNone: 'Nothing matches the search.',
     title: 'Send to the game',
-    hint: 'Uses the research bridge of this development build.',
+    hint: 'The running game does it itself, the way it would hand these over.',
     action: 'Deliver everything',
     sending: 'Sending…',
     confirmTitle: 'Send this to the running game?',
@@ -493,7 +493,7 @@ export const enUS: Messages = {
     languages: '{count} game languages'
   },
   words: {
-    hint: 'Each row is a word of the game and each column a language; a box exists only where that language has the word. The game learns words in groups, so marking a word also marks the other forms of its group in that language (abandon and abandoned). A marked box is what will be sent: the game is not asked which words you already know.',
+    hint: 'Rows are words, columns are languages. Mark what you want to learn. Marking a word also marks its other forms (abandon, abandoned).',
     id: 'ID',
     marked: '{count} of {total} marked',
     word: 'Word',
@@ -642,7 +642,7 @@ export const enUS: Messages = {
   missions: {
     warningTitle: 'Experimental: use a test save',
     warning:
-      'The game is asked, through its own reward, to complete each mission you mark. A quest is a title of the game’s log; the missions that carry it are listed under it. It is not yet known whether the game still hands over what the skipped stages give or starts the next mission, and the page cannot yet show which missions are active in your save. The save is backed up before sending.',
+      'The game completes each mission you mark. It is not yet known whether you still get what the skipped steps give. Your save is backed up first.',
     search: 'Search by quest, mission or ID',
     untitled: 'Show missions without a title in the game',
     untitledHint:
@@ -689,7 +689,7 @@ export const enUS: Messages = {
     actionChosen: 'Raise chosen ({count})'
   },
   glyphs: {
-    hint: 'The game hands the glyphs over itself, with its own notification, as when a Traveller’s grave gives one. It has no way to give a chosen glyph: they come in the game’s order, shown below.',
+    hint: "The game gives the glyphs itself, with its own notification. They come in the game's order, shown below; one cannot be chosen.",
     order: 'The game’s order of the glyphs',
     all: 'All sixteen',
     allHint: 'Every glyph at once.',
@@ -698,7 +698,7 @@ export const enUS: Messages = {
     action: 'Learn glyphs'
   },
   teleport: {
-    hint: 'The running game makes the journey: it is asked the way its own teleporters ask. You arrive at the space station of the system, or on the planet the first glyph names. Experimental.',
+    hint: "The game takes you there, as its own teleporters do. You arrive at the system's space station, or on the planet of the first glyph.",
     galaxy: 'Galaxy',
     galaxyHint: 'Every galaxy of the game, by number and name. Type to search.',
     galaxyEmpty: 'No galaxy found.',
@@ -785,7 +785,7 @@ export const enUS: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'A freighter takes its colours from its home star system, and the seed of a system is its address in the galaxy. Type the seed, draw one, or give the portal address of the system below; empty shows the freighter without colours.',
+      "A freighter takes its colours from its home system. Type that system's seed, draw one, or give its portal address below. Empty shows no colours.",
     homeAddress: 'This seed is the system with portal address {glyphs} in galaxy {galaxy}.',
     glyphsLabel: 'Portal address (12 glyphs as 0–9, A–F)',
     galaxyLabel: 'Galaxy number',
@@ -810,7 +810,7 @@ export const enUS: Messages = {
     anyPart: 'Any',
     rare: 'rare',
     detailsTitle: 'Details drawn by the seed',
-    note: 'The model is read from your own game files. Parts, texture layers, decals and colours follow the seed; lighting and material effects are simplified, so metal and shading look different from the game. Parts were checked against an independent tool and against one multi-tool bought in the running game; colours are close, not exact.',
+    note: 'The model comes from your own game files. Shapes and colours follow the seed; lighting is simplified, so it looks a little different from the game.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Select the game folder first, in Bridge.',
       UNKNOWN_KIND: 'This type is not available.',

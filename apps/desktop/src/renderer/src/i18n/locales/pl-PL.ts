@@ -5,7 +5,7 @@ export const plPL: Messages = {
   sections: { obtain: 'Zdobądź nowy', upgrade: 'Ulepsz' },
   corvette: {
     title: 'Korweta z pliku',
-    hint: 'Wybierz udostępniony plik korwety (.nmsship). Aplikacja przygotuje grę tak, aby budowa korwety zaczynała się od tego statku już złożonego; dokończysz ją w grze. Po przygotowaniu pliku grę trzeba uruchomić ponownie.',
+    hint: 'Wybierz udostępniony plik korwety (.nmsship). Gra otworzy wtedy budowę korwet z tym statkiem już złożonym. Po wyborze uruchom grę ponownie.',
     none: 'Nie przygotowano jeszcze żadnego pliku korwety.',
     current: 'Przygotowano: {name}, części: {count}.',
     parts: 'Części: {count}',
@@ -230,7 +230,7 @@ export const plPL: Messages = {
   dashboard: {
     connection: 'Połączenie',
     heroBody:
-      'Wysyłaj przedmioty, waluty i odblokowania do własnej uruchomionej gry. Wszystko przechodzi przez samą grę, twoje zapisy nigdy nie są edytowane, a nazwy i ikony widoczne tutaj pochodzą z twojej instalacji.',
+      'Wysyłaj przedmioty, waluty i odblokowania do własnej gry, gdy jest uruchomiona. Gra robi wszystko sama; twoje zapisy nigdy nie są edytowane.',
     game: 'Gra',
     build: 'Wersja gry',
     bridge: 'Most',
@@ -333,7 +333,7 @@ export const plPL: Messages = {
     equipModelSeed: 'Ziarno modelu',
     equipLegacyColours: 'Użyj starych kolorów',
     equipLegacyColoursHint:
-      'Oznacza multinarzędzie do użycia starych kolorów, tak jak te wydawane przez grę. Oferta gry nie ma takiego ustawienia, więc most sprawia, że gra rysuje ofertę w tych kolorach, i zapisuje oznaczenie na narzędziu zaraz po przyjęciu oferty.',
+      'Nadaje multinarzędziu starsze kolory, jak w narzędziach rozdawanych przez grę. Stosowane zaraz po przyjęciu oferty.',
     equipHomeSeed: 'Ziarno układu macierzystego',
     currencyAmountHint:
       'Dowolna kwota od 1 do {max}, czyli największego salda, jakie przechowuje gra.',
@@ -394,7 +394,7 @@ export const plPL: Messages = {
     selectNoCatalog: 'Nazwy pojawią się po odczytaniu katalogu z gry (Biblioteka, Katalog gry).',
     selectNone: 'Nic nie pasuje do wyszukiwania.',
     title: 'Wyślij do gry',
-    hint: 'Korzysta z mostu badawczego tej wersji deweloperskiej.',
+    hint: 'Uruchomiona gra robi to sama, tak jak sama by to przekazała.',
     action: 'Dostarcz wszystko',
     sending: 'Wysyłanie…',
     confirmTitle: 'Wysłać to do uruchomionej gry?',
@@ -496,7 +496,7 @@ export const plPL: Messages = {
     languages: 'Języki gry: {count}'
   },
   words: {
-    hint: 'Każdy wiersz to słowo z gry, a każda kolumna to język; pole istnieje tylko tam, gdzie dany język ma to słowo. Gra uczy słów grupami, więc zaznaczenie słowa zaznacza też pozostałe formy jego grupy w tym języku (porzucić i opuszczony). Zaznaczone pole to to, co zostanie wysłane: gra nie jest pytana, które słowa już znasz.',
+    hint: 'Wiersze to słowa, kolumny to języki. Zaznacz, czego chcesz się nauczyć. Zaznaczenie słowa zaznacza też jego inne formy (porzucić, porzucony).',
     id: 'ID',
     marked: 'Zaznaczono {count} z {total}',
     word: 'Słowo',
@@ -640,7 +640,7 @@ export const plPL: Messages = {
   missions: {
     warningTitle: 'Eksperymentalne: użyj zapisu testowego',
     warning:
-      'Gra jest proszona, przez własną nagrodę, o ukończenie każdej zaznaczonej misji. Zadanie to tytuł w dzienniku gry; misje, które go noszą, są wymienione w nim. Nie wiadomo jeszcze, czy gra wręcza to, co dałyby pominięte etapy, ani czy rozpoczyna następną misję, a strona nie potrafi jeszcze pokazać, które misje są aktywne w twoim zapisie. Zapis jest kopiowany przed wysłaniem.',
+      'Gra ukończy każdą zaznaczoną misję. Nie wiadomo jeszcze, czy dostaniesz to, co dają pominięte etapy. Najpierw tworzona jest kopia zapisu.',
     search: 'Szukaj po zadaniu, misji lub ID',
     untitled: 'Pokaż misje bez tytułu w grze',
     untitledHint:
@@ -691,7 +691,7 @@ export const plPL: Messages = {
     actionChosen: 'Podnieś wybrane ({count})'
   },
   glyphs: {
-    hint: 'Glify przekazuje sama gra, z własnym powiadomieniem, tak jak wtedy, gdy grób Podróżnika daje jeden. Gra nie potrafi dać wybranego glifu: przychodzą w kolejności gry, pokazanej poniżej.',
+    hint: 'Gra sama przyznaje glify, z własnym powiadomieniem. Przychodzą w kolejności gry, pokazanej poniżej; nie da się wybrać jednego.',
     order: 'Kolejność glifów w grze',
     all: 'Wszystkie szesnaście',
     allHint: 'Wszystkie glify naraz.',
@@ -700,7 +700,7 @@ export const plPL: Messages = {
     action: 'Poznaj glify'
   },
   teleport: {
-    hint: 'Podróż wykonuje sama uruchomiona gra: prośba jest składana tak, jak robią to jej teleportery. Trafiasz na stację kosmiczną układu albo na planetę wskazaną przez pierwszy glif. Eksperymentalne.',
+    hint: 'Gra przenosi cię tam, tak jak jej własne teleportery. Trafiasz na stację kosmiczną systemu albo na planetę pierwszego glifu.',
     galaxy: 'Galaktyka',
     galaxyHint: 'Wszystkie galaktyki gry, według numeru i nazwy. Pisz, aby szukać.',
     galaxyEmpty: 'Nie znaleziono galaktyki.',
@@ -786,7 +786,7 @@ export const plPL: Messages = {
     },
     seedLabel: 'Ziarno',
     homeSeedHint:
-      'Frachtowiec bierze kolory ze swojego macierzystego układu gwiezdnego, a ziarno układu to jego adres w galaktyce. Wpisz ziarno, wylosuj je albo podaj poniżej adres portalu układu; puste pole pokazuje frachtowiec bez kolorów.',
+      'Frachtowiec bierze kolory ze swojego systemu macierzystego. Wpisz ziarno tego systemu, wylosuj je albo podaj poniżej adres portalu. Puste pokazuje bez kolorów.',
     homeAddress: 'To ziarno to układ o adresie portalu {glyphs} w galaktyce {galaxy}.',
     glyphsLabel: 'Adres portalu (12 glifów jako 0–9, A–F)',
     galaxyLabel: 'Numer galaktyki',
@@ -811,7 +811,7 @@ export const plPL: Messages = {
     anyPart: 'Dowolna',
     rare: 'rzadka',
     detailsTitle: 'Szczegóły wylosowane przez ziarno',
-    note: 'Model jest odczytywany z twoich własnych plików gry. Części, warstwy tekstur, naklejki i kolory wynikają z ziarna; oświetlenie i efekty materiałów są uproszczone, więc metal i cieniowanie wyglądają inaczej niż w grze. Części porównano z niezależnym narzędziem i z multinarzędziem kupionym w uruchomionej grze; kolory są zbliżone, nie dokładne.',
+    note: 'Model pochodzi z plików twojej gry. Kształty i kolory wynikają z ziarna; oświetlenie jest uproszczone, więc wygląda nieco inaczej niż w grze.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Najpierw wybierz folder gry w sekcji Most.',
       UNKNOWN_KIND: 'Ten typ jest niedostępny.',

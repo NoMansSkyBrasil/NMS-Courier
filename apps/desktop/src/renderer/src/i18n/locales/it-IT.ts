@@ -5,7 +5,7 @@ export const itIT: Messages = {
   sections: { obtain: 'Ottieni', upgrade: 'Potenzia' },
   corvette: {
     title: 'Corvetta da file',
-    hint: 'Scegli un file di corvetta condiviso (.nmsship). L’applicazione prepara il gioco in modo che la costruzione della corvetta inizi con quella nave già assemblata; la completi nel gioco. Dopo aver preparato il file il gioco va riavviato.',
+    hint: 'Scegli un file di corvetta condiviso (.nmsship). Il gioco aprirà la costruzione delle corvette con quella nave già assemblata. Riavvia il gioco dopo la scelta.',
     none: 'Non è ancora stato preparato alcun file di corvetta.',
     current: 'Preparato: {name}, {count} parti.',
     parts: '{count} parti',
@@ -240,7 +240,7 @@ export const itIT: Messages = {
   dashboard: {
     connection: 'Collegamento',
     heroBody:
-      'Invia oggetti, valute e sblocchi al tuo gioco in esecuzione. Tutto passa attraverso il gioco stesso, i tuoi salvataggi non vengono mai modificati, e i nomi e le icone che vedi qui provengono dalla tua installazione.',
+      'Invia oggetti, valute e sblocchi al tuo gioco mentre è in esecuzione. Il gioco fa tutto da sé; i tuoi salvataggi non vengono mai modificati.',
     game: 'Gioco',
     build: 'Versione del gioco',
     bridge: 'Ponte',
@@ -344,7 +344,7 @@ export const itIT: Messages = {
     equipModelSeed: 'Seme del modello',
     equipLegacyColours: 'Usa i colori precedenti',
     equipLegacyColoursHint:
-      'Contrassegna il multi-attrezzo per usare i colori precedenti, come quelli che il gioco consegna. L’offerta del gioco non ha questa opzione, quindi il ponte fa disegnare al gioco l’offerta con essi e scrive il contrassegno sull’attrezzo subito dopo che l’hai accettato.',
+      "Dà al multi-attrezzo i colori vecchi, come quelli degli attrezzi che il gioco consegna. Applicato subito dopo aver accettato l'offerta.",
     equipHomeSeed: 'Seme del sistema di origine',
     currencyAmountHint: 'Qualsiasi importo da 1 a {max}, il saldo massimo che il gioco conserva.',
     itemsStack: 'Pila da {count}',
@@ -407,7 +407,7 @@ export const itIT: Messages = {
       'I nomi compaiono dopo che il catalogo è stato letto dal gioco (Libreria, Catalogo del gioco).',
     selectNone: 'Nessun risultato per la ricerca.',
     title: 'Invia al gioco',
-    hint: 'Usa il ponte di ricerca di questa versione di sviluppo.',
+    hint: 'Lo fa il gioco stesso, in esecuzione, come lo consegnerebbe di suo.',
     action: 'Consegna tutto',
     sending: 'Invio in corso…',
     confirmTitle: 'Inviare questo al gioco in esecuzione?',
@@ -511,7 +511,7 @@ export const itIT: Messages = {
     languages: '{count} lingue del gioco'
   },
   words: {
-    hint: 'Ogni riga è una parola del gioco e ogni colonna una lingua; la casella esiste solo dove quella lingua ha la parola. Il gioco impara le parole a gruppi, quindi spuntare una parola spunta anche le altre forme del suo gruppo in quella lingua (abbandono e abbandonato). Una casella spuntata è ciò che verrà inviato: al gioco non viene chiesto quali parole conosci già.',
+    hint: 'Le righe sono parole, le colonne sono lingue. Seleziona ciò che vuoi imparare. Selezionare una parola seleziona anche le sue altre forme (abbandonare, abbandonato).',
     id: 'ID',
     marked: '{count} di {total} spuntate',
     word: 'Parola',
@@ -660,7 +660,7 @@ export const itIT: Messages = {
   missions: {
     warningTitle: 'Sperimentale: usa un salvataggio di prova',
     warning:
-      'Si chiede al gioco, tramite la sua ricompensa, di completare ogni missione spuntata. Una missione principale è un titolo del registro del gioco; le missioni che lo portano sono elencate al suo interno. Non si sa ancora se il gioco consegni ciò che le fasi saltate avrebbero dato né se avvii la missione successiva, e la pagina non può ancora mostrare quali missioni sono attive nel tuo salvataggio. Il salvataggio viene copiato prima dell’invio.',
+      'Il gioco completa ogni missione che selezioni. Non si sa ancora se ricevi ciò che danno i passaggi saltati. Prima viene fatta una copia del salvataggio.',
     search: 'Cerca per missione o ID',
     untitled: 'Mostra le missioni senza titolo nel gioco',
     untitledHint:
@@ -711,7 +711,7 @@ export const itIT: Messages = {
     actionChosen: 'Aumenta i selezionati ({count})'
   },
   glyphs: {
-    hint: 'È il gioco stesso a consegnare i glifi, con la sua notifica, come quando la tomba di un Viaggiatore ne dà uno. Il gioco non può dare un glifo scelto: arrivano nell’ordine del gioco, mostrato sotto.',
+    hint: "Il gioco consegna i glifi da sé, con la sua notifica. Arrivano nell'ordine del gioco, mostrato sotto; non se ne può scegliere uno.",
     order: 'Ordine dei glifi nel gioco',
     all: 'Tutti e sedici',
     allHint: 'Tutti i glifi in una volta.',
@@ -720,7 +720,7 @@ export const itIT: Messages = {
     action: 'Impara i glifi'
   },
   teleport: {
-    hint: 'Il viaggio lo fa il gioco in esecuzione: la richiesta è fatta come la fanno i suoi teletrasporti. Arrivi alla stazione spaziale del sistema o sul pianeta indicato dal primo glifo. Sperimentale.',
+    hint: 'Il gioco ti porta lì, come fanno i suoi teletrasporti. Arrivi alla stazione spaziale del sistema o sul pianeta del primo glifo.',
     galaxy: 'Galassia',
     galaxyHint: 'Tutte le galassie del gioco, per numero e nome. Scrivi per cercare.',
     galaxyEmpty: 'Nessuna galassia trovata.',
@@ -808,7 +808,7 @@ export const itIT: Messages = {
     },
     seedLabel: 'Seme',
     homeSeedHint:
-      'Un mercantile prende i colori dal suo sistema stellare d’origine, e il seme di un sistema è il suo indirizzo nella galassia. Scrivi il seme, estraine uno o indica qui sotto l’indirizzo del portale del sistema; vuoto mostra il mercantile senza colori.',
+      "Un mercantile prende i colori dal suo sistema d'origine. Scrivi il seme di quel sistema, estraine uno o indica il suo indirizzo del portale qui sotto. Vuoto: senza colori.",
     homeAddress:
       'Questo seme è il sistema con indirizzo del portale {glyphs} nella galassia {galaxy}.',
     glyphsLabel: 'Indirizzo del portale (12 glifi come 0–9, A–F)',
@@ -834,7 +834,7 @@ export const itIT: Messages = {
     anyPart: 'Qualsiasi',
     rare: 'raro',
     detailsTitle: 'Dettagli estratti dal seme',
-    note: 'Il modello viene letto dai tuoi file di gioco. Parti, livelli di texture, decalcomanie e colori seguono il seme; illuminazione ed effetti dei materiali sono semplificati, quindi metallo e ombreggiatura appaiono diversi dal gioco. Le parti sono state verificate con uno strumento indipendente e con un multi-attrezzo comprato nel gioco in esecuzione; i colori sono simili, non esatti.',
+    note: "Il modello viene dai file del tuo gioco. Forme e colori seguono il seme; l'illuminazione è semplificata, quindi appare un po' diverso dal gioco.",
     errors: {
       INSTALLATION_NOT_SELECTED: 'Seleziona prima la cartella del gioco, in Ponte.',
       UNKNOWN_KIND: 'Questo tipo non è disponibile.',

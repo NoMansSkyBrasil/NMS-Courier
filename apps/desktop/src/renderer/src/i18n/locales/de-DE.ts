@@ -5,7 +5,7 @@ export const deDE: Messages = {
   sections: { obtain: 'Neu erhalten', upgrade: 'Verbessern' },
   corvette: {
     title: 'Korvette aus einer Datei',
-    hint: 'Wähle eine geteilte Korvettendatei (.nmsship). Die Anwendung bereitet das Spiel so vor, dass der Korvettenbau mit diesem Schiff bereits zusammengesetzt beginnt; du schließt ihn im Spiel ab. Nach dem Vorbereiten muss das Spiel neu gestartet werden.',
+    hint: 'Wähle eine geteilte Korvettendatei (.nmsship). Das Spiel öffnet den Korvettenbau dann mit diesem Schiff bereits zusammengebaut. Starte das Spiel nach der Auswahl neu.',
     none: 'Es wurde noch keine Korvettendatei vorbereitet.',
     current: 'Vorbereitet: {name}, {count} Teile.',
     parts: '{count} Teile',
@@ -245,7 +245,7 @@ export const deDE: Messages = {
   dashboard: {
     connection: 'Verbindung',
     heroBody:
-      'Sende Gegenstände, Währungen und Freischaltungen an dein eigenes laufendes Spiel. Alles läuft über das Spiel selbst, deine Spielstände werden nie bearbeitet, und die Namen und Symbole hier stammen aus deiner Installation.',
+      'Sende Gegenstände, Währungen und Freischaltungen an dein eigenes Spiel, während es läuft. Das Spiel erledigt alles selbst; deine Spielstände werden nie bearbeitet.',
     game: 'Spiel',
     build: 'Spielversion',
     bridge: 'Brücke',
@@ -349,7 +349,7 @@ export const deDE: Messages = {
     equipModelSeed: 'Modell-Seed',
     equipLegacyColours: 'Alte Farben verwenden',
     equipLegacyColoursHint:
-      'Markiert das Multi-Werkzeug für die alten Farben, wie die vom Spiel vergebenen. Das Angebot des Spiels hat dafür keine Einstellung, daher lässt die Brücke das Spiel das Angebot damit zeichnen und schreibt die Markierung direkt nach deiner Annahme auf das Werkzeug.',
+      'Gibt dem Multiwerkzeug die älteren Farben, wie bei den Werkzeugen, die das Spiel vergibt. Wird direkt nach dem Annehmen des Angebots angewendet.',
     equipHomeSeed: 'Seed des Heimatsystems',
     currencyAmountHint:
       'Jeder Betrag von 1 bis {max}, dem größten Guthaben, das das Spiel speichert.',
@@ -414,7 +414,7 @@ export const deDE: Messages = {
       'Namen erscheinen, nachdem der Katalog aus dem Spiel gelesen wurde (Bibliothek, Spielkatalog).',
     selectNone: 'Keine Treffer für die Suche.',
     title: 'An das Spiel senden',
-    hint: 'Nutzt die Forschungsbrücke dieser Entwicklungsversion.',
+    hint: 'Das laufende Spiel erledigt es selbst, so wie es dies selbst vergeben würde.',
     action: 'Alles liefern',
     sending: 'Wird gesendet…',
     confirmTitle: 'Dies an das laufende Spiel senden?',
@@ -519,7 +519,7 @@ export const deDE: Messages = {
     languages: '{count} Spielsprachen'
   },
   words: {
-    hint: 'Jede Zeile ist ein Wort des Spiels, jede Spalte eine Sprache; ein Kästchen gibt es nur dort, wo diese Sprache das Wort hat. Das Spiel lernt Wörter in Gruppen: Wer ein Wort markiert, markiert auch die anderen Formen seiner Gruppe in dieser Sprache (verlassen als Verb und als Partizip). Ein markiertes Kästchen wird gesendet: Das Spiel wird nicht gefragt, welche Wörter du schon kennst.',
+    hint: 'Zeilen sind Wörter, Spalten sind Sprachen. Markiere, was du lernen willst. Ein markiertes Wort markiert auch seine anderen Formen (verlassen, verließ).',
     id: 'ID',
     marked: '{count} von {total} markiert',
     word: 'Wort',
@@ -669,7 +669,7 @@ export const deDE: Messages = {
   missions: {
     warningTitle: 'Experimentell: einen Test-Spielstand verwenden',
     warning:
-      'Das Spiel wird über seine eigene Belohnung gebeten, jede markierte Mission abzuschließen. Eine Quest ist ein Titel im Logbuch des Spiels; die Missionen, die ihn tragen, stehen darunter. Noch ist unbekannt, ob das Spiel übergibt, was die übersprungenen Abschnitte gegeben hätten, und ob es die nächste Mission startet; die Seite kann auch noch nicht zeigen, welche Missionen in deinem Spielstand aktiv sind. Der Spielstand wird vor dem Senden gesichert.',
+      'Das Spiel schließt jede markierte Mission ab. Noch ist nicht bekannt, ob du erhältst, was die übersprungenen Schritte geben. Dein Spielstand wird vorher gesichert.',
     search: 'Nach Quest, Mission oder ID suchen',
     untitled: 'Missionen ohne Titel im Spiel anzeigen',
     untitledHint:
@@ -716,7 +716,7 @@ export const deDE: Messages = {
     actionChosen: 'Ausgewählte erhöhen ({count})'
   },
   glyphs: {
-    hint: 'Das Spiel übergibt die Glyphen selbst, mit seiner eigenen Benachrichtigung, so wie das Grab eines Reisenden eine gibt. Eine bestimmte Glyphe kann das Spiel nicht geben: Sie kommen in der Reihenfolge des Spiels, die unten steht.',
+    hint: 'Das Spiel vergibt die Glyphen selbst, mit seiner eigenen Benachrichtigung. Sie kommen in der Reihenfolge des Spiels, unten gezeigt; eine einzelne lässt sich nicht wählen.',
     order: 'Reihenfolge der Glyphen im Spiel',
     all: 'Alle sechzehn',
     allHint: 'Alle Glyphen auf einmal.',
@@ -725,7 +725,7 @@ export const deDE: Messages = {
     action: 'Glyphen lernen'
   },
   teleport: {
-    hint: 'Die Reise macht das laufende Spiel selbst: Es wird so gefragt, wie seine eigenen Teleporter fragen. Du kommst an der Raumstation des Systems an oder auf dem Planeten, den die erste Glyphe nennt. Experimentell.',
+    hint: 'Das Spiel bringt dich dorthin, wie seine eigenen Teleporter. Du kommst an der Raumstation des Systems an oder auf dem Planeten der ersten Glyphe.',
     galaxy: 'Galaxie',
     galaxyHint: 'Alle Galaxien des Spiels, nach Nummer und Name. Tippe, um zu suchen.',
     galaxyEmpty: 'Keine Galaxie gefunden.',
@@ -814,7 +814,7 @@ export const deDE: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Ein Frachter nimmt seine Farben aus seinem Heimatsternsystem, und der Seed eines Systems ist seine Adresse in der Galaxie. Gib den Seed ein, würfle einen aus oder nenne unten die Portaladresse des Systems; leer zeigt den Frachter ohne Farben.',
+      'Ein Frachter übernimmt die Farben seines Heimatsystems. Gib den Seed dieses Systems ein, würfle einen oder gib unten seine Portaladresse an. Leer zeigt keine Farben.',
     homeAddress: 'Dieser Seed ist das System mit der Portaladresse {glyphs} in Galaxie {galaxy}.',
     glyphsLabel: 'Portaladresse (12 Glyphen als 0–9, A–F)',
     galaxyLabel: 'Galaxienummer',
@@ -839,7 +839,7 @@ export const deDE: Messages = {
     anyPart: 'Beliebig',
     rare: 'selten',
     detailsTitle: 'Vom Seed ausgeloste Details',
-    note: 'Das Modell wird aus deinen eigenen Spieldateien gelesen. Teile, Texturebenen, Abziehbilder und Farben folgen dem Seed; Beleuchtung und Materialeffekte sind vereinfacht, daher sehen Metall und Schattierung anders aus als im Spiel. Die Teile wurden mit einem unabhängigen Werkzeug und mit einem im laufenden Spiel gekauften Multi-Werkzeug verglichen; die Farben sind ähnlich, nicht exakt.',
+    note: 'Das Modell stammt aus deinen eigenen Spieldateien. Formen und Farben folgen dem Seed; die Beleuchtung ist vereinfacht, daher sieht es etwas anders aus als im Spiel.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Wähle zuerst unter „Brücke“ den Spielordner aus.',
       UNKNOWN_KIND: 'Dieser Typ ist nicht verfügbar.',

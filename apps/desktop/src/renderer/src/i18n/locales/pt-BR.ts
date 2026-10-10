@@ -5,7 +5,7 @@ export const ptBR: Messages = {
   sections: { obtain: 'Obter', upgrade: 'Melhorar' },
   corvette: {
     title: 'Corveta a partir de arquivo',
-    hint: 'Escolha um arquivo de corveta compartilhado (.nmsship). O aplicativo prepara o jogo para que a construção de corveta comece com essa nave já montada; você finaliza no jogo. É preciso reiniciar o jogo depois de preparar o arquivo.',
+    hint: 'Escolha um arquivo de corveta compartilhado (.nmsship). O jogo passa a abrir a construção de corvetas com essa nave já montada. Reinicie o jogo depois de escolher.',
     none: 'Nenhum arquivo de corveta foi preparado ainda.',
     current: 'Preparado: {name}, {count} peças.',
     parts: '{count} peças',
@@ -234,7 +234,7 @@ export const ptBR: Messages = {
   dashboard: {
     connection: 'Conexão',
     heroBody:
-      'Envie itens, moedas e desbloqueios para o seu próprio jogo em execução. Tudo passa pelo próprio jogo, seus saves nunca são editados, e os nomes e ícones que você vê aqui vêm da sua instalação.',
+      'Envie itens, moedas e desbloqueios para o seu próprio jogo enquanto ele roda. O jogo faz tudo sozinho; seus saves nunca são editados.',
     game: 'Jogo',
     build: 'Versão do jogo',
     bridge: 'Ponte',
@@ -338,7 +338,7 @@ export const ptBR: Messages = {
     equipModelSeed: 'Semente do modelo',
     equipLegacyColours: 'Usar cores legadas',
     equipLegacyColoursHint:
-      'Marca a multiferramenta para usar as cores legadas, como as que o jogo entrega. A oferta do jogo não tem essa opção, então a ponte faz o jogo desenhar a oferta com elas e grava a marca na arma logo depois que você aceita.',
+      'Dá à multiferramenta as cores antigas, como as das ferramentas que o jogo entrega. Aplicado logo depois que você aceita a oferta.',
     equipHomeSeed: 'Semente do sistema de origem',
     currencyAmountHint: 'Qualquer valor de 1 a {max}, o maior saldo que o jogo mantém.',
     itemsStack: 'Pilha de {count}',
@@ -401,7 +401,7 @@ export const ptBR: Messages = {
       'Os nomes aparecem depois que o catálogo é lido do jogo (Biblioteca, Catálogo do jogo).',
     selectNone: 'Nada corresponde à busca.',
     title: 'Enviar ao jogo',
-    hint: 'Usa a ponte de pesquisa desta versão de desenvolvimento.',
+    hint: 'O próprio jogo, em execução, faz isso do jeito que ele mesmo entregaria.',
     action: 'Entregar tudo',
     sending: 'Enviando…',
     confirmTitle: 'Enviar isto ao jogo em execução?',
@@ -503,7 +503,7 @@ export const ptBR: Messages = {
     languages: '{count} idiomas do jogo'
   },
   words: {
-    hint: 'Cada linha é uma palavra do jogo e cada coluna um idioma; só existe caixa onde aquele idioma tem a palavra. O jogo aprende palavras em grupos, então marcar uma palavra marca também as outras formas do grupo naquele idioma (abandono e abandonado). Caixa marcada é o que será enviado: o jogo não é consultado sobre quais palavras você já conhece.',
+    hint: 'Linhas são palavras, colunas são idiomas. Marque o que quer aprender. Marcar uma palavra marca também as outras formas dela (abandonar, abandonado).',
     id: 'ID',
     marked: '{count} de {total} marcadas',
     word: 'Palavra',
@@ -652,7 +652,7 @@ export const ptBR: Messages = {
   missions: {
     warningTitle: 'Experimental: use um save de teste',
     warning:
-      'O jogo é solicitado, pela recompensa dele, a concluir cada missão que você marcar. Uma quest é um título do registro do jogo; as missões que o carregam aparecem dentro dela. Ainda não se sabe se o jogo entrega o que as etapas puladas dariam nem se inicia a missão seguinte, e a página ainda não consegue mostrar quais missões estão ativas no seu save. O save é copiado antes do envio.',
+      'O jogo conclui cada missão que você marcar. Ainda não se sabe se você recebe o que as etapas puladas dão. Seu save é copiado antes.',
     search: 'Buscar por quest, missão ou ID',
     untitled: 'Mostrar missões sem título no jogo',
     untitledHint:
@@ -699,7 +699,7 @@ export const ptBR: Messages = {
     actionChosen: 'Aumentar escolhidos ({count})'
   },
   glyphs: {
-    hint: 'É o próprio jogo que entrega os glifos, com a notificação dele, como quando o túmulo de um Viajante dá um. O jogo não tem como dar um glifo escolhido: eles vêm na ordem do jogo, mostrada abaixo.',
+    hint: 'O próprio jogo entrega os glifos, com a notificação dele. Eles vêm na ordem do jogo, mostrada abaixo; não dá para escolher um.',
     order: 'Ordem dos glifos no jogo',
     all: 'Todos os dezesseis',
     allHint: 'Todos os glifos de uma vez.',
@@ -708,7 +708,7 @@ export const ptBR: Messages = {
     action: 'Aprender glifos'
   },
   teleport: {
-    hint: 'Quem faz a viagem é o próprio jogo em execução: o pedido é feito do mesmo jeito que os teleportadores dele fazem. Você chega na estação espacial do sistema ou no planeta indicado pelo primeiro glifo. Experimental.',
+    hint: 'O jogo leva você até lá, como os teleportes dele fazem. Você chega na estação espacial do sistema ou no planeta do primeiro glifo.',
     galaxy: 'Galáxia',
     galaxyHint: 'Todas as galáxias do jogo, por número e nome. Digite para buscar.',
     galaxyEmpty: 'Nenhuma galáxia encontrada.',
@@ -795,7 +795,7 @@ export const ptBR: Messages = {
     },
     seedLabel: 'Seed',
     homeSeedHint:
-      'Um cargueiro tira as cores do seu sistema estelar de origem, e a seed de um sistema é o endereço dele na galáxia. Digite a seed, sorteie uma ou informe abaixo o endereço de portal do sistema; vazio mostra o cargueiro sem cores.',
+      'Um cargueiro pega as cores do seu sistema natal. Digite a semente desse sistema, sorteie uma ou informe o endereço de portal abaixo. Vazio mostra sem cores.',
     homeAddress: 'Esta seed é o sistema de endereço de portal {glyphs} na galáxia {galaxy}.',
     glyphsLabel: 'Endereço de portal (12 glifos como 0–9, A–F)',
     galaxyLabel: 'Número da galáxia',
@@ -820,7 +820,7 @@ export const ptBR: Messages = {
     anyPart: 'Qualquer',
     rare: 'rara',
     detailsTitle: 'Detalhes sorteados pela seed',
-    note: 'O modelo é lido dos seus próprios arquivos do jogo. Peças, camadas de textura, decalques e cores seguem a seed; iluminação e efeitos de material são simplificados, então metal e sombreamento ficam diferentes do jogo. As peças foram conferidas com uma ferramenta independente e com uma multiferramenta comprada no jogo rodando; as cores ficam próximas, não exatas.',
+    note: 'O modelo vem dos arquivos do seu próprio jogo. Formas e cores seguem a semente; a iluminação é simplificada, então fica um pouco diferente do jogo.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecione primeiro a pasta do jogo, em Ponte.',
       UNKNOWN_KIND: 'Este tipo não está disponível.',

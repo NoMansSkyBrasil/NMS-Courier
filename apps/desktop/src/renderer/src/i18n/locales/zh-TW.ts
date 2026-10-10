@@ -5,7 +5,7 @@ export const zhTW: Messages = {
   sections: { obtain: '取得新的', upgrade: '升級' },
   corvette: {
     title: '從檔案建立護衛艦',
-    hint: '選擇一個共享的護衛艦檔案（.nmsship）。應用程式會讓遊戲的護衛艦建造從這艘已組裝好的星艦開始；你在遊戲中完成建造。準備好檔案後需要重新啟動遊戲。',
+    hint: '選擇一個共享的護衛艦檔案（.nmsship）。遊戲會以那艘已組裝好的飛船開啟護衛艦建造。選擇後請重新啟動遊戲。',
     none: '尚未準備任何護衛艦檔案。',
     current: '已準備：{name}，{count} 個部件。',
     parts: '{count} 個部件',
@@ -191,7 +191,7 @@ export const zhTW: Messages = {
   dashboard: {
     connection: '連線',
     heroBody:
-      '把物品、貨幣和解鎖內容傳送到你自己正在執行的遊戲。一切都透過遊戲本身完成，絕不編輯你的存檔；這裡顯示的名稱和圖示都來自你的遊戲安裝。',
+      '在你自己的遊戲執行時向它傳送物品、貨幣和解鎖。一切都由遊戲自己完成；你的存檔從不被編輯。',
     game: '遊戲',
     build: '遊戲版本',
     bridge: '橋接',
@@ -290,7 +290,7 @@ export const zhTW: Messages = {
     equipModelSeed: '模型種子',
     equipLegacyColours: '使用舊版顏色',
     equipLegacyColoursHint:
-      '將多功能工具標記為使用舊版顏色，與遊戲發放的工具一樣。遊戲的報價中沒有這個設定，因此橋接會讓遊戲用舊版顏色繪製報價，並在你接受後立即把標記寫到工具上。',
+      '讓多功能工具使用舊版顏色，和遊戲發放的工具一樣。在你接受報價後立即套用。',
     equipHomeSeed: '母星系種子',
     currencyAmountHint: '1 到 {max}（遊戲能保存的最大餘額）之間的任意數額。',
     itemsStack: '每疊 {count}',
@@ -345,7 +345,7 @@ export const zhTW: Messages = {
     selectNoCatalog: '從遊戲讀取目錄後會顯示名稱（資料庫 → 遊戲目錄）。',
     selectNone: '沒有符合搜尋的項目。',
     title: '傳送到遊戲',
-    hint: '使用此開發版本的研究用橋接。',
+    hint: '由執行中的遊戲自己完成，方式與它平時發放時相同。',
     action: '全部遞送',
     sending: '正在傳送…',
     confirmTitle: '要傳送到執行中的遊戲嗎？',
@@ -441,7 +441,7 @@ export const zhTW: Messages = {
     languages: '{count} 種遊戲語言'
   },
   words: {
-    hint: '每一列是遊戲中的一個詞，每一欄是一種語言；只有該語言擁有這個詞時才有格子。遊戲按組學習詞彙，因此勾選一個詞也會勾選該語言中同組的其他詞形（放棄與廢棄）。被勾選的格子就是將要傳送的內容：不會向遊戲查詢你已經掌握了哪些詞。',
+    hint: '列是詞語，欄是語言。勾選你想學的。勾選一個詞也會勾選它的其他形式（abandon、abandoned）。',
     id: 'ID',
     marked: '已勾選 {count} / {total}',
     word: '詞',
@@ -577,7 +577,7 @@ export const zhTW: Messages = {
   missions: {
     warningTitle: '實驗性：請使用測試存檔',
     warning:
-      '透過遊戲自己的獎勵請求遊戲完成你勾選的每個任務。主任務是遊戲日誌中的一個標題；帶有該標題的任務列在其中。目前還不清楚遊戲是否仍會發放被跳過階段原本會給的東西、是否會開啟下一個任務，頁面也還無法顯示你的存檔中哪些任務正在進行。傳送前會備份存檔。',
+      '遊戲會完成你勾選的每個任務。目前還不清楚你是否能得到被跳過的步驟給的東西。會先備份你的存檔。',
     search: '依任務或 ID 搜尋',
     untitled: '顯示遊戲中沒有標題的任務',
     untitledHint: '遊戲從不在日誌中命名的輔助任務。它們依識別碼列出。',
@@ -622,7 +622,7 @@ export const zhTW: Messages = {
     actionChosen: '提升所選（{count}）'
   },
   glyphs: {
-    hint: '符文由遊戲自己發放，並帶有遊戲自己的通知，就像旅行者的墳墓給出符文時一樣。遊戲無法發放指定的符文：它們依遊戲的順序到來，如下所示。',
+    hint: '字符由遊戲自己發放，並顯示它的通知。它們按遊戲的順序到來（見下方），無法指定某一個。',
     order: '遊戲中符文的順序',
     all: '全部十六個',
     allHint: '一次獲得所有符文。',
@@ -631,7 +631,7 @@ export const zhTW: Messages = {
     action: '學習符文'
   },
   teleport: {
-    hint: '旅程由執行中的遊戲自己完成：請求方式與遊戲自己的傳送器相同。你會抵達該恆星系的太空站，或位址第一個符文所指的行星。實驗性功能。',
+    hint: '遊戲會像它自己的傳送器那樣送你過去。你會到達該星系的太空站，或第一個字符所指的星球。',
     galaxy: '星系',
     galaxyHint: '遊戲中的全部星系，依編號與名稱列出。輸入即可搜尋。',
     galaxyEmpty: '找不到星系。',
@@ -707,7 +707,7 @@ export const zhTW: Messages = {
     },
     seedLabel: '種子',
     homeSeedHint:
-      '貨船的顏色來自其母星系，而星系的種子就是它在銀河中的位址。輸入種子、隨機產生一個，或在下方填寫該星系的傳送門位址；留空則貨船不帶顏色顯示。',
+      '貨船的顏色來自它的母星系。輸入該星系的種子、隨機抽一個，或在下方填寫它的傳送門位址。留空則不顯示顏色。',
     homeAddress: '此種子是銀河 {galaxy} 中傳送門位址為 {glyphs} 的星系。',
     glyphsLabel: '傳送門位址（12 個符文，0–9、A–F）',
     galaxyLabel: '銀河編號',
@@ -731,7 +731,7 @@ export const zhTW: Messages = {
     anyPart: '任意',
     rare: '稀有',
     detailsTitle: '由種子決定的細節',
-    note: '模型讀取自你自己的遊戲檔案。部件、紋理層、貼花和顏色由種子決定；光照和材質效果經過簡化，因此金屬和明暗與遊戲中不同。部件已與獨立工具以及在執行中的遊戲購買的一把多功能工具核對；顏色接近，但並不完全一致。',
+    note: '模型來自你自己的遊戲檔案。形狀和顏色由種子決定；光照經過簡化，所以看起來與遊戲略有不同。',
     errors: {
       INSTALLATION_NOT_SELECTED: '請先在「橋接」中選擇遊戲資料夾。',
       UNKNOWN_KIND: '此類型無法使用。',

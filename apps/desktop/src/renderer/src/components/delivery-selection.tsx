@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Badge } from '@renderer/components/ui/badge'
+import { categoryTone } from '@renderer/features/tones'
 import { Button } from '@renderer/components/ui/button'
 import { Checkbox } from '@renderer/components/ui/checkbox'
 import { Input } from '@renderer/components/ui/input'
@@ -113,7 +114,9 @@ export function DeliverySelection({
                 <TableCell className="font-medium">{option.name || option.id}</TableCell>
                 <TableCell className="internal-name text-muted-foreground">{option.id}</TableCell>
                 <TableCell className="text-right">
-                  <Badge variant="outline">{option.group}</Badge>
+                  <Badge variant="secondary" className={categoryTone(option.group)}>
+                    {option.group}
+                  </Badge>
                 </TableCell>
               </TableRow>
             ))}

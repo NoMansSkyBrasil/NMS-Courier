@@ -5,7 +5,7 @@ export const frFR: Messages = {
   sections: { obtain: 'Obtenir', upgrade: 'Améliorer' },
   corvette: {
     title: 'Corvette à partir d’un fichier',
-    hint: 'Choisissez un fichier de corvette partagé (.nmsship). L’application prépare le jeu pour que la construction de corvette commence avec ce vaisseau déjà assemblé ; vous le terminez dans le jeu. Le jeu doit être redémarré après la préparation du fichier.',
+    hint: 'Choisissez un fichier de corvette partagé (.nmsship). Le jeu ouvrira alors la construction de corvettes avec ce vaisseau déjà assemblé. Relancez le jeu après avoir choisi.',
     none: 'Aucun fichier de corvette n’a encore été préparé.',
     current: 'Préparé : {name}, {count} pièces.',
     parts: '{count} pièces',
@@ -239,7 +239,7 @@ export const frFR: Messages = {
   dashboard: {
     connection: 'Connexion',
     heroBody:
-      'Envoyez des objets, des monnaies et des déblocages à votre propre jeu en cours d’exécution. Tout passe par le jeu lui-même, vos sauvegardes ne sont jamais modifiées, et les noms et icônes affichés ici proviennent de votre installation.',
+      "Envoyez des objets, des monnaies et des déblocages à votre propre jeu pendant qu'il tourne. Le jeu fait tout lui-même ; vos sauvegardes ne sont jamais modifiées.",
     game: 'Jeu',
     build: 'Version du jeu',
     bridge: 'Pont',
@@ -343,7 +343,7 @@ export const frFR: Messages = {
     equipModelSeed: 'Graine du modèle',
     equipLegacyColours: 'Utiliser les anciennes couleurs',
     equipLegacyColoursHint:
-      'Marque le multi-outil pour utiliser les anciennes couleurs, comme ceux que le jeu remet. L’offre du jeu n’a pas ce réglage ; la passerelle fait donc dessiner l’offre avec elles et écrit la marque sur l’outil juste après votre acceptation.',
+      "Donne au multi-outil les anciennes couleurs, comme celles des outils que le jeu distribue. Appliqué juste après avoir accepté l'offre.",
     equipHomeSeed: 'Graine du système d’origine',
     currencyAmountHint:
       'N’importe quel montant de 1 à {max}, le plus grand solde que le jeu conserve.',
@@ -408,7 +408,7 @@ export const frFR: Messages = {
       'Les noms apparaissent une fois le catalogue lu depuis le jeu (Bibliothèque, Catalogue du jeu).',
     selectNone: 'Aucun résultat pour cette recherche.',
     title: 'Envoyer au jeu',
-    hint: 'Utilise le pont de recherche de cette version de développement.',
+    hint: 'Le jeu en cours le fait lui-même, comme il le remettrait normalement.',
     action: 'Tout livrer',
     sending: 'Envoi…',
     confirmTitle: 'Envoyer ceci au jeu en cours d’exécution ?',
@@ -515,7 +515,7 @@ export const frFR: Messages = {
     languages: '{count} langues du jeu'
   },
   words: {
-    hint: 'Chaque ligne est un mot du jeu et chaque colonne une langue ; une case n’existe que là où cette langue possède le mot. Le jeu apprend les mots par groupes : cocher un mot coche aussi les autres formes de son groupe dans cette langue (abandonner et abandonné). Une case cochée est ce qui sera envoyé : le jeu n’est pas interrogé sur les mots que vous connaissez déjà.',
+    hint: 'Les lignes sont des mots, les colonnes des langues. Cochez ce que vous voulez apprendre. Cocher un mot coche aussi ses autres formes (abandonner, abandonné).',
     id: 'ID',
     marked: '{count} sur {total} cochées',
     word: 'Mot',
@@ -664,7 +664,7 @@ export const frFR: Messages = {
   missions: {
     warningTitle: 'Expérimental : utilisez une sauvegarde de test',
     warning:
-      'On demande au jeu, par sa propre récompense, de terminer chaque mission cochée. Une quête est un titre du journal du jeu ; les missions qui le portent sont listées dedans. On ne sait pas encore si le jeu remet ce que les étapes sautées auraient donné ni s’il lance la mission suivante, et la page ne peut pas encore montrer quelles missions sont actives dans votre sauvegarde. La sauvegarde est copiée avant l’envoi.',
+      'Le jeu termine chaque mission que vous cochez. On ne sait pas encore si vous recevez ce que donnent les étapes sautées. Votre sauvegarde est copiée avant.',
     search: 'Chercher par quête, mission ou ID',
     untitled: 'Afficher les missions sans titre dans le jeu',
     untitledHint:
@@ -715,7 +715,7 @@ export const frFR: Messages = {
     actionChosen: 'Augmenter la sélection ({count})'
   },
   glyphs: {
-    hint: 'C’est le jeu lui-même qui remet les glyphes, avec sa notification, comme lorsque la tombe d’un Voyageur en donne un. Le jeu ne peut pas donner un glyphe choisi : ils arrivent dans l’ordre du jeu, affiché ci-dessous.',
+    hint: "Le jeu donne lui-même les glyphes, avec sa notification. Ils arrivent dans l'ordre du jeu, indiqué ci-dessous ; on ne peut pas en choisir un.",
     order: 'Ordre des glyphes dans le jeu',
     all: 'Les seize',
     allHint: 'Tous les glyphes d’un coup.',
@@ -724,7 +724,7 @@ export const frFR: Messages = {
     action: 'Apprendre les glyphes'
   },
   teleport: {
-    hint: 'C’est le jeu en cours qui fait le voyage : la demande est faite comme le font ses propres téléporteurs. Vous arrivez à la station spatiale du système ou sur la planète que désigne le premier glyphe. Expérimental.',
+    hint: 'Le jeu vous y emmène, comme le font ses téléporteurs. Vous arrivez à la station spatiale du système ou sur la planète du premier glyphe.',
     galaxy: 'Galaxie',
     galaxyHint: 'Toutes les galaxies du jeu, par numéro et par nom. Tapez pour chercher.',
     galaxyEmpty: 'Aucune galaxie trouvée.',
@@ -812,7 +812,7 @@ export const frFR: Messages = {
     },
     seedLabel: 'Graine',
     homeSeedHint:
-      'Un cargo tire ses couleurs de son système stellaire d’origine, et la graine d’un système est son adresse dans la galaxie. Saisissez la graine, tirez-en une ou indiquez ci-dessous l’adresse de portail du système ; vide affiche le cargo sans couleurs.',
+      "Un cargo tire ses couleurs de son système d'origine. Saisissez la graine de ce système, tirez-en une ou donnez son adresse de portail ci-dessous. Vide : sans couleurs.",
     homeAddress:
       'Cette graine est le système d’adresse de portail {glyphs} dans la galaxie {galaxy}.',
     glyphsLabel: 'Adresse de portail (12 glyphes en 0–9, A–F)',
@@ -838,7 +838,7 @@ export const frFR: Messages = {
     anyPart: 'Indifférent',
     rare: 'rare',
     detailsTitle: 'Détails tirés par la graine',
-    note: 'Le modèle est lu dans vos propres fichiers du jeu. Pièces, couches de texture, décalcomanies et couleurs suivent la graine ; l’éclairage et les effets de matériau sont simplifiés, le métal et les ombres diffèrent donc du jeu. Les pièces ont été vérifiées avec un outil indépendant et avec un multi-outil acheté dans le jeu en cours ; les couleurs sont proches, pas exactes.',
+    note: "Le modèle vient des fichiers de votre propre jeu. Formes et couleurs suivent la graine ; l'éclairage est simplifié, donc le rendu diffère un peu du jeu.",
     errors: {
       INSTALLATION_NOT_SELECTED: 'Sélectionnez d’abord le dossier du jeu, dans Passerelle.',
       UNKNOWN_KIND: 'Ce type n’est pas disponible.',

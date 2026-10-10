@@ -5,7 +5,7 @@ export const esES: Messages = {
   sections: { obtain: 'Obtener', upgrade: 'Mejorar' },
   corvette: {
     title: 'Corbeta desde un archivo',
-    hint: 'Elige un archivo de corbeta compartido (.nmsship). La aplicación prepara el juego para que la construcción de corbeta empiece con esa nave ya montada; la terminas en el juego. Hay que reiniciar el juego después de preparar el archivo.',
+    hint: 'Elige un archivo de corbeta compartido (.nmsship). El juego abrirá la construcción de corbetas con esa nave ya montada. Reinicia el juego después de elegir.',
     none: 'Todavía no se ha preparado ningún archivo de corbeta.',
     current: 'Preparado: {name}, {count} piezas.',
     parts: '{count} piezas',
@@ -235,7 +235,7 @@ export const esES: Messages = {
   dashboard: {
     connection: 'Conexión',
     heroBody:
-      'Envía objetos, monedas y desbloqueos a tu propio juego en ejecución. Todo pasa por el propio juego, tus partidas guardadas nunca se editan, y los nombres e iconos que ves aquí proceden de tu instalación.',
+      'Envía objetos, monedas y desbloqueos a tu propio juego mientras está abierto. El juego lo hace todo él mismo; tus partidas nunca se editan.',
     game: 'Juego',
     build: 'Versión del juego',
     bridge: 'Puente',
@@ -339,7 +339,7 @@ export const esES: Messages = {
     equipModelSeed: 'Semilla del modelo',
     equipLegacyColours: 'Usar colores antiguos',
     equipLegacyColoursHint:
-      'Marca la multiherramienta para usar los colores antiguos, como las que entrega el juego. La oferta del juego no tiene esta opción, así que el puente hace que el juego dibuje la oferta con ellos y escribe la marca en el arma justo después de que la aceptes.',
+      'Da a la multiherramienta los colores antiguos, como los de las herramientas que entrega el juego. Se aplica justo después de aceptar la oferta.',
     equipHomeSeed: 'Semilla del sistema de origen',
     currencyAmountHint: 'Cualquier cantidad de 1 a {max}, el mayor saldo que conserva el juego.',
     itemsStack: 'Pila de {count}',
@@ -403,7 +403,7 @@ export const esES: Messages = {
       'Los nombres aparecen después de leer el catálogo del juego (Biblioteca, Catálogo del juego).',
     selectNone: 'Nada coincide con la búsqueda.',
     title: 'Enviar al juego',
-    hint: 'Usa el puente de investigación de esta versión de desarrollo.',
+    hint: 'El propio juego, en ejecución, lo hace tal como él mismo lo entregaría.',
     action: 'Entregar todo',
     sending: 'Enviando…',
     confirmTitle: '¿Enviar esto al juego en ejecución?',
@@ -506,7 +506,7 @@ export const esES: Messages = {
     languages: '{count} idiomas del juego'
   },
   words: {
-    hint: 'Cada fila es una palabra del juego y cada columna un idioma; solo hay casilla donde ese idioma tiene la palabra. El juego aprende las palabras por grupos, así que marcar una palabra marca también las demás formas de su grupo en ese idioma (abandonar y abandonado). Una casilla marcada es lo que se enviará: no se pregunta al juego qué palabras conoces ya.',
+    hint: 'Las filas son palabras y las columnas, idiomas. Marca lo que quieres aprender. Marcar una palabra marca también sus otras formas (abandonar, abandonado).',
     id: 'ID',
     marked: '{count} de {total} marcadas',
     word: 'Palabra',
@@ -655,7 +655,7 @@ export const esES: Messages = {
   missions: {
     warningTitle: 'Experimental: usa una partida de prueba',
     warning:
-      'Se pide al juego, mediante su propia recompensa, que complete cada misión que marques. Una misión principal es un título del registro del juego; las misiones que lo llevan aparecen dentro de ella. Aún no se sabe si el juego entrega lo que darían las etapas omitidas ni si inicia la misión siguiente, y la página todavía no puede mostrar qué misiones están activas en tu partida. Se hace copia de la partida antes de enviar.',
+      'El juego completa cada misión que marques. Aún no se sabe si recibes lo que dan los pasos omitidos. Antes se hace una copia de tu partida.',
     search: 'Buscar por misión o ID',
     untitled: 'Mostrar misiones sin título en el juego',
     untitledHint:
@@ -706,7 +706,7 @@ export const esES: Messages = {
     actionChosen: 'Subir elegidos ({count})'
   },
   glyphs: {
-    hint: 'Es el propio juego el que entrega los glifos, con su notificación, como cuando la tumba de un Viajero da uno. El juego no puede dar un glifo elegido: llegan en el orden del juego, que se muestra abajo.',
+    hint: 'El propio juego entrega los glifos, con su notificación. Llegan en el orden del juego, que se muestra abajo; no se puede elegir uno.',
     order: 'Orden de los glifos en el juego',
     all: 'Los dieciséis',
     allHint: 'Todos los glifos a la vez.',
@@ -715,7 +715,7 @@ export const esES: Messages = {
     action: 'Aprender glifos'
   },
   teleport: {
-    hint: 'El viaje lo hace el propio juego en ejecución: se le pide igual que lo piden sus teletransportadores. Llegas a la estación espacial del sistema o al planeta que indica el primer glifo. Experimental.',
+    hint: 'El juego te lleva allí, como hacen sus teletransportes. Llegas a la estación espacial del sistema o al planeta del primer glifo.',
     galaxy: 'Galaxia',
     galaxyHint: 'Todas las galaxias del juego, por número y nombre. Escribe para buscar.',
     galaxyEmpty: 'No se encontró ninguna galaxia.',
@@ -802,7 +802,7 @@ export const esES: Messages = {
     },
     seedLabel: 'Semilla',
     homeSeedHint:
-      'Un carguero toma sus colores de su sistema estelar de origen, y la semilla de un sistema es su dirección en la galaxia. Escribe la semilla, sortea una o indica abajo la dirección de portal del sistema; vacío muestra el carguero sin colores.',
+      'Un carguero toma sus colores de su sistema natal. Escribe la semilla de ese sistema, sortea una o indica su dirección de portal abajo. Vacío no muestra colores.',
     homeAddress:
       'Esta semilla es el sistema con dirección de portal {glyphs} en la galaxia {galaxy}.',
     glyphsLabel: 'Dirección de portal (12 glifos como 0–9, A–F)',
@@ -828,7 +828,7 @@ export const esES: Messages = {
     anyPart: 'Cualquiera',
     rare: 'rara',
     detailsTitle: 'Detalles sorteados por la semilla',
-    note: 'El modelo se lee de tus propios archivos del juego. Piezas, capas de textura, calcomanías y colores siguen la semilla; la iluminación y los efectos de material están simplificados, por lo que el metal y el sombreado se ven distintos del juego. Las piezas se comprobaron con una herramienta independiente y con una multiherramienta comprada en el juego en ejecución; los colores son parecidos, no exactos.',
+    note: 'El modelo viene de los archivos de tu propio juego. Las formas y los colores siguen la semilla; la iluminación está simplificada, así que se ve algo distinto al juego.',
     errors: {
       INSTALLATION_NOT_SELECTED: 'Selecciona primero la carpeta del juego, en Puente.',
       UNKNOWN_KIND: 'Este tipo no está disponible.',

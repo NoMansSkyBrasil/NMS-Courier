@@ -49,3 +49,21 @@ export const groupTileTones: Record<GroupId, string> = {
   library: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-400',
   system: 'bg-zinc-500/15 text-zinc-700 dark:text-zinc-400'
 }
+
+// A steady colour for a category name, so the same category always looks the same in a list.
+const categoryTones = [
+  'bg-sky-500/15 text-sky-700 dark:text-sky-400',
+  'bg-violet-500/15 text-violet-700 dark:text-violet-400',
+  'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
+  'bg-amber-500/15 text-amber-700 dark:text-amber-400',
+  'bg-pink-500/15 text-pink-700 dark:text-pink-400',
+  'bg-teal-500/15 text-teal-700 dark:text-teal-400',
+  'bg-orange-500/15 text-orange-700 dark:text-orange-400',
+  'bg-indigo-500/15 text-indigo-700 dark:text-indigo-400'
+] as const
+
+export function categoryTone(name: string): string {
+  let sum = 0
+  for (const character of name) sum = (sum * 31 + (character.codePointAt(0) ?? 0)) >>> 0
+  return categoryTones[sum % categoryTones.length]
+}
