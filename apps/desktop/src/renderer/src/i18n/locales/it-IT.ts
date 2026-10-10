@@ -100,6 +100,11 @@ export const itIT: Messages = {
       summary: 'Parole delle lingue Gek, Vy’keen, Korvax, Atlas e Autofagi: una, alcune o tutte.'
     },
     glyphs: { title: 'Glifi del portale', summary: 'I sedici glifi che aprono i portali.' },
+    missions: {
+      title: 'Missioni',
+      summary:
+        'Chiede al gioco di completare missioni: tutte, una missione con i suoi passaggi o un solo passaggio.'
+    },
     guide: {
       title: 'Guida',
       summary: 'Argomenti della guida del gioco che di norma si aprono giocando.'
@@ -478,6 +483,11 @@ export const itIT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofago'
     }
+  },
+  missions: {
+    warningTitle: 'Sperimentale: usa un salvataggio di prova',
+    warning:
+      'Si chiede al gioco, tramite la sua ricompensa, di completare ogni missione scelta. Una missione principale ha un titolo; i suoi passaggi senza titolo sono elencati sotto il suo nome, quindi cercare la missione e selezionare tutto ciò che è mostrato include la missione con i passaggi. Non si sa ancora se il gioco consegni ciò che i passaggi saltati avrebbero dato (progetti, oggetti) né se avvii la missione successiva. Il salvataggio viene copiato prima dell’invio.'
   },
   levels: {
     hint: {

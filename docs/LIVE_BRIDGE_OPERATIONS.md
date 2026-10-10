@@ -399,6 +399,12 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-mission-request-…` (event `missions`, bridge 1.27.0,
+experimental): named missions for the game to complete, a native call of
+the game's reward routine on the carrier `COURIER_MISSION` (its identifier
+is written and restored). Format in
+[completing missions](MISSION_COMPLETION_NOTES.md).
+
 Requests `native-wiki-request-…` (event `wiki`) and `native-nexus-request-…`
 (event `nexus`), bridge 1.26.0: topics of the game's guide and access to the
 Space Anomaly, each a native call of the game's reward routine on a carrier

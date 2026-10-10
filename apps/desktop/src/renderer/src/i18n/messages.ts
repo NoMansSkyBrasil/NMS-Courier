@@ -31,6 +31,7 @@ export const featureIds = [
   'glyphs',
   'guide',
   'nexus',
+  'missions',
   'standings',
   'milestones',
   'expeditions',
@@ -323,6 +324,10 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  missions: {
+    warningTitle: string
+    warning: string
   }
   levels: {
     hint: Record<'standings' | 'milestones', string>

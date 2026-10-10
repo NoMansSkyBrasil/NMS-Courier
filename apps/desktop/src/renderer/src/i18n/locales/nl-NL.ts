@@ -102,6 +102,11 @@ export const nlNL: Messages = {
         'Woorden van de talen van de Gek, Vy’keen, Korvax, Atlas en Autofagen: één, meerdere of alle.'
     },
     glyphs: { title: 'Portaalglyphs', summary: 'De zestien glyphs die portalen openen.' },
+    missions: {
+      title: 'Missies',
+      summary:
+        'Vraagt het spel missies te voltooien: alle, een missie met haar stappen of één stap.'
+    },
     guide: {
       title: 'Handleiding',
       summary: 'Onderwerpen van de spelhandleiding die normaal tijdens het spelen opengaan.'
@@ -479,6 +484,11 @@ export const nlNL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofaag'
     }
+  },
+  missions: {
+    warningTitle: 'Experimenteel: gebruik een test-save',
+    warning:
+      'Het spel wordt via zijn eigen beloning gevraagd elke gekozen missie te voltooien. Een hoofdmissie heeft een titel; haar stappen zonder titel staan onder haar naam, dus zoeken op de missie en alles wat getoond wordt selecteren neemt de missie met haar stappen. Het is nog niet bekend of het spel geeft wat de overgeslagen stappen zouden geven (blauwdrukken, voorwerpen) en of het de volgende missie start. Van de save wordt vóór het verzenden een kopie gemaakt.'
   },
   levels: {
     hint: {

@@ -10,6 +10,7 @@ import {
   LanguagesIcon,
   MedalIcon,
   OrbitIcon,
+  ScrollTextIcon,
   ShapesIcon,
   PaletteIcon
 } from 'lucide-react'
@@ -149,6 +150,18 @@ export const unlockFeatures: readonly Feature[] = [
     status: 'experimental',
     scope: 'slot',
     rows: [{ row: 'deliverable', count: 1 }],
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'missions',
+    wired: true,
+    group: 'unlock',
+    icon: ScrollTextIcon,
+    kind: 'delivery',
+    // Built on 2026-10-09 (bridge 1.27.0) to learn what the game does; not exercised yet.
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'total', count: 1786 }],
     rules: ['gameRoutines', 'backup']
   },
   {

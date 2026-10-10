@@ -37,6 +37,7 @@ nothing that belongs to one of them. Built with
 | `stat_level.h` | levelled stats | Raise standings and journey milestones by levels through the game's stat reward |
 | `wiki_topic.h` | guide | Unlock topics of the game's guide through the game's reward |
 | `nexus_access.h` | Nexus | Allow the slot to use the Space Anomaly through the game's reward |
+| `mission_complete.h` | missions | Ask the game to complete named missions through the game's reward (experimental) |
 | `star_system.h` | star system | Read only: the seed of the star system the player is in and the ships the game generated for it, written to a file when they change |
 | `item_give.h` | items | Put substances and products into the exosuit cargo through the game's store routines; report the cargo's stack sizes |
 | `account_unlock.h` | account | Unlock titles, specials and season rewards on the account through the game's routines |

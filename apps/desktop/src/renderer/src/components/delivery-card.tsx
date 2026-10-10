@@ -117,6 +117,13 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
+        {feature.id === 'missions' && (
+          <Alert>
+            <CircleAlertIcon />
+            <AlertTitle>{copy.missions.warningTitle}</AlertTitle>
+            <AlertDescription>{copy.missions.warning}</AlertDescription>
+          </Alert>
+        )}
         {options.length > 0 &&
           // Words are a grid of word by race; every other area is a list.
           (feature.id === 'words' ? (

@@ -100,6 +100,11 @@ export const frFR: Messages = {
       summary: 'Mots des langues Gek, Vy’keen, Korvax, Atlas et Autophage : un, plusieurs ou tous.'
     },
     glyphs: { title: 'Glyphes de portail', summary: 'Les seize glyphes qui ouvrent les portails.' },
+    missions: {
+      title: 'Missions',
+      summary:
+        'Demande au jeu de terminer des missions : toutes, une quête avec ses étapes ou une seule étape.'
+    },
     guide: {
       title: 'Guide',
       summary: 'Sujets du guide du jeu qui s’ouvrent d’ordinaire en jouant.'
@@ -481,6 +486,11 @@ export const frFR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  missions: {
+    warningTitle: 'Expérimental : utilisez une sauvegarde de test',
+    warning:
+      'On demande au jeu, par sa propre récompense, de terminer chaque mission choisie. Une quête est une mission avec un titre ; ses étapes sans titre sont listées sous son nom : chercher la quête puis tout sélectionner prend la quête avec ses étapes. On ne sait pas encore si le jeu remet ce que les étapes sautées auraient donné (plans, objets) ni s’il lance la mission suivante. La sauvegarde est copiée avant l’envoi.'
   },
   levels: {
     hint: {

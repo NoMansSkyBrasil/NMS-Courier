@@ -87,6 +87,7 @@ export const zhTW: Messages = {
       summary: '吉克、維’肯、科爾瓦克斯、阿特拉斯與自噬者語言的詞彙：一個、多個或全部。'
     },
     glyphs: { title: '傳送門符文', summary: '開啟傳送門的十六個符文。' },
+    missions: { title: '任務', summary: '請求遊戲完成任務：全部、一個任務及其步驟，或單一步驟。' },
     guide: { title: '指南', summary: '遊戲指南中通常隨遊玩逐步開啟的主題。' },
     nexus: { title: '太空異常', summary: '通常由劇情開啟的太空異常存取權限。' },
     standings: { title: '聲望', summary: '與所有種族、三個公會和不法之徒的聲望，按等級提升。' },
@@ -421,6 +422,11 @@ export const zhTW: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  missions: {
+    warningTitle: '實驗性：請使用測試存檔',
+    warning:
+      '透過遊戲自己的獎勵請求遊戲完成你選擇的每個任務。主任務帶有標題；沒有標題的步驟列在它的名稱之下，因此搜尋該任務並選擇全部顯示項目，就能連同步驟一起選取。目前還不清楚遊戲是否仍會發放被跳過步驟原本會給的東西（藍圖、物品），以及是否會開啟下一個任務。傳送前會備份存檔。'
   },
   levels: {
     hint: {

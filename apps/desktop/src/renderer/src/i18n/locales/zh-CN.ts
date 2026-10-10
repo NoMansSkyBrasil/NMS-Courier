@@ -87,6 +87,7 @@ export const zhCN: Messages = {
       summary: '吉克、维’肯、科尔瓦克斯、阿特拉斯和自噬者语言的词汇：一个、多个或全部。'
     },
     glyphs: { title: '传送门符文', summary: '开启传送门的十六个符文。' },
+    missions: { title: '任务', summary: '请求游戏完成任务：全部、一个任务及其步骤，或单个步骤。' },
     guide: { title: '指南', summary: '游戏指南中通常随游玩逐步开启的主题。' },
     nexus: { title: '太空异象', summary: '通常由剧情开启的太空异象访问权限。' },
     standings: { title: '声望', summary: '与所有种族、三个公会和不法之徒的声望，按等级提升。' },
@@ -421,6 +422,11 @@ export const zhCN: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  missions: {
+    warningTitle: '实验性：请使用测试存档',
+    warning:
+      '通过游戏自己的奖励请求游戏完成你选择的每个任务。主任务带有标题；没有标题的步骤列在它的名称之下，因此搜索该任务并选择全部显示项，就能连同步骤一起选中。目前还不清楚游戏是否仍会发放被跳过步骤本应给予的东西（蓝图、物品），以及是否会开启下一个任务。发送前会备份存档。'
   },
   levels: {
     hint: {

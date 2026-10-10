@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.26.0'
+export const bridgeVersion = '1.27.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -32,7 +32,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.23.0',
   '1.24.0',
   '1.25.0',
-  '1.26.0'
+  '1.26.0',
+  '1.27.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -109,5 +110,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   '130fc869eef55f8cb6a3adfdcea9d304fee77b757699952d24b3b9becb34d8a8': '1.25.0',
   // 1.26.0 (2026-10-09): topics of the game's guide and access to the Space Anomaly through the
   // game's rewards.
-  '73227b43dad8d96f63d5d3765598e135082b6a6bc606798a9d8bd40bcdf76458': '1.26.0'
+  '73227b43dad8d96f63d5d3765598e135082b6a6bc606798a9d8bd40bcdf76458': '1.26.0',
+  // 1.27.0 (2026-10-09): named missions for the game to complete through its reward
+  // (experimental).
+  '39b0c754639cadd57f656d3396ad49377f4dc21da0af03528656528d9b136277': '1.27.0'
 }

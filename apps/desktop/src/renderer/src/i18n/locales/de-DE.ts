@@ -103,6 +103,11 @@ export const deDE: Messages = {
         'Wörter der Sprachen der Gek, Vy’keen, Korvax, des Atlas und der Autophagen: eines, mehrere oder alle.'
     },
     glyphs: { title: 'Portalglyphen', summary: 'Die sechzehn Glyphen, die Portale öffnen.' },
+    missions: {
+      title: 'Missionen',
+      summary:
+        'Bittet das Spiel, Missionen abzuschließen: alle, eine Quest mit ihren Schritten oder einen einzelnen Schritt.'
+    },
     guide: {
       title: 'Anleitung',
       summary: 'Themen der Spielanleitung, die sich sonst beim Spielen öffnen.'
@@ -486,6 +491,11 @@ export const deDE: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  missions: {
+    warningTitle: 'Experimentell: einen Test-Spielstand verwenden',
+    warning:
+      'Das Spiel wird über seine eigene Belohnung gebeten, jede gewählte Mission abzuschließen. Eine Quest ist eine Mission mit Titel; ihre Schritte ohne Titel stehen unter ihrem Namen, sodass die Suche nach der Quest und „Alle angezeigten auswählen“ die Quest samt Schritten erfasst. Noch ist unbekannt, ob das Spiel übergibt, was die übersprungenen Schritte gegeben hätten (Baupläne, Gegenstände), und ob es die nächste Mission startet. Der Spielstand wird vor dem Senden gesichert.'
   },
   levels: {
     hint: {

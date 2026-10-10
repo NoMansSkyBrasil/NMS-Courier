@@ -28,6 +28,7 @@ export const deliveryFeatureIds = [
   'words',
   'guide',
   'nexus',
+  'missions',
   'titles',
   'expeditions',
   'quicksilver',
@@ -88,6 +89,8 @@ export const wordRaces = [
   { table: 'Atlas', request: 'atlas', prefix: 'ATLAS' },
   { table: 'Builders', request: 'builders', prefix: 'BUI' }
 ] as const
+
+const missionsPerRequest = 256
 
 export const steps = {
   technology: (ids: readonly string[], notify: boolean): BridgeStep | null =>
@@ -185,6 +188,23 @@ export const steps = {
           result: { name: 'wiki-result', seconds: 12 },
           accept: (lines) => lines.includes('result=given')
         },
+  // Named missions for the game to complete through its own reward (bridge 1.27.0, experimental):
+  // one request for every 256 missions.
+  missions: (ids: readonly string[]): Array<BridgeStep | null> =>
+    ids.length < 1
+      ? [null]
+      : Array.from({ length: Math.ceil(ids.length / missionsPerRequest) }, (_, part) => ({
+          label: 'missions',
+          request: request(
+            'mission',
+            ids
+              .slice(part * missionsPerRequest, (part + 1) * missionsPerRequest)
+              .map((id) => `mission=${id}`)
+          ),
+          signals: ['missions'],
+          result: { name: 'mission-result', seconds: 20 },
+          accept: (lines: readonly string[]) => lines.includes('result=given')
+        })),
   // Access to the Space Anomaly through the game's reward (bridge 1.26.0). It is only allowed.
   nexus: (): BridgeStep => ({
     label: 'nexus',
@@ -240,6 +260,7 @@ async function idsOfClass(
 
 const rewardTable = 'unlockable-rewards.md'
 const guideTable = 'guide-topics.md'
+const missionTable = 'missions.md'
 const guideTopic = /^[A-Z0-9_]{1,31}$/
 
 const productTable = 'product-delivery-classification.md'
@@ -352,6 +373,11 @@ export async function getDeliveryPlan(
       ])
     case 'nexus':
       return plan(false, [steps.nexus()])
+    case 'missions':
+      return plan(
+        false,
+        steps.missions(await idsOfClass(researchDirectory, missionTable, 0, () => true))
+      )
     case 'quicksilver':
       return plan(true, [steps.account(await accountEntries(researchDirectory, ['special']))])
     case 'twitch':

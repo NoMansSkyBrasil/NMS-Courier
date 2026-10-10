@@ -102,6 +102,11 @@ export const ptPT: Messages = {
       summary: 'Palavras das línguas Gek, Vy’keen, Korvax, Atlas e Autófago: uma, várias ou todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Os dezasseis glifos que abrem portais.' },
+    missions: {
+      title: 'Missões',
+      summary:
+        'Pede ao jogo para concluir missões: todas, uma missão com os seus passos ou um só passo.'
+    },
     guide: {
       title: 'Guia',
       summary: 'Tópicos do guia do jogo que normalmente se abrem à medida que joga.'
@@ -475,6 +480,11 @@ export const ptPT: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  missions: {
+    warningTitle: 'Experimental: use um save de teste',
+    warning:
+      'É pedido ao jogo, através da sua recompensa, que conclua cada missão que escolher. Uma missão principal tem título; os passos sem título aparecem sob o nome dela, pelo que procurar pela missão e selecionar todos os apresentados inclui a missão com os passos. Ainda não se sabe se o jogo entrega o que os passos saltados dariam (plantas, itens) nem se inicia a missão seguinte. O save é copiado antes do envio.'
   },
   levels: {
     hint: {

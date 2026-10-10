@@ -98,6 +98,10 @@ export const plPL: Messages = {
         'Słowa języków Geków, Vy’keenów, Korvaxów, Atlasu i Autofagów: jedno, kilka lub wszystkie.'
     },
     glyphs: { title: 'Glify portalu', summary: 'Szesnaście glifów otwierających portale.' },
+    missions: {
+      title: 'Misje',
+      summary: 'Prosi grę o ukończenie misji: wszystkich, zadania z jego etapami lub jednego etapu.'
+    },
     guide: {
       title: 'Przewodnik',
       summary: 'Tematy przewodnika gry, które zwykle otwierają się podczas gry.'
@@ -465,6 +469,11 @@ export const plPL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofag'
     }
+  },
+  missions: {
+    warningTitle: 'Eksperymentalne: użyj zapisu testowego',
+    warning:
+      'Gra jest proszona, przez własną nagrodę, o ukończenie każdej wybranej misji. Zadanie to misja z tytułem; jego etapy bez tytułu są wymienione pod jego nazwą, więc wyszukanie zadania i zaznaczenie wszystkich pokazanych obejmuje zadanie z etapami. Nie wiadomo jeszcze, czy gra wręcza to, co dałyby pominięte etapy (schematy, przedmioty), ani czy rozpoczyna następną misję. Zapis jest kopiowany przed wysłaniem.'
   },
   levels: {
     hint: {

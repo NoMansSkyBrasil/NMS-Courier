@@ -22,6 +22,7 @@ notification.
 | `COURIER_STAT` | set the placeholder stat `COURIER` to 0 | Levels of standings and journey milestones |
 | `COURIER_WIKI` | unlock the placeholder guide topic `COURIER` | Topics of the game's guide |
 | `COURIER_NEXUS` | allow the Nexus | Access to the Space Anomaly |
+| `COURIER_MISSION` | complete the placeholder mission `COURIER` | Completing named missions (experimental) |
 | `COURIER_WORD` | one word of the Gek the player lacks | A number of words of any race the game chooses |
 | `COURIER_WORDS` | 64 placeholder word groups of the Gek | Chosen word groups of any race |
 | `COURIER_TOOL_*` (16) | a multi-tool of one scene and class, seed 1, class S | A new multi-tool of that kind |

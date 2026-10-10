@@ -96,6 +96,11 @@ export const ptBR: Messages = {
       summary: 'Palavras das línguas Gek, Vy’keen, Korvax, Atlas e Autófago: uma, várias ou todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Os dezesseis glifos que abrem portais.' },
+    missions: {
+      title: 'Missões',
+      summary:
+        'Pede ao jogo para concluir missões: todas, uma quest com suas etapas ou uma etapa só.'
+    },
     guide: {
       title: 'Guia',
       summary: 'Tópicos do guia do jogo que normalmente abrem conforme você joga.'
@@ -470,6 +475,11 @@ export const ptBR: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  missions: {
+    warningTitle: 'Experimental: use um save de teste',
+    warning:
+      'O jogo é solicitado, pela recompensa dele, a concluir cada missão que você escolher. Uma quest é uma missão com título; as etapas sem título aparecem sob o nome dela, então buscar pela quest e selecionar todos os exibidos pega a quest com as etapas. Ainda não se sabe se o jogo entrega o que as etapas puladas dariam (plantas, itens) nem se inicia a missão seguinte. O save é copiado antes do envio.'
   },
   levels: {
     hint: {

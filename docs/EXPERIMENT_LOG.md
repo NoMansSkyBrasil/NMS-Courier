@@ -1,5 +1,24 @@
 # Runtime experiment log
 
+## 2026-10-09: experimental mission request built (bridge 1.27.0)
+
+A build after the owner named three reaches (all quests, one quest with its
+sub-quests, one sub-quest); no request of this version reached the game.
+Build 180836. Owning note:
+[completing missions](MISSION_COMPLETION_NOTES.md#built-bridge-1270-application-1320-experimental).
+
+- Found: the completion handler only appends to a list at manager
+  `+0x847d50`; three places append, the reader was not found.
+- Rejected: the reading of this morning that `ACT1_STEP1_PART1` … are
+  missions; no `MissionID` has those identifiers.
+- Built: bridge 1.27.0 (`39b0c754…`), data file with `COURIER_MISSION` (`5cab45c3…`),
+  application 1.32.0. Fixture passed; typecheck, lint, 122 tests, build; the
+  page opened in the test instance. Both installed on 2026-10-09 with the game closed (`tasklist`).
+- Not proven: everything live, above all what happens to skipped stages.
+- Rollback: copy bridge 1.26.0 `73227b43…` and data file `239ce8ef…` back
+  with the game closed; a save changed by a test is restored from the backup
+  the application made before sending.
+
 ## 2026-10-09: missions, first offline pass
 
 Offline only; nothing built, nothing sent. Build 180836. Owning note:

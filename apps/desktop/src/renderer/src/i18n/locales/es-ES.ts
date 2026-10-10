@@ -97,6 +97,11 @@ export const esES: Messages = {
         'Palabras de las lenguas Gek, Vy’keen, Korvax, Atlas y Autófago: una, varias o todas.'
     },
     glyphs: { title: 'Glifos de portal', summary: 'Los dieciséis glifos que abren portales.' },
+    missions: {
+      title: 'Misiones',
+      summary:
+        'Pide al juego que complete misiones: todas, una misión con sus pasos o un solo paso.'
+    },
     guide: {
       title: 'Guía',
       summary: 'Temas de la guía del juego que normalmente se abren al jugar.'
@@ -473,6 +478,11 @@ export const esES: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autófago'
     }
+  },
+  missions: {
+    warningTitle: 'Experimental: usa una partida de prueba',
+    warning:
+      'Se pide al juego, mediante su propia recompensa, que complete cada misión que elijas. Una misión principal tiene título; sus pasos sin título aparecen bajo su nombre, así que buscar la misión y seleccionar todo lo mostrado incluye la misión con sus pasos. Aún no se sabe si el juego entrega lo que darían los pasos omitidos (planos, objetos) ni si inicia la misión siguiente. Se hace copia de la partida antes de enviar.'
   },
   levels: {
     hint: {

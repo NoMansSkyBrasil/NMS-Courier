@@ -93,6 +93,11 @@ export const enUS: Messages = {
         'Words of the Gek, Vy’keen, Korvax, Atlas and Autophage languages, one, several or all.'
     },
     glyphs: { title: 'Portal glyphs', summary: 'The sixteen glyphs that open portals.' },
+    missions: {
+      title: 'Missions',
+      summary:
+        'Ask the game to complete missions: all of them, a quest with its steps, or one step.'
+    },
     guide: {
       title: 'Guide',
       summary: 'Topics of the game’s guide that normally open as you play.'
@@ -460,6 +465,11 @@ export const enUS: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autophage'
     }
+  },
+  missions: {
+    warningTitle: 'Experimental: use a test save',
+    warning:
+      'The game is asked, through its own reward, to complete each mission you choose. A quest is a titled mission; its untitled steps are listed under its name, so searching for the quest and selecting all shown takes the quest with its steps. It is not yet known whether the game still hands over what the skipped steps give (blueprints, items) or starts the next mission. The save is backed up before sending.'
   },
   levels: {
     hint: {

@@ -257,4 +257,20 @@ describe('item, currency and equipment requests', () => {
     )
     expect(plan?.steps[0].accept?.(['result=given', 'allowed_after=0'])).toBe(false)
   })
+
+  it('files a mission under its quest and asks the game to complete the chosen ones', async () => {
+    const missions = await listDeliveryOptions(research, 'missions')
+    expect(missions.length).toBeGreaterThan(1500)
+    // Two missions of the story carry the same title: they are one quest in the list.
+    const first = missions.find((option) => option.id === 'ACT1_STEP10')
+    const second = missions.find((option) => option.id === 'ACT1_STEP11')
+    expect(first?.name).toBe('Ghosts in the Machine')
+    expect(second?.group).toBe(first?.group)
+    const plan = getSelectionPlan('missions', ['ACT1_STEP10', 'ACT1_STEP11'], missions, true)
+    expect(plan?.steps).toHaveLength(1)
+    expect(plan?.steps[0].request?.lines).toEqual(['mission=ACT1_STEP10', 'mission=ACT1_STEP11'])
+    const all = await getDeliveryPlan('missions', research, true)
+    expect(all?.steps.length).toBe(Math.ceil(missions.length / 256))
+    expect(all?.steps.every((step) => (step.request?.lines.length ?? 0) <= 256)).toBe(true)
+  })
 })

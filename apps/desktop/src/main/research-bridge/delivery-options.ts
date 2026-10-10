@@ -41,6 +41,8 @@ type Source = {
   // First of 14 columns holding the row's name, or its group, in each interface language.
   localeNameColumn?: number
   localeGroupColumn?: number
+  // Column naming another row of the table whose name, when it has one, is this row's group.
+  groupRowColumn?: number
   // Identifiers of the table when they are not 1 to 15 characters.
   idPattern?: RegExp
   changesAccount: boolean
@@ -165,6 +167,18 @@ const sources: Partial<Record<DeliveryFeatureId, Source>> = {
     changesAccount: false,
     steps: (ids, notify) => [steps.wiki(ids, notify)]
   },
+  // A mission is filed under its quest: the titled mission its identifier belongs to, or its table.
+  missions: {
+    table: 'missions.md',
+    idColumn: 0,
+    groupColumn: 1,
+    accept: () => true,
+    domain: null,
+    localeNameColumn: 5,
+    groupRowColumn: 3,
+    changesAccount: false,
+    steps: (ids) => steps.missions(ids)
+  },
   titles: account('title'),
   // An expedition reward is only unlocked on the account. Claiming it is the player's own act in
   // the game (owner rule of 2026-10-09); it is never recorded as claimed for them.
@@ -190,6 +204,15 @@ export async function listDeliveryOptions(
   if (!source) return []
   const pattern = source.idPattern ?? identifier
   const rows = await readClassification(researchDirectory, source.table)
+  // Names of the rows by identifier, for a group that is another row of the same table.
+  const rowNames = new Map(
+    source.groupRowColumn === undefined || source.localeNameColumn === undefined
+      ? []
+      : rows.map((cells) => [
+          cells[source.idColumn],
+          cells[source.localeNameColumn! + localeColumn] ?? ''
+        ])
+  )
   return rows
     .filter((cells) => source.accept(cells) && pattern.test(cells[source.idColumn]))
     .map((cells) => {
@@ -197,9 +220,11 @@ export async function listDeliveryOptions(
       return {
         id: cells[source.idColumn],
         group:
-          source.localeGroupColumn === undefined
-            ? cells[source.groupColumn]
-            : (cells[source.localeGroupColumn + localeColumn] ?? cells[source.groupColumn]),
+          source.groupRowColumn !== undefined
+            ? rowNames.get(cells[source.groupRowColumn]) || cells[source.groupColumn]
+            : source.localeGroupColumn === undefined
+              ? cells[source.groupColumn]
+              : (cells[source.localeGroupColumn + localeColumn] ?? cells[source.groupColumn]),
         domain: typeof source.domain === 'function' ? source.domain(cells) : source.domain,
         ...(named && identifier.test(named) ? { catalogId: named } : {}),
         ...(source.localeNameColumn !== undefined && cells[source.localeNameColumn + localeColumn]

@@ -28,6 +28,20 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.32.0 and bridge 1.27.0 (2026-10-09)
+
+- Added (owner request), experimental: page "Missions" under "Unlock". The
+  game is asked to complete missions through its own reward: all 1,786 of
+  the list, the missions of one quest (they share its title; search and
+  select all shown) or a single mission. A warning on the page says what is
+  not known: whether the game still hands over what skipped stages give and
+  whether it starts the next mission.
+- Bridge 1.27.0 (`39b0c754639cadd57f656d3396ad49377f4dc21da0af03528656528d9b136277`): request `mission` (`mission_complete.h`) on the new
+  carrier `COURIER_MISSION`.
+- Data file regenerated with the carrier (`5cab45c3a5e884d7ace436b5b54da31de95839f9329abf9632e8f6817f8e5493`); it must be installed with
+  the bridge.
+- Not exercised in the running game yet. For a test save.
+
 ## Application 1.31.1 (2026-10-09)
 
 - Removed (owner decision): the switch "Also mark as claimed in this save"
