@@ -440,6 +440,10 @@ export const zhTW: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: '獎勵追蹤',
+    traceHint: '開啟期間記錄遊戲發放的每個獎勵，以及它的種子和呼叫程式碼。不做任何變更。',
+    traceStart: '開始',
+    traceStop: '停止',
     versionApp: '應用程式版本',
     versionBridge: '已安裝的橋接版本',
     versionNone: '未安裝',

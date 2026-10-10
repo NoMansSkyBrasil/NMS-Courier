@@ -30,6 +30,7 @@
 //   inventory_repair.h             repair: every damaged technology of an inventory
 //   technology_recharge.h          recharge: installed technologies whose charge is low
 //   galaxy_map_reveal.h            galaxy map: let the slot see purple star systems
+//   reward_trace.h                 diagnostic: write down the rewards the game gives, with seed and caller
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -109,9 +110,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "inventory_repair.h"
 #include "technology_recharge.h"
 #include "galaxy_map_reveal.h"
+#include "reward_trace.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 31)
+#define EVENT_COUNT (CLASS_COUNT + 32)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -324,7 +326,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets", L"repair", L"recharge", L"purple"};
+                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets", L"repair", L"recharge", L"purple", L"rewardtrace"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -335,6 +337,12 @@ void courier_probe_after_verified(void) {
     if (result == MH_OK) result = MH_CreateHook(special_target, (void *)special_detour, (void **)&original_special);
     if (result == MH_OK) result = MH_CreateHook(home_target, (void *)home_detour, (void **)&original_home);
     // The planet search copies a system the game generates for it; absent in the fixture build.
+    // The reward trace passes every reward call through; the bridge's own calls then go through
+    // the original it hands back, so they are never listed twice or changed.
+    if (result == MH_OK && search_stage_target) {
+        result = MH_CreateHook((void *)give_reward, (void *)reward_trace_detour, (void **)&reward_trace_original);
+        if (result == MH_OK) give_reward = reward_trace_original;
+    }
     if (result == MH_OK && search_stage_target)
         result = MH_CreateHook(search_stage_target, (void *)search_stage_detour, (void **)&search_stage_original);
     if (result != MH_OK) { write_status("hook_create_failed", result); return; }
@@ -388,6 +396,7 @@ void courier_probe_after_verified(void) {
         repair_write_result();
         recharge_write_result();
         purple_write_result();
+        reward_trace_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -518,6 +527,9 @@ void courier_probe_after_verified(void) {
         else if (index == CLASS_COUNT + 30) {
             if (purple_read_request()) InterlockedExchange(&purple_state, 1);
             else InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 31) {
+            if (!reward_trace_read_request()) InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {
             if (currency_read_request()) InterlockedExchange(&currency_state, 1);

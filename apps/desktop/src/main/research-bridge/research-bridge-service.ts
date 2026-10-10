@@ -109,6 +109,7 @@ export type DeliveryResult = {
     | 'pendingTech'
     | 'planets'
     | 'upkeep'
+    | 'bridge'
     | LevelPage
     | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
@@ -430,6 +431,45 @@ export class ResearchBridgeService {
     game: GameProcessStatus
   ): Promise<DeliveryResult> {
     return this.run('teleport', getTeleportPlan(request), installationRoot, game)
+  }
+
+  // Diagnostic: switches the bridge's list of the rewards the game gives on or off. Reads only.
+  rewardTrace(
+    on: boolean,
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<DeliveryResult> {
+    return this.run(
+      'bridge',
+      {
+        changesAccount: false,
+        steps: [
+          {
+            label: 'reward-trace',
+            request: {
+              name: 'rewardtrace-request',
+              perProcess: true,
+              lines: [`trace=${on ? 1 : 0}`]
+            },
+            signals: ['rewardtrace'],
+            result: { name: 'rewardtrace-result', seconds: 12 }
+          }
+        ]
+      },
+      installationRoot,
+      game,
+      false
+    )
+  }
+
+  // The lines the reward trace last wrote: "call=<reward>,<mission>,<seed>,<seed in use>,<caller>,…".
+  async getRewardTrace(processId: number | null): Promise<string[]> {
+    if (processId === null) return []
+    const text = await readFile(
+      join(this.context.diagnosticsDirectory, `native-rewardtrace-result-180836-${processId}.txt`),
+      'utf8'
+    ).catch(() => '')
+    return text.split(/\r?\n/).filter((line) => line.trim())
   }
 
   // Has the game repair every damaged technology of the chosen inventories.

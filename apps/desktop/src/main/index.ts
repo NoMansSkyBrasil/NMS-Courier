@@ -391,6 +391,21 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
+  // Diagnostic: the rewards the game gives while the trace is on.
+  ipcMain.handle('nms:set-reward-trace', async (_, on: unknown) => {
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().rewardTrace(
+      on === true,
+      root,
+      await gameStatusService.observe(root)
+    )
+  })
+  ipcMain.handle('nms:get-reward-trace', async () => {
+    const root = getInstallationService().getSelectedRootPath()
+    return getResearchBridgeService().getRewardTrace(
+      (await gameStatusService.observe(root)).processId
+    )
+  })
   // Repair and recharge through the game's own rewards.
   ipcMain.handle('nms:repair-inventories', async (_, request: unknown, notify: unknown) => {
     if (!isRepairRequest(request)) throw new Error('Invalid request.')

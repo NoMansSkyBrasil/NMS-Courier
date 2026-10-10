@@ -40,6 +40,24 @@ export function BridgePage(): React.JSX.Element {
   // Installations found by the last detection; null until one has run.
   const [found, setFound] = useState<number | null>(null)
   const [starting, setStarting] = useState(false)
+  const [trace, setTrace] = useState<string[]>([])
+
+  // The reward trace is read again while the page is open; it is empty until it is switched on.
+  useEffect(() => {
+    let active = true
+    const refresh = (): void => {
+      void window.nms
+        .getRewardTrace()
+        .then((lines) => active && setTrace(lines))
+        .catch(() => undefined)
+    }
+    refresh()
+    const timer = window.setInterval(refresh, 3000)
+    return () => {
+      active = false
+      window.clearInterval(timer)
+    }
+  }, [])
 
   useEffect(() => {
     let active = true
@@ -242,6 +260,34 @@ export function BridgePage(): React.JSX.Element {
           >
             <RadioIcon data-icon="inline-start" />
             {starting ? text.starting : text.connect}
+          </Button>
+        </CardFooter>
+      </Card>
+      {/* A developer's list of the rewards the game gives; shown only with internal names switched on. */}
+      <Card className="internal-name">
+        <CardHeader>
+          <CardTitle>{text.traceTitle}</CardTitle>
+          <CardDescription>{text.traceHint}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <pre className="max-h-64 overflow-auto rounded-lg bg-muted p-3 text-xs">
+            {trace.length > 0 ? trace.join('\n') : '-'}
+          </pre>
+        </CardContent>
+        <CardFooter className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            disabled={bridge?.state !== 'ready'}
+            onClick={() => void window.nms.setRewardTrace(true)}
+          >
+            {text.traceStart}
+          </Button>
+          <Button
+            variant="outline"
+            disabled={bridge?.state !== 'ready'}
+            onClick={() => void window.nms.setRewardTrace(false)}
+          >
+            {text.traceStop}
           </Button>
         </CardFooter>
       </Card>

@@ -3,7 +3,7 @@
 // runtime/native/asi/profile_180836/bridge_version.h; a new build adds a line here in the same change.
 
 // The bridge this version of the application was built and tested with.
-export const bridgeVersion = '1.33.0'
+export const bridgeVersion = '1.34.0'
 
 // Versions this application can talk to. 1.3.0 takes requests from a file but rejects the item
 // request this application writes and cannot give currencies, so only 1.4.0 onwards is accepted.
@@ -39,7 +39,8 @@ export const compatibleBridgeVersions: readonly string[] = [
   '1.30.0',
   '1.31.0',
   '1.32.0',
-  '1.33.0'
+  '1.33.0',
+  '1.34.0'
 ]
 
 // null: a build from before versions existed. It still works for the requests it has.
@@ -137,5 +138,8 @@ export const bridgeReleases: Readonly<Record<string, string | null>> = {
   // 1.33.0 (2026-10-10): repair of a whole inventory, recharge of low technologies and purple
   // stars on the galaxy map, each through the game's own reward. Needs the data file of the
   // same day.
-  fea4a9633156b010e7e788e9fa9ce74d2ae036fd4715b95138275d816e541dab: '1.33.0'
+  fea4a9633156b010e7e788e9fa9ce74d2ae036fd4715b95138275d816e541dab: '1.33.0',
+  // 1.34.0 (2026-10-10): a diagnostic that writes down the rewards the game gives, with the seed
+  // and the calling code (request "rewardtrace"). Reads only.
+  c73ce1a1b3bf4af056426242aee1d4c7ed49efb7889d0cd3efa9da579a796cde: '1.34.0'
 }

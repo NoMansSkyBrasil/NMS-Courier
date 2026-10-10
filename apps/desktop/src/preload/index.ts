@@ -53,6 +53,8 @@ const nms = {
   getAutoRecharge: () => ipcRenderer.invoke('nms:get-auto-recharge'),
   setAutoRecharge: (next: { enabled: boolean; minutes: number; whenLow: boolean }) =>
     ipcRenderer.invoke('nms:set-auto-recharge', next),
+  setRewardTrace: (on: boolean) => ipcRenderer.invoke('nms:set-reward-trace', on),
+  getRewardTrace: () => ipcRenderer.invoke('nms:get-reward-trace'),
   getPlanetLibrary: () => ipcRenderer.invoke('nms:get-planet-library'),
   exportPlanetLibrary: () => ipcRenderer.invoke('nms:export-planet-library'),
   importPlanetLibrary: () => ipcRenderer.invoke('nms:import-planet-library'),

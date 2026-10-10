@@ -469,6 +469,11 @@ export const koKR: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: '보상 추적',
+    traceHint:
+      '켜져 있는 동안 게임이 주는 보상을 시드와 호출 코드와 함께 기록합니다. 아무것도 바꾸지 않습니다.',
+    traceStart: '시작',
+    traceStop: '중지',
     versionApp: '앱 버전',
     versionBridge: '설치된 브리지 버전',
     versionNone: '설치되지 않음',

@@ -510,6 +510,11 @@ export const nlNL: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Beloningsspoor',
+    traceHint:
+      'Noteert elke beloning die het spel geeft zolang het aan staat, met de seed en de aanroepende code. Verandert niets.',
+    traceStart: 'Starten',
+    traceStop: 'Stoppen',
     versionApp: 'Versie van de applicatie',
     versionBridge: 'Versie van de geïnstalleerde brug',
     versionNone: 'Niet geïnstalleerd',

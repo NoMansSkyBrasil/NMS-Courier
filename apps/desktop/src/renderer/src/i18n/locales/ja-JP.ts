@@ -493,6 +493,11 @@ export const jaJP: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: '報酬トレース',
+    traceHint:
+      'オンのあいだ、ゲームが与える報酬を、シードと呼び出し元コードとともに記録します。何も変更しません。',
+    traceStart: '開始',
+    traceStop: '停止',
     versionApp: 'アプリのバージョン',
     versionBridge: 'インストール済みブリッジのバージョン',
     versionNone: '未インストール',

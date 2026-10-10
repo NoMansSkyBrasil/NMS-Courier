@@ -387,18 +387,34 @@ needs this origin.
   (`0x0000E800F669E14C`) does not hold `0x81E18111081140E1` anywhere: not
   in the 0x2600 bytes of system data, the info block, the generator's own
   block or the fifty ships.
-- The offer is built in `173b130` (the caller of the builder `8e58e0` at
-  `173b357`). Its seed is: for an owned tool, the owned record; otherwise
-  the 16 bytes at `+0x90` of the terminal object, replaced by a global
-  default (`72067d8`) when they are still the empty value.
-- `173aa19` fills that `+0x90` from `+0x83f08` of another object (with
-  other fields from `+0x868e0` on). What writes `+0x83f08` was not traced.
+- Withdrawn the same day: "the offer is built in `173b130` from `+0x90` of
+  the terminal object, filled from `+0x83f08`". Read further, `173a9a0`
+  copies `CorvetteDraftShipSeed` (player state `+0x83f08`),
+  `CorvetteEditAssociatedShipIndex` (`+0x86694`) and `CorvetteEditShipName`
+  (`+0x868a0`). The object `173b130` works on (index at `+8`, seed at
+  `+0x90`; also called from `173ae32` and `173afe4`) is an appearance or
+  preview object. `173b130` does call the weapon builder `8e58e0` (at
+  `173b357`), but it is not the terminal's purchase.
+- The global at rva `72067d8` that `173b130` falls back to is uninitialised
+  data with 221 reads and no writer in direct form; not established as a
+  seed source.
+- Not the station's seed: `GcSpaceStationSpawnData.Seed` (system data
+  `+0x1f00`) is `B9FFD203BE4E8468` for that system, and the tool's seed is
+  not a selection of its bits. The four planet seeds do not match either.
+- Likely, not shown: the purchase goes through the weapon reward
+  (`8e6bf0`, called at `f29d54`) with the seed handed to the reward routine
+  (`f140f0`) by its caller.
 - Known from 2026-10-09: a terminal on a planet offers the tool whose seed
   is the planet's seed. So planet terminals can already be listed by the
   planet search; station tools cannot.
 
-Next: with the game running at a station's terminal, read the object that
-holds `+0x83f08` and look for the same value elsewhere in memory.
+Next: the reward trace (bridge 1.34.0, `reward_trace.h`, "Game and bridge"
+page with internal names on). Switched on, it lists each call of the
+reward routine with the reward, the seed and the return address. One
+interaction with a station's terminal names the calling code, which is
+where to read how the seed is made. If no call is listed there, the
+purchase does not use the reward routine and the weapon builder's other
+callers are next.
 
 ### The generator run in an emulator, 2026-10-09
 

@@ -1,5 +1,12 @@
 # AI continuation guide
 
+> Station multi-tool seed, 2026-10-10 (bridge 1.34.0 `c73ce1a1…796cde`,
+> application 1.44.0; **built and committed, not installed**: the game still
+> runs bridge 1.33.0): the origin is still unknown. Ruled out: system data,
+> station seed, planet seeds; the `173b130` / `+0x83f08` lead is withdrawn.
+> Next is one live step by the owner with the reward trace; see
+> [seed origins](SEED_ORIGINS.md#the-stations-multi-tool-where-its-seed-is-taken-from-2026-10-10).
+
 > Upkeep, 2026-10-10 (bridge 1.33.0, application 1.43.0, data file
 > `bade6eb7…27c200`, all installed): repair a whole inventory, recharge
 > with automatic recharge, purple stars on the map; owning note

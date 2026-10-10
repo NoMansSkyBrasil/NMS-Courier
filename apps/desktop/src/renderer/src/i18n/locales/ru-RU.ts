@@ -502,6 +502,11 @@ export const ruRU: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Трассировка наград',
+    traceHint:
+      'Записывает каждую награду, которую выдаёт игра, пока включена, с сидом и вызывающим кодом. Ничего не меняет.',
+    traceStart: 'Запустить',
+    traceStop: 'Остановить',
     versionApp: 'Версия приложения',
     versionBridge: 'Версия установленного моста',
     versionNone: 'Не установлен',

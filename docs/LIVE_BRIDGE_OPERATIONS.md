@@ -416,6 +416,14 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-rewardtrace-request-…` (event `rewardtrace`, bridge 1.34.0,
+diagnostic): one line `trace=1` or `trace=0`. While on, a pass-through hook
+on the game's reward routine keeps the last 64 calls and writes
+`native-rewardtrace-result-…`: `result=tracing|stopped`, `calls=<n>`, then
+`call=<reward>,<mission>,<seed>,<seed flag>,<caller rva>,<peek>,<silent>`.
+Neither a native call nor a write: it reads the arguments of calls the game
+makes by itself. No slot or account change, no save backup.
+
 Requests `native-repair-request-…`, `native-recharge-request-…` and
 `native-purple-request-…` (events `repair`, `recharge`, `purple`, bridge
 1.33.0, experimental): the game's own rewards repair every damaged

@@ -368,6 +368,10 @@ export type Messages = {
     select: string
     verifying: string
     bridgeTitle: string
+    traceTitle: string
+    traceHint: string
+    traceStart: string
+    traceStop: string
     bridgeHint: string
     diagnosticsTitle: string
     diagnosticsHint: string

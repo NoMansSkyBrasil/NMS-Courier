@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.44.0 and bridge 1.34.0 (2026-10-10)
+
+- Added, for research: "Reward trace" on the "Game and bridge" page, shown
+  only when internal names are switched on in the settings. While it is on,
+  the bridge writes down each reward the game gives, with the seed it was
+  given and the place in the game that called. It reads only and changes
+  nothing in the game or the save.
+- Bridge 1.34.0 (`c73ce1a1b3bf4af056426242aee1d4c7ed49efb7889d0cd3efa9da579a796cde`), file `reward_trace.h`, request `rewardtrace`.
+- Built to find where a space station's multi-tool seed comes from; see
+  [seed origins](docs/SEED_ORIGINS.md#the-stations-multi-tool-where-its-seed-is-taken-from-2026-10-10).
+- Not installed in the game and not tried: the game was running when it was
+  finished.
+
 ## Application 1.43.0 and bridge 1.33.0 (2026-10-10)
 
 - Added (owner request): page "Repair and recharge" under Equipment. The

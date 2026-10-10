@@ -511,6 +511,11 @@ export const frFR: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Suivi des récompenses',
+    traceHint:
+      "Note chaque récompense que le jeu donne pendant qu'il est actif, avec sa graine et le code appelant. Ne modifie rien.",
+    traceStart: 'Démarrer',
+    traceStop: 'Arrêter',
     versionApp: 'Version de l’application',
     versionBridge: 'Version du pont installé',
     versionNone: 'Non installé',

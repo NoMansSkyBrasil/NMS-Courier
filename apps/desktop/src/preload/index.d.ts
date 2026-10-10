@@ -244,6 +244,8 @@ declare global {
         minutes: number
         whenLow: boolean
       }) => Promise<{ enabled: boolean; minutes: number; whenLow: boolean }>
+      setRewardTrace: (on: boolean) => Promise<DeliveryResult>
+      getRewardTrace: () => Promise<string[]>
       getPlanetLibrary: () => Promise<{
         galaxies: Array<{ galaxy: number; planets: FoundPlanetEntry[] }>
       }>

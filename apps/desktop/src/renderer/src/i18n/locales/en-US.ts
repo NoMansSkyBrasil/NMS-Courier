@@ -492,6 +492,11 @@ export const enUS: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Reward trace',
+    traceHint:
+      'Writes down each reward the game gives while it is on, with its seed and the code that called. Changes nothing.',
+    traceStart: 'Start',
+    traceStop: 'Stop',
     versionApp: 'Application version',
     versionBridge: 'Installed bridge version',
     versionNone: 'Not installed',

@@ -510,6 +510,11 @@ export const itIT: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Traccia delle ricompense',
+    traceHint:
+      'Annota ogni ricompensa che il gioco dà mentre è attiva, con il seme e il codice chiamante. Non modifica nulla.',
+    traceStart: 'Avvia',
+    traceStop: 'Ferma',
     versionApp: 'Versione dell’applicazione',
     versionBridge: 'Versione del ponte installato',
     versionNone: 'Non installato',

@@ -517,6 +517,11 @@ export const deDE: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Belohnungsprotokoll',
+    traceHint:
+      'Notiert jede Belohnung, die das Spiel vergibt, solange es läuft, mit Seed und aufrufendem Code. Ändert nichts.',
+    traceStart: 'Starten',
+    traceStop: 'Stoppen',
     versionApp: 'Version der Anwendung',
     versionBridge: 'Version der installierten Brücke',
     versionNone: 'Nicht installiert',

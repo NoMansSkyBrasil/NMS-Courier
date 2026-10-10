@@ -505,6 +505,11 @@ export const esES: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Rastreo de recompensas',
+    traceHint:
+      'Anota cada recompensa que da el juego mientras está activo, con su semilla y el código que la llamó. No cambia nada.',
+    traceStart: 'Iniciar',
+    traceStop: 'Detener',
     versionApp: 'Versión de la aplicación',
     versionBridge: 'Versión del puente instalado',
     versionNone: 'No instalado',

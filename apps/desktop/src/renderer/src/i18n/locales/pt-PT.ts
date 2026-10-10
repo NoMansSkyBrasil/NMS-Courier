@@ -508,6 +508,11 @@ export const ptPT: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Rastreio de recompensas',
+    traceHint:
+      'Regista cada recompensa que o jogo dá enquanto está ligado, com a semente e o código que chamou. Não altera nada.',
+    traceStart: 'Iniciar',
+    traceStop: 'Parar',
     versionApp: 'Versão da aplicação',
     versionBridge: 'Versão da ponte instalada',
     versionNone: 'Não instalada',

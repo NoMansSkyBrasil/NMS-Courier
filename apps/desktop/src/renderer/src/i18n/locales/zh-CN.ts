@@ -440,6 +440,10 @@ export const zhCN: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: '奖励追踪',
+    traceHint: '开启期间记录游戏发放的每个奖励，以及它的种子和调用代码。不做任何更改。',
+    traceStart: '开始',
+    traceStop: '停止',
     versionApp: '应用版本',
     versionBridge: '已安装的桥接版本',
     versionNone: '未安装',

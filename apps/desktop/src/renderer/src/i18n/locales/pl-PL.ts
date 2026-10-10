@@ -496,6 +496,11 @@ export const plPL: Messages = {
     }
   },
   bridgePage: {
+    traceTitle: 'Ślad nagród',
+    traceHint:
+      'Zapisuje każdą nagrodę, którą gra przyznaje, gdy jest włączony, z ziarnem i kodem wywołującym. Niczego nie zmienia.',
+    traceStart: 'Uruchom',
+    traceStop: 'Zatrzymaj',
     versionApp: 'Wersja aplikacji',
     versionBridge: 'Wersja zainstalowanego mostu',
     versionNone: 'Nie zainstalowano',

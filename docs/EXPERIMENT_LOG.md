@@ -1,5 +1,40 @@
 # Runtime experiment log
 
+## 2026-10-10: the station tool's seed, an earlier lead withdrawn; reward trace built (bridge 1.34.0, application 1.44.0)
+
+Offline reading and a build; nothing sent to the game and nothing installed
+(the game was running with bridge 1.33.0 when the build was finished).
+Owning note:
+[seed origins](SEED_ORIGINS.md#the-stations-multi-tool-where-its-seed-is-taken-from-2026-10-10).
+
+- Withdrawn: the record of the entry below that the offer is built at
+  `173b130` from `+0x83f08`. `173a9a0` (which holds `173aa19`) copies
+  `CorvetteDraftShipSeed` (player state `+0x83f08`),
+  `CorvetteEditAssociatedShipIndex` (`+0x86694`) and `CorvetteEditShipName`
+  (`+0x868a0`); the object of `173b130` (index at `+8`, seed at `+0x90`,
+  other callers `173ae32`, `173afe4`) is an appearance or preview object,
+  not the terminal's purchase.
+- Rejected: the tool's seed is the station's seed. The system data of
+  `0x0000E800F669E14C` holds `GcSpaceStationSpawnData.Seed` at `+0x1f00` =
+  `B9FFD203BE4E8468`; the tool is `0x81E18111081140E1`, and it is not a
+  selection of that value's bits either. The four planet seeds
+  (`DFA87ACA310B5533`, `8DAF20FECB920F24`, `567F37D13CCD186A`,
+  `B1BB762287B45984`) do not match.
+- Not established: the global at rva `72067d8` as a seed source. It is
+  uninitialised data with 221 reads and no writer found in direct form.
+- Built: bridge 1.34.0 (`c73ce1a1b3bf4af056426242aee1d4c7ed49efb7889d0cd3efa9da579a796cde`) with `reward_trace.h`, a pass-through hook on
+  the game's reward routine (`f140f0`) that, while switched on, keeps the
+  last 64 calls: reward, mission, seed, seed flag, return address, peek,
+  silent. Application 1.44.0 has the switch and the list on the "Game and
+  bridge" page (internal names on). Profile fixture exit 0; typecheck,
+  lint, 149 tests, build.
+- Not proven: that the terminal's purchase goes through the reward routine
+  at all. If the trace shows no call at the terminal, the path is another
+  one and the trace only rules this one out.
+- Next (owner, slot 3): close the game, "Update" in the application, start
+  the game, switch the trace on, look at and buy or exchange the multi-tool
+  of a space station's terminal, and read the list.
+
 ## 2026-10-10: repair, recharge and purple stars built; ships and tool seeds looked at (bridge 1.33.0, application 1.43.0)
 
 Offline reading, a build and an installation; nothing sent to the game.
