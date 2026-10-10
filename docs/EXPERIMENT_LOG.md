@@ -1,5 +1,21 @@
 # Runtime experiment log
 
+## 2026-10-09: fractional milestones offered (bridge 1.25.0), offline
+
+Offline; no request of this version reached the game. Build 180836. Owning
+note: [levelled stats](STAT_LEVEL_NOTES.md#fractional-stats-bridge-1250).
+
+- Owner asked where "On-foot Exploration" and "Extreme Survival" were, with
+  a screenshot of the game's survival page (which also shows that on-foot
+  exploration belongs to that page; the section was corrected).
+- Found: getter `5fa880` and setter `616420` move the 32 bits of a
+  fractional stat unchanged; the reward handler compares bits.
+- Built: bridge 1.25.0 (`130fc869`), level values up to 32 bits; application
+  1.30.0 sends bit patterns for the two stats. Fixture, typecheck, lint,
+  tests and build as recorded in the commit. Installed on 2026-10-09 with the game closed (`tasklist`); previous bridge 1.24.0.
+- Not proven: everything live for these two stats.
+- Rollback: copy bridge 1.24.0 `7e0264c0…` back with the game closed.
+
 ## 2026-10-09: milestone screen for silent stats built (bridge 1.24.0)
 
 Offline research and a build after the owner's report below; no request of

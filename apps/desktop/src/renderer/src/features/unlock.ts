@@ -141,10 +141,7 @@ export const unlockFeatures: readonly Feature[] = [
     kind: 'delivery',
     status: 'experimental',
     scope: 'slot',
-    rows: [
-      { row: 'deliverable', count: 41 },
-      { row: 'total', count: 43 }
-    ],
+    rows: [{ row: 'deliverable', count: 43 }],
     rules: ['gameRoutines', 'backup']
   },
   {

@@ -94,9 +94,23 @@ game's texts in the 14 languages; which text names which stat is this
 project's reading of the medal texts (the stat table leaves most titles
 empty), recorded in that script.
 
-Offered: 8 standings and 41 milestones. Not offered: `DIST_WALKED` and
-`LONGEST_LIFE_EX` (their levels are fractions; the stat reward takes whole
-numbers), `NEXUS_STAND` and `NEXUS_MISSIONS` (all levels zero), `TUTORIAL`.
+Offered: 8 standings and 43 milestones. Not offered: `NEXUS_STAND` and
+`NEXUS_MISSIONS` (all levels zero), `TUTORIAL`.
+
+### Fractional stats (bridge 1.25.0)
+
+`DIST_WALKED` and `LONGEST_LIFE_EX` are of type Float. Read on 2026-10-09:
+the stat store keeps a value as 32 bits at the same place for both types;
+the getter (`5fa880`) returns those bits, the setter (`616420`) stores the
+bits it is given for type 1 (`movss` from the same local the whole-number
+path fills, no conversion), and the reward handler compares bits as whole
+numbers, which orders values that are not negative correctly. The level
+routine compares such a stat as a fraction (`comiss`, `5fc4e8`). So the
+application sends, for these two, the bit pattern of each level's value
+(8000.0 is `0x45fa0000`), and the result lines report bits for them.
+Unproven live. The broadcast part of `612ea0` would convert the bits as if
+they were a whole number, but it runs only when the caller's flag is set,
+which the reward handler leaves at zero.
 
 ## Which stats announce a level
 

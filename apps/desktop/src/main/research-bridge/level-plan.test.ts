@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getLevelPlan, isLevelRequest, type LevelStat } from './level-plan'
+import { fractionBits, getLevelPlan, isLevelRequest, type LevelStat } from './level-plan'
 
 const stats: LevelStat[] = [
   {
@@ -8,6 +8,7 @@ const stats: LevelStat[] = [
     group: 'Standing',
     levels: [-5, -2, 0, 3, 8, 14, 21, 30, 40, 60, 100],
     message: 'quick',
+    fractional: false,
     text: 'UI_MEDAL_STANDING'
   },
   {
@@ -16,6 +17,7 @@ const stats: LevelStat[] = [
     group: 'Standing',
     levels: [-5, -2, 0, 3, 8, 14, 21, 30, 40, 60, 100],
     message: 'quick',
+    fractional: false,
     text: 'UI_MEDAL_STANDING'
   }
 ]
@@ -72,6 +74,27 @@ describe('level plan', () => {
     )
     expect(plan?.steps[0].accept?.(['result=given', 'reward_calls=2'])).toBe(true)
     expect(plan?.steps[0].accept?.(['result=unknown_reward'])).toBe(false)
+  })
+
+  it('sends a fractional stat as the bits of its level values', () => {
+    expect(fractionBits(0)).toBe(0)
+    expect(fractionBits(8000)).toBe(0x45fa0000)
+    const walked: LevelStat = {
+      id: 'DIST_WALKED',
+      name: 'On-foot Exploration',
+      group: 'Survival Milestones',
+      levels: [0, 8000, 10000, 15000, 20000, 25000, 30000, 40000, 50000, 75000, 100000],
+      message: 'full',
+      fractional: true,
+      text: 'DIST_STAT_TITLE'
+    }
+    const plan = getLevelPlan(
+      { page: 'milestones', stats: null, levels: 1, announce: false, notify: true },
+      [walked]
+    )
+    expect(plan?.steps[0].request?.lines[3]).toBe(
+      `stat=DIST_WALKED,${walked.levels.map(fractionBits).join(',')},DIST_STAT_TITLE`
+    )
   })
 
   it('checks the shape of a request from the interface', () => {

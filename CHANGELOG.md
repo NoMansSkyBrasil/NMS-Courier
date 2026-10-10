@@ -28,6 +28,18 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.30.0 and bridge 1.25.0 (2026-10-09)
+
+- Added (owner asked where they were): the two milestones the game keeps as
+  fractions, "On-foot Exploration" (`DIST_WALKED`) and "Extreme Survival"
+  (`LONGEST_LIFE_EX`), are offered; 43 milestones in all. The game's stat
+  reward moves the 32 bits of such a value unchanged, so the application
+  sends the bit pattern of each level's value.
+- Changed: "On-foot Exploration" is listed under "Survival Milestones", as
+  on the game's own page.
+- Bridge 1.25.0 (`130fc869eef55f8cb6a3adfdcea9d304fee77b757699952d24b3b9becb34d8a8`): a level value of the stat request may be any 32-bit
+  whole number (the limit was one thousand million). Not exercised live.
+
 ## Application 1.29.0 and bridge 1.24.0 (2026-10-09)
 
 - Added (owner request): "Show the milestone screen for silent entries

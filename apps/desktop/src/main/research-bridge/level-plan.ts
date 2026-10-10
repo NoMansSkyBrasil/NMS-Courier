@@ -30,6 +30,8 @@ export type LevelStat = {
   levels: number[]
   // How the game announces a new level of this stat; it shows nothing for a silent one.
   message: LevelMessage
+  // The game keeps this stat as a fraction; its level values travel as 32-bit patterns.
+  fractional: boolean
   // Game text identifier of the stat's title, shown when a silent stat is made to announce.
   text: string
 }
@@ -87,12 +89,13 @@ export async function listLevelStats(
       const levels = cells[5].split(' ').map(Number)
       const message: LevelMessage =
         cells[6] === 'Full' ? 'full' : cells[6] === 'Quick' ? 'quick' : 'silent'
+      const fractional = cells[3] === 'Float'
       const title = cells[statColumns + localeColumn] ?? cells[0]
       const section = sections.get(cells[2]) ?? cells[2]
       // Every standing has the same title, so its row is named by whom it is with.
       return page === 'standings'
-        ? { id: cells[0], name: section, group: title, levels, message, text: cells[7] }
-        : { id: cells[0], name: title, group: section, levels, message, text: cells[7] }
+        ? { id: cells[0], name: section, group: title, levels, message, fractional, text: cells[7] }
+        : { id: cells[0], name: title, group: section, levels, message, fractional, text: cells[7] }
     })
     .filter(
       (stat) =>
@@ -103,6 +106,12 @@ export async function listLevelStats(
         ) &&
         stat.levels[levelTop] > stat.levels[0]
     )
+}
+
+// The 32 bits of a fractional value read as a whole number, which is how the game's stat reward
+// carries the value of a fractional stat (stat_level.h).
+export function fractionBits(value: number): number {
+  return new Int32Array(new Float32Array([value]).buffer)[0]
 }
 
 // The plan for a request, or null when it asks for a stat the page does not offer.
@@ -129,7 +138,8 @@ export function getLevelPlan(
           ...chosen.slice(start, start + statsPerRequest).map((id) => {
             const stat = offered.get(id)!
             const shown = textIdentifier.test(stat.text) ? `,${stat.text}` : ''
-            return `stat=${id},${stat.levels.join(',')}${shown}`
+            const values = stat.fractional ? stat.levels.map(fractionBits) : stat.levels
+            return `stat=${id},${values.join(',')}${shown}`
           })
         ]
       },

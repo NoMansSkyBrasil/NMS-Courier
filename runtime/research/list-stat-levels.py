@@ -13,7 +13,8 @@ The titles and section names are the game's own texts. Which text names which st
 project's reading of the game's medal texts (TITLES and SECTIONS below), not something the tables
 state; the stat table itself leaves most titles empty.
 
-Not offered: stats whose values are fractions (the game's stat reward takes whole numbers), stats
+A stat of type Float keeps a fractional value; its levels are listed as the values themselves (all
+whole in the game's table) and the application sends their 32-bit patterns. Not offered: stats
 whose levels do not rise (the Nexus pair, which the game leaves at zero) and the tutorial stat.
 """
 import argparse
@@ -38,11 +39,11 @@ SECTIONS = {'explore': 'UI_JM_TITLE_EXPLORE', 'survive': 'UI_JM_TITLE_SURVIVE', 
             'arena': 'PET_GUILD_NAME_L', 'outlaws': 'PIRATE_GUILD_NAME_L'}
 # Stat: (section, game text of its title, or None to take the stat table's own title).
 TITLES = {
-    'DIST_WALKED': ('explore', None), 'ALIENS_MET': ('explore', None), 'WORDS_LEARNT': ('explore', None),
+    'ALIENS_MET': ('explore', None), 'WORDS_LEARNT': ('explore', None),
     'DIST_WARP': ('explore', None), 'DISC_ALL_CREATU': ('explore', None),
     'DISC_FLORA': ('explore', 'UI_MEDAL_PLANTS'), 'PROC_PRODS': ('explore', 'UI_MEDAL_PROC_PRODS'),
     'NANITES_EVER': ('explore', 'UI_MEDAL_NANITES'),
-    'MONEY': ('survive', None), 'ENEMIES_KILLED': ('survive', None), 'SENTINEL_KILLS': ('survive', None),
+    'DIST_WALKED': ('survive', None), 'MONEY': ('survive', None), 'ENEMIES_KILLED': ('survive', None), 'SENTINEL_KILLS': ('survive', None),
     'LONGEST_LIFE_EX': ('survive', None), 'WALKERS_KILLED': ('survive', 'UI_MEDAL_WALKERS'),
     'FIENDS_KILLED': ('survive', 'UI_MEDAL_FIENDS'),
     'TRA_STANDING': ('gek', 'UI_MEDAL_STANDING'), 'TWORDS_LEARNT': ('gek', 'UI_MEDAL_WORDS'),
@@ -113,7 +114,7 @@ def main():
         values = [field(level, 'Value') for level in field(entry, 'StatLevels')]
         stats.append((stat, field(entry, 'StatTitle').get('value'), field(entry, 'StatMessageType').get('value'),
                       [int(field(value, 'IntValue').get('value')) for value in values],
-                      any(float(field(value, 'FloatValue').get('value')) for value in values)))
+                      [float(field(value, 'FloatValue').get('value')) for value in values]))
     wanted = set(SECTIONS.values())
     for stat, own_title, _, _, _ in stats:
         if stat in TITLES:
@@ -129,9 +130,14 @@ def main():
             continue
         section, title = TITLES[stat]
         kind = types.get(stat, 'unknown')
+        if kind == 'Float':
+            whole = all(value == int(value) and value >= 0 for value in fractions)
+            levels = [int(value) for value in fractions] if whole else levels
+        else:
+            whole = not any(fractions)
         rising = len(levels) == LEVELS and all(b >= a for a, b in zip(levels, levels[1:])) and levels[-1] > levels[0]
-        reason = ('yes' if kind == 'Int' and not fractions and rising
-                  else 'fractional' if fractions or kind != 'Int' else 'no levels')
+        reason = ('yes' if kind in ('Int', 'Float') and whole and rising
+                  else 'fractional' if not whole or kind not in ('Int', 'Float') else 'no levels')
         rows.append([stat, 'standings' if stat in STANDINGS else 'milestones', section, kind, reason,
                      ' '.join(str(level) for level in levels), message, title or own_title]
                     + [texts[locale][title or own_title] for locale in LANGUAGES])

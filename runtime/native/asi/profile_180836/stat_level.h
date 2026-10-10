@@ -10,6 +10,12 @@
 // that is not above the current one is dropped when CanSetToValueLowerThanCurrent is false. The
 // standing with a race or guild is one of these stats.
 //
+// Fractional stats. The stat store keeps a fractional value as 32 bits in the same place as a
+// whole one, and the handler, the getter (5fa880) and the setter (616420, type 1) move those bits
+// unchanged; the handler compares them as whole numbers, which orders values that are not negative
+// the same way. So a fractional stat is asked for with the bits of each level's value, and the
+// result reports bits for it. The application does that conversion; nothing here depends on it.
+//
 // A request names stats with the values of their eleven levels (from the game's levelled stat
 // table, sent by the application) and a number of levels. For each stat the current value is read
 // with the game's own routine, the level it is on is found, and the value of the level that many
@@ -198,7 +204,8 @@ static int stat_read_line(const char *text, char *id, int32_t *levels, char *sho
     for (int level = 0; level < STAT_LEVELS; ++level) {
         char *end = NULL;
         long value = strtol(at, &end, 10);
-        if (end == at || value < -1000000000L || value > 1000000000L) return 0;
+        // A fractional stat travels as the bits of its 32-bit value, which reach 2^31 - 1.
+        if (end == at || value <= -2147483647L || value >= 2147483647L) return 0;
         if (level + 1 < STAT_LEVELS ? *end != ',' : *end != ',' && *end != 0) return 0;
         if (level > 0 && value < levels[level - 1]) return 0;
         levels[level] = (int32_t)value;
