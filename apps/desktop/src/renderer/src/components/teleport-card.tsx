@@ -173,9 +173,6 @@ export function TeleportCard(): React.JSX.Element {
 
   const valid = destinationFromGlyphs(glyphs, galaxyNumber) !== null
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
   const destinations = [
@@ -191,7 +188,6 @@ export function TeleportCard(): React.JSX.Element {
           <CardDescription>{text.hint}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <p className="text-sm text-muted-foreground">{stateText}</p>
           <FieldGroup>
             <Field orientation="responsive">
               <FieldContent>

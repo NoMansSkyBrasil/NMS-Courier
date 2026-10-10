@@ -136,9 +136,6 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
 
   const valid = Number.isInteger(levels) && levels >= 1 && levels <= levelTop
   const ready = status?.state === 'ready' && options.length > 0
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -149,7 +146,6 @@ export function LevelsCard({ page }: { page: Page }): React.JSX.Element {
         <CardDescription>{text.hint[page]}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <FieldGroup>
           <Field>
             <FieldLabel>{text.mode}</FieldLabel>

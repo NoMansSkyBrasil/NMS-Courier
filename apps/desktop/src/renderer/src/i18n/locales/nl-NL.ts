@@ -170,7 +170,7 @@ export const nlNL: Messages = {
     },
     settings: { title: 'Instellingen', summary: 'Taal, uiterlijk en details van de applicatie.' }
   },
-  status: { verified: 'Geverifieerd', experimental: 'Experimenteel', planned: 'Gepland' },
+  status: { verified: 'Geverifieerd', experimental: 'In test', planned: 'Gepland' },
   statusHint: {
     verified: 'Werkte in het draaiende spel op de onderzoeksversie.',
     experimental: 'Werkt gedeeltelijk of alleen onder bekende omstandigheden.',
@@ -688,18 +688,16 @@ export const nlNL: Messages = {
   levels: {
     hint: {
       standings:
-        'Het spel bewaart elke reputatie als een getal en toont die als een rang met elf niveaus. Het spel zelf wordt via zijn eigen beloning gevraagd het getal van het gekozen niveau in te stellen; het wordt nooit verlaagd. Experimenteel: nog niet werkend gezien in het spel.',
+        'Verhoog je aanzien bij een ras, een gilde of een factie met niveaus. Het spel doet het zelf en toont zijn eigen bericht. Er wordt nooit iets verlaagd.',
       milestones:
-        'Een mijlpaal is een teller van het spel (geleerde woorden, bezochte systemen, vernietigde schepen) met elf niveaus. Het spel zelf wordt via zijn eigen beloning gevraagd de teller op de waarde van het gekozen niveau te zetten. Alleen de teller verandert: meer verzamelde woorden leert geen enkel woord. Niets wordt verlaagd. Experimenteel: nog niet werkend gezien in het spel.'
+        'Verhoog mijlpalen van de reis met niveaus. Alleen het getal stijgt: Verzamelde woorden verhogen leert geen woord. Er wordt nooit iets verlaagd.'
     },
     mode: 'Hoe ver',
     modeOne: '1 niveau',
     modeSome: 'Meerdere niveaus',
     modeAll: 'Tot het laatste niveau',
-    modeHint:
-      'Geteld vanaf het niveau waarop elk nu staat. Wat al op het laatste niveau staat, blijft ongemoeid.',
-    messageHint:
-      'Het spel bepaalt welke items een nieuw niveau melden: de reputaties en de belangrijkste mijlpalen doen dat; de andere veranderen zonder enige melding, ook bij gewoon spelen. Elke rij zegt wat geldt.',
+    modeHint: 'Geteld vanaf het niveau waarop elk nu staat.',
+    messageHint: 'Elke rij zegt of het spel er een bericht voor toont.',
     message: {
       full: 'volledige melding',
       quick: 'korte melding',
@@ -707,7 +705,7 @@ export const nlNL: Messages = {
     },
     announce: 'Het mijlpaalscherm ook tonen voor stille items',
     announceHint:
-      'Het spel toont zijn volledige scherm “mijlpaal bereikt” alleen bij sommige items. Aan: het wordt gevraagd hetzelfde scherm, met de rang en de naam van het item, ook te tonen bij de items die normaal stil veranderen. De tabel van het spel wordt alleen gewijzigd terwijl het niveau wordt gegeven en meteen teruggezet.',
+      'Het spel toont zijn volledige mijlpaalscherm alleen voor sommige items. Aan: het toont het ook voor de andere.',
     count: 'Niveaus',
     countHint: 'Hoeveel niveaus omhoog, 1 tot {max}.',
     action: 'Alles verhogen',

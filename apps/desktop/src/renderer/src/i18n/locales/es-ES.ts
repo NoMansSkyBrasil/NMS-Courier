@@ -163,7 +163,7 @@ export const esES: Messages = {
     },
     settings: { title: 'Ajustes', summary: 'Idioma, apariencia y detalles de la aplicación.' }
   },
-  status: { verified: 'Verificado', experimental: 'Experimental', planned: 'Planificado' },
+  status: { verified: 'Verificado', experimental: 'En pruebas', planned: 'Planificado' },
   statusHint: {
     verified: 'Funcionó en el juego en ejecución, en la versión de investigación.',
     experimental: 'Funciona en parte o solo en condiciones conocidas.',
@@ -682,18 +682,16 @@ export const esES: Messages = {
   levels: {
     hint: {
       standings:
-        'El juego guarda cada estatus como un número y lo muestra como un rango con once niveles. Se pide al propio juego, mediante su recompensa, que fije el número del nivel que elijas; nunca se reduce. Experimental: aún no se ha visto funcionar en el juego.',
+        'Sube tu reputación con una raza, un gremio o una facción por niveles. El propio juego lo hace y muestra su mensaje. Nunca se reduce nada.',
       milestones:
-        'Un logro es un contador del juego (palabras aprendidas, sistemas visitados, naves destruidas) con once niveles. Se pide al propio juego, mediante su recompensa, que ponga el contador en el valor del nivel que elijas. Solo cambia el contador: subir las palabras recopiladas no enseña ninguna palabra. Nada se reduce. Experimental: aún no se ha visto funcionar en el juego.'
+        'Sube los hitos del viaje por niveles. Solo sube el número: subir Palabras recogidas no enseña ninguna palabra. Nunca se reduce nada.'
     },
     mode: 'Hasta dónde',
     modeOne: '1 nivel',
     modeSome: 'Varios niveles',
     modeAll: 'Hasta el último nivel',
-    modeHint:
-      'Se cuenta desde el nivel en que está cada uno ahora. El que ya está en el último nivel no se toca.',
-    messageHint:
-      'Es el juego el que decide qué entradas anuncian un nivel nuevo: los estatus y los logros principales lo hacen; los demás cambian sin ningún mensaje, también jugando con normalidad. Cada fila indica el caso.',
+    modeHint: 'Se cuenta desde el nivel en que está cada uno ahora.',
+    messageHint: 'Cada fila dice si el juego muestra un mensaje para ella.',
     message: {
       full: 'mensaje completo',
       quick: 'mensaje breve',
@@ -701,7 +699,7 @@ export const esES: Messages = {
     },
     announce: 'Mostrar la pantalla de logro también en las entradas silenciosas',
     announceHint:
-      'El juego solo muestra su pantalla completa de «logro alcanzado» en algunas entradas. Activado: se le pide que muestre la misma pantalla, con el rango y el nombre de la entrada, en las que normalmente cambian en silencio. Su tabla solo se modifica mientras se entrega el nivel y se restaura enseguida.',
+      'El juego solo muestra la pantalla completa de hito en algunas entradas. Activado: la muestra también en las demás.',
     count: 'Niveles',
     countHint: 'Cuántos niveles subir, de 1 a {max}.',
     action: 'Subir todos',

@@ -229,9 +229,6 @@ export function MissionsCard(): React.JSX.Element {
   }
 
   const ready = status?.state === 'ready' && missions.length > 0
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
   const number = (value: number): string => value.toLocaleString(locale)
@@ -243,7 +240,6 @@ export function MissionsCard(): React.JSX.Element {
         <CardDescription>{delivery.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <Alert>
           <CircleAlertIcon />
           <AlertTitle>{text.warningTitle}</AlertTitle>

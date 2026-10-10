@@ -165,7 +165,7 @@ export const plPL: Messages = {
     },
     settings: { title: 'Ustawienia', summary: 'Język, wygląd i informacje o aplikacji.' }
   },
-  status: { verified: 'Zweryfikowane', experimental: 'Eksperymentalne', planned: 'Planowane' },
+  status: { verified: 'Zweryfikowane', experimental: 'W testach', planned: 'Planowane' },
   statusHint: {
     verified: 'Zadziałało w uruchomionej grze na wersji badawczej.',
     experimental: 'Działa częściowo lub tylko w znanych warunkach.',
@@ -667,18 +667,16 @@ export const plPL: Messages = {
   levels: {
     hint: {
       standings:
-        'Gra przechowuje każdą reputację jako liczbę i pokazuje ją jako rangę o jedenastu poziomach. Sama gra jest proszona, przez własną nagrodę, o ustawienie liczby wybranego poziomu; nigdy nie jest ona obniżana. Eksperymentalne: jeszcze nie widziano działania w grze.',
+        'Podnoś swoją reputację u rasy, gildii lub frakcji o poziomy. Gra robi to sama i pokazuje własny komunikat. Nic nigdy nie jest obniżane.',
       milestones:
-        'Kamień milowy to licznik gry (poznane słowa, odwiedzone układy, zniszczone statki) o jedenastu poziomach. Sama gra jest proszona, przez własną nagrodę, o ustawienie licznika na wartość wybranego poziomu. Zmienia się tylko licznik: podniesienie zebranych słów nie uczy żadnego słowa. Nic nie jest obniżane. Eksperymentalne: jeszcze nie widziano działania w grze.'
+        'Podnoś kamienie milowe podróży o poziomy. Rośnie tylko liczba: podniesienie Zebranych słów nie uczy żadnego słowa. Nic nigdy nie jest obniżane.'
     },
     mode: 'Jak daleko',
     modeOne: '1 poziom',
     modeSome: 'Kilka poziomów',
     modeAll: 'Do ostatniego poziomu',
-    modeHint:
-      'Liczone od poziomu, na którym każda pozycja jest teraz. To, co jest już na ostatnim poziomie, pozostaje bez zmian.',
-    messageHint:
-      'To gra decyduje, które pozycje ogłaszają nowy poziom: reputacje i główne kamienie milowe to robią; pozostałe zmieniają się bez żadnego komunikatu, także podczas zwykłej gry. Każdy wiersz podaje, jak jest.',
+    modeHint: 'Liczone od poziomu, na którym każdy jest teraz.',
+    messageHint: 'Każdy wiersz mówi, czy gra pokazuje dla niego komunikat.',
     message: {
       full: 'pełny komunikat',
       quick: 'krótki komunikat',
@@ -686,7 +684,7 @@ export const plPL: Messages = {
     },
     announce: 'Pokazuj ekran kamienia milowego także dla cichych pozycji',
     announceHint:
-      'Gra pokazuje pełny ekran „osiągnięto kamień milowy” tylko dla niektórych pozycji. Włączone: gra jest proszona o pokazanie tego samego ekranu, z rangą i nazwą pozycji, także dla tych, które zwykle zmieniają się po cichu. Jej tabela jest zmieniana tylko na czas przyznania poziomu i od razu przywracana.',
+      'Gra pokazuje pełny ekran kamienia milowego tylko dla niektórych wpisów. Włączone: pokazuje go także dla pozostałych.',
     count: 'Poziomy',
     countHint: 'O ile poziomów w górę, od 1 do {max}.',
     action: 'Podnieś wszystkie',

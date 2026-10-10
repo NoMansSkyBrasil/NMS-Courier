@@ -99,9 +99,6 @@ export function CurrencyCard(): React.JSX.Element {
   const currencyItems = currencies.map((value) => ({ value, label: text.currencyName[value] }))
   const valid = Number.isInteger(amount) && amount >= 1 && amount <= maximum
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(text.state[status.state], { id: status.processId ?? '' })
-    : text.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -112,7 +109,6 @@ export function CurrencyCard(): React.JSX.Element {
         <CardDescription>{text.currencyHint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <FieldGroup>
           <Field orientation="responsive">
             <FieldContent>

@@ -103,9 +103,6 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
   }
 
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(text.state[status.state], { id: status.processId ?? '' })
-    : text.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -116,7 +113,6 @@ export function DeliveryCard({ feature }: { feature: Feature }): React.JSX.Eleme
         <CardDescription>{text.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         {options.length > 0 &&
           // Words are a grid of word by race; every other area is a list.
           (feature.id === 'words' ? (

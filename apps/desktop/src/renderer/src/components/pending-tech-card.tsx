@@ -136,9 +136,6 @@ export function PendingTechCard(): React.JSX.Element {
     })
 
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const result = report?.delivery ?? null
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
@@ -151,7 +148,6 @@ export function PendingTechCard(): React.JSX.Element {
         <CardDescription>{text.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <div className="flex flex-wrap items-center gap-2">
           <Button disabled={!ready || working} onClick={() => void check()}>
             {working ? (

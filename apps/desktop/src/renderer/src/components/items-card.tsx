@@ -164,9 +164,6 @@ export function ItemsCard(): React.JSX.Element {
   }
 
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(text.state[status.state], { id: status.processId ?? '' })
-    : text.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -177,7 +174,6 @@ export function ItemsCard(): React.JSX.Element {
         <CardDescription>{text.itemsHint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         {catalog === false && (
           <Alert>
             <CircleHelpIcon />

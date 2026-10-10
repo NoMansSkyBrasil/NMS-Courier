@@ -168,7 +168,7 @@ export const itIT: Messages = {
     },
     settings: { title: 'Impostazioni', summary: 'Lingua, aspetto e dettagli dell’applicazione.' }
   },
-  status: { verified: 'Verificato', experimental: 'Sperimentale', planned: 'Pianificato' },
+  status: { verified: 'Verificato', experimental: 'In prova', planned: 'Pianificato' },
   statusHint: {
     verified: 'Ha funzionato nel gioco in esecuzione, sulla versione di ricerca.',
     experimental: 'Funziona in parte o solo in condizioni note.',
@@ -687,18 +687,16 @@ export const itIT: Messages = {
   levels: {
     hint: {
       standings:
-        'Il gioco conserva ogni reputazione come un numero e lo mostra come un grado con undici livelli. Si chiede al gioco stesso, tramite la sua ricompensa, di impostare il numero del livello scelto; non viene mai abbassato. Sperimentale: non ancora visto funzionare nel gioco.',
+        'Aumenta la tua reputazione con una razza, una gilda o una fazione per livelli. Lo fa il gioco stesso e mostra il suo messaggio. Nulla viene mai ridotto.',
       milestones:
-        'Un obiettivo è un contatore del gioco (parole imparate, sistemi visitati, navi distrutte) con undici livelli. Si chiede al gioco stesso, tramite la sua ricompensa, di portare il contatore al valore del livello scelto. Cambia solo il contatore: aumentare le parole raccolte non insegna alcuna parola. Nulla viene abbassato. Sperimentale: non ancora visto funzionare nel gioco.'
+        'Aumenta i traguardi del viaggio per livelli. Sale solo il numero: aumentare Parole raccolte non insegna alcuna parola. Nulla viene mai ridotto.'
     },
     mode: 'Fino a dove',
     modeOne: '1 livello',
     modeSome: 'Più livelli',
     modeAll: 'Fino all’ultimo livello',
-    modeHint:
-      'Contato dal livello in cui ciascuno si trova ora. Chi è già all’ultimo livello non viene toccato.',
-    messageHint:
-      'È il gioco a decidere quali voci annunciano un nuovo livello: le reputazioni e gli obiettivi principali lo fanno; le altre cambiano senza alcun messaggio, anche giocando normalmente. Ogni riga lo indica.',
+    modeHint: 'Contato dal livello in cui ciascuno si trova ora.',
+    messageHint: 'Ogni riga dice se il gioco mostra un messaggio per essa.',
     message: {
       full: 'messaggio completo',
       quick: 'messaggio breve',
@@ -706,7 +704,7 @@ export const itIT: Messages = {
     },
     announce: 'Mostra la schermata dell’obiettivo anche per le voci silenziose',
     announceHint:
-      'Il gioco mostra la schermata completa di «obiettivo raggiunto» solo per alcune voci. Attivo: gli viene chiesto di mostrare la stessa schermata, con il grado e il nome della voce, per quelle che di norma cambiano in silenzio. La sua tabella viene modificata solo mentre il livello è consegnato e subito ripristinata.',
+      'Il gioco mostra la schermata completa del traguardo solo per alcune voci. Attivo: la mostra anche per le altre.',
     count: 'Livelli',
     countHint: 'Di quanti livelli salire, da 1 a {max}.',
     action: 'Aumenta tutti',

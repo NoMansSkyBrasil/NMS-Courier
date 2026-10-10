@@ -94,9 +94,6 @@ export function GlyphsCard(): React.JSX.Element {
 
   const valid = all || (Number.isInteger(count) && count >= 1 && count <= glyphCount)
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -107,7 +104,6 @@ export function GlyphsCard(): React.JSX.Element {
         <CardDescription>{text.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <div className="flex flex-wrap gap-2" aria-label={text.order}>
           {glyphDigits.map((digit, index) => (
             <div

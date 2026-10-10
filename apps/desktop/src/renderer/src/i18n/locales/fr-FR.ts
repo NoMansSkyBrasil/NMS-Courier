@@ -167,7 +167,7 @@ export const frFR: Messages = {
     },
     settings: { title: 'Paramètres', summary: 'Langue, apparence et détails de l’application.' }
   },
-  status: { verified: 'Vérifié', experimental: 'Expérimental', planned: 'Prévu' },
+  status: { verified: 'Vérifié', experimental: 'En test', planned: 'Prévu' },
   statusHint: {
     verified: 'A fonctionné dans le jeu en cours d’exécution, sur la version de recherche.',
     experimental: 'Fonctionne en partie ou seulement dans des conditions connues.',
@@ -691,18 +691,16 @@ export const frFR: Messages = {
   levels: {
     hint: {
       standings:
-        'Le jeu garde chaque estime sous forme de nombre et l’affiche comme un rang à onze niveaux. On demande au jeu lui-même, par sa propre récompense, de fixer le nombre du niveau choisi ; il n’est jamais abaissé. Expérimental : pas encore vu fonctionner dans le jeu.',
+        "Augmentez votre réputation auprès d'une race, d'une guilde ou d'une faction par niveaux. Le jeu le fait lui-même et affiche son message. Rien n'est jamais réduit.",
       milestones:
-        'Une étape clé est un compteur du jeu (mots appris, systèmes visités, vaisseaux détruits) à onze niveaux. On demande au jeu lui-même, par sa propre récompense, de mettre le compteur à la valeur du niveau choisi. Seul le compteur change : augmenter les mots collectés n’apprend aucun mot. Rien n’est abaissé. Expérimental : pas encore vu fonctionner dans le jeu.'
+        "Augmentez les jalons du voyage par niveaux. Seul le nombre augmente : augmenter Mots collectés n'apprend aucun mot. Rien n'est jamais réduit."
     },
     mode: 'Jusqu’où',
     modeOne: '1 niveau',
     modeSome: 'Plusieurs niveaux',
     modeAll: 'Jusqu’au dernier niveau',
-    modeHint:
-      'Compté à partir du niveau actuel de chacun. Ce qui est déjà au dernier niveau n’est pas touché.',
-    messageHint:
-      'C’est le jeu qui décide quelles entrées annoncent un nouveau niveau : les estimes et les étapes clés principales le font ; les autres changent sans aucun message, en jeu normal aussi. Chaque ligne l’indique.',
+    modeHint: 'Compté à partir du niveau actuel de chacun.',
+    messageHint: 'Chaque ligne indique si le jeu affiche un message pour elle.',
     message: {
       full: 'message complet',
       quick: 'message bref',
@@ -710,7 +708,7 @@ export const frFR: Messages = {
     },
     announce: 'Afficher aussi l’écran d’étape clé pour les entrées silencieuses',
     announceHint:
-      'Le jeu n’affiche son écran complet « étape clé atteinte » que pour certaines entrées. Activé : on lui demande d’afficher le même écran, avec le rang et le nom de l’entrée, pour celles qui changent d’ordinaire en silence. Sa table n’est modifiée que pendant la remise du niveau et rétablie aussitôt.',
+      "Le jeu n'affiche son écran complet de jalon que pour certaines entrées. Activé : il l'affiche aussi pour les autres.",
     count: 'Niveaux',
     countHint: 'Nombre de niveaux à monter, de 1 à {max}.',
     action: 'Tout augmenter',

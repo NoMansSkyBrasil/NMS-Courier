@@ -238,9 +238,6 @@ export function PlanetFinderCard(): React.JSX.Element {
   }
 
   const ready = status?.state === 'ready'
-  const stateText = status
-    ? formatMessage(delivery.state[status.state], { id: status.processId ?? '' })
-    : delivery.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
   const preset =
@@ -257,7 +254,6 @@ export function PlanetFinderCard(): React.JSX.Element {
         <CardDescription>{text.hint}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <Alert>
           <InfoIcon />
           <AlertTitle>{text.scopeTitle}</AlertTitle>

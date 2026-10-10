@@ -253,9 +253,6 @@ export function EquipmentCard({
   const hasExtended = hasClass
   const ready = status?.state === 'ready'
   const sendable = ready && !sending && (action !== 'grid' || slots || supercharge)
-  const stateText = status
-    ? formatMessage(text.state[status.state], { id: status.processId ?? '' })
-    : text.state.unavailable
   const reason = result?.reason as DeliveryStateId | null | undefined
   const OutcomeIcon = result ? outcomeIcons[result.outcome] : null
 
@@ -282,7 +279,6 @@ export function EquipmentCard({
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">{stateText}</p>
         <FieldGroup>
           {actions.length > 1 && (
             <Field orientation="responsive">

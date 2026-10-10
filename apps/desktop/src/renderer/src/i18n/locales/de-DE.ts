@@ -173,7 +173,7 @@ export const deDE: Messages = {
     },
     settings: { title: 'Einstellungen', summary: 'Sprache, Aussehen und Details zur Anwendung.' }
   },
-  status: { verified: 'Bestätigt', experimental: 'Experimentell', planned: 'Geplant' },
+  status: { verified: 'Bestätigt', experimental: 'Im Test', planned: 'Geplant' },
   statusHint: {
     verified: 'Hat im laufenden Spiel auf der Forschungsversion funktioniert.',
     experimental: 'Funktioniert teilweise oder nur unter bekannten Bedingungen.',
@@ -696,22 +696,20 @@ export const deDE: Messages = {
   levels: {
     hint: {
       standings:
-        'Das Spiel speichert jedes Ansehen als Zahl und zeigt es als Rang mit elf Stufen. Das Spiel selbst wird über seine eigene Belohnung gebeten, die Zahl der gewählten Stufe zu setzen; gesenkt wird nie. Experimentell: im Spiel noch nicht funktionierend gesehen.',
+        'Erhöhe dein Ansehen bei einem Volk, einer Gilde oder einer Fraktion um Stufen. Das Spiel macht es selbst und zeigt seine eigene Meldung. Nichts wird je gesenkt.',
       milestones:
-        'Ein Meilenstein ist ein Zähler des Spiels (gelernte Wörter, besuchte Systeme, zerstörte Schiffe) mit elf Stufen. Das Spiel selbst wird über seine eigene Belohnung gebeten, den Zähler auf den Wert der gewählten Stufe zu setzen. Nur der Zähler ändert sich: Mehr gesammelte Wörter lehren kein Wort. Gesenkt wird nichts. Experimentell: im Spiel noch nicht funktionierend gesehen.'
+        'Erhöhe Meilensteine der Reise um Stufen. Nur die Zahl steigt: Gesammelte Wörter zu erhöhen lehrt kein Wort. Nichts wird je gesenkt.'
     },
     mode: 'Wie weit',
     modeOne: '1 Stufe',
     modeSome: 'Mehrere Stufen',
     modeAll: 'Bis zur letzten Stufe',
-    modeHint:
-      'Gezählt ab der Stufe, auf der jeder Eintrag jetzt steht. Was schon auf der letzten Stufe ist, bleibt unverändert.',
-    messageHint:
-      'Das Spiel entscheidet, welche Einträge eine neue Stufe melden: Ansehen und die wichtigsten Meilensteine tun es; die übrigen ändern sich ohne jede Meldung, auch im normalen Spiel. Jede Zeile sagt, was gilt.',
+    modeHint: 'Gezählt ab der Stufe, auf der jeder jetzt steht.',
+    messageHint: 'Jede Zeile sagt, ob das Spiel dafür eine Meldung zeigt.',
     message: { full: 'volle Meldung', quick: 'kurze Meldung', silent: 'keine Meldung im Spiel' },
     announce: 'Meilenstein-Bildschirm auch für stille Einträge zeigen',
     announceHint:
-      'Das Spiel zeigt seinen vollen Bildschirm „Meilenstein erreicht“ nur bei einigen Einträgen. Ein: Es wird gebeten, denselben Bildschirm mit Rang und Namen des Eintrags auch bei denen zu zeigen, die sich sonst still ändern. Seine Tabelle wird nur während der Übergabe der Stufe geändert und sofort zurückgesetzt.',
+      'Das Spiel zeigt seinen vollen Meilenstein-Bildschirm nur für manche Einträge. Ein: Es zeigt ihn auch für die anderen.',
     count: 'Stufen',
     countHint: 'Wie viele Stufen aufsteigen, 1 bis {max}.',
     action: 'Alle erhöhen',

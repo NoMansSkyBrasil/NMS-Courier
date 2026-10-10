@@ -158,7 +158,7 @@ export const enUS: Messages = {
     },
     settings: { title: 'Settings', summary: 'Language, appearance and application details.' }
   },
-  status: { verified: 'Verified', experimental: 'Experimental', planned: 'Planned' },
+  status: { verified: 'Verified', experimental: 'In testing', planned: 'Planned' },
   statusHint: {
     verified: 'Worked in the running game on the research build.',
     experimental: 'Works in part or only under known conditions.',
@@ -669,22 +669,20 @@ export const enUS: Messages = {
   levels: {
     hint: {
       standings:
-        'The game keeps each standing as a number and shows it as a rank with eleven levels. The game itself is asked, through its own reward, to set the number of the level you choose; it is never lowered. Experimental: not yet seen working in the game.',
+        'Raise your standing with a race, a guild or a faction by levels. The game does it itself and shows its own message. Nothing is ever lowered.',
       milestones:
-        'A milestone is a counter of the game (words learnt, systems visited, ships destroyed) with eleven levels. The game itself is asked, through its own reward, to set the counter to the value of the level you choose. Only the counter changes: raising Words Collected teaches no word. Nothing is ever lowered. Experimental: not yet seen working in the game.'
+        'Raise journey milestones by levels. Only the number goes up: raising Words Collected teaches no word. Nothing is ever lowered.'
     },
     mode: 'How far',
     modeOne: '1 level',
     modeSome: 'Several levels',
     modeAll: 'To the last level',
-    modeHint:
-      'Counted from the level each one is on now. One already on the last level is left alone.',
-    messageHint:
-      'The game decides which entries announce a new level: the standings and the main milestones do; the others change without any message, in normal play too. Each row says which.',
+    modeHint: 'Counted from the level each one is on now.',
+    messageHint: 'Each row says whether the game shows a message for it.',
     message: { full: 'full message', quick: 'short message', silent: 'no message in the game' },
     announce: 'Show the milestone screen for silent entries too',
     announceHint:
-      'The game shows its full "milestone reached" screen only for some entries. On: it is asked to show the same screen, with the rank and the name of the entry, for the ones it normally changes in silence. Its table is changed only while the level is given and put back at once.',
+      'The game shows its full milestone screen only for some entries. On: it shows it for the others too.',
     count: 'Levels',
     countHint: 'How many levels to go up, 1 to {max}.',
     action: 'Raise all',

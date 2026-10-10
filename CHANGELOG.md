@@ -28,6 +28,15 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.38.1 (2026-10-10)
+
+- Changed: the grey state line inside every card is gone; the coloured
+  notice above the card already says what to do next.
+- Changed: the "Experimental" badge now reads "In testing" (and its
+  equivalent in each language).
+- Changed: the texts of the Standings and Milestones pages are one or two
+  plain sentences each.
+
 ## Application 1.38.0 (2026-10-10)
 
 Owner requests after a review of the interface for lay users.

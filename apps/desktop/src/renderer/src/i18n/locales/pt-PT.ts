@@ -168,7 +168,7 @@ export const ptPT: Messages = {
     },
     settings: { title: 'Definições', summary: 'Idioma, aparência e detalhes da aplicação.' }
   },
-  status: { verified: 'Verificado', experimental: 'Experimental', planned: 'Planeado' },
+  status: { verified: 'Verificado', experimental: 'Em teste', planned: 'Planeado' },
   statusHint: {
     verified: 'Funcionou no jogo em execução, na versão de investigação.',
     experimental: 'Funciona em parte ou apenas em condições conhecidas.',
@@ -684,22 +684,20 @@ export const ptPT: Messages = {
   levels: {
     hint: {
       standings:
-        'O jogo guarda cada reputação como um número e mostra-o como um posto com onze níveis. É pedido ao próprio jogo, através da sua recompensa, que defina o número do nível que escolher; nunca é reduzido. Experimental: ainda não foi visto a funcionar no jogo.',
+        'Aumente a sua reputação com uma raça, guilda ou fação por níveis. O próprio jogo fá-lo e mostra a sua mensagem. Nada é reduzido.',
       milestones:
-        'Um objetivo é um contador do jogo (palavras aprendidas, sistemas visitados, naves destruídas) com onze níveis. É pedido ao próprio jogo, através da sua recompensa, que coloque o contador no valor do nível que escolher. Só o contador muda: aumentar Palavras colecionadas não ensina nenhuma palavra. Nada é reduzido. Experimental: ainda não foi visto a funcionar no jogo.'
+        'Aumente os marcos da jornada por níveis. Só o número sobe: aumentar Palavras recolhidas não ensina nenhuma palavra. Nada é reduzido.'
     },
     mode: 'Até onde',
     modeOne: '1 nível',
     modeSome: 'Vários níveis',
     modeAll: 'Até ao último nível',
-    modeHint:
-      'Contado a partir do nível em que cada um está agora. Quem já está no último nível não é alterado.',
-    messageHint:
-      'É o jogo que decide que entradas anunciam um nível novo: as reputações e os objetivos principais anunciam; as restantes mudam sem qualquer mensagem, também a jogar normalmente. Cada linha indica o caso.',
+    modeHint: 'Contado a partir do nível em que cada um está agora.',
+    messageHint: 'Cada linha diz se o jogo mostra mensagem para ela.',
     message: { full: 'mensagem completa', quick: 'mensagem curta', silent: 'sem mensagem no jogo' },
     announce: 'Mostrar o ecrã de objetivo também nas entradas silenciosas',
     announceHint:
-      'O jogo só mostra o ecrã completo de "objetivo alcançado" em algumas entradas. Ligado: é-lhe pedido que mostre o mesmo ecrã, com o posto e o nome da entrada, nas que normalmente mudam em silêncio. A tabela do jogo é alterada apenas enquanto o nível é entregue e reposta de imediato.',
+      'O jogo só mostra o ecrã completo de marco em algumas entradas. Ligado: mostra-o também nas outras.',
     count: 'Níveis',
     countHint: 'Quantos níveis subir, de 1 a {max}.',
     action: 'Aumentar todos',
