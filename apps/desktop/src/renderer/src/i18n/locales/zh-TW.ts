@@ -42,6 +42,7 @@ export const zhTW: Messages = {
     },
     currencies: { title: '貨幣', summary: '單位、奈米機械和水銀。' },
     teleport: { title: '傳送', summary: '依星系與傳送門位址前往一個恆星系，無需傳送門。' },
+    planets: { title: '行星搜尋', summary: '依生物群系、天氣和哨兵尋找行星，並給出傳送門位址。' },
     exosuit: {
       title: '外骨骼裝甲',
       summary: '外骨骼裝甲的等級、貨物與科技欄位以及超充能欄位。'
@@ -422,6 +423,80 @@ export const zhTW: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  planets: {
+    title: '尋找行星',
+    hint: '選擇行星應有的樣子。每個結果都帶有傳送門位址：可立即前往、儲存到傳送頁面或複製。',
+    unverifiedTitle: '尚未在遊戲中核對',
+    unverified:
+      '歐幾里得一部分區域的 {count} 顆行星，在遊戲外從遊戲自身的生成程式讀取。在實地造訪幾顆之前，請把清單內容當作預測。',
+    presetEarth: '類地行星',
+    presetAll: '全部',
+    presetHint: '類地行星：繁茂、無風暴、無極端天氣、哨兵稀少、未被感染也非沼澤。',
+    biome: '生物群系',
+    variant: '變體',
+    variantEarth: '類地變體',
+    storms: '風暴',
+    sentinels: '哨兵',
+    race: '星系種族',
+    raceNone: '無人居住',
+    perSystem: '同一星系內的結果數',
+    perSystemOption: '至少 {count} 顆',
+    extreme: '允許極端天氣',
+    extremeHint: '極端行星的風暴和危害更嚴重。',
+    extremeYes: '極端天氣',
+    any: '不限',
+    search: '依傳送門位址搜尋',
+    found: '{systems} 個星系中的 {planets} 顆行星',
+    inSystem: '本星系 {count} 顆',
+    copy: '複製傳送門位址',
+    copied: '已複製',
+    save: '儲存到傳送頁面',
+    saved: '已儲存',
+    travel: '前往',
+    confirm:
+      '你將離開目前位置，遊戲會載入 {planet}（{portal}）所在的星系並把你放到該行星上。若想回到這個確切位置，請先存檔。',
+    empty: '無法讀取行星調查資料。',
+    biomes: {
+      Lush: '繁茂',
+      Toxic: '有毒',
+      Scorched: '灼熱',
+      Radioactive: '輻射',
+      Frozen: '冰凍',
+      Barren: '貧瘠',
+      Dead: '死寂',
+      Weird: '奇異',
+      Swamp: '沼澤',
+      Lava: '火山',
+      Red: '紅色（色彩）',
+      Green: '綠色（色彩）',
+      Blue: '藍色（色彩）',
+      Waterworld: '水世界',
+      GasGiant: '氣態巨行星'
+    },
+    variants: {
+      standard: '標準',
+      highQuality: '高品質',
+      worlds: '叢林',
+      giant: '巨型植物',
+      variant: '其他變體',
+      swamp: '沼澤型',
+      lava: '火山型',
+      ruins: '遺跡',
+      infested: '感染',
+      shapes: '奇異形狀',
+      remix: '混合',
+      none: '未命名'
+    },
+    stormLimit: { None: '無風暴', Low: '最多少量', High: '最多頻繁', Always: '不限' },
+    stormLevels: { None: '無', Low: '少量', High: '頻繁', Always: '持續' },
+    sentinelLimit: {
+      Low: '僅低',
+      Default: '至標準',
+      Aggressive: '至好鬥',
+      Corrupt: '不限，含腐化'
+    },
+    sentinelLevels: { Low: '低', Default: '標準', Aggressive: '好鬥', Corrupt: '腐化' }
   },
   missions: {
     warningTitle: '實驗性：請使用測試存檔',

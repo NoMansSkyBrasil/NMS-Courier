@@ -53,6 +53,10 @@ export const nlNL: Messages = {
       title: 'Teleporteren',
       summary: 'Reis naar een sterrenstelsel via melkwegstelsel en portaaladres, zonder portaal.'
     },
+    planets: {
+      title: 'Planeten zoeken',
+      summary: 'Vind planeten op bioom, weer en wachters, met hun portaaladres.'
+    },
     exosuit: {
       title: 'Exopak',
       summary: 'Klasse, vracht- en technologievakken en superlaadvakken van het exopak.'
@@ -483,6 +487,91 @@ export const nlNL: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autofaag'
+    }
+  },
+  planets: {
+    title: 'Een planeet vinden',
+    hint: 'Kies hoe de planeet moet zijn. Elk resultaat heeft zijn portaaladres: reis er nu heen, bewaar het voor de Teleport-pagina of kopieer het.',
+    unverifiedTitle: 'Nog niet in het spel gecontroleerd',
+    unverified:
+      '{count} planeten uit een deel van Euclid, buiten het spel gelezen uit de eigen generatoren van het spel. Tot er een paar bezocht zijn, is de lijst een voorspelling.',
+    presetEarth: 'Aardachtig',
+    presetAll: 'Alles',
+    presetHint:
+      'Aardachtig: weelderig, geen stormen, geen extreem weer, weinig wachters, niet geïnfecteerd of moerassig.',
+    biome: 'Bioom',
+    variant: 'Variant',
+    variantEarth: 'Aardachtige varianten',
+    storms: 'Stormen',
+    sentinels: 'Wachters',
+    race: 'Ras van het systeem',
+    raceNone: 'Onbewoond',
+    perSystem: 'Treffers in hetzelfde systeem',
+    perSystemOption: 'Minstens {count}',
+    extreme: 'Extreem weer toestaan',
+    extremeHint: 'Extreme planeten hebben zwaardere stormen en gevaren.',
+    extremeYes: 'extreem weer',
+    any: 'Alle',
+    search: 'Zoeken op portaaladres',
+    found: '{planets} planeten in {systems} systemen',
+    inSystem: '{count} in dit systeem',
+    copy: 'Portaaladres kopiëren',
+    copied: 'Gekopieerd',
+    save: 'Bewaren voor de Teleport-pagina',
+    saved: 'Bewaard',
+    travel: 'Reizen',
+    confirm:
+      'Je verlaat waar je bent en het spel laadt het systeem van {planet} ({portal}) en zet je op die planeet. Sla eerst op als je naar precies deze plek terug wilt.',
+    empty: 'Het planetenoverzicht kon niet worden gelezen.',
+    biomes: {
+      Lush: 'Weelderig',
+      Toxic: 'Giftig',
+      Scorched: 'Verschroeid',
+      Radioactive: 'Radioactief',
+      Frozen: 'Bevroren',
+      Barren: 'Dor',
+      Dead: 'Dood',
+      Weird: 'Exotisch',
+      Swamp: 'Moeras',
+      Lava: 'Vulkanisch',
+      Red: 'Rood (chromatisch)',
+      Green: 'Groen (chromatisch)',
+      Blue: 'Blauw (chromatisch)',
+      Waterworld: 'Waterwereld',
+      GasGiant: 'Gasreus'
+    },
+    variants: {
+      standard: 'Standaard',
+      highQuality: 'Hoge kwaliteit',
+      worlds: 'Jungle',
+      giant: 'Reuzenflora',
+      variant: 'Andere variant',
+      swamp: 'Moerassig',
+      lava: 'Vulkanische variant',
+      ruins: 'Ruïnes',
+      infested: 'Geïnfecteerd',
+      shapes: 'Exotische vormen',
+      remix: 'Remix',
+      none: 'Naamloos'
+    },
+    stormLimit: {
+      None: 'Geen stormen',
+      Low: 'Hooguit weinig',
+      High: 'Hooguit veel',
+      Always: 'Alle'
+    },
+    stormLevels: { None: 'geen', Low: 'weinig', High: 'veel', Always: 'voortdurend' },
+    sentinelLimit: {
+      Low: 'Alleen laag',
+      Default: 'Tot normaal',
+      Aggressive: 'Tot agressief',
+      Corrupt: 'Alle, ook gecorrumpeerd'
+    },
+    sentinelLevels: {
+      Low: 'laag',
+      Default: 'normaal',
+      Aggressive: 'agressief',
+      Corrupt: 'gecorrumpeerd'
     }
   },
   missions: {

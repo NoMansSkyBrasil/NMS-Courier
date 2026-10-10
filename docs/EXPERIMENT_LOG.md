@@ -1,5 +1,17 @@
 # Runtime experiment log
 
+## 2026-10-10: planet finder page built over the survey (application 1.35.0)
+
+A build; nothing sent to the game. Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#the-page-application-1350).
+
+- Built: `planet-survey.md` (28,287 planets of 6,000 systems from
+  `0x0001DB00F769C14E`), the page with its filters, travel, save and copy;
+  typecheck, lint, 125 tests, build, page opened in the test instance (292
+  Earth-like planets in 288 systems with the preset).
+- Not proven: any planet against the game; travel to a planet.
+- Rollback: none needed.
+
 ## 2026-10-10: full planet routine emulated with the game's files (offline)
 
 Offline; nothing sent to the game. Build 180836. Owning note:

@@ -43,6 +43,10 @@ export const koKR: Messages = {
     },
     currencies: { title: '통화', summary: '유닛, 나노 머신, 수은.' },
     teleport: { title: '텔레포트', summary: '은하와 포털 주소로, 포털 없이 항성계로 이동합니다.' },
+    planets: {
+      title: '행성 찾기',
+      summary: '생물 군계, 날씨, 센티넬로 행성을 찾고 포털 주소를 보여 줍니다.'
+    },
     exosuit: {
       title: '엑소슈트',
       summary: '엑소슈트의 등급, 화물·기술 슬롯, 과충전 슬롯.'
@@ -446,6 +450,86 @@ export const koKR: Messages = {
       Atlas: '아틀라스',
       Builders: '오토파지'
     }
+  },
+  planets: {
+    title: '행성 찾기',
+    hint: '행성의 조건을 고르세요. 각 결과에 포털 주소가 있어 바로 이동하거나, 텔레포트 페이지용으로 저장하거나, 복사할 수 있습니다.',
+    unverifiedTitle: '아직 게임에서 확인되지 않음',
+    unverified:
+      '유클리드 일부의 행성 {count}개를 게임 자체의 생성 루틴에서 게임 밖에서 읽은 것입니다. 몇 개를 직접 방문해 보기 전까지는 목록 내용을 예측으로 보세요.',
+    presetEarth: '지구와 비슷한 행성',
+    presetAll: '전체',
+    presetHint:
+      '지구와 비슷한 행성: 울창함, 폭풍 없음, 극한 날씨 없음, 센티넬 적음, 감염되거나 늪지가 아님.',
+    biome: '생물 군계',
+    variant: '변형',
+    variantEarth: '지구와 비슷한 변형',
+    storms: '폭풍',
+    sentinels: '센티넬',
+    race: '항성계 종족',
+    raceNone: '무인',
+    perSystem: '같은 항성계의 결과 수',
+    perSystemOption: '{count}개 이상',
+    extreme: '극한 날씨 허용',
+    extremeHint: '극한 행성은 폭풍과 위험이 더 심합니다.',
+    extremeYes: '극한 날씨',
+    any: '상관없음',
+    search: '포털 주소로 검색',
+    found: '항성계 {systems}곳에 행성 {planets}개',
+    inSystem: '이 항성계에 {count}개',
+    copy: '포털 주소 복사',
+    copied: '복사됨',
+    save: '텔레포트 페이지용으로 저장',
+    saved: '저장됨',
+    travel: '이동',
+    confirm:
+      '현재 위치를 떠나 게임이 {planet}({portal})의 항성계를 불러와 그 행성에 내려 줍니다. 정확히 이 지점으로 돌아오려면 먼저 저장하세요.',
+    empty: '행성 조사 자료를 읽을 수 없습니다.',
+    biomes: {
+      Lush: '울창함',
+      Toxic: '독성',
+      Scorched: '작열',
+      Radioactive: '방사능',
+      Frozen: '빙결',
+      Barren: '황무지',
+      Dead: '죽은 행성',
+      Weird: '이국적',
+      Swamp: '늪지',
+      Lava: '화산',
+      Red: '적색(색채)',
+      Green: '녹색(색채)',
+      Blue: '청색(색채)',
+      Waterworld: '물의 행성',
+      GasGiant: '가스 거성'
+    },
+    variants: {
+      standard: '표준',
+      highQuality: '고품질',
+      worlds: '정글',
+      giant: '거대 식물',
+      variant: '기타 변형',
+      swamp: '늪지형',
+      lava: '화산형',
+      ruins: '유적',
+      infested: '감염',
+      shapes: '이국적 형태',
+      remix: '리믹스',
+      none: '이름 없음'
+    },
+    stormLimit: {
+      None: '폭풍 없음',
+      Low: '적은 폭풍까지',
+      High: '많은 폭풍까지',
+      Always: '상관없음'
+    },
+    stormLevels: { None: '없음', Low: '적음', High: '많음', Always: '상시' },
+    sentinelLimit: {
+      Low: '낮음만',
+      Default: '보통까지',
+      Aggressive: '공격적까지',
+      Corrupt: '상관없음(오염 포함)'
+    },
+    sentinelLevels: { Low: '낮음', Default: '보통', Aggressive: '공격적', Corrupt: '오염' }
   },
   missions: {
     warningTitle: '실험적: 테스트용 세이브를 사용하세요',

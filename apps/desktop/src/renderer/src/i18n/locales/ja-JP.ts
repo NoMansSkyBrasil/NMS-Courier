@@ -47,6 +47,10 @@ export const jaJP: Messages = {
       title: 'テレポート',
       summary: '銀河とポータルアドレスを指定して、ポータルなしで星系へ移動します。'
     },
+    planets: {
+      title: '惑星検索',
+      summary: 'バイオーム、天候、センチネルで惑星を探し、ポータルアドレスを表示します。'
+    },
     exosuit: {
       title: 'エクソスーツ',
       summary: 'エクソスーツのクラス、貨物・テクノロジースロット、強化スロット。'
@@ -467,6 +471,81 @@ export const jaJP: Messages = {
       Atlas: 'アトラス',
       Builders: 'オートファジー'
     }
+  },
+  planets: {
+    title: '惑星を探す',
+    hint: '惑星の条件を選んでください。各結果にポータルアドレスがあり、すぐに移動、テレポートページ用に保存、コピーができます。',
+    unverifiedTitle: 'ゲーム内では未確認',
+    unverified:
+      'ユークリッドの一部の{count}個の惑星を、ゲーム自身の生成処理からゲーム外で読み取ったものです。いくつか訪れて確かめるまでは、一覧の内容は予測として扱ってください。',
+    presetEarth: '地球に似た惑星',
+    presetAll: 'すべて',
+    presetHint:
+      '地球に似た惑星：緑豊か、嵐なし、極端な天候なし、センチネル少なめ、感染・湿地ではない。',
+    biome: 'バイオーム',
+    variant: 'バリエーション',
+    variantEarth: '地球に似たバリエーション',
+    storms: '嵐',
+    sentinels: 'センチネル',
+    race: '星系の種族',
+    raceNone: '無人',
+    perSystem: '同じ星系内の該当数',
+    perSystemOption: '{count}個以上',
+    extreme: '極端な天候を許可',
+    extremeHint: '極端な惑星は嵐や危険がより激しくなります。',
+    extremeYes: '極端な天候',
+    any: '指定なし',
+    search: 'ポータルアドレスで検索',
+    found: '{systems}星系に{planets}個の惑星',
+    inSystem: 'この星系に{count}個',
+    copy: 'ポータルアドレスをコピー',
+    copied: 'コピーしました',
+    save: 'テレポートページ用に保存',
+    saved: '保存しました',
+    travel: '移動',
+    confirm:
+      '現在地を離れ、ゲームが{planet}（{portal}）の星系を読み込み、その惑星に降ろします。この場所に戻りたい場合は先にセーブしてください。',
+    empty: '惑星の調査データを読み込めませんでした。',
+    biomes: {
+      Lush: '緑豊か',
+      Toxic: '有毒',
+      Scorched: '灼熱',
+      Radioactive: '放射能',
+      Frozen: '凍結',
+      Barren: '不毛',
+      Dead: '死の星',
+      Weird: 'エキゾチック',
+      Swamp: '湿地',
+      Lava: '火山',
+      Red: '赤（クロマティック）',
+      Green: '緑（クロマティック）',
+      Blue: '青（クロマティック）',
+      Waterworld: '水の惑星',
+      GasGiant: 'ガス巨星'
+    },
+    variants: {
+      standard: '標準',
+      highQuality: '高品質',
+      worlds: 'ジャングル',
+      giant: '巨大植物',
+      variant: 'その他のバリエーション',
+      swamp: '湿地風',
+      lava: '火山風',
+      ruins: '遺跡',
+      infested: '感染',
+      shapes: 'エキゾチック形状',
+      remix: 'リミックス',
+      none: '名称なし'
+    },
+    stormLimit: { None: '嵐なし', Low: '少ない嵐まで', High: '多い嵐まで', Always: '指定なし' },
+    stormLevels: { None: 'なし', Low: '少ない', High: '多い', Always: '常時' },
+    sentinelLimit: {
+      Low: '低のみ',
+      Default: '標準まで',
+      Aggressive: '攻撃的まで',
+      Corrupt: '指定なし（汚染も含む）'
+    },
+    sentinelLevels: { Low: '低', Default: '標準', Aggressive: '攻撃的', Corrupt: '汚染' }
   },
   missions: {
     warningTitle: '実験的：テスト用セーブを使用してください',

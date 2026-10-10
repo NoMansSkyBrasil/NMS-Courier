@@ -190,6 +190,18 @@ declare global {
       getWordRows: (
         locale: string
       ) => Promise<Array<{ id: string; text: string; groups: string[] }>>
+      getPlanetSurvey: () => Promise<
+        Array<{
+          portal: string
+          biome: string
+          subtype: string
+          weather: string
+          storms: string
+          extreme: boolean
+          sentinels: string
+          race: string
+        }>
+      >
       getMissions: (locale: string) => Promise<
         Array<{
           id: string

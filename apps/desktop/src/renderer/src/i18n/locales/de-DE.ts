@@ -54,6 +54,10 @@ export const deDE: Messages = {
       title: 'Teleport',
       summary: 'Reise per Galaxie und Portaladresse in ein Sternsystem, ohne ein Portal.'
     },
+    planets: {
+      title: 'Planetensuche',
+      summary: 'Finde Planeten nach Biom, Wetter und Wächtern, mit ihrer Portaladresse.'
+    },
     exosuit: {
       title: 'Exo-Anzug',
       summary: 'Klasse, Fracht- und Technologieplätze sowie aufgeladene Plätze des Exo-Anzugs.'
@@ -490,6 +494,91 @@ export const deDE: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autophage'
+    }
+  },
+  planets: {
+    title: 'Einen Planeten finden',
+    hint: 'Wähle, wie der Planet sein soll. Jedes Ergebnis hat seine Portaladresse: sofort hinreisen, für die Teleport-Seite speichern oder kopieren.',
+    unverifiedTitle: 'Noch nicht im Spiel geprüft',
+    unverified:
+      '{count} Planeten aus einem Teil von Euklid, außerhalb des Spiels aus dessen eigenen Generatoren gelesen. Bis einige besucht wurden, gilt die Liste als Vorhersage.',
+    presetEarth: 'Erdähnlich',
+    presetAll: 'Alles',
+    presetHint:
+      'Erdähnlich: üppig, keine Stürme, kein Extremwetter, wenige Wächter, weder verseucht noch sumpfig.',
+    biome: 'Biom',
+    variant: 'Variante',
+    variantEarth: 'Erdähnliche Varianten',
+    storms: 'Stürme',
+    sentinels: 'Wächter',
+    race: 'Volk des Systems',
+    raceNone: 'Unbewohnt',
+    perSystem: 'Treffer im selben System',
+    perSystemOption: 'Mindestens {count}',
+    extreme: 'Extremwetter zulassen',
+    extremeHint: 'Extreme Planeten haben härtere Stürme und Gefahren.',
+    extremeYes: 'Extremwetter',
+    any: 'Beliebig',
+    search: 'Nach Portaladresse suchen',
+    found: '{planets} Planeten in {systems} Systemen',
+    inSystem: '{count} in diesem System',
+    copy: 'Portaladresse kopieren',
+    copied: 'Kopiert',
+    save: 'Für die Teleport-Seite speichern',
+    saved: 'Gespeichert',
+    travel: 'Reisen',
+    confirm:
+      'Du verlässt deinen Standort und das Spiel lädt das System von {planet} ({portal}) und setzt dich auf diesem Planeten ab. Speichere vorher, wenn du genau hierher zurückwillst.',
+    empty: 'Die Planetenübersicht konnte nicht gelesen werden.',
+    biomes: {
+      Lush: 'Üppig',
+      Toxic: 'Giftig',
+      Scorched: 'Verbrannt',
+      Radioactive: 'Radioaktiv',
+      Frozen: 'Gefroren',
+      Barren: 'Karg',
+      Dead: 'Tot',
+      Weird: 'Exotisch',
+      Swamp: 'Sumpf',
+      Lava: 'Vulkanisch',
+      Red: 'Rot (chromatisch)',
+      Green: 'Grün (chromatisch)',
+      Blue: 'Blau (chromatisch)',
+      Waterworld: 'Wasserwelt',
+      GasGiant: 'Gasriese'
+    },
+    variants: {
+      standard: 'Standard',
+      highQuality: 'Hohe Qualität',
+      worlds: 'Dschungel',
+      giant: 'Riesenflora',
+      variant: 'Andere Variante',
+      swamp: 'Sumpfig',
+      lava: 'Vulkanische Variante',
+      ruins: 'Ruinen',
+      infested: 'Verseucht',
+      shapes: 'Exotische Formen',
+      remix: 'Remix',
+      none: 'Unbenannt'
+    },
+    stormLimit: {
+      None: 'Keine Stürme',
+      Low: 'Höchstens wenige',
+      High: 'Höchstens viele',
+      Always: 'Beliebig'
+    },
+    stormLevels: { None: 'keine', Low: 'wenige', High: 'viele', Always: 'ständig' },
+    sentinelLimit: {
+      Low: 'Nur niedrig',
+      Default: 'Bis normal',
+      Aggressive: 'Bis aggressiv',
+      Corrupt: 'Beliebig, auch korrumpiert'
+    },
+    sentinelLevels: {
+      Low: 'niedrig',
+      Default: 'normal',
+      Aggressive: 'aggressiv',
+      Corrupt: 'korrumpiert'
     }
   },
   missions: {

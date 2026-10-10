@@ -49,6 +49,10 @@ export const plPL: Messages = {
       title: 'Teleport',
       summary: 'Podróżuj do układu gwiezdnego według galaktyki i adresu portalu, bez portalu.'
     },
+    planets: {
+      title: 'Wyszukiwarka planet',
+      summary: 'Znajdź planety według biomu, pogody i strażników, z adresem portalu.'
+    },
     exosuit: {
       title: 'Egzoskafander',
       summary: 'Klasa, miejsca ładunkowe i technologiczne oraz doładowane miejsca egzoskafandra.'
@@ -469,6 +473,86 @@ export const plPL: Messages = {
       Atlas: 'Atlas',
       Builders: 'Autofag'
     }
+  },
+  planets: {
+    title: 'Znajdź planetę',
+    hint: 'Wybierz, jaka ma być planeta. Każdy wynik ma adres portalu: podróżuj od razu, zapisz go dla strony Teleportacji albo skopiuj.',
+    unverifiedTitle: 'Jeszcze niesprawdzone w grze',
+    unverified:
+      '{count} planet z części Euklidesa, odczytanych z generatorów gry poza grą. Dopóki kilka nie zostanie odwiedzonych, traktuj listę jako przewidywanie.',
+    presetEarth: 'Podobna do Ziemi',
+    presetAll: 'Wszystko',
+    presetHint:
+      'Podobna do Ziemi: bujna, bez burz, bez ekstremalnej pogody, niewielu strażników, ani zainfekowana, ani bagnista.',
+    biome: 'Biom',
+    variant: 'Wariant',
+    variantEarth: 'Warianty podobne do Ziemi',
+    storms: 'Burze',
+    sentinels: 'Strażnicy',
+    race: 'Rasa układu',
+    raceNone: 'Niezamieszkany',
+    perSystem: 'Wyniki w tym samym układzie',
+    perSystemOption: 'Co najmniej {count}',
+    extreme: 'Dopuść ekstremalną pogodę',
+    extremeHint: 'Planety ekstremalne mają ostrzejsze burze i zagrożenia.',
+    extremeYes: 'ekstremalna pogoda',
+    any: 'Dowolny',
+    search: 'Szukaj po adresie portalu',
+    found: 'Planety: {planets}, układy: {systems}',
+    inSystem: '{count} w tym układzie',
+    copy: 'Kopiuj adres portalu',
+    copied: 'Skopiowano',
+    save: 'Zapisz dla strony Teleportacji',
+    saved: 'Zapisano',
+    travel: 'Podróżuj',
+    confirm:
+      'Opuszczasz miejsce, w którym jesteś, a gra wczytuje układ planety {planet} ({portal}) i stawia cię na niej. Zapisz najpierw grę, jeśli chcesz wrócić dokładnie tutaj.',
+    empty: 'Nie udało się odczytać przeglądu planet.',
+    biomes: {
+      Lush: 'Bujna',
+      Toxic: 'Toksyczna',
+      Scorched: 'Spalona',
+      Radioactive: 'Radioaktywna',
+      Frozen: 'Zamarznięta',
+      Barren: 'Jałowa',
+      Dead: 'Martwa',
+      Weird: 'Egzotyczna',
+      Swamp: 'Bagno',
+      Lava: 'Wulkaniczna',
+      Red: 'Czerwona (chromatyczna)',
+      Green: 'Zielona (chromatyczna)',
+      Blue: 'Niebieska (chromatyczna)',
+      Waterworld: 'Świat wodny',
+      GasGiant: 'Gazowy olbrzym'
+    },
+    variants: {
+      standard: 'Standardowy',
+      highQuality: 'Wysoka jakość',
+      worlds: 'Dżungla',
+      giant: 'Olbrzymia flora',
+      variant: 'Inny wariant',
+      swamp: 'Bagnisty',
+      lava: 'Wariant wulkaniczny',
+      ruins: 'Ruiny',
+      infested: 'Zainfekowany',
+      shapes: 'Egzotyczne kształty',
+      remix: 'Remiks',
+      none: 'Bez nazwy'
+    },
+    stormLimit: {
+      None: 'Bez burz',
+      Low: 'Najwyżej nieliczne',
+      High: 'Najwyżej częste',
+      Always: 'Dowolne'
+    },
+    stormLevels: { None: 'brak', Low: 'nieliczne', High: 'częste', Always: 'ciągłe' },
+    sentinelLimit: {
+      Low: 'Tylko niski',
+      Default: 'Do zwykłego',
+      Aggressive: 'Do agresywnego',
+      Corrupt: 'Dowolny, także skażony'
+    },
+    sentinelLevels: { Low: 'niski', Default: 'zwykły', Aggressive: 'agresywny', Corrupt: 'skażony' }
   },
   missions: {
     warningTitle: 'Eksperymentalne: użyj zapisu testowego',

@@ -13,6 +13,7 @@ export const featureIds = [
   'items',
   'currencies',
   'teleport',
+  'planets',
   'exosuit',
   'starships',
   'multitools',
@@ -324,6 +325,75 @@ export type Messages = {
     marked: string
     raceAll: string
     race: Record<'Traders' | 'Warriors' | 'Explorers' | 'Atlas' | 'Builders', string>
+  }
+  planets: {
+    title: string
+    hint: string
+    unverifiedTitle: string
+    unverified: string
+    presetEarth: string
+    presetAll: string
+    presetHint: string
+    biome: string
+    variant: string
+    variantEarth: string
+    storms: string
+    sentinels: string
+    race: string
+    raceNone: string
+    perSystem: string
+    perSystemOption: string
+    extreme: string
+    extremeHint: string
+    extremeYes: string
+    any: string
+    search: string
+    found: string
+    inSystem: string
+    copy: string
+    copied: string
+    save: string
+    saved: string
+    travel: string
+    confirm: string
+    empty: string
+    biomes: Record<
+      | 'Lush'
+      | 'Toxic'
+      | 'Scorched'
+      | 'Radioactive'
+      | 'Frozen'
+      | 'Barren'
+      | 'Dead'
+      | 'Weird'
+      | 'Swamp'
+      | 'Lava'
+      | 'Red'
+      | 'Green'
+      | 'Blue'
+      | 'Waterworld'
+      | 'GasGiant',
+      string
+    >
+    variants: Record<
+      | 'standard'
+      | 'highQuality'
+      | 'worlds'
+      | 'giant'
+      | 'variant'
+      | 'swamp'
+      | 'lava'
+      | 'ruins'
+      | 'infested'
+      | 'shapes'
+      | 'remix'
+      | 'none',
+      string
+    >
+    stormLimit: Record<'None' | 'Low' | 'High' | 'Always', string>
+    stormLevels: Record<'None' | 'Low' | 'High' | 'Always', string>
+    sentinelLimit: Record<'Low' | 'Default' | 'Aggressive' | 'Corrupt', string>
+    sentinelLevels: Record<'Low' | 'Default' | 'Aggressive' | 'Corrupt', string>
   }
   missions: {
     warningTitle: string

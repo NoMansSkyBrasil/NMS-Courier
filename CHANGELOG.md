@@ -28,6 +28,21 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.35.0 (2026-10-10)
+
+- Added (owner request): page "Planet finder" under "Deliver". It lists the
+  28,287 planets of 6,000 star systems of Euclid that the research tool read
+  from the game's own generators, with filters for biome, variant of the
+  biome, storms, sentinels, extreme weather, the system's race and the
+  number of matches in one system; two presets ("Earth-like", "Everything")
+  and a search by portal address. Each result shows its portal address and
+  can be travelled to (the existing travel request, to the planet), saved
+  to the Travel page's destinations or copied.
+- The page says that no planet of the list was compared with the game yet.
+- Added: `runtime/research/planet-survey.md` (`find-planets.py survey`);
+  the candidate table of the morning is replaced by it.
+- Bridge unchanged (1.28.0).
+
 ## Application 1.34.0 and bridge 1.28.0 (2026-10-10)
 
 - Changed (owner request): the quests of the "Missions" page are in the

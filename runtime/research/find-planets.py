@@ -10,7 +10,8 @@ with the game's real creature, biome and weather files loaded where the routine 
         tally 0x0001DB00F769C14E 3000
     find-planets.py ... find 0x0001DB00F769C14E 3000 --output planets.md
 
-`--corpus` is the folder of the extracted game archive that holds `metadata/simulation`
+`survey` writes every planet of the walked systems as a Markdown data table, which the desktop
+application's planet finder lists. `--corpus` is the folder of the extracted game archive that holds `metadata/simulation`
 (`NMSARC.Precache-…` of the research corpus). `tally` counts what the lush planets of the walked
 systems are like; `find` lists the planets that pass the "Earth-like" test below, with their portal
 addresses, as a Markdown data table.
@@ -157,8 +158,8 @@ def main():
     parser.add_argument('--corpus', required=True, type=Path, help='extracted archive holding metadata/simulation')
     parser.add_argument('--libraries', help='folder holding unicorn, pefile and hgpaktool, if not installed')
     parser.add_argument('--cache', help='folder for the files the harness extracts from the game')
-    parser.add_argument('--output', type=Path, help='find: Markdown data table to write')
-    parser.add_argument('command', choices=('tally', 'find'))
+    parser.add_argument('--output', type=Path, help='find, survey: Markdown data table to write')
+    parser.add_argument('command', choices=('tally', 'find', 'survey'))
     parser.add_argument('address', help='universe address to start from, hexadecimal')
     parser.add_argument('count', type=int, help='number of systems to walk')
     args = parser.parse_args()
@@ -171,7 +172,7 @@ def main():
     planets = Planets(args.corpus)
     start, started = int(args.address, 16), time.time()
     systems = failed = total = 0
-    tally, found = Counter(), []
+    tally, found, every = Counter(), [], []
     for address in walk(start, args.count):
         listed = planets.of_system(address)
         if listed is None:
@@ -183,6 +184,8 @@ def main():
                 failed += 1
                 continue
             total += 1
+            every.append([glyphs(address, planet['planet']), planet['biome'], planet['subtype'], planet['weather'],
+                          planet['storms'], 'yes' if planet['extreme'] else 'no', planet['sentinels'], planet['race']])
             tally['biome', planet['biome']] += 1
             if planet['biome'] != 'Lush':
                 continue
@@ -195,6 +198,18 @@ def main():
     if args.command == 'tally':
         for (key, value), number in sorted(tally.items(), key=lambda item: (item[0][0], -item[1])):
             print('%-10s %-14s %d' % (key, value, number))
+        return
+    if args.command == 'survey':
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import markdown_data
+        markdown_data.write_table(
+            args.output, 'Planet survey',
+            'Every planet of %d star systems of galaxy 1 walked from `0x%016X`, as `find-planets.py` reads it from '
+            'the generators of the game run in an emulator (build 180836): portal address (planet, system, Y, Z, X), '
+            'biome, biome subtype, weather, storm frequency, whether the weather is extreme, sentinel level at the '
+            'normal difficulty preset and the race of the system. Names are the enum names of the game. NOT compared '
+            'with the game yet; do not edit by hand.' % (systems, start),
+            ['Portal', 'Biome', 'Subtype', 'Weather', 'Storms', 'Extreme', 'Sentinels', 'Race'], every)
         return
     if args.output:
         sys.path.insert(0, str(Path(__file__).resolve().parent))

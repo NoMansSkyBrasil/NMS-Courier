@@ -67,9 +67,9 @@ Lush planets without sentinels found in that run, as portal addresses
 ## Second run, same day: the whole planet routine with the game's files
 
 The owner asked for the study to go on. Tool:
-`runtime/research/find-planets.py`. Result table of the run below:
-[planet-candidates.md](../runtime/research/planet-candidates.md) (292
-planets, **not compared with the game**).
+`runtime/research/find-planets.py`. Result table: [planet-survey.md](../runtime/research/planet-survey.md), every
+planet of the run below (28,287, **not compared with the game**); it
+replaced the first table of 292 candidates the same day.
 
 ### What the planet routine is
 
@@ -166,6 +166,48 @@ HighQuality, Worlds or HugeLush; storms None; not extreme; sentinels Low.
   part tests are zero in the emulator; what they stand for is not read.
 - The parts of the routine after weather were not run.
 - Other galaxies, purple systems and abandoned systems were not walked.
+
+## The page (application 1.35.0)
+
+"Planet finder" under "Deliver" (`components/planet-finder-card.tsx`,
+`shared/planet-survey.ts`) reads `planet-survey.md` and filters it in the
+interface: biome, variant, highest storm level, highest sentinel level,
+extreme weather, the system's race, matches in one system, a search by
+portal address, presets "Earth-like" and "Everything". A result can be
+travelled to (the teleport request with `to=planet`, galaxy 1), saved to
+the Travel page's destinations (the same local storage) or copied.
+
+The game's 32 subtypes are shown as twelve kinds (standard, high quality,
+jungle for `Worlds`, giant flora for the `Huge…` ones, other variant for
+`Variant_A` to `D`, swampy, volcanic, ruins for `Structure`, infested,
+exotic shapes, remix, unnamed); the row's tooltip has the game's name. A
+wiki's biome page (nms.miraheze.org/wiki/Biome, read 2026-10-10) lists the
+same biome types and names infested, corrupted and relic worlds as variants
+that keep their biome, which is how the page files them.
+
+### What the owner asked for beyond it: a search the player runs
+
+The owner wants to choose the conditions, let it search for a time of
+their choosing and get portal addresses, anywhere. A table made beforehand
+cannot do that. Three ways were weighed:
+
+1. **Search inside the running game, through the bridge (preferred).** The
+   routines the emulator runs are the game's: the bridge can call them
+   natively on the game's thread, a slice of time each frame, for the
+   addresses around the player or anywhere, in any galaxy, for as long as
+   the player set, and write matches to a result file as it goes. No
+   emulator, no extra runtime, the game's real tables and settings. To be
+   solved first: the system generator writes into the game's current
+   system object, so a generation into a separate buffer is needed. The
+   game has one: `16a3a50` builds a whole system for another address in a
+   local structure (`44f9e0`, `132d5e0`, `164c580`, `164da40`, `164c770`).
+   That sequence has to be reproduced or its result captured, and proven
+   not to disturb the system the player is in.
+2. A port of the routines to the application's language: fastest, but the
+   system routine (`132aee0`, Threefry) and the planet routine would have
+   to be ported and checked planet by planet against the emulator.
+3. Larger tables for more regions and galaxies: no new risk, but never a
+   search of the player's own choosing.
 
 ## Plan
 

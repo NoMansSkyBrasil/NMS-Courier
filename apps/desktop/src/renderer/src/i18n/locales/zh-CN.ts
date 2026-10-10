@@ -42,6 +42,7 @@ export const zhCN: Messages = {
     },
     currencies: { title: '货币', summary: '单位、纳米机械和水银。' },
     teleport: { title: '传送', summary: '按星系和传送门地址前往一个恒星系，无需传送门。' },
+    planets: { title: '行星查找', summary: '按生物群系、天气和哨兵查找行星，并给出传送门地址。' },
     exosuit: {
       title: '外骨骼套装',
       summary: '外骨骼套装的等级、货物与科技栏位以及超充能栏位。'
@@ -422,6 +423,80 @@ export const zhCN: Messages = {
       Atlas: '阿特拉斯',
       Builders: '自噬者'
     }
+  },
+  planets: {
+    title: '查找行星',
+    hint: '选择行星应有的样子。每个结果都带有传送门地址：可立即前往、保存到传送页面或复制。',
+    unverifiedTitle: '尚未在游戏中核对',
+    unverified:
+      '欧几里得一部分区域的 {count} 颗行星，在游戏外从游戏自身的生成程序读取。在实地访问几颗之前，请把列表内容当作预测。',
+    presetEarth: '类地行星',
+    presetAll: '全部',
+    presetHint: '类地行星：繁茂、无风暴、无极端天气、哨兵稀少、未被感染也非沼泽。',
+    biome: '生物群系',
+    variant: '变体',
+    variantEarth: '类地变体',
+    storms: '风暴',
+    sentinels: '哨兵',
+    race: '星系种族',
+    raceNone: '无人居住',
+    perSystem: '同一星系内的结果数',
+    perSystemOption: '至少 {count} 颗',
+    extreme: '允许极端天气',
+    extremeHint: '极端行星的风暴和危害更严重。',
+    extremeYes: '极端天气',
+    any: '不限',
+    search: '按传送门地址搜索',
+    found: '{systems} 个星系中的 {planets} 颗行星',
+    inSystem: '本星系 {count} 颗',
+    copy: '复制传送门地址',
+    copied: '已复制',
+    save: '保存到传送页面',
+    saved: '已保存',
+    travel: '前往',
+    confirm:
+      '你将离开当前位置，游戏会载入 {planet}（{portal}）所在的星系并把你放到该行星上。若想回到这个确切位置，请先存档。',
+    empty: '无法读取行星调查数据。',
+    biomes: {
+      Lush: '繁茂',
+      Toxic: '有毒',
+      Scorched: '灼热',
+      Radioactive: '辐射',
+      Frozen: '冰冻',
+      Barren: '贫瘠',
+      Dead: '死寂',
+      Weird: '奇异',
+      Swamp: '沼泽',
+      Lava: '火山',
+      Red: '红色（色彩）',
+      Green: '绿色（色彩）',
+      Blue: '蓝色（色彩）',
+      Waterworld: '水世界',
+      GasGiant: '气态巨行星'
+    },
+    variants: {
+      standard: '标准',
+      highQuality: '高品质',
+      worlds: '丛林',
+      giant: '巨型植物',
+      variant: '其他变体',
+      swamp: '沼泽型',
+      lava: '火山型',
+      ruins: '遗迹',
+      infested: '感染',
+      shapes: '奇异形状',
+      remix: '混合',
+      none: '未命名'
+    },
+    stormLimit: { None: '无风暴', Low: '最多少量', High: '最多频繁', Always: '不限' },
+    stormLevels: { None: '无', Low: '少量', High: '频繁', Always: '持续' },
+    sentinelLimit: {
+      Low: '仅低',
+      Default: '至标准',
+      Aggressive: '至好斗',
+      Corrupt: '不限，含腐化'
+    },
+    sentinelLevels: { Low: '低', Default: '标准', Aggressive: '好斗', Corrupt: '腐化' }
   },
   missions: {
     warningTitle: '实验性：请使用测试存档',

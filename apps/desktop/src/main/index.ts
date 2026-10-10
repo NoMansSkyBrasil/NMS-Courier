@@ -360,6 +360,7 @@ app.whenReady().then(() => {
   ipcMain.handle('nms:get-word-rows', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getWordRows(locale) : []
   )
+  ipcMain.handle('nms:get-planet-survey', () => getResearchBridgeService().getPlanetSurvey())
   ipcMain.handle('nms:get-missions', (_, locale: unknown) =>
     typeof locale === 'string' ? getResearchBridgeService().getMissions(locale) : []
   )

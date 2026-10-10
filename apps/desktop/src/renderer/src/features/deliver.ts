@@ -2,6 +2,7 @@ import {
   AnchorIcon,
   CoinsIcon,
   CrosshairIcon,
+  GlobeIcon,
   MapPinIcon,
   OrbitIcon,
   PackageIcon,
@@ -41,6 +42,17 @@ export const deliverFeatures: readonly Feature[] = [
     // Built on 2026-10-09 (bridge 1.21.0); not exercised in the running game yet.
     status: 'experimental',
     scope: 'slot',
+    rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'planets',
+    group: 'deliver',
+    icon: GlobeIcon,
+    kind: 'delivery',
+    // Built on 2026-10-10 over a survey made offline; no planet was compared with the game yet.
+    status: 'experimental',
+    scope: 'slot',
+    rows: [{ row: 'total', count: 28287 }],
     rules: ['gameRoutines', 'backup']
   },
   {

@@ -54,6 +54,10 @@ export const ptPT: Messages = {
       summary:
         'Viaje para um sistema estelar por galáxia e endereço de portal, sem precisar de um portal.'
     },
+    planets: {
+      title: 'Localizar planetas',
+      summary: 'Encontre planetas por bioma, clima e sentinelas, com o endereço de portal.'
+    },
     exosuit: {
       title: 'Exofato',
       summary: 'Classe, espaços de carga e de tecnologia e espaços sobrecarregados do exofato.'
@@ -479,6 +483,91 @@ export const ptPT: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autófago'
+    }
+  },
+  planets: {
+    title: 'Encontrar um planeta',
+    hint: 'Escolha como deve ser o planeta. Cada resultado traz o endereço de portal: viaje agora, guarde para a página de Teletransporte ou copie.',
+    unverifiedTitle: 'Ainda não verificado no jogo',
+    unverified:
+      '{count} planetas de uma parte de Euclid, lidos dos geradores do próprio jogo fora do jogo. Até alguns serem visitados, trate o que a lista diz como previsão.',
+    presetEarth: 'Semelhante à Terra',
+    presetAll: 'Tudo',
+    presetHint:
+      'Semelhante à Terra: luxuriante, sem tempestades, sem clima extremo, poucas sentinelas, nem infestado nem pantanoso.',
+    biome: 'Bioma',
+    variant: 'Variante',
+    variantEarth: 'Variantes semelhantes à Terra',
+    storms: 'Tempestades',
+    sentinels: 'Sentinelas',
+    race: 'Raça do sistema',
+    raceNone: 'Desabitado',
+    perSystem: 'Resultados no mesmo sistema',
+    perSystemOption: 'Pelo menos {count}',
+    extreme: 'Permitir clima extremo',
+    extremeHint: 'Os planetas extremos têm tempestades e perigos mais fortes.',
+    extremeYes: 'clima extremo',
+    any: 'Qualquer',
+    search: 'Procurar por endereço de portal',
+    found: '{planets} planetas em {systems} sistemas',
+    inSystem: '{count} neste sistema',
+    copy: 'Copiar o endereço de portal',
+    copied: 'Copiado',
+    save: 'Guardar na página de Teletransporte',
+    saved: 'Guardado',
+    travel: 'Viajar',
+    confirm:
+      'Sai de onde está e o jogo carrega o sistema de {planet} ({portal}), deixando-o nesse planeta. Guarde antes se quiser voltar a este ponto exato.',
+    empty: 'Não foi possível ler o levantamento de planetas.',
+    biomes: {
+      Lush: 'Luxuriante',
+      Toxic: 'Tóxico',
+      Scorched: 'Escaldante',
+      Radioactive: 'Radioativo',
+      Frozen: 'Gelado',
+      Barren: 'Árido',
+      Dead: 'Morto',
+      Weird: 'Exótico',
+      Swamp: 'Pântano',
+      Lava: 'Vulcânico',
+      Red: 'Vermelho (cromático)',
+      Green: 'Verde (cromático)',
+      Blue: 'Azul (cromático)',
+      Waterworld: 'Mundo aquático',
+      GasGiant: 'Gigante gasoso'
+    },
+    variants: {
+      standard: 'Padrão',
+      highQuality: 'Alta qualidade',
+      worlds: 'Selva',
+      giant: 'Flora gigante',
+      variant: 'Outra variante',
+      swamp: 'Pantanoso',
+      lava: 'Variante vulcânica',
+      ruins: 'Ruínas',
+      infested: 'Infestado',
+      shapes: 'Formas exóticas',
+      remix: 'Remix',
+      none: 'Sem nome'
+    },
+    stormLimit: {
+      None: 'Sem tempestades',
+      Low: 'No máximo poucas',
+      High: 'No máximo muitas',
+      Always: 'Qualquer'
+    },
+    stormLevels: { None: 'nenhuma', Low: 'poucas', High: 'muitas', Always: 'constantes' },
+    sentinelLimit: {
+      Low: 'Só baixo',
+      Default: 'Até normal',
+      Aggressive: 'Até agressivo',
+      Corrupt: 'Qualquer, até corrompido'
+    },
+    sentinelLevels: {
+      Low: 'baixo',
+      Default: 'normal',
+      Aggressive: 'agressivo',
+      Corrupt: 'corrompido'
     }
   },
   missions: {

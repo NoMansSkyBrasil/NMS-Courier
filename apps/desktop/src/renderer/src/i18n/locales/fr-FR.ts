@@ -50,6 +50,10 @@ export const frFR: Messages = {
       title: 'Téléportation',
       summary: 'Voyagez vers un système stellaire par galaxie et adresse de portail, sans portail.'
     },
+    planets: {
+      title: 'Recherche de planètes',
+      summary: 'Trouvez des planètes par biome, météo et sentinelles, avec leur adresse de portail.'
+    },
     exosuit: {
       title: 'Exocombinaison',
       summary:
@@ -485,6 +489,91 @@ export const frFR: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autophage'
+    }
+  },
+  planets: {
+    title: 'Trouver une planète',
+    hint: 'Choisissez à quoi la planète doit ressembler. Chaque résultat donne son adresse de portail : voyagez-y, enregistrez-la pour la page Téléportation ou copiez-la.',
+    unverifiedTitle: 'Pas encore vérifié en jeu',
+    unverified:
+      '{count} planètes d’une partie d’Euclide, lues depuis les générateurs du jeu hors du jeu. Tant que quelques-unes n’ont pas été visitées, considérez la liste comme une prédiction.',
+    presetEarth: 'Semblable à la Terre',
+    presetAll: 'Tout',
+    presetHint:
+      'Semblable à la Terre : luxuriante, sans tempêtes, sans météo extrême, peu de sentinelles, ni infestée ni marécageuse.',
+    biome: 'Biome',
+    variant: 'Variante',
+    variantEarth: 'Variantes semblables à la Terre',
+    storms: 'Tempêtes',
+    sentinels: 'Sentinelles',
+    race: 'Race du système',
+    raceNone: 'Inhabité',
+    perSystem: 'Résultats dans le même système',
+    perSystemOption: 'Au moins {count}',
+    extreme: 'Autoriser la météo extrême',
+    extremeHint: 'Les planètes extrêmes ont des tempêtes et des dangers plus rudes.',
+    extremeYes: 'météo extrême',
+    any: 'Indifférent',
+    search: 'Chercher par adresse de portail',
+    found: '{planets} planètes dans {systems} systèmes',
+    inSystem: '{count} dans ce système',
+    copy: 'Copier l’adresse de portail',
+    copied: 'Copié',
+    save: 'Enregistrer pour la page Téléportation',
+    saved: 'Enregistré',
+    travel: 'Voyager',
+    confirm:
+      'Vous quittez l’endroit où vous êtes et le jeu charge le système de {planet} ({portal}) en vous posant sur cette planète. Sauvegardez d’abord pour revenir à cet endroit précis.',
+    empty: 'Le relevé des planètes n’a pas pu être lu.',
+    biomes: {
+      Lush: 'Luxuriant',
+      Toxic: 'Toxique',
+      Scorched: 'Brûlant',
+      Radioactive: 'Radioactif',
+      Frozen: 'Gelé',
+      Barren: 'Aride',
+      Dead: 'Mort',
+      Weird: 'Exotique',
+      Swamp: 'Marais',
+      Lava: 'Volcanique',
+      Red: 'Rouge (chromatique)',
+      Green: 'Vert (chromatique)',
+      Blue: 'Bleu (chromatique)',
+      Waterworld: 'Monde aquatique',
+      GasGiant: 'Géante gazeuse'
+    },
+    variants: {
+      standard: 'Standard',
+      highQuality: 'Haute qualité',
+      worlds: 'Jungle',
+      giant: 'Flore géante',
+      variant: 'Autre variante',
+      swamp: 'Marécageux',
+      lava: 'Variante volcanique',
+      ruins: 'Ruines',
+      infested: 'Infesté',
+      shapes: 'Formes exotiques',
+      remix: 'Remix',
+      none: 'Sans nom'
+    },
+    stormLimit: {
+      None: 'Aucune tempête',
+      Low: 'Rares au plus',
+      High: 'Fréquentes au plus',
+      Always: 'Indifférent'
+    },
+    stormLevels: { None: 'aucune', Low: 'rares', High: 'fréquentes', Always: 'constantes' },
+    sentinelLimit: {
+      Low: 'Faible seulement',
+      Default: 'Jusqu’à normal',
+      Aggressive: 'Jusqu’à agressif',
+      Corrupt: 'Indifférent, même corrompu'
+    },
+    sentinelLevels: {
+      Low: 'faible',
+      Default: 'normal',
+      Aggressive: 'agressif',
+      Corrupt: 'corrompu'
     }
   },
   missions: {

@@ -47,6 +47,10 @@ export const enUS: Messages = {
       title: 'Teleport',
       summary: 'Travel to a star system by galaxy and portal address, without a portal.'
     },
+    planets: {
+      title: 'Planet finder',
+      summary: 'Find planets by biome, weather and sentinels, with their portal address.'
+    },
     exosuit: {
       title: 'Exosuit',
       summary: 'Class, cargo and technology slots and supercharged slots of the exosuit.'
@@ -464,6 +468,91 @@ export const enUS: Messages = {
       Explorers: 'Korvax',
       Atlas: 'Atlas',
       Builders: 'Autophage'
+    }
+  },
+  planets: {
+    title: 'Find a planet',
+    hint: 'Choose what the planet should be like. Each result has its portal address: travel there now, save it for the Travel page or copy it.',
+    unverifiedTitle: 'Not yet checked in the game',
+    unverified:
+      '{count} planets of one part of Euclid, read from the game’s own generators outside the game. Until a few have been visited, treat what the list says as a prediction.',
+    presetEarth: 'Earth-like',
+    presetAll: 'Everything',
+    presetHint:
+      'Earth-like: lush, no storms, no extreme weather, few sentinels, not infested or swampy.',
+    biome: 'Biome',
+    variant: 'Variant',
+    variantEarth: 'Earth-like variants',
+    storms: 'Storms',
+    sentinels: 'Sentinels',
+    race: 'System’s race',
+    raceNone: 'Uninhabited',
+    perSystem: 'Matches in the same system',
+    perSystemOption: 'At least {count}',
+    extreme: 'Allow extreme weather',
+    extremeHint: 'Extreme planets have harsher storms and hazards.',
+    extremeYes: 'extreme weather',
+    any: 'Any',
+    search: 'Search by portal address',
+    found: '{planets} planets in {systems} systems',
+    inSystem: '{count} in this system',
+    copy: 'Copy the portal address',
+    copied: 'Copied',
+    save: 'Save to the Travel page',
+    saved: 'Saved',
+    travel: 'Travel',
+    confirm:
+      'You leave where you are and the game loads the system of {planet} ({portal}), landing you on that planet. Save first if you want to come back to this exact spot.',
+    empty: 'The planet survey could not be read.',
+    biomes: {
+      Lush: 'Lush',
+      Toxic: 'Toxic',
+      Scorched: 'Scorched',
+      Radioactive: 'Radioactive',
+      Frozen: 'Frozen',
+      Barren: 'Barren',
+      Dead: 'Dead',
+      Weird: 'Exotic',
+      Swamp: 'Marsh',
+      Lava: 'Volcanic',
+      Red: 'Red (chromatic)',
+      Green: 'Green (chromatic)',
+      Blue: 'Blue (chromatic)',
+      Waterworld: 'Waterworld',
+      GasGiant: 'Gas giant'
+    },
+    variants: {
+      standard: 'Standard',
+      highQuality: 'High quality',
+      worlds: 'Jungle',
+      giant: 'Giant flora',
+      variant: 'Other variant',
+      swamp: 'Swampy',
+      lava: 'Volcanic variant',
+      ruins: 'Ruins',
+      infested: 'Infested',
+      shapes: 'Exotic shapes',
+      remix: 'Remix',
+      none: 'Unnamed'
+    },
+    stormLimit: {
+      None: 'No storms',
+      Low: 'Few storms at most',
+      High: 'Many storms at most',
+      Always: 'Any storms'
+    },
+    stormLevels: { None: 'none', Low: 'few', High: 'many', Always: 'constant' },
+    sentinelLimit: {
+      Low: 'Low only',
+      Default: 'Up to standard',
+      Aggressive: 'Up to aggressive',
+      Corrupt: 'Any, even corrupted'
+    },
+    sentinelLevels: {
+      Low: 'low',
+      Default: 'standard',
+      Aggressive: 'aggressive',
+      Corrupt: 'corrupted'
     }
   },
   missions: {

@@ -46,6 +46,7 @@ const nms = {
   getGalaxyNames: (locale: string) => ipcRenderer.invoke('nms:get-galaxy-names', locale),
   getWordRows: (locale: string) => ipcRenderer.invoke('nms:get-word-rows', locale),
   getMissions: (locale: string) => ipcRenderer.invoke('nms:get-missions', locale),
+  getPlanetSurvey: () => ipcRenderer.invoke('nms:get-planet-survey'),
   getLevelStats: (page: 'standings' | 'milestones', locale: string) =>
     ipcRenderer.invoke('nms:get-level-stats', page, locale),
   raiseLevels: (request: {
