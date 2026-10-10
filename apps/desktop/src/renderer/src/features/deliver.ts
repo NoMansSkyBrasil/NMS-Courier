@@ -3,6 +3,7 @@ import {
   BatteryChargingIcon,
   CoinsIcon,
   CrosshairIcon,
+  GiftIcon,
   GlobeIcon,
   MapPinIcon,
   OrbitIcon,
@@ -35,6 +36,16 @@ export const deliverFeatures: readonly Feature[] = [
     status: 'experimental',
     scope: 'slot',
     rules: ['gameRoutines', 'backup']
+  },
+  {
+    id: 'gift',
+    group: 'inventory',
+    icon: GiftIcon,
+    kind: 'delivery',
+    // Built on 2026-10-10 from an offline reading of the game's remote item routine; not tried in the game.
+    status: 'experimental',
+    scope: 'slot',
+    rules: ['gameRoutines']
   },
   {
     id: 'teleport',

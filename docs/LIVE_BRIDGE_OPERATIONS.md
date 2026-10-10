@@ -416,6 +416,17 @@ game when written.
 
 ### Words and portal glyphs (bridge 1.22.0)
 
+Request `native-gift-request-…` (event `gift`, bridge 1.35.0, experimental):
+`mode=list` reads the players of the session; `mode=send` with `slot=`,
+`user=`, `item=` and `amount=` has the game send that one player an item
+through its remote item transaction. Result `native-gift-result-…`:
+`result=`, `answer=waiting|accepted|refused|failed` (written again when the
+other game answers) and `player=<slot>,<party|session>,<user>` lines. A
+native call; the bridge writes nothing. **Scope: the other player's slot**,
+changed by their own game; the sender's save does not change and no backup
+is made. An answer that does not come is an unknown outcome and is not
+sent again by itself. See [delivery to another player](PLAYER_GIFT_NOTES.md).
+
 Request `native-rewardtrace-request-…` (event `rewardtrace`, bridge 1.34.0,
 diagnostic): one line `trace=1` or `trace=0`. While on, a pass-through hook
 on the game's reward routine keeps the last 64 calls and writes

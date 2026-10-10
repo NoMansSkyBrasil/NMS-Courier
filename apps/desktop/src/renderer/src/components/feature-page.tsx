@@ -7,6 +7,7 @@ import { GlyphsCard } from '@renderer/components/glyphs-card'
 import { LevelsCard } from '@renderer/components/levels-card'
 import { MissionsCard } from '@renderer/components/missions-card'
 import { PendingTechCard } from '@renderer/components/pending-tech-card'
+import { PlayerGiftCard } from '@renderer/components/player-gift-card'
 import { SavesCard } from '@renderer/components/saves-card'
 import { SetupNotice } from '@renderer/components/setup-notice'
 import { UpkeepCard } from '@renderer/components/upkeep-card'
@@ -99,6 +100,8 @@ export function FeaturePage({
         <PlanetFinderCard />
       ) : feature.id === 'pendingTech' ? (
         <PendingTechCard />
+      ) : feature.id === 'gift' ? (
+        <PlayerGiftCard />
       ) : feature.id === 'saves' ? (
         <SavesCard />
       ) : feature.id === 'upkeep' ? (

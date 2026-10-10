@@ -77,6 +77,10 @@ export const itIT: Messages = {
       summary: 'Un’offerta di mercantile con la classe, il modello e i semi scelti.'
     },
     frigates: { title: 'Fregate', summary: 'Reclutamento di fregate per la flotta.' },
+    gift: {
+      title: 'Invia a un amico',
+      summary: 'Consegna oggetti a un altro giocatore che è in partita con te.'
+    },
     pendingTech: {
       title: 'Tecnologie in attesa',
       summary: 'Completa le tecnologie che chiedono ancora componenti, in tutti gli inventari.'
@@ -610,6 +614,37 @@ export const itIT: Messages = {
     autoOn: 'Attiva',
     autoEvery: 'Ricarica tutto ogni (minuti)',
     autoLow: 'Anche subito quando una carica scende sotto il 20%'
+  },
+  gift: {
+    title: 'Invia oggetti a un amico',
+    hint: "Dovete essere nella stessa sessione: unisciti al suo gruppo o lascia che si unisca al tuo. L'oggetto compare nel suo inventario e dal tuo non esce nulla. Il tuo amico non deve installare nulla.",
+    stepPlayer: '1. Chi lo riceve',
+    stepItem: '2. Cosa inviare',
+    findPlayers: 'Cerca giocatori',
+    notChecked: 'Cerca i giocatori che sono in partita con te in questo momento.',
+    noPlayers: 'Nessun giocatore trovato. Unisciti prima al tuo amico nel gioco.',
+    player: 'Giocatore {number}',
+    party: 'Gruppo',
+    session: 'Sessione',
+    selfHint:
+      "Potresti comparire anche tu in questo elenco. Il codice è l'identificativo di ogni giocatore sulla sua piattaforma.",
+    search: 'Cerca un oggetto',
+    amount: 'Quantità',
+    send: 'Invia',
+    confirm: 'Inviare {amount} × {item} a {player}? Il suo gioco lo aggiunge al suo inventario.',
+    answers: {
+      waiting: 'In attesa del suo gioco',
+      accepted: "Il suo gioco l'ha accettato",
+      refused: "Il suo gioco l'ha rifiutato",
+      failed: 'Nessuna risposta'
+    },
+    results: {
+      no_player: 'Quel giocatore non è più nella sessione.',
+      player_changed: "L'elenco è cambiato. Cerca di nuovo i giocatori.",
+      unknown_id: 'Il gioco non conosce questo oggetto.',
+      busy: "L'ultimo invio attende ancora una risposta.",
+      not_ready: 'Carica un salvataggio ed entra prima in una sessione.'
+    }
   },
   pendingTech: {
     exocraft: {

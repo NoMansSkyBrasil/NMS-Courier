@@ -79,6 +79,10 @@ export const deDE: Messages = {
       summary: 'Ein Frachterangebot mit gewählter Klasse, gewähltem Modell und gewählten Seeds.'
     },
     frigates: { title: 'Fregatten', summary: 'Fregatten für die Flotte anwerben.' },
+    gift: {
+      title: 'An einen Freund senden',
+      summary: 'Gib Gegenstände an einen anderen Spieler, der mit dir im Spiel ist.'
+    },
     pendingTech: {
       title: 'Wartende Technologien',
       summary: 'Schließe Technologien ab, die noch Komponenten verlangen, in jedem Inventar.'
@@ -618,6 +622,37 @@ export const deDE: Messages = {
     autoOn: 'An',
     autoEvery: 'Alles aufladen alle (Minuten)',
     autoLow: 'Auch sofort, wenn eine Ladung unter 20 % fällt'
+  },
+  gift: {
+    title: 'Gegenstände an einen Freund senden',
+    hint: 'Seid in derselben Sitzung: Tritt seiner Gruppe bei oder lass ihn deiner beitreten. Der Gegenstand erscheint in seinem Inventar, aus deinem verschwindet nichts. Dein Freund muss nichts installieren.',
+    stepPlayer: '1. Wer es bekommt',
+    stepItem: '2. Was gesendet wird',
+    findPlayers: 'Spieler suchen',
+    notChecked: 'Sucht die Spieler, die gerade mit dir im Spiel sind.',
+    noPlayers: 'Kein Spieler gefunden. Tritt zuerst deinem Freund im Spiel bei.',
+    player: 'Spieler {number}',
+    party: 'Gruppe',
+    session: 'Sitzung',
+    selfHint:
+      'Du kannst selbst in dieser Liste stehen. Der Code ist die Kennung jedes Spielers auf seiner Plattform.',
+    search: 'Gegenstand suchen',
+    amount: 'Menge',
+    send: 'Senden',
+    confirm: '{amount} × {item} an {player} senden? Sein Spiel legt es in sein Inventar.',
+    answers: {
+      waiting: 'Warte auf sein Spiel',
+      accepted: 'Sein Spiel hat es angenommen',
+      refused: 'Sein Spiel hat es abgelehnt',
+      failed: 'Keine Antwort erhalten'
+    },
+    results: {
+      no_player: 'Dieser Spieler ist nicht mehr in der Sitzung.',
+      player_changed: 'Die Liste hat sich geändert. Suche die Spieler erneut.',
+      unknown_id: 'Das Spiel kennt diesen Gegenstand nicht.',
+      busy: 'Die letzte Sendung wartet noch auf Antwort.',
+      not_ready: 'Lade zuerst einen Spielstand und tritt einer Sitzung bei.'
+    }
   },
   pendingTech: {
     exocraft: {

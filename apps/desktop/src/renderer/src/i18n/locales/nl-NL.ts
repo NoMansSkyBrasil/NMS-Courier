@@ -78,6 +78,10 @@ export const nlNL: Messages = {
       summary: 'Een vrachtschipaanbod met de gekozen klasse, het gekozen model en de gekozen seeds.'
     },
     frigates: { title: 'Fregatten', summary: 'Fregatten werven voor de vloot.' },
+    gift: {
+      title: 'Naar een vriend sturen',
+      summary: 'Geef voorwerpen aan een andere speler die met jou in het spel is.'
+    },
     pendingTech: {
       title: 'Wachtende technologieën',
       summary: 'Rond technologieën af die nog onderdelen vragen, in elke inventaris.'
@@ -611,6 +615,37 @@ export const nlNL: Messages = {
     autoOn: 'Aan',
     autoEvery: 'Alles opladen elke (minuten)',
     autoLow: 'Ook meteen wanneer een lading onder 20% zakt'
+  },
+  gift: {
+    title: 'Voorwerpen naar een vriend sturen',
+    hint: 'Zorg dat jullie in dezelfde sessie zijn: sluit je aan bij zijn groep of laat hem bij de jouwe komen. Het voorwerp verschijnt in zijn inventaris en er verdwijnt niets uit de jouwe. Je vriend hoeft niets te installeren.',
+    stepPlayer: '1. Wie het krijgt',
+    stepItem: '2. Wat je stuurt',
+    findPlayers: 'Spelers zoeken',
+    notChecked: 'Zoekt de spelers die nu met jou in het spel zijn.',
+    noPlayers: 'Geen speler gevonden. Sluit je eerst in het spel bij je vriend aan.',
+    player: 'Speler {number}',
+    party: 'Groep',
+    session: 'Sessie',
+    selfHint:
+      'Je kunt zelf ook in deze lijst staan. De code is de identificatie van elke speler op zijn platform.',
+    search: 'Zoek een voorwerp',
+    amount: 'Aantal',
+    send: 'Sturen',
+    confirm: '{amount} × {item} naar {player} sturen? Zijn spel voegt het toe aan zijn inventaris.',
+    answers: {
+      waiting: 'Wachten op zijn spel',
+      accepted: 'Zijn spel heeft het geaccepteerd',
+      refused: 'Zijn spel heeft het geweigerd',
+      failed: 'Geen antwoord ontvangen'
+    },
+    results: {
+      no_player: 'Die speler is niet meer in de sessie.',
+      player_changed: 'De lijst is veranderd. Zoek de spelers opnieuw.',
+      unknown_id: 'Het spel kent dit voorwerp niet.',
+      busy: 'De vorige zending wacht nog op antwoord.',
+      not_ready: 'Laad eerst een opslag en sluit je aan bij een sessie.'
+    }
   },
   pendingTech: {
     exocraft: {

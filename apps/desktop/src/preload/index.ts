@@ -53,6 +53,10 @@ const nms = {
   getAutoRecharge: () => ipcRenderer.invoke('nms:get-auto-recharge'),
   setAutoRecharge: (next: { enabled: boolean; minutes: number; whenLow: boolean }) =>
     ipcRenderer.invoke('nms:set-auto-recharge', next),
+  listSessionPlayers: () => ipcRenderer.invoke('nms:list-session-players'),
+  sendGift: (request: { slot: number; user: string; item: string; amount: number }) =>
+    ipcRenderer.invoke('nms:send-gift', request),
+  getGiftAnswer: () => ipcRenderer.invoke('nms:get-gift-answer'),
   setRewardTrace: (on: boolean) => ipcRenderer.invoke('nms:set-reward-trace', on),
   getRewardTrace: () => ipcRenderer.invoke('nms:get-reward-trace'),
   getPlanetLibrary: () => ipcRenderer.invoke('nms:get-planet-library'),

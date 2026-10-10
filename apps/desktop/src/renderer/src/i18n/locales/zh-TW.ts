@@ -64,6 +64,7 @@ export const zhTW: Messages = {
       summary: '依所選等級、型號和種子產生的貨船報價。'
     },
     frigates: { title: '護衛艦', summary: '為艦隊招募護衛艦。' },
+    gift: { title: '傳送給好友', summary: '把物品交給正與你一起遊戲的其他玩家。' },
     pendingTech: { title: '待安裝的科技', summary: '在所有物品欄中完成仍需要元件的科技。' },
     upkeep: { title: '修理與充能', summary: '修理損壞的科技，並為耗盡的科技充能。' },
     purpleStars: {
@@ -532,6 +533,36 @@ export const zhTW: Messages = {
     autoOn: '已開啟',
     autoEvery: '全部充能的間隔（分鐘）',
     autoLow: '電量低於 20% 時也立即充能'
+  },
+  gift: {
+    title: '向好友傳送物品',
+    hint: '請與好友處於同一工作階段：加入對方的小隊，或讓對方加入你的小隊。物品會出現在對方的物品欄中，你的物品不會減少。好友無需安裝任何東西。',
+    stepPlayer: '1. 誰來接收',
+    stepItem: '2. 傳送什麼',
+    findPlayers: '尋找玩家',
+    notChecked: '尋找此刻與你一起遊戲的玩家。',
+    noPlayers: '找不到玩家。請先在遊戲中與好友會合。',
+    player: '玩家 {number}',
+    party: '小隊',
+    session: '工作階段',
+    selfHint: '你自己也可能出現在此清單中。代碼是每位玩家在其平台上的識別碼。',
+    search: '搜尋物品',
+    amount: '數量',
+    send: '傳送',
+    confirm: '向 {player} 傳送 {amount} × {item}？對方的遊戲會將其加入物品欄。',
+    answers: {
+      waiting: '正在等待對方的遊戲',
+      accepted: '對方的遊戲已接受',
+      refused: '對方的遊戲已拒絕',
+      failed: '沒有收到回應'
+    },
+    results: {
+      no_player: '該玩家已不在工作階段中。',
+      player_changed: '清單已變更。請重新尋找玩家。',
+      unknown_id: '遊戲不認識此物品。',
+      busy: '上一次傳送仍在等待回應。',
+      not_ready: '請先載入存檔並加入工作階段。'
+    }
   },
   pendingTech: {
     exocraft: {

@@ -28,6 +28,14 @@ type BridgeInstallState = {
   blocked: 'game_running' | 'foreign_file' | 'files_unavailable' | null
 }
 
+type GiftAnswer = 'none' | 'waiting' | 'accepted' | 'refused' | 'failed'
+type GiftReport = {
+  delivery: DeliveryResult
+  result: 'listed' | 'sent' | 'no_player' | 'player_changed' | 'unknown_id' | 'busy' | 'not_ready'
+  answer: GiftAnswer
+  players: Array<{ slot: number; party: boolean; user: string }>
+}
+
 type WaitingTechnologyReport = {
   delivery: DeliveryResult
   truncated: boolean
@@ -244,6 +252,14 @@ declare global {
         minutes: number
         whenLow: boolean
       }) => Promise<{ enabled: boolean; minutes: number; whenLow: boolean }>
+      listSessionPlayers: () => Promise<GiftReport>
+      sendGift: (request: {
+        slot: number
+        user: string
+        item: string
+        amount: number
+      }) => Promise<GiftReport>
+      getGiftAnswer: () => Promise<GiftAnswer | null>
       setRewardTrace: (on: boolean) => Promise<DeliveryResult>
       getRewardTrace: () => Promise<string[]>
       getPlanetLibrary: () => Promise<{

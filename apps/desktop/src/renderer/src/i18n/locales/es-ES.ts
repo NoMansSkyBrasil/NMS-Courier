@@ -73,6 +73,10 @@ export const esES: Messages = {
       summary: 'Una oferta de carguero con la clase, el modelo y las semillas elegidos.'
     },
     frigates: { title: 'Fragatas', summary: 'Reclutamiento de fragatas para la flota.' },
+    gift: {
+      title: 'Enviar a un amigo',
+      summary: 'Entrega objetos a otro jugador que está en la partida contigo.'
+    },
     pendingTech: {
       title: 'Tecnologías pendientes',
       summary: 'Completa tecnologías que aún piden componentes, en todos los inventarios.'
@@ -605,6 +609,37 @@ export const esES: Messages = {
     autoOn: 'Activado',
     autoEvery: 'Recargar todo cada (minutos)',
     autoLow: 'También al instante cuando una carga baje del 20 %'
+  },
+  gift: {
+    title: 'Enviar objetos a un amigo',
+    hint: 'Estad en la misma sesión: únete a su grupo o deja que se una al tuyo. El objeto aparece en su inventario y no sale nada del tuyo. Tu amigo no necesita instalar nada.',
+    stepPlayer: '1. Quién lo recibe',
+    stepItem: '2. Qué enviar',
+    findPlayers: 'Buscar jugadores',
+    notChecked: 'Busca a los jugadores que están en la partida contigo ahora mismo.',
+    noPlayers: 'No se encontró ningún jugador. Únete primero a tu amigo en el juego.',
+    player: 'Jugador {number}',
+    party: 'Grupo',
+    session: 'Sesión',
+    selfHint:
+      'Puede que tú también salgas en esta lista. El código es el identificador de cada jugador en su plataforma.',
+    search: 'Buscar un objeto',
+    amount: 'Cantidad',
+    send: 'Enviar',
+    confirm: '¿Enviar {amount} × {item} a {player}? Su juego lo añade a su inventario.',
+    answers: {
+      waiting: 'Esperando a su juego',
+      accepted: 'Su juego lo aceptó',
+      refused: 'Su juego lo rechazó',
+      failed: 'No llegó respuesta'
+    },
+    results: {
+      no_player: 'Ese jugador ya no está en la sesión.',
+      player_changed: 'La lista ha cambiado. Busca jugadores otra vez.',
+      unknown_id: 'El juego no conoce este objeto.',
+      busy: 'El último envío aún espera respuesta.',
+      not_ready: 'Carga una partida y únete a una sesión primero.'
+    }
   },
   pendingTech: {
     exocraft: {

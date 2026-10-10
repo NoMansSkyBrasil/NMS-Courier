@@ -28,6 +28,19 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.45.0 and bridge 1.35.0 (2026-10-10)
+
+- Added (owner request): page "Send to a friend" under Items and
+  currencies. It lists the players who are in the game with you and has
+  the game send one of them an item and an amount, the way the game's own
+  "transfer to player" does. The item is created by the friend's game;
+  nothing leaves your inventory and the friend needs nothing installed.
+- Bridge 1.35.0 (`2d84c3aca63cb4ed31c97f9e933181a121d9761598abfbe0615dcec899f930dd`), file `player_gift.h`, request `gift`.
+- Items only. A ship, a multi-tool and the rest need other routes of the
+  game's multiplayer, which are being read; see
+  [the notes](docs/PLAYER_GIFT_NOTES.md).
+- Not tried in the running game.
+
 ## Application 1.44.0 and bridge 1.34.0 (2026-10-10)
 
 - Added, for research: "Reward trace" on the "Game and bridge" page, shown

@@ -73,6 +73,10 @@ export const ptBR: Messages = {
       summary: 'Uma oferta de cargueiro com a classe, o modelo e as sementes escolhidos.'
     },
     frigates: { title: 'Fragatas', summary: 'Recrutamento de fragatas para a frota.' },
+    gift: {
+      title: 'Enviar para um amigo',
+      summary: 'Entregue itens a outro jogador que está no jogo com você.'
+    },
     pendingTech: {
       title: 'Tecnologias pendentes',
       summary: 'Conclua tecnologias que ainda pedem componentes, em todos os inventários.'
@@ -602,6 +606,37 @@ export const ptBR: Messages = {
     autoOn: 'Ligado',
     autoEvery: 'Recarregar tudo a cada (minutos)',
     autoLow: 'Também na hora, quando uma carga cair abaixo de 20%'
+  },
+  gift: {
+    title: 'Enviar itens para um amigo',
+    hint: 'Esteja na mesma sessão que seu amigo: entre no grupo dele ou deixe ele entrar no seu. O item aparece no inventário dele e nada sai do seu. Seu amigo não precisa instalar nada.',
+    stepPlayer: '1. Quem recebe',
+    stepItem: '2. O que enviar',
+    findPlayers: 'Procurar jogadores',
+    notChecked: 'Procura os jogadores que estão no jogo com você agora.',
+    noPlayers: 'Nenhum jogador encontrado. Entre no jogo com seu amigo primeiro.',
+    player: 'Jogador {number}',
+    party: 'Grupo',
+    session: 'Sessão',
+    selfHint:
+      'Você também pode aparecer nesta lista. O código é o identificador de cada jogador na plataforma dele.',
+    search: 'Buscar um item',
+    amount: 'Quantidade',
+    send: 'Enviar',
+    confirm: 'Enviar {amount} × {item} para {player}? O jogo dele adiciona ao inventário dele.',
+    answers: {
+      waiting: 'Aguardando o jogo dele',
+      accepted: 'O jogo dele aceitou',
+      refused: 'O jogo dele recusou',
+      failed: 'Nenhuma resposta chegou'
+    },
+    results: {
+      no_player: 'Esse jogador não está mais na sessão.',
+      player_changed: 'A lista mudou. Procure os jogadores de novo.',
+      unknown_id: 'O jogo não conhece este item.',
+      busy: 'O último envio ainda aguarda resposta.',
+      not_ready: 'Carregue um save e entre em uma sessão primeiro.'
+    }
   },
   pendingTech: {
     exocraft: {

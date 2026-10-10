@@ -64,6 +64,7 @@ export const zhCN: Messages = {
       summary: '按所选等级、型号和种子生成的货船报价。'
     },
     frigates: { title: '护卫舰', summary: '为舰队招募护卫舰。' },
+    gift: { title: '发送给好友', summary: '把物品交给正与你一起游戏的其他玩家。' },
     pendingTech: { title: '待安装的科技', summary: '在所有物品栏中完成仍需要组件的科技。' },
     upkeep: { title: '修理与充能', summary: '修理损坏的科技，并为耗尽的科技充能。' },
     purpleStars: {
@@ -532,6 +533,36 @@ export const zhCN: Messages = {
     autoOn: '已开启',
     autoEvery: '全部充能的间隔（分钟）',
     autoLow: '电量低于 20% 时也立即充能'
+  },
+  gift: {
+    title: '向好友发送物品',
+    hint: '请与好友处于同一会话：加入对方的小队，或让对方加入你的小队。物品会出现在对方的物品栏中，你的物品不会减少。好友无需安装任何东西。',
+    stepPlayer: '1. 谁来接收',
+    stepItem: '2. 发送什么',
+    findPlayers: '查找玩家',
+    notChecked: '查找此刻与你一起游戏的玩家。',
+    noPlayers: '未找到玩家。请先在游戏中与好友会合。',
+    player: '玩家 {number}',
+    party: '小队',
+    session: '会话',
+    selfHint: '你自己也可能出现在此列表中。代码是每位玩家在其平台上的标识。',
+    search: '搜索物品',
+    amount: '数量',
+    send: '发送',
+    confirm: '向 {player} 发送 {amount} × {item}？对方的游戏会将其加入物品栏。',
+    answers: {
+      waiting: '正在等待对方的游戏',
+      accepted: '对方的游戏已接受',
+      refused: '对方的游戏已拒绝',
+      failed: '没有收到回应'
+    },
+    results: {
+      no_player: '该玩家已不在会话中。',
+      player_changed: '列表已变化。请重新查找玩家。',
+      unknown_id: '游戏不认识此物品。',
+      busy: '上一次发送仍在等待回应。',
+      not_ready: '请先载入存档并加入会话。'
+    }
   },
   pendingTech: {
     exocraft: {

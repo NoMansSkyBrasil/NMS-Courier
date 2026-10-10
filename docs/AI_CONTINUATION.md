@@ -1,8 +1,13 @@
 # AI continuation guide
 
+> Delivery to another player, 2026-10-10 (bridge 1.35.0 `2d84c3ac…f930dd`,
+> application 1.45.0): the owner's current objective. Items are built and
+> untried; ships and the rest need the game's other remote calls. Bridge 1.35.0 installed in the game with the game closed (the 1.34.0 file was installed earlier the same day at the owner's request).
+> Read [delivery to another player](PLAYER_GIFT_NOTES.md) first; its "Next"
+> section is the plan.
+
 > Station multi-tool seed, 2026-10-10 (bridge 1.34.0 `c73ce1a1…796cde`,
-> application 1.44.0; **built and committed, not installed**: the game still
-> runs bridge 1.33.0): the origin is still unknown. Ruled out: system data,
+> application 1.44.0; installed later the same day): the origin is still unknown. Ruled out: system data,
 > station seed, planet seeds; the `173b130` / `+0x83f08` lead is withdrawn.
 > Next is one live step by the owner with the reward trace; see
 > [seed origins](SEED_ORIGINS.md#the-stations-multi-tool-where-its-seed-is-taken-from-2026-10-10).

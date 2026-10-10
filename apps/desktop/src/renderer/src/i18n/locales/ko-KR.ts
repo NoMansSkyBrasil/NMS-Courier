@@ -68,6 +68,10 @@ export const koKR: Messages = {
       summary: '선택한 등급, 모델, 시드로 제시되는 화물선.'
     },
     frigates: { title: '호위함', summary: '함대에 호위함 영입.' },
+    gift: {
+      title: '친구에게 보내기',
+      summary: '함께 게임 중인 다른 플레이어에게 아이템을 건넵니다.'
+    },
     pendingTech: {
       title: '대기 중인 기술',
       summary: '아직 부품을 요구하는 기술을 모든 인벤토리에서 완료합니다.'
@@ -567,6 +571,36 @@ export const koKR: Messages = {
     autoOn: '켜짐',
     autoEvery: '모두 충전하는 간격(분)',
     autoLow: '충전량이 20% 아래로 떨어지면 즉시 충전'
+  },
+  gift: {
+    title: '친구에게 아이템 보내기',
+    hint: '친구와 같은 세션에 있어야 합니다. 친구의 그룹에 참가하거나 친구가 내 그룹에 참가하게 하세요. 아이템은 친구의 소지품에 나타나고 내 것은 줄지 않습니다. 친구는 아무것도 설치할 필요가 없습니다.',
+    stepPlayer: '1. 받는 사람',
+    stepItem: '2. 보낼 것',
+    findPlayers: '플레이어 찾기',
+    notChecked: '지금 함께 게임 중인 플레이어를 찾습니다.',
+    noPlayers: '플레이어를 찾지 못했습니다. 먼저 게임에서 친구와 합류하세요.',
+    player: '플레이어 {number}',
+    party: '그룹',
+    session: '세션',
+    selfHint: '나도 이 목록에 나올 수 있습니다. 코드는 각 플레이어의 플랫폼 식별자입니다.',
+    search: '아이템 검색',
+    amount: '수량',
+    send: '보내기',
+    confirm: '{player}에게 {item} {amount}개를 보낼까요? 상대의 게임이 소지품에 추가합니다.',
+    answers: {
+      waiting: '상대 게임을 기다리는 중',
+      accepted: '상대 게임이 받았습니다',
+      refused: '상대 게임이 거절했습니다',
+      failed: '응답이 없습니다'
+    },
+    results: {
+      no_player: '그 플레이어는 더 이상 세션에 없습니다.',
+      player_changed: '목록이 바뀌었습니다. 플레이어를 다시 찾으세요.',
+      unknown_id: '게임이 이 아이템을 알지 못합니다.',
+      busy: '이전 전송이 아직 응답을 기다리고 있습니다.',
+      not_ready: '먼저 세이브를 불러오고 세션에 참가하세요.'
+    }
   },
   pendingTech: {
     exocraft: {

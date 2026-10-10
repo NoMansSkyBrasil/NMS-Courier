@@ -77,6 +77,10 @@ export const frFR: Messages = {
       summary: 'Une offre de cargo avec la classe, le modèle et les graines choisis.'
     },
     frigates: { title: 'Frégates', summary: 'Recrutement de frégates pour la flotte.' },
+    gift: {
+      title: 'Envoyer à un ami',
+      summary: 'Donnez des objets à un autre joueur présent dans la partie avec vous.'
+    },
     pendingTech: {
       title: 'Technologies en attente',
       summary:
@@ -614,6 +618,37 @@ export const frFR: Messages = {
     autoOn: 'Activé',
     autoEvery: 'Tout recharger toutes les (minutes)',
     autoLow: 'Aussi immédiatement quand une charge passe sous 20 %'
+  },
+  gift: {
+    title: 'Envoyer des objets à un ami',
+    hint: "Soyez dans la même session que votre ami : rejoignez son groupe ou laissez-le rejoindre le vôtre. L'objet apparaît dans son inventaire et rien ne quitte le vôtre. Votre ami n'a rien à installer.",
+    stepPlayer: '1. Qui le reçoit',
+    stepItem: '2. Quoi envoyer',
+    findPlayers: 'Chercher les joueurs',
+    notChecked: 'Cherche les joueurs présents dans la partie avec vous en ce moment.',
+    noPlayers: "Aucun joueur trouvé. Rejoignez d'abord votre ami dans le jeu.",
+    player: 'Joueur {number}',
+    party: 'Groupe',
+    session: 'Session',
+    selfHint:
+      "Vous pouvez aussi figurer dans cette liste. Le code est l'identifiant de chaque joueur sur sa plateforme.",
+    search: 'Chercher un objet',
+    amount: 'Quantité',
+    send: 'Envoyer',
+    confirm: "Envoyer {amount} × {item} à {player} ? Son jeu l'ajoute à son inventaire.",
+    answers: {
+      waiting: 'En attente de son jeu',
+      accepted: "Son jeu l'a accepté",
+      refused: "Son jeu l'a refusé",
+      failed: 'Aucune réponse reçue'
+    },
+    results: {
+      no_player: "Ce joueur n'est plus dans la session.",
+      player_changed: 'La liste a changé. Cherchez à nouveau les joueurs.',
+      unknown_id: 'Le jeu ne connaît pas cet objet.',
+      busy: 'Le dernier envoi attend encore une réponse.',
+      not_ready: "Chargez une sauvegarde et rejoignez d'abord une session."
+    }
   },
   pendingTech: {
     exocraft: {

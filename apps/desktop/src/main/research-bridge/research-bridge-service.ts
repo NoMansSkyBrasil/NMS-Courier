@@ -10,6 +10,8 @@ import {
 import { readClassification, wordRaces } from './delivery-plan'
 import { getTeleportPlan, type TeleportRequest } from './teleport-plan'
 import { getInstallPlan, installResultName } from './install-plan'
+import { getGiftPlan, giftResultName } from './gift-plan'
+import { parseGiftResult, type GiftReport, type GiftRequest } from '../../shared/player-gift'
 import { getPlanetSearchPlan, planetSearchResultName } from './planet-search-plan'
 import { getRechargePlan, getRepairPlan } from './upkeep-plan'
 import type { RepairGroup } from '../../shared/upkeep'
@@ -110,6 +112,7 @@ export type DeliveryResult = {
     | 'planets'
     | 'upkeep'
     | 'bridge'
+    | 'gift'
     | LevelPage
     | EquipmentArea
   // "refused" means nothing was sent. After "unknown" or "failed" the remaining steps are not run.
@@ -431,6 +434,33 @@ export class ResearchBridgeService {
     game: GameProcessStatus
   ): Promise<DeliveryResult> {
     return this.run('teleport', getTeleportPlan(request), installationRoot, game)
+  }
+
+  // Another player of the session: list the players, or have the game send one of them an item.
+  // Nothing changes in this player's save, so no backup is made.
+  async gift(
+    request: GiftRequest | 'list',
+    installationRoot: string | null,
+    game: GameProcessStatus
+  ): Promise<{ delivery: DeliveryResult } & GiftReport> {
+    const delivery = await this.run('gift', getGiftPlan(request), installationRoot, game, false)
+    const report = delivery.steps.length > 0 ? await this.getGiftReport(game.processId) : null
+    return {
+      delivery,
+      result: report?.result ?? 'not_ready',
+      answer: report?.answer ?? 'none',
+      players: report?.players ?? []
+    }
+  }
+
+  // The bridge writes its gift answer again when the other player's game answers.
+  async getGiftReport(processId: number | null): Promise<GiftReport | null> {
+    if (processId === null) return null
+    const text = await readFile(
+      join(this.context.diagnosticsDirectory, `native-${giftResultName}-180836-${processId}.txt`),
+      'utf8'
+    ).catch(() => '')
+    return parseGiftResult(text)
   }
 
   // Diagnostic: switches the bridge's list of the rewards the game gives on or off. Reads only.

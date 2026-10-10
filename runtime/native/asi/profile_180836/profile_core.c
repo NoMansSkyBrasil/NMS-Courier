@@ -31,6 +31,7 @@
 //   technology_recharge.h          recharge: installed technologies whose charge is low
 //   galaxy_map_reveal.h            galaxy map: let the slot see purple star systems
 //   reward_trace.h                 diagnostic: write down the rewards the game gives, with seed and caller
+//   player_gift.h                  another player: hand items over through the game's remote item transaction
 //   product_learn.h                products: learn product recipes in the slot
 //   item_give.h                    items: substances and products into the exosuit cargo
 //   account_unlock.h               account: unlock titles, specials and season rewards on the account
@@ -111,9 +112,10 @@ static int writable_range(uintptr_t address, size_t length) {
 #include "technology_recharge.h"
 #include "galaxy_map_reveal.h"
 #include "reward_trace.h"
+#include "player_gift.h"
 
 // One event per kind of request, after the four class events.
-#define EVENT_COUNT (CLASS_COUNT + 32)
+#define EVENT_COUNT (CLASS_COUNT + 33)
 
 static void write_status(const char *status, MH_STATUS result) {
     wchar_t root[MAX_PATH], path[MAX_PATH];
@@ -181,6 +183,7 @@ static void WINAPI update_detour(void *application) {
     if (InterlockedCompareExchange(&repair_state, 0, 0) == 1) repair_apply_request();
     if (InterlockedCompareExchange(&recharge_state, 0, 0) == 1) recharge_apply_request();
     if (InterlockedCompareExchange(&purple_state, 0, 0) == 1) purple_apply_request();
+    if (InterlockedCompareExchange(&gift_state, 0, 0) == 1) gift_apply_request();
     // Offers wait until the game's window is in front; one offer a turn.
     int ship_waits = InterlockedCompareExchange(&ship_obtain.state, 0, 0) == 1;
     int tool_waits = InterlockedCompareExchange(&multitool_obtain.state, 0, 0) == 1;
@@ -326,7 +329,7 @@ void courier_probe_after_verified(void) {
                                                      L"techrows", L"super", L"model", L"corvette",
                                                      L"reward", L"owned", L"technology", L"recipes", L"redeem", L"fish", L"product",
                                                      L"account", L"keep", L"item", L"currency", L"ship", L"weapon",
-                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets", L"repair", L"recharge", L"purple", L"rewardtrace"};
+                                                     L"teleport", L"words", L"runes", L"stats", L"wiki", L"nexus", L"missions", L"install", L"planets", L"repair", L"recharge", L"purple", L"rewardtrace", L"gift"};
     HANDLE events[EVENT_COUNT] = {0};
     if (!resolve_targets()) { write_status("target_verification_failed", MH_ERROR_UNSUPPORTED_FUNCTION); return; }
     MH_STATUS result = MH_Initialize();
@@ -397,6 +400,7 @@ void courier_probe_after_verified(void) {
         recharge_write_result();
         purple_write_result();
         reward_trace_write_result();
+        gift_write_result();
         obtain_write_result(&ship_obtain);
         obtain_write_result(&multitool_obtain);
         obtain_write_legacy(&multitool_obtain);
@@ -530,6 +534,10 @@ void courier_probe_after_verified(void) {
         }
         else if (index == CLASS_COUNT + 31) {
             if (!reward_trace_read_request()) InterlockedIncrement(&request_errors);
+        }
+        else if (index == CLASS_COUNT + 32) {
+            if (gift_read_request()) InterlockedExchange(&gift_state, 1);
+            else InterlockedIncrement(&request_errors);
         }
         else if (index == CLASS_COUNT + 16) {
             if (currency_read_request()) InterlockedExchange(&currency_state, 1);

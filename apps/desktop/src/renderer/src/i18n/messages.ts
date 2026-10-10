@@ -23,6 +23,7 @@ export const featureIds = [
   'activity',
   'items',
   'currencies',
+  'gift',
   'teleport',
   'planets',
   'exosuit',
@@ -430,6 +431,25 @@ export type Messages = {
     autoOn: string
     autoEvery: string
     autoLow: string
+  }
+  gift: {
+    title: string
+    hint: string
+    stepPlayer: string
+    stepItem: string
+    findPlayers: string
+    notChecked: string
+    noPlayers: string
+    player: string
+    party: string
+    session: string
+    selfHint: string
+    search: string
+    amount: string
+    send: string
+    confirm: string
+    answers: Record<'waiting' | 'accepted' | 'refused' | 'failed', string>
+    results: Record<'no_player' | 'player_changed' | 'unknown_id' | 'busy' | 'not_ready', string>
   }
   pendingTech: {
     title: string

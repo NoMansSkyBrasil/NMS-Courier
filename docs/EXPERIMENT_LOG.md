@@ -1,5 +1,32 @@
 # Runtime experiment log
 
+## 2026-10-10: how the game hands things to another player; items built (bridge 1.35.0, application 1.45.0)
+
+Offline reading, a build and an installation; nothing sent to the game.
+Owning note: [delivery to another player](PLAYER_GIFT_NOTES.md).
+
+- Installation: Bridge 1.35.0 installed in the game with the game closed (the 1.34.0 file was installed earlier the same day at the owner's request). Data file unchanged (`bade6eb7…27c200`). Undo: copy
+  `native-builds/bridge-1.33.0/xinput9_1_0.dll` back.
+- Read: the executable's type names list 129 remote calls. Those that hand
+  something over are items (ID and amount), a creature egg, a ByteBeat
+  song, a mission start (ID and seed), statistics, and the frigate and
+  freighter ownership calls. None hands over a ship or a multi-tool by
+  itself.
+- Read: the item route from the inventory screen (`48ab80`) to the send
+  routine (`4b43a0`), the receiving handler (`48c4e0`), the answer
+  (`4b36f0`) and the two player tables; addresses in the owning note.
+- Built: `player_gift.h` (list the players; send an item to one through
+  `4b43a0` with a callback of the bridge's own) and the page "Send to a
+  friend". Profile build without errors; typecheck, lint, 152 tests,
+  build; the page opened in the test instance.
+- Rejected as a design: one route that redirects every local delivery to
+  another player. Local deliveries call routines in the sender's game; the
+  other game is reached only by what the game sends over the network.
+- Not proven: anything in the running game; which table holds the friend;
+  whether "accepted" always means the item was added.
+- Next: the owner's test with a friend in the same group, then the
+  mission-start route for ships.
+
 ## 2026-10-10: the station tool's seed, an earlier lead withdrawn; reward trace built (bridge 1.34.0, application 1.44.0)
 
 Offline reading and a build; nothing sent to the game and nothing installed

@@ -72,6 +72,10 @@ export const enUS: Messages = {
       summary: 'A freighter offer with the chosen class, model and seeds.'
     },
     frigates: { title: 'Frigates', summary: 'Recruiting frigates for the fleet.' },
+    gift: {
+      title: 'Send to a friend',
+      summary: 'Hand items to another player who is in the game with you.'
+    },
     pendingTech: {
       title: 'Waiting technologies',
       summary: 'Finish technologies that still ask for components, in every inventory.'
@@ -591,6 +595,37 @@ export const enUS: Messages = {
     autoOn: 'On',
     autoEvery: 'Recharge everything every (minutes)',
     autoLow: 'Also at once when a charge falls under 20%'
+  },
+  gift: {
+    title: 'Send items to a friend',
+    hint: 'Be in the same session as your friend: join their group or let them join yours. The item appears in their inventory and nothing leaves yours. Your friend needs nothing installed.',
+    stepPlayer: '1. Who receives it',
+    stepItem: '2. What to send',
+    findPlayers: 'Find players',
+    notChecked: 'Looks for the players who are in the game with you right now.',
+    noPlayers: 'No player was found. Join your friend in the game first.',
+    player: 'Player {number}',
+    party: 'Group',
+    session: 'Session',
+    selfHint:
+      "You may be on this list too. The code is each player's identifier on their platform.",
+    search: 'Search for an item',
+    amount: 'Amount',
+    send: 'Send',
+    confirm: 'Send {amount} × {item} to {player}? Their game adds it to their inventory.',
+    answers: {
+      waiting: 'Waiting for their game',
+      accepted: 'Their game accepted it',
+      refused: 'Their game refused it',
+      failed: 'No answer came'
+    },
+    results: {
+      no_player: 'That player is no longer in the session.',
+      player_changed: 'The list changed. Find players again.',
+      unknown_id: 'The game does not know this item.',
+      busy: 'The last one is still waiting for an answer.',
+      not_ready: 'Load a save and join a session first.'
+    }
   },
   pendingTech: {
     exocraft: {

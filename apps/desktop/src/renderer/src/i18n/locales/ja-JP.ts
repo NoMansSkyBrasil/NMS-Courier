@@ -72,6 +72,10 @@ export const jaJP: Messages = {
       summary: '選んだクラス、モデル、シードによる貨物船のオファー。'
     },
     frigates: { title: 'フリゲート', summary: '艦隊へのフリゲートの雇用。' },
+    gift: {
+      title: 'フレンドに送る',
+      summary: '一緒にゲームにいる他のプレイヤーにアイテムを渡します。'
+    },
     pendingTech: {
       title: '待機中のテクノロジー',
       summary: 'まだ部品を必要としているテクノロジーを、すべてのインベントリで完成させます。'
@@ -594,6 +598,38 @@ export const jaJP: Messages = {
     autoOn: 'オン',
     autoEvery: 'すべてを充電する間隔（分）',
     autoLow: 'チャージが20%を下回ったらすぐにも充電'
+  },
+  gift: {
+    title: 'フレンドにアイテムを送る',
+    hint: 'フレンドと同じセッションにいてください。相手のグループに参加するか、相手に参加してもらいます。アイテムは相手のインベントリに現れ、自分のものは減りません。相手は何もインストールする必要がありません。',
+    stepPlayer: '1. 受け取る人',
+    stepItem: '2. 送るもの',
+    findPlayers: 'プレイヤーを探す',
+    notChecked: 'いま一緒にゲームにいるプレイヤーを探します。',
+    noPlayers: 'プレイヤーが見つかりません。先にゲームでフレンドに参加してください。',
+    player: 'プレイヤー {number}',
+    party: 'グループ',
+    session: 'セッション',
+    selfHint:
+      '自分もこの一覧に出ることがあります。コードは各プレイヤーのプラットフォーム上のIDです。',
+    search: 'アイテムを検索',
+    amount: '数量',
+    send: '送る',
+    confirm:
+      '{player} に {item} を {amount} 個送りますか？相手のゲームがインベントリに追加します。',
+    answers: {
+      waiting: '相手のゲームを待っています',
+      accepted: '相手のゲームが受け取りました',
+      refused: '相手のゲームが拒否しました',
+      failed: '応答がありません'
+    },
+    results: {
+      no_player: 'そのプレイヤーはもうセッションにいません。',
+      player_changed: '一覧が変わりました。もう一度プレイヤーを探してください。',
+      unknown_id: 'ゲームはこのアイテムを知りません。',
+      busy: '前回の送信がまだ応答待ちです。',
+      not_ready: '先にセーブを読み込み、セッションに参加してください。'
+    }
   },
   pendingTech: {
     exocraft: {

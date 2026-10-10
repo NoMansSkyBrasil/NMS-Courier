@@ -79,6 +79,10 @@ export const ptPT: Messages = {
       summary: 'Uma oferta de cargueiro com a classe, o modelo e as sementes escolhidos.'
     },
     frigates: { title: 'Fragatas', summary: 'Recrutamento de fragatas para a frota.' },
+    gift: {
+      title: 'Enviar a um amigo',
+      summary: 'Entregue itens a outro jogador que está no jogo consigo.'
+    },
     pendingTech: {
       title: 'Tecnologias pendentes',
       summary: 'Conclua tecnologias que ainda pedem componentes, em todos os inventários.'
@@ -607,6 +611,37 @@ export const ptPT: Messages = {
     autoOn: 'Ligado',
     autoEvery: 'Recarregar tudo a cada (minutos)',
     autoLow: 'Também de imediato, quando uma carga descer abaixo de 20%'
+  },
+  gift: {
+    title: 'Enviar itens a um amigo',
+    hint: 'Esteja na mesma sessão que o seu amigo: junte-se ao grupo dele ou deixe-o juntar-se ao seu. O item aparece no inventário dele e nada sai do seu. O seu amigo não precisa de instalar nada.',
+    stepPlayer: '1. Quem recebe',
+    stepItem: '2. O que enviar',
+    findPlayers: 'Procurar jogadores',
+    notChecked: 'Procura os jogadores que estão no jogo consigo neste momento.',
+    noPlayers: 'Nenhum jogador encontrado. Junte-se primeiro ao seu amigo no jogo.',
+    player: 'Jogador {number}',
+    party: 'Grupo',
+    session: 'Sessão',
+    selfHint:
+      'Também pode aparecer nesta lista. O código é o identificador de cada jogador na respetiva plataforma.',
+    search: 'Procurar um item',
+    amount: 'Quantidade',
+    send: 'Enviar',
+    confirm: 'Enviar {amount} × {item} a {player}? O jogo dele adiciona ao inventário dele.',
+    answers: {
+      waiting: 'A aguardar o jogo dele',
+      accepted: 'O jogo dele aceitou',
+      refused: 'O jogo dele recusou',
+      failed: 'Não chegou resposta'
+    },
+    results: {
+      no_player: 'Esse jogador já não está na sessão.',
+      player_changed: 'A lista mudou. Procure os jogadores de novo.',
+      unknown_id: 'O jogo não conhece este item.',
+      busy: 'O último envio ainda aguarda resposta.',
+      not_ready: 'Carregue uma gravação e junte-se primeiro a uma sessão.'
+    }
   },
   pendingTech: {
     exocraft: {
