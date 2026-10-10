@@ -490,10 +490,10 @@ export const itIT: Messages = {
   },
   planets: {
     title: 'Trovare un pianeta',
-    hint: 'Scegli come deve essere il pianeta. Ogni risultato ha il suo indirizzo del portale: viaggia subito, salvalo per la pagina Teletrasporto o copialo.',
-    unverifiedTitle: 'Non ancora verificato nel gioco',
-    unverified:
-      '{count} pianeti di una parte di Euclide, letti dai generatori del gioco fuori dal gioco. Finché non ne sono stati visitati alcuni, considera l’elenco una previsione.',
+    hint: 'Scegli come deve essere il pianeta, poi viaggia verso un risultato o copia il suo indirizzo del portale.',
+    scopeTitle: 'Solo la galassia Euclide, per ora',
+    scope:
+      '{count} pianeti di una regione di Euclide, calcolati con le regole del gioco stesso. Alcuni sono stati verificati nel gioco e corrispondevano.',
     presetEarth: 'Simile alla Terra',
     presetAll: 'Tutto',
     presetHint:
@@ -507,6 +507,20 @@ export const itIT: Messages = {
     raceNone: 'Disabitato',
     perSystem: 'Risultati nello stesso sistema',
     perSystemOption: 'Almeno {count}',
+    perSystemOne: 'Ne basta uno',
+    system: 'Sistema',
+    systemLawful: 'Senza sistemi pirata',
+    systemPirate: 'Solo sistemi pirata',
+    pirate: 'Sistema pirata',
+    economy: {
+      Mining: 'Mineraria',
+      HighTech: 'Tecnologia',
+      Trading: 'Commercio',
+      Manufacturing: 'Manifattura',
+      Fusion: 'Materiali avanzati',
+      Scientific: 'Scientifica',
+      PowerGeneration: 'Produzione di energia'
+    },
     extreme: 'Consenti clima estremo',
     extremeHint: 'I pianeti estremi hanno tempeste e pericoli più duri.',
     extremeYes: 'clima estremo',
@@ -542,7 +556,12 @@ export const itIT: Messages = {
     variants: {
       standard: 'Standard',
       highQuality: 'Alta qualità',
-      worlds: 'Giungla',
+      jungle: 'Giungla',
+      worlds: 'Rinnovato (Worlds)',
+      floral: 'Campi di fiori',
+      rocky: 'Roccioso',
+      tentacles: 'Tentacoli',
+      bubbles: 'Bolle',
       giant: 'Flora gigante',
       variant: 'Altra variante',
       swamp: 'Paludoso',

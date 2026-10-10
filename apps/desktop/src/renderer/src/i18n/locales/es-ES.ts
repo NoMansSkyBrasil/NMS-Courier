@@ -485,10 +485,10 @@ export const esES: Messages = {
   },
   planets: {
     title: 'Encontrar un planeta',
-    hint: 'Elige cómo debe ser el planeta. Cada resultado trae su dirección de portal: viaja ahora, guárdala para la página de Teletransporte o cópiala.',
-    unverifiedTitle: 'Aún sin comprobar en el juego',
-    unverified:
-      '{count} planetas de una parte de Euclides, leídos de los generadores del propio juego fuera del juego. Hasta visitar algunos, toma lo que dice la lista como una predicción.',
+    hint: 'Elige cómo debe ser el planeta y viaja a un resultado o copia su dirección de portal.',
+    scopeTitle: 'Solo la galaxia Euclid, por ahora',
+    scope:
+      '{count} planetas de una región de Euclid, calculados con las reglas del propio juego. Algunos se comprobaron en el juego y coincidieron.',
     presetEarth: 'Parecido a la Tierra',
     presetAll: 'Todo',
     presetHint:
@@ -502,6 +502,20 @@ export const esES: Messages = {
     raceNone: 'Deshabitado',
     perSystem: 'Resultados en el mismo sistema',
     perSystemOption: 'Al menos {count}',
+    perSystemOne: 'Con uno basta',
+    system: 'Sistema',
+    systemLawful: 'Sin sistemas piratas',
+    systemPirate: 'Solo sistemas piratas',
+    pirate: 'Sistema pirata',
+    economy: {
+      Mining: 'Minería',
+      HighTech: 'Tecnología',
+      Trading: 'Comercio',
+      Manufacturing: 'Manufactura',
+      Fusion: 'Materiales avanzados',
+      Scientific: 'Científica',
+      PowerGeneration: 'Generación de energía'
+    },
     extreme: 'Permitir clima extremo',
     extremeHint: 'Los planetas extremos tienen tormentas y peligros más duros.',
     extremeYes: 'clima extremo',
@@ -537,7 +551,12 @@ export const esES: Messages = {
     variants: {
       standard: 'Estándar',
       highQuality: 'Alta calidad',
-      worlds: 'Selva',
+      jungle: 'Selva',
+      worlds: 'Renovado (Worlds)',
+      floral: 'Campos de flores',
+      rocky: 'Rocoso',
+      tentacles: 'Tentáculos',
+      bubbles: 'Burbujas',
       giant: 'Flora gigante',
       variant: 'Otra variante',
       swamp: 'Pantanoso',

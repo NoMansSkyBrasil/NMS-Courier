@@ -1,5 +1,41 @@
 # Runtime experiment log
 
+## 2026-10-10: planet survey compared with the running game; infested planets fixed (application 1.36.0)
+
+Read-only on the game: its memory was read from outside, nothing was sent
+or written. Build 180836 (executable SHA-256 `13d5060d…cc3499`), bridge
+1.28.0 installed (`4322b6bf…589d5f`), data file `5cab45c3…8e5493`. Slot as
+loaded by the owner (not identified by a tool). Owning note:
+[finding planets](PLANET_FINDER_NOTES.md#checked-against-the-running-game-2026-10-10).
+
+- The owner travelled from the page to a planet and stood in system
+  `0x00027200F769C14E` (Euclid).
+- Read from the game: 2 planets; planet 1 seed `C723AC0A7B5DD5A4` Lush,
+  subtype 24 (Infested), weather Humid, no storms, not extreme, sentinel
+  level Low; planet 2 seed `608545398F1119F2` Lush, subtype 2
+  (HighQuality), same weather, storms and sentinels; system economy 1
+  (HighTech), wealth 3 (Pirate), conflict 3 (Pirate), race 2, star type 0.
+- The owner saw: planet 2 "Paradise planet", pleasant weather, sentinels
+  low, flora frequent, fauna generous; planet 1 purple; the system
+  Korvax, technology economy, black market, controlled by pirates.
+- The emulator before the fix: both seeds and biomes right, planet 1
+  subtype `Worlds` (wrong). Cause: the system generator rolls a second time
+  on `biomefilenamesarchive` (generator `+0x78`, code `164ce75`-`164d0cb`),
+  which the harness leaves empty. With that list loaded the emulator gives
+  every field above as the game has it.
+- Rebuilt `planet-survey.md` with the list and four system columns: 28,287
+  planets of 6,000 systems, 0 failed, 268 Earth-like by the page's preset
+  (it was 292), 889 infested planets.
+- Not proven: any other system; the planet counts (the game says 2 planets
+  and 1 prime with the "included" flag, the emulator 1 and 1 without it:
+  same total); purple systems, of which the list has none (also no water
+  world, gas giant, ocean, island or remix variant, which the biome lists
+  give only there or as prime planets); grass colour.
+- Rejected: reading the subtype's meaning from its name. `Worlds`,
+  `HugePlant`, `HugeToxic`, `Bubble` and `HydroGarden` load different biome
+  files in different biomes (`runtime/research/biome-variants.md`).
+- Rollback: none needed.
+
 ## 2026-10-10: planet finder page built over the survey (application 1.35.0)
 
 A build; nothing sent to the game. Owning note:

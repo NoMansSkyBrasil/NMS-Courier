@@ -49,7 +49,7 @@ export const deliverFeatures: readonly Feature[] = [
     group: 'deliver',
     icon: GlobeIcon,
     kind: 'delivery',
-    // Built on 2026-10-10 over a survey made offline; no planet was compared with the game yet.
+    // Built on 2026-10-10 over a survey made offline; one system was compared with the game.
     status: 'experimental',
     scope: 'slot',
     rows: [{ row: 'total', count: 28287 }],

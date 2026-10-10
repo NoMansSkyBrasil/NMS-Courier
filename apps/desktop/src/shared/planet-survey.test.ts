@@ -3,6 +3,7 @@ import {
   earthLikeFilter,
   filterPlanets,
   isEarthLike,
+  isPirateSystem,
   openFilter,
   variantKind,
   type SurveyPlanet
@@ -17,15 +18,45 @@ const planet = (portal: string, changes: Partial<SurveyPlanet> = {}): SurveyPlan
   extreme: false,
   sentinels: 'Low',
   race: 'Gek',
+  star: 'Yellow',
+  economy: 'Trading',
+  wealth: 'Average',
+  conflict: 'Default',
   ...changes
 })
 
 describe('planet survey', () => {
   it('names what a subtype is', () => {
-    expect(variantKind('HighQuality')).toBe('highQuality')
-    expect(variantKind('HugeToxic')).toBe('giant')
-    expect(variantKind('Variant_C')).toBe('variant')
-    expect(variantKind('Hexagon')).toBe('shapes')
+    expect(variantKind('Lush', 'HighQuality')).toBe('highQuality')
+    expect(variantKind('Toxic', 'HugeToxic')).toBe('giant')
+    expect(variantKind('Scorched', 'Variant_A')).toBe('variant')
+    expect(variantKind('Weird', 'Hexagon')).toBe('shapes')
+  })
+
+  it('names a subtype by its biome where the game reuses the name', () => {
+    expect(variantKind('Lush', 'Worlds')).toBe('jungle')
+    expect(variantKind('Frozen', 'Worlds')).toBe('worlds')
+    expect(variantKind('Lush', 'HugeToxic')).toBe('tentacles')
+    expect(variantKind('Lush', 'HugePlant')).toBe('floral')
+    expect(variantKind('Lush', 'Bubble')).toBe('bubbles')
+    expect(variantKind('Weird', 'Bubble')).toBe('shapes')
+    expect(variantKind('Lush', 'HydroGarden')).toBe('rocky')
+    expect(variantKind('Weird', 'HydroGarden')).toBe('shapes')
+  })
+
+  it('tells pirate systems apart', () => {
+    const planets = [
+      planet('1001F769C14E'),
+      planet('1002F769C14E', { conflict: 'Pirate', wealth: 'Pirate' })
+    ]
+    expect(isPirateSystem(planets[0])).toBe(false)
+    expect(isPirateSystem(planets[1])).toBe(true)
+    expect(
+      filterPlanets(planets, { ...openFilter, system: 'pirate' }).map((entry) => entry.portal)
+    ).toEqual(['1002F769C14E'])
+    expect(
+      filterPlanets(planets, { ...openFilter, system: 'lawful' }).map((entry) => entry.portal)
+    ).toEqual(['1001F769C14E'])
   })
 
   it('calls a planet Earth-like only when every condition holds', () => {

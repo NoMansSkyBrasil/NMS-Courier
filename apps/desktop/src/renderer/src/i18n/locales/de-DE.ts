@@ -498,10 +498,10 @@ export const deDE: Messages = {
   },
   planets: {
     title: 'Einen Planeten finden',
-    hint: 'Wähle, wie der Planet sein soll. Jedes Ergebnis hat seine Portaladresse: sofort hinreisen, für die Teleport-Seite speichern oder kopieren.',
-    unverifiedTitle: 'Noch nicht im Spiel geprüft',
-    unverified:
-      '{count} Planeten aus einem Teil von Euklid, außerhalb des Spiels aus dessen eigenen Generatoren gelesen. Bis einige besucht wurden, gilt die Liste als Vorhersage.',
+    hint: 'Wähle, wie der Planet sein soll, und reise dann zu einem Ergebnis oder kopiere seine Portaladresse.',
+    scopeTitle: 'Vorerst nur die Euklid-Galaxie',
+    scope:
+      '{count} Planeten aus einer Region von Euklid, mit den Regeln des Spiels selbst berechnet. Einige wurden im Spiel geprüft und stimmten.',
     presetEarth: 'Erdähnlich',
     presetAll: 'Alles',
     presetHint:
@@ -515,6 +515,20 @@ export const deDE: Messages = {
     raceNone: 'Unbewohnt',
     perSystem: 'Treffer im selben System',
     perSystemOption: 'Mindestens {count}',
+    perSystemOne: 'Einer genügt',
+    system: 'System',
+    systemLawful: 'Keine Piratensysteme',
+    systemPirate: 'Nur Piratensysteme',
+    pirate: 'Piratensystem',
+    economy: {
+      Mining: 'Bergbau',
+      HighTech: 'Technologie',
+      Trading: 'Handel',
+      Manufacturing: 'Fertigung',
+      Fusion: 'Hochentwickelte Materialien',
+      Scientific: 'Wissenschaft',
+      PowerGeneration: 'Energieerzeugung'
+    },
     extreme: 'Extremwetter zulassen',
     extremeHint: 'Extreme Planeten haben härtere Stürme und Gefahren.',
     extremeYes: 'Extremwetter',
@@ -550,7 +564,12 @@ export const deDE: Messages = {
     variants: {
       standard: 'Standard',
       highQuality: 'Hohe Qualität',
-      worlds: 'Dschungel',
+      jungle: 'Dschungel',
+      worlds: 'Erneuert (Worlds)',
+      floral: 'Blumenfelder',
+      rocky: 'Felsig',
+      tentacles: 'Tentakel',
+      bubbles: 'Blasen',
       giant: 'Riesenflora',
       variant: 'Andere Variante',
       swamp: 'Sumpfig',

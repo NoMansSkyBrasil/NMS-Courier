@@ -1,5 +1,16 @@
 # AI continuation guide
 
+> Planet finder, 2026-10-10 (application 1.36.0): owning note
+> [finding planets](PLANET_FINDER_NOTES.md). Done: survey of 28,287 planets
+> with system type; one system compared with the running game and matching
+> after loading `biomefilenamesarchive` into the emulated generator; page
+> with colour badges under the lay-user rule of `AGENTS.md`. Next, in the
+> owner's order: a search around the player that widens with time, in any
+> galaxy, run inside the game by the bridge (needs a new bridge version and
+> the game closed to install); grass colour; purple systems. Reproduce the
+> comparison: `find-planets.py ... survey 0x0001DB00F769C14E 6000` and read
+> rows `1272F769C14E`, `2272F769C14E`.
+
 > Seed origins, 2026-10-08: [where each seed comes from](SEED_ORIGINS.md) is
 > the owning note for "what is this seed and how does the game get it". Done:
 > the freighter home system seed is the system's 52-bit universe address.

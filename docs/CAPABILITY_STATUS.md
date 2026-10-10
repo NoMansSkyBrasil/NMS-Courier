@@ -55,7 +55,7 @@ Current versions: application 1.35.0, bridge 1.28.0, game build 180836.
 | Portal glyphs, all or the next ones | Never | Portal glyphs page (2026-10-09, bridge 1.22.0) | No | [words and glyphs](WORD_AND_GLYPH_NOTES.md) |
 | Guide topics (50), chosen or all | Never | Guide page (2026-10-09, bridge 1.26.0) | No | [past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md) |
 | Access to the Space Anomaly | Never | Space Anomaly page (2026-10-09, bridge 1.26.0) | No | [past expeditions and other unlocks](EXPEDITION_HISTORY_NOTES.md) |
-| Planets by biome, weather and sentinels with portal addresses (a survey made offline; unchecked) | Never | Planet finder page (2026-10-10); travel uses the teleport request | No | [finding planets](PLANET_FINDER_NOTES.md) |
+| Planets by biome, weather and sentinels with portal addresses (a survey made offline; one system matched the game on 2026-10-10) | Read only: one system compared (2026-10-10) | Planet finder page (2026-10-10); travel uses the teleport request | No | [finding planets](PLANET_FINDER_NOTES.md) |
 | Completing named missions (experimental; effect on skipped stages unknown) | Never | Missions page (2026-10-09, bridge 1.27.0) | No | [completing missions](MISSION_COMPLETION_NOTES.md) |
 | Standing with races, guilds and outlaws, by levels | Never | Standing page (2026-10-09, bridge 1.23.0) | No | [levelled stats](STAT_LEVEL_NOTES.md) |
 | Journey milestones (43 counters), by levels | 2026-10-09: level arrived, no message (a silent stat) | Milestones page (2026-10-09, bridge 1.23.0) | Partly: level yes, message unproven | [levelled stats](STAT_LEVEL_NOTES.md) |

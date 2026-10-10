@@ -476,10 +476,10 @@ export const plPL: Messages = {
   },
   planets: {
     title: 'Znajdź planetę',
-    hint: 'Wybierz, jaka ma być planeta. Każdy wynik ma adres portalu: podróżuj od razu, zapisz go dla strony Teleportacji albo skopiuj.',
-    unverifiedTitle: 'Jeszcze niesprawdzone w grze',
-    unverified:
-      '{count} planet z części Euklidesa, odczytanych z generatorów gry poza grą. Dopóki kilka nie zostanie odwiedzonych, traktuj listę jako przewidywanie.',
+    hint: 'Wybierz, jaka ma być planeta, a potem podróżuj do wyniku lub skopiuj jego adres portalu.',
+    scopeTitle: 'Na razie tylko galaktyka Euclid',
+    scope:
+      '{count} planet z jednego regionu Euclid, wyliczonych według zasad samej gry. Kilka sprawdzono w grze i się zgadzały.',
     presetEarth: 'Podobna do Ziemi',
     presetAll: 'Wszystko',
     presetHint:
@@ -493,6 +493,20 @@ export const plPL: Messages = {
     raceNone: 'Niezamieszkany',
     perSystem: 'Wyniki w tym samym układzie',
     perSystemOption: 'Co najmniej {count}',
+    perSystemOne: 'Wystarczy jedna',
+    system: 'System',
+    systemLawful: 'Bez systemów pirackich',
+    systemPirate: 'Tylko systemy pirackie',
+    pirate: 'System piracki',
+    economy: {
+      Mining: 'Górnictwo',
+      HighTech: 'Technologia',
+      Trading: 'Handel',
+      Manufacturing: 'Produkcja',
+      Fusion: 'Zaawansowane materiały',
+      Scientific: 'Nauka',
+      PowerGeneration: 'Wytwarzanie energii'
+    },
     extreme: 'Dopuść ekstremalną pogodę',
     extremeHint: 'Planety ekstremalne mają ostrzejsze burze i zagrożenia.',
     extremeYes: 'ekstremalna pogoda',
@@ -528,7 +542,12 @@ export const plPL: Messages = {
     variants: {
       standard: 'Standardowy',
       highQuality: 'Wysoka jakość',
-      worlds: 'Dżungla',
+      jungle: 'Dżungla',
+      worlds: 'Odnowiony (Worlds)',
+      floral: 'Pola kwiatów',
+      rocky: 'Skalisty',
+      tentacles: 'Macki',
+      bubbles: 'Bąble',
       giant: 'Olbrzymia flora',
       variant: 'Inny wariant',
       swamp: 'Bagnisty',

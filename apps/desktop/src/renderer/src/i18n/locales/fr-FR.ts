@@ -493,10 +493,10 @@ export const frFR: Messages = {
   },
   planets: {
     title: 'Trouver une planète',
-    hint: 'Choisissez à quoi la planète doit ressembler. Chaque résultat donne son adresse de portail : voyagez-y, enregistrez-la pour la page Téléportation ou copiez-la.',
-    unverifiedTitle: 'Pas encore vérifié en jeu',
-    unverified:
-      '{count} planètes d’une partie d’Euclide, lues depuis les générateurs du jeu hors du jeu. Tant que quelques-unes n’ont pas été visitées, considérez la liste comme une prédiction.',
+    hint: 'Choisissez à quoi la planète doit ressembler, puis voyagez vers un résultat ou copiez son adresse de portail.',
+    scopeTitle: "Galaxie Euclide uniquement, pour l'instant",
+    scope:
+      "{count} planètes d'une région d'Euclide, calculées avec les règles du jeu lui-même. Quelques-unes ont été vérifiées en jeu et correspondaient.",
     presetEarth: 'Semblable à la Terre',
     presetAll: 'Tout',
     presetHint:
@@ -510,6 +510,20 @@ export const frFR: Messages = {
     raceNone: 'Inhabité',
     perSystem: 'Résultats dans le même système',
     perSystemOption: 'Au moins {count}',
+    perSystemOne: 'Une seule suffit',
+    system: 'Système',
+    systemLawful: 'Sans systèmes pirates',
+    systemPirate: 'Systèmes pirates uniquement',
+    pirate: 'Système pirate',
+    economy: {
+      Mining: 'Minière',
+      HighTech: 'Technologie',
+      Trading: 'Commerce',
+      Manufacturing: 'Manufacture',
+      Fusion: 'Matériaux avancés',
+      Scientific: 'Scientifique',
+      PowerGeneration: "Production d'énergie"
+    },
     extreme: 'Autoriser la météo extrême',
     extremeHint: 'Les planètes extrêmes ont des tempêtes et des dangers plus rudes.',
     extremeYes: 'météo extrême',
@@ -545,7 +559,12 @@ export const frFR: Messages = {
     variants: {
       standard: 'Standard',
       highQuality: 'Haute qualité',
-      worlds: 'Jungle',
+      jungle: 'Jungle',
+      worlds: 'Renouvelé (Worlds)',
+      floral: 'Champs de fleurs',
+      rocky: 'Rocheux',
+      tentacles: 'Tentacules',
+      bubbles: 'Bulles',
       giant: 'Flore géante',
       variant: 'Autre variante',
       swamp: 'Marécageux',

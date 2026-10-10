@@ -453,10 +453,10 @@ export const koKR: Messages = {
   },
   planets: {
     title: '행성 찾기',
-    hint: '행성의 조건을 고르세요. 각 결과에 포털 주소가 있어 바로 이동하거나, 텔레포트 페이지용으로 저장하거나, 복사할 수 있습니다.',
-    unverifiedTitle: '아직 게임에서 확인되지 않음',
-    unverified:
-      '유클리드 일부의 행성 {count}개를 게임 자체의 생성 루틴에서 게임 밖에서 읽은 것입니다. 몇 개를 직접 방문해 보기 전까지는 목록 내용을 예측으로 보세요.',
+    hint: '원하는 행성의 모습을 고른 뒤 결과로 이동하거나 포털 주소를 복사하세요.',
+    scopeTitle: '지금은 유클리드 은하만',
+    scope:
+      '유클리드 한 지역의 행성 {count}개를 게임 자체 규칙으로 계산했습니다. 몇 개는 게임에서 확인했고 일치했습니다.',
     presetEarth: '지구와 비슷한 행성',
     presetAll: '전체',
     presetHint:
@@ -470,6 +470,20 @@ export const koKR: Messages = {
     raceNone: '무인',
     perSystem: '같은 항성계의 결과 수',
     perSystemOption: '{count}개 이상',
+    perSystemOne: '하나면 충분',
+    system: '항성계',
+    systemLawful: '해적 항성계 제외',
+    systemPirate: '해적 항성계만',
+    pirate: '해적 항성계',
+    economy: {
+      Mining: '채광',
+      HighTech: '기술',
+      Trading: '무역',
+      Manufacturing: '제조',
+      Fusion: '첨단 소재',
+      Scientific: '과학',
+      PowerGeneration: '발전'
+    },
     extreme: '극한 날씨 허용',
     extremeHint: '극한 행성은 폭풍과 위험이 더 심합니다.',
     extremeYes: '극한 날씨',
@@ -505,7 +519,12 @@ export const koKR: Messages = {
     variants: {
       standard: '표준',
       highQuality: '고품질',
-      worlds: '정글',
+      jungle: '정글',
+      worlds: '새 단장 (Worlds)',
+      floral: '꽃밭',
+      rocky: '암석',
+      tentacles: '촉수',
+      bubbles: '거품',
       giant: '거대 식물',
       variant: '기타 변형',
       swamp: '늪지형',

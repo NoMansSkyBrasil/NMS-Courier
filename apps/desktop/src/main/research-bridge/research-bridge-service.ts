@@ -320,11 +320,11 @@ export class ResearchBridgeService {
 
   // Every planet of the survey the research tool made with the game's generators
   // (runtime/research/planet-survey.md: portal, biome, subtype, weather, storms, extreme,
-  // sentinels, race).
+  // sentinels, race, star, economy, wealth, conflict).
   async getPlanetSurvey(): Promise<SurveyPlanet[]> {
     const rows = await readClassification(this.context.researchDirectory, 'planet-survey.md')
     return rows
-      .filter((cells) => cells.length === 8 && /^[0-9A-F]{12}$/.test(cells[0]))
+      .filter((cells) => cells.length === 12 && /^[0-9A-F]{12}$/.test(cells[0]))
       .map((cells) => ({
         portal: cells[0],
         biome: cells[1],
@@ -333,7 +333,11 @@ export class ResearchBridgeService {
         storms: cells[4],
         extreme: cells[5] === 'yes',
         sentinels: cells[6],
-        race: cells[7]
+        race: cells[7],
+        star: cells[8],
+        economy: cells[9],
+        wealth: cells[10],
+        conflict: cells[11]
       }))
   }
 

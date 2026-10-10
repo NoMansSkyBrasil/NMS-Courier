@@ -68,7 +68,8 @@ Lush planets without sentinels found in that run, as portal addresses
 
 The owner asked for the study to go on. Tool:
 `runtime/research/find-planets.py`. Result table: [planet-survey.md](../runtime/research/planet-survey.md), every
-planet of the run below (28,287, **not compared with the game**); it
+planet of the run below (28,287; one system compared with the game, see
+[below](#checked-against-the-running-game-2026-10-10)); it
 replaced the first table of 292 candidates the same day.
 
 ### What the planet routine is
@@ -156,8 +157,13 @@ HighQuality, Worlds or HugeLush; storms None; not extreme; sentinels Low.
 
 ### Still open
 
-- Nothing was compared with the game. The first check is the owner
-  visiting a few of the addresses.
+- One system was compared with the game (below); more are wanted.
+- Grass colour (owner request of 2026-10-10): where the planet's colours are
+  generated was not looked for. They are not in the part of the routine the
+  tool runs.
+- The list has no purple star system, and so no water world, gas giant,
+  ocean, island or remix variant. Whether the walked region has none or the
+  emulated generator never gives one is not known.
 - Water was not read (`GcPlanetData.Water`, the terrain settings of the
   biome file).
 - The planet number of the portal address is taken as the record's place
@@ -166,6 +172,59 @@ HighQuality, Worlds or HugeLush; storms None; not extreme; sentinels Low.
   part tests are zero in the emulator; what they stand for is not read.
 - The parts of the routine after weather were not run.
 - Other galaxies, purple systems and abandoned systems were not walked.
+
+## Checked against the running game, 2026-10-10
+
+The owner travelled from the page and stood in system `0x00027200F769C14E`.
+The game's memory was read from outside (read only) and compared.
+
+| What | Game | Emulator before | Emulator after the fix |
+| --- | --- | --- | --- |
+| Planet 1 seed, biome | `C723AC0A7B5DD5A4`, Lush | same | same |
+| Planet 1 subtype | Infested (24) | Worlds | Infested |
+| Planet 2 seed, biome, subtype | `608545398F1119F2`, Lush, HighQuality | same | same |
+| Weather, storms, extreme, sentinels (both) | Humid, none, no, Low | same | same |
+| Economy, wealth, conflict, race, star | HighTech, Pirate, Pirate, Korvax, Yellow | not read | same |
+
+What the owner saw agrees: planet 2 is a "Paradise planet" with low
+sentinels, planet 1 is purple (infested), the system is a Korvax pirate
+system with a technology economy.
+
+The fix: after the first roll on `biomefilenames` (generator `+0x70`) the
+system generator rolls again on `biomefilenamesarchive` (`+0x78`, code
+`164ce75` to `164d0cb`); a planet that second roll calls infested is
+infested. The harness leaves `+0x78` empty, so the tool now loads the file
+and sets the pointer after each reset. Infested planets in the list went
+from 560 to 889 (lush ones from 122 to 211); Earth-like by the preset from 292
+to 268.
+
+Not the same: the game holds Planets 2, PrimePlanets 1 and the "prime
+included" flag 1; the emulator Planets 1, PrimePlanets 1, flag 0. The total
+and the records agree.
+
+### System type
+
+`GcSolarSystemData` after generation: `TradingData` at `+0x2520`
+(`TradingClass`, then `WealthClass` at `+0x2524`), `ConflictData` at
+`+0x2530`, `InhabitingRace` at `+0x2534`, `StarType` at `+0x2550`. Enum
+names read from the executable: economy `Mining, HighTech, Trading,
+Manufacturing, Fusion, Scientific, PowerGeneration`; wealth `Poor, Average,
+Wealthy, Pirate`; conflict `Low, Default, High, Pirate`; star `Yellow,
+Green, Blue, Red, Purple`. In the list wealth and conflict are `Pirate`
+together (1,427 planets); the page calls that a pirate system.
+
+### What each variant really is
+
+[biome-variants.md](../runtime/research/biome-variants.md)
+(`runtime/research/list-biome-variants.py`) lists the 195 entries of the
+two biome file lists with the file each loads and its weights (the second
+weight is for purple systems). The subtype names are reused: for Lush,
+`Worlds` loads `jungle/junglebiome`, `HugePlant` `floral/floralbiome`,
+`HugeToxic` `lush/lushhqtentaclebiome`, `Bubble` `lush/lushbubblesbiome`,
+`HydroGarden` `rocky/rockbiome`, `Swamp` `swamp/swampbiome`, `Structure`
+`lush/lushruinsbiome`; for Toxic, `Worlds` loads `noxious/noxiousbiome` and
+`Bubble` an ocean biome that only purple systems give. The page therefore
+names a variant by biome and subtype together.
 
 ## The page (application 1.35.0)
 
@@ -184,6 +243,14 @@ exotic shapes, remix, unnamed); the row's tooltip has the game's name. A
 wiki's biome page (nms.miraheze.org/wiki/Biome, read 2026-10-10) lists the
 same biome types and names infested, corrupted and relic worlds as variants
 that keep their biome, which is how the page files them.
+
+Application 1.36.0 changed the kinds to sixteen (jungle only for lush
+`Worlds`, "renewed" for `Worlds` elsewhere, flower fields, rocky,
+tentacles, bubbles), added the system's economy and a pirate badge with a
+"System" filter, and made storms, sentinels, extreme weather and pirate
+systems coloured badges (green good, amber caution, red danger) under the
+lay-user rule of `AGENTS.md`. The list is of Euclid only; travel always
+asks for galaxy 1.
 
 ### What the owner asked for beyond it: a search the player runs
 

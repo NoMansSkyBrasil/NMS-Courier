@@ -3,9 +3,14 @@ import {
   CircleAlertIcon,
   CircleCheckIcon,
   CircleHelpIcon,
+  CloudLightningIcon,
   CopyIcon,
+  InfoIcon,
   MapPinIcon,
-  StarIcon
+  ShieldIcon,
+  SkullIcon,
+  StarIcon,
+  TriangleAlertIcon
 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@renderer/components/ui/alert'
 import {
@@ -43,12 +48,14 @@ import type { DeliveryStateId } from '@renderer/i18n/messages'
 import {
   earthLikeFilter,
   filterPlanets,
+  isPirateSystem,
   openFilter,
   sentinelLevels,
   stormLevels,
   surveyBiomes,
   variantKind,
   variantKinds,
+  type Economy,
   type PlanetFilter,
   type SurveyBiome,
   type SurveyPlanet
@@ -65,6 +72,52 @@ const favouritesKey = 'nms-courier-teleport-favourites'
 // Rows drawn at first and added each time the list is scrolled near its end.
 const pageSize = 80
 const races = ['Gek', "Vy'keen", 'Korvax', 'none'] as const
+// Colours that say at a glance how safe something is; each is always shown with its word.
+const tones = {
+  good: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
+  caution: 'bg-amber-500/15 text-amber-700 dark:text-amber-400',
+  danger: 'bg-red-500/15 text-red-700 dark:text-red-400',
+  pirate: 'bg-fuchsia-500/15 text-fuchsia-700 dark:text-fuchsia-400'
+} as const
+const stormTones: Record<string, string> = {
+  None: tones.good,
+  Low: tones.caution,
+  High: tones.danger,
+  Always: tones.danger
+}
+const sentinelTones: Record<string, string> = {
+  Low: tones.good,
+  Default: '',
+  Aggressive: tones.caution,
+  Corrupt: tones.danger
+}
+// One colour a biome, for the dot beside its name.
+const biomeDots: Record<string, string> = {
+  Lush: 'bg-emerald-500',
+  Toxic: 'bg-lime-500',
+  Scorched: 'bg-orange-500',
+  Radioactive: 'bg-yellow-400',
+  Frozen: 'bg-sky-400',
+  Barren: 'bg-amber-700',
+  Dead: 'bg-zinc-400',
+  Weird: 'bg-violet-500',
+  Swamp: 'bg-teal-600',
+  Lava: 'bg-red-600',
+  Red: 'bg-red-500',
+  Green: 'bg-green-500',
+  Blue: 'bg-blue-500',
+  Waterworld: 'bg-cyan-500',
+  GasGiant: 'bg-indigo-400'
+}
+
+function BiomeDot({ biome }: { biome: string }): React.JSX.Element {
+  return (
+    <span
+      aria-hidden
+      className={`inline-block size-2.5 shrink-0 rounded-full ${biomeDots[biome] ?? 'bg-muted-foreground'}`}
+    />
+  )
+}
 const outcomeIcons = {
   completed: CircleCheckIcon,
   unknown: CircleHelpIcon,
@@ -134,8 +187,12 @@ export function PlanetFinderCard(): React.JSX.Element {
   const number = (value: number): string => value.toLocaleString(locale)
   const biomeName = (biome: string): string =>
     (surveyBiomes as readonly string[]).includes(biome) ? text.biomes[biome as SurveyBiome] : biome
+  const systemText = (kind: string): string =>
+    kind === 'lawful' ? text.systemLawful : kind === 'pirate' ? text.systemPirate : text.any
+  const perSystemText = (count: number): string =>
+    count === 1 ? text.perSystemOne : formatMessage(text.perSystemOption, { count: number(count) })
   const describe = (planet: SurveyPlanet): string =>
-    `${biomeName(planet.biome)} · ${text.variants[variantKind(planet.subtype)]}`
+    `${biomeName(planet.biome)} · ${text.variants[variantKind(planet.biome, planet.subtype)]}`
 
   const travel = async (): Promise<void> => {
     const planet = target
@@ -202,10 +259,10 @@ export function PlanetFinderCard(): React.JSX.Element {
       <CardContent className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">{stateText}</p>
         <Alert>
-          <CircleAlertIcon />
-          <AlertTitle>{text.unverifiedTitle}</AlertTitle>
+          <InfoIcon />
+          <AlertTitle>{text.scopeTitle}</AlertTitle>
           <AlertDescription>
-            {formatMessage(text.unverified, { count: number(planets.length) })}
+            {formatMessage(text.scope, { count: number(planets.length) })}
           </AlertDescription>
         </Alert>
         <div className="flex flex-wrap items-center gap-2">
@@ -248,6 +305,7 @@ export function PlanetFinderCard(): React.JSX.Element {
                   <SelectItem value="any">{text.any}</SelectItem>
                   {surveyBiomes.map((biome) => (
                     <SelectItem key={biome} value={biome}>
+                      <BiomeDot biome={biome} />
                       {text.biomes[biome]}
                     </SelectItem>
                   ))}
@@ -348,21 +406,39 @@ export function PlanetFinderCard(): React.JSX.Element {
             </Select>
           </Field>
           <Field>
+            <FieldLabel htmlFor="planets-system">{text.system}</FieldLabel>
+            <Select
+              value={filter.system}
+              onValueChange={(value) => value && change({ system: value })}
+            >
+              <SelectTrigger id="planets-system" className="w-full">
+                <SelectValue>{systemText(filter.system)}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {['any', 'lawful', 'pirate'].map((kind) => (
+                    <SelectItem key={kind} value={kind}>
+                      {systemText(kind)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field>
             <FieldLabel htmlFor="planets-per-system">{text.perSystem}</FieldLabel>
             <Select
               value={String(filter.perSystem)}
               onValueChange={(value) => value && change({ perSystem: Number(value) })}
             >
               <SelectTrigger id="planets-per-system" className="w-full">
-                <SelectValue>
-                  {formatMessage(text.perSystemOption, { count: number(filter.perSystem) })}
-                </SelectValue>
+                <SelectValue>{perSystemText(filter.perSystem)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   {[1, 2, 3, 4].map((count) => (
                     <SelectItem key={count} value={String(count)}>
-                      {formatMessage(text.perSystemOption, { count: number(count) })}
+                      {perSystemText(count)}
                     </SelectItem>
                   ))}
                 </SelectGroup>
@@ -412,20 +488,45 @@ export function PlanetFinderCard(): React.JSX.Element {
               key={planet.portal}
               className="flex flex-wrap items-center gap-3 px-4 py-2 text-sm"
             >
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate font-medium" title={planet.subtype}>
-                  {describe(planet)}
+              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <span className="flex items-center gap-2 font-medium" title={planet.subtype}>
+                  <BiomeDot biome={planet.biome} />
+                  <span className="truncate">{describe(planet)}</span>
                 </span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {[
-                    `${text.storms}: ${text.stormLevels[planet.storms as (typeof stormLevels)[number]] ?? planet.storms}`,
-                    `${text.sentinels}: ${text.sentinelLevels[planet.sentinels as (typeof sentinelLevels)[number]] ?? planet.sentinels}`,
-                    planet.extreme ? text.extremeYes : '',
-                    planet.race === 'none' ? text.raceNone : planet.race
-                  ]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <Badge variant="secondary" className={stormTones[planet.storms]}>
+                    <CloudLightningIcon />
+                    {text.storms}:{' '}
+                    {text.stormLevels[planet.storms as (typeof stormLevels)[number]] ??
+                      planet.storms}
+                  </Badge>
+                  <Badge variant="secondary" className={sentinelTones[planet.sentinels]}>
+                    <ShieldIcon />
+                    {text.sentinels}:{' '}
+                    {text.sentinelLevels[planet.sentinels as (typeof sentinelLevels)[number]] ??
+                      planet.sentinels}
+                  </Badge>
+                  {planet.extreme && (
+                    <Badge variant="secondary" className={tones.danger}>
+                      <TriangleAlertIcon />
+                      {text.extremeYes}
+                    </Badge>
+                  )}
+                  {isPirateSystem(planet) && (
+                    <Badge variant="secondary" className={tones.pirate}>
+                      <SkullIcon />
+                      {text.pirate}
+                    </Badge>
+                  )}
+                  <span className="truncate text-xs text-muted-foreground">
+                    {[
+                      planet.race === 'none' ? text.raceNone : planet.race,
+                      text.economy[planet.economy as Economy] ?? ''
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </span>
+                </div>
               </div>
               {planet.inSystem > 1 && (
                 <Badge variant="outline">

@@ -204,6 +204,23 @@ Use the [research navigation index](docs/RESEARCH_INDEX.md) and [repository func
 - Keep game knowledge in runtime adapters. UI and application services must not import NMS.py internals.
 - Do not create speculative empty engines or generic shared/utilities dumping grounds.
 
+## The interface is for people who do not know the game's internals
+
+- Owner rule of 2026-10-10: the people who use this are lay users, and how easy the application is
+  to use and understand matters as much as what it can do. This applies to every model and
+  collaborator and to every screen, old and new.
+- Explain everything, with little text. Say what a control does and what the player will see in
+  the game, in a short sentence, in the player's own words. No internal names (identifiers, enum
+  names, offsets, "bridge request") in what the user reads; put them in a tooltip at most.
+- One screen, one obvious first action. Offer a ready choice for the common case (a preset, a
+  sensible default) before the detailed options, and keep the detailed options out of the way.
+- Use colour to help tell things apart (good, caution, danger; one kind of thing from another),
+  always together with a word or an icon, never colour alone. Use the theme's own colour tokens
+  where one fits and Tailwind's palette, with light and dark variants, where none does; keep the
+  official components and do not change the theme or the layout to do it.
+- Improving existing controls and texts for clarity is welcome at any time; a long explanation is
+  a sign the control itself should be simpler.
+
 ## Distribution
 
 - End users must not install Python, Node.js, pnpm, uv, pip, .NET, SQLite, or compiler toolchains separately.

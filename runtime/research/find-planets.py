@@ -22,10 +22,13 @@ What the harness alone does not do, and this tool adds (docs/PLANET_FINDER_NOTES
   - the fauna chances (GcCreatureGenerationData at planet generator +0x50), the biome files of each
     biome (+0x90 onwards) and the weather files with their count (+0x508, +0x504) are loaded;
   - the scrap chance table read through the generator's first pointer is a blank block; it only
-    feeds HasScrap.
+    feeds HasScrap;
+  - the system generator is given the archive list of biome files (+0x78), which decides which
+    planets are infested.
 
 Earth-like here: biome Lush; subtype Standard, HighQuality, Worlds or HugeLush; no storms; not
-extreme; sentinel level Low at the normal difficulty preset. Not compared with the game yet.
+extreme; sentinel level Low at the normal difficulty preset. One system was compared with the
+running game on 2026-10-10 and matched (docs/PLANET_FINDER_NOTES.md).
 """
 import argparse
 import os
@@ -40,6 +43,8 @@ BASE = 0x140000000
 PLANET_ROUTINE, AFTER_WEATHER, SUBTYPE_ROUTINE = BASE + 0x16A7880, BASE + 0x16A7AD4, BASE + 0x16A3A50
 # GcSolarSystemData: planet counts and the planet input records (0x58 bytes, Seed at +0x20).
 PLANETS, PRIME_PLANETS, INPUTS, INPUT_SIZE = 0x2544, 0x2548, 0x2180, 0x58
+# GcSolarSystemData: TradingData (TradingClass, WealthClass), ConflictData and StarType.
+ECONOMY, WEALTH, CONFLICT, STAR = 0x2520, 0x2524, 0x2530, 0x2550
 # GcPlanetData as the routine fills it.
 BIOME, SUBTYPE, WEATHER_TYPE, STORMS, EXTREME = 0x32B8, 0x32BC, 0x1E54, 0x1E48, 0x1E50
 SENTINEL_NORMAL, LIFE, CREATURE_LIFE = 0x34B8 + 2 * 0x18 + 0x14, 0x3538, 0x352C
@@ -52,6 +57,10 @@ SUBTYPES = ('None Standard HighQuality Structure Beam Hexagon FractCube Bubble S
 WEATHER = ('Clear Dust Humid Snow Toxic Scorched Radioactive RedWeather GreenWeather BlueWeather Swamp Lava '
            'Bubble Weird Fire ClearCold GasGiant').split()
 SENTINELS = 'Low Default Aggressive Corrupt'.split()
+ECONOMIES = 'Mining HighTech Trading Manufacturing Fusion Scientific PowerGeneration'.split()
+WEALTHS = 'Poor Average Wealthy Pirate'.split()
+CONFLICTS = 'Low Default High Pirate'.split()
+STARS = 'Yellow Green Blue Red Purple'.split()
 # The storm field has no enum in the metadata; the routine writes 0 to 3, taken as these.
 STORM_NAMES = 'None Low High Always'.split()
 GOOD_SUBTYPES = ('Standard', 'HighQuality', 'Worlds', 'HugeLush')
@@ -90,7 +99,18 @@ class Planets:
         # The subtype routine is replaced once by "mov rax, [cell]; ret".
         self.cell = e.alloc(16)
         e.mu.mem_write(SUBTYPE_ROUTINE, bytes([0x48, 0xA1]) + struct.pack('<Q', self.cell) + bytes([0xC3]))
+        # The system generator rolls a second time on the older list of biome files (generator +0x78,
+        # `biomefilenamesarchive`): a planet that roll calls infested is infested, whatever the first
+        # list gave. Without it the emulator misses every such planet (seen against the game).
+        archive = e.load_mbin(str(solar / 'biomes' / 'biomefilenamesarchive.mbin'))
         generator.mark = e.heap  # keep these tables across the harness's reset for each system
+        reset = generator._reset
+
+        def reset_with_archive():
+            reset()
+            e.wq(generator.pg + 0x78, archive)
+
+        generator._reset = reset_with_archive
 
     def of_system(self, address):
         """One dictionary a planet of the system, or None when the address has no system."""
@@ -111,6 +131,10 @@ class Planets:
         if e.rq(pg) == 0:
             e.wq(pg, self.blank)
         planets = []
+        of_system = {'race': info['race'], 'star': name(STARS, e.ri(owner + STAR)),
+                     'economy': name(ECONOMIES, e.ri(owner + ECONOMY)),
+                     'wealth': name(WEALTHS, e.ri(owner + WEALTH)),
+                     'conflict': name(CONFLICTS, e.ri(owner + CONFLICT))}
         for index in range(e.ri(owner + PLANETS) + e.ri(owner + PRIME_PLANETS)):
             record = owner + INPUTS + INPUT_SIZE * index
             e.wq(self.cell, e.ri(record + 0x34))
@@ -129,7 +153,7 @@ class Planets:
                             'weather': name(WEATHER, e.ri(out + WEATHER_TYPE)),
                             'storms': name(STORM_NAMES, e.ri(out + STORMS)), 'extreme': e.ri(out + EXTREME) != 0,
                             'sentinels': name(SENTINELS, e.ri(out + SENTINEL_NORMAL)),
-                            'flora': e.ri(out + LIFE), 'fauna': e.ri(out + CREATURE_LIFE), 'race': info['race']})
+                            'flora': e.ri(out + LIFE), 'fauna': e.ri(out + CREATURE_LIFE), **of_system})
         return planets
 
 
@@ -185,7 +209,8 @@ def main():
                 continue
             total += 1
             every.append([glyphs(address, planet['planet']), planet['biome'], planet['subtype'], planet['weather'],
-                          planet['storms'], 'yes' if planet['extreme'] else 'no', planet['sentinels'], planet['race']])
+                          planet['storms'], 'yes' if planet['extreme'] else 'no', planet['sentinels'], planet['race'],
+                          planet['star'], planet['economy'], planet['wealth'], planet['conflict']])
             tally['biome', planet['biome']] += 1
             if planet['biome'] != 'Lush':
                 continue
@@ -207,9 +232,11 @@ def main():
             'Every planet of %d star systems of galaxy 1 walked from `0x%016X`, as `find-planets.py` reads it from '
             'the generators of the game run in an emulator (build 180836): portal address (planet, system, Y, Z, X), '
             'biome, biome subtype, weather, storm frequency, whether the weather is extreme, sentinel level at the '
-            'normal difficulty preset and the race of the system. Names are the enum names of the game. NOT compared '
-            'with the game yet; do not edit by hand.' % (systems, start),
-            ['Portal', 'Biome', 'Subtype', 'Weather', 'Storms', 'Extreme', 'Sentinels', 'Race'], every)
+            'normal difficulty preset, then of its system the race, star colour, economy, wealth and conflict level '
+            '(wealth and conflict `Pirate` mark an outlaw system). Names are the enum names of the game. One system '
+            'was compared with the running game (docs/PLANET_FINDER_NOTES.md); do not edit by hand.' % (systems, start),
+            ['Portal', 'Biome', 'Subtype', 'Weather', 'Storms', 'Extreme', 'Sentinels', 'Race', 'Star', 'Economy',
+             'Wealth', 'Conflict'], every)
         return
     if args.output:
         sys.path.insert(0, str(Path(__file__).resolve().parent))

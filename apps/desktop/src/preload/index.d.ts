@@ -200,6 +200,10 @@ declare global {
           extreme: boolean
           sentinels: string
           race: string
+          star: string
+          economy: string
+          wealth: string
+          conflict: string
         }>
       >
       getMissions: (locale: string) => Promise<

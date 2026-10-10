@@ -474,10 +474,10 @@ export const jaJP: Messages = {
   },
   planets: {
     title: '惑星を探す',
-    hint: '惑星の条件を選んでください。各結果にポータルアドレスがあり、すぐに移動、テレポートページ用に保存、コピーができます。',
-    unverifiedTitle: 'ゲーム内では未確認',
-    unverified:
-      'ユークリッドの一部の{count}個の惑星を、ゲーム自身の生成処理からゲーム外で読み取ったものです。いくつか訪れて確かめるまでは、一覧の内容は予測として扱ってください。',
+    hint: 'どんな惑星がよいかを選び、結果へ移動するかポータルアドレスをコピーします。',
+    scopeTitle: '今のところユークリッド銀河のみ',
+    scope:
+      'ユークリッドの一地域にある{count}個の惑星を、ゲーム自体のルールで算出しました。いくつかはゲーム内で確認し、一致しました。',
     presetEarth: '地球に似た惑星',
     presetAll: 'すべて',
     presetHint:
@@ -491,6 +491,20 @@ export const jaJP: Messages = {
     raceNone: '無人',
     perSystem: '同じ星系内の該当数',
     perSystemOption: '{count}個以上',
+    perSystemOne: '1つで十分',
+    system: '星系',
+    systemLawful: '海賊星系を除く',
+    systemPirate: '海賊星系のみ',
+    pirate: '海賊星系',
+    economy: {
+      Mining: '採掘',
+      HighTech: 'テクノロジー',
+      Trading: '交易',
+      Manufacturing: '製造',
+      Fusion: '先端素材',
+      Scientific: '科学',
+      PowerGeneration: '発電'
+    },
     extreme: '極端な天候を許可',
     extremeHint: '極端な惑星は嵐や危険がより激しくなります。',
     extremeYes: '極端な天候',
@@ -526,7 +540,12 @@ export const jaJP: Messages = {
     variants: {
       standard: '標準',
       highQuality: '高品質',
-      worlds: 'ジャングル',
+      jungle: 'ジャングル',
+      worlds: 'リニューアル（Worlds）',
+      floral: '花畑',
+      rocky: '岩場',
+      tentacles: '触手',
+      bubbles: '泡',
       giant: '巨大植物',
       variant: 'その他のバリエーション',
       swamp: '湿地風',

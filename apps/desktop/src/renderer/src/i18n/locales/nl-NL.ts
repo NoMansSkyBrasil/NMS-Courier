@@ -491,10 +491,10 @@ export const nlNL: Messages = {
   },
   planets: {
     title: 'Een planeet vinden',
-    hint: 'Kies hoe de planeet moet zijn. Elk resultaat heeft zijn portaaladres: reis er nu heen, bewaar het voor de Teleport-pagina of kopieer het.',
-    unverifiedTitle: 'Nog niet in het spel gecontroleerd',
-    unverified:
-      '{count} planeten uit een deel van Euclid, buiten het spel gelezen uit de eigen generatoren van het spel. Tot er een paar bezocht zijn, is de lijst een voorspelling.',
+    hint: 'Kies hoe de planeet moet zijn en reis dan naar een resultaat of kopieer het portaaladres.',
+    scopeTitle: 'Voorlopig alleen het Euclid-sterrenstelsel',
+    scope:
+      '{count} planeten uit één regio van Euclid, berekend met de regels van het spel zelf. Enkele zijn in het spel gecontroleerd en klopten.',
     presetEarth: 'Aardachtig',
     presetAll: 'Alles',
     presetHint:
@@ -508,6 +508,20 @@ export const nlNL: Messages = {
     raceNone: 'Onbewoond',
     perSystem: 'Treffers in hetzelfde systeem',
     perSystemOption: 'Minstens {count}',
+    perSystemOne: 'Eén is genoeg',
+    system: 'Systeem',
+    systemLawful: 'Geen piratensystemen',
+    systemPirate: 'Alleen piratensystemen',
+    pirate: 'Piratensysteem',
+    economy: {
+      Mining: 'Mijnbouw',
+      HighTech: 'Technologie',
+      Trading: 'Handel',
+      Manufacturing: 'Productie',
+      Fusion: 'Geavanceerde materialen',
+      Scientific: 'Wetenschap',
+      PowerGeneration: 'Energieopwekking'
+    },
     extreme: 'Extreem weer toestaan',
     extremeHint: 'Extreme planeten hebben zwaardere stormen en gevaren.',
     extremeYes: 'extreem weer',
@@ -543,7 +557,12 @@ export const nlNL: Messages = {
     variants: {
       standard: 'Standaard',
       highQuality: 'Hoge kwaliteit',
-      worlds: 'Jungle',
+      jungle: 'Jungle',
+      worlds: 'Vernieuwd (Worlds)',
+      floral: 'Bloemenvelden',
+      rocky: 'Rotsachtig',
+      tentacles: 'Tentakels',
+      bubbles: 'Bubbels',
       giant: 'Reuzenflora',
       variant: 'Andere variant',
       swamp: 'Moerassig',

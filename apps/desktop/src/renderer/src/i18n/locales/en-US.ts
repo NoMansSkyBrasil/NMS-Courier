@@ -472,10 +472,10 @@ export const enUS: Messages = {
   },
   planets: {
     title: 'Find a planet',
-    hint: 'Choose what the planet should be like. Each result has its portal address: travel there now, save it for the Travel page or copy it.',
-    unverifiedTitle: 'Not yet checked in the game',
-    unverified:
-      '{count} planets of one part of Euclid, read from the game’s own generators outside the game. Until a few have been visited, treat what the list says as a prediction.',
+    hint: 'Choose what the planet should be like, then travel to a result or copy its portal address.',
+    scopeTitle: 'Euclid galaxy only, for now',
+    scope:
+      "{count} planets from one region of Euclid, worked out with the game's own rules. A few were checked in the game and matched.",
     presetEarth: 'Earth-like',
     presetAll: 'Everything',
     presetHint:
@@ -489,6 +489,20 @@ export const enUS: Messages = {
     raceNone: 'Uninhabited',
     perSystem: 'Matches in the same system',
     perSystemOption: 'At least {count}',
+    perSystemOne: 'One is enough',
+    system: 'System',
+    systemLawful: 'No pirate systems',
+    systemPirate: 'Pirate systems only',
+    pirate: 'Pirate system',
+    economy: {
+      Mining: 'Mining',
+      HighTech: 'Technology',
+      Trading: 'Trading',
+      Manufacturing: 'Manufacturing',
+      Fusion: 'Advanced materials',
+      Scientific: 'Scientific',
+      PowerGeneration: 'Power generation'
+    },
     extreme: 'Allow extreme weather',
     extremeHint: 'Extreme planets have harsher storms and hazards.',
     extremeYes: 'extreme weather',
@@ -524,7 +538,12 @@ export const enUS: Messages = {
     variants: {
       standard: 'Standard',
       highQuality: 'High quality',
-      worlds: 'Jungle',
+      jungle: 'Jungle',
+      worlds: 'Renewed (Worlds)',
+      floral: 'Flower fields',
+      rocky: 'Rocky',
+      tentacles: 'Tentacles',
+      bubbles: 'Bubbles',
       giant: 'Giant flora',
       variant: 'Other variant',
       swamp: 'Swampy',

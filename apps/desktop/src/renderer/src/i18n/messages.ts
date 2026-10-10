@@ -329,8 +329,8 @@ export type Messages = {
   planets: {
     title: string
     hint: string
-    unverifiedTitle: string
-    unverified: string
+    scopeTitle: string
+    scope: string
     presetEarth: string
     presetAll: string
     presetHint: string
@@ -343,6 +343,21 @@ export type Messages = {
     raceNone: string
     perSystem: string
     perSystemOption: string
+    perSystemOne: string
+    system: string
+    systemLawful: string
+    systemPirate: string
+    pirate: string
+    economy: Record<
+      | 'Mining'
+      | 'HighTech'
+      | 'Trading'
+      | 'Manufacturing'
+      | 'Fusion'
+      | 'Scientific'
+      | 'PowerGeneration',
+      string
+    >
     extreme: string
     extremeHint: string
     extremeYes: string
@@ -378,8 +393,13 @@ export type Messages = {
     variants: Record<
       | 'standard'
       | 'highQuality'
+      | 'jungle'
       | 'worlds'
       | 'giant'
+      | 'floral'
+      | 'rocky'
+      | 'tentacles'
+      | 'bubbles'
       | 'variant'
       | 'swamp'
       | 'lava'

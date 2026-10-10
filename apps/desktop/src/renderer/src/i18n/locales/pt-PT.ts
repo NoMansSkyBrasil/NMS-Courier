@@ -487,10 +487,10 @@ export const ptPT: Messages = {
   },
   planets: {
     title: 'Encontrar um planeta',
-    hint: 'Escolha como deve ser o planeta. Cada resultado traz o endereço de portal: viaje agora, guarde para a página de Teletransporte ou copie.',
-    unverifiedTitle: 'Ainda não verificado no jogo',
-    unverified:
-      '{count} planetas de uma parte de Euclid, lidos dos geradores do próprio jogo fora do jogo. Até alguns serem visitados, trate o que a lista diz como previsão.',
+    hint: 'Escolha como o planeta deve ser e viaje até um resultado ou copie o endereço de portal.',
+    scopeTitle: 'Só a galáxia Euclid, por enquanto',
+    scope:
+      '{count} planetas de uma região de Euclid, calculados com as regras do próprio jogo. Alguns foram verificados no jogo e coincidiram.',
     presetEarth: 'Semelhante à Terra',
     presetAll: 'Tudo',
     presetHint:
@@ -504,6 +504,20 @@ export const ptPT: Messages = {
     raceNone: 'Desabitado',
     perSystem: 'Resultados no mesmo sistema',
     perSystemOption: 'Pelo menos {count}',
+    perSystemOne: 'Um é suficiente',
+    system: 'Sistema',
+    systemLawful: 'Sem sistemas piratas',
+    systemPirate: 'Só sistemas piratas',
+    pirate: 'Sistema pirata',
+    economy: {
+      Mining: 'Mineração',
+      HighTech: 'Tecnologia',
+      Trading: 'Comércio',
+      Manufacturing: 'Manufatura',
+      Fusion: 'Materiais avançados',
+      Scientific: 'Científica',
+      PowerGeneration: 'Produção de energia'
+    },
     extreme: 'Permitir clima extremo',
     extremeHint: 'Os planetas extremos têm tempestades e perigos mais fortes.',
     extremeYes: 'clima extremo',
@@ -539,7 +553,12 @@ export const ptPT: Messages = {
     variants: {
       standard: 'Padrão',
       highQuality: 'Alta qualidade',
-      worlds: 'Selva',
+      jungle: 'Selva',
+      worlds: 'Renovado (Worlds)',
+      floral: 'Campos de flores',
+      rocky: 'Rochoso',
+      tentacles: 'Tentáculos',
+      bubbles: 'Bolhas',
       giant: 'Flora gigante',
       variant: 'Outra variante',
       swamp: 'Pantanoso',

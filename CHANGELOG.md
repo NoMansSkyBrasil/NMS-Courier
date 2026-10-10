@@ -28,6 +28,30 @@ Development only; nothing changes for a delivery.
 - A page that fails now shows the failure and a reload button instead of a
   blank window.
 
+## Application 1.36.0 (2026-10-10)
+
+- Fixed: the planet finder called infested planets something else (the
+  owner's own planet read "jungle" while the game shows it infested). The
+  research tool was missing the game's second list of biome files, which
+  decides the infested planets; the list of 28,287 planets was made again
+  and the owner's system now reads as the game shows it (see
+  [finding planets](docs/PLANET_FINDER_NOTES.md#checked-against-the-running-game-2026-10-10)).
+- Added (owner request): each planet now carries its system's economy and
+  whether pirates control it, shown on the row; a "System" filter (any, no
+  pirate systems, pirate systems only).
+- Changed: variant names come from the biome file each biome and subtype
+  pair loads (`runtime/research/biome-variants.md`), since the game reuses
+  one subtype name for different things: flower fields, rocky, tentacles and
+  bubbles are told apart, "jungle" is only the lush one, the same subtype
+  in other biomes reads "Renewed (Worlds)".
+- Changed (owner rule, now in `AGENTS.md`: the interface is for lay users):
+  storms, sentinels, extreme weather and pirate systems are coloured badges
+  with an icon and a word, each biome has a colour dot, the texts are
+  shorter, and "matches in the same system" starts at "One is enough". The
+  notice now says plainly that the list is of the Euclid galaxy only.
+- Not done yet: grass colour, a search around the player in any galaxy,
+  purple star systems (none is in the list). All in `TODO.md`.
+
 ## Application 1.35.0 (2026-10-10)
 
 - Added (owner request): page "Planet finder" under "Deliver". It lists the

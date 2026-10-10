@@ -13,6 +13,12 @@ export type SurveyPlanet = {
   // Low, Default, Aggressive or Corrupt, at the normal difficulty preset.
   sentinels: string
   race: string
+  // Of the planet's system: star colour, kind of economy, wealth and conflict level. Wealth and
+  // conflict `Pirate` together are what the game shows as an outlaw system.
+  star: string
+  economy: string
+  wealth: string
+  conflict: string
 }
 
 export const surveyBiomes = [
@@ -34,12 +40,19 @@ export const surveyBiomes = [
 ] as const
 export type SurveyBiome = (typeof surveyBiomes)[number]
 
-// What a biome subtype is, in words a player uses. Several of the game's 32 subtypes share one.
+// What a biome subtype is, in words a player uses. The game reuses its 32 subtype names with a
+// different meaning in each biome, so the kind comes from the biome file the pair loads
+// (runtime/research/biome-variants.md), not from the subtype's name alone.
 export const variantKinds = [
   'standard',
   'highQuality',
+  'jungle',
   'worlds',
   'giant',
+  'floral',
+  'rocky',
+  'tentacles',
+  'bubbles',
   'variant',
   'swamp',
   'lava',
@@ -76,8 +89,42 @@ const kindOfSubtype: Record<string, VariantKind> = {
   None: 'none'
 }
 
-export function variantKind(subtype: string): VariantKind {
-  return kindOfSubtype[subtype] ?? 'shapes'
+// Pairs whose biome file is not what the subtype's name suggests.
+const kindOfPair: Record<string, VariantKind> = {
+  'Lush/Worlds': 'jungle',
+  'Lush/HugePlant': 'floral',
+  'Lush/HugeToxic': 'tentacles',
+  'Lush/Bubble': 'bubbles',
+  'Lush/HydroGarden': 'rocky',
+  'Lush/Variant_C': 'rocky',
+  'Lush/Variant_D': 'rocky',
+  'Toxic/Variant_C': 'rocky',
+  'Toxic/Variant_D': 'tentacles',
+  'Frozen/Variant_B': 'rocky',
+  'Frozen/Variant_C': 'rocky',
+  'Barren/Variant_B': 'rocky',
+  'Barren/Variant_C': 'rocky',
+  'Barren/HydroGarden': 'variant'
+}
+
+export function variantKind(biome: string, subtype: string): VariantKind {
+  return kindOfPair[`${biome}/${subtype}`] ?? kindOfSubtype[subtype] ?? 'shapes'
+}
+
+export const economies = [
+  'Mining',
+  'HighTech',
+  'Trading',
+  'Manufacturing',
+  'Fusion',
+  'Scientific',
+  'PowerGeneration'
+] as const
+export type Economy = (typeof economies)[number]
+
+// A system the game shows as controlled by pirates.
+export function isPirateSystem(planet: Pick<SurveyPlanet, 'conflict'>): boolean {
+  return planet.conflict === 'Pirate'
 }
 
 export const stormLevels = ['None', 'Low', 'High', 'Always'] as const
@@ -113,6 +160,8 @@ export type PlanetFilter = {
   allowExtreme: boolean
   // 'any' or a race of the system.
   race: string
+  // 'any', 'lawful' (no pirate systems) or 'pirate' (only pirate systems).
+  system: string
   // Only planets of systems that hold at least this many matching planets.
   perSystem: number
 }
@@ -124,6 +173,7 @@ export const earthLikeFilter: PlanetFilter = {
   sentinels: 0,
   allowExtreme: false,
   race: 'any',
+  system: 'any',
   perSystem: 1
 }
 
@@ -134,6 +184,7 @@ export const openFilter: PlanetFilter = {
   sentinels: sentinelLevels.length - 1,
   allowExtreme: true,
   race: 'any',
+  system: 'any',
   perSystem: 1
 }
 
@@ -141,7 +192,10 @@ function passes(planet: SurveyPlanet, filter: PlanetFilter): boolean {
   if (filter.biome !== 'any' && planet.biome !== filter.biome) return false
   if (filter.variant === 'earthLike') {
     if (!earthLikeSubtypes.includes(planet.subtype)) return false
-  } else if (filter.variant !== 'any' && variantKind(planet.subtype) !== filter.variant) {
+  } else if (
+    filter.variant !== 'any' &&
+    variantKind(planet.biome, planet.subtype) !== filter.variant
+  ) {
     return false
   }
   const storms = stormLevels.indexOf(planet.storms as (typeof stormLevels)[number])
@@ -150,6 +204,8 @@ function passes(planet: SurveyPlanet, filter: PlanetFilter): boolean {
   if (sentinels < 0 || sentinels > filter.sentinels) return false
   if (planet.extreme && !filter.allowExtreme) return false
   if (filter.race !== 'any' && planet.race !== filter.race) return false
+  if (filter.system !== 'any' && isPirateSystem(planet) !== (filter.system === 'pirate'))
+    return false
   return true
 }
 

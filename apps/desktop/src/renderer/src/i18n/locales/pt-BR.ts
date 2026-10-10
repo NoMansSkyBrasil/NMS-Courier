@@ -482,10 +482,10 @@ export const ptBR: Messages = {
   },
   planets: {
     title: 'Encontrar um planeta',
-    hint: 'Escolha como o planeta deve ser. Cada resultado traz o endereço de portal: viaje agora, salve para a página de Teleporte ou copie.',
-    unverifiedTitle: 'Ainda não conferido no jogo',
-    unverified:
-      '{count} planetas de uma parte de Euclid, lidos dos geradores do próprio jogo fora do jogo. Até alguns serem visitados, trate o que a lista diz como previsão.',
+    hint: 'Escolha como o planeta deve ser e viaje até um resultado ou copie o endereço de portal.',
+    scopeTitle: 'Só a galáxia Euclid, por enquanto',
+    scope:
+      '{count} planetas de uma região de Euclid, calculados com as regras do próprio jogo. Alguns foram conferidos no jogo e bateram.',
     presetEarth: 'Parecido com a Terra',
     presetAll: 'Tudo',
     presetHint:
@@ -499,6 +499,20 @@ export const ptBR: Messages = {
     raceNone: 'Desabitado',
     perSystem: 'Resultados no mesmo sistema',
     perSystemOption: 'Pelo menos {count}',
+    perSystemOne: 'Um já basta',
+    system: 'Sistema',
+    systemLawful: 'Sem sistemas piratas',
+    systemPirate: 'Só sistemas piratas',
+    pirate: 'Sistema pirata',
+    economy: {
+      Mining: 'Mineração',
+      HighTech: 'Tecnologia',
+      Trading: 'Comércio',
+      Manufacturing: 'Manufatura',
+      Fusion: 'Materiais avançados',
+      Scientific: 'Científica',
+      PowerGeneration: 'Geração de energia'
+    },
     extreme: 'Permitir clima extremo',
     extremeHint: 'Planetas extremos têm tempestades e perigos mais fortes.',
     extremeYes: 'clima extremo',
@@ -534,7 +548,12 @@ export const ptBR: Messages = {
     variants: {
       standard: 'Padrão',
       highQuality: 'Alta qualidade',
-      worlds: 'Selva',
+      jungle: 'Selva',
+      worlds: 'Renovado (Worlds)',
+      floral: 'Campos de flores',
+      rocky: 'Rochoso',
+      tentacles: 'Tentáculos',
+      bubbles: 'Bolhas',
       giant: 'Flora gigante',
       variant: 'Outra variante',
       swamp: 'Pantanoso',
